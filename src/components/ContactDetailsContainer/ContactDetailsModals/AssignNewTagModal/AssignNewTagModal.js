@@ -64,8 +64,9 @@ export const AssignNewTagModal = ({
                 key={item?.label}
                 onMouseOver={() => setHovered(item?.label)}
                 onMouseLeave={() => setHovered(null)}
+                onClick={() => onSelectTag(item?.id)}
             >
-                <div className={styles.tabLabel} onClick={() => onSelectTag(item?.id)}>
+                <div className={styles.tabLabel}>
                     <div className={styles.tagIcon}>
                         <img alt="TagIcon" src={TagIcon} />
                     </div>

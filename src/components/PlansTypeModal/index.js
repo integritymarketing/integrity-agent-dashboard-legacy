@@ -34,7 +34,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
 
     const handleFinalExpensePlanClick = async () => {
         const isAgentNonRTS = await getAgentNonRTS();
-        if (isAgentNonRTS) {
+        if (isAgentNonRTS === "True") {
             setShowSellingPermissionModal(true);
         } else {
             navigate(`/finalexpenses/create/${leadId}`);

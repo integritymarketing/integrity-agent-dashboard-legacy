@@ -30,11 +30,7 @@
     padding: 6px 12.5px;
     cursor: pointer;
     margin-top: 10px;
-    &:hover {
-        background-color: #D9E4FF;
-        border-radius: 4px;
-    }
-    
+
     @include small {
         padding: 4px;
         gap: 2px;
@@ -43,6 +39,13 @@
             width: 16px;
             min-width: 16px;
         }
+    }
+}
+
+.hoverEffect{
+    &:hover {
+        background-color: #D9E4FF;
+        border-radius: 4px;
     }
 }
 

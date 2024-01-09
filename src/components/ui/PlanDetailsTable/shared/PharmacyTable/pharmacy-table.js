@@ -1,15 +1,19 @@
-import React, { useMemo, useState, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
-import APIFail from "../APIFail/index";
-import PlanDetailsTableWithCollapse from "../../planDetailsTableWithCollapse";
-import InNetworkIcon from "components/icons/inNetwork";
-import OutNetworkIcon from "../../Icons/outNetwork";
+
+import UpdateView from "./components/UpdateView/updateView";
 import Edit from "components/Edit";
 import Modal from "components/Modal";
-import UpdateView from "./components/UpdateView/updateView";
-import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
 import EditIcon from "components/icons/edit2";
+import InNetworkIcon from "components/icons/inNetwork";
 import PlusIcon from "components/icons/plus";
+
+import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
+
+import OutNetworkIcon from "../../Icons/outNetwork";
+import PlanDetailsTableWithCollapse from "../../planDetailsTableWithCollapse";
+import APIFail from "../APIFail/index";
 
 function getInNetwork(pharmacyCost) {
     return pharmacyCost.isNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
@@ -28,8 +32,8 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
     }, [leadId]);
 
     const fetchHealthDetails = useCallback(async () => {
-        await fetchPharmacies(leadId)
-    }, [leadId, fetchPharmacies,]);
+        await fetchPharmacies(leadId);
+    }, [leadId, fetchPharmacies]);
 
     const isApiFailed =
         (pharmaciesList?.filter((pharmacy) => pharmacy.name)?.length > 0 ? false : true) &&
@@ -43,21 +47,21 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 columns: [
                     ...(isMobile
                         ? [
-                            {
-                                hideHeader: true,
-                                accessor: "name_address",
-                            },
-                        ]
+                              {
+                                  hideHeader: true,
+                                  accessor: "name_address",
+                              },
+                          ]
                         : [
-                            {
-                                hideHeader: true,
-                                accessor: "name",
-                            },
-                            {
-                                hideHeader: true,
-                                accessor: "address",
-                            },
-                        ]),
+                              {
+                                  hideHeader: true,
+                                  accessor: "name",
+                              },
+                              {
+                                  hideHeader: true,
+                                  accessor: "address",
+                              },
+                          ]),
                 ],
             },
         ],
@@ -156,7 +160,7 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                     isDelete={isEdit}
                     modalName={"Pharmacy"}
                     onDelete={() => {
-                        deletePharmacy(pharmaciesList?.[0]);
+                        deletePharmacy(pharmaciesList?.[0], null, leadId);
                         setOpen(!open);
                         setOpenAddModal(true);
                     }}
@@ -165,7 +169,12 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 </Modal>
             )}
             {!isEdit && (
-                <AddPharmacy isOpen={openAddModal} onClose={() => setOpenAddModal(false)} personalInfo={contact} leadId={leadId} />
+                <AddPharmacy
+                    isOpen={openAddModal}
+                    onClose={() => setOpenAddModal(false)}
+                    personalInfo={contact}
+                    leadId={leadId}
+                />
             )}
         </>
     );
