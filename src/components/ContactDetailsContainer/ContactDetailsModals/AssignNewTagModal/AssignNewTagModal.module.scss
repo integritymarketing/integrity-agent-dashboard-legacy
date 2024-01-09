@@ -1,0 +1,79 @@
+@import "../../../../scss/globalDefines.scss";
+
+.headerText{
+     color: #052A63;
+    font-size: 20px;
+}
+
+.leadTagsList{
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    padding: 24px;
+}
+
+
+.addNewButton{
+    padding: 5px 14px !important;
+    border-radius: 8px !important;
+    span {
+       font-size: 16px !important;
+       color: #4178FF !important;
+       font-weight: 500;
+   }
+}
+
+.labelContainer {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    .chevronIcon {
+        cursor: pointer;
+    }
+    .rotateIcon {
+        transform: rotate(-90deg);
+    }
+}
+
+.itemContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 6px 12.5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    &:hover {
+        background-color: #D9E4FF;
+        border-radius: 4px;
+    }
+    @include small {
+        padding: 4px;
+        gap: 2px;
+
+        svg {
+            width: 16px;
+            min-width: 16px;
+        }
+    }
+}
+
+.tabLabel{
+    display: flex;
+    width: 60%;
+
+    .tagIcon{
+        margin-right: 10px;
+    }
+}
+
+.selectedItem{
+    background-color: #F1FAFF;
+    border-radius: 4px;
+}
+
+.actionIcons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 35%;
+}

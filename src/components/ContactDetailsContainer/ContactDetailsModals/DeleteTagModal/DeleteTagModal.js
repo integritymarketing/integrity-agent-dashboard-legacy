@@ -1,36 +1,28 @@
 import React from "react";
-import Modal from "components/Modal";
+
 import { Box } from "@mui/system";
 
-import { Delete } from "../Icons";
+import Modal from "components/Modal";
 
 import styles from "./DeleteTagModal.module.scss";
 
-export const DeleteTagModal = ({
-    onClose,
-    open,
-    onConfirm,
-}) => {
+import { AddForward, Delete } from "../Icons";
 
-
+export const DeleteTagModal = ({ onClose, open, onConfirm, label, body }) => {
     return (
         <Modal
             maxWidth="xs"
             open={open}
             onClose={onClose}
             onCancel={onClose}
-            title="Delete Tag"
+            title={label}
             onSave={onConfirm}
-            actionButtonName="Delete"
-            endIcon={<Delete color="#ffffff" />}
+            actionButtonName={label}
+            endIcon={<AddForward color="#ffffff" />}
         >
             <Box className={styles.connectModalBody}>
-
-                <div className={styles.deleteMessage} >Are you sure you want to delete this tag? </div>
-
+                <div className={styles.deleteMessage}>{body}</div>
             </Box>
         </Modal>
-
     );
 };
-
