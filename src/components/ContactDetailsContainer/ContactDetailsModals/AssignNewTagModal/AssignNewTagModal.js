@@ -75,7 +75,7 @@ export const AssignNewTagModal = ({
                 <div className={styles.actionIcons}>
                     {hovered === item?.label && (
                         <>
-                            <div onClick={() => setEditTag(item?.id)}>
+                            <div onClick={() => setEditTag(item?.id, item.label)}>
                                 <EditIcon />
                             </div>
                             <div onClick={() => setDeleteTag(item?.id)}>

@@ -32,12 +32,13 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
     const [selectedCustomTags, setSelectedCustomTags] = useState([]);
     const [selectedTempTags, setSelectedTempTags] = useState([]);
 
+    const [editTagId, setEditTagId] = useState(null);
+    const [editTagValue, setEditTagValue] = useState("");
+
     useEffect(() => {
         setSelectedTempTags(selectedTags);
         setSelectedCustomTags(selectedTags);
     }, [selectedTags]);
-
-    const [editTag, setEditTag] = useState(null);
 
     const createTag = (label) => {
         const payload = {
@@ -55,15 +56,17 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
         setIsDeleteTagModalOpen(false);
     };
 
-    const updateTag = (label, id) => {
+    const updateTag = (label) => {
         const payload = {
-            tagId: id,
+            tagId: editTagId,
             tagLabel: label,
             tagCategoryId: 9,
             leadsId: leadId,
         };
         editTagByID(payload);
-        setEditTag("");
+        setAddNewTagModal(false);
+        setEditTagId(null);
+        setEditTagValue("");
     };
 
     const handleSelectTag = (id) => {
@@ -81,6 +84,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
             tagIds: [...selectedCustomTags],
         };
         editLeadTags(payload);
+        setAssignNewTagModal(false);
     };
 
     return (
@@ -120,9 +124,10 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
                         setAssignNewTagModal(false);
                         setAddNewTagModal(true);
                     }}
-                    setEditTag={(tag) => {
+                    setEditTag={(id, label) => {
                         setAssignNewTagModal(false);
-                        setEditTag(tag);
+                        setEditTagId(tag);
+                        setEditTagValue(label);
                         setAddNewTagModal(true);
                     }}
                     setDeleteTag={(tag) => {
@@ -139,10 +144,11 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
                     open={setAddNewTagModal}
                     onClose={() => {
                         setAddNewTagModal(false);
-                        setEditTag(null);
+                        setEditTagId(null);
+                        setEditTagValue("");
                     }}
-                    onSave={editTag ? updateTag : createTag}
-                    isEdit={editTag}
+                    onSave={editTagId ? updateTag : createTag}
+                    isEdit={editTagId}
                 />
             )}
         </div>

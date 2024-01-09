@@ -108,12 +108,15 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
 
     const Tag = ({ item }) => {
         return (
-            <div className={styles.itemContainer} key={item.label}>
-                <div className={styles.tabLabel} onClick={() => onSelectTag(item.id)}>
+            <div
+                key={item.label}
+                className={`${styles.itemContainer} ${selectedTags?.includes(item?.id) ? styles.selectedItem : ""}`}
+                onClick={() => onSelectTag(item.id)}
+            >
+                <div className={styles.tabLabel}>
                     <div className={styles.tagIcon}>{getIconName(label, item.label)}</div>
                     <Label value={item.label} size="16px" color="#434A51" />
                 </div>
-                <div>{selectedTags.includes(item.id) && <CheckCircleOutlineIcon color="primary" />}</div>
             </div>
         );
     };

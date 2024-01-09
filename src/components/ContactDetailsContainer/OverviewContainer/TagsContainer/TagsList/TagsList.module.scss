@@ -27,9 +27,9 @@
     align-items: center;
     justify-content: space-between;
     gap: 5px;
-    padding: 8.5px 12.5px;
+    padding: 6px 12.5px;
     cursor: pointer;
-
+    margin-top: 10px;
     &:hover {
         background-color: #D9E4FF;
         border-radius: 4px;
@@ -48,8 +48,7 @@
 
 .tabLabel{
     display: flex;
-    width: 60%;
-
+ 
     .tagIcon{
         margin-right: 10px;
     }
@@ -59,8 +58,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 35%;
-}
+ }
 
  
 .editTagContainer{
@@ -134,4 +132,9 @@
     align-items: center;
     justify-content: space-between;
     width: 35%;
+}
+
+.selectedItem{
+  background-color: #F1FAFF;
+  border-radius: 4px;
 }
