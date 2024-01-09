@@ -306,6 +306,10 @@ const NewContactForm = ({
                     (values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0) ||
                     (values.address.postalCode > 0 && values.address.postalCode.length < 5);
 
+                const emailPhoneValid =
+                    (!errors.email && values.email !== "") ||
+                    (!errors.phones?.leadPhone && values.phones?.leadPhone !== "");
+
                 const countyName = allCounties[0]?.value;
                 const countyFipsName = allCounties[0]?.key;
                 const stateCodeName = allStates[0]?.value;
@@ -718,7 +722,7 @@ const NewContactForm = ({
                                     data-gtm="new-contact-create-button"
                                     label="Create Contact"
                                     type="primary"
-                                    disabled={!dirty || !isValid || isInvalidZip}
+                                    disabled={!dirty || !isValid || isInvalidZip || !emailPhoneValid}
                                     onClick={handleSubmit}
                                 />
                             </div>

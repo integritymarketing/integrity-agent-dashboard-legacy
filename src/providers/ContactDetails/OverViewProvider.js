@@ -1,16 +1,34 @@
-import React, { createContext, useState, useCallback } from "react";
-import useFetch from "hooks/useFetch";
+import React, { createContext, useCallback, useState } from "react";
+
 import PropTypes from "prop-types";
+import { useLeadDetails } from "providers/ContactDetails";
 import performAsyncOperation from "utilities/performAsyncOperation";
+
+import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 
 export const OverViewContext = createContext();
 
 export const OverViewProvider = ({ children }) => {
+    const { getLeadDetails } = useLeadDetails();
+
     const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`;
 
-    const { Get: fetchReminders, loading: isLoadingReminders, error: remindersError, Post: saveReminder, Put: updateReminder, Delete: deleteReminder } = useFetch(URL);
-    const { Get: fetchLeadTags, loading: isLoadingTags, error: tagsError, Post: updateLeadTags, Delete: deleteLeadTags, } = useFetch(URL);
+    const {
+        Get: fetchReminders,
+        loading: isLoadingReminders,
+        error: remindersError,
+        Post: saveReminder,
+        Put: updateReminder,
+        Delete: deleteReminder,
+    } = useFetch(URL);
+    const {
+        Get: fetchLeadTags,
+        loading: isLoadingTags,
+        error: tagsError,
+        Post: updateLeadTags,
+        Delete: deleteLeadTags,
+    } = useFetch(URL);
     const { Put: updateTag, Post: addNewTag } = useFetch(URL);
 
     const showToast = useToast();
@@ -19,7 +37,7 @@ export const OverViewProvider = ({ children }) => {
 
     const getReminders = useCallback(
         async (leadId) => {
-            const path = `Reminders/${leadId}`
+            const path = `Reminders/${leadId}`;
             const data = await fetchReminders(null, false, path);
             setReminders(data || []);
         },
@@ -27,18 +45,19 @@ export const OverViewProvider = ({ children }) => {
     );
 
     const getLeadTags = useCallback(async () => {
-        const path = `Tag/TagsGroupByCategory`
+        const path = `Tag/TagsGroupByCategory`;
         const data = await fetchLeadTags(null, false, path);
         setTags(data || []);
     }, [fetchLeadTags]);
 
     const editLeadTags = async (payload) => {
-        const path = `LeadTags/Update`
+        const path = `LeadTags/Update`;
         await performAsyncOperation(
             () => updateLeadTags(payload, false, path),
-            () => { },
+            () => {},
             async () => {
                 await getLeadTags();
+                getLeadDetails(payload?.leadId);
                 showToast({
                     message: `Tags updated successfully`,
                 });
@@ -52,24 +71,14 @@ export const OverViewProvider = ({ children }) => {
     };
 
     const createNewTag = async (payload, selectedTags) => {
-        const path = `Tag/`
+        const path = `Tag/`;
         await performAsyncOperation(
             async () => await addNewTag(payload, false, path),
-            () => { },
-            async (data) => {
-                const newTag = data?.tagId;
-                if (newTag) {
-                    const editPayload = {
-                        leadId: payload?.leadsId,
-                        tagIds: [...selectedTags, newTag]
-                    }
-                    await editLeadTags(editPayload)
-                } else {
-                    getLeadTags();
-                }
-
+            () => {},
+            async () => {
+                await getLeadTags();
                 showToast({
-                    message: `Tag updated successfully`,
+                    message: `Tag Created successfully`,
                 });
             },
             (err) =>
@@ -81,10 +90,10 @@ export const OverViewProvider = ({ children }) => {
     };
 
     const editTagByID = async (payload) => {
-        const path = `Tag/${payload.tagId}`
+        const path = `Tag/${payload.tagId}`;
         await performAsyncOperation(
             () => updateTag(payload, true, path),
-            () => { },
+            () => {},
             async () => {
                 await getLeadTags();
                 showToast({
@@ -100,10 +109,10 @@ export const OverViewProvider = ({ children }) => {
     };
 
     const removeLeadTags = async (id) => {
-        const path = `Tag/${id}`
+        const path = `Tag/${id}`;
         await performAsyncOperation(
             () => deleteLeadTags(null, true, path),
-            () => { },
+            () => {},
             async () => {
                 await getLeadTags();
                 showToast({
@@ -119,10 +128,10 @@ export const OverViewProvider = ({ children }) => {
     };
 
     const addReminder = async (payload) => {
-        const path = `Reminders`
+        const path = `Reminders`;
         await performAsyncOperation(
             () => saveReminder(payload, false, path),
-            () => { },
+            () => {},
             async () => {
                 await getReminders(payload?.leadsId);
                 showToast({
@@ -138,10 +147,10 @@ export const OverViewProvider = ({ children }) => {
     };
 
     const removeReminder = async (id, leadId) => {
-        const path = `Reminders/${id}`
+        const path = `Reminders/${id}`;
         await performAsyncOperation(
             () => deleteReminder(null, true, path),
-            () => { },
+            () => {},
             async () => {
                 await getReminders(leadId);
                 showToast({
@@ -157,10 +166,10 @@ export const OverViewProvider = ({ children }) => {
     };
 
     const editReminder = async (payload) => {
-        const path = `Reminders/${payload?.leadsId}`
+        const path = `Reminders/${payload?.leadsId}`;
         await performAsyncOperation(
             () => updateReminder(payload, false, path),
-            () => { },
+            () => {},
             async () => {
                 await getReminders(payload?.leadsId);
                 showToast({
@@ -193,7 +202,7 @@ export const OverViewProvider = ({ children }) => {
             editLeadTags,
             removeLeadTags,
             editTagByID,
-            createNewTag
+            createNewTag,
         };
     }
 };
