@@ -123,7 +123,7 @@ export const AssignNewTagModal = ({
                                     flexDirection: "column",
                                     flexWrap: "wrap",
                                     justifyContent: "space-between",
-                                    width: "40%",
+                                    width: "45%",
                                 }}
                             >
                                 {allTags?.map((item, i) => {
@@ -138,7 +138,7 @@ export const AssignNewTagModal = ({
                                     flexDirection: "column",
                                     flexWrap: "wrap",
                                     justifyContent: "space-between",
-                                    width: "40%",
+                                    width: "45%",
                                 }}
                             >
                                 {allTags?.map((item, j) => {
