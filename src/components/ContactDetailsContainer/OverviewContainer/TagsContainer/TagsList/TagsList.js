@@ -61,32 +61,9 @@ const getIconName = (label, itemLabel) => {
     }
 };
 
-const OtherTags = ({
-    item,
-    label,
-    tagId,
-    tagValue,
-    setTagValue,
-    editCancel,
-    updateTag,
-    onSelectTag,
-    deleteTags,
-    editTag,
-    selectedTags,
-}) => {
-    const showToast = useToast();
+const OtherTags = ({ item, label, deleteTags }) => {
     const [hovered, setHovered] = useState(null);
-
-    const handleUpdateTag = () => {
-        if (!isTagValid(tagValue)) {
-            showToast({
-                type: "error",
-                message: `Tag length should be between 2 and 10, and only allow alphanumeric, single space, single hyphen(-), single underscore(_)`,
-            });
-        } else {
-            updateTag();
-        }
-    };
+    console.log("hovered", hovered);
     return (
         <>
             <div
