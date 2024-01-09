@@ -126,7 +126,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
                     }}
                     setEditTag={(id, label) => {
                         setAssignNewTagModal(false);
-                        setEditTagId(tag);
+                        setEditTagId(id);
                         setEditTagValue(label);
                         setAddNewTagModal(true);
                     }}
