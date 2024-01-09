@@ -85,17 +85,15 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
 
     return (
         <div className={styles.container}>
-            <Box sx={{ padding: "9px 12px" }}>
-                <Box marginLeft={"10px"}>
-                    <Button
-                        label={"Assign New Tag"}
-                        className={styles.addNewButton}
-                        type="tertiary"
-                        onClick={() => setAssignNewTagModal(true)}
-                        icon={<AddCircleOutlineIcon sx={{ color: "#4178ff" }} />}
-                        iconPosition="left"
-                    />
-                </Box>
+            <Box marginLeft={"10px"}>
+                <Button
+                    label={"Assign New Tag"}
+                    className={styles.addNewButton}
+                    type="tertiary"
+                    onClick={() => setAssignNewTagModal(true)}
+                    icon={<AddCircleOutlineIcon sx={{ color: "#4178ff" }} />}
+                    iconPosition="left"
+                />
             </Box>
 
             {isDeleteTagModalOpen && (

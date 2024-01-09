@@ -76,8 +76,9 @@ export const OverViewProvider = ({ children }) => {
             async () => await addNewTag(payload, false, path),
             () => {},
             async () => {
+                await getLeadTags();
                 showToast({
-                    message: `Tag updated successfully`,
+                    message: `Tag Created successfully`,
                 });
             },
             (err) =>

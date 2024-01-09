@@ -61,52 +61,10 @@ const getIconName = (label, itemLabel) => {
     }
 };
 
-const OtherTags = ({ item, label, deleteTags }) => {
-    const [hovered, setHovered] = useState(null);
-    console.log("hovered", hovered);
-    return (
-        <>
-            <div
-                className={styles.itemContainer}
-                key={item?.label}
-                onMouseOver={() => setHovered(item?.label)}
-                onMouseLeave={() => setHovered(null)}
-            >
-                <div className={styles.tabLabel}>
-                    <div className={styles.tagIcon}>{getIconName(label, item?.label)}</div>
-                    <Label value={item?.label} size="16px" color="#434A51" />
-                </div>
-
-                <div className={styles.actionIcons}>
-                    {hovered === item?.label && (
-                        <div onClick={() => deleteTags(item?.id)}>
-                            <Delete />
-                        </div>
-                    )}
-                </div>
-            </div>
-        </>
-    );
-};
-
-export const TagsList = ({
-    label,
-    items,
-    selectedTags,
-    leadId,
-    tagValue,
-    setTagValue,
-    tagId,
-    setTagId,
-    addNewTag,
-    setAddNewTag,
-    newTag,
-    setNewTag,
-}) => {
-    const { removeLeadTags, editTagByID, createNewTag, editLeadTags } = useOverView();
+export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagId, setTagId }) => {
+    const { removeLeadTags, editLeadTags } = useOverView();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
-    const [addNewTagModal, setAddNewTagModal] = useState(false);
 
     const [open, setOpen] = useState(false);
 
@@ -120,16 +78,6 @@ export const TagsList = ({
             setOpen(true);
         }
     }, [label]);
-
-    const editTag = (value, id) => {
-        setTagValue(value);
-        setTagId(id);
-    };
-
-    const editCancel = () => {
-        setTagValue("");
-        setTagId(null);
-    };
 
     const onSelectTag = (id) => {
         if (!id || label === "Ask Integrity Recommendations") return;
@@ -158,35 +106,6 @@ export const TagsList = ({
         setIsDeleteTagModalOpen(false);
     };
 
-    const updateTag = () => {
-        const payload = {
-            tagId: tagId,
-            tagLabel: tagValue,
-            tagCategoryId: 9,
-            leadsId: leadId,
-        };
-        editTagByID(payload);
-        setTagId(null);
-        setTagValue("");
-    };
-
-    const addTagCancel = () => {
-        setAddNewTag(false);
-        setNewTag("");
-    };
-
-    const createTag = () => {
-        const payload = {
-            tagLabel: newTag,
-            tagCategoryId: 9,
-            leadsId: leadId.toString(),
-            tagId: 0,
-        };
-        createNewTag(payload);
-        setAddNewTag(false);
-        setNewTag("");
-    };
-
     const Tag = ({ item }) => {
         return (
             <div className={styles.itemContainer} key={item.label}>
@@ -196,6 +115,34 @@ export const TagsList = ({
                 </div>
                 <div>{selectedTags.includes(item.id) && <CheckCircleOutlineIcon color="primary" />}</div>
             </div>
+        );
+    };
+
+    const OtherTags = ({ item }) => {
+        const [hovered, setHovered] = useState(null);
+
+        return (
+            <>
+                <div
+                    className={styles.itemContainer}
+                    key={item?.label}
+                    onMouseOver={() => setHovered(item?.label)}
+                    onMouseLeave={() => setHovered(null)}
+                >
+                    <div className={styles.tabLabel}>
+                        <div className={styles.tagIcon}>{getIconName(label, item?.label)}</div>
+                        <Label value={item?.label} size="16px" color="#434A51" />
+                    </div>
+
+                    <div className={styles.actionIcons}>
+                        {hovered === item?.label && (
+                            <div onClick={() => openDeleteTagModal(item?.id)}>
+                                <Delete />
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </>
         );
     };
 
@@ -222,13 +169,8 @@ export const TagsList = ({
                     {items.map((item) => {
                         return (
                             <>
-                                {label === "Other" && selectedTags.includes(item.id) ? (
-                                    <OtherTags
-                                        item={item}
-                                        tagId={tagId}
-                                        deleteTags={openDeleteTagModal}
-                                        label={label}
-                                    />
+                                {label === "Other" ? (
+                                    <>{selectedTags.includes(item.id) && <OtherTags item={item} tagId={tagId} />}</>
                                 ) : (
                                     <Tag item={item} />
                                 )}
