@@ -75,6 +75,7 @@ const OtherTags = ({
     selectedTags,
 }) => {
     const showToast = useToast();
+    const [hovered, setHovered] = useState(null);
 
     const handleUpdateTag = () => {
         if (!isTagValid(tagValue)) {
@@ -88,17 +89,23 @@ const OtherTags = ({
     };
     return (
         <>
-            <div className={styles.itemContainer} key={item.label}>
+            <div
+                className={styles.itemContainer}
+                key={item?.label}
+                onMouseOver={() => setHovered(item?.label)}
+                onMouseLeave={() => setHovered(null)}
+            >
                 <div className={styles.tabLabel}>
-                    <div className={styles.tagIcon}>{getIconName(label, item.label)}</div>
-                    <Label value={item.label} size="16px" color="#434A51" />
+                    <div className={styles.tagIcon}>{getIconName(label, item?.label)}</div>
+                    <Label value={item?.label} size="16px" color="#434A51" />
                 </div>
 
                 <div className={styles.actionIcons}>
-                    <div onClick={() => deleteTags(item.id)}>
-                        {" "}
-                        <Delete />
-                    </div>
+                    {hovered === item?.label && (
+                        <div onClick={() => deleteTags(item?.id)}>
+                            <Delete />
+                        </div>
+                    )}
                 </div>
             </div>
         </>

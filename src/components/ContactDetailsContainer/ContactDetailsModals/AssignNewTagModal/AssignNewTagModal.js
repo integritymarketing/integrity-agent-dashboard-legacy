@@ -28,7 +28,7 @@ export const AssignNewTagModal = ({
     open,
     onClose,
     onSave,
-    allTags = tags,
+    allTags = [],
     selectedTags,
     setAddNewTagModal,
     setEditTag,
@@ -57,25 +57,32 @@ export const AssignNewTagModal = ({
     }, [selectedTags, selectedTempTags]);
 
     const Tag = ({ item }) => {
+        const [hovered, setHovered] = useState(null);
         return (
             <div
                 className={`${styles.itemContainer} ${selectedTags?.includes(item?.id) ? styles.selectedItem : ""}`}
-                key={item.label}
+                key={item?.label}
+                onMouseOver={() => setHovered(item?.label)}
+                onMouseLeave={() => setHovered(null)}
             >
                 <div className={styles.tabLabel} onClick={() => onSelectTag(item?.id)}>
                     <div className={styles.tagIcon}>
                         <img alt="TagIcon" src={TagIcon} />
                     </div>
-                    <Label value={item.label} size="16px" color="#434A51" />
+                    <Label value={item?.label} size="16px" color="#434A51" />
                 </div>
 
                 <div className={styles.actionIcons}>
-                    <div onClick={() => setEditTag(item.label, item?.id)}>
-                        <EditIcon />
-                    </div>
-                    <div onClick={() => setDeleteTag(11)}>
-                        <Delete />
-                    </div>
+                    {hovered === item?.label && (
+                        <>
+                            <div onClick={() => setEditTag(item?.label, item?.id)}>
+                                <EditIcon />
+                            </div>
+                            <div onClick={() => setDeleteTag(item?.id)}>
+                                <Delete />
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         );

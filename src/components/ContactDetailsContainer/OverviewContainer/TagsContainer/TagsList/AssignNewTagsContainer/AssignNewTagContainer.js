@@ -115,7 +115,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
                         setAssignNewTagModal(false);
                         setSelectedCustomTags(selectedTempTags);
                     }}
-                    allTags={false}
+                    allTags={allTags}
                     onSave={onSave}
                     selectedTags={selectedCustomTags}
                     setAddNewTagModal={() => {
