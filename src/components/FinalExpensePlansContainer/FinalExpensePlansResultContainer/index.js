@@ -67,28 +67,26 @@ const FinalExpensePlansResultContainer = () => {
         defaultIsMyAppointedProducts,
         "sessionIsMyAppointedProducts"
     );
+    const [appointmentSession, setAppointmentSession] = usePreferences(false, "appointmentSession");
     const [isShowExcludedProducts, setIsShowExcludedProducts] = usePreferences(false, "sessionIsShowExcludedProducts");
     const [sessionLead, setSessionLead] = usePreferences(null, "sessionLead");
 
     useEffect(() => {
         const handleFinalExpensePlanClick = async () => {
-            const sessionExists = window.sessionStorage.getItem("sessionIsMyAppointedProducts");
             const isAgentNonRTS = await getAgentNonRTS();
-            if (!isAgentNonRTS) {
+            if (isAgentNonRTS) {
+                setIsMyAppointedProducts(false);
+            } else {
                 setIsRTS(true);
-            }
-            if (!sessionExists) {
-                if (isAgentNonRTS) {
-                    setIsMyAppointedProducts({ contactId, preferenceFlag: false });
-                } else {
-                    setIsMyAppointedProducts({ contactId, preferenceFlag: true });
+                if (!appointmentSession) {
+                    setIsMyAppointedProducts(true);
                 }
             }
         };
         if (agentNPN) {
             handleFinalExpensePlanClick();
         }
-    }, [agentNPN, contactId]);
+    }, [agentNPN]);
 
     // Effects
     useEffect(() => {
@@ -180,7 +178,6 @@ const FinalExpensePlansResultContainer = () => {
         return monthlyPremiumAmount < min || monthlyPremiumAmount > max;
     }, [monthlyPremiumAmount, min, max]);
 
-    console.log("HHH", coverageType);
     return (
         <>
             <Media
@@ -225,17 +222,16 @@ const FinalExpensePlansResultContainer = () => {
                         <div className={styles.checkboxesWrapper}>
                             <div
                                 className={`${styles.checkbox} ${
-                                    isMyAppointedProducts.preferenceFlag ? styles.selectedCheckbox : ""
+                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
                                 } ${!isRTS ? styles.inActive : ""}`}
                                 onClick={() => {
                                     if (!isRTS) return;
-                                    setIsMyAppointedProducts((prevState) => ({
-                                        ...prevState,
-                                        preferenceFlag: !prevState.preferenceFlag,
-                                    }));
+                                    setIsMyAppointedProducts(!isMyAppointedProducts);
+
+                                    setAppointmentSession(true);
                                 }}
                             >
-                                {isMyAppointedProducts.preferenceFlag ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
@@ -255,7 +251,7 @@ const FinalExpensePlansResultContainer = () => {
                     monthlyPremium={monthlyPremiumAmount}
                     coverageType={coverageType}
                     selectedTab={selectedTab}
-                    isMyAppointedProducts={isMyAppointedProducts?.preferenceFlag}
+                    isMyAppointedProducts={isMyAppointedProducts}
                     isShowExcludedProducts={isShowExcludedProducts}
                     isRTS={isRTS}
                 />

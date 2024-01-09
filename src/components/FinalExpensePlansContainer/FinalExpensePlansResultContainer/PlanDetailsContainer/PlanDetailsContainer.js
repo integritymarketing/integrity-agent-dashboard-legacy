@@ -78,6 +78,8 @@ export const PlanDetailsContainer = ({
             const slicedResults = [...finalExpensePlans]?.slice(pagedStart, pageLimit);
             setPagedResults(slicedResults);
             scrollTop();
+        } else {
+            setPagedResults([]);
         }
     }, [finalExpensePlans, currentPage, pageSize]);
 
@@ -168,6 +170,7 @@ export const PlanDetailsContainer = ({
         getFinalExpenseQuotePlans,
         isMyAppointedProducts,
         isShowExcludedProducts,
+        isRTS,
     ]);
 
     const loadersCards = useMemo(() => {
