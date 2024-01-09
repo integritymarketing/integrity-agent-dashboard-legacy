@@ -74,7 +74,7 @@ const FinalExpensePlansResultContainer = () => {
     useEffect(() => {
         const handleFinalExpensePlanClick = async () => {
             const isAgentNonRTS = await getAgentNonRTS();
-            if (isAgentNonRTS) {
+            if (isAgentNonRTS === "True") {
                 setIsMyAppointedProducts(false);
             } else {
                 setIsRTS(true);
