@@ -106,7 +106,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
                     onClose={() => setIsDeleteTagModalOpen(false)}
                     onConfirm={deleteTags}
                     label="Delete Tag"
-                    body="This tag is assigned to you. Would you like to permanently delete this tag?"
+                    body="Would you like to permanently delete this tag?"
                 />
             )}
 
@@ -148,7 +148,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
                         setEditTagValue("");
                     }}
                     onSave={editTagId ? updateTag : createTag}
-                    isEdit={editTagId}
+                    isEdit={editTagValue}
                 />
             )}
         </div>
