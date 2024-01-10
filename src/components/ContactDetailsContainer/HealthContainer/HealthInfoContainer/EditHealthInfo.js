@@ -7,6 +7,8 @@ import { styled } from "@mui/material/styles";
 
 import PropTypes from "prop-types";
 
+import { formatDate } from "utils/dates";
+
 import DatePickerMUI from "components/DatePicker";
 import SelectableButtonGroup from "components/SelectableButtonGroup";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
@@ -81,7 +83,7 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
     const onSaveHealthInfo = useCallback(() => {
         const formData = {
             gender,
-            birthdate: bDate,
+            birthdate: bDate ? formatDate(bDate) : "",
             height: +(feet * 12) + +inch,
             weight,
             isTobaccoUser: isTobaccoUser === "Yes",

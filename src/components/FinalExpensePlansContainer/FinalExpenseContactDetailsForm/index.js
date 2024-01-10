@@ -3,8 +3,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import { InputAdornment, OutlinedInput } from "@mui/material";
 
 import PropTypes from "prop-types";
+import { useLeadDetails } from "providers/ContactDetails";
 
-import { formatDate, formatServerDate, parseDate } from "utils/dates";
+import { formatDate } from "utils/dates";
 
 import DatePickerMUI from "components/DatePicker";
 import { SelectStateField } from "components/SharedFormFields";
@@ -35,29 +36,40 @@ import {
 
 const FinalExpenseContactDetailsForm = ({
     contactId,
-    address,
-    birthdate,
-    sexuality,
-    wt,
-    hFeet,
-    hInch,
-    smoker,
+
     onSave,
 }) => {
     const [isDisabled, setIsDisabled] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [mobileStepNumber, setMobileStepNumber] = useState(0);
-    const code = useMemo(() => {
-        const sessionItem = sessionStorage.getItem(contactId);
-        return sessionItem ? JSON.parse(sessionItem).stateCode : address?.stateCode;
-    }, [contactId, address]);
-    const [stateCode, setStateCode] = useState(code);
-    const [gender, setGender] = useState(sexuality);
-    const [bDate, setBDate] = useState(birthdate);
-    const [feet, setFeet] = useState(hFeet);
-    const [inch, setInch] = useState(hInch);
-    const [weight, setWeight] = useState(wt);
-    const [isTobaccoUser, setIsTobaccoUser] = useState(smoker);
+
+    const [stateCode, setStateCode] = useState(null);
+    const [gender, setGender] = useState(null);
+    const [bDate, setBDate] = useState(null);
+    const [feet, setFeet] = useState(null);
+    const [inch, setInch] = useState(null);
+    const [weight, setWeight] = useState(null);
+    const [isTobaccoUser, setIsTobaccoUser] = useState(null);
+
+    const { leadDetails } = useLeadDetails();
+
+    useEffect(() => {
+        if (leadDetails) {
+            const sessionItem = sessionStorage.getItem(contactId);
+            const code = sessionItem ? JSON.parse(sessionItem).stateCode : leadDetails?.addresses?.[0]?.stateCode;
+
+            let hFeet = leadDetails?.height ? Math.floor(leadDetails?.height / 12) : "";
+            let hInch = leadDetails?.height ? leadDetails?.height % 12 : "";
+
+            setGender(leadDetails?.gender);
+            setBDate(leadDetails?.birthdate);
+            setFeet(hFeet);
+            setInch(hInch);
+            setWeight(leadDetails?.weight);
+            setIsTobaccoUser(leadDetails?.isTobaccoUser);
+            setStateCode(code);
+        }
+    }, [leadDetails]);
 
     const updateFeet = (value) => {
         if (!value || (value > 0 && value <= 8 && !value.includes("."))) {
@@ -86,7 +98,7 @@ const FinalExpenseContactDetailsForm = ({
     }, [stateCode, gender, bDate, isTobaccoUser, setIsDisabled]);
 
     const onSaveHealthInfo = async () => {
-        const birthdate = formatServerDate(parseDate(formatDate(bDate)));
+        const birthdate = bDate ? formatDate(bDate) : "";
         const formData = { stateCode, gender, birthdate, height: +(feet * 12) + +inch, weight, isTobaccoUser };
         setIsSaving(true);
         await onSave(formData);
