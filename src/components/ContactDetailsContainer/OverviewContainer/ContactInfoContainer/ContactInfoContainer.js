@@ -6,8 +6,11 @@ import { useLeadDetails } from "providers/ContactDetails";
 
 import calculateAgeFromBirthdate from "utils/calculateAgeFromBirthdate";
 import { formatDate, getLocalDateTime } from "utils/dates";
+import { formatFullName } from "utils/formatFullName";
 import { formatPhoneNumber } from "utils/phones";
 import { formatMBID } from "utils/shared-utils/sharedUtility";
+
+import WithLoader from "components/ui/WithLoader";
 
 import styles from "./ContactInfoContainer.module.scss";
 import ContactInfoForm from "./ContactInfoForm";
@@ -15,8 +18,6 @@ import ContactInfoForm from "./ContactInfoForm";
 import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
 import { EditWithIcon, Favorite } from "../Icons";
-import { formatFullName } from "utils/formatFullName";
-import WithLoader from "components/ui/WithLoader";
 
 const NOT_AVAILABLE = "-";
 
@@ -45,6 +46,11 @@ export const ContactInfoContainer = () => {
         leadsId,
         notes,
         createDate,
+        gender,
+        weight,
+        height,
+        isTobaccoUser,
+        modifyDate,
     } = leadDetails;
 
     let phonesData = phones?.filter((phone) => {
@@ -71,7 +77,7 @@ export const ContactInfoContainer = () => {
 
     const leadCity = useMemo(() => {
         const city = addresses?.[0]?.city;
-        return city ? city: NOT_AVAILABLE;
+        return city ? city : NOT_AVAILABLE;
     }, [addresses]);
 
     const leadState = useMemo(() => {
@@ -152,7 +158,16 @@ export const ContactInfoContainer = () => {
     };
 
     const editLeadDetails = (data) => {
-        updateLeadDetails(data);
+        const payload = {
+            ...leadData,
+            ...data,
+            gender,
+            weight,
+            height,
+            isTobaccoUser,
+            modifyDate,
+        };
+        updateLeadDetails(payload);
         setIsEditMode(false);
     };
 
@@ -183,7 +198,11 @@ export const ContactInfoContainer = () => {
                     <Box>
                         <SectionContainer>
                             <Label value="Full Name" color="#717171" size="14px" />
-                            <Label value={formatFullName(firstName, middleName, lastName)} color="#052A63" size="20px" />
+                            <Label
+                                value={formatFullName(firstName, middleName, lastName)}
+                                color="#052A63"
+                                size="20px"
+                            />
                         </SectionContainer>
                         <Box className={styles.miniContainer}>
                             <SectionContainer>

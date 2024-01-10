@@ -1,47 +1,136 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+
+import { useLeadDetails } from "providers/ContactDetails";
+
+import { formatDate } from "utils/dates";
+
+import useFetch from "hooks/useFetch";
+
+import { UPDATE_LEAD_DETAILS } from "components/AddZipContainer/AddZipContainer.constants";
+
+import useContactDetails from "pages/ContactDetails/useContactDetails";
+
 import { EditHealthInfo } from "./EditHealthInfo";
 import { ViewHealthInfo } from "./ViewHealthInfo";
-import useFetch from "hooks/useFetch";
-import useContactDetails from "pages/ContactDetails/useContactDetails";
-import { UPDATE_LEAD_DETAILS } from "components/AddZipContainer/AddZipContainer.constants";
 
 const HealthInfoContainer = () => {
     const [isEditHealthInfo, setIsEditHealthInfo] = useState(false);
     const { leadId } = useParams();
-    const { getLeadDetails, leadDetails } = useContactDetails(leadId);
-    const { birthdate, gender, weight, height, isTobaccoUser, modifyDate } = leadDetails;
+    const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
+
+    const {
+        birthdate,
+        gender,
+        weight,
+        height,
+        isTobaccoUser,
+        modifyDate,
+        addresses,
+        contactPreferences,
+        emails,
+        phones,
+        firstName,
+        lastName,
+        middleName,
+        leadsId,
+        contactRecordType,
+        leadStatusId,
+        notes,
+        medicareBeneficiaryID,
+        partA,
+        partB,
+    } = leadDetails;
+
     const smoker = isTobaccoUser ? "Yes" : "No";
 
-    const { Put: updateLeadData } = useFetch(`${UPDATE_LEAD_DETAILS}${leadId}`)
+    // const { Put: updateLeadData } = useFetch(`${UPDATE_LEAD_DETAILS}${leadId}`);
     const onSave = async (formData) => {
-        await updateLeadData({ ...leadDetails, ...formData })
+        let email = emails.length > 0 ? emails[0].leadEmail : null;
+        let phoneData = phones.length > 0 ? phones[0] : null;
+        let addressData = addresses.length > 0 ? addresses?.[0] : null;
+        const emailID = emails.length > 0 ? emails[0].emailID : 0;
+        const leadAddressId = addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
+        const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
+
+        const city = addressData && addressData.city ? addressData.city : "";
+        const stateCode = addressData && addressData.stateCode ? addressData.stateCode : "";
+        const address1 = addressData && addressData.address1 ? addressData.address1 : "";
+        const address2 = addressData && addressData.address2 ? addressData.address2 : "";
+        const county = addressData && addressData.county ? addressData.county : "";
+        const countyFips = addressData && addressData.countyFips ? addressData.countyFips : "";
+        const postalCode = addressData && addressData.postalCode ? addressData.postalCode : "";
+        const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
+        const phoneLabel = phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "mobile";
+
+        const isPrimary = contactPreferences?.primary ? contactPreferences?.primary : "email";
+
+        const initialValues = {
+            firstName: firstName,
+            lastName: lastName,
+            middleName: middleName,
+            email: email,
+            birthdate: birthdate ? formatDate(birthdate) : "",
+            phones: {
+                leadPhone: phone,
+                phoneLabel: phoneLabel?.toLowerCase(),
+            },
+            address: {
+                address1: address1,
+                address2: address2,
+                city: city,
+                stateCode: stateCode,
+                postalCode: postalCode,
+                county: county || "",
+                countyFips: countyFips,
+            },
+            primaryCommunication: isPrimary,
+            contactRecordType: contactRecordType?.toLowerCase(),
+            emailID,
+            leadAddressId,
+            phoneId,
+            leadStatusId,
+            leadsId,
+            notes,
+            medicareBeneficiaryID: medicareBeneficiaryID ? formatMbiNumber(medicareBeneficiaryID) : "",
+            partA: partA ?? "",
+            partB: partB ?? "",
+            ...formData,
+        };
+        const payload = {
+            ...leadDetails,
+            ...initialValues,
+        };
+        await updateLeadDetails(payload);
         setIsEditHealthInfo(false);
-        getLeadDetails()
-    }
+    };
 
     return (
         <>
-            {isEditHealthInfo
-                ? <EditHealthInfo
+            {isEditHealthInfo ? (
+                <EditHealthInfo
                     birthdate={birthdate}
                     sexuality={gender}
-                    wt={weight? weight : ""}
+                    wt={weight ? weight : ""}
                     hFeet={height ? Math.floor(height / 12) : ""}
                     hInch={height ? height % 12 : ""}
                     smoker={smoker}
                     modifyDate={modifyDate}
                     onSave={onSave}
-                    onCancel={() => setIsEditHealthInfo(false)} />
-                : <ViewHealthInfo birthdate={birthdate}
+                    onCancel={() => setIsEditHealthInfo(false)}
+                />
+            ) : (
+                <ViewHealthInfo
+                    birthdate={birthdate}
                     gender={gender}
                     weight={weight ? weight : ""}
                     height={height ? `${Math.floor(height / 12)}' ${height % 12}''` : ""}
                     smoker={smoker}
-                    onEdit={() => setIsEditHealthInfo(true)} />
-            }
+                    onEdit={() => setIsEditHealthInfo(true)}
+                />
+            )}
         </>
     );
-}
+};
 
 export default HealthInfoContainer;

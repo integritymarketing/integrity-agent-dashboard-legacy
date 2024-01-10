@@ -110,9 +110,9 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
         return (
             <div
                 key={item.label}
-                className={`${styles.itemContainer} ${selectedTags?.includes(item?.id) ? styles.selectedItem : ""} ${
-                    label === "Products" ? styles.hoverEffect : ""
-                }`}
+                className={`${styles.itemContainer} ${
+                    selectedTags?.includes(item?.id) && label === "Products" ? styles.selectedItem : ""
+                } ${label === "Products" ? styles.hoverEffect : ""}`}
                 onClick={() => onSelectTag(item.id)}
             >
                 <div className={styles.tabLabel}>
