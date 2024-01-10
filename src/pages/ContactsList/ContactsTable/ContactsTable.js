@@ -3,7 +3,9 @@ import { useMemo } from "react";
 
 import Box from "@mui/material/Box";
 
+import HealthActive from "components/icons/version-2/HealthActive";
 import HealthInactive from "components/icons/version-2/HealthInactive";
+import Heartactive from "components/icons/version-2/HeartActive";
 import HeartInactive from "components/icons/version-2/HeartInactive";
 import { Checkbox } from "components/ui/version-2/Checkbox";
 
@@ -46,14 +48,36 @@ function ContactsTable() {
             {
                 Header: "Life",
                 disableSortBy: true,
-                accessor: "life",
-                Cell: () => <HeartInactive />,
+                accessor: "lifePolicyCount",
+                Cell: ({ value }) => {
+                    if (value === 0 || !value) {
+                        return <HeartInactive />;
+                    } else {
+                        return (
+                            <Box position="relative" display="inline-block">
+                                <Heartactive />
+                                {value > 1 && <Box className={styles.count}>{value}</Box>}
+                            </Box>
+                        );
+                    }
+                },
             },
             {
                 Header: "Health",
                 disableSortBy: true,
-                accessor: "health",
-                Cell: () => <HealthInactive />,
+                accessor: "healthPolicyCount",
+                Cell: ({ value }) => {
+                    if (value === 0 || !value) {
+                        return <HealthInactive />;
+                    } else {
+                        return (
+                            <Box position="relative" display="inline-block">
+                                <HealthActive />
+                                {value > 1 && <Box className={styles.count}>{value}</Box>}
+                            </Box>
+                        );
+                    }
+                },
             },
             {
                 Header: "",

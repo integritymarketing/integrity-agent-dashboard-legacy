@@ -8,3 +8,15 @@
     grid-template-columns: repeat(2, 1fr); 
     gap: 10px;
 }
+
+.count {
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    border-radius: 100%;
+    padding: 0px 4px;
+    background-color: #f1faff;
+    color: #4178ff;
+    font-size: 10px;
+    font-weight: 600;
+}

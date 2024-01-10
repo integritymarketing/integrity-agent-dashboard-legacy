@@ -23,7 +23,7 @@ function ContactsCard() {
                         <CardStage item={item} />
                         <Box className={styles.innerWrapper}>
                             <CardTag item={item} />
-                            <CardLifeAndHealth />
+                            <CardLifeAndHealth item={item} />
                         </Box>
                     </Box>
                 ))}

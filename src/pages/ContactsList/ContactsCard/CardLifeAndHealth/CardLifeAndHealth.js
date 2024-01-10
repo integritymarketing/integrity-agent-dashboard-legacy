@@ -1,23 +1,30 @@
 import Box from "@mui/material/Box";
 
-import HealthInactive from "components/icons/version-2/HealthInactive";
-import HeartInactive from "components/icons/version-2/HeartInactive";
+import PropTypes from "prop-types";
 
+import HealthIcon from "./HealthIcon";
+import LifeIcon from "./LifeIcon";
 import styles from "./styles.module.scss";
 
-function CardLifeAndHealth() {
+function CardLifeAndHealth({ item }) {
+    const { lifePolicyCount, healthPolicyCount } = item;
+
     return (
         <Box className={styles.innerWrapper}>
             <Box display="flex" flexDirection="column" alignItems="center">
                 <Box className={styles.tag}>Life</Box>
-                <HeartInactive />
+                <LifeIcon lifePolicyCount={lifePolicyCount} />
             </Box>
             <Box display="flex" flexDirection="column" alignItems="center">
                 <Box className={styles.tag}>Health</Box>
-                <HealthInactive />
+                <HealthIcon healthPolicyCount={healthPolicyCount} />
             </Box>
         </Box>
     );
 }
+
+CardLifeAndHealth.propTypes = {
+    item: PropTypes.object,
+};
 
 export default CardLifeAndHealth;
