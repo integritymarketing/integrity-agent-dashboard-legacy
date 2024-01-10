@@ -1,30 +1,36 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import * as Sentry from "@sentry/react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import makeStyles from "@mui/styles/makeStyles";
 
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
-import { useParams } from "react-router-dom";
+import { arraysAreEqual } from "utils/address";
+
+import useAnalytics from "hooks/useAnalytics";
+
+import Modal from "components/Modal";
+import CustomFooter from "components/Modal/CustomFooter";
+import Pagination from "components/ui/Pagination/pagination";
+import { Select } from "components/ui/Select";
+import Spinner from "components/ui/Spinner";
+
+import clientsService from "services/clientsService";
+
+import ProviderList from "./ProviderList";
+import "./style.scss";
+
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import makeStyles from "@mui/styles/makeStyles";
+import Warning from "../Icons/warning";
 import ErrorState from "../SharedComponents/ErrorState";
-import Modal from "components/Modal";
-import useAnalytics from "hooks/useAnalytics";
-import clientsService from "services/clientsService";
 import SearchInput from "../SharedComponents/SearchInput";
 import SearchLabel from "../SharedComponents/SearchLabel";
-import { Select } from "components/ui/Select";
-import ProviderList from "./ProviderList";
-import * as Sentry from "@sentry/react";
-import Spinner from "components/ui/Spinner";
-import Pagination from "components/ui/Pagination/pagination";
-import CustomFooter from "components/Modal/CustomFooter";
-import { arraysAreEqual } from "utils/address";
-import Warning from "../Icons/warning";
-import "./style.scss";
 
 const DISTANCE_OPTIONS = [
     { value: 10, label: "10 miles" },
@@ -84,9 +90,8 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, }) => {
+const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, leadId }) => {
     const { addProvider, deleteProvider, providers, fetchProviders } = useHealth();
-    const { leadId } = useParams();
 
     useEffect(() => {
         if (leadId) {
@@ -95,7 +100,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
     }, [leadId]);
 
     const fetchHealthDetails = useCallback(async () => {
-        await fetchProviders(leadId)
+        await fetchProviders(leadId);
     }, [leadId, fetchProviders]);
 
     // Initializations

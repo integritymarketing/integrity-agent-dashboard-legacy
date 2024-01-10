@@ -116,6 +116,8 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 const resMessage = await response.json();
                 // if duplicate contact, show error and return
                 if (resMessage?.isExactDuplicate) {
+                    setDuplicateLeadIds(resMessage?.duplicateLeadIds || []);
+
                     return {
                         firstName: "Duplicate Contact",
                         lastName: "Duplicate Contact",
@@ -240,7 +242,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
             onSubmit={async (values, { setErrors, setSubmitting }) => {
                 const duplicateCheckResult = await isDuplicateContact(values, setDuplicateLeadIds);
                 // if duplicate contact, show error and return and don't submit form
-                if (duplicateCheckResult?.isExactDuplicate) {
+                if (duplicateCheckResult?.isExactDuplicate && duplicateLeadIds?.length > 1) {
                     setErrors({
                         firstName: "Duplicate Contact",
                         lastName: "Duplicate Contact",

@@ -2,6 +2,24 @@
 
 .global-footer {
     margin-top: auto;
+   
+
+    li {
+        a {
+            color: #434a51;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 8px 16px;
+            &:hover {
+                color: #1357FF;
+                box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+                border-radius: 20px;
+            }
+        }
+        
+    }
+
+ 
 
     &__content {
         display: flex;
@@ -20,8 +38,9 @@
     }
 
     &__legal {
-        font-size: inherit;
         line-height: 1.5;
+        color: #717171;
+        font-size: 14px;
 
         > span {
             white-space: nowrap;
