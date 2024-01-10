@@ -5,19 +5,12 @@ import { useLeadDetails } from "providers/ContactDetails";
 
 import { formatDate } from "utils/dates";
 
-import useFetch from "hooks/useFetch";
-
-import { UPDATE_LEAD_DETAILS } from "components/AddZipContainer/AddZipContainer.constants";
-
-import useContactDetails from "pages/ContactDetails/useContactDetails";
-
 import { EditHealthInfo } from "./EditHealthInfo";
 import { ViewHealthInfo } from "./ViewHealthInfo";
 
 const HealthInfoContainer = () => {
     const [isEditHealthInfo, setIsEditHealthInfo] = useState(false);
-    const { leadId } = useParams();
-    const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
+    const { leadDetails, updateLeadDetails } = useLeadDetails();
 
     const {
         birthdate,
