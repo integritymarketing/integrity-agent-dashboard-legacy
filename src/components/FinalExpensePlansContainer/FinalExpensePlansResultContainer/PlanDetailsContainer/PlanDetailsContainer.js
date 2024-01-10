@@ -15,6 +15,7 @@ import {
     COVERAGE_AMOUNT,
     COVERAGE_TYPE,
     COVERAGE_TYPE_FINALOPTION,
+    FETCH_PLANS_ERROR,
     MONTHLY_PREMIUM,
     NO_PLANS_ERROR,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
@@ -49,6 +50,7 @@ export const PlanDetailsContainer = ({
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
     const { leadDetails } = useContactDetails(contactId);
+    const [fetchPlansError, setFetchPlansError] = useState(false);
 
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
 
@@ -86,16 +88,16 @@ export const PlanDetailsContainer = ({
     useEffect(() => {
         const fetchPlans = async () => {
             try {
+                setFetchPlansError(false);
                 const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
-                if (!addresses?.[0]?.stateCode || !birthdate) return;
+                const code = sessionStorage.getItem(contactId)
+                    ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
+                    : addresses[0]?.stateCode;
+                if (!code || !birthdate) return;
                 setIsLoadingFinalExpensePlans(true);
                 const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
                 const age = getAgeFromBirthDate(birthdate);
                 const todayDate = formatDate(new Date(), "yyyy-MM-dd");
-                const code = sessionStorage.getItem(contactId)
-                    ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
-                    : addresses[0]?.stateCode;
-
                 const conditions = [];
                 const healthConditions = healthConditionsDataRef.current;
 
@@ -150,6 +152,7 @@ export const PlanDetailsContainer = ({
                 }
             } catch (error) {
                 setIsLoadingFinalExpensePlans(false);
+                setFetchPlansError(true);
             }
         };
 
@@ -188,7 +191,15 @@ export const PlanDetailsContainer = ({
             />
             <div className={styles.planContainer}>
                 {isLoadingFinalExpensePlans && loadersCards}
-                {pagedResults.length > 0 && !isLoadingFinalExpensePlans ? (
+                {!isLoadingFinalExpensePlans && pagedResults.length === 0 && (
+                    <div className={styles.noPlans}>
+                        <div className={styles.alertIcon}>
+                            <AlertIcon />
+                        </div>
+                        <div>{fetchPlansError ? FETCH_PLANS_ERROR : NO_PLANS_ERROR}</div>
+                    </div>
+                )}
+                {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
                     <>
                         <PersonalisedQuoteBox />
                         {pagedResults.map((plan, index) => {
@@ -241,13 +252,6 @@ export const PlanDetailsContainer = ({
                             onPageChange={(page) => setCurrentPage(page)}
                         />
                     </>
-                ) : (
-                    <div className={styles.noPlans}>
-                        <div className={styles.alertIcon}>
-                            <AlertIcon />
-                        </div>
-                        <div>{NO_PLANS_ERROR}</div>
-                    </div>
                 )}
             </div>
         </>

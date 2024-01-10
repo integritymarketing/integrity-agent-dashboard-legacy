@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useLeadDetails } from "providers/ContactDetails";
 
 import { formatDate } from "utils/dates";
+import { formatMbiNumber } from "utils/shared-utils/sharedUtility";
 
 import PlanCardLoader from "components/ui/PlanCard/loader";
 import WithLoader from "components/ui/WithLoader";

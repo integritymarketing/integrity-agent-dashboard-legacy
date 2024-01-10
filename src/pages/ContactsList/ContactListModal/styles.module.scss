@@ -1,6 +1,6 @@
-
 .lostStageModal {
   overflow-x: hidden;
+  height: 420px;
 }
 
 .deleteContactsModal,
@@ -11,6 +11,9 @@
 
 .footerButtons {
   display: flex;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
   gap: 1rem;
   justify-content: flex-end;
 }
