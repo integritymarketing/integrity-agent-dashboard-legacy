@@ -16,6 +16,8 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: "20px !important",
         color: "#FFFFFF !important",
         padding: "20px 16px !important",
+        textTransform: "capitalize !important",
+
         "&:hover": {
             backgroundColor: "#4178FF !important",
         },

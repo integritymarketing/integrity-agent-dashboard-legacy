@@ -22,20 +22,7 @@ import styles from "./TagsList.module.scss";
 import Label from "../../CommonComponents/Label";
 import { Chevron, CrossIcon, DataCenter, Delete, LeadCenter, LifeIcon, PlanEnroll } from "../../Icons";
 
-const isTagValid = (tag) => {
-    // Regular expression to match the tag against the criteria
-    const validTagRegex = /^(?=[\w\s-]{2,10}$)(?!.*[\s-]{2})[^-\s_][\w\s-]*[^-\s_]$/;
-
-    // \w matches any word character (equivalent to [a-zA-Z0-9_])
-    // \s matches any whitespace character (spaces)
-    // The lookahead (?=[\w\s-]{2,10}$) checks the length and allowed characters
-    // The negative lookahead (?!.*[\s-]{2}) ensures no consecutive spaces or hyphens
-    // [^-\s_] at the beginning and end asserts the string does not start or end with hyphen, space, or underscore
-
-    return validTagRegex.test(tag);
-};
-
-const getIconName = (label, itemLabel) => {
+const getIconName = (label, itemLabel, metadata) => {
     switch (label) {
         case "Products":
             if (itemLabel === "FE") {
@@ -46,7 +33,7 @@ const getIconName = (label, itemLabel) => {
         case "Campaigns":
             if (itemLabel === "LEADCENTER") {
                 return <LeadCenter />;
-            } else if (itemLabel.includes("PE")) {
+            } else if (itemLabel?.includes("PE") || metadata?.includes("PlanEnroll")) {
                 return <PlanEnroll />;
             } else if (itemLabel === "DATA LEAD") {
                 return <DataCenter />;
@@ -74,13 +61,13 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
     }, []);
 
     useEffect(() => {
-        if (label === "Ask Integrity Recommendations") {
+        if (label === "Ask Integrity Recommendations" || label === "Campaigns") {
             setOpen(true);
         }
     }, [label]);
 
     const onSelectTag = (id) => {
-        if (!id || label === "Ask Integrity Recommendations") return;
+        if (!id || label === "Ask Integrity Recommendations" || label === "Campaigns") return;
         if (selectedTags.includes(id)) {
             const payload = {
                 leadId: leadId,
@@ -102,17 +89,32 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
     };
 
     const deleteTags = () => {
-        removeLeadTags(tagToDelete);
+        const payload = {
+            leadId: leadId,
+            tagIds: selectedTags.filter((item) => item !== tagToDelete),
+        };
+        editLeadTags(payload);
         setIsDeleteTagModalOpen(false);
     };
 
     const Tag = ({ item }) => {
         return (
+            <div key={item.label} className={styles.itemContainer}>
+                <div className={styles.tabLabel}>
+                    <div className={styles.tagIcon}>{getIconName(label, item.label, item?.tag?.metadata)}</div>
+                    <Label value={item.label} size="16px" color="#434A51" />
+                </div>
+            </div>
+        );
+    };
+
+    const ProductTags = ({ item }) => {
+        return (
             <div
                 key={item.label}
-                className={`${styles.itemContainer} ${
-                    selectedTags?.includes(item?.id) && label === "Products" ? styles.selectedItem : ""
-                } ${label === "Products" ? styles.hoverEffect : ""}`}
+                className={`${styles.selectableItemContainer} ${
+                    selectedTags?.includes(item?.id) ? styles.selectedItem : ""
+                }`}
                 onClick={() => onSelectTag(item.id)}
             >
                 <div className={styles.tabLabel}>
@@ -129,7 +131,7 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
         return (
             <>
                 <div
-                    className={styles.itemContainer}
+                    className={styles.selectableItemContainer}
                     key={item?.label}
                     onMouseOver={() => setHovered(item?.label)}
                     onMouseLeave={() => setHovered(null)}
@@ -174,11 +176,12 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
                     {items.map((item) => {
                         return (
                             <>
-                                {label === "Other" ? (
+                                {label === "Other" && (
                                     <>{selectedTags.includes(item.id) && <OtherTags item={item} tagId={tagId} />}</>
-                                ) : (
-                                    <Tag item={item} />
                                 )}
+
+                                {label === "Products" && <ProductTags item={item} />}
+                                {label !== "Products" && label !== "Other" && <Tag item={item} />}
                             </>
                         );
                     })}
@@ -194,7 +197,7 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
                     body="Would you like to remove this tag from this contact?"
                 />
             )}
-            {label === "Other" && items?.length < 11 && open && (
+            {label === "Other" && open && (
                 <AssignNewTagContainer allTags={items} selectedTags={selectedTags} leadId={leadId} />
             )}
         </div>

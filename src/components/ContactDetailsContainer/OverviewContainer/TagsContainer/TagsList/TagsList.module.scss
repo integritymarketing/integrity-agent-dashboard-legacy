@@ -28,9 +28,8 @@
     justify-content: space-between;
     gap: 5px;
     padding: 6px 12.5px;
-    cursor: pointer;
     margin-top: 10px;
-
+    border-radius: 4px;
     @include small {
         padding: 4px;
         gap: 2px;
@@ -42,12 +41,31 @@
     }
 }
 
-.hoverEffect{
+.selectableItemContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 6px 12.5px;
+    margin-top: 10px;
+    border-radius: 4px;
+    cursor: pointer;
     &:hover {
-        background-color: #D9E4FF;
-        border-radius: 4px;
+      background-color: #D9E4FF;
+  }
+    @include small {
+        padding: 4px;
+        gap: 2px;
+
+        svg {
+            width: 16px;
+            min-width: 16px;
+        }
     }
+
 }
+
+ 
 
 .tabLabel{
     display: flex;
@@ -139,5 +157,5 @@
 
 .selectedItem{
   background-color: #F1FAFF;
-  border-radius: 4px;
+  
 }

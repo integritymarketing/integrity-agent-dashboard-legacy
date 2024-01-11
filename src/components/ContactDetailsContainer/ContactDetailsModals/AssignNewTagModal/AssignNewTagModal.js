@@ -112,7 +112,6 @@ export const AssignNewTagModal = ({
                             sx={{
                                 display: "flex",
                                 flexDirection: "row",
-                                flexWrap: "wrap",
                                 justifyContent: "space-between",
                                 width: "100%",
                                 marginTop: "10px",
@@ -122,8 +121,6 @@ export const AssignNewTagModal = ({
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
-                                    flexWrap: "wrap",
-                                    justifyContent: "space-between",
                                     width: "45%",
                                 }}
                             >
@@ -137,8 +134,6 @@ export const AssignNewTagModal = ({
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
-                                    flexWrap: "wrap",
-                                    justifyContent: "space-between",
                                     width: "45%",
                                 }}
                             >
@@ -149,16 +144,18 @@ export const AssignNewTagModal = ({
                                 })}
                             </Box>
                         </Box>
-                        <Box>
-                            <Button
-                                label={"Create New Tag"}
-                                className={styles.addNewButton}
-                                type="tertiary"
-                                onClick={setAddNewTagModal}
-                                icon={<Add color="#4178ff" />}
-                                iconPosition="left"
-                            />
-                        </Box>
+                        {allTags?.length < 11 && (
+                            <Box>
+                                <Button
+                                    label={"Create New Tag"}
+                                    className={styles.addNewButton}
+                                    type="tertiary"
+                                    onClick={setAddNewTagModal}
+                                    icon={<Add color="#4178ff" />}
+                                    iconPosition="left"
+                                />
+                            </Box>
+                        )}
                     </Box>
                 </Box>
             </Modal>
