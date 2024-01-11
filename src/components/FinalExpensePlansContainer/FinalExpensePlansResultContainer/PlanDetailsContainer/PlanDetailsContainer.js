@@ -196,7 +196,7 @@ export const PlanDetailsContainer = ({
                         <div className={styles.alertIcon}>
                             <AlertIcon />
                         </div>
-                        <div>{fetchPlansError ? FETCH_PLANS_ERROR : NO_PLANS_ERROR}</div>
+                        <div>{fetchPlansError ? NO_PLANS_ERROR : FETCH_PLANS_ERROR}</div>
                     </div>
                 )}
                 {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
