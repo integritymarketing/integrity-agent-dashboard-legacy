@@ -204,7 +204,8 @@ export const PlanDetailsContainer = ({
                         <PersonalisedQuoteBox />
                         {pagedResults.map((plan, index) => {
                             const {
-                                carrier: { name, logoUrl },
+                                carrier: { logoUrl },
+                                product: { name },
                                 coverageType,
                                 faceValue,
                                 modalRates,
