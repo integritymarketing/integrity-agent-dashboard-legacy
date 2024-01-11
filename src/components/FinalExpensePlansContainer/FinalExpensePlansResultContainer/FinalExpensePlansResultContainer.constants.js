@@ -25,4 +25,5 @@ export const MONTHLY_PREMIUM_VALIDATION = "Monthly premium must be between $10 a
 export const PRESCREEN_AVAILABLE = "Prescreen Available";
 export const ELIGIBILTY_NOTES = "Eligibility Notes";
 export const PRESCREEN_AVAILABLE_NOTES = "The applicant may be eligible for coverage based on identified conditions.";
+export const PRESCREEN_NOTES = "The applicant may not be eligible for coverage due to:";
 export const PRESCREEN_NOT_AVAILABLE_NOTES = "We are unable to prescreen eligibility for this product.";
