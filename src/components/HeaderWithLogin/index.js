@@ -1,15 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { ActionButton } from "@integritymarketing/ui-button-components";
 import { Text } from "@integritymarketing/ui-text-components";
 
+import IntegrityLogo from "./Integrity-logo";
 import styles from "./styles.module.scss";
-import { Link } from "react-router-dom";
-import BrandLogo from "./brand-logo";
 
 const HeaderWithLogin = ({ className = "", onLogin }) => (
     <header className={`${className} ${styles.headerWithLogin}`} data-gtm="headerWithLogin">
-        <BrandLogo />
+        <IntegrityLogo />
         {false && (
             <>
                 <Text className={styles.faqLink} text="FAQ" />

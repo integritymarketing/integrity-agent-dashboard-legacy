@@ -15,7 +15,7 @@ import useUserProfile from "hooks/useUserProfile";
 import GetStarted from "packages/GetStarted";
 import InboundCallBanner from "packages/InboundCallBanner";
 
-import BrandLogo from "components/HeaderWithLogin/brand-logo";
+import IntegrityLogo from "components/HeaderWithLogin/Integrity-logo";
 import Modal from "components/ui/modal";
 
 import ContactInfo from "partials/contact-info";
@@ -131,69 +131,69 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         },
         auth.isAuthenticated() && !menuHidden
             ? {
-                primary: [
-                    {
-                        component: Link,
-                        props: {
-                            to: "/dashboard",
-                            className: analyticsService.clickClass("dashbaord-header"),
-                        },
-                        label: "Dashboard",
-                        img: MobileHome,
-                    },
-                    {
-                        component: Link,
-                        props: {
-                            to: "/contacts",
-                            className: analyticsService.clickClass("contacts-header"),
-                        },
-                        label: "Contacts",
-                        img: MobileContacts,
-                    },
-                    {
-                        component: Link,
-                        props: { to: "/account" },
-                        label: "Account",
-                        img: MobileAccount,
-                    },
-                ],
-                secondary: [
-                    {
-                        component: Link,
-                        props: {
-                            to: "/help",
-                        },
-                        label: "Need Help?",
-                        img: NeedHelp,
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                handleCSGSSO(navigate, loadingHook);
-                            },
-                        },
-                        label: "CSG App",
-                    },
-                ],
-                tertiary: [
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => auth.logout(),
-                        },
-                        label: "Sign Out",
-                        img: MobileLogout,
-                    },
-                ],
-            }
+                  primary: [
+                      {
+                          component: Link,
+                          props: {
+                              to: "/dashboard",
+                              className: analyticsService.clickClass("dashbaord-header"),
+                          },
+                          label: "Dashboard",
+                          img: MobileHome,
+                      },
+                      {
+                          component: Link,
+                          props: {
+                              to: "/contacts",
+                              className: analyticsService.clickClass("contacts-header"),
+                          },
+                          label: "Contacts",
+                          img: MobileContacts,
+                      },
+                      {
+                          component: Link,
+                          props: { to: "/account" },
+                          label: "Account",
+                          img: MobileAccount,
+                      },
+                  ],
+                  secondary: [
+                      {
+                          component: Link,
+                          props: {
+                              to: "/help",
+                          },
+                          label: "Need Help?",
+                          img: NeedHelp,
+                      },
+                      {
+                          component: "button",
+                          props: {
+                              type: "button",
+                              onClick: () => {
+                                  handleCSGSSO(navigate, loadingHook);
+                              },
+                          },
+                          label: "CSG App",
+                      },
+                  ],
+                  tertiary: [
+                      {
+                          component: "button",
+                          props: {
+                              type: "button",
+                              onClick: () => auth.logout(),
+                          },
+                          label: "Sign Out",
+                          img: MobileLogout,
+                      },
+                  ],
+              }
             : {
-                primary: [],
-                secondary: [],
-                tertiary: [],
-            }
+                  primary: [],
+                  secondary: [],
+                  tertiary: [],
+              }
     );
 
     const menuProps = Object.assign(
@@ -203,81 +203,81 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         },
         auth.isAuthenticated() && !menuHidden
             ? {
-                primary: [
-                    {
-                        component: Link,
-                        props: {
-                            to: "/dashboard",
-                            className: analyticsService.clickClass("dashbaord-header"),
-                        },
-                        label: "Dashboard",
-                    },
-                    {
-                        component: Link,
-                        props: {
-                            to: "/contacts",
-                            className: analyticsService.clickClass("contacts-header"),
-                        },
-                        label: "Contacts",
-                    },
-                    {
-                        component: Link,
-                        props: {
-                            to: "/learning-center",
-                            className: analyticsService.clickClass("learningcenter-header"),
-                        },
-                        label: "Learning Center",
-                    },
-                ],
-                secondary: [
-                    {
-                        component: Link,
-                        props: { to: "/account" },
-                        label: "Account",
-                        img: Account,
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () =>
-                                window.open(`/leadcenter-redirect/${agentInformation?.agentNPN}`, "_blank"),
-                        },
-                        label: "LeadCENTER",
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                handleCSGSSO(navigate, loadingHook);
-                            },
-                        },
-                        label: "CSG APP",
-                    },
-                    {
-                        component: Link,
-                        props: {
-                            to: "/help",
-                        },
-                        label: "Need Help?",
-                        img: NeedHelp,
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => auth.logout(),
-                        },
-                        label: "Sign Out",
-                        img: Logout,
-                    },
-                ],
-            }
+                  primary: [
+                      {
+                          component: Link,
+                          props: {
+                              to: "/dashboard",
+                              className: analyticsService.clickClass("dashbaord-header"),
+                          },
+                          label: "Dashboard",
+                      },
+                      {
+                          component: Link,
+                          props: {
+                              to: "/contacts",
+                              className: analyticsService.clickClass("contacts-header"),
+                          },
+                          label: "Contacts",
+                      },
+                      {
+                          component: Link,
+                          props: {
+                              to: "/learning-center",
+                              className: analyticsService.clickClass("learningcenter-header"),
+                          },
+                          label: "Learning Center",
+                      },
+                  ],
+                  secondary: [
+                      {
+                          component: Link,
+                          props: { to: "/account" },
+                          label: "Account",
+                          img: Account,
+                      },
+                      {
+                          component: "button",
+                          props: {
+                              type: "button",
+                              onClick: () =>
+                                  window.open(`/leadcenter-redirect/${agentInformation?.agentNPN}`, "_blank"),
+                          },
+                          label: "LeadCENTER",
+                      },
+                      {
+                          component: "button",
+                          props: {
+                              type: "button",
+                              onClick: () => {
+                                  handleCSGSSO(navigate, loadingHook);
+                              },
+                          },
+                          label: "CSG APP",
+                      },
+                      {
+                          component: Link,
+                          props: {
+                              to: "/help",
+                          },
+                          label: "Need Help?",
+                          img: NeedHelp,
+                      },
+                      {
+                          component: "button",
+                          props: {
+                              type: "button",
+                              onClick: () => auth.logout(),
+                          },
+                          label: "Sign Out",
+                          img: Logout,
+                      },
+                  ],
+              }
             : {
-                primary: [],
-                secondary: [],
-            }
+                  primary: [],
+                  secondary: [],
+              }
     );
 
     useEffect(() => {
@@ -365,7 +365,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                 ) : (
                     <h1 className={`global-nav-v2__title ${analyticsService.clickClass("nav-logo")}`}>
                         <Link to={auth.isAuthenticated() ? "/dashboard" : "/welcome"}>
-                            <BrandLogo />
+                            <IntegrityLogo />
                             <span className="visually-hidden">Medicare Center</span>
                         </Link>
                     </h1>

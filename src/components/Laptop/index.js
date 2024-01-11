@@ -1,6 +1,6 @@
 import React from "react";
-import image from "./serveClientImage.png";
 
+import image from "./ServeClient.png";
 import styles from "./styles.module.scss";
 
 const Laptop = () => (
