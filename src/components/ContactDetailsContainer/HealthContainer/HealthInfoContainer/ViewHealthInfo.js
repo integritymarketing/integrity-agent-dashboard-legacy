@@ -1,8 +1,11 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+
+import { formatDate, getAgeFromBirthDate } from "utils/dates";
+
+import styles from "./HealthInfoContainer.module.scss";
+
 import { AGE, BIRTHDATE, GENDER, HEALTH_INFO, HEIGHT, SMOKER, WEIGHT, WT_UNIT } from "../HealthContainer.constants";
 import { EditIcon } from "../icons/EditIcon";
-import styles from "./HealthInfoContainer.module.scss";
-import { formatDate, getAgeFromBirthDate } from 'utils/dates';
 
 export const ViewHealthInfo = ({ birthdate, gender, height, weight, smoker, onEdit }) => {
     return (
@@ -34,20 +37,20 @@ export const ViewHealthInfo = ({ birthdate, gender, height, weight, smoker, onEd
             </div>
             <div className={styles.inputBox}>
                 <div className={styles.label}>{WEIGHT}</div>
-                <div className={styles.value}>{`${weight} ${WT_UNIT}`}</div>
+                <div className={styles.value}>{weight ? `${weight} ${WT_UNIT}` : ""}</div>
             </div>
             <div className={styles.inputBox}>
                 <div className={styles.label}>{SMOKER}</div>
                 <div className={styles.value}>{smoker}</div>
             </div>
         </div>
-    )
-}
+    );
+};
 ViewHealthInfo.propTypes = {
     birthdate: PropTypes.string,
     gender: PropTypes.string,
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     weight: PropTypes.number,
     smoker: PropTypes.string,
-    onEdit: PropTypes.func.isRequired
+    onEdit: PropTypes.func.isRequired,
 };

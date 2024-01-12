@@ -51,7 +51,7 @@ const TagsContainer = function () {
                 setTagsList(filteredTags);
             }
         }
-    }, [leadDetails]);
+    }, [leadDetails, tagsList]);
 
     const filterCampaignTags = (tagCategory, selectedIds) => {
         if (tagCategory.label === "Campaigns" && tagCategory.items.length) {

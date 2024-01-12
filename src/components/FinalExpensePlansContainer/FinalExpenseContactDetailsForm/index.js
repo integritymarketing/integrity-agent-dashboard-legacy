@@ -99,7 +99,14 @@ const FinalExpenseContactDetailsForm = ({
 
     const onSaveHealthInfo = async () => {
         const birthdate = bDate ? formatDate(bDate) : "";
-        const formData = { stateCode, gender, birthdate, height: +(feet * 12) + +inch, weight, isTobaccoUser };
+        const formData = {
+            stateCode,
+            gender,
+            birthdate,
+            height: feet ? +(feet * 12) + +inch : null,
+            weight: weight ? weight : null,
+            isTobaccoUser,
+        };
         setIsSaving(true);
         await onSave(formData);
         setIsSaving(false);

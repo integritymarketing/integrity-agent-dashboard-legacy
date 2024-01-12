@@ -49,7 +49,7 @@ const getIconName = (label, itemLabel, metadata) => {
 };
 
 export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagId, setTagId }) => {
-    const { removeLeadTags, editLeadTags } = useOverView();
+    const { editLeadTags } = useOverView();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
 

@@ -84,8 +84,8 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
         const formData = {
             gender,
             birthdate: bDate ? formatDate(bDate) : "",
-            height: +(feet * 12) + +inch,
-            weight,
+            height: feet ? +(feet * 12) + +inch : null,
+            weight: weight ? weight : null,
             isTobaccoUser: isTobaccoUser === "Yes",
         };
         onSave(formData);

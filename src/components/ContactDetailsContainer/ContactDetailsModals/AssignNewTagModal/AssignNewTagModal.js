@@ -144,7 +144,7 @@ export const AssignNewTagModal = ({
                                 })}
                             </Box>
                         </Box>
-                        {allTags?.length < 11 && (
+                        {allTags?.length < 10 && (
                             <Box>
                                 <Button
                                     label={"Create New Tag"}
