@@ -1,3 +1,5 @@
+@import "src/scss/globalDefines.scss";
+
 .planContainer {
     display: flex;
     flex-direction: column;
@@ -5,6 +7,10 @@
     color: #434a51;
     width: 65%;
     max-width: 768px;
+
+    @include small {
+        width: 100%;
+    }
 
     .noPlans {
         display: flex;
@@ -99,7 +105,7 @@
             gap: 16px;
             border-left: 1px solid #cccccc;
 
-            > div > span {
+            >div>span {
                 padding-right: 2rem;
             }
         }
