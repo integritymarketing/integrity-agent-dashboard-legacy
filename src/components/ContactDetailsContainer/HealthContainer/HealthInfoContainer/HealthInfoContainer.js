@@ -12,6 +12,18 @@ const HealthInfoContainer = () => {
     const [isEditHealthInfo, setIsEditHealthInfo] = useState(false);
     const { leadDetails, updateLeadDetails } = useLeadDetails();
 
+    const formatMbiNumber = (value) => {
+        if (!value) return;
+        let formattedValue = value.replace(/-/g, "");
+        if (formattedValue.length > 4) {
+            formattedValue = formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
+        }
+        if (formattedValue.length > 8) {
+            formattedValue = formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
+        }
+        return formattedValue.toUpperCase();
+    };
+
     const {
         birthdate,
         gender,
