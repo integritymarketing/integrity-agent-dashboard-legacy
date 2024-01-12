@@ -1,19 +1,24 @@
+import * as Sentry from "@sentry/react";
+import React, { useContext } from "react";
+
 import { ActionButton } from "@integritymarketing/ui-button-components";
 
+import useFlashMessage from "hooks/useFlashMessage";
+
+import IntegrityLogo from "components/HeaderWithLogin/Integrity-logo";
+import VideoPlayer from "components/VideoPlayer";
+
 import SimpleFooter from "partials/simple-footer";
-import React, { useContext } from "react";
+
+import AuthContext from "contexts/auth";
+
+import Styles from "./LandingPage.module.scss";
 import Feature1 from "./features/Feature1";
 import Feature2 from "./features/Feature2";
 import Feature3 from "./features/Feature3";
 import Feature4 from "./features/Feature4";
 import GetStarted from "./getStarted/GetStarted";
-import Styles from "./LandingPage.module.scss";
 import Testimonial from "./testimonial/Testimonial";
-import AuthContext from "contexts/auth";
-import useFlashMessage from "hooks/useFlashMessage";
-import * as Sentry from "@sentry/react";
-import VideoPlayer from "components/VideoPlayer";
-import BrandLogo from "components/HeaderWithLogin/brand-logo";
 
 const LandingPage = () => {
     const auth = useContext(AuthContext);
@@ -33,7 +38,7 @@ const LandingPage = () => {
         <>
             {/* Header */}
             <div className={Styles.header}>
-                <BrandLogo />
+                <IntegrityLogo />
                 <ActionButton className={Styles.loginButton} text="Login" onClick={handleLogin} />
             </div>
             {/* Hero */}
