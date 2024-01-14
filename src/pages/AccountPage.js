@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as Sentry from "@sentry/react";
 import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
@@ -12,22 +13,17 @@ import { agentPhoneAtom, welcomeModalOpenAtom } from "recoil/agent/atoms";
 
 import { isEmptyObj } from "utils/shared-utils/sharedUtility";
 
-import { useAgentAvailability } from "hooks/useAgentAvailability";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useFetch from "hooks/useFetch";
 import useLoading from "hooks/useLoading";
 import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
 
-import Dialog from "packages/Dialog";
 import Heading2 from "packages/Heading2";
 
-import HealthIcon from "components/icons/health";
 import EditIcon from "components/icons/icon-edit";
-import LifeIcon from "components/icons/life";
 import Container from "components/ui/container";
 import ResourceSection from "components/ui/resourcesCard";
-import Switch from "components/ui/switch";
 import Textfield from "components/ui/textfield";
 
 import GlobalFooter from "partials/global-footer";
@@ -44,24 +40,20 @@ import AgentPhone from "./Account/AgentPhone";
 import AgentWebsite from "./Account/AgentWebsite";
 import { SelfAttestedPermissions } from "./Account/SelfAttestedPermissions";
 import { SellingPreferences } from "./Account/SellingPreferences";
+import { LeadSource } from "./Account/AvailabilityPreferences/LeadSource";
 import styles from "./AccountPage.module.scss";
 import { useParams } from "react-router-dom";
 
-function CheckinPreferences({ npn }) {
+function CheckinPreferences() {
     const { agentId } = useUserProfile();
-    const showToast = useToast();
     const [phone, setPhone] = useState("");
     const [callForwardNumber, setCallForwardNumber] = useState("");
-    const [leadPreference, setLeadPreference] = useState({});
     const [loading, setLoading] = useState(true);
-    const [hasActiveCampaign, setHasActiveCampaign] = useState(false);
     const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
     const [phoneAtom] = useRecoilState(agentPhoneAtom);
-    const [showAvilabilityDialog, setShowAvilabilityDialog] = useState(false);
-    const [isAvailable, setIsAvailable] = useAgentAvailability();
 
     useEffect(() => {
-        const loadAsyncData = async () => {
+        const loadAsyncData = () => {
             getAgentAvailability(agentId);
         };
         loadAsyncData();
@@ -76,16 +68,13 @@ function CheckinPreferences({ npn }) {
         try {
             setLoading(true);
             const response = await clientsService.getAgentAvailability(agentId);
-            const { phone, agentVirtualPhoneNumber, callForwardNumber, leadPreference, hasActiveCampaign } =
-                response || {};
-            setHasActiveCampaign(hasActiveCampaign);
+            const { phone, agentVirtualPhoneNumber, callForwardNumber, leadPreference } = response || {};
             if (!agentVirtualPhoneNumber) {
                 await clientsService.genarateAgentTwiloNumber(agentId);
             }
             if (!leadPreference?.isAgentMobilePopUpDismissed) {
                 setWelcomeModalOpen(true);
             }
-            setLeadPreference({ ...leadPreference });
             setPhone(formatPhoneNumber(phone, true));
             if (callForwardNumber) {
                 setCallForwardNumber(callForwardNumber);
@@ -97,67 +86,6 @@ function CheckinPreferences({ npn }) {
         }
     };
 
-    const updateAgentPreferences = async (data) => {
-        try {
-            const response = await clientsService.updateAgentPreferences(data);
-
-            if (response?.leadPreference) {
-                setLeadPreference({ ...response.leadPreference });
-            }
-        } catch (error) {
-            showToast({
-                type: "error",
-                message: "Failed to Save the Preferences.",
-                time: 10000,
-            });
-            Sentry.captureException(error);
-        }
-    };
-
-    const handleLeadCenter = async () => {
-        setShowAvilabilityDialog(false);
-        const data = {
-            agentID: agentId,
-            leadPreference: {
-                ...leadPreference,
-                leadCenter: !leadPreference?.leadCenter,
-            },
-        };
-        await updateAgentPreferences(data);
-        if (isAvailable && leadPreference?.leadCenter && !leadPreference?.medicareEnrollPurl) {
-            await clientsService.updateAgentAvailability({
-                agentID: agentId,
-                availability: false,
-            });
-            setIsAvailable(false);
-            setShowAvilabilityDialog(true);
-        }
-    };
-
-    const handleMedicareEnroll = async () => {
-        setShowAvilabilityDialog(false);
-        const data = {
-            agentID: agentId,
-            leadPreference: {
-                ...leadPreference,
-                medicareEnrollPurl: !leadPreference?.medicareEnrollPurl,
-            },
-        };
-        await updateAgentPreferences(data);
-        if (isAvailable && leadPreference?.medicareEnrollPurl && !(leadPreference?.leadCenter && hasActiveCampaign)) {
-            await clientsService.updateAgentAvailability({
-                agentID: agentId,
-                availability: false,
-            });
-            setIsAvailable(false);
-            setShowAvilabilityDialog(true);
-        }
-    };
-
-    const handleLeadSourceClose = () => {
-        setShowAvilabilityDialog(!showAvilabilityDialog);
-    };
-
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -165,7 +93,6 @@ function CheckinPreferences({ npn }) {
     return (
         <SectionContainer title="Availability Preferences">
             <p className={styles.subText}>Calls to your Agent Phone Number will be forwarded to the number below.</p>
-
             <div>
                 <CallCenterContent
                     phone={phone}
@@ -174,41 +101,7 @@ function CheckinPreferences({ npn }) {
                     getAgentAvailability={getAgentAvailability}
                 />
             </div>
-            <div className={styles.leadCenter}>
-                <p className={styles.subTitle}>Lead Source</p>
-                <div className={styles.switchWrapper}>
-                    <div className={styles.health}>
-                        <NotificationSection
-                            title="Health"
-                            actionTitle={!hasActiveCampaign ? "Setup" : "Settings"}
-                            action={() => window.open(`/leadcenter-redirect/${npn}`, "_blank")}
-                            onChange={handleLeadCenter}
-                            disabled={!hasActiveCampaign}
-                            checked={hasActiveCampaign ? leadPreference?.leadCenter : false}
-                            icon={<HealthIcon />}
-                        />
-                    </div>
-
-                    <div className={styles.innerSection}>
-                        <NotificationSection
-                            title="PlanEnroll"
-                            onChange={handleMedicareEnroll}
-                            checked={leadPreference?.medicareEnrollPurl}
-                            icon={<LifeIcon />}
-                        />
-                    </div>
-                </div>
-            </div>
-            <Dialog
-                open={showAvilabilityDialog}
-                onClose={handleLeadSourceClose}
-                title="Lead Sources Disabled"
-                maxWidth="sm"
-                titleWithIcon={false}
-            >
-                You have disabled all lead sources. We have switched off your availability until additional lead sources
-                are enabled.
-            </Dialog>
+            <LeadSource />
         </SectionContainer>
     );
 }
@@ -321,50 +214,6 @@ const CallCenterContent = ({ agentId, phone, callForwardNumber, getAgentAvailabi
                 }}
             </Formik>
         </>
-    );
-};
-
-// const NotificationPreferences = () => {
-//   return (
-//     <SectionContainer
-//       fullWidth
-//       className={styles.notificationContainer}
-//       title="Notification Preferences"
-//     >
-//       <NotificationSection title="Allow email notifications" />
-//       <NotificationSection
-//         title="Scope of Appointment"
-//         subTitle="Get notified when a contact completes a SOA."
-//       />
-//       <NotificationSection
-//         title="Leads"
-//         subTitle="Get notified when a new lead is entered"
-//       />
-//       <NotificationSection
-//         title="Daily Reminders"
-//         subTitle="Get updates on your contacts daily."
-//       />
-//     </SectionContainer>
-//   );
-// };
-
-const NotificationSection = ({ title, subTitle, actionTitle, action, icon, checked, onChange, disabled }) => {
-    return (
-        <div className={styles.notificationSection}>
-            <div className={styles.iconTitle}>
-                {icon}
-                <span className={styles.notificationTitle}>
-                    {title}
-                    {subTitle && <span className={styles.notificationSubTitle}>{subTitle}</span>}
-                </span>
-            </div>
-            {actionTitle && action && (
-                <div className={styles.actionTitle} onClick={() => action()}>
-                    {actionTitle}
-                </div>
-            )}
-            <Switch className={styles.notificationSwitch} checked={checked} onChange={onChange} disabled={disabled} />
-        </div>
     );
 };
 

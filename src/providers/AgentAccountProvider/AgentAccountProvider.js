@@ -9,11 +9,11 @@ import Spinner from "components/ui/Spinner/index";
 const AgentAccountContext = createContext(null);
 
 export const AgentAccountProvider = ({ children }) => {
-    const { isLoading, updateAgentPreferences, leadPreference } = useAgentPreferencesData();
+    const { isLoading, updateAgentPreferences, leadPreference, agentAvailability } = useAgentPreferencesData();
 
     const contextValue = useMemo(
-        () => ({ updateAgentPreferences, leadPreference }),
-        [leadPreference, updateAgentPreferences]
+        () => ({ updateAgentPreferences, leadPreference, agentAvailability }),
+        [leadPreference, updateAgentPreferences, agentAvailability]
     );
 
     if (isLoading) {

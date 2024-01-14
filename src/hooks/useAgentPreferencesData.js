@@ -9,6 +9,7 @@ import clientsService from "services/clientsService";
 function useAgentPreferencesData() {
     const [isLoading, setIsLoading] = useState(false);
     const [leadPreference, setLeadPreference] = useState({});
+    const [agentAvailability, setAgentAvailability] = useState({});
     const { agentId } = useUserProfile();
     const showToast = useToast();
 
@@ -20,6 +21,7 @@ function useAgentPreferencesData() {
             setIsLoading(true);
             const response = await clientsService.getAgentAvailability(agentId);
             setLeadPreference(response?.leadPreference);
+            setAgentAvailability(response);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -53,7 +55,7 @@ function useAgentPreferencesData() {
         getAgentAccountData();
     }, [getAgentAccountData]);
 
-    return { leadPreference, isLoading, updateAgentPreferences };
+    return { leadPreference, isLoading, updateAgentPreferences, agentAvailability };
 }
 
 export default useAgentPreferencesData;

@@ -1,0 +1,41 @@
+import PropTypes from "prop-types";
+
+import Box from "@mui/material/Box";
+import { Switch } from "components/ui/version-2/Swich";
+
+import styles from "./styles.module.scss";
+
+function SectionItem({ title, subTitle, actionTitle, action, actionIcon, icon, checked, onChange, disabled }) {
+    return (
+        <Box className={styles.section}>
+            <Box display="flex" alignItems="center" justifyContent="space-between">
+                <Box className={styles.iconTitle}>
+                    <Box className={styles.icon}>{icon}</Box>
+                    <Box className={styles.title}>{title}</Box>
+                </Box>
+                {actionTitle && action && (
+                    <Box className={styles.actionTitle} onClick={action}>
+                        {actionTitle}
+                        {actionIcon && <Box>{actionIcon}</Box>}
+                    </Box>
+                )}
+                <Switch defaultChecked={checked} disabled={disabled} onChange={onChange} />
+            </Box>
+            {subTitle && <Box className={styles.subTitle}>{subTitle}</Box>}
+        </Box>
+    );
+}
+
+SectionItem.propTypes = {
+    title: PropTypes.string,
+    subTitle: PropTypes.string,
+    actionTitle: PropTypes.string,
+    action: PropTypes.func,
+    icon: PropTypes.element,
+    checked: PropTypes.bool,
+    onChange: PropTypes.func,
+    disabled: PropTypes.bool,
+    actionIcon: PropTypes.element,
+};
+
+export default SectionItem;
