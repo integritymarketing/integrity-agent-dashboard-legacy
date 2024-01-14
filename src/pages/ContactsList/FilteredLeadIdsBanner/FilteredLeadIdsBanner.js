@@ -1,18 +1,19 @@
 import Box from "@mui/material/Box";
 
-import useDuplicateLeadIds from "../hooks/useDuplicateLeadIds";
+import useFilteredLeadIds from "../hooks/useFilteredLeadIds";
 
 import RoundCloseIcon from "components/icons/round-close";
 import { useContactsListContext } from "../providers/ContactsListProvider";
 import styles from "./styles.module.scss";
 
-function DuplicateBanner() {
+function FilteredLeadIdsBanner() {
     const { refreshData } = useContactsListContext();
-    const { duplicateIds, removeDuplicateIds } = useDuplicateLeadIds();
-    const count = duplicateIds?.length ?? 0;
+    const { filteredIds, removeFilteredLeadIds, filteredInfo } = useFilteredLeadIds();
+    const count = filteredIds?.length ?? 0;
+    const text = count > 1 ? "Policies" : "Policy";
 
     const onClickHandle = () => {
-        removeDuplicateIds();
+        removeFilteredLeadIds();
         refreshData();
     };
 
@@ -22,7 +23,10 @@ function DuplicateBanner() {
 
     return (
         <Box className={styles.banner}>
-            <Box>{count} duplicates found</Box>
+            <Box className={`${styles.colorBar} ${styles[filteredInfo?.status]}`}></Box>
+            <Box>
+                {count} {filteredInfo?.status} {text}
+            </Box>
             <Box onClick={onClickHandle} className={styles.clearIcon}>
                 <RoundCloseIcon />
             </Box>
@@ -30,4 +34,4 @@ function DuplicateBanner() {
     );
 }
 
-export default DuplicateBanner;
+export default FilteredLeadIdsBanner;

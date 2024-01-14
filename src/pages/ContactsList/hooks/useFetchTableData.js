@@ -6,38 +6,6 @@ import useToast from "hooks/useToast";
 
 import clientsService from "services/clientsService";
 
-import usePolicyCount from "./usePolicyCount";
-
-/**
- * Merges two arrays of objects based on the 'leadId' property, combining the properties of each object.
- *
- * @param {Array} policyArray - Array of objects containing policy information.
- * @param {Array} leadArray - Array of objects containing lead information.
- * @returns {Array} - A new array containing merged objects with combined properties.
- */
-const mergeArrays = (policyArray, leadArray) => {
-    const mergedArray = [];
-
-    for (const lead of leadArray) {
-        const matchingPolicy = policyArray.find((policy) => policy.leadId === lead.leadId);
-
-        if (matchingPolicy) {
-            const mergedObject = {
-                ...lead,
-                lifePolicyCount: matchingPolicy.lifePolicyCount,
-                healthPolicyCount: matchingPolicy.healthPolicyCount,
-            };
-
-            mergedArray.push(mergedObject);
-        } else {
-            // If there's no matching policy, add the original lead to the mergedArray
-            mergedArray.push(lead);
-        }
-    }
-
-    return mergedArray;
-};
-
 const getAndResetItemFromLocalStorage = (key, initialValue) => {
     try {
         const item = window.localStorage.getItem(key);
@@ -57,7 +25,6 @@ function useFetchTableData() {
     const [pageResult, setPageResult] = useState(null);
     const showToast = useToast();
     const location = useLocation();
-    const { policyCounts, isLoading: loadingPolicyCount } = usePolicyCount();
 
     const queryParams = useMemo(() => {
         return new URLSearchParams(location.search);
@@ -108,9 +75,8 @@ function useFetchTableData() {
                             ? "Enrolled"
                             : res.contactRecordType,
                 }));
-                const mergedData = mergeArrays(policyCounts, listData);
                 setPageResult(response?.pageResult);
-                setTableData(mergedData);
+                setTableData(listData);
                 setAllLeads(listData?.map((contact) => contact.leadsId));
                 setIsLoading(false);
             } catch (error) {
@@ -123,10 +89,10 @@ function useFetchTableData() {
                 });
             }
         },
-        [showToast, applyFilters, policyCounts]
+        [showToast, applyFilters]
     );
 
-    return { tableData, isLoading: isLoading || loadingPolicyCount, fetchTableData, allLeads, pageResult };
+    return { tableData, isLoading: isLoading, fetchTableData, allLeads, pageResult };
 }
 
 export default useFetchTableData;

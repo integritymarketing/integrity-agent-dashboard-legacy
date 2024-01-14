@@ -7,15 +7,22 @@ import useUserProfile from "hooks/useUserProfile";
 
 const LEADS_API_VERSION = "v2.0";
 
-function usePolicyCount() {
+function generateURL(baseURL, leadIDs) {
+    const leadParams = leadIDs.map((leadID) => `leadIds=${leadID}`).join("&");
+    const url = `${baseURL}${leadParams ? `?${leadParams}` : ""}`;
+    return url;
+}
+
+function usePolicyCount(allLeads) {
     const [isLoading, setIsLoading] = useState(false);
     const [policyCounts, setPolicyCounts] = useState([]);
     const showToast = useToast();
     const { npn } = useUserProfile();
 
     const URL = `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/PolicyCount/${npn}`;
+    const updateURL = generateURL(URL, allLeads);
 
-    const { Get: getPolicyCount } = useFetch(URL);
+    const { Get: getPolicyCount } = useFetch(updateURL);
 
     const fetchPolicyCounts = useCallback(async () => {
         if (npn) {

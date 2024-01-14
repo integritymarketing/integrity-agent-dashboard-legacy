@@ -4,6 +4,8 @@ import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import useFetchTableData from "../hooks/useFetchTableData";
+import usePolicyCount from "../hooks/usePolicyCount";
+import useArrayMerger from "../hooks/useArrayMerger";
 
 import Spinner from "components/ui/Spinner/index";
 
@@ -24,6 +26,8 @@ export const ContactsListProvider = ({ children }) => {
 
     const location = useLocation();
     const { tableData, isLoading: isfetchingTableData, fetchTableData, allLeads, pageResult } = useFetchTableData();
+    const { policyCounts, isLoading: loadingPolicyCount } = usePolicyCount(allLeads);
+    const mergedData = useArrayMerger(policyCounts, tableData);
 
     const refreshData = useCallback(() => {
         fetchTableData({ pageIndex: 1, pageSize, searchString, sort });
@@ -47,7 +51,7 @@ export const ContactsListProvider = ({ children }) => {
 
     const contextValue = useMemo(
         () => ({
-            tableData,
+            tableData: mergedData,
             fetchTableData,
             setIsLoading,
             searchString,
@@ -69,7 +73,7 @@ export const ContactsListProvider = ({ children }) => {
             setPageSize,
         }),
         [
-            tableData,
+            mergedData,
             fetchTableData,
             searchString,
             pageSize,
@@ -94,7 +98,7 @@ export const ContactsListProvider = ({ children }) => {
         setLayout(location.pathname === CARD_PATH ? "card" : "list");
     }, [location.pathname]);
 
-    if (isfetchingTableData || isLoading) {
+    if (isfetchingTableData || isLoading || loadingPolicyCount) {
         return <Spinner />;
     }
 

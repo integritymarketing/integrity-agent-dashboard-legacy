@@ -12,14 +12,19 @@ import styles from "./styles.module.scss";
 
 function ContactsListHeader() {
     const navigate = useNavigate();
+    const shouldShowBackButton = history.length !== 1; // history.length === 1 meaning a new tab
 
     return (
         <Box className={styles.wrapper}>
             <Container className={styles.header}>
-                <Box className={styles.linkWhite} onClick={() => navigate(-1)}>
-                    <LeftCircleBlue />
-                    <Box>Back</Box>
-                </Box>
+                {shouldShowBackButton ? (
+                    <Box className={styles.linkWhite} onClick={() => navigate(-1)}>
+                        <LeftCircleBlue />
+                        <Box>Back</Box>
+                    </Box>
+                ) : (
+                    <Box></Box>
+                )}
                 <Box className={styles.title}>Contacts</Box>
                 <Box display="flex" gap="10px" alignItems="center">
                     <Box className={styles.linkWhite} onClick={() => navigate("/client-import")}>

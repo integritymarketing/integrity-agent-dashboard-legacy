@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 import { appProtectedRoutes, appRoutes } from "routeConfigs/AppRouteConfig";
 
-import useRemoveDuplicateIdsOnRouteChange from "hooks/useRemoveDuplicateIdsOnRouteChange";
+import useRemoveLeadIdsOnRouteChange from "hooks/useRemoveLeadIdsOnRouteChange";
 
 import { ProtectedRoute, UnProtectedRoute } from "components/functional/auth-routes";
 
@@ -13,7 +13,7 @@ const MaintenancePage = lazy(() => import("pages/MaintenancePage"));
 const Welcome = lazy(() => import("pages/welcome"));
 
 const App = () => {
-    useRemoveDuplicateIdsOnRouteChange();
+    useRemoveLeadIdsOnRouteChange();
     const isMaintainanceMode = process.env.REACT_APP_MAINTENANCE_MODE;
 
     if (isMaintainanceMode) {

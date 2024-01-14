@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const useRemoveDuplicateIdsOnRouteChange = () => {
+const useRemoveLeadIdsOnRouteChange = () => {
     const location = useLocation();
 
     useEffect(() => {
@@ -9,7 +9,8 @@ const useRemoveDuplicateIdsOnRouteChange = () => {
             return;
         }
         window.localStorage.removeItem("duplicateLeadIds");
+        window.localStorage.removeItem("filterLeadIds");
     }, [location.pathname]);
 };
 
-export default useRemoveDuplicateIdsOnRouteChange;
+export default useRemoveLeadIdsOnRouteChange;

@@ -21,6 +21,7 @@ import { ContactsCard } from "./ContactsCard";
 import { ContactsListActions } from "./ContactsListActions";
 import { ContactsTable } from "./ContactsTable";
 import { DuplicateBanner } from "./DuplicateBanner";
+import { FilteredLeadIdsBanner } from "./FilteredLeadIdsBanner";
 import { ContactsListModalProvider } from "./providers/ContactsListModalProvider";
 import { ContactsListProvider } from "./providers/ContactsListProvider";
 import styles from "./styles.module.scss";
@@ -43,6 +44,7 @@ function ContactsList() {
                         <Box className={styles.wrapper}>
                             <Container className={styles.container}>
                                 <ContactsListActions />
+                                <FilteredLeadIdsBanner />
                                 <DuplicateBanner />
                                 <Divider className={styles.divider} />
                                 <Routes>
