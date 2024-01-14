@@ -54,7 +54,6 @@ export const PlanCard = ({
         const body = getPlanEnrollBody(writingAgentNumber, agentFirstName, agentLastName, leadDetails, coverageAmount, planName, resource_url);
         console.log({ body });
         const response = await enrollLeadFinalExpensePlan(body);
-        console.log({ response });
 
         if (response.RedirectUrl) {
             window.open(response.RedirectUrl, "_blank");
