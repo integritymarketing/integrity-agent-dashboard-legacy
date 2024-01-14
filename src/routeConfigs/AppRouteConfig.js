@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 
 import { FinalExpensePlansProvider } from "providers/FinalExpense";
 
-import FinalExpenseHealthConditionsContainer from "components/FinalExpenseHealthConditionsContainer";
+
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
 const AccountPage = lazy(() => import("pages/Account/AccountPage"));
@@ -126,6 +126,7 @@ const appProtectedRoutes = [
         component: <EnrollmentLinkToContact />,
     },
     { path: "/account", component: <AccountPage /> },
+    { path: "/account/:section/", component: <AccountPage /> },
     { path: "/help", component: <HelpPage /> },
     { path: "/learning-center", component: <ResourcesPage /> },
     {

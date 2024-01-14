@@ -8,6 +8,7 @@ import {
     APPLY,
     COVERAGE_AMOUNT,
     COVERAGE_TYPE,
+    ENROLLEMENT_SERVICE,
     MONTHLY_PREMIUM,
     PLAN_INFO,
     POLICY_FEE,
@@ -18,11 +19,19 @@ import { Button } from "components/ui/Button";
 
 import styles from "./PlanDetailsContainer.module.scss";
 import { PrescreenModal } from "./PrescreenModal";
+import useFetch from "hooks/useFetch";
+import { useRecoilValue } from "recoil";
+import { agentInformationSelector } from "recoil/agent/selectors";
+import useContactDetails from "pages/ContactDetails/useContactDetails";
+import { getPlanEnrollBody } from "./PlanDetailsContainer.utils";
+import { FinalExpenseEnrollResponseModal } from "./FinalExpenseEnrollResponseModal";
 
 export const PlanCard = ({
     isMobile,
     planName,
     logoUrl,
+    resource_url,
+    naic,
     coverageType,
     coverageAmount,
     monthlyPremium,
@@ -32,8 +41,29 @@ export const PlanCard = ({
     benefits = [],
     isRTS,
     isHaveCarriers,
+    writingAgentNumber,
+    contactId
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
+    const { leadDetails } = useContactDetails(contactId);
+    const { agentFirstName, agentLastName } = useRecoilValue(agentInformationSelector);
+    const { Post: enrollLeadFinalExpensePlan } = useFetch(`${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`);
+    const [enrollResponse, setEnrollResponse] = useState(null);
+
+    const onApply = async () => {
+        const body = getPlanEnrollBody(writingAgentNumber, agentFirstName, agentLastName, leadDetails, coverageAmount, planName, resource_url);
+        console.log({ body });
+        const response = await enrollLeadFinalExpensePlan(body);
+        console.log({ response });
+
+        if (response.RedirectUrl) {
+            window.open(response.RedirectUrl, "_blank");
+        } else {
+            setEnrollResponse(response);
+        }
+    }
+
+
     const renderBenefits = () => (
         <table>
             <thead>
@@ -104,11 +134,16 @@ export const PlanCard = ({
                 eligibility={eligibility}
                 conditionList={conditionList}
             />
-
+            <FinalExpenseEnrollResponseModal
+                isOpen={enrollResponse !== null}
+                onClose={() => setEnrollResponse(null)}
+                enrollResponse={enrollResponse}
+            />
             <div className={styles.applyCTA}>
                 <Button
                     label={APPLY}
                     disabled={!isRTS || !isHaveCarriers}
+                    onClick={onApply}
                     type="primary"
                     icon={<ButtonCircleArrow />}
                     iconPosition="right"
@@ -123,6 +158,10 @@ PlanCard.propTypes = {
     isMobile: PropTypes.bool.isRequired,
     planName: PropTypes.string.isRequired,
     logoUrl: PropTypes.string.isRequired,
+    resource_url: PropTypes.string.isRequired,
+    naic: PropTypes.string.isRequired,
+    contactId: PropTypes.string.isRequired,
+    writingAgentNumber: PropTypes.string.isRequired,
     coverageType: PropTypes.string.isRequired,
     coverageAmount: PropTypes.number.isRequired,
     monthlyPremium: PropTypes.number.isRequired,

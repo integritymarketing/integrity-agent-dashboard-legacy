@@ -203,7 +203,7 @@ export const PlanDetailsContainer = ({
                         <PersonalisedQuoteBox />
                         {pagedResults.map((plan, index) => {
                             const {
-                                carrier: { logoUrl },
+                                carrier: { logoUrl, naic, resource_url },
                                 product: { name },
                                 coverageType,
                                 faceValue,
@@ -211,6 +211,7 @@ export const PlanDetailsContainer = ({
                                 policyFee,
                                 eligibility,
                                 reason,
+                                writingAgentNumber
                             } = plan;
                             let conditionList = [];
                             if (reason?.categoryReasons?.length > 0) {
@@ -237,6 +238,10 @@ export const PlanDetailsContainer = ({
                                     eligibility={eligibility}
                                     conditionList={conditionList}
                                     isRTS={isRTS}
+                                    naic={naic}
+                                    contactId={contactId}
+                                    resource_url={resource_url}
+                                    writingAgentNumber={writingAgentNumber}
                                     isHaveCarriers={carrierInfo?.length > 1}
                                 />
                             );

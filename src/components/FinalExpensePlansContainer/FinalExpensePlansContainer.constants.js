@@ -1,6 +1,7 @@
 import { AGENTS_API_VERSION } from "services/clientsService";
 
 export const AGENT_SERVICE_NON_RTS = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/isLifeNonRTS/`;
+export const ENROLLEMENT_SERVICE = `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/FinalExpense/lead/`;
 export const BACK = "Back";
 export const CONTACT_DETAILS = "Final Expense";
 export const CONTACT_FORM_TITLE = "Let's confirm a few details";

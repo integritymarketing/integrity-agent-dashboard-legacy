@@ -171,3 +171,27 @@
         }
     }
 }
+
+.errorDesc {
+    padding: 24px 0;
+}
+
+.modalTitle {
+    @include small {
+        padding: 2rem !important;
+    }
+}
+
+.btnWrapper {
+    display: flex;
+    justify-content: flex-end;
+
+    .viewSellingPermissions {
+        background-color: #4178FF;
+        padding: 10px 10px 11px 16px;
+        color: #ffffff;
+        font-weight: 600;
+        border: none;
+        border-radius: 30px !important;
+    }
+}

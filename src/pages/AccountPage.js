@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Media from "react-media";
 
@@ -45,6 +45,7 @@ import AgentWebsite from "./Account/AgentWebsite";
 import { SelfAttestedPermissions } from "./Account/SelfAttestedPermissions";
 import { SellingPreferences } from "./Account/SellingPreferences";
 import styles from "./AccountPage.module.scss";
+import { useParams } from "react-router-dom";
 
 function CheckinPreferences({ npn }) {
     const { agentId } = useUserProfile();
@@ -389,12 +390,20 @@ const AccountPage = () => {
     const { Put: updateAccountPassword } = useFetch(
         `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/updatepassword`
     );
+    const { section } = useParams();
+    const sellingPermissionsRef = useRef(null);
 
     useEffect(() => {
         analyticsService.fireEvent("event-content-load", {
             pagePath: "/update-account/",
         });
     }, []);
+
+    useEffect(() => {
+        if (section === 'sellingPermissions' && sellingPermissionsRef.current) {
+            sellingPermissionsRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
 
     const buttonTitle = (initialValues, values, errors) => {
         if (initialValues === values) {
@@ -780,7 +789,7 @@ const AccountPage = () => {
                 )}
 
                 <div className={styles.rtsTableContainer}>
-                    <ActivePermissions />
+                    <div ref={sellingPermissionsRef}><ActivePermissions /></div>
                     <SelfAttestedPermissions />
                     <div>
                         <ResourceSection />
