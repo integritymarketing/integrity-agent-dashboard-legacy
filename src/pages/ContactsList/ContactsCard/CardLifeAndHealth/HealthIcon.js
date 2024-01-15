@@ -9,7 +9,11 @@ import styles from "./styles.module.scss";
 
 function HealthIcon({ healthPolicyCount }) {
     if (healthPolicyCount === 0 || !healthPolicyCount) {
-        return <HealthInactive />;
+        return (
+            <Box marginTop="-3px">
+                <HealthInactive />
+            </Box>
+        );
     }
 
     return (
