@@ -56,7 +56,7 @@ function ContactsTable() {
                         return (
                             <Box position="relative" display="inline-block">
                                 <Heartactive />
-                                {value > 1 && <Box className={styles.count}>{value}</Box>}
+                                {/* {value > 1 && <Box className={styles.count}>{value}</Box>} */}
                             </Box>
                         );
                     }
@@ -73,7 +73,7 @@ function ContactsTable() {
                         return (
                             <Box position="relative" display="inline-block">
                                 <HealthActive />
-                                {value > 1 && <Box className={styles.count}>{value}</Box>}
+                                {/* {value > 1 && <Box className={styles.count}>{value}</Box>} */}
                             </Box>
                         );
                     }

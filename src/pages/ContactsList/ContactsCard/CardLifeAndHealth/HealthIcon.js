@@ -15,7 +15,7 @@ function HealthIcon({ healthPolicyCount }) {
     return (
         <Box position="relative" display="inline-block">
             <HealthActive />
-            {healthPolicyCount > 1 && <Box className={styles.count}>{healthPolicyCount}</Box>}
+            {/* {healthPolicyCount > 1 && <Box className={styles.count}>{healthPolicyCount}</Box>} */}
         </Box>
     );
 }

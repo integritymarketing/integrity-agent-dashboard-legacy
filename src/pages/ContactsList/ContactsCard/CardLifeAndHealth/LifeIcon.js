@@ -14,7 +14,7 @@ function LifeIcon({ lifePolicyCount }) {
     return (
         <Box position="relative" display="inline-block">
             <Heartactive />
-            {lifePolicyCount > 1 && <Box className={styles.count}>{lifePolicyCount}</Box>}
+            {/* {lifePolicyCount > 1 && <Box className={styles.count}>{lifePolicyCount}</Box>} */}
         </Box>
     );
 }
