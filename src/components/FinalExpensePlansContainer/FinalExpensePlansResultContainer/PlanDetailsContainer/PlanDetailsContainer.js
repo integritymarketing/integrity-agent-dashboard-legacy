@@ -211,7 +211,9 @@ export const PlanDetailsContainer = ({
                                 policyFee,
                                 eligibility,
                                 reason,
-                                writingAgentNumber
+                                writingAgentNumber,
+                                isRTS: isRTSPlan
+
                             } = plan;
                             let conditionList = [];
                             if (reason?.categoryReasons?.length > 0) {
@@ -237,12 +239,12 @@ export const PlanDetailsContainer = ({
                                     policyFee={policyFee}
                                     eligibility={eligibility}
                                     conditionList={conditionList}
-                                    isRTS={isRTS}
+                                    isRTSPlan={isRTSPlan}
                                     naic={naic}
                                     contactId={contactId}
                                     resource_url={resource_url}
                                     writingAgentNumber={writingAgentNumber}
-                                    isHaveCarriers={carrierInfo?.length > 1}
+                                    isHaveCarriers={carrierInfo?.length > 0}
                                 />
                             );
                         })}

@@ -39,7 +39,7 @@ export const PlanCard = ({
     eligibility,
     conditionList,
     benefits = [],
-    isRTS,
+    isRTSPlan,
     isHaveCarriers,
     writingAgentNumber,
     contactId
@@ -52,7 +52,6 @@ export const PlanCard = ({
 
     const onApply = async () => {
         const body = getPlanEnrollBody(writingAgentNumber, agentFirstName, agentLastName, leadDetails, coverageAmount, planName, resource_url);
-        console.log({ body });
         const response = await enrollLeadFinalExpensePlan(body);
 
         if (response.RedirectUrl) {
@@ -141,12 +140,12 @@ export const PlanCard = ({
             <div className={styles.applyCTA}>
                 <Button
                     label={APPLY}
-                    disabled={!isRTS || !isHaveCarriers}
+                    disabled={!isRTSPlan || !isHaveCarriers}
                     onClick={onApply}
                     type="primary"
                     icon={<ButtonCircleArrow />}
                     iconPosition="right"
-                    className={`${styles.applyButton} ${!isRTS || !isHaveCarriers ? styles.disabled : ""}`}
+                    className={`${styles.applyButton} ${!isRTSPlan || !isHaveCarriers ? styles.disabled : ""}`}
                 />
             </div>
         </div>
