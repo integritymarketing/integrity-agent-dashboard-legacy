@@ -59,6 +59,7 @@ function SAAddNewRow() {
             producerId: producerIdValue,
             isSelfAttested: "Yes",
             inActive: 0,
+            naic: original?.naic,
         };
         addRecord(payload);
         handleCancelLife();

@@ -81,7 +81,7 @@ function Table({ data }) {
                         <Box>
                             <Box className={styles.title}>Carrier</Box>
                             <Select
-                                placeholder={row?.original.carrierName}
+                                placeholder={row?.original.displayCarrierName}
                                 style={{ width: "100%" }}
                                 showValueAlways={false}
                                 disabled={true}

@@ -18,7 +18,7 @@ function useCarrierOptions() {
         if (res.ok) {
             const data = await res.json();
             const formattedOptions = data.map((record) => ({
-                label: record.carrierName,
+                label: record.displayCarrierName,
                 value: record.carrierId,
             }));
             setOriginals(data);
@@ -34,7 +34,7 @@ function useCarrierOptions() {
         }
     }, [fetchCarriesData, options]);
 
-    return { options, error, originals };
+    return { options, error, originals, fetchCarriesData };
 }
 
 export default useCarrierOptions;

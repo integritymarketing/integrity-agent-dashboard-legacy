@@ -10,7 +10,7 @@ import { useSALifeProductContext } from "../providers/SALifeProductProvider";
 const AGENTS_API_VERSION = "v1.0";
 
 function useDataHandler() {
-    const { fetchTableData, setError } = useSALifeProductContext();
+    const { fetchTableData, setError, fetchCarriesData } = useSALifeProductContext();
     const showToast = useToast();
     const { npn } = useUserProfile();
 
@@ -23,6 +23,7 @@ function useDataHandler() {
             const res = await updateSALifeRecord(payload, true);
             if (res.ok) {
                 await fetchTableData();
+                await fetchCarriesData();
             } else {
                 setError(true);
                 Sentry.captureException(res.statusText);
@@ -33,7 +34,7 @@ function useDataHandler() {
                 });
             }
         },
-        [fetchTableData, showToast, updateSALifeRecord, setError]
+        [fetchTableData, showToast, updateSALifeRecord, setError, fetchCarriesData]
     );
 
     const addRecord = useCallback(
@@ -41,6 +42,7 @@ function useDataHandler() {
             const res = await addSALifeRecord(payload, true);
             if (res.ok) {
                 await fetchTableData();
+                await fetchCarriesData();
             } else {
                 setError(true);
                 Sentry.captureException(res.statusText);
@@ -51,7 +53,7 @@ function useDataHandler() {
                 });
             }
         },
-        [fetchTableData, showToast, addSALifeRecord, setError]
+        [fetchTableData, showToast, addSALifeRecord, setError, fetchCarriesData]
     );
 
     return { updateRecord, addRecord };

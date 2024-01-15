@@ -13,7 +13,7 @@ export const SALifeProductProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const { tableData, isLoading: isfetchingTableData, fetchTableData } = useFetchTableData();
-    const { options, error: getCarrierError, originals } = useCarrierOptions();
+    const { options, error: getCarrierError, originals, fetchCarriesData } = useCarrierOptions();
 
     const hasError = getCarrierError || error;
 
@@ -27,8 +27,9 @@ export const SALifeProductProvider = ({ children }) => {
             setError,
             options,
             originals,
+            fetchCarriesData,
         }),
-        [tableData, fetchTableData, options, hasError, originals]
+        [tableData, fetchTableData, options, hasError, originals, fetchCarriesData]
     );
 
     if (isfetchingTableData || isLoading) {
