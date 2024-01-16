@@ -15,7 +15,12 @@ function PlanEnroll({ setShowAvilabilityDialog }) {
     const { agentId } = useUserProfile();
     const [isAvailable, setIsAvailable] = useAgentAvailability();
 
-    const hasActiveCampaign = agentAvailability?.hasActiveCampaign;
+    const hasActiveLifeCallCampaign = agentAvailability?.activeCampaign?.hasActiveLifeCallCampaign;
+    const hasActiveHealthCallCampaign = agentAvailability?.activeCampaign?.hasActiveHealthCallCampaign;
+
+    const isLifeCheck = hasActiveLifeCallCampaign ? leadPreference?.leadCenterLife : false;
+    const isHealthChecked = hasActiveHealthCallCampaign ? leadPreference?.leadCenter : false;
+    const shouldDisable = !isLifeCheck && !isHealthChecked;
 
     const handleMedicareEnroll = async () => {
         setShowAvilabilityDialog(false);
@@ -27,11 +32,7 @@ function PlanEnroll({ setShowAvilabilityDialog }) {
             },
         };
         await updateAgentPreferences(data);
-        if (
-            isAvailable &&
-            leadPreference?.medicareEnrollPurl &&
-            !(leadPreference?.leadCenter && hasActiveCampaign && leadPreference?.leadCenterLife)
-        ) {
+        if (isAvailable && leadPreference?.medicareEnrollPurl && !isHealthChecked && !isHealthChecked) {
             await clientsService.updateAgentAvailability({
                 agentID: agentId,
                 availability: false,
@@ -47,6 +48,7 @@ function PlanEnroll({ setShowAvilabilityDialog }) {
             onChange={handleMedicareEnroll}
             checked={leadPreference?.medicareEnrollPurl}
             icon={<PlanEnrollIcon />}
+            disabled={shouldDisable}
             subTitle={`Show on PlanEnroll Agent website when "I'm Available."`}
         />
     );

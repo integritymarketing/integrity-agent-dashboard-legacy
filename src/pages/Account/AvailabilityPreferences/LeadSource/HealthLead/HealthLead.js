@@ -17,7 +17,12 @@ function HealthLead({ setShowAvilabilityDialog }) {
     const { agentId, npn } = useUserProfile();
     const [isAvailable, setIsAvailable] = useAgentAvailability();
 
-    const hasActiveCampaign = agentAvailability?.hasActiveCampaign;
+    const hasActiveLifeCallCampaign = agentAvailability?.activeCampaign?.hasActiveLifeCallCampaign;
+    const hasActiveHealthCallCampaign = agentAvailability?.activeCampaign?.hasActiveHealthCallCampaign;
+
+    const isPlanEnrollChecked = leadPreference?.medicareEnrollPurl;
+    const isLifeChecked = hasActiveLifeCallCampaign ? leadPreference?.leadCenterLife : false;
+    const shouldDisable = (!isPlanEnrollChecked && !isLifeChecked) || !hasActiveHealthCallCampaign;
 
     const handleLeadCenter = async () => {
         const data = {
@@ -28,12 +33,7 @@ function HealthLead({ setShowAvilabilityDialog }) {
             },
         };
         await updateAgentPreferences(data);
-        if (
-            isAvailable &&
-            leadPreference?.leadCenter &&
-            !leadPreference?.medicareEnrollPurl &&
-            !leadPreference?.leadCenterLife
-        ) {
+        if (isAvailable && leadPreference?.leadCenter && !isLifeChecked && !isPlanEnrollChecked) {
             await clientsService.updateAgentAvailability({
                 agentID: agentId,
                 availability: false,
@@ -46,11 +46,11 @@ function HealthLead({ setShowAvilabilityDialog }) {
     return (
         <SectionItem
             title="Health"
-            actionTitle={!hasActiveCampaign ? "Set Up" : "Settings"}
+            actionTitle={!hasActiveHealthCallCampaign ? "Set Up" : "Settings"}
             action={() => window.open(`/leadcenter-redirect/${npn}`, "_blank")}
             onChange={handleLeadCenter}
-            disabled={!hasActiveCampaign}
-            checked={hasActiveCampaign ? leadPreference?.leadCenter : false}
+            disabled={shouldDisable}
+            checked={hasActiveHealthCallCampaign ? leadPreference?.leadCenter : false}
             icon={<HealthLeadIcon />}
             actionIcon={<OpenBlue />}
             subTitle={`Include LeadCENTER Health Leads when "I'm Available."`}

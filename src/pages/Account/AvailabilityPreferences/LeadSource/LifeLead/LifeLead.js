@@ -18,6 +18,11 @@ function LifeLead({ setShowAvilabilityDialog }) {
     const [isAvailable, setIsAvailable] = useAgentAvailability();
 
     const hasActiveLifeCallCampaign = agentAvailability?.activeCampaign?.hasActiveLifeCallCampaign;
+    const hasActiveHealthCallCampaign = agentAvailability?.activeCampaign?.hasActiveHealthCallCampaign;
+
+    const isPlanEnrollChecked = leadPreference?.medicareEnrollPurl;
+    const isHealthChecked = hasActiveHealthCallCampaign ? leadPreference?.leadCenter : false;
+    const shouldDisable = (!isPlanEnrollChecked && !isHealthChecked) || !hasActiveLifeCallCampaign;
 
     const handleLifeLeadToggle = async () => {
         const data = {
@@ -28,12 +33,7 @@ function LifeLead({ setShowAvilabilityDialog }) {
             },
         };
         await updateAgentPreferences(data);
-        if (
-            isAvailable &&
-            leadPreference?.leadCenterLife &&
-            !leadPreference?.leadCenter &&
-            !leadPreference?.medicareEnrollPurl
-        ) {
+        if (isAvailable && leadPreference?.leadCenterLife && !isPlanEnrollChecked && !isHealthChecked) {
             await clientsService.updateAgentAvailability({
                 agentID: agentId,
                 availability: false,
@@ -49,8 +49,8 @@ function LifeLead({ setShowAvilabilityDialog }) {
             actionTitle={hasActiveLifeCallCampaign ? "Configure" : "Set Up"}
             action={() => window.open(`/leadcenter-redirect/${npn}`, "_blank")}
             onChange={handleLifeLeadToggle}
-            disabled={!hasActiveLifeCallCampaign}
-            checked={leadPreference?.leadCenterLife && hasActiveLifeCallCampaign}
+            disabled={shouldDisable}
+            checked={hasActiveLifeCallCampaign ? leadPreference?.leadCenterLife : false}
             icon={<LifeLeadSource />}
             actionIcon={<OpenBlue />}
             subTitle={`Include LeadCENTER Life Leads when "I'm Available."`}
