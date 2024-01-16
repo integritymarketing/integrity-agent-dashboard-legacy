@@ -32,7 +32,7 @@ function PlanEnroll({ setShowAvilabilityDialog }) {
             },
         };
         await updateAgentPreferences(data);
-        if (isAvailable && leadPreference?.medicareEnrollPurl && !isHealthChecked && !isHealthChecked) {
+        if (isAvailable && leadPreference?.medicareEnrollPurl && !isHealthChecked && !isLifeCheck) {
             await clientsService.updateAgentAvailability({
                 agentID: agentId,
                 availability: false,
