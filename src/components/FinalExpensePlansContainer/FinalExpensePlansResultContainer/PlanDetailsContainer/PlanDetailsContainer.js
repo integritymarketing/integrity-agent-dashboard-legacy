@@ -132,9 +132,9 @@ export const PlanDetailsContainer = ({
 
                 if (!isRTS) {
                     if (isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
+                        setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts true
                     } else {
-                        setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts false
+                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts false
                     }
                 }
 
