@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -9,7 +9,7 @@ import { toTitleCase } from "utils/toTitleCase";
 
 import useBackPage from "hooks/useBackPage";
 
-import PlansTypeModal from "components/PlansTypeModal";
+import { SellingPreferenceModal } from "components/SellingPreferenceModal";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
 
@@ -19,6 +19,8 @@ import { Connect, Health, Overview, Policies } from "./Icons";
 import { ConnectModal } from "../ConnectModal";
 
 import NewBackBtn from "images/new-back-btn.svg";
+
+const HEALTH = "hideHealthQuote";
 
 const tabs = [
     { name: "Overview", section: "overview", icon: <Overview /> },
@@ -35,20 +37,37 @@ export const ContactProfileTabBar = ({ contactId }) => {
     const location = useLocation();
     const currentPath = location.pathname;
     const [connectModalVisible, setConnectModalVisible] = useState(false);
-    const [showPlanTypeModal, setShowPlanTypeModal] = useState(false);
+    const [showSellingPreferenceModal, setShowSellingPreferenceModal] = useState(false);
 
     const isContactDetailsPage = currentPath?.toLowerCase().includes("contact");
     const leadName =
         leadDetails?.firstName && leadDetails?.lastName
             ? `${leadDetails?.firstName} ${leadDetails?.lastName}`
             : "Lead Name here ...";
-    const zipcode = leadDetails?.addresses && leadDetails?.addresses[0]?.postalCode;
+
+    const postalCode = leadDetails?.addresses?.[0]?.postalCode;
+    const stateCode = leadDetails?.addresses?.[0]?.stateCode;
+    const county = leadDetails?.addresses?.[0]?.county;
+    const countyFips = leadDetails?.addresses?.[0]?.countyFips;
+    const hasFIPsCode = postalCode && county && stateCode && countyFips;
 
     useEffect(() => {
         if (leadId && !leadDetails) {
             getLeadDetails(leadId);
         }
-    }, [getLeadDetails, leadId]);
+    }, [getLeadDetails, leadDetails, leadId]);
+
+    const onStartQuoteHandle = (type) => {
+        const navigateToPath = (path) => navigate(path);
+        if (type === HEALTH) {
+            const path = hasFIPsCode ? `/plans/${leadId}` : `/contact/${leadId}/addZip`;
+            navigateToPath(path);
+        } else {
+            const path = `/finalexpenses/create/${leadId}`;
+            navigateToPath(path);
+        }
+        setShowSellingPreferenceModal(false);
+    };
 
     const handleSectionChange = useCallback(
         (section) => {
@@ -60,12 +79,8 @@ export const ContactProfileTabBar = ({ contactId }) => {
 
     const handleBackPage = useBackPage("/contacts", false);
 
-    const handleCloseShowPlanTypeModal = useCallback(() => {
-        setShowPlanTypeModal(false);
-    }, []);
-
     const handleStartQuote = useCallback(() => {
-        setShowPlanTypeModal(true);
+        setShowSellingPreferenceModal(true);
     }, []);
 
     const renderTab = ({ name, section, icon, modalTrigger }) => (
@@ -111,11 +126,10 @@ export const ContactProfileTabBar = ({ contactId }) => {
                         leadDetails={leadDetails}
                     />
                 )}
-                <PlansTypeModal
-                    zipcode={zipcode}
-                    showPlanTypeModal={showPlanTypeModal}
-                    handleModalClose={handleCloseShowPlanTypeModal}
-                    leadId={leadId}
+                <SellingPreferenceModal
+                    isOpen={showSellingPreferenceModal}
+                    onStartQuoteHandle={onStartQuoteHandle}
+                    onClose={() => setShowSellingPreferenceModal(false)}
                 />
             </Container>
         </Box>
