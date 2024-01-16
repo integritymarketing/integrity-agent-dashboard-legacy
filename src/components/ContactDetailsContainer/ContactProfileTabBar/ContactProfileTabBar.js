@@ -52,10 +52,10 @@ export const ContactProfileTabBar = ({ contactId }) => {
     const hasFIPsCode = postalCode && county && stateCode && countyFips;
 
     useEffect(() => {
-        if (leadId && !leadDetails) {
+        if (leadId) {
             getLeadDetails(leadId);
         }
-    }, [getLeadDetails, leadDetails, leadId]);
+    }, [getLeadDetails, leadId]);
 
     const onStartQuoteHandle = (type) => {
         const navigateToPath = (path) => navigate(path);
