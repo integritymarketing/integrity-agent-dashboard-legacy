@@ -19,9 +19,11 @@ function LifeInfoModal({ isModalOpen, setIsModalOpen }) {
                     <Box>Updating your Selling Permissions for Final Expense helps you to:</Box>
                     <ul className={styles.listStyle}>
                         <li>Filter the Quote results by the Products and Carriers you are contracted with</li>
-                        <li>Gain Single Sign On to select Carriers and Product Websites</li>
+                        <li>Gain Single Sign On and Application Pre-Fill for select carrier and product websites</li>
                         <li>Automatically link Final Expense Policies to your Account</li>
                     </ul>
+                    <div className={styles.needHelpTitle}>Need Help?</div>
+                    <div>To find your Producer ID / Agent Writing Number, please contact your carrier and/or upline.</div>
                 </>
             }
         />

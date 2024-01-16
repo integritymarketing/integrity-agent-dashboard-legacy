@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 
 import SAPermissionModal from "./ActivePermissionModal";
+import styles from "./styles.module.scss";
 
 function LifeInfoModal({ isModalOpen, setIsModalOpen }) {
     return (
@@ -10,13 +11,18 @@ function LifeInfoModal({ isModalOpen, setIsModalOpen }) {
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
             title="Life Active Selling Permissions"
-            subTitle="Final Expense"
             content={
                 <>
                     <Box>
-                        Integrity partners with carriers and uplines to automatically update Final Expense Selling
-                        Permissions linked to your account. You may Add new permissions or update your Producer ID for
-                        Final Expense carriers using the Life Self-Attestation section on the Account screen
+                        <div>
+                            Integrity partners with carriers and uplines to update Active Selling Permissions for Final Expense.
+                        </div>
+                        <div className={styles.content}>
+                            You may add missing selling permissions or update your Producer ID/Agent Writing Number by using the Self-Attested Permissions section on the Account screen.
+                        </div>
+                        <div>
+                            For additional questions about Selling Permissions or your Producer ID, please contact your carrier or upline.
+                        </div>
                     </Box>
                 </>
             }
