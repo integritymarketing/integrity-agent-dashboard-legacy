@@ -20,9 +20,10 @@ function LifeLead({ setShowAvilabilityDialog }) {
     const hasActiveLifeCallCampaign = agentAvailability?.activeCampaign?.hasActiveLifeCallCampaign;
     const hasActiveHealthCallCampaign = agentAvailability?.activeCampaign?.hasActiveHealthCallCampaign;
 
+    const isLifeCheck = leadPreference?.leadCenterLife;
     const isPlanEnrollChecked = leadPreference?.medicareEnrollPurl;
     const isHealthChecked = hasActiveHealthCallCampaign ? leadPreference?.leadCenter : false;
-    const shouldDisable = (!isPlanEnrollChecked && !isHealthChecked) || !hasActiveLifeCallCampaign;
+    const shouldDisable = (!isPlanEnrollChecked && !isHealthChecked && isLifeCheck) || !hasActiveLifeCallCampaign;
 
     const handleLifeLeadToggle = async () => {
         const data = {

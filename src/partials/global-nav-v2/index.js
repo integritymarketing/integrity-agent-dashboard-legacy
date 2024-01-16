@@ -44,12 +44,12 @@ import NewBackBtn from "images/new-back-btn.svg";
 const handleCSGSSO = async (navigate, loading) => {
     loading.begin(0);
 
-    let user = await authService.getUser();
+    const user = await authService.getUser();
 
     const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/`, {
         method: "GET",
         headers: {
-            Authorization: "Bearer " + user.access_token,
+            Authorization: `Bearer ${user.access_token}`,
             "Content-Type": "application/json",
         },
         credentials: "include",
@@ -58,15 +58,14 @@ const handleCSGSSO = async (navigate, loading) => {
     loading.end();
 
     if (response.status >= 200 && response.status < 300) {
-        let res = await response.json();
+        const res = await response.json();
 
         // standardize the API response into a formatted object
         // note that formikErrorsFor is a bit of a mis-nomer, this simply formats the
         // [{"Key":"redirect_url","Value":"url"}] api response
         // as { redirct_url: 'url' } for simplicity
-        let formattedRes = validationService.formikErrorsFor(res);
+        const formattedRes = validationService.formikErrorsFor(res);
         window.open(formattedRes.redirect_url, "_blank");
-        return;
     } else {
         navigate("/error?code=third_party_notauthorized", { replace: true });
     }
@@ -109,6 +108,7 @@ const SiteNotification = ({ showPhoneNotification, showMaintenaceNotification })
     return null;
 };
 
+// eslint-disable-next-line max-lines-per-function
 const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props }) => {
     const auth = useContext(AuthContext);
     const showToast = useToast();
@@ -118,18 +118,16 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     const [navOpen, setNavOpen] = useState(false);
     const [helpModalOpen, setHelpModalOpen] = useState(false);
     const user = useUserProfile();
-    const [isAvailable, setIsAvailable] = useAgentAvailability();
+    const [, setIsAvailable] = useAgentAvailability();
 
     const { agentInformation, getAgentAvailability } = useAgentInformationByID();
     const leadPreference = agentInformation?.leadPreference;
     useEffect(() => setIsAvailable(agentInformation?.isAvailable), [setIsAvailable, agentInformation?.isAvailable]);
 
-    const mobileMenuProps = Object.assign(
-        {
-            navOpen,
-            setNavOpen,
-        },
-        auth.isAuthenticated() && !menuHidden
+    const mobileMenuProps = {
+        navOpen,
+        setNavOpen,
+        ...(auth.isAuthenticated() && !menuHidden
             ? {
                   primary: [
                       {
@@ -193,15 +191,13 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                   primary: [],
                   secondary: [],
                   tertiary: [],
-              }
-    );
+              }),
+    };
 
-    const menuProps = Object.assign(
-        {
-            navOpen,
-            setNavOpen,
-        },
-        auth.isAuthenticated() && !menuHidden
+    const menuProps = {
+        navOpen,
+        setNavOpen,
+        ...(auth.isAuthenticated() && !menuHidden
             ? {
                   primary: [
                       {
@@ -277,8 +273,8 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
             : {
                   primary: [],
                   secondary: [],
-              }
-    );
+              }),
+    };
 
     useEffect(() => {
         if (leadPreference && !leadPreference?.isAgentMobilePopUpDismissed) {
@@ -294,7 +290,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
 
     const updateAgentAvailability = async (data) => {
         try {
-            let response = await clientService.updateAgentAvailability(data);
+            const response = await clientService.updateAgentAvailability(data);
             if (response.ok) {
                 getAgentAvailability();
             }
@@ -312,10 +308,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
 
     if (auth.isAuthenticated() && user && !user.phone) {
         showPhoneNotification = true;
-    }
-    const { agentid = "" } = user || {};
-    function clickButton() {
-        updateAgentAvailability({ agentID: agentid, availability: !isAvailable });
     }
 
     const showMaintenaceNotification = process.env.REACT_APP_NOTIFICATION_BANNER === "true";
@@ -390,8 +382,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                                     {leadPreference && (
                                         <MyButton
                                             leadPreference={leadPreference}
-                                            clickButton={clickButton}
-                                            isAvailable={isAvailable}
                                             page={page}
                                             hasActiveCampaign={agentInformation?.hasActiveCampaign}
                                         />

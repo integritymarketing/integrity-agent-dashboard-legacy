@@ -18,9 +18,10 @@ function PlanEnroll({ setShowAvilabilityDialog }) {
     const hasActiveLifeCallCampaign = agentAvailability?.activeCampaign?.hasActiveLifeCallCampaign;
     const hasActiveHealthCallCampaign = agentAvailability?.activeCampaign?.hasActiveHealthCallCampaign;
 
+    const isPlanEnrollChecked = leadPreference?.medicareEnrollPurl;
     const isLifeCheck = hasActiveLifeCallCampaign ? leadPreference?.leadCenterLife : false;
     const isHealthChecked = hasActiveHealthCallCampaign ? leadPreference?.leadCenter : false;
-    const shouldDisable = !isLifeCheck && !isHealthChecked;
+    const shouldDisable = !isLifeCheck && !isHealthChecked && isPlanEnrollChecked;
 
     const handleMedicareEnroll = async () => {
         setShowAvilabilityDialog(false);

@@ -7,10 +7,12 @@ import AvailabilityOverlay from "./microComponent/AvailabilityOverlay";
 import Notice from "./microComponent/Notice";
 import clientsService from "services/clientsService";
 import useUserProfile from "hooks/useUserProfile";
+import { useAgentAvailability } from "hooks/useAgentAvailability";
 
-function MyButton({ clickButton, isAvailable, page, leadPreference }) {
+function MyButton({ page, leadPreference }) {
     const userProfile = useUserProfile();
     const { agentId } = userProfile;
+    const [isAvailable, setIsAvailable] = useAgentAvailability();
     const [isCheckInUpdateModalDismissed, setIsCheckInUpdateModalDismissed] = useState(true);
     const [isAvailabiltyModalVisible, setIsAvailabiltyModalVisible] = useState(false);
     const [isNoticeVisible, setIsNoticeVisible] = useState(false);
@@ -22,18 +24,22 @@ function MyButton({ clickButton, isAvailable, page, leadPreference }) {
         const hasActiveLifeCallCampaign = response?.activeCampaign?.hasActiveLifeCallCampaign;
         const hasActiveHealthCallCampaign = response?.activeCampaign?.hasActiveHealthCallCampaign;
 
-        const isLifeCheck = leadPreference?.leadCenterLife && hasActiveLifeCallCampaign;
-        const isHealthChecked = hasActiveHealthCallCampaign ? leadPreference?.leadCenter : false;
-        const isPlanEnrollChecked = leadPreference?.medicareEnrollPurl;
+        const isLifeCheck = response.leadPreference?.leadCenterLife && hasActiveLifeCallCampaign;
+        const isHealthChecked = hasActiveHealthCallCampaign ? response.leadPreference?.leadCenter : false;
+        const isPlanEnrollChecked = response.leadPreference?.medicareEnrollPurl;
 
-        if (isAvailable) {
+        if (!isAvailable) {
             if (!isLifeCheck && !isHealthChecked && !isPlanEnrollChecked) {
                 setIsNoticeVisible(true);
                 return;
             }
         }
 
-        clickButton();
+        await clientsService.updateAgentAvailability({
+            agentID: agentId,
+            availability: !isAvailable,
+        });
+        setIsAvailable(!isAvailable);
 
         if (!isCheckInUpdateModalDismissed && isAvailable) {
             setIsAvailabiltyModalVisible(true);
