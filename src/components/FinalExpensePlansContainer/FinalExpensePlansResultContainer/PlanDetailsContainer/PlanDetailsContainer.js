@@ -171,7 +171,7 @@ export const PlanDetailsContainer = ({
             fetchPlans();
         }
     }, [
-        leadDetails,
+        // leadDetails,
         isLoadingHealthConditions,
         selectedTab,
         coverageType,

@@ -27,7 +27,6 @@ export const ELIGIBILTY_NOTES = "Eligibility Notes";
 export const PRESCREEN_AVAILABLE_NOTES = "The applicant may be eligible for coverage based on identified conditions.";
 export const PRESCREEN_NOTES = "The applicant may not be eligible for coverage due to:";
 export const PRESCREEN_NOT_AVAILABLE_NOTES = "We are unable to prescreen eligibility for this product.";
-export const PLAN_ENROLL_ERROR = "Unable to enroll lead final expense plan";
 export const PRODUCER_ID_NOT_APPPOINTED = "Producer ID Not Appointed";
 export const PRODUCER_NOT_APPOINTED_DESC = "The carrier was not able to validate your appointment status for this product. Please contact your upline to validate contract or appointment status with this carrier.";
 export const CARRIER_SITE_UNAVAILABLE = "Carrier Site Unavailable";
