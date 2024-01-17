@@ -1,13 +1,15 @@
 import React from "react";
+
 import Box from "@mui/material/Box";
 
-import { formatDate, convertToLocalDateTime } from "utils/dates";
+import { convertToLocalDateTime, formatDate } from "utils/dates";
 import { isOverDue } from "utils/dates";
-
-import Reminder from "../Icons/reminder";
-import { TaskListCard, } from "../TaskListCardContainer";
+import { sortListByDate } from "utils/dates";
 
 import styles from "./styles.module.scss";
+
+import Reminder from "../Icons/reminder";
+import { TaskListCard } from "../TaskListCardContainer";
 
 export default function Reminders({ taskList, refreshData }) {
     const getDateTime = (dateString) => {
@@ -39,9 +41,11 @@ export default function Reminders({ taskList, refreshData }) {
             });
     };
 
+    const sortedList = sortListByDate(taskList, "taskDate", true);
+
     return (
         <>
-            {taskList?.map((item) => {
+            {sortedList?.map((item) => {
                 const isReminderDue = isOverDue(item?.taskDate);
 
                 return (

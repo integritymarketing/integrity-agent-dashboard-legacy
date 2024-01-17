@@ -1,18 +1,26 @@
+import * as Sentry from "@sentry/react";
 import { useState } from "react";
 import Media from "react-media";
-import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
-import * as Sentry from "@sentry/react";
+
+import Grid from "@mui/material/Grid";
+
 import PropTypes from "prop-types";
-import { Button } from "components/ui/Button";
+
+import { convertToLocalDateTime, isOverDue } from "utils/dates";
+
+import useToast from "hooks/useToast";
+
 import Person from "components/icons/personLatest";
+import RoundCheck from "components/icons/round-check";
+import { Button } from "components/ui/Button";
+
+import clientsService from "services/clientsService";
+
+import "./style.scss";
+
 import ReminderIcon from "images/Reminder.svg";
 import Reminder_Overdue from "images/Reminder_Overdue.svg";
-import RoundCheck from "components/icons/round-check";
-import { convertToLocalDateTime, isOverDue } from "utils/dates";
-import clientsService from "services/clientsService";
-import useToast from "hooks/useToast";
-import "./style.scss";
 
 // eslint-disable-next-line max-lines-per-function
 const RemindersCard = ({ callData, refreshData }) => {

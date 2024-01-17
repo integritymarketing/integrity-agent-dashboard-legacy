@@ -8,7 +8,7 @@ export default function index() {
         <>
             <header className="header-callrecording">
                 <div className="header-image-container container-x d-flex justify-content-start align-items-center">
-                    <img className="logo-call-recording" src={Logo} alt="Medicare Center logo" />
+                    <img className="logo-call-recording" src={Logo} alt="Integrity logo" />
                 </div>
             </header>
             <section className="masthead">

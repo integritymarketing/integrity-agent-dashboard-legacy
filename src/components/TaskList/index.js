@@ -163,6 +163,10 @@ export default function TaskList({ isMobile, npn }) {
             );
             const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
             setTaskList([...list]);
+        } else if (statusIndex === 2) {
+            const sortedList = sortListByDate(fullList, "taskDate", true);
+            const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
+            setTaskList([...list]);
         } else {
             const list = fullList?.filter((task, i) => i < page * PAGESIZE);
             setTaskList([...list]);

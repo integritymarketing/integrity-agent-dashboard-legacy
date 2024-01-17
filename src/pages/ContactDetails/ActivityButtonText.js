@@ -41,8 +41,8 @@ export default function ActivityButtonText(props) {
         switch (activitySubject) {
             case "Scope of Appointment Signed":
                 setLinkCode(activityInteractionURL);
-                setSelectedTab("complete-scope-of-appointment");
-                navigate(`/contact/${leadsId}/complete-scope-of-appointment`);
+                setSelectedTab("scope-of-appointment");
+                navigate(`/contact/${leadsId}/scope-of-appointment`);
                 break;
                 break;
             case "Scope of Appointment Completed":

@@ -32,7 +32,7 @@ const GlobalFooter = ({ className = "", hideMedicareIcon = false, ...props }) =>
                     <div className="global-footer__content sf-text-center">
                         {!hideMedicareIcon && (
                             <Link to="/">
-                                <span className="visually-hidden">Medicare Center</span>
+                                <span className="visually-hidden">Integrity</span>
                                 <img src={integrityLogo} alt="Integrity Logo" />
                             </Link>
                         )}

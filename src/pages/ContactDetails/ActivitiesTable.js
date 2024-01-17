@@ -126,8 +126,8 @@ export default function ActivitiesTable({
             switch (activitySubject) {
                 case "Scope of Appointment Signed":
                     setLinkCode(activityInteractionURL);
-                    setSelectedTab("complete-scope-of-appointment");
-                    navigate(`/contact/${leadId}/complete-scope-of-appointment`);
+                    setSelectedTab("scope-of-appointment");
+                    navigate(`/contact/${leadId}/scope-of-appointment`);
                     break;
 
                 case "Scope of Appointment Completed":

@@ -1,12 +1,21 @@
-import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import styles from "./Soa48HoursRule.module.scss";
-import { formatDate, convertToLocalDateTime, getHoursDiffBetweenTwoDays, sortListByDate } from "utils/dates";
-import { Button } from "components/ui/Button";
+
+import PropTypes from "prop-types";
+import { useLeadDetails } from "providers/ContactDetails";
+import { useScopeOfAppointment } from "providers/ContactDetails/ContactDetailsContext";
+
+import { convertToLocalDateTime, formatDate, getHoursDiffBetweenTwoDays, sortListByDate } from "utils/dates";
+
 import OpenIcon from "components/icons/open";
+import { Button } from "components/ui/Button";
+
+import styles from "./Soa48HoursRule.module.scss";
 
 const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
     const navigate = useNavigate();
+
+    const { setLinkCode } = useScopeOfAppointment();
+    const { setSelectedTab } = useLeadDetails();
 
     const getDateTime = (dateString) => {
         const localDateTime = convertToLocalDateTime(dateString);
@@ -16,10 +25,10 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
     };
 
     const navigateToConfirmSOA = (item) => {
-        navigate({
-            pathname: `/contact/${item?.leadId}/soa-confirm/${item?.soaLinkCode}`,
-            state: { from: "Dashboard" },
-        });
+        setLinkCode(item?.soaLinkCode);
+        setSelectedTab("complete-scope-of-appointment");
+        navigate(`/contact/${item?.leadId}/complete-scope-of-appointment`);
+
         refreshData(item?.id);
     };
 
@@ -37,9 +46,6 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
     const navigateToContacts = (leadId) => {
         navigate(`/contact/${leadId}`);
     };
-
-
-
 
     return (
         <div className={styles.container}>
@@ -72,8 +78,9 @@ const Soa48HoursRule = ({ taskList, isMobile, refreshData }) => {
                     </div>
                     <div className={`${styles.section} ${styles.action} ${isMobile ? styles.mobileIcon : ""}`}>
                         <Button
-                            className={`${styles.completeBtn} ${isEarlierThanCurrentDate(item?.contactAfterDate) ? styles.disabled : ""
-                                }`}
+                            className={`${styles.completeBtn} ${
+                                isEarlierThanCurrentDate(item?.contactAfterDate) ? styles.disabled : ""
+                            }`}
                             label={isMobile ? "" : "Complete"}
                             onClick={() => navigateToConfirmSOA(item)}
                             type="primary"

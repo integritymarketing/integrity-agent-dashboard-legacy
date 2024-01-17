@@ -134,7 +134,7 @@ TBD -- info regarding different types of tests (eg unit, integration, e2e)
 2. The new version number should be set for each release in the package.json file. This version variable is tied directly to the Sentry integration and is automatically added to the Netlify build.
 3. When ready for UAT testing, merging the RC or Hotfix PR to release will create and publish a release build in both the UAT and Stage [environments](#environments). It will also create a build in the production environment, however production builds need to be manually published.
 4. Once everything is good on UAT and/or Stage, open a new PR titled `Release major.minor.micro` from `release` -> `main`.
-5. Releasing to producting is as simple as publishing the latest release build that is currently on prod, but un-published. (NOTE: it is important that you publish the build in both the main medicare center app, as well as the auth app. Usually there are no changes to the auth app, but it's good to keep it up-to-date and at the same version as the main production app).
+5. Releasing to producting is as simple as publishing the latest release build that is currently on prod, but un-published. (NOTE: it is important that you publish the build in both the main Integrity app, as well as the auth app. Usually there are no changes to the auth app, but it's good to keep it up-to-date and at the same version as the main production app).
 6. Rolling back: In the event a rollback is needed, simply re-publish the last build that was live in production. On Netlify, this will swap the build out in less than a second.
 7. Once the release build on production has been smoke tested and cleared, merge the Release PR into Main, then draft and publish a new release in github (which also tags the release). The tag should be created with the appropriate version tag in the format (eg `v2.1.2`). Documenting the new release happens [here in github](https://github.com/integritymarketing/ae-agent-portal/releases).
 
@@ -173,4 +173,3 @@ private key
 
 ca certs
 `openssl pkcs12 -in vfm.pfx -cacerts -out cacerts.cer`
-

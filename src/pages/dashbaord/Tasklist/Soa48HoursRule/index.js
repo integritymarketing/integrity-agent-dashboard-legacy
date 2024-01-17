@@ -1,15 +1,25 @@
 import React from "react";
-import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
+
+import Box from "@mui/material/Box";
+
+import { useLeadDetails } from "providers/ContactDetails";
+import { useScopeOfAppointment } from "providers/ContactDetails/ContactDetailsContext";
+
+import { convertToLocalDateTime, formatDate, getHoursDiffBetweenTwoDays, sortListByDate } from "utils/dates";
+
 import OpenIcon from "components/icons/open";
-import { formatDate, convertToLocalDateTime, getHoursDiffBetweenTwoDays, sortListByDate } from "utils/dates";
 import { Button } from "components/ui/Button";
-import { TaskListCard, } from "../TaskListCardContainer";
 
 import styles from "./styles.module.scss";
 
+import { TaskListCard } from "../TaskListCardContainer";
+
 const Soa48HoursRule = ({ taskList, refreshData }) => {
     const navigate = useNavigate();
+
+    const { setLinkCode } = useScopeOfAppointment();
+    const { setSelectedTab } = useLeadDetails();
 
     const getDateTime = (dateString) => {
         const localDateTime = convertToLocalDateTime(dateString);
@@ -19,10 +29,9 @@ const Soa48HoursRule = ({ taskList, refreshData }) => {
     };
 
     const navigateToConfirmSOA = (item) => {
-        navigate({
-            pathname: `/contact/${item?.leadId}/soa-confirm/${item?.soaLinkCode}`,
-            state: { from: "Dashboard" },
-        });
+        setLinkCode(item?.soaLinkCode);
+        setSelectedTab("complete-scope-of-appointment");
+        navigate(`/contact/${item?.leadId}/complete-scope-of-appointment`);
         refreshData(item?.id);
     };
 
@@ -40,8 +49,7 @@ const Soa48HoursRule = ({ taskList, refreshData }) => {
         navigate("/contact/" + item.leadId);
     };
 
-    const sortedTasks = sortListByDate(taskList, "signedDate", false);
-
+    const sortedTasks = sortListByDate(taskList, "signedDate", true);
 
     return (
         <>
@@ -49,10 +57,12 @@ const Soa48HoursRule = ({ taskList, refreshData }) => {
                 return (
                     <TaskListCard multi={taskList?.length > 1} background="white">
                         <Box className={styles.taskListInfo}>
-                            <Box sx={{
-                                display: "flex",
-                                justifyContent: "space-between"
-                            }}>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                }}
+                            >
                                 <Box width={"80%"}>
                                     <div className={styles.taskSentDate}>
                                         SOA sent {getDateTime(item?.sentDate)?.date} to
@@ -64,8 +74,9 @@ const Soa48HoursRule = ({ taskList, refreshData }) => {
                                 </Box>
                                 <div className={`${styles.mobileIcon}`}>
                                     <Button
-                                        className={`${styles.completeBtn} ${isEarlierThanCurrentDate(item?.contactAfterDate) ? styles.disabled : ""
-                                            }`}
+                                        className={`${styles.completeBtn} ${
+                                            isEarlierThanCurrentDate(item?.contactAfterDate) ? styles.disabled : ""
+                                        }`}
                                         label=""
                                         onClick={() => navigateToConfirmSOA(item)}
                                         type="primary"
@@ -93,7 +104,6 @@ const Soa48HoursRule = ({ taskList, refreshData }) => {
                                 </div>
                             </Box>
                         </Box>
-
                     </TaskListCard>
                 );
             })}

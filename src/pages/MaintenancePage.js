@@ -11,7 +11,7 @@ export default function MaintenancePage() {
         <>
             <div className="maintenance--header">
                 <Link to="/">
-                    <span className="visually-hidden">Medicare Center</span>
+                    <span className="visually-hidden">Integrity</span>
                     <Logo aria-hidden="true" className="mt-4 ml-4 maintenace--logo" />
                 </Link>
             </div>
