@@ -75,7 +75,7 @@ export const AddNewTagModal = ({ open, onClose, onSave, isEdit }) => {
                         <div className={styles.headerText}>New Tag Name</div>
 
                         <Box>
-                            <Box width={"50%"} marginLeft={"10px"}>
+                            <Box width={"50%"}>
                                 <TextField
                                     id="outlined-basic"
                                     variant="outlined"

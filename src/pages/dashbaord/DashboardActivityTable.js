@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import Typography from "@mui/material/Typography";
 
+import { useLeadDetails } from "providers/ContactDetails";
+import { useScopeOfAppointment } from "providers/ContactDetails/ContactDetailsContext";
+
 import { dateFormatter } from "utils/dateFormatter";
 import { convertUTCDateToLocalDate } from "utils/dates";
 import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
@@ -139,6 +142,9 @@ export default function DashboardActivityTable({
     const [leadConnectModal, setLeadConnectModal] = useState(false);
     const [leadDetails, setLeadDetails] = useState(null);
 
+    const { setLinkCode } = useScopeOfAppointment();
+    const { setSelectedTab } = useLeadDetails();
+
     const { npn } = userProfile;
     useEffect(() => {
         setFilteredData([...activityData]);
@@ -177,13 +183,15 @@ export default function DashboardActivityTable({
             const splitViewPlansURL = activityInteractionURL.split("/");
             switch (activitySubject) {
                 case "Scope of Appointment Signed":
-                    navigate({
-                        pathname: `/contact/${leadsId}`,
-                        search: "?awaiting=true",
-                    });
+                    setLinkCode(activityInteractionURL);
+                    setSelectedTab("complete-scope-of-appointment");
+                    navigate(`/contact/${leadsId}/complete-scope-of-appointment`);
+
                     break;
                 case "Scope of Appointment Completed":
-                    navigate(`/contact/${leadsId}/soa-confirm/${activityInteractionURL}`);
+                    setLinkCode(activityInteractionURL);
+                    setSelectedTab("view-scope-of-appointment");
+                    navigate(`/contact/${leadsId}/view-scope-of-appointment`);
                     break;
                 case "Plan Shared":
                     navigate(`/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`);

@@ -95,7 +95,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
 
     return (
         <div className={styles.container}>
-            <Box marginLeft={"10px"}>
+            <Box>
                 <Button
                     label={"Assign New Tag"}
                     className={styles.addNewButton}
