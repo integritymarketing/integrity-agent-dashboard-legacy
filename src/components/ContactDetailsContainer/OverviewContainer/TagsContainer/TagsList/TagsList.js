@@ -133,7 +133,7 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
                 <div
                     className={styles.selectableItemContainer}
                     key={item?.label}
-                    onMouseOver={() => setHovered(item?.label)}
+                    onMouseEnter={() => setHovered(item?.label)}
                     onMouseLeave={() => setHovered(null)}
                 >
                     <div className={styles.tabLabel}>

@@ -22,6 +22,14 @@ import styles from "./AssignNewTagContainer.module.scss";
 
 import { Chevron, CrossIcon, DataCenter, Delete, LeadCenter, LifeIcon, PlanEnroll } from "../../../Icons";
 
+// Sample tags, replace with your data source if needed
+const tags = [
+    { label: "One", id: 1 },
+    { label: "Two", id: 2 },
+    { label: "Three", id: 3 },
+    { label: "Four", id: 4 },
+];
+
 export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
     const { removeLeadTags, editTagByID, createNewTag, editLeadTags } = useOverView();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
@@ -29,14 +37,12 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
     const [assignNewTagModal, setAssignNewTagModal] = useState(false);
     const [addNewTagModal, setAddNewTagModal] = useState(false);
 
-    const [selectedCustomTags, setSelectedCustomTags] = useState([]);
-    const [selectedTempTags, setSelectedTempTags] = useState([]);
+    const [selectedCustomTags, setSelectedCustomTags] = useState();
 
     const [editTagId, setEditTagId] = useState(null);
     const [editTagValue, setEditTagValue] = useState("");
 
     useEffect(() => {
-        setSelectedTempTags(selectedTags);
         setSelectedCustomTags(selectedTags);
     }, [selectedTags]);
 
@@ -71,7 +77,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
 
     const handleSelectTag = (id) => {
         if (!id) return;
-        if (selectedCustomTags.includes(id)) {
+        if (selectedCustomTags?.includes(id)) {
             setSelectedCustomTags(selectedCustomTags.filter((item) => item !== id));
         } else {
             setSelectedCustomTags([...selectedCustomTags, id]);
@@ -115,7 +121,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
                     open={assignNewTagModal}
                     onClose={() => {
                         setAssignNewTagModal(false);
-                        setSelectedCustomTags(selectedTempTags);
+                        setSelectedCustomTags(selectedTags);
                     }}
                     allTags={allTags}
                     onSave={onSave}
@@ -136,7 +142,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
                         setIsDeleteTagModalOpen(true);
                     }}
                     onSelectTag={handleSelectTag}
-                    selectedTempTags={selectedTempTags}
+                    selectedTempTags={selectedTags}
                 />
             )}
             {addNewTagModal && (

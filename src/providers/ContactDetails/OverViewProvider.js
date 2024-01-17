@@ -57,7 +57,7 @@ export const OverViewProvider = ({ children }) => {
             () => {},
             async () => {
                 await getLeadTags();
-                getLeadDetails(payload?.leadId);
+                await getLeadDetails(payload?.leadId);
                 showToast({
                     message: `Tags updated successfully`,
                 });
@@ -71,12 +71,13 @@ export const OverViewProvider = ({ children }) => {
     };
 
     const createNewTag = async (payload, selectedTags) => {
-        const path = `Tag/`;
+        const path = `Tag`;
         await performAsyncOperation(
             async () => await addNewTag(payload, false, path),
             () => {},
             async () => {
                 await getLeadTags();
+                getLeadDetails(payload?.leadsId);
                 showToast({
                     message: `Tag Created successfully`,
                 });
@@ -96,6 +97,7 @@ export const OverViewProvider = ({ children }) => {
             () => {},
             async () => {
                 await getLeadTags();
+                getLeadDetails(payload?.leadsId);
                 showToast({
                     message: `Tag updated successfully`,
                 });

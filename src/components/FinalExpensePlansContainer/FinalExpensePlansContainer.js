@@ -21,10 +21,10 @@ export const FinalExpensePlansContainer = () => {
 
     const { leadDetails, updateLeadDetails, isLoadingLeadDetails, getLeadDetails } = useLeadDetails();
 
-    console.log("leadDetails", leadDetails);
-
     useEffect(() => {
-        getLeadDetails(contactId);
+        if (!leadDetails?.firstName) {
+            getLeadDetails(contactId);
+        }
     }, [contactId, getLeadDetails]);
 
     const onSave = async (formData) => {

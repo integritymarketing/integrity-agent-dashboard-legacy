@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
@@ -9,6 +10,8 @@ import { TagsList } from "./TagsList/TagsList";
 
 const TagsContainer = function () {
     const { leadDetails } = useLeadDetails();
+    const { leadId } = useParams();
+
     const { getLeadTags, tags, editLeadTags } = useOverView();
 
     const [tagsList, setTagsList] = useState([]);
@@ -46,28 +49,32 @@ const TagsContainer = function () {
             const selectedTagIds = leadDetails.leadTags.map((tag) => tag.tag.tagId);
             setSelectedTags(selectedTagIds);
 
-            if (tagsList?.length) {
-                const filteredTags = tagsList.map((tagCategory) => filterCampaignTags(tagCategory, selectedTagIds));
-                setTagsList(filteredTags);
-            }
+            // if (tagsList?.length) {
+            //     const filteredTags = tagsList.map((tagCategory) => filterCampaignTags(tagCategory, selectedTagIds));
+            //     setTagsList(filteredTags);
+            // }
         }
-    }, [leadDetails, tagsList]);
+    }, [leadDetails]);
 
     const filterCampaignTags = (tagCategory, selectedIds) => {
-        if (tagCategory.label === "Campaigns" && tagCategory.items.length) {
+        if (tagCategory.label === "Campaigns" && tagCategory?.items?.length) {
             return {
                 ...tagCategory,
-                items: tagCategory.items.filter((tag) => selectedIds.includes(tag.id)),
+                items: tagCategory?.items?.filter((tag) => selectedIds?.includes(tag?.id)),
             };
         }
         return tagCategory;
     };
 
+    const selectedTagIds = leadDetails?.leadTags?.map((tagItem) => tagItem?.tag?.tagId);
+
+    const filteredTags = tagsList?.map((tagCategory) => filterCampaignTags(tagCategory, selectedTagIds));
+
     return (
         <Box>
             <Box className={styles.title}>Tags</Box>
             <Box className={styles.box}>
-                {tagsList?.map((item) => (
+                {filteredTags?.map((item) => (
                     <TagsList
                         leadId={leadDetails?.leadsId}
                         label={item.label}

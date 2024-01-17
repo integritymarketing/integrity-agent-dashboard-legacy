@@ -1,18 +1,25 @@
-import React, { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import PropTypes from 'prop-types';
-import { formatAddress, getMapUrl } from 'utils/address';
-import { CallScriptModal } from 'packages/CallScriptModal';
-import Modal from 'components/Modal';
-import styles from './ConnectModal.module.scss';
-import { Direction, Email, Navigate, Phone, Script, Soa } from './Icons';
-import useFetch from 'hooks/useFetch';
-import useToast from 'hooks/useToast';
-import useAgentInformationByID from 'hooks/useAgentInformationByID';
+import React, { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const NOT_AVAILABLE = 'N/A';
-const LEADS_API_VERSION = 'v2.0';
+import Box from "@mui/material/Box";
+
+import PropTypes from "prop-types";
+
+import { formatAddress, getMapUrl } from "utils/address";
+
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import useFetch from "hooks/useFetch";
+import useToast from "hooks/useToast";
+
+import { CallScriptModal } from "packages/CallScriptModal";
+
+import Modal from "components/Modal";
+
+import styles from "./ConnectModal.module.scss";
+import { Direction, Email, Navigate, Phone, Script, Soa } from "./Icons";
+
+const NOT_AVAILABLE = "N/A";
+const LEADS_API_VERSION = "v2.0";
 
 export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
     const navigate = useNavigate();
@@ -21,14 +28,14 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
     const showToast = useToast();
     const [isScriptModalOpen, setIsScriptModalOpen] = useState(false);
 
-    const formattedPhoneNumber = agentVirtualPhoneNumber?.replace(/^\+1/, '');
+    const formattedPhoneNumber = agentVirtualPhoneNumber?.replace(/^\+1/, "");
     const { Post: outboundCallFromMedicareCenter } = useFetch(
         `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Call/CallCustomer`
     );
-    const { firstName = '', lastName = '', emails = [], phones = [], addresses = [] } = leadDetails || {};
+    const { firstName = "", lastName = "", emails = [], phones = [], addresses = [] } = leadDetails || {};
     const fullName = `${firstName} ${lastName}`;
     const email = emails.length > 0 ? emails[0] : NOT_AVAILABLE;
-    const validPhones = phones.filter(phone => phone?.leadPhone);
+    const validPhones = phones.filter((phone) => phone?.leadPhone);
     const phone = validPhones.length > 0 ? validPhones?.[0]?.leadPhone : NOT_AVAILABLE;
     const address = addresses.length > 0 ? formatAddress(addresses?.[0]) : NOT_AVAILABLE;
 
@@ -50,19 +57,27 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
             try {
                 await outboundCallFromMedicareCenter(payload);
                 showToast({
-                    type: 'success',
-                    message: 'Call Initiated Successfully',
+                    type: "success",
+                    message: "Call Initiated Successfully",
                 });
                 setIsScriptModalOpen(true);
-                console.log('Modal should open now', isScriptModalOpen);
             } catch (error) {
                 showToast({
-                    type: 'error',
-                    message: 'Error initiating call. Please try again.',
+                    type: "error",
+                    message: "Error initiating call. Please try again.",
                 });
             }
         }
-    }, [agentID, callForwardNumber, formattedPhoneNumber, agentNPN, phone, outboundCallFromMedicareCenter, showToast, setIsScriptModalOpen]);
+    }, [
+        agentID,
+        callForwardNumber,
+        formattedPhoneNumber,
+        agentNPN,
+        phone,
+        outboundCallFromMedicareCenter,
+        showToast,
+        setIsScriptModalOpen,
+    ]);
 
     const handleEmail = useCallback(() => {
         if (email !== NOT_AVAILABLE) {
@@ -79,7 +94,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
                         <Box className={styles.connectList}>
                             {/* Phone option */}
                             <Box
-                                className={`${styles.connectOption} ${phone === NOT_AVAILABLE ? styles.disabled : ''}`}
+                                className={`${styles.connectOption} ${phone === NOT_AVAILABLE ? styles.disabled : ""}`}
                                 onClick={handleCall}
                             >
                                 <div className={styles.iconOne}>
@@ -92,7 +107,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
                             </Box>
                             {/* Email option */}
                             <Box
-                                className={`${styles.connectOption} ${email === NOT_AVAILABLE ? styles.disabled : ''}`}
+                                className={`${styles.connectOption} ${email === NOT_AVAILABLE ? styles.disabled : ""}`}
                                 onClick={handleEmail}
                             >
                                 <div className={styles.iconOne}>
@@ -149,10 +164,12 @@ ConnectModal.propTypes = {
         firstName: PropTypes.string,
         lastName: PropTypes.string,
         emails: PropTypes.arrayOf(PropTypes.string),
-        phones: PropTypes.arrayOf(PropTypes.shape({
-            leadPhone: PropTypes.string
-        })),
-        addresses: PropTypes.arrayOf(PropTypes.object)
+        phones: PropTypes.arrayOf(
+            PropTypes.shape({
+                leadPhone: PropTypes.string,
+            })
+        ),
+        addresses: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
 };
 

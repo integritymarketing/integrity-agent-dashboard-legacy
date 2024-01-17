@@ -3,6 +3,7 @@ import Media from "react-media";
 import { useParams } from "react-router-dom";
 
 import PropTypes from "prop-types";
+import { useLeadDetails } from "providers/ContactDetails";
 import { useFinalExpensePlans } from "providers/FinalExpense";
 
 import { formatDate, formatServerDate, getAgeFromBirthDate } from "utils/dates";
@@ -49,10 +50,18 @@ export const PlanDetailsContainer = ({
     const { getFinalExpenseQuotePlans, getCarriersInfo, carrierInfo } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
-    const { leadDetails } = useContactDetails(contactId);
+    // const { leadDetails } = useContactDetails(contactId);
     const [fetchPlansError, setFetchPlansError] = useState(false);
 
+    const { leadDetails, isLoadingLeadDetails, getLeadDetails } = useLeadDetails();
+
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
+
+    useEffect(() => {
+        if (!leadDetails?.firstName) {
+            getLeadDetails(contactId);
+        }
+    }, [contactId, getLeadDetails]);
 
     useEffect(() => {
         const fetchHealthConditionsListData = async () => {
@@ -212,8 +221,7 @@ export const PlanDetailsContainer = ({
                                 eligibility,
                                 reason,
                                 writingAgentNumber,
-                                isRTS: isRTSPlan
-
+                                isRTS: isRTSPlan,
                             } = plan;
                             let conditionList = [];
                             if (reason?.categoryReasons?.length > 0) {

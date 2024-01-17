@@ -22,7 +22,36 @@ import styles from "./AssignNewTagModal.module.scss";
 import Label from "../../OverviewContainer/CommonComponents/Label";
 import { Add, AddForward } from "../Icons";
 
-const tags = [{ label: "One" }, { label: "two" }, { label: "three" }, { label: "four" }];
+const Tag = React.memo(({ item, onSelect, onEdit, onDelete, isSelected }) => {
+    const [hovered, setHovered] = useState(false);
+
+    return (
+        <div
+            className={`${styles.selectableItemContainer} ${isSelected ? styles.selectedItem : ""}`}
+            onMouseOver={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            onClick={() => onSelect(item.id)}
+        >
+            <div className={styles.tabLabel}>
+                <div className={styles.tagIcon}>
+                    <img alt="TagIcon" src={TagIcon} />
+                </div>
+                <Label value={item.label} size="16px" color="#434A51" />
+            </div>
+
+            {hovered && (
+                <div className={styles.actionIcons}>
+                    <div onClick={() => onEdit(item.id, item.label)}>
+                        <EditIcon />
+                    </div>
+                    <div onClick={() => onDelete(item.id)}>
+                        <Delete />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+});
 
 export const AssignNewTagModal = ({
     open,
@@ -37,57 +66,31 @@ export const AssignNewTagModal = ({
     selectedTempTags,
 }) => {
     const isDisabled = useMemo(() => {
-        // Check if the arrays are the same length
-        if (selectedTags.length !== selectedTempTags.length) {
-            return false;
-        }
-
-        // Sort both arrays
-        const sortedArr1 = [...selectedTags].sort((a, b) => a - b);
-        const sortedArr2 = [...selectedTempTags].sort((a, b) => a - b);
-
-        // Compare the sorted arrays
-        for (let i = 0; i < sortedArr1.length; i++) {
-            if (sortedArr1[i] !== sortedArr2[i]) {
-                return false;
-            }
-        }
-
-        return true;
+        const sortedSelectedTags = [...selectedTags].sort();
+        const sortedTempTags = [...selectedTempTags].sort();
+        return JSON.stringify(sortedSelectedTags) === JSON.stringify(sortedTempTags);
     }, [selectedTags, selectedTempTags]);
 
-    const Tag = ({ item }) => {
-        const [hovered, setHovered] = useState(null);
-        return (
-            <div
-                className={`${styles.itemContainer} ${selectedTags?.includes(item?.id) ? styles.selectedItem : ""}`}
-                key={item?.label}
-                onMouseOver={() => setHovered(item?.label)}
-                onMouseLeave={() => setHovered(null)}
-                onClick={() => onSelectTag(item?.id)}
-            >
-                <div className={styles.tabLabel}>
-                    <div className={styles.tagIcon}>
-                        <img alt="TagIcon" src={TagIcon} />
-                    </div>
-                    <Label value={item?.label} size="16px" color="#434A51" />
-                </div>
+    const handleSelectTag = useCallback(
+        (tagId) => {
+            onSelectTag(tagId);
+        },
+        [onSelectTag]
+    );
 
-                <div className={styles.actionIcons}>
-                    {hovered === item?.label && (
-                        <>
-                            <div onClick={() => setEditTag(item?.id, item.label)}>
-                                <EditIcon />
-                            </div>
-                            <div onClick={() => setDeleteTag(item?.id)}>
-                                <Delete />
-                            </div>
-                        </>
-                    )}
-                </div>
-            </div>
-        );
-    };
+    const handleEditTag = useCallback(
+        (tagId, label) => {
+            setEditTag(tagId, label);
+        },
+        [setEditTag]
+    );
+
+    const handleDeleteTag = useCallback(
+        (tagId) => {
+            setDeleteTag(tagId);
+        },
+        [setDeleteTag]
+    );
 
     return (
         <>
@@ -126,7 +129,16 @@ export const AssignNewTagModal = ({
                             >
                                 {allTags?.map((item, i) => {
                                     if (i >= 0 && i < allTags.length / 2) {
-                                        return <Tag item={item} />;
+                                        return (
+                                            <Tag
+                                                key={item.id}
+                                                item={item}
+                                                onSelect={handleSelectTag}
+                                                onEdit={handleEditTag}
+                                                onDelete={handleDeleteTag}
+                                                isSelected={selectedTags.includes(item.id)}
+                                            />
+                                        );
                                     }
                                 })}
                             </Box>
@@ -139,13 +151,22 @@ export const AssignNewTagModal = ({
                             >
                                 {allTags?.map((item, j) => {
                                     if (j >= allTags.length / 2 && j <= allTags.length - 1) {
-                                        return <Tag item={item} />;
+                                        return (
+                                            <Tag
+                                                key={item.id}
+                                                item={item}
+                                                onSelect={handleSelectTag}
+                                                onEdit={handleEditTag}
+                                                onDelete={handleDeleteTag}
+                                                isSelected={selectedTags.includes(item.id)}
+                                            />
+                                        );
                                     }
                                 })}
                             </Box>
                         </Box>
                         {allTags?.length < 10 && (
-                            <Box>
+                            <Box marginTop={"10px"}>
                                 <Button
                                     label={"Create New Tag"}
                                     className={styles.addNewButton}
