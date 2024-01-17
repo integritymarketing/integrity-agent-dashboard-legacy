@@ -50,10 +50,9 @@ export const PlanDetailsContainer = ({
     const { getFinalExpenseQuotePlans, getCarriersInfo, carrierInfo } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
-    // const { leadDetails } = useContactDetails(contactId);
     const [fetchPlansError, setFetchPlansError] = useState(false);
 
-    const { leadDetails, isLoadingLeadDetails, getLeadDetails } = useLeadDetails();
+    const { leadDetails, getLeadDetails } = useLeadDetails();
 
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
 
@@ -212,7 +211,7 @@ export const PlanDetailsContainer = ({
                         <PersonalisedQuoteBox />
                         {pagedResults.map((plan, index) => {
                             const {
-                                carrier: { logoUrl, naic, resource_url },
+                                carrier,
                                 product: { name },
                                 coverageType,
                                 faceValue,
@@ -222,7 +221,10 @@ export const PlanDetailsContainer = ({
                                 reason,
                                 writingAgentNumber,
                                 isRTS: isRTSPlan,
+                                type
+
                             } = plan;
+                            const { logoUrl = null, naic = null, resource_url = null } = carrier || {};
                             let conditionList = [];
                             if (reason?.categoryReasons?.length > 0) {
                                 conditionList = reason?.categoryReasons?.map(({ categoryId, lookBackPeriod }) => {
@@ -249,6 +251,7 @@ export const PlanDetailsContainer = ({
                                     conditionList={conditionList}
                                     isRTSPlan={isRTSPlan}
                                     naic={naic}
+                                    planType={type}
                                     contactId={contactId}
                                     resource_url={resource_url}
                                     writingAgentNumber={writingAgentNumber}

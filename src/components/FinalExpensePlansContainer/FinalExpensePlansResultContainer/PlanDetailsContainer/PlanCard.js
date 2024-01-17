@@ -42,7 +42,8 @@ export const PlanCard = ({
     isRTSPlan,
     isHaveCarriers,
     writingAgentNumber,
-    contactId
+    contactId,
+    planType
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const { leadDetails } = useContactDetails(contactId);
@@ -51,11 +52,11 @@ export const PlanCard = ({
     const [enrollResponse, setEnrollResponse] = useState(null);
 
     const onApply = async () => {
-        const body = getPlanEnrollBody(writingAgentNumber, agentFirstName, agentLastName, leadDetails, coverageAmount, planName, resource_url);
+        const body = getPlanEnrollBody(writingAgentNumber, agentFirstName, agentLastName, leadDetails, coverageAmount, planName, resource_url, planType);
         const response = await enrollLeadFinalExpensePlan(body);
 
-        if (response.RedirectUrl) {
-            window.open(response.RedirectUrl, "_blank");
+        if (response.redirectUrl) {
+            window.open(response.redirectUrl, "_blank");
         } else {
             setEnrollResponse(response);
         }
@@ -158,6 +159,7 @@ PlanCard.propTypes = {
     logoUrl: PropTypes.string.isRequired,
     resource_url: PropTypes.string.isRequired,
     naic: PropTypes.string.isRequired,
+    planType: PropTypes.string.isRequired,
     contactId: PropTypes.string.isRequired,
     writingAgentNumber: PropTypes.string.isRequired,
     coverageType: PropTypes.string.isRequired,
