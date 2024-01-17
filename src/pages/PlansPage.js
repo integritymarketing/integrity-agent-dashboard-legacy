@@ -542,7 +542,7 @@ const PlansPage = () => {
                 <WithLoader isLoading={isLoading}>
                     {!shouldShowAskIntegrity && <WebChatComponent />}
                     <Helmet>
-                        <title>Integrity Clients - Plans</title>
+                        <title>Integrity - Plans</title>
                     </Helmet>
                     <GlobalNav />
                     {!isEdit || (isEdit && isMobile)}

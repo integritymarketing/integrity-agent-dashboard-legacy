@@ -34,7 +34,7 @@ const HelpPage = () => {
         <React.Fragment>
             <Media query={"(max-width: 500px)"} onChange={handleMediaQueryChange} defaultMatches={isMobile} />
             <Helmet>
-                <title>Integrity Clients - Help</title>
+                <title>Integrity - Help</title>
             </Helmet>
             <GlobalNav />
             <div className={styles.layout}>

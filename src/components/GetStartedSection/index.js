@@ -9,36 +9,33 @@ import ItemsContainer from "components/ItemsContainer";
 import styles from "./styles.module.scss";
 
 const GetStartedSection = forwardRef(({ className = "" }, ref) => {
-  const { ref: sectionTitleRef, inView: sectionTitleInView } = useInView({
-    threshold: 0,
-  });
+    const { ref: sectionTitleRef, inView: sectionTitleInView } = useInView({
+        threshold: 0,
+    });
 
-  return (
-    <section className={`${className} ${styles.getStartedSection}`} ref={ref}>
-      <SectionTitle
-        className={`${sectionTitleInView ? styles.animate : ""} ${styles.sectionTitle
-          }`}
-        ref={sectionTitleRef}
-        text="Easy to Get Started"
-      />
+    return (
+        <section className={`${className} ${styles.getStartedSection}`} ref={ref}>
+            <SectionTitle
+                className={`${sectionTitleInView ? styles.animate : ""} ${styles.sectionTitle}`}
+                ref={sectionTitleRef}
+                text="Easy to Get Started"
+            />
 
-      <Text
-        className={styles.text}
-        text="Ready to reach your full potential as an agent? Integrity Clients helps you make it happen. It’s simple to learn and free to use. Discover all the amazing ways it can empower you."
-      />
+            <Text
+                className={styles.text}
+                text="Ready to reach your full potential as an agent? Integrity helps you make it happen. It’s simple to learn and free to use. Discover all the amazing ways it can empower you."
+            />
 
-      <ItemsContainer className={styles.itemsContainer}>
-        <ActionButton
-          text="Get Started"
-          onClick={() => {
-            window.open(
-              `${process.env.REACT_APP_AUTH_BASE_URL}/register?client_id=AEPortal`
-            );
-          }}
-        />
-      </ItemsContainer>
-    </section>
-  );
+            <ItemsContainer className={styles.itemsContainer}>
+                <ActionButton
+                    text="Get Started"
+                    onClick={() => {
+                        window.open(`${process.env.REACT_APP_AUTH_BASE_URL}/register?client_id=AEPortal`);
+                    }}
+                />
+            </ItemsContainer>
+        </section>
+    );
 });
 
 export default GetStartedSection;

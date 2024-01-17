@@ -1,23 +1,30 @@
 import React, { useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import useQueryParams from "hooks/useQueryParams";
+import { useNavigate } from "react-router-dom";
+
+import { Box } from "@mui/material";
+
 import { Formik } from "formik";
-import Paragraph from "packages/Paragraph";
-import Textfield from "components/ui/textfield";
-import validationService from "services/validationService";
-import useLoading from "hooks/useLoading";
+
 import useClientId from "hooks/auth/useClientId";
-import analyticsService from "services/analyticsService";
+import useFetch from "hooks/useFetch";
+import useLoading from "hooks/useLoading";
+import useQueryParams from "hooks/useQueryParams";
+
+import { Button } from "packages/Button";
 import Heading2 from "packages/Heading2";
+import Paragraph from "packages/Paragraph";
+
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
 import { MobileHeaderUnAuthenticated } from "components/MobileHeaderUnAuthenticated";
-import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
-import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import { Box } from "@mui/material";
-import { Button } from "packages/Button";
+import Textfield from "components/ui/textfield";
+
+import analyticsService from "services/analyticsService";
+import validationService from "services/validationService";
+
 import Styles from "./AuthPages.module.scss";
-import useFetch from "hooks/useFetch";
 
 const ForgotPasswordpage = () => {
     const navigate = useNavigate();
@@ -30,20 +37,18 @@ const ForgotPasswordpage = () => {
         true
     );
 
-
     useEffect(() => {
         analyticsService.fireEvent("event-content-load", {
             pagePath: "/reset-password",
         });
     }, []);
 
-
     const appTitle = useMemo(() => {
         switch (clientId) {
             case "AgentMobile":
                 return "Agent Mobile - Forgot Password";
             default:
-                return "Integrity Clients - Forgot Password";
+                return "Integrity - Forgot Password";
         }
     }, [clientId]);
 

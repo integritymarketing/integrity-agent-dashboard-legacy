@@ -156,7 +156,7 @@ export default function Dashbaord() {
                 }}
             />
             <Helmet>
-                <title>Integrity Clients - Dashboard</title>
+                <title>Integrity - Dashboard</title>
             </Helmet>
             <GlobalNav page="dashboard" />
             <WithLoader isLoading={isLoading}>
@@ -196,7 +196,7 @@ export default function Dashbaord() {
                                             openOn="hover"
                                             icon={<Info />}
                                             title={"Client Snapshot"}
-                                            description="Client Snapshot shows the number of contacts that are in each stage for Integrity Clients only."
+                                            description="Client Snapshot shows the number of contacts that are in each stage for Integrity only."
                                             positions={["right", "bottom"]}
                                         >
                                             <Info />

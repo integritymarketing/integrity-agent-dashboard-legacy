@@ -1,26 +1,29 @@
-import React, { useEffect, useState, useCallback } from "react";
-import Box from "@mui/material/Box";
-
+import React, { useCallback, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
-import GlobalNav from "partials/global-nav-v2";
-import GlobalFooter from "partials/global-footer";
-import WithLoader from "components/ui/WithLoader";
-import DateRangeSort from "components/DateRangeSort";
-import enrollPlansService from "services/enrollPlansService";
 
-import ErrorState from "components/ErrorState";
-import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
-import { TaskListCardContainer } from "../../Tasklist/TaskListCardContainer";
-import usePreferences from "hooks/usePreferences";
-import useToast from "hooks/useToast";
+import Box from "@mui/material/Box";
 
 import moment from "moment";
 
+import usePreferences from "hooks/usePreferences";
+import useToast from "hooks/useToast";
+
+import DateRangeSort from "components/DateRangeSort";
+import ErrorState from "components/ErrorState";
+import WithLoader from "components/ui/WithLoader";
+
+import GlobalFooter from "partials/global-footer";
+import GlobalNav from "partials/global-nav-v2";
+
+import enrollPlansService from "services/enrollPlansService";
+
 import styles from "./PolicySnapShotMobileContainer.module.scss";
+
+import { TaskListCardContainer } from "../../Tasklist/TaskListCardContainer";
 import UnlinkedPolicyMobileList from "../UnlinkedPoliciesMobileList/UnlinkedPoliciesMobileList";
 
-
+import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
 
 export default function PolicySnapshotMobileLayout() {
     const { npn } = useParams();
@@ -35,7 +38,6 @@ export default function PolicySnapshotMobileLayout() {
 
     const WIDGET_NAME = "UnlinkedPolicies";
 
-
     const [widgetInfo, setWidgetInfo] = useState({
         count: 0,
         color: "",
@@ -44,33 +46,27 @@ export default function PolicySnapshotMobileLayout() {
     // const navigate = useNavigate();
     const showToast = useToast();
 
-
-    const fetchPolicySnapshotList = useCallback(
-        async () => {
-            setIsLoading(true);
-            try {
-                const items = await enrollPlansService.getPolicySnapShotList(npn, dateRange, WIDGET_NAME);
-                const list = items[0]?.bookOfBusinessSummmaryRecords;
-                setPolicyList(list || []);
-            } catch (error) {
-                setIsError(true);
-                showToast({
-                    type: "error",
-                    message: "Failed to get Policy Snapshot List.",
-                    time: 10000,
-                });
-            } finally {
-                setIsLoading(false);
-            }
-        },
-        [showToast, dateRange, npn,]
-    );
+    const fetchPolicySnapshotList = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const items = await enrollPlansService.getPolicySnapShotList(npn, dateRange, WIDGET_NAME);
+            const list = items[0]?.bookOfBusinessSummmaryRecords;
+            setPolicyList(list || []);
+        } catch (error) {
+            setIsError(true);
+            showToast({
+                type: "error",
+                message: "Failed to get Policy Snapshot List.",
+                time: 10000,
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    }, [showToast, dateRange, npn]);
 
     useEffect(() => {
         fetchPolicySnapshotList();
     }, [fetchPolicySnapshotList]);
-
-
 
     useEffect(() => {
         const fetchCounts = async () => {
@@ -92,8 +88,6 @@ export default function PolicySnapshotMobileLayout() {
         fetchCounts();
     }, [showToast, dateRange, npn]);
 
-
-
     // const refreshData = (id) => {
     //     fetchCounts();
     //     if (id) {
@@ -101,7 +95,6 @@ export default function PolicySnapshotMobileLayout() {
     //         setFullList([...list]);
     //     }
     // };
-
 
     const getErrorHeading = (status) => {
         switch (status) {
@@ -143,20 +136,17 @@ export default function PolicySnapshotMobileLayout() {
         }
     };
 
-
     return (
         <Box className={styles.policySnapshotMobileContainer}>
             <Helmet>
-                <title>Integrity Clients - Dashboard</title>
+                <title>Integrity - Dashboard</title>
             </Helmet>
             <GlobalNav page="taskListMobileLayout" title="Policy Snapshot" />
 
             <Box className={styles.mobileWidget}>
                 <Box className={styles.policySnapshotColor} style={{ backgroundColor: widgetInfo?.color }}></Box>
                 <Box className={styles.policySnapshotHeader}>
-                    <div className={styles.policySnapshotTitle}>
-                        Unlinked Policies
-                    </div>
+                    <div className={styles.policySnapshotTitle}>Unlinked Policies</div>
                     <div className={styles.policySnapshotCount}>{`(${widgetInfo?.count})`}</div>
                 </Box>
             </Box>
@@ -180,7 +170,6 @@ export default function PolicySnapshotMobileLayout() {
                         iconPosition="left"
                     />
                 ) : (
-
                     <>
                         <WithLoader isLoading={isLoading}>
                             <UnlinkedPolicyMobileList policyList={policyList} npn={npn} />
@@ -190,6 +179,6 @@ export default function PolicySnapshotMobileLayout() {
             </TaskListCardContainer>
 
             <GlobalFooter />
-        </Box >
+        </Box>
     );
 }

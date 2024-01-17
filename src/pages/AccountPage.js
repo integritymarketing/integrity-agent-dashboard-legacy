@@ -279,7 +279,7 @@ const AccountPage = () => {
                 }}
             />
             <Helmet>
-                <title>Integrity Clients - Edit Account</title>
+                <title>Integrity - Edit Account</title>
             </Helmet>
             <GlobalNav />
             <div className="v2" data-gtm="account-update-form">

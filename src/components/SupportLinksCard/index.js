@@ -1,46 +1,63 @@
-import React, { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import styles from './styles.module.scss';
-import LearningCenterImage from './learning-center.png';
-import ContactSupportImage from './contact-support.png';
-import RightArrow from './vector.png';
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+
+import PropTypes from "prop-types";
+
+import ContactSupportImage from "./contact-support.png";
+import LearningCenterImage from "./learning-center.png";
+import styles from "./styles.module.scss";
+import RightArrow from "./vector.png";
 
 const SupportLinksCard = ({ position }) => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const layoutClass = position === 'row' ? styles.row : styles.column;
+    const layoutClass = position === "row" ? styles.row : styles.column;
 
-  const navigateTo = useCallback((path) => {
-    navigate(path);
-  }, [navigate]);
+    const navigateTo = useCallback(
+        (path) => {
+            navigate(path);
+        },
+        [navigate]
+    );
 
-  const renderCard = (imageSrc, altText, cardContent, linkText, navigatePath) => (
-    <div className={styles.card}>
-      <img className={styles.images} src={imageSrc} alt={altText} />
-      <span className={styles.cardContent}>
-        {cardContent}
-        <span role="button" tabIndex="0" onClick={() => navigateTo(navigatePath)} className={styles.linkText}>
-          {linkText} <img className={styles.rightArrow} src={RightArrow} alt="Click here" />
-        </span>
-      </span>
-    </div>
-  );
+    const renderCard = (imageSrc, altText, cardContent, linkText, navigatePath) => (
+        <div className={styles.card}>
+            <img className={styles.images} src={imageSrc} alt={altText} />
+            <span className={styles.cardContent}>
+                {cardContent}
+                <span role="button" tabIndex="0" onClick={() => navigateTo(navigatePath)} className={styles.linkText}>
+                    {linkText} <img className={styles.rightArrow} src={RightArrow} alt="Click here" />
+                </span>
+            </span>
+        </div>
+    );
 
-  return (
-    <div className={`${styles.supportLinks} ${layoutClass}`}>
-      {renderCard(LearningCenterImage, "Learning Center", "For the latest resources and news from Integrity Clients visit the", "Knowledge Center", "/learning-center")}
-      {renderCard(ContactSupportImage, "Contact Support", "Need Help? Visit the help center for 24/7 professional", "Zendesk Assistance", "/help")}
-    </div>
-  );
+    return (
+        <div className={`${styles.supportLinks} ${layoutClass}`}>
+            {renderCard(
+                LearningCenterImage,
+                "Learning Center",
+                "For the latest resources and news from Integrity visit the",
+                "Knowledge Center",
+                "/learning-center"
+            )}
+            {renderCard(
+                ContactSupportImage,
+                "Contact Support",
+                "Need Help? Visit the help center for 24/7 professional",
+                "Zendesk Assistance",
+                "/help"
+            )}
+        </div>
+    );
 };
 
 SupportLinksCard.propTypes = {
-  position: PropTypes.oneOf(['row', 'column']),
+    position: PropTypes.oneOf(["row", "column"]),
 };
 
 SupportLinksCard.defaultProps = {
-  position: 'row',
+    position: "row",
 };
 
 export default SupportLinksCard;

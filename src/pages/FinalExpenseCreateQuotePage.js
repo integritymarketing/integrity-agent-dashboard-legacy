@@ -1,9 +1,12 @@
-import { styled } from "@mui/system";
-import Box from "@mui/material/Box";
 import { Helmet } from "react-helmet-async";
-import GlobalNav from "partials/global-nav-v2";
-import GlobalFooter from "partials/global-footer";
+
+import Box from "@mui/material/Box";
+import { styled } from "@mui/system";
+
 import { FinalExpensePlansContainer } from "components/FinalExpensePlansContainer";
+
+import GlobalFooter from "partials/global-footer";
+import GlobalNav from "partials/global-nav-v2";
 
 const StyledBox = styled(Box)(() => ({
     display: "flex",
@@ -16,7 +19,7 @@ const FinalExpensePlansPage = () => {
     return (
         <>
             <Helmet>
-                <title>Integrity Clients - Final Expenses Create Quote</title>
+                <title>Integrity - Final Expenses Create Quote</title>
             </Helmet>
             <GlobalNav />
             <StyledBox>

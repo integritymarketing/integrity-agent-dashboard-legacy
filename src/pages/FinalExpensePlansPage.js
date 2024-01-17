@@ -9,7 +9,7 @@ const FinalExpensePlansPage = () => {
     return (
         <>
             <Helmet>
-                <title>Integrity Clients - Final Expenses Plans</title>
+                <title>Integrity - Final Expenses Plans</title>
             </Helmet>
             <GlobalNav />
             <FinalExpensePlansResultContainer />

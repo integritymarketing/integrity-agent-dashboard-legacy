@@ -1,18 +1,24 @@
 import * as Sentry from "@sentry/react";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
-import ContactSearch from "./ContactSearch";
-import styles from "./styles.module.scss";
-import PossibleMatches from "./PossibleMatches";
-import CreateNewContact from "./CreateNewContact";
-import DashboardHeaderSection from "pages/dashbaord/DashboardHeaderSection";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+
+import Heading3 from "packages/Heading3";
+
+import GoBackNavbar from "components/BackButtonNavbar";
+import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
+
 import Footer from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
-import Heading3 from "packages/Heading3";
+
 import clientsService from "services/clientsService";
-import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/EnrollmentPlanCard/EnrollmentPlanCard";
-import GoBackNavbar from "components/BackButtonNavbar";
+
+import DashboardHeaderSection from "pages/dashbaord/DashboardHeaderSection";
+
+import ContactSearch from "./ContactSearch";
+import CreateNewContact from "./CreateNewContact";
+import PossibleMatches from "./PossibleMatches";
+import styles from "./styles.module.scss";
 
 // eslint-disable-next-line max-lines-per-function
 export default function EnrollmentLinkToContact() {
@@ -74,7 +80,7 @@ export default function EnrollmentLinkToContact() {
     return (
         <>
             <Helmet>
-                <title>Integrity Clients - Enrollment Link to Contact</title>
+                <title>Integrity - Enrollment Link to Contact</title>
             </Helmet>
             <GlobalNav />
             <GoBackNavbar title={`Back to ${state?.page}`} handleBackToRoute={handleBackToRoute} />

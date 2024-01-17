@@ -1,25 +1,33 @@
-import React, { useState, useEffect, useContext } from "react";
+import * as Sentry from "@sentry/react";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
-import Textfield from "components/ui/textfield";
-import validationService from "services/validationService";
-import useLoading from "hooks/useLoading";
+
+import { Box } from "@mui/material";
+
+import { Formik } from "formik";
+
+import useFlashMessage from "../../hooks/useFlashMessage";
+import useToast from "../../hooks/useToast";
 import useClientId from "hooks/auth/useClientId";
+import useLoading from "hooks/useLoading";
+import useQueryParams from "hooks/useQueryParams";
+
+import { Button, TextButton } from "packages/Button";
+import Heading2 from "packages/Heading2";
+
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
+import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import Textfield from "components/ui/textfield";
+
+import AuthContext from "../../contexts/auth";
+
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
-import useQueryParams from "hooks/useQueryParams";
-import useToast from "../../hooks/useToast";
+import validationService from "services/validationService";
+
 import Styles from "./AuthPages.module.scss";
-import * as Sentry from "@sentry/react";
-import AuthContext from "../../contexts/auth";
-import useFlashMessage from "../../hooks/useFlashMessage";
-import Heading2 from "packages/Heading2";
-import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
-import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
-import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import { Box } from "@mui/material";
-import { Button, TextButton } from "packages/Button";
 import "./mobileStyle.scss";
 
 const LEADCENTER_LOGIN_URL = "https://www.integrityleadcenter.com/login";
@@ -54,7 +62,7 @@ const RegistrationPage = () => {
     return (
         <React.Fragment>
             <Helmet>
-                <title>Integrity Clients - Register Account</title>
+                <title>Integrity - Register Account</title>
             </Helmet>
             <div className="content-frame v2">
                 <HeaderUnAuthenticated />

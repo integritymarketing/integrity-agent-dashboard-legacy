@@ -21,7 +21,7 @@ const ClientImportPage = () => {
     return (
         <React.Fragment>
             <Helmet>
-                <title>Integrity Clients - Client Import</title>
+                <title>Integrity - Client Import</title>
             </Helmet>
             <GlobalNav />
             <div>

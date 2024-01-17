@@ -96,8 +96,8 @@ const SiteNotification = ({ showPhoneNotification, showMaintenaceNotification })
                     <div className="site-notification2__maintanance" data-testid="maintance-notification">
                         <div>We are currently experiencing issues</div>
                         <div className="site-maintanance-text">
-                            This may affect your ability to use Integrity Clients. We are working as fast as we can to
-                            resolve the issue.
+                            This may affect your ability to use Integrity. We are working as fast as we can to resolve
+                            the issue.
                         </div>
                     </div>
                 )}

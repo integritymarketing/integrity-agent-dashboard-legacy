@@ -61,7 +61,7 @@ root.render(
                                                         <ContactDetailsProvider>
                                                             <HelmetProvider>
                                                                 <Helmet>
-                                                                    <title>Integrity Clients</title>
+                                                                    <title>Integrity</title>
                                                                 </Helmet>
                                                                 <Suspense fallback={<div>Loading...</div>}>
                                                                     <AppRouter>

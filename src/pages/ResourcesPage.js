@@ -48,7 +48,7 @@ const isTrainingHub = (resource) => {
 };
 
 const isFeaturedDescriptionChange = (resourceName) => {
-    return resourceName === "Integrity Clients Policy Management User Guide" ? true : false;
+    return resourceName === "Integrity Policy Management User Guide" ? true : false;
 };
 
 const ResourcesPage = () => {
@@ -61,7 +61,7 @@ const ResourcesPage = () => {
     return (
         <React.Fragment>
             <Helmet>
-                <title>Integrity Clients - Learning Center</title>
+                <title>Integrity - Learning Center</title>
             </Helmet>
             <GlobalNavV2 />
             <div className="v2">

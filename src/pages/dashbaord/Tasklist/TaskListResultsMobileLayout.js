@@ -216,7 +216,7 @@ export default function TaskListMobileLayout() {
                 }}
             />
             <Helmet>
-                <title>Integrity Clients - Dashboard</title>
+                <title>Integrity - Dashboard</title>
             </Helmet>
             <GlobalNav page="taskListMobileLayout" title="Task List" />
 

@@ -1,27 +1,35 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { Formik } from "formik";
-import Textfield from "components/ui/textfield";
-import validationService from "services/validationService";
-import useLoading from "hooks/useLoading";
 import { useNavigate } from "react-router-dom";
+
+import { Box } from "@mui/material";
+
+import { Formik } from "formik";
+import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
+
+import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
+import useLoading from "hooks/useLoading";
+import useMobileVersionCheck from "hooks/useMobileVersionCheck";
 import useQueryParams from "hooks/useQueryParams";
-import analyticsService from "services/analyticsService";
-import authService from "services/authService";
-import AuthContext from "contexts/auth";
-import Styles from "./AuthPages.module.scss";
-import "./mobileStyle.scss";
+
+import { Button } from "packages/Button";
 import Heading2 from "packages/Heading2";
+
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
 import { MobileHeaderUnAuthenticated } from "components/MobileHeaderUnAuthenticated";
-import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
-import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import { Box } from "@mui/material";
-import { Button } from "packages/Button";
-import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
-import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
-import useMobileVersionCheck from "hooks/useMobileVersionCheck";
+import Textfield from "components/ui/textfield";
+
+import AuthContext from "contexts/auth";
+
+import analyticsService from "services/analyticsService";
+import authService from "services/authService";
+import validationService from "services/validationService";
+
+import Styles from "./AuthPages.module.scss";
+import "./mobileStyle.scss";
 
 const ServerLoginPage = () => {
     const loading = useLoading();
@@ -58,7 +66,7 @@ const ServerLoginPage = () => {
                 setMobileAppLogin(true);
                 setAppTitle("Agent Mobile - Login");
             } else {
-                setAppTitle("Integrity Clients - Login");
+                setAppTitle("Integrity - Login");
             }
             if (
                 clientId === "ASBClient" ||

@@ -1,16 +1,21 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Formik } from "formik";
-import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
-import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
-import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
-import Textfield from "components/ui/textfield";
-import validationService from "services/validationService";
 import { useNavigate } from "react-router-dom";
-import useLoading from "hooks/useLoading";
-import useClientId from "hooks/auth/useClientId";
-import useQueryParams from "hooks/useQueryParams";
+
 import Box from "@mui/material/Box";
+
+import { Formik } from "formik";
+
+import useClientId from "hooks/auth/useClientId";
+import useLoading from "hooks/useLoading";
+import useQueryParams from "hooks/useQueryParams";
+
+import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
+import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
+import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
+import Textfield from "components/ui/textfield";
+
+import validationService from "services/validationService";
 
 // NOTE that there are instances of both username + npn in this file (they are the same thing)
 // this is to handle compatibility with identity server in the short term
@@ -81,7 +86,7 @@ const PasswordResetPage = () => {
     return (
         <React.Fragment>
             <Helmet>
-                <title>Integrity Clients - Reset Password</title>
+                <title>Integrity - Reset Password</title>
             </Helmet>
             <div className="content-frame v2">
                 <HeaderUnAuthenticated />

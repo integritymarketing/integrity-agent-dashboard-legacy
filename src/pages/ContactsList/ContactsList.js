@@ -34,7 +34,7 @@ function ContactsList() {
     return (
         <>
             <Helmet>
-                <title>Integrity Clients - Contacts</title>
+                <title>Integrity - Contacts</title>
             </Helmet>
             <GlobalNav />
             <ContactsListHeader />
