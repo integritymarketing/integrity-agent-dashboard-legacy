@@ -11,9 +11,10 @@
     color: #052A63;
     font-size: 16px;
     display: flex;
-    gap: 24px;
+    gap: 15px;
     font-weight: normal;
-
+    width: 110px;
+    
     svg {
         padding: 3px;
         border-radius: 50%;
@@ -28,6 +29,9 @@
     gap: 3px;
     color: #4178FF;
     font-weight: 600;
+    width: calc(100% - 110px);
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .subTitle {

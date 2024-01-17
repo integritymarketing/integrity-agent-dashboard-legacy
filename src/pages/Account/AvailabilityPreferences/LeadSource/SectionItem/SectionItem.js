@@ -8,18 +8,22 @@ import styles from "./styles.module.scss";
 function SectionItem({ title, subTitle, actionTitle, action, actionIcon, icon, checked, onChange, disabled }) {
     return (
         <Box className={styles.section}>
-            <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Box display="flex" alignItems="center" gap="5px">
                 <Box className={styles.iconTitle}>
                     <Box className={styles.icon}>{icon}</Box>
                     <Box className={styles.title}>{title}</Box>
                 </Box>
-                {actionTitle && action && (
-                    <Box className={styles.actionTitle} onClick={action}>
-                        {actionTitle}
-                        {actionIcon && <Box>{actionIcon}</Box>}
-                    </Box>
-                )}
-                <Switch defaultChecked={checked} disabled={disabled} onChange={onChange} />
+                <Box className={styles.actionTitle}>
+                    {actionTitle && action ? (
+                        <Box display="flex" gap="3px" onClick={action}>
+                            {actionTitle}
+                            {actionIcon && <Box>{actionIcon}</Box>}
+                        </Box>
+                    ) : (
+                        <Box></Box>
+                    )}
+                    <Switch defaultChecked={checked} disabled={disabled} onChange={onChange} />
+                </Box>
             </Box>
             {subTitle && <Box className={styles.subTitle}>{subTitle}</Box>}
         </Box>
