@@ -4,9 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 
-import { useWindowSize } from "hooks/useWindowSize";
-
-import FooterBanners from "packages/FooterBanners";
+import SupportLinksCard from "components/SupportLinksCard";
 
 import Container from "components/ui/container";
 
@@ -27,9 +25,6 @@ import { ContactsListProvider } from "./providers/ContactsListProvider";
 import styles from "./styles.module.scss";
 
 function ContactsList() {
-    const { width: windowWidth } = useWindowSize();
-
-    const isMobile = windowWidth <= 784;
 
     return (
         <>
@@ -57,7 +52,7 @@ function ContactsList() {
                     </ContactsListProvider>
                 </ContactsListModalProvider>
                 <Box className={styles.footerContainer}>
-                    <FooterBanners className={styles.footerBanners} type={isMobile ? "column" : "row"} />
+                    <SupportLinksCard />
                 </Box>
                 <GlobalFooter />
             </StageStatusProvider>
