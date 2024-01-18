@@ -14,6 +14,8 @@ import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 // Utils
 import { formatPhoneNumber } from "utils/phones";
 
+import Modal from "components/Modal";
+
 import FinalExpenseHealthTableSection from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthTableSection";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import ProviderModal from "components/SharedModals/ProviderModal";
@@ -25,6 +27,8 @@ import RenderProviders from "components/ui/ProvidersList";
 // Local Components
 import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
 
+import EditPharmacy from "components/ui/PlanDetailsTable/shared/PharmacyTable/components/UpdateView/updateView";
+
 // Styles
 import styles from "./HealthSection.module.scss";
 
@@ -35,7 +39,9 @@ const HealthDetailsSection = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenPrescription, setIsOpenPrescription] = useState(false);
     const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
+    const [isOpenEditPharmacy, setIsOpenEditPharmacy] = useState(false);
     const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
+    const [pharmacyToEdit, setPharmacyToEdit] = useState(null);
     const [isOpenPharmacy, setIsOpenPharmacy] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [providerEditFlag, setProviderEditFlag] = useState(false);
@@ -69,6 +75,10 @@ const HealthDetailsSection = () => {
     const onEditPrescription = (item) => {
         setIsOpenEditPrescription(true);
         setPrescriptionToEdit(item);
+    };
+    const onEditPharmacy = (item) => {
+        setIsOpenEditPharmacy(true);
+        setPharmacyToEdit(item);
     };
     const onCloseEditPrescription = () => setIsOpenEditPrescription(false);
     const onAddNewPharmacy = () => setIsOpenPharmacy(true);
@@ -165,7 +175,7 @@ const HealthDetailsSection = () => {
                     onAddClick={pharmacies?.length > 0 ? null : onAddNewPharmacy}
                     items={pharmacies}
                     Row={PharamaciesRow}
-                    onDelete={onDeletePharmacy}
+                    onEdit={onEditPharmacy}
                     isLoading={pharmacyLoading}
                 />
                 <FinalExpenseHealthTableSection contactId={leadId} isHealthPage={true} />
@@ -200,6 +210,25 @@ const HealthDetailsSection = () => {
                         isEdit={true}
                         leadId={leadId}
                     />
+                )}
+
+                {isOpenEditPharmacy && (
+                    <Modal
+                        open={isOpenEditPharmacy}
+                        onClose={() => {
+                            setIsOpenEditPharmacy(false);
+                        }}
+                        hideFooter
+                        title={"Update Pharmacy"}
+                        isDelete={true}
+                        modalName={"Pharmacy"}
+                        onDelete={() => {
+                            onDeletePharmacy(pharmacyToEdit);
+                            setIsOpenEditPharmacy(false);
+                        }}
+                    >
+                        <EditPharmacy data={pharmacyToEdit} />
+                    </Modal>
                 )}
 
                 {isOpenPharmacy && (
