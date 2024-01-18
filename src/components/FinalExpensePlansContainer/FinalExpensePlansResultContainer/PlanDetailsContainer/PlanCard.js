@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import PropTypes from "prop-types";
 
@@ -22,10 +22,11 @@ import { PrescreenModal } from "./PrescreenModal";
 import useFetch from "hooks/useFetch";
 import { useRecoilValue } from "recoil";
 import { agentInformationSelector } from "recoil/agent/selectors";
-import useContactDetails from "pages/ContactDetails/useContactDetails";
+import { useLeadDetails } from "providers/ContactDetails";
 import { getPlanEnrollBody } from "./PlanDetailsContainer.utils";
 import { FinalExpenseEnrollResponseModal } from "./FinalExpenseEnrollResponseModal";
 
+// eslint-disable-next-line max-lines-per-function
 export const PlanCard = ({
     isMobile,
     planName,
@@ -43,16 +44,25 @@ export const PlanCard = ({
     isHaveCarriers,
     writingAgentNumber,
     contactId,
-    planType
+    planType,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
-    const { leadDetails } = useContactDetails(contactId);
+    const { leadDetails } = useLeadDetails();
     const { agentFirstName, agentLastName } = useRecoilValue(agentInformationSelector);
     const { Post: enrollLeadFinalExpensePlan } = useFetch(`${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`);
     const [enrollResponse, setEnrollResponse] = useState(null);
 
     const onApply = async () => {
-        const body = getPlanEnrollBody(writingAgentNumber, agentFirstName, agentLastName, leadDetails, coverageAmount, planName, resource_url, planType);
+        const body = getPlanEnrollBody(
+            writingAgentNumber,
+            agentFirstName,
+            agentLastName,
+            leadDetails,
+            coverageAmount,
+            planName,
+            resource_url,
+            planType
+        );
         const response = await enrollLeadFinalExpensePlan(body);
 
         if (response.redirectUrl) {
@@ -60,8 +70,7 @@ export const PlanCard = ({
         } else {
             setEnrollResponse(response);
         }
-    }
-
+    };
 
     const renderBenefits = () => (
         <table>
