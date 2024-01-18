@@ -233,7 +233,7 @@ export default function TaskList({ isMobile, npn }) {
                 return "There are no incomplete SOAs being tracked for you at this time.";
             }
             case "PlanEnroll Leads": {
-                return "There are no planenroll leads for you at this time.";
+                return "There are no planEnroll leads for you at this time.";
             }
             default:
                 return `There are no ${selectedName?.toLowerCase()} at this time.`;

@@ -12,7 +12,6 @@ import Heading3 from "packages/Heading3";
 import Heading4 from "packages/Heading4";
 import Paragraph from "packages/Paragraph";
 
-import MissingActiveSellingPermissions from "components/MissingActiveSellingPermissions";
 import BackButton from "components/icons/back-button-2";
 import CallIcon from "components/icons/callicon";
 import MailIcon from "components/icons/mailicon";
@@ -77,7 +76,6 @@ const HelpPage = () => {
                             </a>
                         </Box>
                     </div>
-                    <MissingActiveSellingPermissions />
                 </div>
             </div>
             <GlobalFooter />
