@@ -47,7 +47,7 @@ export const PlanDetailsContainer = ({
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
     const { getFinalExpenseQuotePlans, getCarriersInfo, carrierInfo } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
-    const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
+    const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(true);
     const [fetchPlansError, setFetchPlansError] = useState(false);
 
     const { leadDetails } = useLeadDetails();

@@ -69,7 +69,7 @@ export default function ActivityDetails({
         }}
         actionButtonName="Save"
         actionButtonDisabled={activityObj?.activityNote === note || !note || note?.length < 2}
-        endIcon={<Add />}
+        endIcon={<Add color='#ffffff' />}
       >
         <div className={styles.subSection}>
           <div>
