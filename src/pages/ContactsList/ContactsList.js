@@ -51,9 +51,7 @@ function ContactsList() {
                         </Box>
                     </ContactsListProvider>
                 </ContactsListModalProvider>
-                <Box className={styles.footerContainer}>
                     <SupportLinksCard />
-                </Box>
                 <GlobalFooter />
             </StageStatusProvider>
         </>
