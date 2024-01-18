@@ -14,20 +14,18 @@ import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 // Utils
 import { formatPhoneNumber } from "utils/phones";
 
-import Modal from "components/Modal";
-
 import FinalExpenseHealthTableSection from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthTableSection";
+import Modal from "components/Modal";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import DetailsCard from "components/ui/DetailsCard";
 // UI Components
 import CellData from "components/ui/DetailsTable/CellData";
+import EditPharmacy from "components/ui/PlanDetailsTable/shared/PharmacyTable/components/UpdateView/updateView";
 import RenderProviders from "components/ui/ProvidersList";
 
 // Local Components
 import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
-
-import EditPharmacy from "components/ui/PlanDetailsTable/shared/PharmacyTable/components/UpdateView/updateView";
 
 // Styles
 import styles from "./HealthSection.module.scss";
@@ -97,8 +95,8 @@ const HealthDetailsSection = () => {
         const selectPackageDetails = selectedPackage
             ? `${userQuantity} X ${selectedPackage.packageDisplayText} ${getFrequencyValue(daysOfSupply)}`
             : dosageDetails
-                ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
-                : "";
+            ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
+            : "";
 
         return (
             <div className={className}>
@@ -114,7 +112,8 @@ const HealthDetailsSection = () => {
         const phone = formatPhoneNumber(item.pharmacyPhone);
         return (
             <div className={className}>
-                <CellData header={item.name} subText={address} secondarySubText={phone} useFor="pharmacy" />
+                <CellData header={item.name} secondarySubText={phone} useFor="pharmacy" />
+                <CellData subText={address} useFor="pharmacy" />
             </div>
         );
     };
