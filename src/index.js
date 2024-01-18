@@ -37,7 +37,7 @@ if (process.env.REACT_APP_SENTRY_DSN) {
     Sentry.init({
         dsn: process.env.REACT_APP_SENTRY_DSN,
         environment: process.env.REACT_APP_BUILD_ENV || "Development",
-        release: "portal-app@" + process.env.REACT_APP_VERSION,
+        release: `portal-app@${process.env.REACT_APP_VERSION}`,
     });
 }
 
@@ -58,21 +58,19 @@ root.render(
                                             <BackNavProvider>
                                                 <StageSummaryProvider>
                                                     <TaskListProvider>
-                                                        <ContactDetailsProvider>
-                                                            <HelmetProvider>
-                                                                <Helmet>
-                                                                    <title>Integrity</title>
-                                                                </Helmet>
-                                                                <Suspense fallback={<div>Loading...</div>}>
-                                                                    <AppRouter>
-                                                                        <div className="content-frame">
-                                                                            <AppRoutes />
-                                                                        </div>
-                                                                    </AppRouter>
-                                                                </Suspense>
-                                                                <PortalUrl />
-                                                            </HelmetProvider>
-                                                        </ContactDetailsProvider>
+                                                        <HelmetProvider>
+                                                            <Helmet>
+                                                                <title>Integrity</title>
+                                                            </Helmet>
+                                                            <Suspense fallback={<div>Loading...</div>}>
+                                                                <AppRouter>
+                                                                    <div className="content-frame">
+                                                                        <AppRoutes />
+                                                                    </div>
+                                                                </AppRouter>
+                                                            </Suspense>
+                                                            <PortalUrl />
+                                                        </HelmetProvider>
                                                     </TaskListProvider>
                                                 </StageSummaryProvider>
                                             </BackNavProvider>

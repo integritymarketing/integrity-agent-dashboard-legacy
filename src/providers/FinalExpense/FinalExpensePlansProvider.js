@@ -37,7 +37,7 @@ export const FinalExpensePlansProvider = ({ children }) => {
     const { Post: fetchFinalExpenseQuotePlans } = useFetch(QUOTE_URL);
 
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
-    const [carrierInfo, setCarrierInfo] = useState(null)
+    const [carrierInfo, setCarrierInfo] = useState(null);
 
     const getFinalExpensePlans = useCallback(
         async (quoteId) => {
@@ -64,13 +64,10 @@ export const FinalExpensePlansProvider = ({ children }) => {
         [fetchFinalExpensePlans]
     );
 
-
-
-
     const getCarriersInfo = async () => {
         await performAsyncOperation(
             () => fetchCarriersInfo(null, false),
-            () => { },
+            () => {},
             async (data) => {
                 setCarrierInfo(data);
             },
@@ -93,7 +90,7 @@ export const FinalExpensePlansProvider = ({ children }) => {
             isLoadingFinalExpensePlans,
             fetchAndSetFilteredExpensePlans,
             getCarriersInfo,
-            carrierInfo
+            carrierInfo,
         };
     }
 };

@@ -1,6 +1,9 @@
-import React, { createContext, useCallback, useMemo, useState } from "react";
+/* eslint-disable max-lines-per-function */
+import { createContext, useCallback, useMemo, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import PropTypes from "prop-types";
+
 import { getFormattedData } from "utilities/formatData";
 import performAsyncOperation from "utilities/performAsyncOperation";
 
@@ -10,11 +13,13 @@ import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 
 const flattenMBI = (mbi) => {
-    if (!mbi) return null;
+    if (!mbi) {
+        return null;
+    }
     return mbi.replace(/-/g, "");
 };
 
-const getFormattedPhone = (phone) => (phone ? ("" + phone).replace(/\D/g, "") : null);
+const getFormattedPhone = (phone) => (phone ? `${phone}`.replace(/\D/g, "") : null);
 
 export const LeadDetailsContext = createContext();
 
@@ -34,21 +39,26 @@ export const LeadDetailsProvider = ({ children }) => {
     // selectedTab  state can be one of ["overview", "scopeOfAppointment", "policies", "health"]
     const [selectedTab, setSelectedTab] = useState("overview");
     const [leadDetails, setLeadDetails] = useState(null);
+    const { leadId: leadIdParam, contactId } = useParams();
+    const leadID = leadIdParam || contactId;
 
     const getLeadDetails = useCallback(
         async (leadId) => {
             try {
-                const data = await fetchLeadDetails(null, false, leadId);
-                if (data) setLeadDetails(data);
-                else setLeadDetails(null);
+                const response = await fetchLeadDetails(null, false, leadId);
+                setLeadDetails(response);
             } catch (error) {
-                console.error("Error fetching Lead details:", error);
-                // Handle error appropriately here
+                showToast({
+                    type: "error",
+                    message: "Failed to load lead details",
+                    time: 10000,
+                });
             }
         },
-        [fetchLeadDetails]
+        [fetchLeadDetails, showToast]
     );
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const updateLeadDetails = async (newPayload) => {
         const {
             firstName,
@@ -143,39 +153,45 @@ export const LeadDetailsProvider = ({ children }) => {
         );
     };
 
-    const updateClientNotes = async (oldPayload, newPayload) => {
-        const formattedData = getFormattedData(newPayload, oldPayload);
-        await performAsyncOperation(
-            () => editLeadDetails(formattedData, false, newPayload.leadsId),
-            () => {},
-            async () => {
-                await getLeadDetails(newPayload?.leadsId);
-                showToast({
-                    message: `Client notes successfully Updated.                      `,
-                });
-            },
-            (err) =>
-                showToast({
-                    type: "error",
-                    message: `Failed to update lead`,
-                })
-        );
-    };
+    const updateClientNotes = useCallback(
+        async (oldPayload, newPayload) => {
+            const formattedData = getFormattedData(newPayload, oldPayload);
+            await performAsyncOperation(
+                () => editLeadDetails(formattedData, false, newPayload.leadsId),
+                () => {},
+                async () => {
+                    await getLeadDetails(newPayload?.leadsId);
+                    showToast({
+                        message: `Client notes successfully Updated.                      `,
+                    });
+                },
+                (err) =>
+                    showToast({
+                        type: "error",
+                        message: `Failed to update lead`,
+                    })
+            );
+        },
+        [editLeadDetails, getLeadDetails, showToast]
+    );
 
-    const removeContact = async (leadId, callBack) => {
-        await performAsyncOperation(
-            () => deleteContact(null, true, leadId),
-            () => {},
-            () => {
-                callBack();
-            },
-            (err) =>
-                showToast({
-                    type: "error",
-                    message: `Failed to delete lead`,
-                })
-        );
-    };
+    const removeContact = useCallback(
+        async (leadId, callBack) => {
+            await performAsyncOperation(
+                () => deleteContact(null, true, leadId),
+                () => {},
+                () => {
+                    callBack();
+                },
+                (err) =>
+                    showToast({
+                        type: "error",
+                        message: `Failed to delete lead`,
+                    })
+            );
+        },
+        [deleteContact, showToast]
+    );
 
     const contextValue = useMemo(
         () => ({
@@ -201,6 +217,12 @@ export const LeadDetailsProvider = ({ children }) => {
             updateClientNotes,
         ]
     );
+
+    useEffect(() => {
+        if (leadID) {
+            getLeadDetails(leadID);
+        }
+    }, [getLeadDetails, leadID]);
 
     return <LeadDetailsContext.Provider value={contextValue}>{children}</LeadDetailsContext.Provider>;
 };

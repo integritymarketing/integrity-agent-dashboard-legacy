@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -31,7 +31,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
     const { leadId: leadIdParam } = useParams();
     const leadId = contactId || leadIdParam;
     const navigate = useNavigate();
-    const { leadDetails, selectedTab, setSelectedTab, getLeadDetails } = useLeadDetails();
+    const { leadDetails, selectedTab, setSelectedTab } = useLeadDetails();
     const location = useLocation();
     const currentPath = location.pathname;
     const [connectModalVisible, setConnectModalVisible] = useState(false);
@@ -43,12 +43,6 @@ export const ContactProfileTabBar = ({ contactId }) => {
             ? `${leadDetails?.firstName} ${leadDetails?.lastName}`
             : "Lead Name here ...";
     const zipcode = leadDetails?.addresses && leadDetails?.addresses[0]?.postalCode;
-
-    useEffect(() => {
-        if (leadId) {
-            getLeadDetails(leadId);
-        }
-    }, [getLeadDetails, leadId]);
 
     const handleSectionChange = useCallback(
         (section) => {

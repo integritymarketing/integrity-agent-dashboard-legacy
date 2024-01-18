@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useMemo, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { useLeadDetails } from "providers/ContactDetails";
 
@@ -19,13 +18,7 @@ export const FinalExpensePlansContainer = () => {
 
     const navigate = useNavigate();
 
-    const { leadDetails, updateLeadDetails, isLoadingLeadDetails, getLeadDetails } = useLeadDetails();
-
-    useEffect(() => {
-        if (!leadDetails?.firstName) {
-            getLeadDetails(contactId);
-        }
-    }, [contactId, getLeadDetails]);
+    const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
 
     const onSave = async (formData) => {
         const {
@@ -49,9 +42,9 @@ export const FinalExpensePlansContainer = () => {
         const code = JSON.stringify({ stateCode: formData.stateCode });
         sessionStorage.setItem(contactId, code);
 
-        let email = emails.length > 0 ? emails[0].leadEmail : null;
-        let phoneData = phones.length > 0 ? phones[0] : null;
-        let addressData = addresses.length > 0 ? addresses?.[0] : null;
+        const email = emails.length > 0 ? emails[0].leadEmail : null;
+        const phoneData = phones.length > 0 ? phones[0] : null;
+        const addressData = addresses.length > 0 ? addresses?.[0] : null;
         const emailID = emails.length > 0 ? emails[0].emailID : 0;
         const leadAddressId = addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
         const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;

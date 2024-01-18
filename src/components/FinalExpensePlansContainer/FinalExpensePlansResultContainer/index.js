@@ -1,21 +1,21 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
 
 import { Text } from "@integritymarketing/ui-text-components";
-import PropTypes from "prop-types";
-import { useLeadDetails } from "providers/ContactDetails";
-
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useFetch from "hooks/useFetch";
 import usePreferences from "hooks/usePreferences";
-import useRoles from "hooks/useRoles";
 
 import Heading4 from "packages/Heading4";
 
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 import { CurrencyAdjuster } from "components/CurrencyAdjuster";
-import { AGENT_SERVICE_NON_RTS } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
+import {
+    AGENT_SERVICE_NON_RTS,
+    COVERAGE_AMOUNT,
+    MONTHLY_PREMIUM,
+} from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 import CheckedIcon from "components/icons/CheckedIcon";
 import UnCheckedIcon from "components/icons/unChecked";
 import { Select } from "components/ui/Select";
@@ -35,8 +35,6 @@ import {
 import styles from "./FinalExpensePlansResultContainer.module.scss";
 import { PlanDetailsContainer } from "./PlanDetailsContainer/PlanDetailsContainer";
 
-import { COVERAGE_AMOUNT, MONTHLY_PREMIUM } from "../FinalExpensePlansContainer.constants";
-
 const FinalExpensePlansResultContainer = () => {
     const [isMobile, setIsMobile] = useState(false);
     const { contactId } = useParams();
@@ -51,7 +49,7 @@ const FinalExpensePlansResultContainer = () => {
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
     const { min: covMin, max: covMax, step: covStep } = STEPPER_FILTER[COVERAGE_AMOUNT];
     const { min, max, step } = STEPPER_FILTER[MONTHLY_PREMIUM];
-    const { getLeadDetails } = useLeadDetails();
+
     const defaultIsMyAppointedProducts = useMemo(
         () => ({
             contactId: contactId || null, // Fallback to null if contactId is undefined
@@ -88,11 +86,6 @@ const FinalExpensePlansResultContainer = () => {
         }
     }, [agentNPN]);
 
-    // Effects
-    useEffect(() => {
-        getLeadDetails(contactId);
-    }, [contactId]);
-
     useEffect(() => {
         if (contactId !== sessionLead) {
             setSessionLead(contactId);
@@ -109,10 +102,6 @@ const FinalExpensePlansResultContainer = () => {
         setIsShowExcludedProducts(false);
     };
 
-    useEffect(() => {
-        getLeadDetails(contactId);
-    }, []);
-
     const updateCoverageAmount = (value) => {
         setCoverageAmount(value);
     };
@@ -126,14 +115,22 @@ const FinalExpensePlansResultContainer = () => {
             if (coverageAmount !== covMin) {
                 if (coverageAmount + covStep < covMax) {
                     updateCoverageAmount(coverageAmount + covStep);
-                } else setCoverageAmount(covMax);
-            } else setCoverageAmount(5000);
+                } else {
+                    setCoverageAmount(covMax);
+                }
+            } else {
+                setCoverageAmount(5000);
+            }
         } else {
             if (monthlyPremiumAmount !== min) {
                 if (monthlyPremiumAmount + step < max) {
                     updateMonthlyPremiumAmount(monthlyPremiumAmount + step);
-                } else setMonthlyPremiumAmount(max);
-            } else setMonthlyPremiumAmount(20);
+                } else {
+                    setMonthlyPremiumAmount(max);
+                }
+            } else {
+                setMonthlyPremiumAmount(20);
+            }
         }
     };
 
@@ -142,14 +139,22 @@ const FinalExpensePlansResultContainer = () => {
             if (coverageAmount !== covMax) {
                 if (coverageAmount - covStep > covMin) {
                     updateCoverageAmount(coverageAmount - covStep);
-                } else setCoverageAmount(covMin);
-            } else setCoverageAmount(995000);
+                } else {
+                    setCoverageAmount(covMin);
+                }
+            } else {
+                setCoverageAmount(995000);
+            }
         } else {
             if (monthlyPremiumAmount !== max) {
                 if (monthlyPremiumAmount - step > min) {
                     updateMonthlyPremiumAmount(monthlyPremiumAmount - step);
-                } else setMonthlyPremiumAmount(min);
-            } else setMonthlyPremiumAmount(980);
+                } else {
+                    setMonthlyPremiumAmount(min);
+                }
+            } else {
+                setMonthlyPremiumAmount(980);
+            }
         }
     };
 
@@ -158,7 +163,7 @@ const FinalExpensePlansResultContainer = () => {
     };
 
     const handleInputChange = (e) => {
-        const value = +e.target.value.replace(/[^0-9]/g, "") || 0;
+        const value = Number(e.target.value.replace(/[^0-9]/g, "")) || 0;
         if (selectedTab === COVERAGE_AMOUNT) {
             updateCoverageAmount(value);
         } else {
@@ -198,7 +203,7 @@ const FinalExpensePlansResultContainer = () => {
                         onChange={handleInputChange}
                         inputErrorStyle={
                             (covAmtError && selectedTab === COVERAGE_AMOUNT) ||
-                                (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
+                            (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
                                 ? styles.inputError
                                 : ""
                         }
@@ -221,10 +226,13 @@ const FinalExpensePlansResultContainer = () => {
                         />
                         <div className={styles.checkboxesWrapper}>
                             <div
-                                className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""
-                                    } ${!isRTS ? styles.inActive : ""}`}
+                                className={`${styles.checkbox} ${
+                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                } ${!isRTS ? styles.inActive : ""}`}
                                 onClick={() => {
-                                    if (!isRTS) return;
+                                    if (!isRTS) {
+                                        return;
+                                    }
                                     setIsMyAppointedProducts(!isMyAppointedProducts);
 
                                     setAppointmentSession(true);
@@ -234,8 +242,9 @@ const FinalExpensePlansResultContainer = () => {
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
-                                className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                    }`}
+                                className={`${styles.checkbox} ${
+                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                }`}
                                 onClick={() => setIsShowExcludedProducts(!isShowExcludedProducts)}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}

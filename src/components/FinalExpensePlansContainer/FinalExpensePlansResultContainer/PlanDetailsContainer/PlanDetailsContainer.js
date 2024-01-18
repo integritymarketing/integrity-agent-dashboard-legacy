@@ -25,8 +25,6 @@ import { BackToTop } from "components/ui/BackToTop";
 import Pagination from "components/ui/Pagination/pagination";
 import PlanCardLoader from "components/ui/PlanCard/loader";
 
-import useContactDetails from "pages/ContactDetails/useContactDetails";
-
 import { PlanCard } from "./PlanCard";
 import styles from "./PlanDetailsContainer.module.scss";
 
@@ -52,15 +50,9 @@ export const PlanDetailsContainer = ({
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
     const [fetchPlansError, setFetchPlansError] = useState(false);
 
-    const { leadDetails, getLeadDetails } = useLeadDetails();
+    const { leadDetails } = useLeadDetails();
 
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
-
-    useEffect(() => {
-        if (!leadDetails?.firstName) {
-            getLeadDetails(contactId);
-        }
-    }, [contactId, getLeadDetails]);
 
     useEffect(() => {
         const fetchHealthConditionsListData = async () => {
@@ -101,7 +93,9 @@ export const PlanDetailsContainer = ({
                 const code = sessionStorage.getItem(contactId)
                     ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
                     : addresses[0]?.stateCode;
-                if (!code || !birthdate) return;
+                if (!code || !birthdate) {
+                    return;
+                }
                 setIsLoadingFinalExpensePlans(true);
                 const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
                 const age = getAgeFromBirthDate(birthdate);
@@ -221,8 +215,7 @@ export const PlanDetailsContainer = ({
                                 reason,
                                 writingAgentNumber,
                                 isRTS: isRTSPlan,
-                                type
-
+                                type,
                             } = plan;
                             const { logoUrl = null, naic = null, resource_url = null } = carrier || {};
                             let conditionList = [];

@@ -26,12 +26,8 @@ import {
 
 export const ContactDetailsContainer = () => {
     const { leadId, sectionId } = useParams();
-    const { selectedTab, getLeadDetails, setSelectedTab, isLoadingLeadDetails, leadDetails } = useLeadDetails();
+    const { selectedTab, setSelectedTab, isLoadingLeadDetails, leadDetails } = useLeadDetails();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        getLeadDetails(leadId);
-    }, [leadId]);
 
     useEffect(() => {
         const targetTab = sectionId || "overview";

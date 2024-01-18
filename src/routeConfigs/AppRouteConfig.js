@@ -2,8 +2,7 @@ import { StrictMode, lazy } from "react";
 import { Navigate } from "react-router-dom";
 
 import { FinalExpensePlansProvider } from "providers/FinalExpense";
-
-
+import { ContactDetailsProvider } from "providers/ContactDetails";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
 const AccountPage = lazy(() => import("pages/Account/AccountPage"));
@@ -178,7 +177,14 @@ const appProtectedRoutes = [
         path: "/plans/:contactId/compare/:planIds/:effectiveDate",
         component: <ComparePlansPage />,
     },
-    { path: "/plans/:contactId", component: <PlansPage /> },
+    {
+        path: "/plans/:contactId",
+        component: (
+            <ContactDetailsProvider>
+                <PlansPage />
+            </ContactDetailsProvider>
+        ),
+    },
     {
         path: "/:contactId/plan/:planId/:effectiveDate",
         component: <PlanDetailsPage />,
@@ -187,10 +193,12 @@ const appProtectedRoutes = [
         path: "/finalexpenses/create/:contactId",
         component: (
             <StrictMode>
-                <FinalExpensePlansProvider>
-                    <FinalExpenseCreateQuotePage />
-                </FinalExpensePlansProvider>
-                <WebChatComponent />
+                <ContactDetailsProvider>
+                    <FinalExpensePlansProvider>
+                        <FinalExpenseCreateQuotePage />
+                    </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
             </StrictMode>
         ),
     },
@@ -198,8 +206,10 @@ const appProtectedRoutes = [
         path: "/finalexpenses/healthconditions/:contactId",
         component: (
             <StrictMode>
-                <FinalExpenseHealthConditionsPage />
-                <WebChatComponent />
+                <ContactDetailsProvider>
+                    <FinalExpenseHealthConditionsPage />
+                    <WebChatComponent />
+                </ContactDetailsProvider>
             </StrictMode>
         ),
     },
@@ -207,10 +217,12 @@ const appProtectedRoutes = [
         path: "/finalexpenses/plans/:contactId",
         component: (
             <StrictMode>
-                <FinalExpensePlansProvider>
-                    <FinalExpensePlansPage />
-                </FinalExpensePlansProvider>
-                <WebChatComponent />
+                <ContactDetailsProvider>
+                    <FinalExpensePlansProvider>
+                        <FinalExpensePlansPage />
+                    </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
             </StrictMode>
         ),
     },

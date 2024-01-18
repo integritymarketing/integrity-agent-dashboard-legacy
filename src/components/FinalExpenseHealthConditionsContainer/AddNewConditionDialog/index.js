@@ -73,7 +73,7 @@ const AddNewConditionDialog = ({
             ? 2
             : 0
     );
-    const { getLeadDetails, leadDetails } = useContactDetails(contactId);
+    const { leadDetails } = useContactDetails(contactId);
     const showToast = useToast();
     const { Get: getSearchResults } = useFetch(`${HEALTH_CONDITION_SEARCH_API}${searchString}`);
     const { Post: addNewHealthCondition, Put: updateHeathCondition } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
@@ -86,10 +86,6 @@ const AddNewConditionDialog = ({
         const value = e.target.value;
         debouncedOnChangeHandle(value);
     };
-
-    useEffect(() => {
-        getLeadDetails();
-    }, []);
 
     useEffect(() => {
         if (searchString.length > 2) {
@@ -112,7 +108,9 @@ const AddNewConditionDialog = ({
     }, [searchString]);
 
     const saveToAPI = async () => {
-        if (!selectedCondition) return null;
+        if (!selectedCondition) {
+            return null;
+        }
         setIsSavingToServer(true);
 
         let lastTreatmentDateServer = null;
