@@ -1,25 +1,44 @@
 import React, { useState } from "react";
+import { styled } from '@mui/material/styles';
 import Arrow from "components/icons/down";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import Checkbox from "@mui/material/Checkbox";
-import makeStyles from "@mui/styles/makeStyles";
 import Box from "@mui/material/Box";
 import { sortAddressesBySelectedIds } from "utils/address";
 
-const useStyles = makeStyles({
-    list: {
+const PREFIX = 'ProviderCard';
+
+const classes = {
+    list: `${PREFIX}-list`,
+    singleCard: `${PREFIX}-singleCard`,
+    multipleCard: `${PREFIX}-multipleCard`,
+    title: `${PREFIX}-title`,
+    name: `${PREFIX}-name`,
+    specialty: `${PREFIX}-specialty`,
+    additional: `${PREFIX}-additional`,
+    listItem: `${PREFIX}-listItem`,
+    addressText: `${PREFIX}-addressText`,
+    reverse: `${PREFIX}-reverse`,
+    icon: `${PREFIX}-icon`,
+    multipleAddresses: `${PREFIX}-multipleAddresses`,
+    checkbox: `${PREFIX}-checkbox`,
+    isMultiple: `${PREFIX}-isMultiple`
+};
+
+const Root = styled('div')({
+    [`& .${classes.list}`]: {
         marginTop: "16px",
         marginBottom: "16px",
         backgroundColor: "#FFFFFF",
         borderRadius: "8px",
     },
-    singleCard: {
+    [`& .${classes.singleCard}`]: {
         padding: "16px",
         borderRadius: "8px",
     },
-    multipleCard: {
+    [`& .${classes.multipleCard}`]: {
         padding: "16px",
         boxShadow: "inset 0px -1px 0px #CCCCCC",
         "&:first-child": {
@@ -29,19 +48,19 @@ const useStyles = makeStyles({
             borderRadius: "0px 0px 8px 8px",
         },
     },
-    title: {
+    [`& .${classes.title}`]: {
         color: "#717171",
         fontSize: "14px",
         letterSpacing: "-0.14px",
         fontFamily: "Lato",
     },
-    name: {
+    [`& .${classes.name}`]: {
         color: "#052A63",
         fontSize: "20px",
         letterSpacing: "0.2px",
         fontFamily: "Lato",
     },
-    specialty: {
+    [`& .${classes.specialty}`]: {
         color: "#4178FF",
         fontSize: "14px",
         fontWeight: "600",
@@ -49,14 +68,14 @@ const useStyles = makeStyles({
         fontFamily: "Lato",
         marginTop: "8px",
     },
-    additional: {
+    [`& .${classes.additional}`]: {
         color: "#4178FF",
         fontSize: "16px",
         fontWeight: "600",
         letterSpacing: "-0.16px",
         fontFamily: "Lato",
     },
-    listItem: {
+    [`& .${classes.listItem}`]: {
         backgroundColor: "#dddddd !important",
 
         "&.Mui-selected, &.Mui-selected:hover, &:hover": {
@@ -64,31 +83,31 @@ const useStyles = makeStyles({
         },
         padding: "unset !important",
     },
-    addressText: {
+    [`& .${classes.addressText}`]: {
         color: "#434A51",
         fontSize: 16,
     },
-    reverse: {
+    [`& .${classes.reverse}`]: {
         transform: "rotate(360deg)",
         cursor: "pointer",
         marginRight: "10px",
     },
-    icon: {
+    [`& .${classes.icon}`]: {
         cursor: "pointer",
         marginRight: "10px",
         transform: "rotate(270deg)",
     },
-    multipleAddresses: {
+    [`& .${classes.multipleAddresses}`]: {
         display: "flex",
         alignItems: "center",
     },
-    checkbox: {
+    [`& .${classes.checkbox}`]: {
         color: "#434A51",
         "&.Mui-checked": {
             color: "#4178FF",
         },
     },
-    isMultiple: {
+    [`& .${classes.isMultiple}`]: {
         boxShadow: "inset 0px -1px 0px #CCCCCC",
         "&:first-child": {
             borderRadius: "4px 4px 0px 0px",
@@ -111,7 +130,7 @@ const Address = ({
     selectedProvider,
     disableAddressSelect,
 }) => {
-    const classes = useStyles();
+
     const isMultiple = addresses?.length > 1;
 
     const handleSelectAddress = (address) => {
@@ -159,7 +178,7 @@ const Address = ({
                         />
 
                         <Typography className={classes.addressText}>
-                            <div>
+                            <Root>
                                 <div>
                                     {address
                                         ? [address?.streetLine1, address?.streetLine2].filter(Boolean).join(",")
@@ -170,7 +189,7 @@ const Address = ({
                                         ? [address?.city, address?.state, address?.zipCode].filter(Boolean).join(",")
                                         : null}
                                 </div>
-                            </div>
+                            </Root>
                         </Typography>
                     </ListItemButton>
                 );
@@ -189,7 +208,7 @@ const ProviderCard = ({
     providerToEdit,
     disableAddressSelect,
 }) => {
-    const classes = useStyles();
+
     const [isOpen, setOpenToggle] = useState(isEdit);
 
     let selectedAddresses = providerToEdit?.addresses?.map((address) => address.id);

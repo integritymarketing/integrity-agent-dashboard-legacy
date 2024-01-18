@@ -1,6 +1,6 @@
 import React from "react";
+import { styled } from '@mui/material/styles';
 import PropTypes from "prop-types";
-import makeStyles from "@mui/styles/makeStyles";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -9,15 +9,21 @@ import { Select } from "components/ui/Select";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 import "./style.scss";
 
-const useStyles = makeStyles(() => ({
-  customTypography: {
+const PREFIX = 'PrescriptionForm';
+
+const classes = {
+  customTypography: `${PREFIX}-customTypography`
+};
+
+const StyledGrid = styled(Grid)(() => ({
+  [`& .${classes.customTypography}`]: {
     color: "#052A63",
     fontSize: 16,
     fontFamily: "Lato",
     letterSpacing: "0.16px",
     fontWeight: "bold",
     marginBottom: 10,
-  },
+  }
 }));
 
 const PrescriptionForm = ({
@@ -32,10 +38,10 @@ const PrescriptionForm = ({
   dosagePackage,
   setDosagePackage,
 }) => {
-  const classes = useStyles();
+
 
   return (
-    <Grid container rowSpacing={1} columnSpacing={3}>
+    <StyledGrid container rowSpacing={1} columnSpacing={3}>
       <Grid item xs={12} md={6}>
         <Box>
           <Typography className={classes.customTypography}>Dosage</Typography>
@@ -91,7 +97,7 @@ const PrescriptionForm = ({
           </Box>
         </Grid>
       )}
-    </Grid>
+    </StyledGrid>
   );
 };
 

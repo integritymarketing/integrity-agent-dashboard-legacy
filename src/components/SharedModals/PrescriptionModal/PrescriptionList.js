@@ -1,14 +1,28 @@
 import React, { useMemo, useCallback } from "react";
+import { styled } from '@mui/material/styles';
 import PropTypes from "prop-types";
-import makeStyles from "@mui/styles/makeStyles";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import Radio from "@mui/material/Radio";
 import ListItemText from "@mui/material/ListItemText";
 
-const usePrescriptionListStyles = makeStyles((theme) => ({
+const PREFIX = 'PrescriptionList';
+
+const classes = {
+  radio: `${PREFIX}-radio`,
+  listItem: `${PREFIX}-listItem`,
+  primaryText: `${PREFIX}-primaryText`,
+  secondaryText: `${PREFIX}-secondaryText`,
+  listRoot: `${PREFIX}-listRoot`
+};
+
+const StyledList = styled(List)((
+  {
+    theme
+  }
+) => ({
   // Style rules for the radio buttons
-  radio: {
+  [`& .${classes.radio}`]: {
     color: "#434A51",
     "&.Mui-checked": {
       color: "#4178FF",
@@ -16,7 +30,7 @@ const usePrescriptionListStyles = makeStyles((theme) => ({
   },
 
   // Style rules for the list items
-  listItem: {
+  [`& .${classes.listItem}`]: {
     backgroundColor: "#dddddd !important",
     height: 56,
     boxShadow: "inset 0px -1px 0px #cccccc",
@@ -26,13 +40,14 @@ const usePrescriptionListStyles = makeStyles((theme) => ({
   },
 
   // Style rules for the primary and secondary text of list items
-  primaryText: {
+  [`& .${classes.primaryText}`]: {
     color: "#434A51",
     fontFamily: "Lato",
     fontSize: "16px",
     letterSpacing: "0.16px",
   },
-  secondaryText: {
+
+  [`& .${classes.secondaryText}`]: {
     color: "#717171",
     fontFamily: "Lato",
     fontSize: "14px",
@@ -40,7 +55,7 @@ const usePrescriptionListStyles = makeStyles((theme) => ({
 
   // Style rules for the list Root
 
-  listRoot: {
+  [`&.${classes.listRoot}`]: {
     maxHeight: "35vh",
     overflowY: "auto",
     marginBottom: "5px",
@@ -55,7 +70,64 @@ const usePrescriptionListStyles = makeStyles((theme) => ({
     "&.MuiIconButton-colorSecondary:hover": {
       backgroundColor: "transparent !important",
     },
+  }
+}));
+
+const usePrescriptionListStyles = makeStyles((
+  {
+    theme
+  }
+) => ({
+  // Style rules for the radio buttons
+  [`& .${classes.radio}`]: {
+    color: "#434A51",
+    "&.Mui-checked": {
+      color: "#4178FF",
+    },
   },
+
+  // Style rules for the list items
+  [`& .${classes.listItem}`]: {
+    backgroundColor: "#dddddd !important",
+    height: 56,
+    boxShadow: "inset 0px -1px 0px #cccccc",
+    "&.Mui-selected, &.Mui-selected:hover, &:hover": {
+      backgroundColor: "#f1faff !important",
+    },
+  },
+
+  // Style rules for the primary and secondary text of list items
+  [`& .${classes.primaryText}`]: {
+    color: "#434A51",
+    fontFamily: "Lato",
+    fontSize: "16px",
+    letterSpacing: "0.16px",
+  },
+
+  [`& .${classes.secondaryText}`]: {
+    color: "#717171",
+    fontFamily: "Lato",
+    fontSize: "14px",
+  },
+
+  // Style rules for the list Root
+
+  [`&.${classes.listRoot}`]: {
+    maxHeight: "35vh",
+    overflowY: "auto",
+    marginBottom: "5px",
+    "& li:first-of-type": {
+      borderTopLeftRadius: 8,
+      borderTopRightRadius: 8,
+    },
+    "& li:last-of-type": {
+      borderBottomLeftRadius: 8,
+      borderBottomRightRadius: 8,
+    },
+    "&.MuiIconButton-colorSecondary:hover": {
+      backgroundColor: "transparent !important",
+    },
+  }
 }));
 
 const PrescriptionList = ({
@@ -105,7 +177,7 @@ const PrescriptionList = ({
     [prescriptionList, handleSelectionChange, classes, verifySelected]
   );
 
-  return <List className={classes.listRoot}>{renderedPrescriptionList}</List>;
+  return <StyledList className={classes.listRoot}>{renderedPrescriptionList}</StyledList>;
 };
 
 PrescriptionList.propTypes = {

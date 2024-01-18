@@ -1,11 +1,21 @@
 import React from "react";
+import { styled } from '@mui/material/styles';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { formatPhoneNumber } from "utils/phones";
-import makeStyles from "@mui/styles/makeStyles";
+const PREFIX = 'ProviderPersonalInfo';
 
-const useStyles = makeStyles({
-    infoColumn: {
+const classes = {
+    infoColumn: `${PREFIX}-infoColumn`,
+    specialty: `${PREFIX}-specialty`,
+    name: `${PREFIX}-name`,
+    phone: `${PREFIX}-phone`,
+    compareTable: `${PREFIX}-compareTable`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')({
+    [`& .${classes.infoColumn}`]: {
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
@@ -14,28 +24,28 @@ const useStyles = makeStyles({
             width: "100% !important",
         },
     },
-    specialty: {
+    [`& .${classes.specialty}`]: {
         color: "#717171",
         fontSize: "14px",
     },
-    name: {
+    [`& .${classes.name}`]: {
         color: "#052A63",
         fontSize: "20px",
     },
-    phone: {
+    [`& .${classes.phone}`]: {
         color: "#4178FF",
         fontSize: "14px",
     },
-    compareTable: {
+    [`& .${classes.compareTable}`]: {
         width: "100% !important",
     },
 });
 
 const ProviderPersonalInfo = ({ specialty, title, phone, name, compareTable }) => {
-    const classes = useStyles();
+
 
     return (
-        <>
+        (<Root>
             <Box className={`${classes.infoColumn} ${compareTable ? classes.compareTable : ""}`}>
                 <Typography variant="body1" className={classes.specialty}>
                     {specialty} {title ? `/ ${title}` : ""}
@@ -47,7 +57,7 @@ const ProviderPersonalInfo = ({ specialty, title, phone, name, compareTable }) =
                     {formatPhoneNumber(phone)}
                 </Typography>
             </Box>
-        </>
+        </Root>)
     );
 };
 

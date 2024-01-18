@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/react";
+import { styled } from '@mui/material/styles';
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import useDebounce from "hooks/useDebounce";
@@ -7,7 +8,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import makeStyles from "@mui/styles/makeStyles";
 
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
@@ -33,23 +33,20 @@ import ErrorState from "../SharedComponents/ErrorState";
 import SearchInput from "../SharedComponents/SearchInput";
 import SearchLabel from "../SharedComponents/SearchLabel";
 
-const DISTANCE_OPTIONS = [
-    { value: 10, label: "10 miles" },
-    { value: 20, label: "20 miles" },
-    { value: 30, label: "30 miles" },
-];
+const PREFIX = 'ProviderModal';
 
-function encodeQueryData(data) {
-    const ret = [];
-    for (let d in data)
-        if (data[d]) {
-            ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
-        }
-    return ret.join("&");
-}
+const classes = {
+    customTypography: `${PREFIX}-customTypography`,
+    input: `${PREFIX}-input`,
+    spinner: `${PREFIX}-spinner`,
+    pagination: `${PREFIX}-pagination`,
+    maxAddresses: `${PREFIX}-maxAddresses`,
+    maxAddressesMessage: `${PREFIX}-maxAddressesMessage`,
+    boldMessage: `${PREFIX}-boldMessage`
+};
 
-const useStyles = makeStyles(() => ({
-    customTypography: {
+const StyledModal = styled(Modal)(() => ({
+    [`& .${classes.customTypography}`]: {
         color: "#052A63",
         fontSize: 16,
         fontFamily: "Lato",
@@ -57,19 +54,23 @@ const useStyles = makeStyles(() => ({
         fontWeight: "bold",
         marginBottom: 10,
     },
-    input: {
+
+    [`& .${classes.input}`]: {
         "&.MuiOutlinedInput-input": {
             padding: "10px 14px",
         },
     },
-    spinner: {
+
+    [`& .${classes.spinner}`]: {
         color: "#4178FF",
     },
-    pagination: {
+
+    [`& .${classes.pagination}`]: {
         display: "flex",
         justifyContent: "center",
     },
-    maxAddresses: {
+
+    [`& .${classes.maxAddresses}`]: {
         position: "sticky",
         top: 0,
         zIndex: 10,
@@ -81,15 +82,32 @@ const useStyles = makeStyles(() => ({
         borderRadius: "8px",
         border: "solid 1px #f44236",
     },
-    maxAddressesMessage: {
+
+    [`& .${classes.maxAddressesMessage}`]: {
         color: "#052A63",
         fontSize: "20px",
         marginLeft: "10px",
     },
-    boldMessage: {
+
+    [`& .${classes.boldMessage}`]: {
         fontWeight: "bold",
-    },
+    }
 }));
+
+const DISTANCE_OPTIONS = [
+    { value: 10, label: "10 miles" },
+    { value: 20, label: "20 miles" },
+    { value: 30, label: "30 miles" },
+];
+
+function encodeQueryData(data) {
+    const ret = [];
+    for (const d in data)
+        {if (data[d]) {
+            ret.push(`${encodeURIComponent(d)  }=${  encodeURIComponent(data[d])}`);
+        }}
+    return ret.join("&");
+}
 
 const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, leadId }) => {
     const { addProvider, deleteProvider, providers, fetchProviders } = useHealth();
@@ -100,7 +118,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
     }, [leadId, fetchProviders]);
 
     // Initializations
-    const classes = useStyles();
+
     const { fireEvent } = useAnalytics();
 
     const [zipCode, setZipCode] = useState(userZipCode);
@@ -256,7 +274,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
     const disabled = isEdit ? !selectAddressIds?.length > 0 || !isUpdated : !isFormValid;
 
     return (
-        <Modal
+        <StyledModal
             open={open}
             onClose={onClose}
             onCancel={onClose}
@@ -364,7 +382,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
                     )}
                 </>
             )}
-        </Modal>
+        </StyledModal>
     );
 };
 

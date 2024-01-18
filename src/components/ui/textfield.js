@@ -11,9 +11,7 @@ import PasswordRevealIcon from "components/icons/password-reveal";
 import SuccessIcon from "components/icons/success";
 
 function parseDate(str, format, locale) {
-    if (str.length < 10) {
-        return undefined;
-    } // don't parse before full date
+    if (str.length < 10) return undefined; // don't parse before full date
     const parsed = dateFnsParse(str, format, new Date(), { locale });
     if (isDate(parsed)) {
         return parsed;
@@ -63,17 +61,16 @@ const Textfield = ({
     isMobile = false,
     onClear = null,
     onReset = null,
-    hideFieldError = false,
     ...inputProps
 }) => {
-    const InputElement = multiline ? "textarea" : "input";
+    let InputElement = multiline ? "textarea" : "input";
     const [passwordsVisible, setPasswordsVisible] = useState(false);
     const inputEl = useRef(null);
     const classes = [
         "form-input form-input--textfield",
         className,
-        readOnly ? "form-input--readonly" : "",
-        error ? "form-input--error" : "",
+        !!readOnly ? "form-input--readonly" : "",
+        !!error ? "form-input--error" : "",
         hasSuccess ? "form-input--success" : "",
     ]
         .filter((x) => x.trim() !== "")
@@ -143,7 +140,7 @@ const Textfield = ({
                     </button>
                 )}
             </div>
-            {error && !hideFieldError && <div className="form-input__error">{error}</div>}
+            {error && <div className="form-input__error">{error}</div>}
             {focusBanner && error && <div className="form-input__focus-banner">{focusBanner}</div>}
             {auxLink}
         </div>

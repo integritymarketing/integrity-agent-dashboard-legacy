@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { styled } from '@mui/material/styles';
 import Box from "@mui/material/Box";
 import EditIcon from "components/icons/icon-edit";
 import { formatPhoneNumber } from "utils/phones";
-import makeStyles from "@mui/styles/makeStyles";
 import IconButton from "components/IconButton";
 import ProviderPersonalInfo from "./ProviderPersonalInfo";
 import InNetworkIcon from "components/icons/inNetwork";
@@ -13,44 +13,99 @@ import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 
-const useWebStyles = makeStyles({
-    addressContainer: {
+const PREFIX = 'RenderProviders';
+
+const classes = {
+    addressContainer: `${PREFIX}-addressContainer`,
+    addressText: `${PREFIX}-addressText`,
+    addressColumn: `${PREFIX}-addressColumn`,
+    editbtn: `${PREFIX}-editbtn`,
+    editbtn2: `${PREFIX}-editbtn2`,
+    compareTable: `${PREFIX}-compareTable`,
+    addressTextNew: `${PREFIX}-addressTextNew`
+};
+
+// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
+const Root = styled('div')({
+    [`& .${classes.addressContainer}`]: {
         display: "flex",
         alignItems: "center",
         marginBottom: 10,
         width: "100%",
         backgroundColor: "#F1FAFF",
     },
-    addressText: {
+    [`& .${classes.addressText}`]: {
         marginLeft: 10,
         color: "#717171",
         fontSize: "14px",
         width: "100%",
     },
-    addressColumn: {
+    [`& .${classes.addressColumn}`]: {
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
         width: "40%",
     },
-    editbtn: {
+    [`& .${classes.editbtn}`]: {
         "@media (max-width: 768px)": {
             position: "absolute",
             right: "32px",
         },
     },
-    editbtn2: {
+    [`& .${classes.editbtn2}`]: {
         "@media (max-width: 768px)": {
             position: "absolute",
             top: "12px",
             right: "15px",
         },
     },
-    compareTable: {
+    [`& .${classes.compareTable}`]: {
         width: "100% !important",
         marginTop: "16px",
     },
-    addressTextNew: {
+    [`& .${classes.addressTextNew}`]: {
+        marginLeft: 0,
+    },
+});
+
+const useWebStyles = makeStyles({
+    [`& .${classes.addressContainer}`]: {
+        display: "flex",
+        alignItems: "center",
+        marginBottom: 10,
+        width: "100%",
+        backgroundColor: "#F1FAFF",
+    },
+    [`& .${classes.addressText}`]: {
+        marginLeft: 10,
+        color: "#717171",
+        fontSize: "14px",
+        width: "100%",
+    },
+    [`& .${classes.addressColumn}`]: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        width: "40%",
+    },
+    [`& .${classes.editbtn}`]: {
+        "@media (max-width: 768px)": {
+            position: "absolute",
+            right: "32px",
+        },
+    },
+    [`& .${classes.editbtn2}`]: {
+        "@media (max-width: 768px)": {
+            position: "absolute",
+            top: "12px",
+            right: "15px",
+        },
+    },
+    [`& .${classes.compareTable}`]: {
+        width: "100% !important",
+        marginTop: "16px",
+    },
+    [`& .${classes.addressTextNew}`]: {
         marginLeft: 0,
     },
 });
@@ -187,7 +242,7 @@ const MobileAddress = ({ addresses, isPlanPage }) => {
             <Address addresses={initialAddresses} isPlanPage={isPlanPage} />
 
             {additionalAddresses?.length > 0 && (
-                <>
+                (<Root>
                     <Box className={classes.multipleAddresses}>
                         <Typography
                             className={isOpen ? classes.reverse : classes.icon}
@@ -200,7 +255,7 @@ const MobileAddress = ({ addresses, isPlanPage }) => {
                         </Typography>
                     </Box>
                     {isOpen && <Address addresses={additionalAddresses} isPlanPage={isPlanPage} />}
-                </>
+                </Root>)
             )}
         </Box>
     );

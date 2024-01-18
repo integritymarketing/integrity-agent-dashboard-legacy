@@ -16,6 +16,9 @@ module.exports = {
         requireConfigFile: false,
     },
     settings: {
+        react: {
+            version: "detect",
+        },
         "import/resolver": {
             node: {
                 extensions: [".js", ".jsx"],

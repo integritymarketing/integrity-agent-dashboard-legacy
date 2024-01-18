@@ -1,29 +1,37 @@
 import React from "react";
+import { styled } from '@mui/material/styles';
 import PropTypes from "prop-types";
-import makeStyles from "@mui/styles/makeStyles";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Modal from "components/Modal";
 import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCirlce";
 
-const useStyles = makeStyles(() => ({
-  container: {
+const PREFIX = 'PreEnrollPDFModal';
+
+const classes = {
+  container: `${PREFIX}-container`,
+  text: `${PREFIX}-text`
+};
+
+const StyledModal = styled(Modal)(() => ({
+  [`& .${classes.container}`]: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
   },
-  text: {
+
+  [`& .${classes.text}`]: {
     color: "#434A51",
     fontSize: 16,
     fontFamily: "Lato",
     letterSpacing: "0.16px",
     marginBottom: 10,
-  },
+  }
 }));
 
 const PreEnrollPDFModal = ({ open, onClose }) => {
-  const classes = useStyles();
+
 
   const downloadPdf = () => {
     const url = `${process.env.REACT_APP_RESOURCES_URL}/MedicareCENTER-Pre-Enrollment-Checklist.pdf`;
@@ -31,7 +39,7 @@ const PreEnrollPDFModal = ({ open, onClose }) => {
   };
 
   return (
-    <Modal
+    <StyledModal
       open={open}
       onClose={onClose}
       title="Pre-Enrollment Checklist"
@@ -47,7 +55,7 @@ const PreEnrollPDFModal = ({ open, onClose }) => {
           Client understands.
         </Typography>
       </Box>
-    </Modal>
+    </StyledModal>
   );
 };
 
