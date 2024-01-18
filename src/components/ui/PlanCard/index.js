@@ -1,21 +1,27 @@
 import React, { useState } from "react";
-import Rating from "../Rating";
-import CostBreakdowns from "./cost-breakdowns";
-import { Button } from "../Button";
-import Arrow from "components/icons/down";
-import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
-import EnrollBack from "images/enroll-btn-back.svg";
-import Alert from '@mui/material/Alert';
+import { useParams } from "react-router-dom";
+
+import Alert from "@mui/material/Alert";
+
+import { capitalizeFirstLetter, formatUnderScoreString } from "utils/shared-utils/sharedUtility";
+import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
 
 import useRoles from "hooks/useRoles";
-import { PLAN_TYPE_ENUMS } from "../../../constants";
+
+import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
+import Arrow from "components/icons/down";
+
+import { calculateMonthlyDrugCost, calculatePartialYearDrugCost } from "./calculatePartialDrugCost";
+import CostBreakdowns from "./cost-breakdowns";
 import "./index.scss";
 import PlanCoverage from "./plan-coverage/PlanCoverage";
-import { useParams } from "react-router-dom";
-import { capitalizeFirstLetter, formatUnderScoreString } from "utils/shared-utils/sharedUtility";
 import SelfRecommendation from "./self-recommendation/SelfRecommendation";
-import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
-import { calculatePartialYearDrugCost, calculateMonthlyDrugCost } from "./calculatePartialDrugCost";
+
+import { PLAN_TYPE_ENUMS } from "../../../constants";
+import { Button } from "../Button";
+import Rating from "../Rating";
+
+import EnrollBack from "images/enroll-btn-back.svg";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -66,10 +72,16 @@ export default function PlanCard({
 
     const disableEnroll = isNonRTS_User || shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
 
-
-
-    const validatePartialYearDrugCost = calculatePartialYearDrugCost(planData.estimatedAnnualDrugCostPartialYear, planData?.drugPremium, effectiveDate);
-    const validatePartialMonthlyDrugCost = calculateMonthlyDrugCost(planData.estimatedAnnualDrugCostPartialYear, planData?.drugPremium, effectiveDate);
+    const validatePartialYearDrugCost = calculatePartialYearDrugCost(
+        planData.estimatedAnnualDrugCostPartialYear,
+        planData?.drugPremium,
+        effectiveDate
+    );
+    const validatePartialMonthlyDrugCost = calculateMonthlyDrugCost(
+        planData.estimatedAnnualDrugCostPartialYear,
+        planData?.drugPremium,
+        effectiveDate
+    );
     return (
         <div className={"plan-card"}>
             <div className={`header ${isMobile ? "mobile" : ""}`}>
@@ -125,7 +137,9 @@ export default function PlanCard({
                             <div>
                                 <div className={"label"}>Est. Monthly RX Drug Cost</div>
                                 <div className={"currency"}>
-                                    {validatePartialMonthlyDrugCost === 'N/A' ? 'N/A' : currencyFormatter.format(validatePartialMonthlyDrugCost)}
+                                    {validatePartialMonthlyDrugCost === "N/A"
+                                        ? "N/A"
+                                        : currencyFormatter.format(validatePartialMonthlyDrugCost)}
                                 </div>
                             </div>
                             <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
@@ -144,22 +158,22 @@ export default function PlanCard({
                 <div className={`costs-breakdown ${breakdownCollapsed ? "collapsed" : ""}`}>
                     <CostBreakdowns planData={planData} effectiveDate={effectiveDate} />
                 </div>
-
-
             </div>
 
-            {validatePartialYearDrugCost === 'N/A' && planType !== "MA" &&
+            {validatePartialYearDrugCost === "N/A" && planType !== "MA" && (
                 <div>
-                    <Alert severity="warning">Plan cost data temporarily unavailable, Please add a pharmacy to the contact record or try again later.</Alert>
+                    <Alert severity="warning">
+                        Plan cost data temporarily unavailable, Please add a pharmacy to the contact record or try again
+                        later.
+                    </Alert>
                 </div>
-            }
+            )}
             <PlanCoverage
                 contact={contact}
                 planData={planData}
                 contactId={contactId}
                 planName={planData?.planName}
                 refresh={refresh}
-
             />
             {getCoverageRecommendations(planData)?.length > 0 && (
                 <div className={`coverage ${isMobile ? "mobile" : ""}`}>
@@ -183,7 +197,7 @@ export default function PlanCard({
                 </div>
                 {!planData.nonLicensedPlan && (
                     <Button
-                        label={"Enroll"}
+                        label={"Apply"}
                         onClick={() => setPreCheckListPdfModal(true)}
                         icon={<img src={EnrollBack} alt="enroll" />}
                         className={"enroll-btn"}

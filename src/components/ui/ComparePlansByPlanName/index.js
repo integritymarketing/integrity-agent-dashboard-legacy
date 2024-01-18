@@ -1,18 +1,25 @@
-import React, { useState, useEffect, useCallback } from "react";
 import * as Sentry from "@sentry/react";
-import useToast from "hooks/useToast";
-import clientsService from "services/clientsService";
-import enrollPlansService from "services/enrollPlansService";
-import { Button } from "../Button";
-import EnrollmentModal from "../Enrollment/enrollment-modal";
-import useRoles from "hooks/useRoles";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
+import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
+
+import useRoles from "hooks/useRoles";
+import useToast from "hooks/useToast";
+
 import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import Container from "components/ui/container";
-import NewShareIcon from "images/new-share-icon.svg";
-import EnrollBack from "images/enroll-btn-back.svg";
-import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
+
+import clientsService from "services/clientsService";
+import enrollPlansService from "services/enrollPlansService";
+
 import styles from "../../../pages/PlansPage.module.scss";
+
+import { Button } from "../Button";
+import EnrollmentModal from "../Enrollment/enrollment-modal";
+
+import EnrollBack from "images/enroll-btn-back.svg";
+import NewShareIcon from "images/new-share-icon.svg";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -161,7 +168,7 @@ export default function ComparePlansByPlanName({
                                     {!plan.nonLicensedPlan && !isModal && !isEmail && !isEmailNonRts && (
                                         <>
                                             <Button
-                                                label={"Enroll"}
+                                                label={"Apply"}
                                                 onClick={() => {
                                                     setEnrollingPlan(plan);
                                                     setPreCheckListPdfModal(true);
@@ -186,7 +193,7 @@ export default function ComparePlansByPlanName({
                                     {!plan.nonLicensedPlan && !isModal && isEmail && !isEmailNonRts && (
                                         <>
                                             <Button
-                                                label={"Enroll"}
+                                                label={"Apply"}
                                                 onClick={() => setPreCheckListPdfModal(true)}
                                                 icon={<img src={EnrollBack} alt="enroll" />}
                                                 className={styles["enroll-btn"]}

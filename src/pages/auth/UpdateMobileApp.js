@@ -35,7 +35,7 @@ const UpdateMobileApp = () => {
                 <HeaderUnAuthenticated />
                 <MobileHeaderUnAuthenticated />
                 <ContainerUnAuthenticated>
-                    <Heading2 className={Styles.versionText} text="A New Version of Agent Mobile is Available" />
+                    <Heading2 className={Styles.versionText} text="A New Version of Integrity is Available" />
                     <Box mt={"1rem"} className={Styles.downloadText}>
                         Please download the latest version of the app in order to continue.
                     </Box>
