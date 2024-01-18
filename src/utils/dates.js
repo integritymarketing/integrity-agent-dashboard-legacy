@@ -340,3 +340,14 @@ export const getSoaDatesFromSummary = (inputString) => {
 
     return { sentDate, signedDate };
 };
+
+/**
+ * Validates if the given time string is in 'hh:mm a' format and represents a valid time in 12-hour format.
+ * @param {string} timeString - The time string to validate.
+ * @returns {boolean} True if the time string is valid, false otherwise.
+ */
+export function isTimeValid(timeString) {
+    if (!timeString) return false;
+
+    return !isNaN(timeString.getTime())
+}

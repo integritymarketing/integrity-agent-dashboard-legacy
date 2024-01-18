@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+
+import useDebounce from "hooks/useDebounce";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -93,11 +94,6 @@ const useStyles = makeStyles(() => ({
 const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, leadId }) => {
     const { addProvider, deleteProvider, providers, fetchProviders } = useHealth();
 
-    useEffect(() => {
-        if (leadId) {
-            fetchHealthDetails();
-        }
-    }, [leadId]);
 
     const fetchHealthDetails = useCallback(async () => {
         await fetchProviders(leadId);
@@ -109,6 +105,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
 
     const [zipCode, setZipCode] = useState(userZipCode);
     const [searchString, setSearchString] = useState("");
+    const debouncedSearchString = useDebounce(searchString, 1000);
     const [radius, setRadius] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
     const [results, setResults] = useState();
@@ -136,13 +133,13 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
     // useEffects
 
     useEffect(() => {
-        if (!zipCode || zipCode.length !== 5 || !searchString || isEdit) {
+        if (!zipCode || zipCode.length !== 5 || !debouncedSearchString || isEdit) {
             setIsLoading(false);
             setResults([]);
             return;
         }
         const query = encodeQueryData({
-            searchTerm: searchString,
+            searchTerm: debouncedSearchString,
             radius,
             zipCode,
             page: currentPage,
@@ -160,7 +157,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
                 setIsLoading(false);
                 Sentry.captureException(e);
             });
-    }, [perPage, currentPage, searchString, zipCode, radius, isEdit]);
+    }, [perPage, currentPage, debouncedSearchString, zipCode, radius, isEdit]);
 
     useEffect(() => {
         if (isEdit && selected) {

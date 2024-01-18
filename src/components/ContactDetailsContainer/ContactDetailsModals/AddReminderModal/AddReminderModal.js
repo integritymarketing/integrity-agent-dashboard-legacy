@@ -6,7 +6,9 @@ import DatePickerMUI from "components/DatePicker";
 import TimePickerMUI from "components/TimePicker/TimePicker";
 import styles from "./AddReminderModal.module.scss";
 import TextField from "@mui/material/TextField";
-import { getDateTime, getLocalDateTime } from "utils/dates";
+import { getDateTime, getLocalDateTime, isTimeValid } from "utils/dates";
+
+
 
 export const AddReminderModal = ({ open, onClose, onSave, selectedReminder }) => {
     const initialReminderValues = {
@@ -31,7 +33,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder }) =>
     }, [selectedReminder]);
 
     const actionButtonDisabled = useMemo(() => {
-        return !values.date || !values.time || !values.notes;
+        return !values.date || !isTimeValid(values.time) || !values.notes;
     }, [values.date, values.time, values.notes]);
 
     const handleSaveReminder = useCallback(() => {
@@ -52,8 +54,8 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder }) =>
         setValues(prevValues => ({ ...prevValues, [field]: value }));
     }, []);
 
-    const reminderTitle = selectedReminder ? "Edit Reminder" : "Add a Reminder";
-    const reminderActionButton = selectedReminder ? "Edit Reminder" : "Add Reminder";
+    const reminderTitle = selectedReminder ? "Save Reminder" : "Add a Reminder";
+    const reminderActionButton = selectedReminder ? "Save Reminder" : "Add Reminder";
 
 
     return (
@@ -67,7 +69,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder }) =>
                 onSave={handleSaveReminder}
                 actionButtonName={reminderActionButton}
                 actionButtonDisabled={actionButtonDisabled}
-                endIcon={<Add />}
+                endIcon={<Add color="white" />}
             >
                 <Box className={styles.connectModalBody}>
                     <Box className={styles.dateTimePickers} >

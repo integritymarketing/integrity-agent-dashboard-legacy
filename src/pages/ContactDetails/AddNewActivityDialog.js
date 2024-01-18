@@ -66,7 +66,7 @@ export default function AddNewActivityDialog({
         }}
         actionButtonName="Save"
         actionButtonDisabled={note?.length < 2}
-        endIcon={<Add />}
+        endIcon={<Add color="white" />}
       >
         <Box className={styles.connectModalBody}>
           {renderContent()}
