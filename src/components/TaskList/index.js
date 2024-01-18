@@ -224,7 +224,7 @@ export default function TaskList({ isMobile, npn }) {
         }
     };
 
-    const getErrorHeading = (selectedName) => {
+    const getErrorHeading = () => {
         switch (selectedName) {
             case "Reminders": {
                 return "There are no reminders to display at this time.";
@@ -233,14 +233,14 @@ export default function TaskList({ isMobile, npn }) {
                 return "There are no incomplete SOAs being tracked for you at this time.";
             }
             case "PlanEnroll Leads": {
-                return "There are no planEnroll leads for you at this time.";
+                return "There are no PlanEnroll leads for you at this time.";
             }
             default:
                 return `There are no ${selectedName?.toLowerCase()} at this time.`;
         }
     };
 
-    const getIcon = (selectedName) => {
+    const getIcon = () => {
         switch (selectedName) {
             case "Reminders":
                 return NoReminder;
@@ -255,7 +255,7 @@ export default function TaskList({ isMobile, npn }) {
         }
     };
 
-    const getMoreInfo = (selectedName) => {
+    const getMoreInfo = () => {
         switch (selectedName) {
             case "Reminders": {
                 return "about how you can create reminders.";
