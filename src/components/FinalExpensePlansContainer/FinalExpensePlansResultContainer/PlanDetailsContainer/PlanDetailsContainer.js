@@ -229,7 +229,7 @@ export const PlanDetailsContainer = ({
                                     }
                                 });
                             }
-                            const monthlyRate = modalRates.find((rate) => rate.type === "month")?.rate || 0;
+                            const monthlyRate = modalRates.find((rate) => rate.type === "month")?.totalPremium || 0;
                             return (
                                 <PlanCard
                                     key={`${name}-${index}`}
