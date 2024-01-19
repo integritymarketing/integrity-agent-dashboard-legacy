@@ -59,6 +59,7 @@
     "build": "craco build",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "build:auth": "cross-env REACT_APP_BUILD_TARGET=auth craco build && mv build buildAuth",
+    "clean": "rm -rf build buildAuth node_modules && npm i",
     "test": "craco test --env=jest-environment-jsdom-sixteen",
     "eject": "craco eject",
     "lint:all": "eslint . --max-warnings 0",
