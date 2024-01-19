@@ -1,19 +1,22 @@
 import React, { useState } from "react";
-import { styled } from '@mui/material/styles';
+
 import Box from "@mui/material/Box";
-import EditIcon from "components/icons/icon-edit";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import Typography from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+
 import { formatPhoneNumber } from "utils/phones";
+
 import IconButton from "components/IconButton";
-import ProviderPersonalInfo from "./ProviderPersonalInfo";
+import Arrow from "components/icons/down";
+import EditIcon from "components/icons/icon-edit";
 import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "components/icons/outNetwork";
 
-import Arrow from "components/icons/down";
-import Typography from "@mui/material/Typography";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
+import ProviderPersonalInfo from "./ProviderPersonalInfo";
 
-const PREFIX = 'RenderProviders';
+const PREFIX = "RenderProviders";
 
 const classes = {
     addressContainer: `${PREFIX}-addressContainer`,
@@ -22,11 +25,11 @@ const classes = {
     editbtn: `${PREFIX}-editbtn`,
     editbtn2: `${PREFIX}-editbtn2`,
     compareTable: `${PREFIX}-compareTable`,
-    addressTextNew: `${PREFIX}-addressTextNew`
+    addressTextNew: `${PREFIX}-addressTextNew`,
 };
 
 // TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')({
+const Root = styled("div")({
     [`& .${classes.addressContainer}`]: {
         display: "flex",
         alignItems: "center",
@@ -68,7 +71,7 @@ const Root = styled('div')({
     },
 });
 
-const useWebStyles = makeStyles({
+const useWebStyles = styled({
     [`& .${classes.addressContainer}`]: {
         display: "flex",
         alignItems: "center",
@@ -110,7 +113,7 @@ const useWebStyles = makeStyles({
     },
 });
 
-const useMobileStyles = makeStyles({
+const useMobileStyles = styled({
     list: {
         marginTop: "16px",
         marginBottom: "16px",
@@ -216,8 +219,8 @@ const Address = ({ addresses, isPlanPage }) => {
                                     <div>
                                         {address
                                             ? [address?.city, address?.state, address?.zipCode]
-                                                .filter(Boolean)
-                                                .join(",")
+                                                  .filter(Boolean)
+                                                  .join(",")
                                             : null}
                                     </div>
                                 </div>
@@ -242,7 +245,7 @@ const MobileAddress = ({ addresses, isPlanPage }) => {
             <Address addresses={initialAddresses} isPlanPage={isPlanPage} />
 
             {additionalAddresses?.length > 0 && (
-                (<Root>
+                <Root>
                     <Box className={classes.multipleAddresses}>
                         <Typography
                             className={isOpen ? classes.reverse : classes.icon}
@@ -255,7 +258,7 @@ const MobileAddress = ({ addresses, isPlanPage }) => {
                         </Typography>
                     </Box>
                     {isOpen && <Address addresses={additionalAddresses} isPlanPage={isPlanPage} />}
-                </Root>)
+                </Root>
             )}
         </Box>
     );
