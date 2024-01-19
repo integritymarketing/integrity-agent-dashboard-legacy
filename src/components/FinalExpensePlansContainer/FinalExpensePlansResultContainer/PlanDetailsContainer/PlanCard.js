@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import PropTypes from "prop-types";
 
-import { toTitleCase } from "utils/toTitleCase";
+import { convertToTitleCase } from "utils/toTitleCase";
 
 import {
     APPLY,
@@ -99,7 +99,7 @@ export const PlanCard = ({
             </div>
             <div>
                 <span className={styles.label}>{COVERAGE_TYPE}</span>
-                <span>{toTitleCase(coverageType)}</span>
+                <span>{convertToTitleCase(coverageType)}</span>
             </div>
             <div className={`${styles.additionalInfo} ${isMobile ? styles.column : ""}`}>
                 <div className={styles.amountInfo}>
