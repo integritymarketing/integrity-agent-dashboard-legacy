@@ -1,23 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
-
-import { usePolicies } from "providers/ContactDetails/ContactDetailsContext";
-
-import useAnalytics from "hooks/useAnalytics";
-
+import React, { useEffect, useMemo } from "react";
 import ContactSectionCard from "../../packages/ContactSectionCard";
-
-import styles from "./EnrollmentHistoryContainer.module.scss";
 import EnrollmentPlanCard from "./EnrollmentPlanCard/EnrollmentPlanCard";
+import { usePolicies } from "providers/ContactDetails/ContactDetailsContext";
+import styles from "./EnrollmentHistoryContainer.module.scss";
+import { FINAL_EXPENSE_GUIDE_LINK, MEDICARE_GUIDE_LINK } from "./EnrollmentHistoryContainer.constants";
 
 export default function EnrollmentHistoryContainer({ leadId }) {
     const { getEnrollPlansList, enrollPlansList } = usePolicies();
-    const { fireEvent } = useAnalytics();
-
-    useEffect(() => {
-        fireEvent("Contact Policies Page Viewed", {
-            leadid: leadId,
-        });
-    }, [leadId]);
 
     useEffect(() => {
         getEnrollPlansList(leadId);
@@ -41,25 +30,20 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         return getCurrentYear(policyDate) !== currentYear;
     });
 
-    fireEvent("Contact Overview Page Viewed", {
-        leadid: leadsId,
-        selection: "start_quote",
-        tags: leadTags,
-        stage: statusName,
-        plan_enroll_profile_created: true, // TODO-EVENT: Need to update this value
-    });
+    const currentYearPlansCount = currentYearPlansData?.length;
+    const previousYearPlansCount = previousYearPlansData?.length;
 
     return (
         <>
             <ContactSectionCard
-                title="Current Policies"
+                title={<p>Current Policies <span className={styles.plansCount}>({currentYearPlansCount})</span></p>}
                 className={styles.layout}
                 isDashboard
                 contentClassName={styles.content}
             >
-                {currentYearPlansData?.length > 0 ? (
+                {currentYearPlansCount > 0 ? (
                     <>
-                        {currentYearPlansData?.length > 0 &&
+                        {currentYearPlansCount > 0 &&
                             currentYearPlansData.map((planData, index) => {
                                 const policyHolderName = `${planData.consumerFirstName} ${planData.consumerLastName}`;
                                 return (
@@ -90,18 +74,22 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                             })}
                     </>
                 ) : (
-                    <div className={styles.noPlansAvailable}>No Plans Available</div>
+                    <div className={styles.noPlansAvailable}>
+                        <div>There is no policy information available for this contact at this time. For more information about policy data, please view our guides.</div>
+                        <a href={FINAL_EXPENSE_GUIDE_LINK} target="_blank" >Final Expense Policy Data Guide</a>
+                        <a href={MEDICARE_GUIDE_LINK} target="_blank" >Medicare Policy Data Guide</a>
+                    </div>
                 )}
             </ContactSectionCard>
             <ContactSectionCard
-                title="Previous Policies"
+                title={<p>Previous Policies <span className={styles.plansCount}>({previousYearPlansCount})</span></p>}
                 className={styles.layout}
                 isDashboard
                 contentClassName={styles.content}
             >
-                {previousYearPlansData?.length > 0 ? (
+                {previousYearPlansCount > 0 ? (
                     <>
-                        {previousYearPlansData?.length > 0 && (
+                        {previousYearPlansCount > 0 && (
                             <>
                                 {previousYearPlansData.map((planData, index) => (
                                     <EnrollmentPlanCard
@@ -132,7 +120,11 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                         )}
                     </>
                 ) : (
-                    <div className={styles.noPlansAvailable}>No Plans Available</div>
+                    <div className={styles.noPlansAvailable}>
+                        <div>There is no previous policy information available for this contact at this time. For more information about policy data, please view our guides.</div>
+                        <a href={FINAL_EXPENSE_GUIDE_LINK} target="_blank">Final Expense Policy Data Guide</a>
+                        <a href={MEDICARE_GUIDE_LINK} target="_blank">Medicare Policy Data Guide</a>
+                    </div>
                 )}
             </ContactSectionCard>
         </>

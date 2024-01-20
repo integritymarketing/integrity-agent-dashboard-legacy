@@ -242,6 +242,7 @@ const AccountPage = () => {
     );
     const { section } = useParams();
     const sellingPermissionsRef = useRef(null);
+    const selfAttestedPermissionsRef = useRef(null);
     const { setLayout } = useAccountProductsContext();
 
     useEffect(() => {
@@ -254,6 +255,9 @@ const AccountPage = () => {
         if (section === 'sellingPermissions' && sellingPermissionsRef.current) {
             setLayout(LIFE)
             sellingPermissionsRef.current.scrollIntoView({ behavior: 'smooth' });
+        } else if (section === 'selfAttestedPermissions' && selfAttestedPermissionsRef.current) {
+            setLayout(LIFE)
+            selfAttestedPermissionsRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     });
 
@@ -642,7 +646,7 @@ const AccountPage = () => {
 
                 <div className={styles.rtsTableContainer}>
                     <div ref={sellingPermissionsRef}><ActivePermissions /></div>
-                    <SelfAttestedPermissions />
+                    <div ref={selfAttestedPermissionsRef}><SelfAttestedPermissions /> </div>
                     <div>
                         <ResourceSection />
                     </div>

@@ -1,10 +1,8 @@
-
 .tableWrapper {
   margin-bottom: 40px;
-  min-height: calc(100vh - 300px);
 
   @media (max-width: 768px) {
-      overflow: scroll;
+    overflow: scroll;
   }
 }
 
@@ -32,4 +30,3 @@
   cursor: pointer;
   padding-right: 2px;
 }
-

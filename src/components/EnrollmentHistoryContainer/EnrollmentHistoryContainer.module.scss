@@ -6,13 +6,16 @@
 }
 
 .noPlansAvailable {
-    border: 1.5px solid #e6ecf2;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-size: 14px;
-    color: #64748b;
+    color: #052a63;
+
+    a {
+        color: #4178ff;
+        font-weight: bold;
+        text-decoration: none;
+        display: block;
+    }
+
 }
 
 .cardHeader {
@@ -29,7 +32,11 @@
     padding: 1.5rem;
 
     @include small {
-        background: none;
         padding: 0.5rem;
     }
+}
+
+.plansCount {
+    font-size: 14px;
+    color: #434A51;
 }

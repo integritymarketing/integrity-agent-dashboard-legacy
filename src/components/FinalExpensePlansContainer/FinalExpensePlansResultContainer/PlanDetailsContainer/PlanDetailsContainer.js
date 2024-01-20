@@ -11,6 +11,8 @@ import { scrollTop } from "utils/shared-utils/sharedUtility";
 import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
 
+import { Button } from "components/ui/Button";
+
 import { HEALTH_CONDITION_API } from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthConditionsContainer.constants";
 import {
     COVERAGE_AMOUNT,
@@ -31,6 +33,13 @@ import { PlanCard } from "./PlanCard";
 import styles from "./PlanDetailsContainer.module.scss";
 
 import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
+
+import { ACTIVE_SELLING_PERMISSIONS_REQUIRED, VIEW_SELLING_PERMISSIONS } from "./PlanDetailsContainer.constants";
+
+import ArrowRightIcon from "components/icons/arrowRightLight";
+
+import { useNavigate } from "react-router-dom";
+
 
 export const PlanDetailsContainer = ({
     selectedTab,
@@ -55,6 +64,8 @@ export const PlanDetailsContainer = ({
     const [fetchPlansError, setFetchPlansError] = useState(false);
 
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchHealthConditionsListData = async () => {
@@ -95,7 +106,7 @@ export const PlanDetailsContainer = ({
                 const code = sessionStorage.getItem(contactId)
                     ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
                     : addresses[0]?.stateCode;
-                if (!code || !birthdate) {return;}
+                if (!code || !birthdate) { return; }
                 setIsLoadingFinalExpensePlans(true);
                 const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
                 const age = getAgeFromBirthDate(birthdate);
@@ -216,9 +227,18 @@ export const PlanDetailsContainer = ({
                         <div>{fetchPlansError ? NO_PLANS_ERROR : FETCH_PLANS_ERROR}</div>
                     </div>
                 )}
+                <PersonalisedQuoteBox />
+                {!isRTS && <div className={styles.activeSellingPermissionsRequired}>
+                    <p>{ACTIVE_SELLING_PERMISSIONS_REQUIRED}</p>
+                    <Button label={VIEW_SELLING_PERMISSIONS}
+                        className={styles.viewSellingPermissions}
+                        onClick={() => { navigate(`/account/selfAttestedPermissions`); }}
+                        type="primary"
+                        icon={<ArrowRightIcon />}
+                        iconPosition="right" />
+                </div>}
                 {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
                     <>
-                        <PersonalisedQuoteBox />
                         {pagedResults.map((plan, index) => {
                             const {
                                 carrier: { logoUrl, naic, resource_url },
