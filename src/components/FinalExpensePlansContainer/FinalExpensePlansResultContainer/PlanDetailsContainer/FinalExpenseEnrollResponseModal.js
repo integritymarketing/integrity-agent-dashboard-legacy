@@ -1,7 +1,7 @@
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Modal from "components/Modal";
-
 import styles from "./PlanDetailsContainer.module.scss";
-
 import {
     CARRIER_SITE_UNAVAILABLE,
     CARRIER_SITE_UNAVAILABLE_DESC,
@@ -24,14 +24,24 @@ import ButtonCircleArrow from "components/icons/button-circle-arrow";
 export const FinalExpenseEnrollResponseModal = ({ isOpen, onClose, enrollResponse }) => {
     const navigate = useNavigate();
 
-    // Determine if the error is due to producer not being appointed
-    const isProducerNotAppointed = enrollResponse?.redirectUrl === null &&
-        enrollResponse?.errorMessage === AGENT_NOT_CONTRACTED_ERROR;
+    // Check if enrollResponse is defined
+    const isEnrollResponseDefined = enrollResponse !== undefined && enrollResponse !== null;
 
-    // Determine if the error is due to carrier site being unavailable or a 500 internal server error
-    const isCarrierSiteUnavailable = enrollResponse?.redirectUrl === null &&
-        (enrollResponse?.errorMessage === 'Carrier service request error' ||
-            enrollResponse?.statusCode === 500);
+    useEffect(() => {
+        if (isOpen && isEnrollResponseDefined && enrollResponse.redirectUrl) {
+            window.open(enrollResponse.redirectUrl, '_blank');
+            onClose(); // Close the modal after opening the link
+        }
+    }, [isOpen, enrollResponse, onClose, isEnrollResponseDefined]);
+
+    const isProducerNotAppointed = isEnrollResponseDefined &&
+        enrollResponse.redirectUrl === null &&
+        enrollResponse.errorMessage === AGENT_NOT_CONTRACTED_ERROR;
+
+    const isCarrierSiteUnavailable = isEnrollResponseDefined &&
+        enrollResponse.redirectUrl === null &&
+        (enrollResponse.errorMessage === 'Carrier service request error' ||
+            enrollResponse.statusCode === 500);
 
     const getTitleAndDescription = () => {
         if (isProducerNotAppointed) {
@@ -39,9 +49,14 @@ export const FinalExpenseEnrollResponseModal = ({ isOpen, onClose, enrollRespons
         } else if (isCarrierSiteUnavailable) {
             return { title: CARRIER_SITE_UNAVAILABLE, description: CARRIER_SITE_UNAVAILABLE_DESC };
         }
+        return { title: '', description: '' };
     };
 
     const { title, description } = getTitleAndDescription();
+
+    if (!title && !description) {
+        return null;
+    }
 
     return (
         <Modal open={isOpen} onClose={onClose} title={title} titleClassName={styles.modalTitle} hideFooter>
@@ -70,11 +85,12 @@ FinalExpenseEnrollResponseModal.propTypes = {
         redirectUrl: PropTypes.string,
         errorMessage: PropTypes.string,
         statusCode: PropTypes.number
-    }).isRequired
+    })
 };
 
 FinalExpenseEnrollResponseModal.defaultProps = {
-    isOpen: false
+    isOpen: false,
+    enrollResponse: null
 };
 
 export default FinalExpenseEnrollResponseModal;
