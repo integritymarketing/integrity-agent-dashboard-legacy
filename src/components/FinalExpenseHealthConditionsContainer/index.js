@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useNavigate, useParams } from "react-router-dom";
 
 import FinalExpenseContactBar from "components/FinalExpensePlansContainer/FinalExpenseContactBar";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";

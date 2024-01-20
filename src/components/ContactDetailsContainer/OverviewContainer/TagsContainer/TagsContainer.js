@@ -30,6 +30,7 @@ const TagsContainer = function () {
                 label: tag.tagLabel,
                 id: tag.tagId,
             })),
+            categoryID: category.tagCategoryId,
         }));
     };
 
@@ -79,6 +80,7 @@ const TagsContainer = function () {
                         leadId={leadDetails?.leadsId}
                         label={item.label}
                         items={item.items}
+                        categoryID={item.categoryID}
                         selectedTags={selectedTags}
                         tagValue={tagValue}
                         setTagValue={setTagValue}

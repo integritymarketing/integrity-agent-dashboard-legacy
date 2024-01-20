@@ -48,7 +48,7 @@ const getIconName = (label, itemLabel, metadata) => {
     }
 };
 
-export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagId, setTagId }) => {
+export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagId, setTagId, categoryID }) => {
     const { editLeadTags } = useOverView();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
@@ -198,7 +198,12 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
                 />
             )}
             {label === "Other" && open && (
-                <AssignNewTagContainer allTags={items} selectedTags={selectedTags} leadId={leadId} />
+                <AssignNewTagContainer
+                    allTags={items}
+                    selectedTags={selectedTags}
+                    leadId={leadId}
+                    categoryID={categoryID}
+                />
             )}
         </div>
     );

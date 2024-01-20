@@ -30,7 +30,7 @@ const tags = [
     { label: "Four", id: 4 },
 ];
 
-export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
+export const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID }) => {
     const { removeLeadTags, editTagByID, createNewTag, editLeadTags } = useOverView();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
@@ -49,7 +49,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
     const createTag = (label) => {
         const payload = {
             tagLabel: label,
-            tagCategoryId: 9,
+            tagCategoryId: categoryID,
             leadsId: leadId,
             tagId: 0,
         };
@@ -66,7 +66,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId }) => {
         const payload = {
             tagId: editTagId,
             tagLabel: label,
-            tagCategoryId: 9,
+            tagCategoryId: categoryID,
             leadsId: leadId,
         };
         editTagByID(payload);
