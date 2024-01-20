@@ -1,8 +1,14 @@
+import React, { useContext } from "react";
+
+import AuthContext from "contexts/auth";
+
 import BaseLegalPage from "pages/BaseLegalPage";
 
 const TermsPage = () => {
+    const auth = useContext(AuthContext);
+    const showIntegrity = auth.isAuthenticated();
     return (
-        <BaseLegalPage title="Terms of Use">
+        <BaseLegalPage title="Terms of Use" showIntegrity={!showIntegrity}>
             <p>Last Modified: 10-12-2023</p>
             <p className="text-body text-body--large mb-4">
                 <strong>Please read these terms of use policies carefully.</strong>
