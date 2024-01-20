@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 
 import { formatDate, formatServerDate, parseDate } from "utils/dates";
 
+import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 
@@ -75,6 +76,7 @@ const AddNewConditionDialog = ({
     );
     const { leadDetails } = useContactDetails(contactId);
     const showToast = useToast();
+    const { fireEvent } = useAnalytics();
     const { Get: getSearchResults } = useFetch(`${HEALTH_CONDITION_SEARCH_API}${searchString}`);
     const { Post: addNewHealthCondition, Put: updateHeathCondition } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
 
@@ -127,6 +129,12 @@ const AddNewConditionDialog = ({
                 lastTreatmentDate: lastTreatmentDateServer,
             });
             if (response && response.length > 0) {
+                fireEvent("Health Condition Updated", {
+                    leadid: contactId,
+                    flow: "final_expense",
+                    fex_questions_required: "Yes", // TODO-EVENT: This is a guess.  We need to confirm.
+                    fex_questions_complete: "Yes", // TODO-EVENT: This is a guess.  We need to confirm.
+                });
                 setHealthConditions([...response]);
             }
         } else {
@@ -143,6 +151,13 @@ const AddNewConditionDialog = ({
             });
             if (response && response.length > 0) {
                 setHealthConditions([...response]);
+
+                fireEvent("Health Condition Added", {
+                    leadid: contactId,
+                    flow: "final_expense",
+                    fex_questions_required: "Yes", // TODO-EVENT: This is a guess.  We need to confirm.
+                    fex_questions_complete: "Yes", // TODO-EVENT: This is a guess.  We need to confirm.
+                });
             }
         }
         setIsSavingToServer(false);
@@ -180,6 +195,10 @@ const AddNewConditionDialog = ({
         setIsDeletingFromServer(true);
         const response = await clientsService.deleteHealthCondition(contactId, selectedConditionForEdit?.id);
         if (response && response.status === 200) {
+            fireEvent("Health Condition Deleted", {
+                leadid: contactId,
+                flow: "final_expense",
+            });
             showToast({
                 type: "success",
                 message: "Health condition deleted successfully",

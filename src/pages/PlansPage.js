@@ -13,6 +13,7 @@ import { formatDate } from "utils/dates";
 import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear";
 import { scrollTop } from "utils/shared-utils/sharedUtility";
 
+import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
 import { useOnClickOutside } from "hooks/useOnClickOutside";
 import useRoles from "hooks/useRoles";
@@ -137,6 +138,7 @@ function useQuery() {
 
 const PlansPage = () => {
     const { contactId: id } = useParams();
+    const { fireEvent } = useAnalytics();
     const query = useQuery();
     const showSelected = query && query.get("preserveSelected");
     const jsonStr = sessionStorage.getItem("__plans__");
@@ -387,6 +389,12 @@ const PlansPage = () => {
                 setSubTypeList(subTypes);
                 setCarrierList(carriers);
                 analyticsService.fireEvent("event-quoting-plans");
+                fireEvent("Health Quote Results Viewed", {
+                    leadid: id,
+                    line_of_business: "Health",
+                    product_type: planType,
+                    enabled_filters: [], // TODO-EVENT: add filters
+                });
             } catch (e) {
                 Sentry.captureException(e);
             } finally {

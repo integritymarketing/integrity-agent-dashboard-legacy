@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import useAgentInformationByID from "hooks/useAgentInformationByID";
+import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
 
 import { SellingPermissionsModal } from "components/FinalExpensePlansContainer/FinalExpenseContactDetailsForm/SellingPermissionsModal";
@@ -21,11 +22,16 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
 
     const { agentInformation } = useAgentInformationByID();
     const { agentNPN } = agentInformation;
+    const { fireEvent } = useAnalytics();
 
     const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${agentNPN}`);
 
     const handleHealthPlanClick = () => {
         if (zipcode) {
+            fireEvent("Quote Type Selected", {
+                leadid: leadId,
+                line_of_business: "Health",
+            });
             navigate(`/plans/${leadId}`);
         } else {
             navigate(`/contact/${leadId}/addZip`);
@@ -37,12 +43,20 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
         if (isAgentNonRTS === "True") {
             setShowSellingPermissionModal(true);
         } else {
+            fireEvent("Quote Type Selected", {
+                leadid: leadId,
+                line_of_business: "Life",
+            });
             navigate(`/finalexpenses/create/${leadId}`);
         }
     };
 
     const handleContinue = () => {
         setShowSellingPermissionModal(false);
+        fireEvent("Quote Type Selected", {
+            leadid: leadId,
+            line_of_business: "Life",
+        });
         navigate(`/finalexpenses/create/${leadId}`);
     };
 

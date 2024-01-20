@@ -3,6 +3,7 @@ import { useCallback, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRowSelect, useSortBy, useTable } from "react-table";
 
+import useAnalytics from "hooks/useAnalytics";
 import useToast from "hooks/useToast";
 
 import DeleteLeadContext from "contexts/deleteLead";
@@ -20,6 +21,7 @@ function Table({ columns }) {
     const { setSelectedContacts, tableData } = useContactsListContext();
     const showToast = useToast();
     const navigate = useNavigate();
+    const { fireEvent } = useAnalytics();
 
     const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(DeleteLeadContext);
 
@@ -71,6 +73,19 @@ function Table({ columns }) {
             });
         }
     }, [deleteLeadId, showToast, leadName, setDeleteLeadId, setLeadName, navigate]);
+
+    useEffect(() => {
+        fireEvent("Contact List Viewed", {
+            // TODO-EVENT
+            contacts_with_health_policies_count: 0,
+
+            contacts_without_policies_count: 0,
+
+            contacts_with_life_policies_count: 0,
+
+            total_contacts_count: rows?.length,
+        });
+    }, []);
 
     useEffect(() => {
         deleteContact();

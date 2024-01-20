@@ -9,6 +9,8 @@ import PropTypes from "prop-types";
 
 import { formatDate } from "utils/dates";
 
+import useAnalytics from "hooks/useAnalytics";
+
 import DatePickerMUI from "components/DatePicker";
 import SelectableButtonGroup from "components/SelectableButtonGroup";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
@@ -42,7 +44,7 @@ const StyledSaveButton = styled(Button)(() => ({
     height: "40px",
 }));
 
-export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker, onSave, onCancel }) => {
+export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker, onSave, onCancel, leadId }) => {
     const [gender, setGender] = useState(sexuality);
     const [bDate, setBDate] = useState(birthdate);
     const [feet, setFeet] = useState(hFeet);
@@ -50,6 +52,7 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
     const [weight, setWeight] = useState(wt);
     const [isTobaccoUser, setIsTobaccoUser] = useState(smoker);
     const [isModified, setIsModified] = useState(false);
+    const { fireEvent } = useAnalytics();
 
     useEffect(() => {
         setIsModified(
@@ -89,6 +92,11 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
             isTobaccoUser: isTobaccoUser === "Yes",
         };
         onSave(formData);
+
+        fireEvent("Health Conditions Page Viewed", {
+            leadid: leadId,
+            flow: "health_profile",
+        });
     }, [bDate, feet, gender, inch, isTobaccoUser, onSave, weight]);
 
     const handleSelectGender = useCallback((value) => {

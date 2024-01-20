@@ -6,6 +6,7 @@ import Popover from "@mui/material/Popover";
 
 import PropTypes from "prop-types";
 
+import useAnalytics from "hooks/useAnalytics";
 import useToast from "hooks/useToast";
 
 import { ConnectModal } from "components/ContactDetailsContainer/ConnectModal";
@@ -45,6 +46,7 @@ function ActionsCell({ row, isCard, item }) {
     const [showSellingPreferenceModal, setShowSellingPreferenceModal] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const navigate = useNavigate();
+    const { fireEvent } = useAnalytics();
     const showToast = useToast();
 
     const record = isCard ? item : row.original;
@@ -74,18 +76,34 @@ function ActionsCell({ row, isCard, item }) {
         setAnchorEl(null);
         switch (value) {
             case "addnewreminder":
+                fireEvent("Contact List Quick Action Selected", {
+                    leadid: leadId,
+                    selection: "add_reminder",
+                });
                 setIsAddNewModalOpen(true);
                 break;
             case "contact":
+                fireEvent("Contact List Quick Action Selected", {
+                    leadid: leadId,
+                    selection: "view_contact",
+                });
                 navigate(`/${value}/${leadId}`);
                 break;
             case "connect":
+                fireEvent("Contact List Quick Action Selected", {
+                    leadid: leadId,
+                    selection: "connect",
+                });
                 setLeadConnectModal(true);
                 break;
-            case "startAQuote": {
+            case "startAQuote":
+                fireEvent("Contact List Quick Action Selected", {
+                    leadid: leadId,
+                    selection: "start_quote",
+                });
                 setShowSellingPreferenceModal(true);
                 break;
-            }
+
             default:
                 break;
         }

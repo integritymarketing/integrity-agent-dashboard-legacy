@@ -1,11 +1,23 @@
-import React, { useState, useEffect, useMemo } from "react";
-import ContactSectionCard from "../../packages/ContactSectionCard";
-import EnrollmentPlanCard from "./EnrollmentPlanCard/EnrollmentPlanCard";
+import React, { useEffect, useMemo, useState } from "react";
+
 import { usePolicies } from "providers/ContactDetails/ContactDetailsContext";
+
+import useAnalytics from "hooks/useAnalytics";
+
+import ContactSectionCard from "../../packages/ContactSectionCard";
+
 import styles from "./EnrollmentHistoryContainer.module.scss";
+import EnrollmentPlanCard from "./EnrollmentPlanCard/EnrollmentPlanCard";
 
 export default function EnrollmentHistoryContainer({ leadId }) {
     const { getEnrollPlansList, enrollPlansList } = usePolicies();
+    const { fireEvent } = useAnalytics();
+
+    useEffect(() => {
+        fireEvent("Contact Policies Page Viewed", {
+            leadid: leadId,
+        });
+    }, [leadId]);
 
     useEffect(() => {
         getEnrollPlansList(leadId);
@@ -27,6 +39,14 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         let policyDate = new Date(planData?.policyEffectiveDate); // get the current date
         policyDate?.setDate(policyDate.getDate() + 1); // add 1 day
         return getCurrentYear(policyDate) !== currentYear;
+    });
+
+    fireEvent("Contact Overview Page Viewed", {
+        leadid: leadsId,
+        selection: "start_quote",
+        tags: leadTags,
+        stage: statusName,
+        plan_enroll_profile_created: true, // TODO-EVENT: Need to update this value
     });
 
     return (

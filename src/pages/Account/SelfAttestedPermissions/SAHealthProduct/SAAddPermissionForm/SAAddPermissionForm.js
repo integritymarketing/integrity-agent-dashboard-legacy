@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import { getSnpTypes, hasDuplicate } from "../utils/helper";
 
 import useSelectOptions from "../hooks/useSelectOptions";
+import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
 import useUserProfile from "hooks/useUserProfile";
 import { useWindowSize } from "hooks/useWindowSize";
@@ -35,6 +36,7 @@ function SAAddPermissionForm() {
     const { npn } = useUserProfile();
     const { width: windowWidth } = useWindowSize();
     const { setIsErrorModalOpen } = useSAPModalsContext();
+    const { fireEvent } = useAnalytics();
     const { agents, fetchTableData, setIsLoading, setError: setGlobalError } = useSAHealthProductContext();
     const { isAddingHealth, handleCancelHealth } = useSAPermissionsContext();
     const { carriersOptions, getProductsOptions, getPlanYearOptions, getProducerID, carriersGroup } =
@@ -137,6 +139,11 @@ function SAAddPermissionForm() {
         setIsLoading(true);
         const res = await addAgentSelfAttestation(payload, true);
         if (res.status >= 200 && res.status < 300) {
+            fireEvent("RTS Attestation Added", {
+                line_of_business: "Health",
+                product_type: product,
+                carrier: carrier,
+            });
             await fetchTableData();
             resetAllFields();
             setIsLoading(false);
