@@ -1,8 +1,13 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
+import { useRecoilValue } from "recoil";
+import { agentInformationSelector } from "recoil/agent/selectors";
 
 import { convertToTitleCase } from "utils/toTitleCase";
+
+import useAnalytics from "hooks/useAnalytics";
+import useFetch from "hooks/useFetch";
 
 import {
     APPLY,
@@ -17,16 +22,13 @@ import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import InfoBlue from "components/icons/version-2/InfoBlue";
 import { Button } from "components/ui/Button";
 
-import styles from "./PlanDetailsContainer.module.scss";
-import { PrescreenModal } from "./PrescreenModal";
-import useFetch from "hooks/useFetch";
-import { useRecoilValue } from "recoil";
-import { agentInformationSelector } from "recoil/agent/selectors";
-import { useLeadDetails } from "providers/ContactDetails";
-import { getPlanEnrollBody } from "./PlanDetailsContainer.utils";
-import { FinalExpenseEnrollResponseModal } from "./FinalExpenseEnrollResponseModal";
+import useContactDetails from "pages/ContactDetails/useContactDetails";
 
-// eslint-disable-next-line max-lines-per-function
+import { FinalExpenseEnrollResponseModal } from "./FinalExpenseEnrollResponseModal";
+import styles from "./PlanDetailsContainer.module.scss";
+import { getPlanEnrollBody } from "./PlanDetailsContainer.utils";
+import { PrescreenModal } from "./PrescreenModal";
+
 export const PlanCard = ({
     isMobile,
     planName,
@@ -44,15 +46,30 @@ export const PlanCard = ({
     isHaveCarriers,
     writingAgentNumber,
     contactId,
-    planType,
+    selectedTab,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
-    const { leadDetails } = useLeadDetails();
+    const { leadDetails } = useContactDetails(contactId);
+    const { fireEvent } = useAnalytics();
     const { agentFirstName, agentLastName } = useRecoilValue(agentInformationSelector);
     const { Post: enrollLeadFinalExpensePlan } = useFetch(`${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`);
     const [enrollResponse, setEnrollResponse] = useState(null);
 
     const onApply = async () => {
+        fireEvent("Life Apply CTA Clicked", {
+            leadid: contactId,
+            line_of_business: "Life",
+            product_type: "final_expense",
+            enabled_filters: [],
+            coverage_vs_premium: selectedTab,
+            coverage_amount: coverageAmount,
+            premium_amount: monthlyPremium,
+            coverage_type_selected: coverageType,
+            pre_screening_status: eligibility, // TODO-EVENT: pre_screening_status
+            carrier_group: null, // TODO-EVENT: carrier_group
+            carrier: null, // TODO-EVENT: carrier
+        });
+
         const body = getPlanEnrollBody(
             writingAgentNumber,
             agentFirstName,
@@ -60,13 +77,12 @@ export const PlanCard = ({
             leadDetails,
             coverageAmount,
             planName,
-            resource_url,
-            planType
+            resource_url
         );
         const response = await enrollLeadFinalExpensePlan(body);
 
-        if (response.redirectUrl) {
-            window.open(response.redirectUrl, "_blank");
+        if (response.RedirectUrl) {
+            window.open(response.RedirectUrl, "_blank");
         } else {
             setEnrollResponse(response);
         }
@@ -90,6 +106,24 @@ export const PlanCard = ({
             </tbody>
         </table>
     );
+
+    useEffect(() => {
+        if (isPrescreenModalOpen) {
+            fireEvent("Final Expense Prescreening Notes Viewed", {
+                leadid: contactId,
+                line_of_business: "Life",
+                product_type: "final_expense",
+                enabled_filters: [],
+                coverage_vs_premium: selectedTab,
+                coverage_amount: coverageAmount,
+                premium_amount: monthlyPremium,
+                coverage_type_selected: coverageType,
+                pre_screening_status: eligibility, // TODO-EVENT: pre_screening_status
+                carrier_group: null, // TODO-EVENT: carrier_group
+                carrier: null, // TODO-EVENT: carrier
+            });
+        }
+    }, [isPrescreenModalOpen, contactId]);
 
     return (
         <div className={styles.planBox}>
@@ -168,7 +202,6 @@ PlanCard.propTypes = {
     logoUrl: PropTypes.string.isRequired,
     resource_url: PropTypes.string.isRequired,
     naic: PropTypes.string.isRequired,
-    planType: PropTypes.string.isRequired,
     contactId: PropTypes.string.isRequired,
     writingAgentNumber: PropTypes.string.isRequired,
     coverageType: PropTypes.string.isRequired,

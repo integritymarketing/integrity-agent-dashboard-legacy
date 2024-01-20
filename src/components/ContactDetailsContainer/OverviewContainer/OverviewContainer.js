@@ -4,6 +4,8 @@ import { Box } from "@mui/system";
 
 import { useLeadDetails } from "providers/ContactDetails";
 
+import useAnalytics from "hooks/useAnalytics";
+
 import { DeleteContactModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteContactModal/DeleteContactModal";
 import Container from "components/ui/container";
 
@@ -17,10 +19,21 @@ import TagsContainer from "./TagsContainer/TagsContainer";
 
 export const OverviewContainer = () => {
     const { leadDetails } = useLeadDetails();
+    const { fireEvent } = useAnalytics();
 
     const [deleteModalStatus, setDeleteModalStatus] = useState(false);
 
-    const { firstName = "", middleName = "", lastName = "", leadsId } = leadDetails;
+    const { firstName = "", middleName = "", lastName = "", leadsId, leadTags, statusName } = leadDetails;
+
+    useEffect(() => {
+        fireEvent("Contact Overview Page Viewed", {
+            leadid: leadsId,
+            selection: "start_quote",
+            tags: leadTags,
+            stage: statusName,
+            plan_enroll_profile_created: true, // TODO-EVENT: Need to update this value
+        });
+    }, []);
 
     return (
         <Container className={styles.outerContainer}>

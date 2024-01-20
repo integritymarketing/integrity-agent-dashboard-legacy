@@ -5,6 +5,7 @@ import { useAgentAccountContext } from "providers/AgentAccountProvider";
 
 import { DEFAULT_EFFECTIVE_YEAR } from "utils/dates";
 
+import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
 
 import Modal from "components/Modal";
@@ -21,6 +22,7 @@ export const CallScriptModal = ({ modalOpen, handleClose, leadId, countyFips, po
     const [carrierProductData, setCarrierProductData] = useState(null);
     const [isLoadingData, setIsLoadingData] = useState(false);
     const { leadPreference } = useAgentAccountContext();
+    const { fireEvent } = useAnalytics();
     const { Get: fetchCarrierProductData } = useFetch(
         `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/Carrier/Count?Zip=${postalCode}&Fips=${countyFips}&Year=${DEFAULT_EFFECTIVE_YEAR}`
     );
@@ -54,6 +56,13 @@ export const CallScriptModal = ({ modalOpen, handleClose, leadId, countyFips, po
         carrierCount = carrierProductData.carrierCount || DEFAULT_CARRIER_COUNT;
         productCount = carrierProductData.planCount || DEFAULT_PLAN_COUNT;
     }
+
+    useEffect(() => {
+        fireEvent("Call Script Viewed", {
+            leadid: leadId,
+            line_of_business: "Health",
+        });
+    }, []);
 
     return (
         <Modal open={modalOpen} onClose={handleClose} title="Recorded Call Script" hideFooter>

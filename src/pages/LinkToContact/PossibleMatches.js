@@ -2,6 +2,7 @@ import * as Sentry from "@sentry/react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import useAnalytics from "hooks/useAnalytics";
 import useToast from "hooks/useToast";
 
 import callRecordingsService from "services/callRecordingsService";
@@ -13,6 +14,7 @@ export default function PossibleMatches({ phone }) {
     const [matches, setMatches] = useState([]);
     const { callLogId, callFrom } = useParams();
     const navigate = useNavigate();
+    const { fireEvent } = useAnalytics();
     const showToast = useToast();
     const callLogIdNumber = callLogId ? Number(callLogId) : null;
 
@@ -61,6 +63,9 @@ export default function PossibleMatches({ phone }) {
                     });
                     showToast({
                         message: "Contact linked successfully",
+                    });
+                    fireEvent("Call Linked", {
+                        leadid: contact.leadsId,
                     });
                     navigate(`/contact/${contact.leadsId}`);
                 }

@@ -1,10 +1,12 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { useLeadDetails } from "providers/ContactDetails";
 
 import { formatDate } from "utils/dates";
 import { formatMbiNumber } from "utils/shared-utils/sharedUtility";
+
+import useAnalytics from "hooks/useAnalytics";
 
 import PlanCardLoader from "components/ui/PlanCard/loader";
 import WithLoader from "components/ui/WithLoader";
@@ -17,8 +19,15 @@ export const FinalExpensePlansContainer = () => {
     const contactFormDataRef = useRef(null);
 
     const navigate = useNavigate();
+    const { fireEvent } = useAnalytics();
 
     const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
+
+    useEffect(() => {
+        fireEvent("Final Expense Intake Viewed", {
+            leadid: contactId,
+        });
+    }, [contactId]);
 
     const onSave = async (formData) => {
         const {
@@ -101,6 +110,9 @@ export const FinalExpensePlansContainer = () => {
         await updateLeadDetails(payload);
 
         contactFormDataRef.current = { ...formData };
+        fireEvent("Final Expense Intake Completed", {
+            leadid: contactId,
+        });
         navigate(`/finalexpenses/healthconditions/${contactId}`);
     };
 

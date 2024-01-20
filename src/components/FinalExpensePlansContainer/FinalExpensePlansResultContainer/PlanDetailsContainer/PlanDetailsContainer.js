@@ -3,12 +3,12 @@ import Media from "react-media";
 import { useParams } from "react-router-dom";
 
 import PropTypes from "prop-types";
-import { useLeadDetails } from "providers/ContactDetails";
 import { useFinalExpensePlans } from "providers/FinalExpense";
 
 import { formatDate, formatServerDate, getAgeFromBirthDate } from "utils/dates";
 import { scrollTop } from "utils/shared-utils/sharedUtility";
 
+import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
 
 import { HEALTH_CONDITION_API } from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthConditionsContainer.constants";
@@ -24,6 +24,8 @@ import { AlertIcon } from "components/icons/alertIcon";
 import { BackToTop } from "components/ui/BackToTop";
 import Pagination from "components/ui/Pagination/pagination";
 import PlanCardLoader from "components/ui/PlanCard/loader";
+
+import useContactDetails from "pages/ContactDetails/useContactDetails";
 
 import { PlanCard } from "./PlanCard";
 import styles from "./PlanDetailsContainer.module.scss";
@@ -43,14 +45,14 @@ export const PlanDetailsContainer = ({
     const [pagedResults, setPagedResults] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const { contactId } = useParams();
+    const { fireEvent } = useAnalytics();
     const healthConditionsDataRef = useRef(null);
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
     const { getFinalExpenseQuotePlans, getCarriersInfo, carrierInfo } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
-    const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(true);
+    const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
+    const { leadDetails } = useContactDetails(contactId);
     const [fetchPlansError, setFetchPlansError] = useState(false);
-
-    const { leadDetails } = useLeadDetails();
 
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
 
@@ -93,9 +95,7 @@ export const PlanDetailsContainer = ({
                 const code = sessionStorage.getItem(contactId)
                     ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
                     : addresses[0]?.stateCode;
-                if (!code || !birthdate) {
-                    return;
-                }
+                if (!code || !birthdate) {return;}
                 setIsLoadingFinalExpensePlans(true);
                 const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
                 const age = getAgeFromBirthDate(birthdate);
@@ -134,9 +134,9 @@ export const PlanDetailsContainer = ({
 
                 if (!isRTS) {
                     if (isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts true
+                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
                     } else {
-                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts false
+                        setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts false
                     }
                 }
 
@@ -161,11 +161,27 @@ export const PlanDetailsContainer = ({
         const coverageAmountValue =
             coverageAmount >= 1000 && coverageAmount <= 999999 && selectedTab === COVERAGE_AMOUNT;
         const monthlyPremiumValue = monthlyPremium >= 10 && monthlyPremium <= 999 && selectedTab === MONTHLY_PREMIUM;
+
+        fireEvent("Life Quote Results Viewed", {
+            leadid: contactId,
+            flow: "final_expense",
+            line_of_business: "Life",
+            product_type: "final_expense",
+            enabled_filters: [],
+            coverage_vs_premium: selectedTab,
+            coverage_amount: coverageAmount,
+            premium_amount: monthlyPremium,
+            coverage_type_selected: coverageType,
+            number_of_conditions: healthConditionsDataRef.current?.length,
+            number_of_completed_condtions: healthConditionsDataRef.current?.filter((item) => item.lastTreatmentDate)
+                .length,
+        });
+
         if (!isLoadingHealthConditions && (coverageAmountValue || monthlyPremiumValue)) {
             fetchPlans();
         }
     }, [
-        // leadDetails,
+        leadDetails,
         isLoadingHealthConditions,
         selectedTab,
         coverageType,
@@ -205,7 +221,7 @@ export const PlanDetailsContainer = ({
                         <PersonalisedQuoteBox />
                         {pagedResults.map((plan, index) => {
                             const {
-                                carrier,
+                                carrier: { logoUrl, naic, resource_url },
                                 product: { name },
                                 coverageType,
                                 faceValue,
@@ -215,9 +231,7 @@ export const PlanDetailsContainer = ({
                                 reason,
                                 writingAgentNumber,
                                 isRTS: isRTSPlan,
-                                type,
                             } = plan;
-                            const { logoUrl = null, naic = null, resource_url = null } = carrier || {};
                             let conditionList = [];
                             if (reason?.categoryReasons?.length > 0) {
                                 conditionList = reason?.categoryReasons?.map(({ categoryId, lookBackPeriod }) => {
@@ -244,11 +258,11 @@ export const PlanDetailsContainer = ({
                                     conditionList={conditionList}
                                     isRTSPlan={isRTSPlan}
                                     naic={naic}
-                                    planType={type}
                                     contactId={contactId}
                                     resource_url={resource_url}
                                     writingAgentNumber={writingAgentNumber}
                                     isHaveCarriers={carrierInfo?.length > 0}
+                                    selectedTab={selectedTab}
                                 />
                             );
                         })}

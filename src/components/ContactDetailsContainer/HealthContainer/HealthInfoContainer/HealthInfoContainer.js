@@ -123,6 +123,7 @@ const HealthInfoContainer = () => {
                     modifyDate={modifyDate}
                     onSave={onSave}
                     onCancel={() => setIsEditHealthInfo(false)}
+                    leadId={leadsId}
                 />
             ) : (
                 <ViewHealthInfo

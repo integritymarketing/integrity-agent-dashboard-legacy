@@ -14,6 +14,8 @@ import FREQUENCY_OPTIONS from "utils/frequencyOptions";
 // Utils
 import { formatPhoneNumber } from "utils/phones";
 
+import useAnalytics from "hooks/useAnalytics";
+
 import FinalExpenseHealthTableSection from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthTableSection";
 import Modal from "components/Modal";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
@@ -33,6 +35,7 @@ import styles from "./HealthSection.module.scss";
 const HealthDetailsSection = () => {
     const { leadId } = useParams();
     const { leadDetails } = useLeadDetails();
+    const { fireEvent } = useAnalytics();
 
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenPrescription, setIsOpenPrescription] = useState(false);
@@ -62,6 +65,12 @@ const HealthDetailsSection = () => {
         if (leadId) {
             fetchHealthDetails();
         }
+    }, [leadId]);
+
+    useEffect(() => {
+        fireEvent("Contact Health Profile Page Viewed", {
+            leadid: leadId,
+        });
     }, [leadId]);
 
     const fetchHealthDetails = useCallback(async () => {

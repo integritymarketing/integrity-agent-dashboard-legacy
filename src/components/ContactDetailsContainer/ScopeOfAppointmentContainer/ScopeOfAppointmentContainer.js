@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useLeadDetails } from "providers/ContactDetails";
 import { useScopeOfAppointment } from "providers/ContactDetails/ContactDetailsContext";
 
+import useAnalytics from "hooks/useAnalytics";
+
 import WithLoader from "components/ui/WithLoader";
 
 import SOAModal from "pages/contacts/contactRecordInfo/soaList/SOAModal";
@@ -22,10 +24,17 @@ import { COMPLETE_SCOPE_OF_APPOINTMENT, VIEW_SCOPE_OF_APPOINTMENT } from "../tab
 export const ScopeOfAppointmentContainer = () => {
     const { leadId } = useParams();
     const navigate = useNavigate();
+    const { fireEvent } = useAnalytics();
     const { setSelectedTab } = useLeadDetails();
     const [isMobile, setIsMobile] = useState(false);
     const [openSOAModal, setOpenSOAModal] = useState(false);
     const { getSoaList, soaList = [], isSoaListLoading, setLinkCode } = useScopeOfAppointment();
+
+    useEffect(() => {
+        fireEvent("Contact SOA Page Viewed", {
+            leadid: leadId,
+        });
+    }, [leadId]);
 
     useEffect(() => {
         if (!leadId) return;

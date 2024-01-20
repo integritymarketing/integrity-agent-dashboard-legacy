@@ -1,16 +1,23 @@
-import React, { useState, useCallback } from "react";
 import * as Sentry from "@sentry/react";
+import React, { useCallback, useState } from "react";
+
+import useAnalytics from "hooks/useAnalytics";
 import useToast from "hooks/useToast";
-import Modal from "components/ui/modal";
-import enrollPlansService from "services/enrollPlansService";
-import CompactPlanCard from "../PlanCard/compact";
+
 import Radio from "components/ui/Radio";
+import Modal from "components/ui/modal";
+
+import enrollPlansService from "services/enrollPlansService";
+
 import "./styles.scss";
+
 import { Button } from "../Button";
+import CompactPlanCard from "../PlanCard/compact";
 
 const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effectiveDate }) => {
     const [option, setOption] = useState("");
     const showToast = useToast();
+    const { fireEvent } = useAnalytics();
 
     const enroll = useCallback(async () => {
         try {
@@ -39,6 +46,12 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
                 showToast({
                     type: "success",
                     message: "Successfully Sent to Client",
+                });
+
+                fireEvent("Health Submit CTA Clicked", {
+                    leadid: contact.leadsId,
+                    line_of_business: "Health",
+                    product_type: planData?.planType,
                 });
             } else {
                 showToast({
