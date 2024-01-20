@@ -143,10 +143,13 @@
             display: flex;
             justify-content: space-between;
             border: none;
+            height: 40px;
+            color: #ffffff;
+            font-weight: 500;
         }
 
         .disabled {
-            background-color: #cccccc;
+            background-color: #B3C9FF !important;
         }
     }
 

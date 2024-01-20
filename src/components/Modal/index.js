@@ -1,7 +1,5 @@
 import React from "react";
 
-import { styled } from '@mui/material/styles';
-
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -10,26 +8,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
-const PREFIX = 'index';
+import makeStyles from "@mui/styles/makeStyles";
 
-const classes = {
-    addButton: `${PREFIX}-addButton`,
-    buttonIcon: `${PREFIX}-buttonIcon`,
-    cancelButton: `${PREFIX}-cancelButton`,
-    closeButton: `${PREFIX}-closeButton`,
-    footer: `${PREFIX}-footer`,
-    footerButtons: `${PREFIX}-footerButtons`,
-    title: `${PREFIX}-title`,
-    paperScrollPaper: `${PREFIX}-paperScrollPaper`,
-    deleteContainer: `${PREFIX}-deleteContainer`
-};
-
-const Root = styled('div')((
-    {
-        theme
-    }
-) => ({
-    [`& .${classes.addButton}`]: {
+const useStyles = makeStyles((theme) => ({
+    addButton: {
         backgroundColor: "#4178FF !important",
         borderRadius: "20px !important",
         color: "#FFFFFF !important",
@@ -57,12 +39,10 @@ const Root = styled('div')((
             },
         },
     },
-
-    [`& .${classes.buttonIcon}`]: {
+    buttonIcon: {
         marginTop: "10px",
     },
-
-    [`& .${classes.cancelButton}`]: {
+    cancelButton: {
         color: "#4178FF",
         fontSize: "16px",
         fontWeight: "600",
@@ -76,8 +56,7 @@ const Root = styled('div')((
             boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 0.2)",
         },
     },
-
-    [`& .${classes.closeButton}`]: {
+    closeButton: {
         backgroundColor: "#DDDDDD",
         color: "#FFFFFF",
         marginBottom: "5px",
@@ -90,8 +69,7 @@ const Root = styled('div')((
             transform: "rotate(90deg)",
         },
     },
-
-    [`& .${classes.footer}`]: {
+    footer: {
         backgroundColor: "#F1F1F1",
         display: "flex",
         flexDirection: "column",
@@ -99,7 +77,7 @@ const Root = styled('div')((
         borderBottomRightRadius: "8px",
     },
 
-    [`& .${classes.footerButtons}`]: {
+    footerButtons: {
         backgroundColor: "#F1F1F1",
         borderRadius: "0px 0px 8px 8px",
         borderBotom: "1px solid #CCCCCC",
@@ -110,7 +88,7 @@ const Root = styled('div')((
         display: "flex",
     },
 
-    [`& .${classes.title}`]: {
+    title: {
         backgroundColor: "#FFFFFF",
         borderRadius: "8px 8px 0px 0px",
         boxShadow: "inset 0px -1px 0px #CCCCCC",
@@ -119,16 +97,15 @@ const Root = styled('div')((
         fontSize: "32px !important",
         letterSpacing: "0.32px",
     },
-
-    [`& .${classes.paperScrollPaper}`]: {
+    paperScrollPaper: {
         overflowY: "visible",
     },
 
-    [`& .${classes.deleteContainer}`]: {
+    deleteContainer: {
         "& button:hover": {
             backgroundColor: "#FFFFFF",
         },
-    }
+    },
 }));
 
 export default function Modal({
@@ -155,10 +132,10 @@ export default function Modal({
     closeIcon,
     titleClassName,
 }) {
-
+    const classes = useStyles();
 
     return (
-        <Root>
+        <div>
             <Dialog
                 open={open}
                 onClose={onClose}
@@ -230,6 +207,6 @@ export default function Modal({
                     {customFooter && customFooter}
                 </DialogActions>
             </Dialog>
-        </Root>
+        </div>
     );
 }
