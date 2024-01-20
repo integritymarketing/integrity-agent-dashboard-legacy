@@ -29,14 +29,15 @@
 .content {
     border-radius: 8px;
     background-color: #ffffff;
-    padding: 1.5rem;
+    padding: 20px 20px 28px 16px;
+    max-width: 888px;
 
     @include small {
-        padding: 0.5rem;
+        padding: 16px;
     }
 }
 
 .plansCount {
-    font-size: 14px;
+    font-size: 16px;
     color: #434A51;
 }
