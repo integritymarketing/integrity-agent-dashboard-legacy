@@ -1,5 +1,5 @@
-import React from "react";
-import { useEffect, useNavigate, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import useAnalytics from "hooks/useAnalytics";
 
