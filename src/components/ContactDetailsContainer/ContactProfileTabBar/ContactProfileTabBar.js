@@ -40,7 +40,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
     const isContactDetailsPage = currentPath?.toLowerCase().includes("contact");
     const leadName =
         leadDetails?.firstName && leadDetails?.lastName && leadId == leadDetails?.leadsId
-            ? `${leadDetails?.firstName} ${leadDetails?.middleName} ${leadDetails?.lastName}`
+            ? `${leadDetails?.firstName}  ${leadDetails?.lastName}`
             : "";
     const zipcode = leadDetails?.addresses && leadDetails?.addresses[0]?.postalCode;
 

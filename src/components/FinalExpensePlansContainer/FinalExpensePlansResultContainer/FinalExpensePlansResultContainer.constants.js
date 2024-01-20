@@ -30,5 +30,6 @@ export const PRESCREEN_NOT_AVAILABLE_NOTES = "We are unable to prescreen eligibi
 export const PRODUCER_ID_NOT_APPPOINTED = "Producer ID Not Appointed";
 export const PRODUCER_NOT_APPOINTED_DESC = "The carrier was not able to validate your appointment status for this product. Please contact your upline to validate contract or appointment status with this carrier.";
 export const CARRIER_SITE_UNAVAILABLE = "Carrier Site Unavailable";
-export const CARRIER_SITE_UNAVAILABLE_DESC = "Integrity is unable to connect to the carrier at this time. Please try again later, or visit the carrier’s website directly";
+export const CARRIER_SITE_UNAVAILABLE_DESC = "Integrity is unable to connect to the carrier at this time. Please try again later, or visit the carrier’s website directly.";
 export const VIEW_SELLING_PERMISSIONS = "View Selling Permissions";
+export const AGENT_NOT_CONTRACTED_ERROR = "Agent not contracted for selected product";

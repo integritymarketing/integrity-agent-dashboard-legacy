@@ -1,48 +1,34 @@
-import React, { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import { debounce } from 'lodash';
 
-import { debounce } from "debounce";
-import PropTypes from "prop-types";
-
-import useFetch from "hooks/useFetch";
-
-import WithLoader from "components/ui/WithLoader";
-
-import useContactDetails from "pages/ContactDetails/useContactDetails";
-
-import {
-    CONFIRM_DETAILS_SUBTEXT,
-    CONFIRM_DETAILS_TEXT,
-    GET_COUNTIES,
-    UPDATE_LEAD_DETAILS,
-} from "./AddZipContainer.constants";
-import styles from "./AddZipContainer.module.scss";
-import { getPayloadForUpdate, getTransformedCounties } from "./AddZipContainer.utils";
-import { ContinueCTA } from "./ContinueCTA/ContinueCTA";
-import { CopyAddress } from "./CopyAddress/CopyAddress";
-import { SelectCounty } from "./SelectCounty/SelectCounty";
-import { ZipCodeInput } from "./ZipCodeInput/ZipCodeInput";
+import useFetch from 'hooks/useFetch';
+import WithLoader from 'components/ui/WithLoader';
+import useContactDetails from 'pages/ContactDetails/useContactDetails';
+import { CONFIRM_DETAILS_SUBTEXT, CONFIRM_DETAILS_TEXT, GET_COUNTIES, UPDATE_LEAD_DETAILS } from './AddZipContainer.constants';
+import styles from './AddZipContainer.module.scss';
+import { getPayloadForUpdate, getTransformedCounties } from './AddZipContainer.utils';
+import { ContinueCTA } from './ContinueCTA/ContinueCTA';
+import { CopyAddress } from './CopyAddress/CopyAddress';
+import { SelectCounty } from './SelectCounty/SelectCounty';
+import { ZipCodeInput } from './ZipCodeInput/ZipCodeInput';
 
 const AddZipContainer = ({ isMobile, contactId }) => {
+    const navigate = useNavigate();
     const { getLeadDetails, leadDetails } = useContactDetails(contactId);
-    const {
-        address1 = "",
-        address2 = "",
-        city = "",
-        stateCode = "",
-        postalCode = "",
-    } = leadDetails.addresses?.[0] ?? {};
-    const address = [address1, address2, city, stateCode].filter(Boolean).join(", ");
+    const { address1 = '', address2 = '', city = '', stateCode = '', postalCode = '' } = useMemo(() => leadDetails.addresses?.[0] ?? {}, [leadDetails]);
+    const address = useMemo(() => [address1, address2, city, stateCode].filter(Boolean).join(', '), [address1, address2, city, stateCode]);
     const [zipCode, setZipCode] = useState(postalCode);
     const [allCounties, setAllCounties] = useState([]);
     const [countyObj, setCountyObj] = useState({});
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
     const [zipError, setZipError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
 
     const { Get: getCounties } = useFetch(`${GET_COUNTIES}${zipCode}`);
     const { Put: updateLeadData } = useFetch(`${UPDATE_LEAD_DETAILS}${contactId}`);
+
 
     const handleContinue = async () => {
         const { countyFIPS, countyName, state } = countyObj;
@@ -55,23 +41,21 @@ const AddZipContainer = ({ isMobile, contactId }) => {
     const fetchCounties = async (zipcode) => {
         if (zipcode) {
             setIsLoading(true);
-            const counties = await getCounties(undefined, false, "", zipcode);
+            const counties = await getCounties();
             setIsLoading(false);
-            setZipCode(zipcode);
             if (counties?.length === 1) {
-                setIsSubmitDisabled(false);
                 setCountyObj(...counties);
                 setAllCounties([]);
+                setIsSubmitDisabled(false);
                 setZipError(false);
             } else if (counties?.length > 1) {
+                setAllCounties(getTransformedCounties(counties) || []);
                 setIsSubmitDisabled(true);
-                const countiesList = getTransformedCounties(counties);
-                setAllCounties(countiesList || []);
                 setZipError(false);
             } else {
+                setAllCounties([]);
                 setIsSubmitDisabled(true);
                 setZipError(true);
-                setAllCounties([]);
             }
         }
     };
