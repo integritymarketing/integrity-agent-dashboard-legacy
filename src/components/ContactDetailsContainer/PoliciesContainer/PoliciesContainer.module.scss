@@ -5,6 +5,7 @@
     flex-direction: column;
     padding: 30px;
     width: 80%;
+    align-items: center;
 
     @include small {
         padding: 0;

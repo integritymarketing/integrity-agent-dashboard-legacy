@@ -5,11 +5,14 @@
     align-items: center;
     border-radius: 8px 8px 0px 0px;
     display: flex;
+    width: 888px;
+    max-width: 888px;
 
     @include small {
         background: none;
         box-shadow: none;
         padding: 0.5rem;
+        width: fit-content;
     }
 
     .iconWithTitle {
@@ -48,7 +51,7 @@
 
 .content {
     border-radius: 0px 0px 8px 8px;
-    padding: 30px 0px 30px 10px;
+    padding: 1.5rem;
 
     @include small {
         background: none;
@@ -66,4 +69,5 @@
 .actions {
     display: flex;
     justify-content: flex-end;
+    width: 225px;
 }
