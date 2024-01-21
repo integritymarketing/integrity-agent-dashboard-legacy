@@ -1,47 +1,32 @@
 import React from "react";
-import { styled } from '@mui/material/styles';
 import PropTypes from "prop-types";
+import makeStyles from "@mui/styles/makeStyles";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Typography from "@mui/material/Typography";
 
 import SearchIcon from "../Icons/SearchIcon";
 
-const PREFIX = 'SearchInput';
-
-const classes = {
-  searchTitle: `${PREFIX}-searchTitle`,
-  searchField: `${PREFIX}-searchField`,
-  countText: `${PREFIX}-countText`
-};
-
-// TODO jss-to-styled codemod: The Fragment root was replaced by div. Change the tag if needed.
-const Root = styled('div')((
-  {
-    theme
-  }
-) => ({
-  [`& .${classes.searchTitle}`]: {
+const useStyles = makeStyles((theme) => ({
+  searchTitle: {
     color: "#052A63",
     fontSize: 20,
     fontFamily: "Lato",
     letterSpacing: "0.2px",
     marginTop: 12,
   },
-
-  [`& .${classes.searchField}`]: {
+  searchField: {
     backgroundColor: "#FFFFFF",
     border: "1px solid var(--gray-lt-dddddd)",
     borderRadius: 4,
     width: "100%",
   },
-
-  [`& .${classes.countText}`]: {
+  countText: {
     color: "#717171",
     fontSize: 14,
     fontFamily: "Lato, Italic",
     letterSpacing: "0.14px",
-  }
+  },
 }));
 
 export default function SearchPrescription({
@@ -50,12 +35,12 @@ export default function SearchPrescription({
   label,
   total,
 }) {
-
+  const classes = useStyles();
 
   const countText = `${total} ${label} found`;
 
   return (
-    (<Root>
+    <>
       <TextField
         margin="dense"
         id="prescription"
@@ -74,8 +59,9 @@ export default function SearchPrescription({
           ),
         }}
       />
+
       <Typography className={classes.countText}>{countText}</Typography>
-    </Root>)
+    </>
   );
 }
 

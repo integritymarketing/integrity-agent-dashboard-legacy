@@ -1,11 +1,11 @@
 import React from "react";
-import { styled } from '@mui/material/styles';
 import Box from "@mui/material/Box";
 import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "components/icons/outNetwork";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import makeStyles from "@mui/styles/makeStyles";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
@@ -17,26 +17,8 @@ import Edit from "components/Edit";
 import EditIcon from "components/icons/edit2";
 import "../PrescriptionModal/style.scss";
 
-const PREFIX = 'PrescriptionCoverageModal';
-
-const classes = {
-  listRoot: `${PREFIX}-listRoot`,
-  listItem: `${PREFIX}-listItem`,
-  network: `${PREFIX}-network`,
-  drugType: `${PREFIX}-drugType`,
-  planName: `${PREFIX}-planName`,
-  details: `${PREFIX}-details`,
-  labelName: `${PREFIX}-labelName`,
-  packDetails: `${PREFIX}-packDetails`,
-  customButton: `${PREFIX}-customButton`
-};
-
-const StyledModal = styled(Modal)((
-  {
-    theme
-  }
-) => ({
-  [`& .${classes.listRoot}`]: {
+const useStyles = makeStyles((theme) => ({
+  listRoot: {
     "& li:first-of-type": {
       borderTopLeftRadius: 8,
       borderTopRightRadius: 8,
@@ -46,56 +28,48 @@ const StyledModal = styled(Modal)((
       borderBottomRightRadius: 8,
     },
   },
-
-  [`& .${classes.listItem}`]: {
+  listItem: {
     backgroundColor: "#FFFFFF",
     height: 80,
     boxShadow: "inset 0px -1px 0px #DDDDDD;",
   },
-
-  [`& .${classes.network}`]: {
+  network: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     marginRight: 10,
   },
-
-  [`& .${classes.drugType}`]: {
+  drugType: {
     color: "#717171",
     fontSize: 14,
     fontFamily: "Lato",
     letterSpacing: "0.24px",
   },
-
-  [`& .${classes.planName}`]: {
+  planName: {
     color: "#052A63",
     fontSize: 24,
     fontFamily: "Lato",
     letterSpacing: "0.24px",
     marginTop: 30,
   },
-
-  [`& .${classes.details}`]: {
+  details: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
   },
-
-  [`& .${classes.labelName}`]: {
+  labelName: {
     color: "#052A63",
     fontSize: 14,
     fontFamily: "Lato",
     letterSpacing: "0.24px",
   },
-
-  [`& .${classes.packDetails}`]: {
+  packDetails: {
     color: "#717171",
     fontSize: 14,
     fontFamily: "Lato",
     letterSpacing: "0.24px",
   },
-
-  [`& .${classes.customButton}`]: {
+  customButton: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -110,7 +84,7 @@ const StyledModal = styled(Modal)((
       borderRadius: "20px",
       boxShadow: "inset 0px -1px 0px #CCCCCC",
     },
-  }
+  },
 }));
 
 const getFrequencyValue = (dayofSupply) => {
@@ -122,7 +96,7 @@ const getFrequencyValue = (dayofSupply) => {
 };
 
 const PrescriptionRow = ({ item, coveredDrugs, onEditPrescription }) => {
-
+  const classes = useStyles();
 
   const { dosage, dosageDetails } = item;
   const {
@@ -195,10 +169,10 @@ const PrescriptionCoverageModal = ({
   addNew,
   onEditPrescription,
 }) => {
-
+  const classes = useStyles();
 
   return (
-    <StyledModal
+    <Modal
       open={open}
       onClose={onClose}
       title={"Prescription Coverage"}
@@ -224,7 +198,7 @@ const PrescriptionCoverageModal = ({
           ))}
         </List>
       </>
-    </StyledModal>
+    </Modal>
   );
 };
 

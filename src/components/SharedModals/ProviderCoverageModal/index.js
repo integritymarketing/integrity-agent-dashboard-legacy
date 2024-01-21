@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { styled } from '@mui/material/styles';
 import Arrow from "components/icons/down";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
+import makeStyles from "@mui/styles/makeStyles";
 import Box from "@mui/material/Box";
 import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "components/icons/outNetwork";
@@ -16,40 +16,18 @@ import IconButton from "components/IconButton";
 
 import "./style.scss";
 
-const PREFIX = 'ProviderCoverageModal';
-
-const classes = {
-  list: `${PREFIX}-list`,
-  singleCard: `${PREFIX}-singleCard`,
-  multipleCard: `${PREFIX}-multipleCard`,
-  title: `${PREFIX}-title`,
-  name: `${PREFIX}-name`,
-  specialty: `${PREFIX}-specialty`,
-  additional: `${PREFIX}-additional`,
-  listItem: `${PREFIX}-listItem`,
-  addressText: `${PREFIX}-addressText`,
-  reverse: `${PREFIX}-reverse`,
-  icon: `${PREFIX}-icon`,
-  multipleAddresses: `${PREFIX}-multipleAddresses`,
-  isMultiple: `${PREFIX}-isMultiple`,
-  providerInfo: `${PREFIX}-providerInfo`,
-  network: `${PREFIX}-network`,
-  planName: `${PREFIX}-planName`,
-  subText: `${PREFIX}-subText`
-};
-
-const StyledModal = styled(Modal)({
-  [`& .${classes.list}`]: {
+const useStyles = makeStyles({
+  list: {
     marginTop: "16px",
     marginBottom: "16px",
     backgroundColor: "#FFFFFF",
     borderRadius: "8px",
   },
-  [`& .${classes.singleCard}`]: {
+  singleCard: {
     padding: "16px",
     borderRadius: "8px",
   },
-  [`& .${classes.multipleCard}`]: {
+  multipleCard: {
     padding: "16px",
     boxShadow: "inset 0px -1px 0px #CCCCCC",
     "&:first-child": {
@@ -59,19 +37,19 @@ const StyledModal = styled(Modal)({
       borderRadius: "0px 0px 8px 8px",
     },
   },
-  [`& .${classes.title}`]: {
+  title: {
     color: "#717171",
     fontSize: "14px",
     letterSpacing: "-0.14px",
     fontFamily: "Lato",
   },
-  [`& .${classes.name}`]: {
+  name: {
     color: "#052A63",
     fontSize: "20px",
     letterSpacing: "0.2px",
     fontFamily: "Lato",
   },
-  [`& .${classes.specialty}`]: {
+  specialty: {
     color: "#4178FF",
     fontSize: "14px",
     fontWeight: "600",
@@ -79,14 +57,14 @@ const StyledModal = styled(Modal)({
     fontFamily: "Lato",
     marginTop: "8px",
   },
-  [`& .${classes.additional}`]: {
+  additional: {
     color: "#4178FF",
     fontSize: "16px",
     fontWeight: "600",
     letterSpacing: "-0.16px",
     fontFamily: "Lato",
   },
-  [`& .${classes.listItem}`]: {
+  listItem: {
     backgroundColor: "#dddddd !important",
 
     "&.Mui-selected, &.Mui-selected:hover": {
@@ -94,26 +72,26 @@ const StyledModal = styled(Modal)({
     },
     padding: "unset !important",
   },
-  [`& .${classes.addressText}`]: {
+  addressText: {
     color: "#434A51",
     fontSize: 16,
   },
-  [`& .${classes.reverse}`]: {
+  reverse: {
     transform: "rotate(360deg)",
     cursor: "pointer",
     marginRight: "10px",
   },
-  [`& .${classes.icon}`]: {
+  icon: {
     cursor: "pointer",
     marginRight: "10px",
     transform: "rotate(270deg)",
   },
-  [`& .${classes.multipleAddresses}`]: {
+  multipleAddresses: {
     display: "flex",
     alignItems: "center",
   },
 
-  [`& .${classes.isMultiple}`]: {
+  isMultiple: {
     boxShadow: "inset 0px -1px 0px #CCCCCC",
     "&:first-child": {
       borderRadius: "4px 4px 0px 0px",
@@ -125,22 +103,22 @@ const StyledModal = styled(Modal)({
       borderRadius: "4px",
     },
   },
-  [`& .${classes.providerInfo}`]: {
+  providerInfo: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
   },
-  [`& .${classes.network}`]: {
+  network: {
     marginRight: 10,
   },
-  [`& .${classes.planName}`]: {
+  planName: {
     color: "#052A63",
     fontSize: 24,
     fontFamily: "Lato",
     letterSpacing: "0.24px",
     marginTop: 30,
   },
-  [`& .${classes.subText}`]: {
+  subText: {
     color: "#434A51",
     fontSize: 16,
     fontFamily: "Lato",
@@ -150,7 +128,7 @@ const StyledModal = styled(Modal)({
 });
 
 const Address = ({ addresses, isChecked, inNetwork }) => {
-
+  const classes = useStyles();
   const isMultiple = addresses?.length > 1;
 
   return (
@@ -206,12 +184,12 @@ const ProviderCoverageModal = ({
   planName,
   onEditProvider,
 }) => {
-
+  const classes = useStyles();
 
   const [isOpen, setOpenToggle] = useState(true);
 
   return (
-    <StyledModal
+    <Modal
       open={open}
       onClose={onClose}
       title={"Provider Coverage"}
@@ -298,7 +276,7 @@ const ProviderCoverageModal = ({
           })}
         </div>
       </>
-    </StyledModal>
+    </Modal>
   );
 };
 

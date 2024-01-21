@@ -1,15 +1,10 @@
 import React, { useMemo } from "react";
-import { styled } from '@mui/material/styles';
 import PropTypes from "prop-types";
 import Typography from "@mui/material/Typography";
-const PREFIX = 'ErrorState';
+import makeStyles from "@mui/styles/makeStyles";
 
-const classes = {
-  textContainer: `${PREFIX}-textContainer`
-};
-
-const StyledTypography = styled(Typography)(() => ({
-  [`&.${classes.textContainer}`]: {
+const useStyles = makeStyles(() => ({
+  textContainer: {
     alignItems: "center",
     backgroundColor: "#DDDDDD",
     borderRadius: 8,
@@ -22,7 +17,7 @@ const StyledTypography = styled(Typography)(() => ({
     letterSpacing: "0.16px",
     marginTop: 10,
     padding: "20px",
-  }
+  },
 }));
 
 const getComponentProps = ({
@@ -40,7 +35,7 @@ const getComponentProps = ({
 const ErrorState = (props) => {
   const { searchString, list, title, defaultMessage } =
     getComponentProps(props);
-
+  const classes = useStyles();
   const message = useMemo(() => {
     if (searchString && list.length === 0)
       return `${title} not found, try a different search`;
@@ -48,9 +43,9 @@ const ErrorState = (props) => {
   }, [searchString, list, title]);
 
   return (
-    <StyledTypography className={classes.textContainer}>
+    <Typography className={classes.textContainer}>
       {defaultMessage ? defaultMessage : message}
-    </StyledTypography>
+    </Typography>
   );
 };
 

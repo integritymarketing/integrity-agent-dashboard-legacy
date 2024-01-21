@@ -1,52 +1,48 @@
-import * as Sentry from "@sentry/react";
-import { styled } from '@mui/material/styles';
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-
-import useDebounce from "hooks/useDebounce";
-
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
-import { arraysAreEqual } from "utils/address";
-
-import useAnalytics from "hooks/useAnalytics";
-
-import Modal from "components/Modal";
-import CustomFooter from "components/Modal/CustomFooter";
-import Pagination from "components/ui/Pagination/pagination";
-import { Select } from "components/ui/Select";
-import Spinner from "components/ui/Spinner";
-
-import clientsService from "services/clientsService";
-
-import ProviderList from "./ProviderList";
-import "./style.scss";
-
+import { useParams } from "react-router-dom";
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";
-import Warning from "../Icons/warning";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import makeStyles from "@mui/styles/makeStyles";
 import ErrorState from "../SharedComponents/ErrorState";
+import Modal from "components/Modal";
+import useAnalytics from "hooks/useAnalytics";
+import clientsService from "services/clientsService";
 import SearchInput from "../SharedComponents/SearchInput";
 import SearchLabel from "../SharedComponents/SearchLabel";
+import { Select } from "components/ui/Select";
+import ProviderList from "./ProviderList";
+import * as Sentry from "@sentry/react";
+import Spinner from "components/ui/Spinner";
+import Pagination from "components/ui/Pagination/pagination";
+import CustomFooter from "components/Modal/CustomFooter";
+import { arraysAreEqual } from "utils/address";
+import Warning from "../Icons/warning";
+import "./style.scss";
 
-const PREFIX = 'ProviderModal';
+const DISTANCE_OPTIONS = [
+    { value: 10, label: "10 miles" },
+    { value: 20, label: "20 miles" },
+    { value: 30, label: "30 miles" },
+];
 
-const classes = {
-    customTypography: `${PREFIX}-customTypography`,
-    input: `${PREFIX}-input`,
-    spinner: `${PREFIX}-spinner`,
-    pagination: `${PREFIX}-pagination`,
-    maxAddresses: `${PREFIX}-maxAddresses`,
-    maxAddressesMessage: `${PREFIX}-maxAddressesMessage`,
-    boldMessage: `${PREFIX}-boldMessage`
-};
+function encodeQueryData(data) {
+    const ret = [];
+    for (let d in data)
+        if (data[d]) {
+            ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
+        }
+    return ret.join("&");
+}
 
-const StyledModal = styled(Modal)(() => ({
-    [`& .${classes.customTypography}`]: {
+const useStyles = makeStyles(() => ({
+    customTypography: {
         color: "#052A63",
         fontSize: 16,
         fontFamily: "Lato",
@@ -54,23 +50,19 @@ const StyledModal = styled(Modal)(() => ({
         fontWeight: "bold",
         marginBottom: 10,
     },
-
-    [`& .${classes.input}`]: {
+    input: {
         "&.MuiOutlinedInput-input": {
             padding: "10px 14px",
         },
     },
-
-    [`& .${classes.spinner}`]: {
+    spinner: {
         color: "#4178FF",
     },
-
-    [`& .${classes.pagination}`]: {
+    pagination: {
         display: "flex",
         justifyContent: "center",
     },
-
-    [`& .${classes.maxAddresses}`]: {
+    maxAddresses: {
         position: "sticky",
         top: 0,
         zIndex: 10,
@@ -82,48 +74,36 @@ const StyledModal = styled(Modal)(() => ({
         borderRadius: "8px",
         border: "solid 1px #f44236",
     },
-
-    [`& .${classes.maxAddressesMessage}`]: {
+    maxAddressesMessage: {
         color: "#052A63",
         fontSize: "20px",
         marginLeft: "10px",
     },
-
-    [`& .${classes.boldMessage}`]: {
+    boldMessage: {
         fontWeight: "bold",
-    }
+    },
 }));
 
-const DISTANCE_OPTIONS = [
-    { value: 10, label: "10 miles" },
-    { value: 20, label: "20 miles" },
-    { value: 30, label: "30 miles" },
-];
-
-function encodeQueryData(data) {
-    const ret = [];
-    for (const d in data)
-        {if (data[d]) {
-            ret.push(`${encodeURIComponent(d)  }=${  encodeURIComponent(data[d])}`);
-        }}
-    return ret.join("&");
-}
-
-const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, leadId }) => {
+const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }) => {
     const { addProvider, deleteProvider, providers, fetchProviders } = useHealth();
+    const { contactId } = useParams();
 
+    useEffect(() => {
+        if (contactId) {
+            fetchHealthDetails();
+        }
+    }, [contactId]);
 
     const fetchHealthDetails = useCallback(async () => {
-        await fetchProviders(leadId);
-    }, [leadId, fetchProviders]);
+        await fetchProviders(contactId)
+    }, [contactId, fetchProviders]);
 
     // Initializations
-
+    const classes = useStyles();
     const { fireEvent } = useAnalytics();
 
     const [zipCode, setZipCode] = useState(userZipCode);
     const [searchString, setSearchString] = useState("");
-    const debouncedSearchString = useDebounce(searchString, 1000);
     const [radius, setRadius] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
     const [results, setResults] = useState();
@@ -151,13 +131,13 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
     // useEffects
 
     useEffect(() => {
-        if (!zipCode || zipCode.length !== 5 || !debouncedSearchString || isEdit) {
+        if (!zipCode || zipCode.length !== 5 || !searchString || isEdit) {
             setIsLoading(false);
             setResults([]);
             return;
         }
         const query = encodeQueryData({
-            searchTerm: debouncedSearchString,
+            searchTerm: searchString,
             radius,
             zipCode,
             page: currentPage,
@@ -175,7 +155,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
                 setIsLoading(false);
                 Sentry.captureException(e);
             });
-    }, [perPage, currentPage, debouncedSearchString, zipCode, radius, isEdit]);
+    }, [perPage, currentPage, searchString, zipCode, radius, isEdit]);
 
     useEffect(() => {
         if (isEdit && selected) {
@@ -224,7 +204,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
         await addProvider(requestPayload, selectedProvider?.presentationName, refresh, isEdit, leadId);
 
         fireEvent("AI - Provider added", {
-            leadid: leadId,
+            leadid: contactId,
             npi: "requestPayload[0].npi",
         });
     };
@@ -274,7 +254,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
     const disabled = isEdit ? !selectAddressIds?.length > 0 || !isUpdated : !isFormValid;
 
     return (
-        <StyledModal
+        <Modal
             open={open}
             onClose={onClose}
             onCancel={onClose}
@@ -382,7 +362,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
                     )}
                 </>
             )}
-        </StyledModal>
+        </Modal>
     );
 };
 
