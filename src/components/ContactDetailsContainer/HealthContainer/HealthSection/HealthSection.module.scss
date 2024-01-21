@@ -3,7 +3,7 @@
 .detailscardContainer {
     display: flex;
     flex-direction: column;
-    
+
     @include small {
         width: 100%;
     }
@@ -27,6 +27,11 @@
                 box-shadow: inset 0px -1px 0px #cdd0d5;
             }
         }
+
+        .cell-data {
+            width: 33% !important;
+        }
+
 
         &:first-child {
             border-radius: 8px 8px 0px 0px;

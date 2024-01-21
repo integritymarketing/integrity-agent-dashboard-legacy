@@ -77,7 +77,8 @@ export const PlanCard = ({
             leadDetails,
             coverageAmount,
             planName,
-            resource_url
+            resource_url,
+            contactId
         );
         const response = await enrollLeadFinalExpensePlan(body);
 

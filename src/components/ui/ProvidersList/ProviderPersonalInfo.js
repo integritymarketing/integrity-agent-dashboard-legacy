@@ -9,7 +9,7 @@ const useStyles = makeStyles({
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
-        width: "40% !important",
+        width: "45% !important",
         "@media (max-width: 768px)": {
             width: "100% !important",
         },

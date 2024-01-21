@@ -31,7 +31,7 @@ const useWebStyles = makeStyles({
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
-        width: "40%",
+        width: "33%",
     },
     editbtn: {
         "@media (max-width: 768px)": {
@@ -45,6 +45,7 @@ const useWebStyles = makeStyles({
             top: "12px",
             right: "15px",
         },
+        width: '10%'
     },
     compareTable: {
         width: "100% !important",
@@ -161,8 +162,8 @@ const Address = ({ addresses, isPlanPage }) => {
                                     <div>
                                         {address
                                             ? [address?.city, address?.state, address?.zipCode]
-                                                  .filter(Boolean)
-                                                  .join(",")
+                                                .filter(Boolean)
+                                                .join(",")
                                             : null}
                                     </div>
                                 </div>

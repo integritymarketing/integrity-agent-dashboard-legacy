@@ -27,7 +27,7 @@ import { BackToTop } from "components/ui/BackToTop";
 import Pagination from "components/ui/Pagination/pagination";
 import PlanCardLoader from "components/ui/PlanCard/loader";
 
-import useContactDetails from "pages/ContactDetails/useContactDetails";
+import { useLeadDetails } from "providers/ContactDetails";
 
 import { PlanCard } from "./PlanCard";
 import styles from "./PlanDetailsContainer.module.scss";
@@ -60,7 +60,7 @@ export const PlanDetailsContainer = ({
     const { getFinalExpenseQuotePlans, getCarriersInfo, carrierInfo } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
-    const { leadDetails } = useContactDetails(contactId);
+    const { leadDetails } = useLeadDetails();
     const [fetchPlansError, setFetchPlansError] = useState(false);
 
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
