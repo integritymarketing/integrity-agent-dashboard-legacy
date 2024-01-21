@@ -1,8 +1,8 @@
 import { StrictMode, lazy } from "react";
 import { Navigate } from "react-router-dom";
 
-import { FinalExpensePlansProvider } from "providers/FinalExpense";
 import { ContactDetailsProvider } from "providers/ContactDetails";
+import { FinalExpensePlansProvider } from "providers/FinalExpense";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
 const AccountPage = lazy(() => import("pages/Account/AccountPage"));
@@ -106,10 +106,10 @@ const appProtectedRoutes = [
     {
         path: "/dashboard",
         component: (
-            <>
+            <ContactDetailsProvider>
                 <Dashboard />
                 <WebChatComponent />
-            </>
+            </ContactDetailsProvider>
         ),
     },
     {
