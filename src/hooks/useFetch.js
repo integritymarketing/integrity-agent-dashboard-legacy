@@ -49,7 +49,6 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
                     return response;
                 }
 
-
                 try {
                     const jsonData = await response.clone().json();
                     setData(jsonData);
@@ -59,7 +58,6 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
                     setData(textData);
                     return textData;
                 }
-
 
                 // let json = null;
                 // if (!noResponse) {
@@ -74,7 +72,7 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
                 setLoading(false);
             }
         },
-        [url, isPublic, noResponse]
+        [url, isPublic]
     );
 
     const Get = useCallback(

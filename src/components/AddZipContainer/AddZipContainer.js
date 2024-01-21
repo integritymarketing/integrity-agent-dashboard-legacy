@@ -1,24 +1,38 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
-import { debounce } from 'lodash';
+import { useState, useMemo, useEffect, useCallback } from "react";
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import { debounce } from "lodash";
 
-import useFetch from 'hooks/useFetch';
-import WithLoader from 'components/ui/WithLoader';
-import useContactDetails from 'pages/ContactDetails/useContactDetails';
-import { CONFIRM_DETAILS_SUBTEXT, CONFIRM_DETAILS_TEXT, GET_COUNTIES, UPDATE_LEAD_DETAILS } from './AddZipContainer.constants';
-import styles from './AddZipContainer.module.scss';
-import { getPayloadForUpdate, getTransformedCounties } from './AddZipContainer.utils';
-import { ContinueCTA } from './ContinueCTA/ContinueCTA';
-import { CopyAddress } from './CopyAddress/CopyAddress';
-import { SelectCounty } from './SelectCounty/SelectCounty';
-import { ZipCodeInput } from './ZipCodeInput/ZipCodeInput';
+import useFetch from "hooks/useFetch";
+import WithLoader from "components/ui/WithLoader";
+import useContactDetails from "pages/ContactDetails/useContactDetails";
+import {
+    CONFIRM_DETAILS_SUBTEXT,
+    CONFIRM_DETAILS_TEXT,
+    GET_COUNTIES,
+    UPDATE_LEAD_DETAILS,
+} from "./AddZipContainer.constants";
+import styles from "./AddZipContainer.module.scss";
+import { getPayloadForUpdate, getTransformedCounties } from "./AddZipContainer.utils";
+import { ContinueCTA } from "./ContinueCTA/ContinueCTA";
+import { CopyAddress } from "./CopyAddress/CopyAddress";
+import { SelectCounty } from "./SelectCounty/SelectCounty";
+import { ZipCodeInput } from "./ZipCodeInput/ZipCodeInput";
 
 const AddZipContainer = ({ isMobile, contactId }) => {
     const navigate = useNavigate();
     const { getLeadDetails, leadDetails } = useContactDetails(contactId);
-    const { address1 = '', address2 = '', city = '', stateCode = '', postalCode = '' } = useMemo(() => leadDetails.addresses?.[0] ?? {}, [leadDetails]);
-    const address = useMemo(() => [address1, address2, city, stateCode].filter(Boolean).join(', '), [address1, address2, city, stateCode]);
+    const {
+        address1 = "",
+        address2 = "",
+        city = "",
+        stateCode = "",
+        postalCode = "",
+    } = useMemo(() => leadDetails.addresses?.[0] ?? {}, [leadDetails]);
+    const address = useMemo(
+        () => [address1, address2, city, stateCode].filter(Boolean).join(", "),
+        [address1, address2, city, stateCode]
+    );
     const [zipCode, setZipCode] = useState(postalCode);
     const [allCounties, setAllCounties] = useState([]);
     const [countyObj, setCountyObj] = useState({});
@@ -26,9 +40,9 @@ const AddZipContainer = ({ isMobile, contactId }) => {
     const [zipError, setZipError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const { Get: getCounties } = useFetch(`${GET_COUNTIES}${zipCode}`);
+    const URL = `${GET_COUNTIES}${zipCode}`;
+    const { Get: getCounties } = useFetch(URL);
     const { Put: updateLeadData } = useFetch(`${UPDATE_LEAD_DETAILS}${contactId}`);
-
 
     const handleContinue = async () => {
         const { countyFIPS, countyName, state } = countyObj;
@@ -38,29 +52,32 @@ const AddZipContainer = ({ isMobile, contactId }) => {
         navigate(`/plans/${contactId}`);
     };
 
-    const fetchCounties = async (zipcode) => {
-        if (zipcode) {
-            setIsLoading(true);
-            const counties = await getCounties();
-            setIsLoading(false);
-            if (counties?.length === 1) {
-                setCountyObj(...counties);
-                setAllCounties([]);
-                setIsSubmitDisabled(false);
-                setZipError(false);
-            } else if (counties?.length > 1) {
-                setAllCounties(getTransformedCounties(counties) || []);
-                setIsSubmitDisabled(true);
-                setZipError(false);
-            } else {
-                setAllCounties([]);
-                setIsSubmitDisabled(true);
-                setZipError(true);
+    const fetchCounties = useCallback(
+        async (zipcode) => {
+            if (zipcode) {
+                setIsLoading(true);
+                const counties = await getCounties();
+                setIsLoading(false);
+                if (counties?.length === 1) {
+                    setCountyObj(...counties);
+                    setAllCounties([]);
+                    setIsSubmitDisabled(false);
+                    setZipError(false);
+                } else if (counties?.length > 1) {
+                    setAllCounties(getTransformedCounties(counties) || []);
+                    setIsSubmitDisabled(true);
+                    setZipError(false);
+                } else {
+                    setAllCounties([]);
+                    setIsSubmitDisabled(true);
+                    setZipError(true);
+                }
             }
-        }
-    };
+        },
+        [getCounties]
+    );
 
-    const debounceZipFn = useCallback(debounce(fetchCounties, 1000), []);
+    const debounceZipFn = debounce((zipcode) => setZipCode(zipcode), 1000);
 
     const onSelectCounty = (county) => {
         const { key, value, state } = county;
@@ -75,6 +92,12 @@ const AddZipContainer = ({ isMobile, contactId }) => {
             setIsSubmitDisabled(true);
         }
     };
+
+    useEffect(() => {
+        if (zipCode) {
+            fetchCounties(zipCode);
+        }
+    }, [fetchCounties, zipCode]);
 
     return (
         <div className={isMobile ? styles.detailsMContainer : styles.detailsDContainer}>
