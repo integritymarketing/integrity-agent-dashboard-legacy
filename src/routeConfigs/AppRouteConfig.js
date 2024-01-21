@@ -118,11 +118,19 @@ const appProtectedRoutes = [
     },
     {
         path: "/enrollmenthistory/:contactId/:confirmationNumber/:effectiveDate",
-        component: <EnrollmentHistoryPage />,
+        component: (
+            <ContactDetailsProvider>
+                <EnrollmentHistoryPage />
+            </ContactDetailsProvider>
+        ),
     },
     {
         path: "/enrollment-link-to-contact",
-        component: <EnrollmentLinkToContact />,
+        component: (
+            <ContactDetailsProvider>
+                <EnrollmentLinkToContact />
+            </ContactDetailsProvider>
+        ),
     },
     { path: "/account", component: <AccountPage /> },
     { path: "/account/:section/", component: <AccountPage /> },
@@ -175,7 +183,11 @@ const appProtectedRoutes = [
     { path: "/client-import", component: <ClientImportPage /> },
     {
         path: "/plans/:contactId/compare/:planIds/:effectiveDate",
-        component: <ComparePlansPage />,
+        component: (
+            <ContactDetailsProvider>
+                <ComparePlansPage />
+            </ContactDetailsProvider>
+        ),
     },
     {
         path: "/plans/:contactId",
@@ -187,7 +199,11 @@ const appProtectedRoutes = [
     },
     {
         path: "/:contactId/plan/:planId/:effectiveDate",
-        component: <PlanDetailsPage />,
+        component: (
+            <ContactDetailsProvider>
+                <PlanDetailsPage />,
+            </ContactDetailsProvider>
+        ),
     },
     {
         path: "/finalexpenses/create/:contactId",
@@ -233,19 +249,19 @@ const appProtectedRoutes = [
     {
         path: "taskList-results-mobile-layout/:npn/:widget",
         component: (
-            <>
+            <ContactDetailsProvider>
                 <TaskListResultsMobileLayout />
                 <WebChatComponent />
-            </>
+            </ContactDetailsProvider>
         ),
     },
     {
         path: "policy-snapshot-mobile-layout/:npn",
         component: (
-            <>
+            <ContactDetailsProvider>
                 <PolicySnapshotMobileLayout />
                 <WebChatComponent />
-            </>
+            </ContactDetailsProvider>
         ),
     },
 ];
