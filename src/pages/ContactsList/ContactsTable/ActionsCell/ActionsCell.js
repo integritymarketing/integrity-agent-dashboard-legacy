@@ -11,7 +11,7 @@ import useToast from "hooks/useToast";
 
 import { ConnectModal } from "components/ContactDetailsContainer/ConnectModal";
 import { AddReminderModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddReminderModal/AddReminderModal";
-import { SellingPreferenceModal } from "components/SellingPreferenceModal";
+import PlansTypeModal from "components/PlansTypeModal";
 import MoreBlue from "components/icons/version-2/MoreBlue";
 
 import clientsService from "services/clientsService";
@@ -37,13 +37,11 @@ export const ACTIONS = [
     },
 ];
 
-const HEALTH = "hideHealthQuote";
-
 // eslint-disable-next-line max-lines-per-function
 function ActionsCell({ row, isCard, item }) {
     const [leadConnectModal, setLeadConnectModal] = useState(false);
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
-    const [showSellingPreferenceModal, setShowSellingPreferenceModal] = useState(false);
+    const [showPlanTypeModal, setShowPlanTypeModal] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
@@ -52,25 +50,9 @@ function ActionsCell({ row, isCard, item }) {
     const record = isCard ? item : row.original;
     const leadId = record.leadsId;
     const leadDetails = record;
-    const postalCode = leadDetails?.addresses?.[0]?.postalCode;
-    const stateCode = leadDetails?.addresses?.[0]?.stateCode;
-    const county = leadDetails?.addresses?.[0]?.county;
-    const countyFips = leadDetails?.addresses?.[0]?.countyFips;
-    const hasFIPsCode = postalCode && county && stateCode && countyFips;
     const open = Boolean(anchorEl);
     const id = open ? leadId : undefined;
-
-    const onStartQuoteHandle = (type) => {
-        const navigateToPath = (path) => navigate(path);
-        if (type === HEALTH) {
-            const path = hasFIPsCode ? `/plans/${leadId}` : `/contact/${leadId}/addZip`;
-            navigateToPath(path);
-        } else {
-            const path = `/finalexpenses/create/${leadId}`;
-            navigateToPath(path);
-        }
-        setShowSellingPreferenceModal(false);
-    };
+    const zipcode = leadDetails?.addresses && leadDetails?.addresses[0]?.postalCode;
 
     const handleOptionClick = (value) => {
         setAnchorEl(null);
@@ -101,7 +83,7 @@ function ActionsCell({ row, isCard, item }) {
                     leadid: leadId,
                     selection: "start_quote",
                 });
-                setShowSellingPreferenceModal(true);
+                setShowPlanTypeModal(true);
                 break;
 
             default:
@@ -182,11 +164,12 @@ function ActionsCell({ row, isCard, item }) {
                     selectedReminder={null}
                 />
             )}
-            {showSellingPreferenceModal && (
-                <SellingPreferenceModal
-                    isOpen={showSellingPreferenceModal}
-                    onStartQuoteHandle={onStartQuoteHandle}
-                    onClose={() => setShowSellingPreferenceModal(false)}
+            {showPlanTypeModal && (
+                <PlansTypeModal
+                    zipcode={zipcode}
+                    showPlanTypeModal={showPlanTypeModal}
+                    handleModalClose={() => setShowPlanTypeModal(false)}
+                    leadId={leadId}
                 />
             )}
         </>
