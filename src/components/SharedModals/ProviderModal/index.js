@@ -1,30 +1,37 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import * as Sentry from "@sentry/react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+
+import useDebounce from "hooks/useDebounce";
+
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import makeStyles from "@mui/styles/makeStyles";
 
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
-import { useParams } from "react-router-dom";
+import { arraysAreEqual } from "utils/address";
+
+import useAnalytics from "hooks/useAnalytics";
+
+import Modal from "components/Modal";
+import CustomFooter from "components/Modal/CustomFooter";
+import Pagination from "components/ui/Pagination/pagination";
+import { Select } from "components/ui/Select";
+import Spinner from "components/ui/Spinner";
+
+import clientsService from "services/clientsService";
+
+import ProviderList from "./ProviderList";
+import "./style.scss";
+
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import makeStyles from "@mui/styles/makeStyles";
+import Warning from "../Icons/warning";
 import ErrorState from "../SharedComponents/ErrorState";
-import Modal from "components/Modal";
-import useAnalytics from "hooks/useAnalytics";
-import clientsService from "services/clientsService";
 import SearchInput from "../SharedComponents/SearchInput";
 import SearchLabel from "../SharedComponents/SearchLabel";
-import { Select } from "components/ui/Select";
-import ProviderList from "./ProviderList";
-import * as Sentry from "@sentry/react";
-import Spinner from "components/ui/Spinner";
-import Pagination from "components/ui/Pagination/pagination";
-import CustomFooter from "components/Modal/CustomFooter";
-import { arraysAreEqual } from "utils/address";
-import Warning from "../Icons/warning";
-import "./style.scss";
 
 const DISTANCE_OPTIONS = [
     { value: 10, label: "10 miles" },
@@ -84,19 +91,13 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }) => {
+const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, leadId }) => {
     const { addProvider, deleteProvider, providers, fetchProviders } = useHealth();
-    const { contactId } = useParams();
 
-    useEffect(() => {
-        if (contactId) {
-            fetchHealthDetails();
-        }
-    }, [contactId]);
 
     const fetchHealthDetails = useCallback(async () => {
-        await fetchProviders(contactId)
-    }, [contactId, fetchProviders]);
+        await fetchProviders(leadId);
+    }, [leadId, fetchProviders]);
 
     // Initializations
     const classes = useStyles();
@@ -104,6 +105,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
 
     const [zipCode, setZipCode] = useState(userZipCode);
     const [searchString, setSearchString] = useState("");
+    const debouncedSearchString = useDebounce(searchString, 1000);
     const [radius, setRadius] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
     const [results, setResults] = useState();
@@ -131,13 +133,13 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
     // useEffects
 
     useEffect(() => {
-        if (!zipCode || zipCode.length !== 5 || !searchString || isEdit) {
+        if (!zipCode || zipCode.length !== 5 || !debouncedSearchString || isEdit) {
             setIsLoading(false);
             setResults([]);
             return;
         }
         const query = encodeQueryData({
-            searchTerm: searchString,
+            searchTerm: debouncedSearchString,
             radius,
             zipCode,
             page: currentPage,
@@ -155,7 +157,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
                 setIsLoading(false);
                 Sentry.captureException(e);
             });
-    }, [perPage, currentPage, searchString, zipCode, radius, isEdit]);
+    }, [perPage, currentPage, debouncedSearchString, zipCode, radius, isEdit]);
 
     useEffect(() => {
         if (isEdit && selected) {
@@ -204,7 +206,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh }
         await addProvider(requestPayload, selectedProvider?.presentationName, refresh, isEdit, leadId);
 
         fireEvent("AI - Provider added", {
-            leadid: contactId,
+            leadid: leadId,
             npi: "requestPayload[0].npi",
         });
     };
