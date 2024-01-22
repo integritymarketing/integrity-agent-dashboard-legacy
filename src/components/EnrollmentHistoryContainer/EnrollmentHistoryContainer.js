@@ -12,23 +12,26 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         getEnrollPlansList(leadId);
     }, [getEnrollPlansList, leadId]);
 
-    function getCurrentYear(date) {
-        return date ? new Date(date).getFullYear() : null;
-    }
-
     const currentYear = useMemo(() => new Date().getFullYear(), []);
 
-    const currentYearPlansData = enrollPlansList?.filter((planData) => {
-        let policyDate = new Date(planData?.policyEffectiveDate); // get the current date
-        policyDate?.setDate(policyDate.getDate() + 1); // add 1 day
-        return getCurrentYear(policyDate) === currentYear;
-    });
+    const filterPlansByYear = (enrollPlansList, currentYear, isCurrentYear) => {
+        return enrollPlansList?.filter(({ policyEffectiveDate, termedDate, policyStatus, productCategory }) => {
+          const policyDate = new Date(policyEffectiveDate);
+          policyDate.setDate(policyDate.getDate() + 1);
+          const policyYear = policyDate.getFullYear();
+          const isTermedInPast = termedDate && new Date(termedDate) < new Date();
+          const isDeclined = policyStatus === 'declined' && productCategory === 'Final Expense';
+      debugger
+          if (isCurrentYear) {
+            return policyYear === currentYear && ((!isTermedInPast && productCategory === 'Final Expense') || !isDeclined);
+          } else {
+            return policyYear !== currentYear || (isTermedInPast && productCategory === 'Final Expense') || isDeclined;
+          }
+        });
+      };
 
-    const previousYearPlansData = enrollPlansList?.filter((planData) => {
-        let policyDate = new Date(planData?.policyEffectiveDate); // get the current date
-        policyDate?.setDate(policyDate.getDate() + 1); // add 1 day
-        return getCurrentYear(policyDate) !== currentYear;
-    });
+    const currentYearPlansData = filterPlansByYear(enrollPlansList, currentYear, true);
+    const previousYearPlansData = filterPlansByYear(enrollPlansList, currentYear, false);
 
     const currentYearPlansCount = currentYearPlansData?.length;
     const previousYearPlansCount = previousYearPlansData?.length;
@@ -69,6 +72,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                                         sourceId={planData.sourceId}
                                         policyStatusColor={planData.policyStatusColor}
                                         linkingType={planData.linkingType}
+                                        productCategory={planData.productCategory}
                                     />
                                 );
                             })}
@@ -114,6 +118,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                                         policyStatusColor={planData.policyStatusColor}
                                         sourceId={planData.sourceId}
                                         linkingType={planData.linkingType}
+                                        productCategory={planData.productCategory}
                                     />
                                 ))}
                             </>

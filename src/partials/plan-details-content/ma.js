@@ -96,6 +96,7 @@ const MaDetailsContent = ({
                             isEmail={isEmail}
                             planName={enrollData.planName}
                             policyStatusColor={enrollData.policyStatusColor}
+                            productCategory={enrollData.productCategory}
                         />
                     )}
                 </div>

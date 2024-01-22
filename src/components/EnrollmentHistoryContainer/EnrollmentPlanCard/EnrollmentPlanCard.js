@@ -32,6 +32,7 @@ export default function EnrollmentPlanCard(props) {
         planId,
         hasPlanDetails,
         policyStatusColor,
+        productCategory,
     } = props;
 
     const navigate = useNavigate();
@@ -51,6 +52,8 @@ export default function EnrollmentPlanCard(props) {
             state: props,
         });
     };
+
+    const isFinalExepense = productCategory === "Final Expense";
     return (
         <div className={styles.planCardContainer}>
             <Media
@@ -74,16 +77,25 @@ export default function EnrollmentPlanCard(props) {
                                 <div>
                                     <strong className={styles.planId}>Plan ID:</strong> <span>{planId}</span>
                                 </div>
+                                <div>
+                                    <strong className={styles.planId}>Product:</strong> <span>{productCategory}</span>
+                                </div>
                             </div>
                             <div className={styles.dates}>
                                 {currentYear ? (
                                     <>
-                                        <PlanDate type="Submitted" date={submittedDate} />
+                                        <PlanDate
+                                            type={isFinalExepense ? "Received" : "Submitted"}
+                                            date={submittedDate}
+                                        />
 
                                         {(policyStatus === "upcoming" || policyStatus === "active") && (
                                             <>
                                                 <PlanDate type="Effective" date={policyEffectiveDate} />
-                                                <PlanDate type="Enrolled" date={enrolledDate} />
+                                                <PlanDate
+                                                    type={isFinalExepense ? "Issued" : "Enrolled"}
+                                                    date={enrolledDate}
+                                                />
                                             </>
                                         )}
                                     </>

@@ -18,6 +18,7 @@ export const FinalExpensePlansContext = createContext();
 
 export const FinalExpensePlansProvider = ({ children }) => {
     const { contactId } = useParams();
+    const showToast = useToast();
     const URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/plans`;
     const QUOTE_URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/quotes/Lead/${contactId}`;
     const CARRIERS_URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/selfattest/carriers`;
