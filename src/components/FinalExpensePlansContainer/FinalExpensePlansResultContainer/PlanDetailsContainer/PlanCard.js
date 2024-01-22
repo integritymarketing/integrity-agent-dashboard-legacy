@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
-import { useRecoilValue } from "recoil";
-import { agentInformationSelector } from "recoil/agent/selectors";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 
 import { convertToTitleCase } from "utils/toTitleCase";
 
+import { useLeadDetails } from "providers/ContactDetails";
 import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
 
@@ -21,8 +21,6 @@ import {
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import InfoBlue from "components/icons/version-2/InfoBlue";
 import { Button } from "components/ui/Button";
-
-import useContactDetails from "pages/ContactDetails/useContactDetails";
 
 import { FinalExpenseEnrollResponseModal } from "./FinalExpenseEnrollResponseModal";
 import styles from "./PlanDetailsContainer.module.scss";
@@ -49,9 +47,10 @@ export const PlanCard = ({
     selectedTab,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
-    const { leadDetails } = useContactDetails(contactId);
+    const { leadDetails } = useLeadDetails();
     const { fireEvent } = useAnalytics();
-    const { agentFirstName, agentLastName } = useRecoilValue(agentInformationSelector);
+    const { agentInformation } = useAgentInformationByID();
+    const { agentFirstName, agentLastName } = agentInformation;
     const { Post: enrollLeadFinalExpensePlan } = useFetch(`${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`);
     const [enrollResponse, setEnrollResponse] = useState(null);
 
