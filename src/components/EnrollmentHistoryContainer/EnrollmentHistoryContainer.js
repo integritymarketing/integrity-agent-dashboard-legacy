@@ -15,14 +15,25 @@ export default function EnrollmentHistoryContainer({ leadId }) {
 
     const currentYear = useMemo(() => new Date().getFullYear(), []);
 
+    const isDeclinedStatus = (status) => {
+        return status === 'declined' || status === 'inactive';
+    };
+
     const filterPlansByYear = (plansList, year, isCurrentYear) => {
         return plansList?.filter(({ policyEffectiveDate, termedDate, policyStatus, productCategory }) => {
             const policyDate = new Date(policyEffectiveDate);
             policyDate.setDate(policyDate.getDate() + 1);
             const policyYear = policyDate.getFullYear();
-            const isTermedInPast = termedDate && new Date(termedDate) < new Date();
-            const isDeclined = policyStatus === 'declined' || (policyStatus === 'inactive' && productCategory === 'Final Expense');
-            return isCurrentYear ? (policyYear === year && !isDeclined) : (policyYear !== year || isTermedInPast || isDeclined);
+
+            if (productCategory === 'Final Expense') {
+                return !isDeclinedStatus(policyStatus);
+            }
+
+            if (productCategory === 'Medicare Advantage') {
+                return isCurrentYear ? policyYear === year : policyYear !== year;
+            }
+
+            return isCurrentYear ? policyYear === year : policyYear !== year;
         });
     };
 
