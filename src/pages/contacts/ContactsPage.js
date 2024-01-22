@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 import Media from "react-media";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
-import { debounce } from "debounce";
+import debounce from "debounce";
 
 import { useActiveFilters } from "hooks/useActiveFilters";
 import useToast from "hooks/useToast";
