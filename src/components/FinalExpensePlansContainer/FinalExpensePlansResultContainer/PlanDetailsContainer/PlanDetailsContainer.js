@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Media from "react-media";
-import { useParams } from "react-router-dom";
+import { useParams , useNavigate } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { useFinalExpensePlans } from "providers/FinalExpense";
@@ -38,7 +38,7 @@ import { ACTIVE_SELLING_PERMISSIONS_REQUIRED, VIEW_SELLING_PERMISSIONS } from ".
 
 import ArrowRightIcon from "components/icons/arrowRightLight";
 
-import { useNavigate } from "react-router-dom";
+
 
 
 export const PlanDetailsContainer = ({
@@ -209,6 +209,41 @@ export const PlanDetailsContainer = ({
         return <div className={styles.loadersContainer}>{loaders}</div>;
     }, []);
 
+    const renderNoPlansMessage = useCallback(() => {
+        if (!isLoadingFinalExpensePlans && pagedResults.length === 0) {
+            return (
+                <div className={styles.noPlans}>
+                    <div className={styles.alertIcon}>
+                        <AlertIcon />
+                    </div>
+                    <div>{fetchPlansError ? NO_PLANS_ERROR : FETCH_PLANS_ERROR}</div>
+                </div>
+            );
+        }
+        return null;
+    }, [isLoadingFinalExpensePlans, pagedResults.length, fetchPlansError]);
+
+    const renderActiveSellingPermissionsSection = useCallback(() => {
+        if (!isRTS) {
+            return (
+                <div className={styles.activeSellingPermissionsRequired}>
+                    <p>{ACTIVE_SELLING_PERMISSIONS_REQUIRED}</p>
+                    <Button label={VIEW_SELLING_PERMISSIONS}
+                        className={styles.viewSellingPermissions}
+                        onClick={() => navigate(`/account/selfAttestedPermissions`)}
+                        type="primary"
+                        icon={<ArrowRightIcon />}
+                        iconPosition="right" />
+                </div>
+            );
+        }
+        return null;
+    }, [isRTS, navigate]);
+
+    const hasCarrierInfo = useMemo(() => {
+        return carrierInfo?.length > 0;
+    }, [carrierInfo]);
+
     return (
         <>
             <Media
@@ -219,24 +254,9 @@ export const PlanDetailsContainer = ({
             />
             <div className={styles.planContainer}>
                 {isLoadingFinalExpensePlans && loadersCards}
-                {!isLoadingFinalExpensePlans && pagedResults.length === 0 && (
-                    <div className={styles.noPlans}>
-                        <div className={styles.alertIcon}>
-                            <AlertIcon />
-                        </div>
-                        <div>{fetchPlansError ? NO_PLANS_ERROR : FETCH_PLANS_ERROR}</div>
-                    </div>
-                )}
+                {renderNoPlansMessage()}
                 <PersonalisedQuoteBox />
-                {!isRTS && <div className={styles.activeSellingPermissionsRequired}>
-                    <p>{ACTIVE_SELLING_PERMISSIONS_REQUIRED}</p>
-                    <Button label={VIEW_SELLING_PERMISSIONS}
-                        className={styles.viewSellingPermissions}
-                        onClick={() => { navigate(`/account/selfAttestedPermissions`); }}
-                        type="primary"
-                        icon={<ArrowRightIcon />}
-                        iconPosition="right" />
-                </div>}
+                {renderActiveSellingPermissionsSection()}
                 {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
                     <>
                         {pagedResults.map((plan, index) => {
@@ -281,7 +301,7 @@ export const PlanDetailsContainer = ({
                                     contactId={contactId}
                                     resource_url={resource_url}
                                     writingAgentNumber={writingAgentNumber}
-                                    isHaveCarriers={carrierInfo?.length > 0}
+                                    isHaveCarriers={hasCarrierInfo}
                                     selectedTab={selectedTab}
                                 />
                             );
