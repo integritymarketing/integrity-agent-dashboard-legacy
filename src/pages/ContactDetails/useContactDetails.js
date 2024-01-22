@@ -12,6 +12,8 @@ const useContactDetails = (leadId) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const getLeadDetails = useCallback(async () => {
+    if (isLoading) return;
+
     setIsLoading(true);
     try {
       const results = await clientsService.getContactInfo(leadId);
