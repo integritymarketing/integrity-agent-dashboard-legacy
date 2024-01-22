@@ -116,7 +116,7 @@ function SAPermissionsTable() {
                 Cell: ({ row }) => {
                     return (
                         <Box>
-                            <DeleteButton attestationId={row.original.attestationId} />
+                            <DeleteButton attestationId={row.original.attestationId} row={row} />
                         </Box>
                     );
                 },

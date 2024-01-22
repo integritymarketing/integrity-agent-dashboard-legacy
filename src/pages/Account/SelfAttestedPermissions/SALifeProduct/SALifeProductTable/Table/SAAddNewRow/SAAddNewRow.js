@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 
 import useDataHandler from "../../../hooks/useDataHandler";
 import useUserProfile from "hooks/useUserProfile";
+import useAnalytics from "hooks/useAnalytics";
 
 import SaveBlue from "components/icons/version-2/SaveBlue";
 import { Button } from "components/ui/Button";
@@ -25,6 +26,7 @@ function SAAddNewRow() {
     const { addRecord } = useDataHandler();
     const { isAddingLife, handleCancelLife } = useSAPermissionsContext();
     const { npn } = useUserProfile();
+    const { fireEvent } = useAnalytics();
 
     const shouldDisable = !producerIdValue || !selectedCarrier || error;
 
@@ -62,6 +64,12 @@ function SAAddNewRow() {
             naic: original?.naic,
         };
         addRecord(payload);
+        fireEvent("RTS Attestation Added", {
+            line_of_business: "Life",
+            product_type: "final_expense",
+            leadid: npn,
+            carrier: original?.carrierName,
+        });
         handleCancelLife();
     };
 

@@ -10,6 +10,8 @@ import PropTypes from "prop-types";
 
 import useDataHandler from "../../hooks/useDataHandler";
 
+import useAnalytics from "hooks/useAnalytics";
+
 import EditIcon from "components/icons/icon-edit";
 import TrashBinIcon from "components/icons/trashbin";
 import SaveBlue from "components/icons/version-2/SaveBlue";
@@ -32,6 +34,7 @@ function Table({ data }) {
     const [editableRow, setEditableRow] = useState(null);
     const { updateRecord } = useDataHandler();
     const { error, setError } = useSALifeProductContext();
+    const { fireEvent } = useAnalytics();
 
     const toggleEditMode = useCallback(
         (rowIndex) => {
@@ -50,18 +53,30 @@ function Table({ data }) {
     );
 
     const onDeleteHandle = useCallback(
-        (record) => {
-            updateRecord({ ...record, inActive: 1 });
+        async (record) => {
+            await updateRecord({ ...record, inActive: 1 });
+            fireEvent("RTS Attestation Deleted", {
+                line_of_business: "Life",
+                product_type: "final_expense",
+                leadid: record.agentNPN,
+                carrier: record.carrierName,
+            });
         },
-        [updateRecord]
+        [fireEvent, updateRecord]
     );
 
     const onSaveHandle = useCallback(
         (record) => {
             const editedRow = updatedData.find((row) => record.fexAttestationId === row.fexAttestationId);
             updateRecord(editedRow);
+            fireEvent("RTS Attestation Edited", {
+                line_of_business: "Life",
+                product_type: "final_expense",
+                leadid: record.agentNPN,
+                carrier: record.carrierName,
+            });
         },
-        [updateRecord, updatedData]
+        [fireEvent, updateRecord, updatedData]
     );
 
     useEffect(() => {

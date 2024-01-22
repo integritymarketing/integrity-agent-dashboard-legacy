@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 
 import useFetch from "hooks/useFetch";
 import useUserProfile from "hooks/useUserProfile";
+import useAnalytics from "hooks/useAnalytics";
 
 import TrashBinIcon from "components/icons/trashbin";
 
@@ -15,10 +16,11 @@ import { useSAHealthProductContext } from "../providers/SAHealthProductProvider"
 import { useSAPModalsContext } from "../providers/SAPModalProvider";
 
 const AGENTS_API_VERSION = "v1.0";
-function DeleteButton({ attestationId }) {
+function DeleteButton({ attestationId, row }) {
     const { fetchTableData, setIsLoading, setError } = useSAHealthProductContext();
     const { setIsErrorModalOpen } = useSAPModalsContext();
     const { agentId } = useUserProfile();
+    const { fireEvent } = useAnalytics();
 
     const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${agentId}/${attestationId}`;
 
@@ -27,6 +29,12 @@ function DeleteButton({ attestationId }) {
     const onDeleteHandle = async () => {
         setIsLoading(true);
         const res = await deleteAgentSelfAttestation(null, true);
+        fireEvent("RTS Attestation Deleted", {
+            line_of_business: "Health",
+            product_type: row.original.product,
+            leadid: row.original.npn,
+            carrier: row.original.carrier,
+        });
         if (res.status >= 200 && res.status < 300) {
             await fetchTableData();
             setIsLoading(false);
@@ -48,6 +56,7 @@ function DeleteButton({ attestationId }) {
 
 DeleteButton.propTypes = {
     attestationId: PropTypes.number,
+    row: PropTypes.object,
 };
 
 export default DeleteButton;

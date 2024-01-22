@@ -138,12 +138,13 @@ function SAAddPermissionForm() {
         };
         setIsLoading(true);
         const res = await addAgentSelfAttestation(payload, true);
+        fireEvent("RTS Attestation Added", {
+            line_of_business: "Health",
+            product_type: product,
+            leadid: npn,
+            carrier: carrier,
+        });
         if (res.status >= 200 && res.status < 300) {
-            fireEvent("RTS Attestation Added", {
-                line_of_business: "Health",
-                product_type: product,
-                carrier: carrier,
-            });
             await fetchTableData();
             resetAllFields();
             setIsLoading(false);
