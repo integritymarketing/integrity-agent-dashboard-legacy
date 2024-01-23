@@ -6,19 +6,10 @@ import { ActionButton } from "@integritymarketing/ui-button-components";
 import useFlashMessage from "hooks/useFlashMessage";
 
 import IntegrityLogo from "components/HeaderWithLogin/Integrity-logo";
-import VideoPlayer from "components/VideoPlayer";
-
-import SimpleFooter from "partials/simple-footer";
 
 import AuthContext from "contexts/auth";
 
 import Styles from "./LandingPage.module.scss";
-import Feature1 from "./features/Feature1";
-import Feature2 from "./features/Feature2";
-import Feature3 from "./features/Feature3";
-import Feature4 from "./features/Feature4";
-import GetStarted from "./getStarted/GetStarted";
-import Testimonial from "./testimonial/Testimonial";
 
 const LandingPage = () => {
     const auth = useContext(AuthContext);
@@ -58,25 +49,6 @@ const LandingPage = () => {
                     />
                 </div>
             </div>
-            {/* Call Recording */}
-            <div className={Styles.mt132} />
-            <p className={Styles.heading}>Call Recording Solutions for you!</p>
-            <p className={Styles.bodyText}>Compliance at the press of a button — here to help you before AEP!</p>
-            <VideoPlayer className={Styles.videoPlayer} url={"https://player.vimeo.com/video/744367402?h=f0b1aad7a2"} />
-            {/* Feature 1 */}
-            <Feature1 />
-            {/* Feature 2 */}
-            <Feature2 />
-            {/* Feature 3 */}
-            <Feature3 />
-            {/* Testimonial */}
-            <Testimonial />
-            {/* Feature 4 */}
-            <Feature4 />
-            {/* Get Started */}
-            <GetStarted />
-            {/* Footer */}
-            <SimpleFooter />
         </>
     );
 };
