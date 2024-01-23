@@ -244,7 +244,11 @@ const appProtectedRoutes = [
     },
     {
         path: "/contact/:contactId/addZip",
-        component: <AddZipPage />,
+        component: (
+            <ContactDetailsProvider>
+                <AddZipPage />
+            </ContactDetailsProvider>
+        ),
     },
     {
         path: "taskList-results-mobile-layout/:npn/:widget",

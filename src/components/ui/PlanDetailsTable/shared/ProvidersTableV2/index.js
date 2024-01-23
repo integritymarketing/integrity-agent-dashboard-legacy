@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
 import Plus from "components/icons/plus";
 import { useParams } from "react-router-dom";
-import useContactDetails from "pages/ContactDetails/useContactDetails";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import RenderProviders from "components/ui/ProvidersList";
 import ProviderCoverageModal from "components/SharedModals/ProviderCoverageModal";
@@ -12,9 +11,8 @@ import EditIcon from "components/icons/edit2";
 
 import styles from "./ProvidersTableV2.module.scss";
 
-const ProvidersTableV2 = ({ isMobile, providers, refresh, planName, isEnroll }) => {
+const ProvidersTableV2 = ({ isMobile, providers, refresh, planName, isEnroll, contact }) => {
     const { contactId } = useParams();
-    const { leadDetails } = useContactDetails(contactId);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditingProvider, setIsEditingProvider] = useState(false);
@@ -87,7 +85,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName, isEnroll }) 
                     <ProviderModal
                         open={isModalOpen}
                         onClose={closeEditModal}
-                        userZipCode={leadDetails?.addresses?.[0]?.postalCode}
+                        userZipCode={contact?.addresses?.[0]?.postalCode}
                         selected={selectedProvider}
                         isEdit={isEditingProvider}
                         refresh={closeAllModalsAndRefresh}

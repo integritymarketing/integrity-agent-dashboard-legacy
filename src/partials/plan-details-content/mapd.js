@@ -189,6 +189,7 @@ const MapdDetailsContent = ({
                             providers={plan?.providers}
                             planName={plan?.planName}
                             isEnroll={isEnroll}
+                            contact={contact}
                         />
                     )}
                 </div>

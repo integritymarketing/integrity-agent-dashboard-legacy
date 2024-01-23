@@ -26,7 +26,7 @@ import analyticsService from "services/analyticsService";
 import clientsService from "services/clientsService";
 import plansService from "services/plansService";
 
-import useContactDetails from "pages/ContactDetails/useContactDetails";
+import { useLeadDetails } from "providers/ContactDetails";
 
 import styles from "./PlanDetailsPage.module.scss";
 
@@ -37,7 +37,8 @@ import NewBackBtn from "images/new-back-btn.svg";
 const PlanDetailsPage = () => {
     const showToast = useToast();
     const { contactId, planId, effectiveDate } = useParams();
-    const { leadDetails } = useContactDetails(contactId);
+    const { leadDetails } = useLeadDetails();
+
     const [isMobile, setIsMobile] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
