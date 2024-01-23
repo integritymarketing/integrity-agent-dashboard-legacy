@@ -29,6 +29,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
             getAgentAvailability();
         }
     }, [open, getAgentAvailability]);
+<<<<<<< Updated upstream
     const navigateToLearningPage = () => {
         navigate(`/learning-center`);
     };
@@ -39,6 +40,15 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
 
     const navigateToHelpPage = () => {
         navigate(`/help`);
+=======
+
+    const navigateToNewUserGuide = () => {
+        window.open(`${process.env.REACT_APP_RESOURCES_URL}/Integrity-Getting-Started-Guide.pdf`, "_blank").focus();
+    };
+
+    const navigateToReturningUserGuide = () => {
+        window.open(`${process.env.REACT_APP_RESOURCES_URL}/Integrity-Whats-New.pdf`, "_blank").focus();
+>>>>>>> Stashed changes
     };
 
     const modalContent = (
