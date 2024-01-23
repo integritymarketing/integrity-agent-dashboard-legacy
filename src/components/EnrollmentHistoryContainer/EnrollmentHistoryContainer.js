@@ -28,20 +28,16 @@ export default function EnrollmentHistoryContainer({ leadId }) {
             const policyDate = new Date(policyEffectiveDate);
             policyDate.setDate(policyDate.getDate() + 1);
             const policyYear = policyDate.getFullYear();
-
+    
             const planIdentifiers = getUniqueIdentifiers(plan);
             if (planIdentifiers.some(id => excludeIdentifiers.includes(id))) {
                 return false;
             }
-
+    
             if (productCategory === 'Final Expense') {
-                return !isDeclinedStatus(policyStatus);
+                return isCurrentYear ? false : policyYear !== year && isDeclinedStatus(policyStatus);
             }
-
-            if (productCategory === 'Medicare Advantage') {
-                return isCurrentYear ? policyYear === year : policyYear !== year;
-            }
-
+    
             return isCurrentYear ? policyYear === year : policyYear !== year;
         });
     };
