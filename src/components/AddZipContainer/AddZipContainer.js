@@ -5,15 +5,12 @@ import { debounce } from "lodash";
 
 import useFetch from "hooks/useFetch";
 import WithLoader from "components/ui/WithLoader";
-import useContactDetails from "pages/ContactDetails/useContactDetails";
-import {
-    CONFIRM_DETAILS_SUBTEXT,
-    CONFIRM_DETAILS_TEXT,
-    GET_COUNTIES,
-    UPDATE_LEAD_DETAILS,
-} from "./AddZipContainer.constants";
+import { useLeadDetails } from "providers/ContactDetails";
+import { formatDate } from "utils/dates";
+import { formatMbiNumber } from "utils/shared-utils/sharedUtility";
+import { CONFIRM_DETAILS_SUBTEXT, CONFIRM_DETAILS_TEXT, GET_COUNTIES } from "./AddZipContainer.constants";
 import styles from "./AddZipContainer.module.scss";
-import { getPayloadForUpdate, getTransformedCounties } from "./AddZipContainer.utils";
+import { getTransformedCounties } from "./AddZipContainer.utils";
 import { ContinueCTA } from "./ContinueCTA/ContinueCTA";
 import { CopyAddress } from "./CopyAddress/CopyAddress";
 import { SelectCounty } from "./SelectCounty/SelectCounty";
@@ -21,14 +18,16 @@ import { ZipCodeInput } from "./ZipCodeInput/ZipCodeInput";
 
 const AddZipContainer = ({ isMobile, contactId }) => {
     const navigate = useNavigate();
-    const { getLeadDetails, leadDetails } = useContactDetails(contactId);
+
+    const { leadDetails, updateLeadDetails } = useLeadDetails();
+
     const {
         address1 = "",
         address2 = "",
         city = "",
         stateCode = "",
         postalCode = "",
-    } = useMemo(() => leadDetails.addresses?.[0] ?? {}, [leadDetails]);
+    } = useMemo(() => leadDetails?.addresses?.[0] ?? {}, [leadDetails]);
     const address = useMemo(
         () => [address1, address2, city, stateCode].filter(Boolean).join(", "),
         [address1, address2, city, stateCode]
@@ -42,13 +41,77 @@ const AddZipContainer = ({ isMobile, contactId }) => {
 
     const URL = `${GET_COUNTIES}${zipCode}`;
     const { Get: getCounties } = useFetch(URL);
-    const { Put: updateLeadData } = useFetch(`${UPDATE_LEAD_DETAILS}${contactId}`);
 
     const handleContinue = async () => {
         const { countyFIPS, countyName, state } = countyObj;
-        const payload = getPayloadForUpdate(leadDetails, countyName, countyFIPS, state, zipCode);
-        await updateLeadData(payload);
-        getLeadDetails();
+        // const payload = getPayloadForUpdate(leadDetails, countyName, countyFIPS, state, zipCode);
+        const {
+            modifyDate,
+            addresses,
+            contactPreferences,
+            emails,
+            phones,
+            firstName,
+            lastName,
+            middleName,
+            leadsId,
+            contactRecordType,
+            leadStatusId,
+            notes,
+            medicareBeneficiaryID,
+            partA,
+            partB,
+        } = leadDetails;
+
+        const email = emails.length > 0 ? emails[0].leadEmail : null;
+        const phoneData = phones.length > 0 ? phones[0] : null;
+        const addressData = addresses.length > 0 ? addresses?.[0] : null;
+        const emailID = emails.length > 0 ? emails[0].emailID : 0;
+        const leadAddressId = addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
+        const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
+
+        const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
+        const phoneLabel = phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "mobile";
+        const county = addressData && addressData.county ? addressData.county : "";
+        const countyFips = addressData && addressData.countyFips ? addressData.countyFips : "";
+
+        const isPrimary = contactPreferences?.primary ? contactPreferences?.primary : "email";
+
+        const payload = {
+            firstName: firstName,
+            lastName: lastName,
+            middleName: middleName,
+            email: email,
+            birthdate: leadDetails?.birthdate ? formatDate(leadDetails?.birthdate) : "",
+            phones: {
+                leadPhone: phone,
+                phoneLabel: phoneLabel?.toLowerCase(),
+            },
+            address: {
+                address1: address1,
+                address2: address2,
+                city: city,
+                stateCode: state ? state : stateCode,
+                postalCode: zipCode ? zipCode : postalCode,
+                county: countyName ? countyName : county,
+                countyFips: countyFIPS ? countyFIPS : countyFips,
+            },
+            primaryCommunication: isPrimary,
+            contactRecordType: contactRecordType?.toLowerCase(),
+            emailID,
+            leadAddressId,
+            phoneId,
+            leadStatusId,
+            leadsId,
+            modifyDate,
+            notes,
+            medicareBeneficiaryID: medicareBeneficiaryID ? formatMbiNumber(medicareBeneficiaryID) : "",
+            partA: partA ?? "",
+            partB: partB ?? "",
+        };
+
+        await updateLeadDetails(payload);
+        // getLeadDetails(contactId);
         navigate(`/plans/${contactId}`);
     };
 

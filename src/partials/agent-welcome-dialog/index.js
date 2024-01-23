@@ -1,23 +1,17 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Divider } from "@mui/material";
-
-import { formatTwiloNumber } from "utils/formatTwiloNumber";
+import Box from "@mui/material/Box";
 
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 
-import { Button } from "packages/Button";
-import Heading2 from "packages/Heading2";
-import Heading3 from "packages/Heading3";
-import Heading4 from "packages/Heading4";
-import Hyperlink from "packages/Hyperlink";
-import Modal from "packages/Modal";
-import Paragraph from "packages/Paragraph";
+import Modal from "components/Modal";
+import OpenIcon from "components/icons/open";
+import { Button } from "components/ui/Button";
 
 import styles from "./styles.module.scss";
 
-export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
+export default function AgentWelcomeDialog({ open, close }) {
     const navigate = useNavigate();
     const {
         agentInformation: { agentFirstName, agentVirtualPhoneNumber },
@@ -29,96 +23,65 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
             getAgentAvailability();
         }
     }, [open, getAgentAvailability]);
-<<<<<<< Updated upstream
-    const navigateToLearningPage = () => {
-        navigate(`/learning-center`);
-    };
-
-    const navigateToAccountPage = () => {
-        navigate(`/account`);
-    };
-
-    const navigateToHelpPage = () => {
-        navigate(`/help`);
-=======
 
     const navigateToNewUserGuide = () => {
         window.open(`${process.env.REACT_APP_RESOURCES_URL}/Integrity-Getting-Started-Guide.pdf`, "_blank").focus();
+        close();
     };
 
     const navigateToReturningUserGuide = () => {
         window.open(`${process.env.REACT_APP_RESOURCES_URL}/Integrity-Whats-New.pdf`, "_blank").focus();
->>>>>>> Stashed changes
+        close();
     };
 
     const modalContent = (
         <>
-            <div className={styles.headingTitle}>
-                <Heading3 id="transition-modal-title" text={`Welcome, ${agentFirstName}!`} />
-            </div>
-            <div className={styles.subHeadingContent}>
-                <Paragraph
-                    id="transition-modal-subtitle"
-                    text={
-                        "Integrity now provides free, compliant, and automatic call recording and storage - per CMS requirements - for all your calls using your unique"
-                    }
-                />
-                <b>Integrity Agent Phone Number!</b>
-            </div>
-            <div className={styles.modalBody}>
-                <Heading4
-                    id="transition-modal-description"
-                    text={"Your unique Integrity Agent Phone Number is"}
-                    className={styles.marginY8}
-                />
-                <Heading2
-                    id="transition-modal-description"
-                    text={formatTwiloNumber(agentVirtualPhoneNumber)}
-                    className={styles.agentVirtualNumber}
-                />
-                <Paragraph
-                    id="transition-modal-description"
-                    text={"All calls made TO and FROM your unique Integrity Agent Phone Number are:"}
-                    className={styles.marginY8}
-                >
-                    <ul>
-                        <li>Recorded</li>
-                        <li>Accessible only to you</li>
-                        <li>Attached to your Contacts in Contact Management</li>
-                        <li>Stored by Integrity for 10 years per CMS regulation</li>
-                        <li>Downloadable to your personal device</li>
-                    </ul>
-                </Paragraph>
-                <Divider sx={{ width: "50%", my: "1rem" }} />
-
-                <Paragraph
-                    id="transition-modal-description"
-                    text={"Learn how to use your Integrity Agent Phone Number."}
-                    className={styles.marginY8}
-                />
-                <Hyperlink text={"Learn more"} onClick={navigateToLearningPage} />
-                <Divider sx={{ width: "50%", my: "1rem" }} />
-
-                <Paragraph
-                    id="transition-modal-description"
-                    text={"Find your Integrity Agent Phone Number at any time in your Integrity Account"}
-                    className={styles.marginY8}
-                />
-                <Hyperlink text={"View Account"} onClick={navigateToAccountPage} />
-                <Divider sx={{ my: "1rem" }} />
-
-                <Paragraph id="transition-modal-description" text={"Questions?"} className={styles.marginY8} />
-                <Hyperlink text={"Contact Support"} onClick={navigateToHelpPage} />
-                <Divider sx={{ my: "1rem" }} />
-
-                <div className={styles.footerButton}>
-                    <Button onClick={handleConfirm} size="medium">
-                        Get Started
-                    </Button>
+            <Box className={styles.question}>
+                <div className={styles.subHeader}>Just Registered?</div>
+                <div className={styles.content}>
+                    Find out how Integrity streamlines your business so you can save time and make more sales by
+                    managing your Contacts.
                 </div>
-            </div>
+                <Box marginTop={"10px"}>
+                    <Button
+                        label={"New User Guide"}
+                        className={styles.buttonWithIcon}
+                        onClick={navigateToNewUserGuide}
+                        type="primary"
+                        icon={<OpenIcon />}
+                        iconPosition="right"
+                    />
+                </Box>
+            </Box>
+            <Box
+                className={styles.question}
+                sx={{
+                    borderTop: "1px solid #AAAAAA",
+                }}
+            >
+                <div className={styles.subHeader}>Returning User?</div>
+                <div className={styles.content}>
+                    Integrity offers the same powerful features you already use to streamline your business, plus more
+                    sales opportunities than ever before. Get up to speed quickly on what’s new and improved with
+                    managing Contacts.
+                </div>
+                <Box marginTop={"10px"}>
+                    <Button
+                        label={"Returning User Guide"}
+                        className={styles.buttonWithIcon}
+                        onClick={navigateToReturningUserGuide}
+                        type="primary"
+                        icon={<OpenIcon />}
+                        iconPosition="right"
+                    />
+                </Box>
+            </Box>
         </>
     );
 
-    return <Modal content={modalContent} open={open} handleClose={close} style={{ width: "552px" }} />;
+    return (
+        <Modal maxWidth="sm" open={open} onClose={close} title={`Welcome, ${agentFirstName}!`}>
+            <Box className={styles.connectModalBody}>{modalContent}</Box>
+        </Modal>
+    );
 }

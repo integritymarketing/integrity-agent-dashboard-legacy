@@ -252,14 +252,16 @@ export default function Dashbaord() {
                         {isMobile && <FooterBanners className="banners" type="column" />}
                     </section>
                 </div>
-                <AgentWelcomeDialog
-                    open={welcomeModalOpen}
-                    handleConfirm={handleConfirm}
-                    close={() => {
-                        setWelcomeModalOpen(false);
-                        setTimeout(() => (document.body.style.overflow = "auto"), 1000);
-                    }}
-                />
+                {welcomeModalOpen && (
+                    <AgentWelcomeDialog
+                        open={welcomeModalOpen}
+                        handleConfirm={handleConfirm}
+                        close={() => {
+                            setWelcomeModalOpen(false);
+                            setTimeout(() => (document.body.style.overflow = "auto"), 1000);
+                        }}
+                    />
+                )}
             </WithLoader>
             <GlobalFooter />
         </>

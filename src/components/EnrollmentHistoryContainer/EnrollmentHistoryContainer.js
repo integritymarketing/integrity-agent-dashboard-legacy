@@ -19,11 +19,20 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         return status === 'declined' || status === 'inactive';
     };
 
-    const filterPlansByYear = (plansList, year, isCurrentYear) => {
-        return plansList?.filter(({ policyEffectiveDate, termedDate, policyStatus, productCategory }) => {
+    const getUniqueIdentifiers = (plan) => {
+        return [plan.sourceId, plan.policyNumber, plan.confirmationNumber].filter(id => id != null);
+    };
+
+    const filterPlansByYear = (plansList, year, isCurrentYear, excludeIdentifiers = []) => {
+        return plansList?.filter(({ policyEffectiveDate, policyStatus, productCategory, ...plan }) => {
             const policyDate = new Date(policyEffectiveDate);
             policyDate.setDate(policyDate.getDate() + 1);
             const policyYear = policyDate.getFullYear();
+
+            const planIdentifiers = getUniqueIdentifiers(plan);
+            if (planIdentifiers.some(id => excludeIdentifiers.includes(id))) {
+                return false;
+            }
 
             if (productCategory === 'Final Expense') {
                 return !isDeclinedStatus(policyStatus);
@@ -38,7 +47,8 @@ export default function EnrollmentHistoryContainer({ leadId }) {
     };
 
     const currentYearPlansData = filterPlansByYear(enrollPlansList, currentYear, true);
-    const previousYearPlansData = filterPlansByYear(enrollPlansList, currentYear, false);
+    const previousYearExcludedIds = currentYearPlansData.flatMap(getUniqueIdentifiers);
+    const previousYearPlansData = filterPlansByYear(enrollPlansList, currentYear, false, previousYearExcludedIds);
 
     const renderPlans = (plansData, isCurrentYear) => (
         plansData.length > 0 ? (

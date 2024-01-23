@@ -84,26 +84,26 @@ export default function EnrollmentPlanCard(props) {
                             <div className={styles.dates}>
                                 {currentYear ? (
                                     <>
-                                        <PlanDate
+                                        {submittedDate && <PlanDate
                                             type={isFinalExepense ? "Received" : "Submitted"}
                                             date={submittedDate}
-                                        />
+                                        />}
 
                                         {(policyStatus === "upcoming" || policyStatus === "active") && (
                                             <>
-                                                <PlanDate type="Effective" date={policyEffectiveDate} />
-                                                <PlanDate
+                                                {policyEffectiveDate && <PlanDate type="Effective" date={policyEffectiveDate} />}
+                                                {enrolledDate && <PlanDate
                                                     type={isFinalExepense ? "Issued" : "Enrolled"}
                                                     date={enrolledDate}
-                                                />
+                                                />}
                                             </>
                                         )}
                                     </>
                                 ) : (
                                     <>
-                                        <PlanDate type="Effective" date={policyEffectiveDate} />
+                                        {policyEffectiveDate && <PlanDate type="Effective" date={policyEffectiveDate} />}
 
-                                        <PlanDate type="Termed" date={termedDate} />
+                                        {termedDate && <PlanDate type="Termed" date={termedDate} />}
                                     </>
                                 )}
                             </div>

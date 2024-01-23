@@ -22,7 +22,7 @@ import Textfield from "components/ui/textfield";
 
 import clientsService from "services/clientsService";
 
-import useContactDetails from "pages/ContactDetails/useContactDetails";
+import { useLeadDetails } from "providers/ContactDetails";
 
 import styles from "./AddNewCondition.module.scss";
 import {
@@ -74,7 +74,8 @@ const AddNewConditionDialog = ({
             ? 2
             : 0
     );
-    const { leadDetails } = useContactDetails(contactId);
+    const { leadDetails } = useLeadDetails();
+
     const showToast = useToast();
     const { fireEvent } = useAnalytics();
     const { Get: getSearchResults } = useFetch(`${HEALTH_CONDITION_SEARCH_API}${searchString}`);

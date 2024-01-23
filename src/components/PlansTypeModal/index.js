@@ -128,17 +128,17 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
         <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Choose Plan Type">
             <>
                 <Box className={styles.container}>
-                    <Box className={styles.plan} onClick={handleHealthPlanClick}>
-                        <Box className={styles.icon}>
-                            <HealthIcon />
-                        </Box>
-                        <Box className={styles.title}>Health</Box>
-                    </Box>
                     <Box className={styles.plan} onClick={handleFinalExpensePlanClick}>
                         <Box className={styles.icon}>
                             <LifeIcon />
                         </Box>
                         <Box className={styles.title}>Life</Box>
+                    </Box>
+                    <Box className={styles.plan} onClick={handleHealthPlanClick}>
+                        <Box className={styles.icon}>
+                            <HealthIcon />
+                        </Box>
+                        <Box className={styles.title}>Health</Box>
                     </Box>
                 </Box>
                 <Divider />

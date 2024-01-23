@@ -35,3 +35,48 @@
   padding: 10px 0;
   align-items: center;
 }
+
+
+.connectModalBody {
+  padding: 20px 10px;
+  background-color: #ffffff;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+.question{
+  padding: 24px;
+}
+
+.subHeader{
+  color: #052A62;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.content{
+  color: #434A51;
+  font-size: 16px;
+ }
+
+
+.buttonWithIcon {
+  border-radius: 25px !important;
+  padding: 5px 12px !important;
+  background-color: #4178ff !important;
+
+  span {
+      font-size: 14px !important;
+      color: #ffffff !important;
+      font-weight: 500;
+  }
+
+  &:hover {
+      background-color: #1357ff !important;
+  }
+
+  &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+  }
+}
