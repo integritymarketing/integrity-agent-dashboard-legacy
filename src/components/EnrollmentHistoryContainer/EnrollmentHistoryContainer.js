@@ -19,11 +19,15 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         return status === 'declined' || status === 'inactive';
     };
 
-    const filterPlansByYear = (plansList, year, isCurrentYear) => {
-        return plansList?.filter(({ policyEffectiveDate, termedDate, policyStatus, productCategory }) => {
+    const filterPlansByYear = (plansList, year, isCurrentYear, excludePlans = []) => {
+        return plansList?.filter(({ policyEffectiveDate, policyId, policyStatus, productCategory }) => {
             const policyDate = new Date(policyEffectiveDate);
             policyDate.setDate(policyDate.getDate() + 1);
             const policyYear = policyDate.getFullYear();
+
+            if (excludePlans.includes(policyId)) {
+                return false;
+            }
 
             if (productCategory === 'Final Expense') {
                 return !isDeclinedStatus(policyStatus);
@@ -38,7 +42,8 @@ export default function EnrollmentHistoryContainer({ leadId }) {
     };
 
     const currentYearPlansData = filterPlansByYear(enrollPlansList, currentYear, true);
-    const previousYearPlansData = filterPlansByYear(enrollPlansList, currentYear, false);
+    const previousYearPlansIds = currentYearPlansData.map(plan => plan.policyId);
+    const previousYearPlansData = filterPlansByYear(enrollPlansList, currentYear, false, previousYearPlansIds);
 
     const renderPlans = (plansData, isCurrentYear) => (
         plansData.length > 0 ? (
