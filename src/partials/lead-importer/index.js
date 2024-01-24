@@ -22,7 +22,7 @@ const LeadImporter = () => {
         setImportErrors((prev) => [...prev, ...newErrors]);
     };
 
-    const templateUrl = getResourceUrl("MedicareCENTER-Client-Import-v2.csv");
+    const templateUrl = getResourceUrl("Integrity-Client-Import.csv");
 
     return (
         <div ref={scrollToRef}>
