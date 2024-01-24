@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import ContactSectionCard from "packages/ContactSectionCard";
+import SectionCard from "packages/SectionCard";
 import { useNavigate } from "react-router-dom";
 import DateRangeSort from "../DateRangeSort";
 import TabsCard from "components/TabsCard";
@@ -19,7 +19,6 @@ import "./style.scss";
 
 const TitleData =
     "View your policies by status. Policy status is imported directly from carriers and the availability of status and other policy information may vary by carrier. For the most complete and up-to-date policy information, submit your applications through Contact Management Quote & eApp. Please visit our Learning Center to view the list of carriers whose policies are available in Policy Snapshot or find out more about Policy Management.";
-
 
 const PAGESIZE = 5;
 export default function PlanSnapShot({ isMobile, npn }) {
@@ -49,7 +48,9 @@ export default function PlanSnapShot({ isMobile, npn }) {
             // If status is undefined, don't hit the fetch call //
             setPage(1);
             setTotalPageSize(1);
-            if (!statusToFetch) return;
+            if (!statusToFetch) {
+                return;
+            }
             setIsLoading(true);
 
             try {
@@ -58,13 +59,11 @@ export default function PlanSnapShot({ isMobile, npn }) {
                 const ids = items[0]?.leadIds;
                 if (statusToFetch === "UnlinkedPolicies") {
                     setFullList(list || []);
-                }
-                else {
+                } else {
                     setPolicyList(list || []);
                 }
                 setLeadIds(ids || []);
                 setTotalPageSize(list?.length / PAGESIZE);
-
             } catch (error) {
                 setIsError(true);
                 showToast({
@@ -76,9 +75,8 @@ export default function PlanSnapShot({ isMobile, npn }) {
                 setIsLoading(false);
             }
         },
-        [showToast, dateRange, npn,]
+        [showToast, dateRange, npn]
     );
-
 
     useEffect(() => {
         if (status === "UnlinkedPolicies") {
@@ -188,7 +186,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
     };
 
     return (
-        <ContactSectionCard
+        <SectionCard
             title="Policy Snapshot"
             className={"enrollmentPlanContainer_dashboard"}
             isDashboard={true}
@@ -232,7 +230,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
                     />
                 )}
 
-                {(!isMobile && status !== "UnlinkedPolicies") && (
+                {!isMobile && status !== "UnlinkedPolicies" && (
                     <PolicyList
                         policyList={policyList}
                         policyCount={tabs?.[statusIndex]?.policyCount ?? 0}
@@ -249,6 +247,6 @@ export default function PlanSnapShot({ isMobile, npn }) {
                     />
                 )}
             </WithLoader>
-        </ContactSectionCard>
+        </SectionCard>
     );
 }

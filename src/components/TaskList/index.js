@@ -10,7 +10,7 @@ import { sortListByDate } from "utils/dates";
 import usePreferences from "hooks/usePreferences";
 import useToast from "hooks/useToast";
 
-import ContactSectionCard from "packages/ContactSectionCard";
+import SectionCard from "packages/SectionCard";
 
 import ErrorState from "components/ErrorState";
 import TabsCard from "components/TabsCard";
@@ -274,7 +274,7 @@ export default function TaskList({ isMobile, npn }) {
 
     return (
         <>
-            <ContactSectionCard
+            <SectionCard
                 title="Task List"
                 className={styles.enrollmentPlanContainer_dashboard}
                 isDashboard={true}
@@ -341,7 +341,7 @@ export default function TaskList({ isMobile, npn }) {
                         )}
                     </>
                 )}
-            </ContactSectionCard>
+            </SectionCard>
             {showTaskListInfoModal && (
                 <InfoModal
                     open={showTaskListInfoModal}
