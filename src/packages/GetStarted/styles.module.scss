@@ -2,20 +2,28 @@
 
 .layout {
   display: flex;
-  height: 112px;
-  background-color: #5495de;
+  align-items: center;
+  height: 152px;
+  background-color: #366CEB;
+  width: 100%;
+  padding: 10px;
+
+  @include small() {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+  }
 }
 
 .bannerText {
   display: flex;
-  width: 70%;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
+  flex-direction: column;
+  width: 23%;
 
   @include small() {
-    flex-direction: column;
-    flex-grow: 1;
+    width: 100%;
+    align-items: center;
+    margin: auto;
   }
 }
 
@@ -32,13 +40,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  width: 30%;
+  width: 35%;
+
   img {
     flex-shrink: 0;
     min-width: 100%;
     min-height: 100%;
   }
+
   @include small() {
     display: none;
   }
@@ -48,6 +57,7 @@
   padding-top: 1rem;
   display: flex;
   gap: 5px;
+
   div {
     cursor: pointer;
   }
@@ -71,28 +81,51 @@
   padding: 24px;
 }
 
-.title {
-  font-size: 2.215rem;
-  @media (max-width: 480px) {
-    font-size: 24px;
-  }
-  @media (max-width: 1080px) and (min-width: 480px) {
-    font-size: 1.5rem;
+.title1 {
+  font-size: 32px;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.title2 {
+  font-size: 16px;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.bannerButton {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 35%;
+
+  @include small() {
+    width: 100%;
+    justify-content: center;
+    margin-top: 20px;
   }
 }
 
-.button {
-  text-transform: capitalize;
-  width: 18%;
+.buttonWithIcon {
+  border-radius: 25px !important;
+  padding: 10px 12px 11px 16px !important;
+  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+
+  svg {
+    width: 24px;
+
+  }
+
+  span {
+    font-size: 16px !important;
+    color: #4178ff !important;
+    font-weight: 500;
+  }
 
   &:hover {
-    background: white;
-    color: #054cbc;
-  }
-  @media (max-width: 480px) {
-    width: 40%;
-  }
-  @media (max-width: 1080px) and (min-width: 480px) {
-    width: 30%;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    color: #1357ff !important;
   }
 }

@@ -11,10 +11,9 @@ import { Button } from "components/ui/Button";
 
 import styles from "./styles.module.scss";
 
-export default function AgentWelcomeDialog({ open, close }) {
-    const navigate = useNavigate();
+export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
     const {
-        agentInformation: { agentFirstName, agentVirtualPhoneNumber },
+        agentInformation: { agentFirstName },
         getAgentAvailability,
     } = useAgentInformationByID();
 
@@ -26,12 +25,12 @@ export default function AgentWelcomeDialog({ open, close }) {
 
     const navigateToNewUserGuide = () => {
         window.open(`${process.env.REACT_APP_RESOURCES_URL}/Integrity-Getting-Started-Guide.pdf`, "_blank").focus();
-        close();
+        handleConfirm();
     };
 
     const navigateToReturningUserGuide = () => {
         window.open(`${process.env.REACT_APP_RESOURCES_URL}/Integrity-Whats-New.pdf`, "_blank").focus();
-        close();
+        handleConfirm();
     };
 
     const modalContent = (
