@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 
 import { useLeadDetails } from "providers/ContactDetails";
 import { useScopeOfAppointment } from "providers/ContactDetails/ContactDetailsContext";
-import { useRecoilState } from "recoil";
 
 import { dateFormatter } from "utils/dateFormatter";
 import { convertUTCDateToLocalDate } from "utils/dates";
@@ -25,7 +24,6 @@ import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 
 import styles from "./Activities.module.scss";
-import state from "./state";
 
 const initialState = {
     sortBy: [
@@ -83,7 +81,10 @@ const renderActivtyActions = (row, handleDeleteActivity, setEditActivity) => {
         };
         return (
             <>
-                <button className={styles.deleteTextAreaText} onClick={() => handleDeleteActivity(row)}>
+                <button
+                    className={styles.deleteTextAreaText}
+                    onClick={() => handleDeleteActivity(row?.activityId, leadId)}
+                >
                     Delete
                 </button>
                 <button className={styles.ediTextAreaText} onClick={handleEditClick}>
@@ -102,15 +103,13 @@ export default function ActivitiesTable({
     handleDeleteActivity,
     setEditActivity,
     isMobile,
-    setDisplay,
+    setSortingOptions,
 }) {
     const navigate = useNavigate();
     const [fullList, setFullList] = useState([]);
 
     const { setLinkCode } = useScopeOfAppointment();
     const { setSelectedTab } = useLeadDetails();
-
-    const [, setActivitiesSortBy] = useRecoilState(state.atoms.activitiesSortingByDateAtom);
 
     const userProfile = useUserProfile();
     const { npn } = userProfile;
@@ -157,7 +156,7 @@ export default function ActivitiesTable({
                     break;
             }
         },
-        [navigate, leadId, npn, setDisplay]
+        [navigate, leadId, npn]
     );
 
     const webColumns = useMemo(
@@ -290,25 +289,25 @@ export default function ActivitiesTable({
     const handleSortUpdate = (value) => {
         switch (value) {
             case "Date":
-                setActivitiesSortBy((sort) => {
+                setSortingOptions((sort) => {
                     return {
-                        column: "createDate",
+                        sortBy: "createDate",
                         order: sort.order === "desc" ? "asc" : "desc",
                     };
                 });
                 break;
             case "Activity":
-                setActivitiesSortBy((sort) => {
+                setSortingOptions((sort) => {
                     return {
-                        column: "activitySubject",
+                        sortBy: "activitySubject",
                         order: sort.order === "desc" ? "asc" : "desc",
                     };
                 });
                 break;
             default:
-                setActivitiesSortBy((sort) => {
+                setSortingOptions((sort) => {
                     return {
-                        column: "createDate",
+                        sortBy: "createDate",
                         order: "desc",
                     };
                 });

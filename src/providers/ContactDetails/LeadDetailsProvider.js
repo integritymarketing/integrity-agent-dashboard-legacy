@@ -138,7 +138,7 @@ export const LeadDetailsProvider = ({ children }) => {
         ];
         await performAsyncOperation(
             () => editLeadDetails(reqData, false, newPayload.leadsId),
-            () => { },
+            () => {},
             async () => {
                 await getLeadDetails(newPayload?.leadsId);
                 showToast({
@@ -158,7 +158,7 @@ export const LeadDetailsProvider = ({ children }) => {
             const formattedData = getFormattedData(newPayload, oldPayload);
             await performAsyncOperation(
                 () => editLeadDetails(formattedData, false, newPayload.leadsId),
-                () => { },
+                () => {},
                 async () => {
                     await getLeadDetails(newPayload?.leadsId);
                     showToast({
@@ -179,7 +179,7 @@ export const LeadDetailsProvider = ({ children }) => {
         async (leadId, callBack) => {
             await performAsyncOperation(
                 () => deleteContact(null, true, leadId),
-                () => { },
+                () => {},
                 () => {
                     callBack();
                 },
@@ -219,7 +219,6 @@ export const LeadDetailsProvider = ({ children }) => {
     );
 
     useEffect(() => {
-        console.log("leadID", leadID)
         if (leadID) {
             getLeadDetails(leadID);
         }

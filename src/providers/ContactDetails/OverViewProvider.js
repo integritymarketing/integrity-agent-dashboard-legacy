@@ -31,6 +31,14 @@ export const OverViewProvider = ({ children }) => {
     } = useFetch(URL);
     const { Put: updateTag, Post: addNewTag } = useFetch(URL);
 
+    const {
+        loading: isLoadingActivities,
+        error: activitiesError,
+        Put: updateActivity,
+        Post: saveActivity,
+        Delete: deleteActivity,
+    } = useFetch(URL);
+
     const showToast = useToast();
     const [reminders, setReminders] = useState([]);
     const [tags, setTags] = useState([]);
@@ -77,7 +85,7 @@ export const OverViewProvider = ({ children }) => {
             () => {},
             async () => {
                 await getLeadTags();
-                getLeadDetails(payload?.leadsId);
+                await getLeadDetails(payload?.leadsId);
                 showToast({
                     message: `Tag Created successfully`,
                 });
@@ -97,7 +105,7 @@ export const OverViewProvider = ({ children }) => {
             () => {},
             async () => {
                 await getLeadTags();
-                getLeadDetails(payload?.leadsId);
+                await getLeadDetails(payload?.leadsId);
                 showToast({
                     message: `Tag updated successfully`,
                 });
@@ -125,6 +133,97 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to delete Tag`,
+                })
+        );
+    };
+
+    const addActivity = async (payload) => {
+        const path = `Activities`;
+        await performAsyncOperation(
+            () => saveActivity(payload, false, path),
+            () => {},
+            async () => {
+                await getLeadDetails(payload?.leadsId);
+                showToast({
+                    type: "success",
+                    message: "Activity successfully added.",
+                    time: 3000,
+                });
+            },
+            () =>
+                showToast({
+                    type: "error",
+                    message: `Failed to Add Activity`,
+                })
+        );
+    };
+
+    const removeActivity = async (id, leadId) => {
+        const path = `Activities/${id}`;
+
+        await performAsyncOperation(
+            () => deleteActivity(null, true, path),
+            () => {},
+            async () => {
+                await getLeadDetails(leadId);
+                showToast({
+                    message: `Activity deleted successfully`,
+                });
+            },
+            () =>
+                showToast({
+                    type: "error",
+                    message: `Failed to delete Activity`,
+                })
+        );
+    };
+
+    const editActivity = async (activityId, activitySubject, activityNote, leadId) => {
+        const payload = {
+            activityNote,
+            activitySubject,
+            activityId,
+        };
+        const path = `Activities/${leadId}`;
+        await performAsyncOperation(
+            () => updateActivity(payload, false, path),
+            () => {},
+            async () => {
+                await getLeadDetails(leadId);
+                showToast({
+                    message: `Activity updated successfully`,
+                });
+            },
+            (err) =>
+                showToast({
+                    type: "error",
+                    message: `Failed to update Activity`,
+                })
+        );
+    };
+
+    const addActivityNotes = async (activity, activityNote, leadId) => {
+        const path = `Activities/${leadId}`;
+        const { activitySubject, activityBody, activityId } = activity;
+        const payload = {
+            activityBody,
+            activitySubject,
+            activityId,
+            activityNote,
+        };
+        await performAsyncOperation(
+            () => updateActivity(payload, false, path),
+            () => {},
+            async () => {
+                await getLeadDetails(leadId);
+                showToast({
+                    message: `Activity updated successfully`,
+                });
+            },
+            (err) =>
+                showToast({
+                    type: "error",
+                    message: `Failed to update Activity`,
                 })
         );
     };
@@ -205,6 +304,11 @@ export const OverViewProvider = ({ children }) => {
             removeLeadTags,
             editTagByID,
             createNewTag,
+            addActivity,
+            removeActivity,
+            editActivity,
+            addActivityNotes,
+            isLoadingActivities,
         };
     }
 };
