@@ -1,0 +1,18 @@
+{
+  "webcredentials": {
+    "apps": [
+      "FKD29HLJHM.com.medicare.img"
+    ]
+  },
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "FKD29HLJHM.com.medicare.img", 
+        "paths": [
+          "*"
+        ]
+      }
+    ]
+  }
+}

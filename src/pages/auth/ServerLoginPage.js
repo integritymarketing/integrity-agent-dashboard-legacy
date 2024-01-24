@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Box } from "@mui/material";
 
@@ -46,7 +45,7 @@ const ServerLoginPage = () => {
 
         const feature_toggle = process.env.REACT_APP_MOBILE_UPDATE === "yes" ? true : false;
 
-        let clientId = params1.get("client_id");
+        const clientId = params1.get("client_id");
 
         if (clientId === "AEPortal" && device === DEVICES.IPHONE) {
             showMobileAppDeepLinking();
@@ -61,7 +60,7 @@ const ServerLoginPage = () => {
         async function checkForExtrnalLogin() {
             const params1 = new URLSearchParams(new URL(params.get("ReturnUrl")).search);
 
-            let clientId = params1.get("client_id");
+            const clientId = params1.get("client_id");
             if (clientId === "AgentMobile") {
                 setMobileAppLogin(true);
                 setAppTitle("Agent Mobile - Login");
@@ -75,7 +74,7 @@ const ServerLoginPage = () => {
                 clientId === "ILSClient"
             ) {
                 loading.begin();
-                let userDetail = {
+                const userDetail = {
                     Username: params1.get("username"),
                     Password: "",
                     returnUrl: params.get("ReturnUrl"),
@@ -117,7 +116,7 @@ const ServerLoginPage = () => {
             });
             window.location = data.redirectUrl;
         } else {
-            let errors = validationService.formikErrorsFor(data);
+            const errors = validationService.formikErrorsFor(data);
 
             if (errors.Global === "account_unconfirmed") {
                 analyticsService.fireEvent("event-form-submit-account-unconfirmed", {
@@ -203,6 +202,7 @@ const ServerLoginPage = () => {
                                                     </a>
                                                 </div>
                                             }
+                                            autocomplete="username"
                                         />
                                         <Textfield
                                             id="login-password"
@@ -230,6 +230,7 @@ const ServerLoginPage = () => {
                                                     </Link>
                                                 </div>
                                             }
+                                            autocomplete="current-password"
                                         />
                                         <div className="centered-flex-col">
                                             <Button

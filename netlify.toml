@@ -2,6 +2,25 @@
 #
 # GTM / GA related (blergh! removing GTM would probably allow the removal of all of this):  'unsafe-eval' 'unsafe-inline' *.google-analytics.com *.googletagmanager.com *.licdn.com *.facebook.net *.facebook.com *.linkedin.com *.adsymptotic.com
 # AEPortal API calls + 'self' hosted assets (required): *.integritymarketinggroup.com *.medicarecenter.com *.sentry.io
+
+[[headers]]
+  for = "/apple-app-site-association"
+  [headers.values]
+  Cache-Control = '''
+      public,
+      max-age=0'''
+  Content-Type = "application/json"
+  X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/.well-known/apple-app-site-association"
+  [headers.values]
+  Cache-Control = '''
+      public,
+      max-age=0'''
+  Content-Type = "application/json"
+  X-Content-Type-Options = "nosniff"
+
 [[headers]]
   for = "/*"
   [headers.values]
