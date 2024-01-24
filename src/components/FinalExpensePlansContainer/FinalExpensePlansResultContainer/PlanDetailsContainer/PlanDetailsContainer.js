@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Media from "react-media";
-import { useParams , useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { useFinalExpensePlans } from "providers/FinalExpense";
@@ -283,7 +283,10 @@ export const PlanDetailsContainer = ({
                                     }
                                 });
                             }
-                            const monthlyRate = modalRates.find((rate) => rate.type === "month")?.totalPremium || 0;
+                            const formatRate = (rate) => {
+                                return (rate.toFixed(2));
+                            };
+                            const monthlyRate = formatRate(parseFloat(modalRates.find((rate) => rate.type === "month")?.totalPremium || 0));
                             return (
                                 <PlanCard
                                     key={`${name}-${index}`}
