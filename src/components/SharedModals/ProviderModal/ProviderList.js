@@ -190,9 +190,17 @@ const ProviderCard = ({
     disableAddressSelect,
 }) => {
     const classes = useStyles();
-    const [isOpen, setOpenToggle] = useState(isEdit);
+    const [isOpen, setOpenToggle] = useState({})
 
     let selectedAddresses = providerToEdit?.addresses?.map((address) => address.id);
+
+    const handleToggleOpen = (NPI, event) => {
+        event.stopPropagation(); // Prevents event bubbling
+        setOpenToggle(prevOpen => ({
+            ...prevOpen,
+            [NPI]: !prevOpen[NPI]
+        }));
+    };
 
     return (
         <div className={classes.list}>
@@ -234,8 +242,8 @@ const ProviderCard = ({
                             <>
                                 <Box className={classes.multipleAddresses}>
                                     <Typography
-                                        className={isOpen ? classes.reverse : classes.icon}
-                                        onClick={() => setOpenToggle(!isOpen)}
+                                        className={isOpen[provider.NPI] ? classes.reverse : classes.icon}
+                                        onClick={(event) => handleToggleOpen(provider.NPI, event)}
                                     >
                                         <Arrow color="#0052CE" />
                                     </Typography>
@@ -243,7 +251,7 @@ const ProviderCard = ({
                                         Additional Locations ({additionalAddresses?.length})
                                     </Typography>
                                 </Box>
-                                {isOpen && (
+                                {isOpen[provider.NPI] && (
                                     <Address
                                         addresses={additionalAddresses}
                                         provider={provider}
