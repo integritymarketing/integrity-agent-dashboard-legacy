@@ -1,293 +1,149 @@
 {
   "featured": [
-    "Integrity Policy Management User Guide",
+    "New User Guide",
     "Integrity Training Schedule",
-    "Integrity Client's Video Training Hub"
+    "Returning User Guide"
   ],
   "categories": [
     {
-      "id": "tech-guides",
-      "name": "Tech Guides",
-      "icon": "tools",
-      "analyticsKey": "techGuides"
+      "id": "New User Guide",
+      "name": "New User Guide",
+      "icon": "document",
+      "analyticsKey": "newUserGuide"
+    },
+    {
+      "id": "Returning User Guide",
+      "name": "Returning User Guide",
+      "icon": "document",
+      "analyticsKey": "returningUserGuide"
     },
     {
       "id": "training-schedule",
       "name": "Training Schedule",
       "icon": "computer",
       "analyticsKey": "trainingSchedule"
-    },
-    {
-      "id": "sales-tips",
-      "name": "Sales Tips",
-      "icon": "lightbulb",
-      "analyticsKey": "salesTips"
-    },
-    {
-      "id": "working-remote",
-      "name": "Working Remote",
-      "icon": "computer",
-      "analyticsKey": "workingRemote"
-    },
-    {
-      "id": "carrier-guides",
-      "name": "Carrier Guides",
-      "icon": "document",
-      "analyticsKey": "carrierGuides"
-    },
-    {
-      "id": "health-solutions",
-      "name": "Health Solutions",
-      "icon": "document",
-      "analyticsKey": "healthSolutions"
-    },
-    {
-      "id": "life-solutions",
-      "name": "Life Solutions",
-      "icon": "document",
-      "analyticsKey": "lifeSolutions"
     }
   ],
   "resources": [
     {
-      "name": "GTL e-App User Guide",
-      "description": "Step-by-step guide for using GTL's e-App for quoting and submitting GTL business electronically.",
-      "categories": ["working-remote"],
-      "filename": "MedicareCENTER-GTL-Guide.pdf"
+      "name": "New User Guide",
+      "description": "Learn how to use Integrity to streamline your business so you can save time and make more sales.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-Guide.pdf"
     },
     {
-      "name": "Integrity Client's Video Training Hub",
-      "description": "Check out our latest video tutorials from our team of experts. ",
-      "categories": ["tech-guides"],
-      "filename": "https://vimeo.com/medicarecenter"
-    },
-    {
-      "name": "Integrity Call Recording User Guide",
-      "description": "Learn how to receive and make recorded calls using Integrity Client's Call Recording feature in Contact Management.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-Call-Recording-User-Guide.pdf"
-    },
-    {
-      "name": "Integrity Call Recording FAQs",
-      "description": "Get up to speed and ready to use Call Recording with answers to the most frequently asked questions about Call Recording in Contact Management.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-Call-Recording-FAQs.pdf"
-    },
-    {
-      "name": "Integrity Mobile App FAQs",
-      "description": "Get the answers to Frequently Asked Questions about the new Integrity Mobile App.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-MobileApp-FAQs.pdf"
-    },
-    {
-      "name": "Integrity Mobile App User Guide",
-      "description": "Learn how to use the new Integrity Mobile App.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-MobileApp-HelpGuide.pdf"
-    },
-    {
-      "name": "Integrity Personal Agent Websites User Guide",
-      "description": "Learn how to use your Personal Agent Website to allow your clients to enroll on our consumer-facing website.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-pURLS-HelpGuide.pdf"
-    },
-    {
-      "name": "Integrity Send Quote User Guide",
-      "description": "Learn how to send customized plan comparisons to your clients",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-SendQuote-HelpGuide.pdf"
-    },
-    {
-      "name": "Medicare Phone Guide: Turning 65 Med Supp Phone Guide",
-      "description": "Talking points for that first conversation with clients turning 65 deigned to help you become a long-term, trusted Medicare resource.",
-      "categories": ["sales-tips"],
-      "filename": "MedicareCENTER-Sales-Tips-Turning65-Script.pdf"
-    },
-    {
-      "name": "Tips for Telephonic Enrollment",
-      "description": "Tips and tools to help you continue to conduct business as usual, via the telephone.",
-      "categories": ["sales-tips"],
-      "filename": "MedicareCENTER-Phone-Sales-Tips-Medicare.pdf"
-    },
-    {
-      "name": "Tips for Using a Positive Tone",
-      "description": "Tips and specific examples for how to remain positive during telephonic enrollments.",
-      "categories": ["sales-tips"],
-      "filename": "MedicareCENTER-Phone-Sales-Tips-Using-Positive-Tone.pdf"
-    },
-    {
-      "name": "Phonetic Alphabet",
-      "description": "Quick reference sheet of the NATO phonetic alphabet to help reduce errors during telephone conversations.",
-      "categories": ["sales-tips"],
-      "filename": "MedicareCENTER-Phonetic-Alphabet-Guide.pdf"
-    },
-    {
-      "name": "Guide to Handling Objections Over the Phone",
-      "description": "A systematic approach to overcoming any objection you encounter.",
-      "categories": ["sales-tips"],
-      "filename": "MedicareCENTER-Phone-Sales-Tips-Overcoming-Objections.pdf"
-    },
-    {
-      "name": "Best Practice Guide: Direct Mail",
-      "description": "Best practices and practical tips to help you use direct mail to drive actions and results.",
-      "categories": ["sales-tips"],
-      "filename": "MedicareCENTER-Best-Practices-Direct-Mail.pdf"
-    },
-    {
-      "name": "Best Practice Guide: Lead Gen",
-      "description": "Recommendations for how to manage your lead generation campaigns to help grow your business more efficiently.",
-      "categories": ["sales-tips"],
-      "filename": "MedicareCENTER-Best-Practices-Lead-Generation.pdf"
-    },
-    {
-      "name": "Best Practice Guide: Managing Client Relationships",
-      "description": "9 steps for managing client relationships for high client retention, improved cross-selling and more referrals.",
-      "categories": ["sales-tips"],
-      "filename": "MedicareCENTER-Best-Practices-Client-Management.pdf"
-    },
-    {
-      "name": "How To Create a Facebook Page",
-      "description": "A step-by-step guide for creating a Facebook business page for yourself or your agency.",
-      "categories": ["sales-tips"],
-      "filename": "MedicareCENTER-Best-Practices-How-To-Create-Facebook-Page.pdf"
-    },
-    {
-      "name": "Integrity Training Guide",
-      "description": "Become an expert on our powerful new platform with all you need to increase production this AEP.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-Professional-User-Guide.pdf"
-    },
-    {
-      "name": "CSG Technical Guide",
-      "description": "Find the right plans with powerful quoting and research tools in CSG’s suite of solutions.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareSUPP-Professional-User-Guide.pdf"
-    },
-    {
-      "name": "Medicare Enrollment Platform Carrier Comparison Chart",
-      "description": "View the carriers available in Integrity Quote & eApp, MedicareAPP, MedicareLINK, and CSG.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-Carrier-Comparison-Chart.pdf"
-    },
-     {
-      "name": "Health Risk Assessment Carrier Comparison Chart",
-      "description": "View the carriers who offer HRAs in each enrollment platform.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-HRA-Comparison-Chart.pdf"
-    },
-    {
-      "name": "Integrity FAQs",
-      "description": "Get answers to frequently asked questions about Integrity.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-FAQs.pdf"
-    },
-    {
-      "name": "Integrity Enrollment Options Guide",
-      "description": "Multiple enrollment options at your fingertips. Choose the app (MedicareAPP, MedicareLINK, CSG APP or Integrated Contact Management) that works best for your client needs.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-Enrollment-Options.pdf"
-    },
-    {
-      "name": "Integrity Policy Management User Guide",
-      "description": "Find out how to track and manage your clients' MAPD applications and enrollments.",
-      "categories": ["tech-guides"],
-      "filename": "MedicareCENTER-Policy-Management-Guide.pdf"
-    },
-    {
-      "name": "CSO's Medicare Supplement e-App Guide",
-      "description": "Guide for how to submit CSO business online using the CSO's e-App and common FAQs when writing CSO Medicare Supplement electronlically.",
-      "categories": ["working-remote"],
-      "filename": "MedicareCENTER-CSO-eApp-Guide.pdf"
-    },
-    {
-      "name": "Humana Achieve FastApp Guide",
-      "description": "Quick guide for using Humana's FastApp for closing MedSupp sales.",
-      "categories": ["working-remote"],
-      "filename": "MedicareCENTER-Humana-Achieve-FastApp-Guide.pdf"
-    },
-    {
-      "name": "Lumico Medicare Supplement e-Application Agent Reference Guide",
-      "description": "The complete guide for using Lumico's e-App for quoting and submitting Lumico business using their e-App.",
-      "categories": ["working-remote"],
-      "filename": "MedicareCENTER-Lumico-Med-Supp-eApp-Guide.pdf"
-    },
-    {
-      "name": "Aflac Accident Advantage Insurance Sell Sheet",
-      "description": "Quick overview of the benefits of Aflac's Accident Advantage Insurance",
-      "categories": ["carrier-guides"],
-      "filename": "MedicareCENTER-Aflac-Accident-Flyer.pdf"
-    },
-    {
-      "name": "Ameritas PrimeStar Hyperlink FAQ",
-      "description": "3 most common questions about PrimeStar Hyperlink for Agents",
-      "categories": ["carrier-guides"],
-      "filename": "MedicareCENTER-Ameritas-PrimeStar-FAQ.pdf"
-    },
-    {
-      "name": "Humana Medicare Supplement Sales Agent Field Guide",
-      "description": "Complete guide to Humana's MedSupp features, eligibility requirements, enrollment guide, underwriting guidelines and more. Updated 06/20",
-      "categories": ["carrier-guides"],
-      "filename": "MedicareCENTER-Humana-Agent-Field-Guide.pdf"
-    },
-    {
-      "name": "Humana Achieve Medicare Supplement FAQs",
-      "description": "Answers to the most commone questions about Human's Chieve MedSupp plans including answers about rates, support and compensation",
-      "categories": ["carrier-guides"],
-      "filename": "MedicareCENTER-Humana-Achieve-FAQ.pdf"
-    },
-    {
-      "name": "Humana Underwriting Reference Guide for Medicare Supplement",
-      "description": "Guidelines for underwriting Humana MedSupp plans",
-      "categories": ["carrier-guides"],
-      "filename": "MedicareCENTER-Humana-Underwriting-Guide.pdf"
-    },
-    {
-      "name": "Getting Started with SureBridge",
-      "description": "Everything you need to know about getting started with SureBridge",
-      "categories": ["carrier-guides"],
-      "filename": "MedicareCENTER-SureBridge-Getting-Started-Guide.pdf"
-    },
-    {
-      "name": "CVS Accendo Med Supp Integrity Overview",
-      "description": "Short overview of client and agent benefits of CVS's Accendo Med Supp plan",
-      "categories": ["health-solutions"],
-      "filename": "MedicareCENTER-CVS-Accendo-Flyer.pdf"
-    },
-    {
-      "name": "Humana Achieve Medicare Supplement Integrity Overview",
-      "description": "Short overview of client and agent benefits of Humana Achieve's Medicare Suuplement plan",
-      "categories": ["health-solutions"],
-      "filename": "MedicareCENTER-Humana-Achieve-Medicare-Supplement-Flyer.pdf"
-    },
-    {
-      "name": "GTL Hospital Indemnity and Short-Term Home Health Care Plans Integrity Overview",
-      "description": "Short overview of client and agent benefits of GTL's Hospital Indemnity and Short-Term Home Health Care plans",
-      "categories": ["health-solutions"],
-      "filename": "MedicareCENTER-GTL-Guide.pdf"
-    },
-    {
-      "name": "SureBridge Hospital Indemnity Integrity Overview",
-      "description": "Short overview of client and agent benefits of SureBridge Hospital Indemnity plan",
-      "categories": ["health-solutions"],
-      "filename": "MedicareCENTER-SureBridge-Guide.pdf"
-    },
-    {
-      "name": "Tips for Marketing Life Insurance Over the Phone",
-      "description": "Tips and guidelines to help you be successful conducting business as usual, via the telephone",
-      "categories": ["life-solutions"],
-      "filename": "MedicareCENTER-Tips-Life-Insurance-Phone-Sales.pdf"
-    },
-    {
-      "name": "Adding Final Expense to Your Portfolio",
-      "description": "If final expense isn't part of your portfolio, you could be missing out on a big opportunity",
-      "categories": ["life-solutions"],
-      "filename": "MedicareCENTER-Adding-Final-Expense.pdf"
+      "name": "Returning User Guide",
+      "description": "Find out what's new in Integrity - including more sales opportunities than ever before.",
+      "categories": ["Returning User Guide"],
+      "filename": "Integrity-Whats-New.pdf"
     },
     {
       "name": "Integrity Training Schedule",
       "description": "View our schedule of upcoming training webinars to learn how to use Integrity effectively, and get your questions answered by a live expert.",
       "categories": ["training-schedule"],
       "filename": "MedicareCENTER-Webinar-Schedule.pdf"
+    },
+    {
+      "name": "Create Contacts",
+      "description": "Learn how to create contacts in Integrity.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-Create-Contacts.pdf"
+    },
+    {
+      "name": "Check / Update Active Selling Permissions & Selling Preferences",
+      "description": "Learn how to check and update your active selling permissions and selling preferences in Integrity.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-Active-Selling-Permissions.pdf"
+    },
+    {
+      "name": "Quote & Apply",
+      "description": "Learn how to quote and apply for Medicare Supplement plans in Integrity.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-Quote-and-Apply.pdf"
+    },
+    {
+      "name": "Contact List",
+      "description": "Learn how to use the contact list in Integrity to manage your contacts and sales opportunities.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-Contact-List.pdf"
+    },
+    {
+      "name": "Contact Details",
+      "description": "Learn how to use the contact details page in Integrity to manage your contacts and sales opportunities.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-Contact-Details.pdf"
+    },
+    {
+      "name": "Agent Phone Number & Call Management",
+      "description": "Learn how to use the agent phone number and call management features in Integrity to manage your contacts and sales opportunities.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-Call-Management.pdf"
+    },
+    {
+      "name": "Ask Integrity",
+      "description": "Learn how to use the Ask Integrity feature to get answers to your questions about Integrity.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-Ask-Integrity.pdf"
+    },
+    {
+      "name": "PlanEnroll Agent Site",
+      "description": "Learn how to use the PlanEnroll Agent Site to manage your contacts and sales opportunities.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-About-PlanEnroll.pdf"
+    },
+    {
+      "name": "LeadCENTER & Availability Preferences",
+      "description": "Learn how to use the LeadCENTER and availability preferences in Integrity to manage your contacts and sales opportunities.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-LeadCENTER-and-Availability.pdf"
+    },
+    {
+      "name": "Dashboard",
+      "description": "Learn how to use the dashboard in Integrity to manage your contacts and sales opportunities.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-Dashboard.pdf"
+    },
+    {
+      "name": "Download the Mobile App",
+      "description": "Learn how to download the Integrity mobile app to manage your contacts and sales opportunities on the go.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-Download-App.pdf"
+    },
+    {
+      "name": "Learning Center",
+      "description": "Learn how to use the Learning Center in Integrity to manage your contacts and sales opportunities.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-Learning-Center.pdf"
+    },
+    {
+      "name": "Dashboard Updates",
+      "description": "Learn about the latest updates to the Integrity dashboard.",
+      "categories": ["Returning User Guide"],
+      "filename": "Integrity-Whats-New-Dashboard.pdf"
+    },
+    {
+      "name": "Contact List Updates",
+      "description": "Learn about the latest updates to the Integrity contact list.",
+      "categories": ["Returning User Guide"],
+      "filename": "Integrity-Whats-New-Contact-List.pdf"
+    },
+    {
+      "name": "Contact Details Updates",
+      "description": "Learn about the latest updates to the Integrity contact details page.",
+      "categories": ["Returning User Guide"],
+      "filename": "Integrity-Whats-New-Contact-Details.pdf"
+    },
+    {
+      "name": "Quote & eApp Updates",
+      "description": "Learn about the latest updates to the Integrity quote and eApp process.",
+      "categories": ["Returning User Guide"],
+      "filename": "Integrity-Whats-New-Quote-eApp.pdf"
+    },
+    {
+      "name": "Account Preferences Updates",
+      "description": "Learn about the latest updates to the Integrity account preferences.",
+      "categories": ["Returning User Guide"],
+      "filename": "Integrity-Whats-New-Account-Preferences.pdf"
     }
   ]
 }

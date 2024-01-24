@@ -48,7 +48,7 @@ const isTrainingHub = (resource) => {
 };
 
 const isFeaturedDescriptionChange = (resourceName) => {
-    return resourceName === "Integrity Policy Management User Guide" ? true : false;
+    return resourceName === "New User Guide" ? true : false;
 };
 
 const ResourcesPage = () => {
@@ -57,6 +57,10 @@ const ResourcesPage = () => {
             pagePath: "/learning-center/",
         });
     }, []);
+
+const pluralizeTitle = (title, count) => {
+    return count > 1 ? `${title}s` : title;
+    };    
 
     return (
         <React.Fragment>
@@ -91,7 +95,7 @@ const ResourcesPage = () => {
                                                 <div className="mt-1">
                                                     <p className="text-secondary">
                                                         {isFeaturedDescriptionChange(resource.name)
-                                                            ? "Learn how to manage your clients' current plans and plan history."
+                                                            ? "Learn how to use Integrity to streamline your business so you can save time and make more sales."
                                                             : resource.description}
                                                     </p>
                                                 </div>
@@ -127,7 +131,7 @@ const ResourcesPage = () => {
                         <ExpandableContent
                             header={({ isExpanded, toggleAll }) => (
                                 <div className="toolbar mb-4">
-                                    <h3 className="hdg hdg--3 text-main">All Resources</h3>
+                                    <h3 className="hdg hdg--3 text-main">Guides By Topic</h3>
                                     <div className="toolbar__aux text-body sf-hide">
                                         <button className="link" onClick={toggleAll}>
                                             {isExpanded ? "Collapse All" : "Expand All"}
@@ -142,7 +146,7 @@ const ResourcesPage = () => {
                                 const CategoryIcon = iconDict[category.icon] || iconDict["default"];
                                 return {
                                     id: category.id,
-                                    title: category.name,
+                                    title: pluralizeTitle(category.name, resources.length),
                                     numItems: resources.length,
                                     renderItems: () => (
                                         <ul className="divided-vlist divided-vlist--light mt-2 mb-5">
