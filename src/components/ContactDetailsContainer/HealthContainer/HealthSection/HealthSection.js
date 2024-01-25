@@ -27,7 +27,7 @@ import EditPharmacy from "components/ui/PlanDetailsTable/shared/PharmacyTable/co
 import RenderProviders from "components/ui/ProvidersList";
 
 // Local Components
-import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
+import PharmacyModal from "components/SharedModals/PharmacyModal";
 
 // Styles
 import styles from "./HealthSection.module.scss";
@@ -240,11 +240,11 @@ const HealthDetailsSection = () => {
                 )}
 
                 {isOpenPharmacy && (
-                    <AddPharmacy
-                        isOpen={isOpenPharmacy}
+                    <PharmacyModal
+                        open={isOpenPharmacy}
                         onClose={onCloseNewPharmacy}
-                        personalInfo={leadDetails}
                         leadId={leadId}
+                        userZipCode={leadDetails?.addresses?.[0]?.postalCode}
                     />
                 )}
             </div>

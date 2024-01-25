@@ -18,12 +18,11 @@ import ProviderModal from "components/SharedModals/ProviderModal";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import DeleteLeadModal from "./DeleteLeadModal";
 // Local Components
-import AddPharmacy from "./modals/AddPharmacy";
 import ContactDetails from "./ContactDetails";
 import EditForm from "./DetailsEdit";
 import RenderProviders from "components/ui/ProvidersList";
 import DetailsMobile from "mobile/Contact/Details/ContactDetails";
-import EnrollmentHistoryContainer from "components/EnrollmentHistoryContainer/EnrollmentHistoryContainer";
+import PharmacyModal from "components/SharedModals/PharmacyModal";
 // Styles
 import "./details.scss";
 import "./contactRecordInfo.scss";
@@ -89,8 +88,8 @@ const DetailsComponent = forwardRef((props, ref) => {
         const selectPackageDetails = selectedPackage
             ? `${userQuantity} X ${selectedPackage.packageDisplayText} ${getFrequencyValue(daysOfSupply)}`
             : dosageDetails
-                ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
-                : "";
+            ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
+            : "";
 
         return (
             <div className={className}>
@@ -158,7 +157,11 @@ const DetailsComponent = forwardRef((props, ref) => {
                 )}
 
                 {isOpenPrescription && (
-                    <PrescriptionModal open={isOpenPrescription} onClose={() => onCloseNewPrescription(false)} leadId={id} />
+                    <PrescriptionModal
+                        open={isOpenPrescription}
+                        onClose={() => onCloseNewPrescription(false)}
+                        leadId={id}
+                    />
                 )}
 
                 {isOpenEditPrescription && (
@@ -172,7 +175,12 @@ const DetailsComponent = forwardRef((props, ref) => {
                 )}
 
                 {isOpenPharmacy && (
-                    <AddPharmacy isOpen={isOpenPharmacy} onClose={onCloseNewPharmacy} personalInfo={personalInfo} leadId={id} />
+                    <PharmacyModal
+                        open={isOpenPharmacy}
+                        onClose={onCloseNewPharmacy}
+                        leadId={id}
+                        userZipCode={leadDetails?.addresses?.[0]?.postalCode}
+                    />
                 )}
                 <div ref={providersRef}>
                     <DetailsCard
