@@ -10,6 +10,7 @@ import { formatAddress, getMapUrl } from "utils/address";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
+import useAnalytics from "hooks/useAnalytics";
 
 import { CallScriptModal } from "packages/CallScriptModal";
 
@@ -17,6 +18,7 @@ import Modal from "components/Modal";
 
 import styles from "./ConnectModal.module.scss";
 import { Direction, Email, Navigate, Phone, Script, Soa } from "./Icons";
+
 
 const NOT_AVAILABLE = "N/A";
 const LEADS_API_VERSION = "v2.0";
@@ -26,6 +28,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
     const { agentInformation } = useAgentInformationByID();
     const { agentID, callForwardNumber, agentVirtualPhoneNumber, agentNPN } = agentInformation;
     const showToast = useToast();
+    const { fireEvent } = useAnalytics();
     const [isScriptModalOpen, setIsScriptModalOpen] = useState(false);
 
     const formattedPhoneNumber = agentVirtualPhoneNumber?.replace(/^\+1/, "");
@@ -61,6 +64,9 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
                     message: "Call Initiated Successfully",
                 });
                 setIsScriptModalOpen(true);
+                fireEvent("Outbound Call", {
+                    leadid: leadId,
+                });
             } catch (error) {
                 showToast({
                     type: "error",
