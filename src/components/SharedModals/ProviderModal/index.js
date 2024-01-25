@@ -94,7 +94,6 @@ const useStyles = makeStyles(() => ({
 const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, leadId }) => {
     const { addProvider, deleteProvider, providers, fetchProviders } = useHealth();
 
-
     const fetchHealthDetails = useCallback(async () => {
         await fetchProviders(leadId);
     }, [leadId, fetchProviders]);
@@ -207,7 +206,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
 
         fireEvent("AI - Provider added", {
             leadid: leadId,
-            npi: "requestPayload[0].npi",
+            npi: selectedProvider?.NPI,
         });
     };
 

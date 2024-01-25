@@ -10,8 +10,7 @@ import ProviderCoverageModal from "components/SharedModals/ProviderCoverageModal
 import ProviderModal from "components/SharedModals/ProviderModal";
 import UpdateView from "components/ui/PlanDetailsTable/shared/PharmacyTable/components/UpdateView/updateView";
 
-import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
-
+import PharmacyModal from "components/SharedModals/PharmacyModal";
 import styles from "./PlanCoverage.module.scss";
 import PharmacySvg from "./assets/pharmacySvg";
 import PrescriptionSvg from "./assets/prescriptionSvg";
@@ -248,12 +247,12 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
                 </Modal>
             )}
             {openAddPharmacyModal && (
-                <AddPharmacy
-                    isOpen={openAddPharmacyModal}
+                <PharmacyModal
+                    open={openAddPharmacyModal}
                     onClose={() => {
                         setOpenAddPharmacyModal(false);
                     }}
-                    personalInfo={contact}
+                    userZipCode={contact?.addresses?.[0]?.postalCode}
                     refresh={refresh}
                     leadId={contactId}
                 />

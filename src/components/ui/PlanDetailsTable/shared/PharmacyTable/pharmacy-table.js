@@ -9,7 +9,7 @@ import EditIcon from "components/icons/edit2";
 import InNetworkIcon from "components/icons/inNetwork";
 import PlusIcon from "components/icons/plus";
 
-import AddPharmacy from "pages/contacts/contactRecordInfo/modals/AddPharmacy";
+import PharmacyModal from "components/SharedModals/PharmacyModal";
 
 import OutNetworkIcon from "../../Icons/outNetwork";
 import PlanDetailsTableWithCollapse from "../../planDetailsTableWithCollapse";
@@ -169,10 +169,10 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 </Modal>
             )}
             {!isEdit && (
-                <AddPharmacy
-                    isOpen={openAddModal}
+                <PharmacyModal
+                    open={openAddModal}
                     onClose={() => setOpenAddModal(false)}
-                    personalInfo={contact}
+                    userZipCode={contact?.addresses?.[0]?.postalCode}
                     leadId={leadId}
                 />
             )}
