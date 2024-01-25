@@ -68,7 +68,7 @@ const pluralizeTitle = (title, count) => {
                 <title>Integrity - Learning Center</title>
             </Helmet>
             <GlobalNavV2 />
-            <div className="v2">
+            <div className="v2 pb-4">
                 <div className="bg-white" data-gtm="learning-center-recommended-read-wrapper">
                     <Container className="pt-scale-3 pb-scale-4">
                         <h2 className="hdg hdg--1 mb-4">Learning Center</h2>
