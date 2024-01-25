@@ -42,8 +42,8 @@ export default function AddNewActivityDialog({ open, onClose, onSave, leadFullNa
 
     const handleSave = () => {
         const payload = {
-            activityType: "Custom Activity",
-            notes: note,
+            activitySubject: "Custom Activity",
+            activityNote: note,
             leadsId: leadId,
             activityTypeId: 0,
         };

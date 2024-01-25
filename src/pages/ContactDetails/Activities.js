@@ -14,6 +14,7 @@ import FilterOptions from "packages/Filter/FilterOptions";
 import ContactSectionCard from "packages/ContactSectionCard";
 import { useOverView, useLeadDetails } from "providers/ContactDetails";
 import styles from "./Activities.module.scss";
+import WithLoader from "components/ui/WithLoader";
 
 const Activities = ({ leadId }) => {
     const [isMobile, setIsMobile] = useState(false);
@@ -30,8 +31,8 @@ const Activities = ({ leadId }) => {
     const { leadDetails } = useLeadDetails();
 
     const leadFullName = useMemo(() => {
-        const { firstName = "", middleName = "", lastName = "" } = leadDetails;
-        return `${firstName} ${middleName} ${lastName}`;
+        const { firstName = "", lastName = "" } = leadDetails;
+        return `${firstName} ${lastName}`;
     }, [leadDetails]);
 
     useEffect(() => {
@@ -103,7 +104,6 @@ const Activities = ({ leadId }) => {
     }, []);
 
     const ACTIVE_FILTER = filterValues.filter((item) => item.selected);
-
     const renderSectionHeader = () => (
         <div className={styles.wrapper}>
             <Media query="(max-width: 500px)" onChange={setIsMobile} />
@@ -137,59 +137,61 @@ const Activities = ({ leadId }) => {
     );
 
     return (
-        <div className={styles.layout}>
-            <div className={styles.activities}>
-                <ContactSectionCard
-                    title="Activities"
-                    infoIcon={`(${leadDetails.activities?.length})`}
-                    className={styles.activitiesContainer}
-                    contentClassName={styles.activitiesContainer_content}
-                    actions={<div className="actions">{renderSectionHeader()}</div>}
-                >
-                    <ActivitiesTable
-                        data={filteredAndSortedActivities}
-                        onActivityClick={setSelectedActivity}
-                        onShowMore={showMoreActivities}
-                        pageHasMoreRows={leadDetails?.activities?.length > activitiesPageLimit.size}
-                        leadId={leadId}
-                        handleDeleteActivity={removeActivity}
-                        setEditActivity={setSelectedEditActivity}
-                        isMobile={isMobile}
-                        setSortingOptions={setSortingOptions}
-                    />
-                </ContactSectionCard>
+        <WithLoader isLoading={isLoadingActivities}>
+            <div className={styles.layout}>
+                <div className={styles.activities}>
+                    <ContactSectionCard
+                        title="Activities"
+                        infoIcon={`(${leadDetails.activities?.length})`}
+                        className={styles.activitiesContainer}
+                        contentClassName={styles.activitiesContainer_content}
+                        actions={<div className="actions">{renderSectionHeader()}</div>}
+                    >
+                        <ActivitiesTable
+                            data={filteredAndSortedActivities}
+                            onActivityClick={setSelectedActivity}
+                            onShowMore={showMoreActivities}
+                            pageHasMoreRows={leadDetails?.activities?.length > activitiesPageLimit.size}
+                            leadId={leadId}
+                            handleDeleteActivity={removeActivity}
+                            setEditActivity={setSelectedEditActivity}
+                            isMobile={isMobile}
+                            setSortingOptions={setSortingOptions}
+                        />
+                    </ContactSectionCard>
 
-                {isAddActivityDialogOpen && (
-                    <AddNewActivityDialog
-                        open={isAddActivityDialogOpen}
-                        onClose={() => setAddActivityDialogOpen(false)}
-                        leadFullName={leadFullName}
-                        onSave={addActivity}
-                        leadId={leadId}
-                    />
-                )}
-                {selectedEditActivity && (
-                    <EditActivityDialog
-                        open
-                        onClose={() => setSelectedEditActivity(null)}
-                        leadFullName={leadFullName}
-                        onSave={editActivity}
-                        activity={selectedEditActivity}
-                        leadId={leadId}
-                    />
-                )}
-                {selectedActivity && (
-                    <ActivityDetails
-                        open
-                        onSave={addActivityNotes}
-                        onClose={() => setSelectedActivity(null)}
-                        leadFullName={leadFullName}
-                        activityObj={selectedActivity}
-                        leadId={leadId}
-                    />
-                )}
+                    {isAddActivityDialogOpen && (
+                        <AddNewActivityDialog
+                            open={isAddActivityDialogOpen}
+                            onClose={() => setAddActivityDialogOpen(false)}
+                            leadFullName={leadFullName}
+                            onSave={addActivity}
+                            leadId={leadId}
+                        />
+                    )}
+                    {selectedEditActivity && (
+                        <EditActivityDialog
+                            open
+                            onClose={() => setSelectedEditActivity(null)}
+                            leadFullName={leadFullName}
+                            onSave={editActivity}
+                            activity={selectedEditActivity}
+                            leadId={leadId}
+                        />
+                    )}
+                    {selectedActivity && (
+                        <ActivityDetails
+                            open
+                            onSave={addActivityNotes}
+                            onClose={() => setSelectedActivity(null)}
+                            leadFullName={leadFullName}
+                            activityObj={selectedActivity}
+                            leadId={leadId}
+                        />
+                    )}
+                </div>
             </div>
-        </div>
+        </WithLoader>
     );
 };
 

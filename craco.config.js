@@ -13,29 +13,33 @@ module.exports = {
                 const appDirectory = require("fs").realpathSync(process.cwd());
                 webpackConfig.entry = [require("path").resolve(appDirectory, "src/authIndex.js")];
             }
-            return webpackConfig
+            return webpackConfig;
         },
     },
     devServer: (devServerConfig, { env, paths }) => {
         devServerConfig = {
-          ...devServerConfig,
-          onBeforeSetupMiddleware: undefined,
-          onAfterSetupMiddleware: undefined,
-          setupMiddlewares: (middlewares, devServer) => {
-            if (!devServer) {
-              throw new Error("webpack-dev-server is not defined");
-            }
-            if (fs.existsSync(paths.proxySetup)) {
-              require(paths.proxySetup)(devServer.app);
-            }
-            middlewares.push(
-              evalSourceMap(devServer),
-              redirectServedPath(paths.publicUrlOrPath),
-              noopServiceWorker(paths.publicUrlOrPath)
-            );
-            return middlewares;
-          },
+            ...devServerConfig,
+            client: {
+                ...devServerConfig.client,
+                overlay: false,
+            },
+            onBeforeSetupMiddleware: undefined,
+            onAfterSetupMiddleware: undefined,
+            setupMiddlewares: (middlewares, devServer) => {
+                if (!devServer) {
+                    throw new Error("webpack-dev-server is not defined");
+                }
+                if (fs.existsSync(paths.proxySetup)) {
+                    require(paths.proxySetup)(devServer.app);
+                }
+                middlewares.push(
+                    evalSourceMap(devServer),
+                    redirectServedPath(paths.publicUrlOrPath),
+                    noopServiceWorker(paths.publicUrlOrPath)
+                );
+                return middlewares;
+            },
         };
         return devServerConfig;
-      },
+    },
 };

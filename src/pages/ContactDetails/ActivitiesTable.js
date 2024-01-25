@@ -74,11 +74,8 @@ const renderButtons = (activity, handleClick) => {
 
 const isCustomActivity = (row) => row.activityId && row.activityTypeName === "Note";
 
-const renderActivtyActions = (row, handleDeleteActivity, setEditActivity) => {
+const renderActivtyActions = (row, handleDeleteActivity, leadId) => {
     if (isCustomActivity(row)) {
-        const handleEditClick = () => {
-            setEditActivity(row);
-        };
         return (
             <>
                 <button
@@ -86,9 +83,6 @@ const renderActivtyActions = (row, handleDeleteActivity, setEditActivity) => {
                     onClick={() => handleDeleteActivity(row?.activityId, leadId)}
                 >
                     Delete
-                </button>
-                <button className={styles.ediTextAreaText} onClick={handleEditClick}>
-                    Edit
                 </button>
             </>
         );
@@ -198,25 +192,17 @@ export default function ActivitiesTable({
                 ),
             },
             // {
-            //   id: "status",
-            //   disableSortBy: true,
-            //   Header: "",
-            //   Cell: ({ row }) => <>{renderButtons(row?.original, handleClick)}</>,
+            //     id: "status",
+            //     disableSortBy: true,
+            //     Header: "",
+            //     Cell: ({ row }) => <>{renderButtons(row?.original, handleClick)}</>,
             // },
-            // {
-            //   id: "actions",
-            //   disableSortBy: true,
-            //   Header: "",
-            //   Cell: ({ row }) => (
-            //     <>
-            //       {renderActivtyActions(
-            //         row?.original,
-            //         handleDeleteActivity,
-            //         setEditActivity
-            //       )}
-            //     </>
-            //   ),
-            // },
+            {
+                id: "actions",
+                disableSortBy: true,
+                Header: "",
+                Cell: ({ row }) => <>{renderActivtyActions(row?.original, handleDeleteActivity, leadId)}</>,
+            },
             {
                 id: "more",
                 disableSortBy: true,

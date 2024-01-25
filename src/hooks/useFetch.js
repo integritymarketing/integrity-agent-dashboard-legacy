@@ -13,7 +13,7 @@ import * as Sentry from "@sentry/react";
 
 const useFetch = (url, isPublic = false, noResponse = false) => {
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     /**
@@ -22,6 +22,7 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
 
     const fetchData = useCallback(
         async ({ method = "GET", body, returnHttpResponse = false, id, param }) => {
+            setLoading(true);
             try {
                 const options = { method };
                 if (!isPublic) {
@@ -58,16 +59,11 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
                     setData(textData);
                     return textData;
                 }
-
-                // let json = null;
-                // if (!noResponse) {
-                //     json = await response.json();
-                // }
-            } catch (error) {
-                Sentry.captureException(error);
-                setError(error);
+            } catch (catchError) {
+                Sentry.captureException(catchError);
+                setError(catchError);
                 setLoading(false);
-                throw error;
+                throw catchError;
             } finally {
                 setLoading(false);
             }

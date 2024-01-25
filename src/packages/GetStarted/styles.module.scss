@@ -1,131 +1,131 @@
 @import "src/scss/globalDefines.scss";
 
 .layout {
-  display: flex;
-  align-items: center;
-  height: 152px;
-  background-color: #366CEB;
-  width: 100%;
-  padding: 10px;
+    display: flex;
+    align-items: center;
+    height: 152px;
+    background-color: #366ceb;
+    width: 100%;
+    padding: 10px;
 
-  @include small() {
-    flex-direction: column;
-    height: auto;
-    padding: 20px;
-  }
+    @include small() {
+        flex-direction: column;
+        height: auto;
+        padding: 20px;
+    }
 }
 
 .bannerText {
-  display: flex;
-  flex-direction: column;
-  width: 23%;
+    display: flex;
+    flex-direction: column;
 
-  @include small() {
-    width: 100%;
-    align-items: center;
-    margin: auto;
-  }
+    @include small() {
+        width: 100%;
+        align-items: center;
+        margin: auto;
+    }
 }
 
 .crossIcon {
-  cursor: pointer;
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  width: 24px;
-  height: 24px;
+    cursor: pointer;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    width: 24px;
+    height: 24px;
 }
 
 .bannerImage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35%;
 
-  img {
-    flex-shrink: 0;
-    min-width: 100%;
-    min-height: 100%;
-  }
+    img {
+        flex-shrink: 0;
+        min-width: 100%;
+        min-height: 100%;
+    }
 
-  @include small() {
-    display: none;
-  }
+    @include small() {
+        display: none;
+    }
 }
 
 .mobileApps {
-  padding-top: 1rem;
-  display: flex;
-  gap: 5px;
+    padding-top: 1rem;
+    display: flex;
+    gap: 5px;
 
-  div {
-    cursor: pointer;
-  }
+    div {
+        cursor: pointer;
+    }
 
-  @include small() {
-    margin: 0 -10px;
-  }
+    @include small() {
+        margin: 0 -10px;
+    }
 }
 
 .headingTitle {
-  text-align: center;
+    text-align: center;
 }
 
 .subHeadingContent {
-  text-align: center;
-  padding: 8px 34px;
+    text-align: center;
+    padding: 8px 34px;
 }
 
 .modalBody {
-  background-color: $white;
-  padding: 24px;
+    background-color: $white;
+    padding: 24px;
 }
 
 .title1 {
-  font-size: 32px;
-  color: #FFFFFF;
-  text-align: center;
+    font-size: 32px;
+    color: #ffffff;
 }
 
 .title2 {
-  font-size: 16px;
-  color: #FFFFFF;
-  text-align: center;
+    font-size: 16px;
+    color: #ffffff;
+    
+    @include small() {
+        text-align: center;
+    }
 }
 
 .bannerButton {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 35%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 30%;
 
-  @include small() {
-    width: 100%;
-    justify-content: center;
-    margin-top: 20px;
-  }
+    @include small() {
+        width: 100%;
+        justify-content: center;
+        margin-top: 20px;
+    }
 }
 
 .buttonWithIcon {
-  border-radius: 25px !important;
-  padding: 10px 12px 11px 16px !important;
-  background: #FFFFFF 0% 0% no-repeat padding-box !important;
+    border-radius: 25px !important;
+    padding: 10px 12px 11px 16px !important;
+    background: #ffffff 0% 0% no-repeat padding-box !important;
 
-  svg {
-    width: 24px;
+    svg {
+        width: 24px;
+    }
 
-  }
+    span {
+        font-size: 16px !important;
+        color: #4178ff !important;
+        font-weight: 500;
+    }
 
-  span {
-    font-size: 16px !important;
-    color: #4178ff !important;
-    font-weight: 500;
-  }
-
-  &:hover {
-    background: #ffffff 0% 0% no-repeat padding-box;
-    border-radius: 20px;
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
-    color: #1357ff !important;
-  }
+    &:hover {
+        background: #ffffff 0% 0% no-repeat padding-box;
+        border-radius: 20px;
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        color: #1357ff !important;
+    }
 }
