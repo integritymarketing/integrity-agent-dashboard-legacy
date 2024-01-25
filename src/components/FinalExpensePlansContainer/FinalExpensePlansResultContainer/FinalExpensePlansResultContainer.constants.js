@@ -7,8 +7,8 @@ export const DEFAULT_MONTHLY_PREMIUM = 40;
 export const COVERAGE_TYPE = [
     { label: "Level", value: "LEVEL" },
     { label: "Graded/Modified", value: "GRADED_MODIFIED" },
-    { label: "Guaranteed", value: "GUARANTEED" },
-    { label: "Limited", value: "LIMITED" },
+    { label: "Guaranteed Issue", value: "GUARANTEED" },
+    { label: "Limited Pay", value: "LIMITED" },
     {
         label: "Standard Final Expense",
         value: "Standard Final Expense",
