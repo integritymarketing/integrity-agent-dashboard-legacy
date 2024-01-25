@@ -58,11 +58,13 @@ export const CallScriptModal = ({ modalOpen, handleClose, leadId, countyFips, po
     }
 
     useEffect(() => {
+        if(modalOpen) {
         fireEvent("Call Script Viewed", {
             leadid: leadId,
             line_of_business: "Health",
         });
-    }, []);
+    }
+    }, [fireEvent, modalOpen, leadId]);
 
     return (
         <Modal open={modalOpen} onClose={handleClose} title="Recorded Call Script" hideFooter>
