@@ -28,16 +28,16 @@ export default function EnrollmentHistoryContainer({ leadId }) {
             const policyDate = new Date(policyEffectiveDate);
             policyDate.setDate(policyDate.getDate() + 1);
             const policyYear = policyDate.getFullYear();
-    
+
             const planIdentifiers = getUniqueIdentifiers(plan);
             if (planIdentifiers.some(id => excludeIdentifiers.includes(id))) {
                 return false;
             }
-    
+
             if (productCategory === 'Final Expense') {
                 return isCurrentYear ? false : policyYear !== year && isDeclinedStatus(policyStatus);
             }
-    
+
             return isCurrentYear ? policyYear === year : policyYear !== year;
         });
     };
@@ -82,6 +82,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
     return (
         <>
             <ContactSectionCard
+                customStyle={styles.width}
                 title={<p>Current Policies <span className={styles.plansCount}>({currentYearPlansData.length})</span></p>}
                 className={styles.layout}
                 isDashboard
@@ -90,6 +91,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                 {renderPlans(currentYearPlansData, true)}
             </ContactSectionCard>
             <ContactSectionCard
+                customStyle={styles.width}
                 title={<p>Previous Policies <span className={styles.plansCount}>({previousYearPlansData.length})</span></p>}
                 className={styles.layout}
                 isDashboard

@@ -19,6 +19,7 @@ const ContactSectionCard = (props) => {
         hideActionIfCollapse = false,
         isDashboard = false,
         contentClassName,
+        customStyle = ""
     } = props;
     const [value, setValue] = usePreferences(false, preferencesKey);
     const [isCollapsed, setCollapsed] = useState(value);
@@ -33,7 +34,7 @@ const ContactSectionCard = (props) => {
 
     return (
         <section className={className}>
-            <div className={styles.cardHeader} style={{ boxShadow: cardBorderClassName }}>
+            <div className={`${styles.cardHeader} ${customStyle}`} style={{ boxShadow: cardBorderClassName }}>
                 <div className={styles.iconWithTitle}>
                     <div className={`${styles.icon} ${isCollapsed ? styles.iconRotate : ""}`} onClick={handleToggle}>
                         <ArrowDownBig />
