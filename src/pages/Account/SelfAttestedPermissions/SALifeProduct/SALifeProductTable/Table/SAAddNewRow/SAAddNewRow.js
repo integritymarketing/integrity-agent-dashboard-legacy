@@ -31,13 +31,23 @@ function SAAddNewRow() {
     const shouldDisable = !producerIdValue || !selectedCarrier || error;
 
     const onChange = (e) => {
-        setProducerIdValue(e.target.value);
+        const inputValue = e.target.value;
+        if (inputValue.length <= 13) {
+            setProducerIdValue(inputValue);
+        }
     };
 
     const validateInput = (input) => {
-        if (input.length < 8 || input.length > 13) {
-            return "Input must be between 8 and 13 characters long.";
+        const alphanumericRegex = /^[a-z0-9]+$/i;
+    
+        if (!alphanumericRegex.test(input)) {
+            return "Input must contain only alphanumeric characters.";
         }
+    
+        if (input.length < 1 || input.length > 13) {
+            return "Input must be between 1 and 13 characters long.";
+        }
+    
         return null;
     };
 

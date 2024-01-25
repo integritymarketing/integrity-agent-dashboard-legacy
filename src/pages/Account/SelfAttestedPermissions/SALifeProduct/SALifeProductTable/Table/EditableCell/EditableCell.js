@@ -13,13 +13,23 @@ const EditableCell = ({ value: initialValue, row, column, updateMyData, validate
     const [value, setValue] = useState(initialValue);
 
     const onChange = (e) => {
-        setValue(e.target.value);
+        const inputValue = e.target.value;
+        if (inputValue.length <= 13) {
+            setValue(inputValue);
+        }
     };
 
     const validateInput = (input) => {
-        if (input.length < 8 || input.length > 13) {
-            return "Input must be between 8 and 13 characters long.";
+        const alphanumericRegex = /^[a-z0-9]+$/i;
+    
+        if (!alphanumericRegex.test(input)) {
+            return "Input must contain only alphanumeric characters.";
         }
+    
+        if (input.length < 1 || input.length > 13) {
+            return "Input must be between 1 and 13 characters long.";
+        }
+    
         return null;
     };
 
