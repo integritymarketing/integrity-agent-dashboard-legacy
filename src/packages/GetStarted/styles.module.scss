@@ -6,7 +6,8 @@
     height: 152px;
     background-color: #366ceb;
     width: 100%;
-    padding: 10px;
+    padding: 10px 0px;
+    justify-content: space-between;
 
     @include small() {
         flex-direction: column;
@@ -18,7 +19,7 @@
 .bannerText {
     display: flex;
     flex-direction: column;
-
+    margin-left: 50px;
     @include small() {
         width: 100%;
         align-items: center;
@@ -37,18 +38,18 @@
 
 .bannerImage {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    width: 35%;
-
-    img {
+      img {
         flex-shrink: 0;
-        min-width: 100%;
-        min-height: 100%;
+         min-height: 100%;
     }
 
     @include small() {
-        display: none;
+        width: 100%;
+        img {
+            display: none;
+        }
     }
 }
 
@@ -88,18 +89,19 @@
 .title2 {
     font-size: 16px;
     color: #ffffff;
-    
+    width: 410px;
     @include small() {
         text-align: center;
+        width: 300px;
     }
 }
 
 .bannerButton {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    width: 30%;
-
+    width: 25%;
+ 
     @include small() {
         width: 100%;
         justify-content: center;
