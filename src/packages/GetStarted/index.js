@@ -69,13 +69,14 @@ export default function GetStarted(props) {
             <StyledIconButton onClick={handleCloseModal} />
             <div className={styles.bannerImage}>
                 <Box component="img" alt="The house from the offer." src={phonesImage} />
-            </div>
-            <div className={styles.bannerText}>
-                <div className={styles.title1}>Welcome to Integrity</div>
-                <div className={styles.title2}>
-                    Manage your entire client workflow, from client history to quoting and applications
+                <div className={styles.bannerText}>
+                    <div className={styles.title1}>Welcome to Integrity</div>
+                    <div className={styles.title2}>
+                        Manage your entire client workflow, from client history to quoting and applications
+                    </div>
                 </div>
             </div>
+
             <Box className={styles.bannerButton}>
                 <Button
                     icon={<ArrowForwardWithCirlce />}
