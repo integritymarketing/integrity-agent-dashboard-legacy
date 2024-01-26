@@ -11,8 +11,7 @@
     @include small {
         background: none;
         box-shadow: none;
-        padding: 0.5rem;
-        width: fit-content;
+        padding: 1rem;
     }
 
     .iconWithTitle {
@@ -70,4 +69,12 @@
     display: flex;
     justify-content: flex-end;
     width: 225px;
+
+    @include small {
+       width: unset;
+
+       > div {
+        width: unset !important;
+       }
+    }
 }
