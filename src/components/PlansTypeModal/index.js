@@ -38,7 +38,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
     const { fireEvent } = useAnalytics();
     const { leadPreference, updateAgentPreferences } = useAgentAccountContext();
 
-    const shouldShowModal = !leadPreference?.hideHealthQuote && !leadPreference?.hideLifeQuote;
+    const shouldShowPlanTypeModal = !leadPreference?.hideHealthQuote && !leadPreference?.hideLifeQuote;
 
     const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${agentNPN}`);
 
@@ -95,7 +95,6 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
     }, [fireEvent, getAgentNonRTS, leadId, navigate, onSelectHandle]);
 
     const handleContinue = () => {
-        setShowSellingPermissionModal(false);
         fireEvent("Quote Type Selected", {
             leadid: leadId,
             line_of_business: "Life",
@@ -110,7 +109,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
      * If the current type is life, it triggers the final expense plan click.
      */
     useEffect(() => {
-        if (!shouldShowModal && showPlanTypeModal) {
+        if (!shouldShowPlanTypeModal && showPlanTypeModal) {
             const currentType = leadPreference?.hideLifeQuote ? HEALTH : LIFE;
             if (currentType === HEALTH) {
                 handleHealthPlanClick();
@@ -118,15 +117,29 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
                 handleFinalExpensePlanClick();
             }
         }
-    }, [shouldShowModal, leadPreference, showPlanTypeModal, handleHealthPlanClick, handleFinalExpensePlanClick]);
+    }, [
+        shouldShowPlanTypeModal,
+        leadPreference,
+        showPlanTypeModal,
+        handleHealthPlanClick,
+        handleFinalExpensePlanClick,
+    ]);
 
-    if (!shouldShowModal) {
-        return <></>;
+    if (!shouldShowPlanTypeModal) {
+        return (
+            <SellingPermissionsModal
+                showSellingPermissionModal={showSellingPermissionModal}
+                handleModalClose={() => {
+                    setShowSellingPermissionModal(false);
+                }}
+                handleContinue={handleContinue}
+            />
+        );
     }
 
     return (
-        <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Choose Plan Type">
-            <>
+        <>
+            <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Choose Plan Type">
                 <Box className={styles.container}>
                     <Box className={styles.plan} onClick={handleFinalExpensePlanClick}>
                         <Box className={styles.icon}>
@@ -145,17 +158,15 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
                 <Box display="flex" gap="0px" alignItems="center" justifyContent="center" marginTop="30px">
                     <Checkbox label="Don't show this again" checked={checked} onChange={() => setChecked(!checked)} />
                 </Box>
-                {showSellingPermissionModal && (
-                    <SellingPermissionsModal
-                        showSellingPermissionModal={showSellingPermissionModal}
-                        handleModalClose={() => {
-                            setShowSellingPermissionModal(false);
-                        }}
-                        handleContinue={handleContinue}
-                    />
-                )}
-            </>
-        </Modal>
+            </Modal>
+            <SellingPermissionsModal
+                showSellingPermissionModal={showSellingPermissionModal}
+                handleModalClose={() => {
+                    setShowSellingPermissionModal(false);
+                }}
+                handleContinue={handleContinue}
+            />
+        </>
     );
 };
 
