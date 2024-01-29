@@ -5,47 +5,45 @@ import EnrollmentPlanCard from "./EnrollmentPlanCard/EnrollmentPlanCard";
 import { usePolicies } from "providers/ContactDetails/ContactDetailsContext";
 import styles from "./EnrollmentHistoryContainer.module.scss";
 import { FINAL_EXPENSE_GUIDE_LINK, MEDICARE_GUIDE_LINK } from "./EnrollmentHistoryContainer.constants";
-
+ 
 export default function EnrollmentHistoryContainer({ leadId }) {
     const { getEnrollPlansList, enrollPlansList } = usePolicies();
-
+ 
     useEffect(() => {
         getEnrollPlansList(leadId);
     }, [getEnrollPlansList, leadId]);
-
+ 
     const currentYear = useMemo(() => new Date().getFullYear(), []);
-
+ 
     const isDeclinedStatus = (status) => {
         return status === 'declined' || status === 'inactive';
     };
-
-    const getUniqueIdentifiers = (plan) => {
-        return [plan.sourceId, plan.policyNumber, plan.confirmationNumber].filter(id => id != null);
-    };
-
-    const filterPlansByYear = (plansList, year, isCurrentYear, excludeIdentifiers = []) => {
-        return plansList?.filter(({ policyEffectiveDate, policyStatus, productCategory, ...plan }) => {
-            const policyDate = new Date(policyEffectiveDate);
-            policyDate.setDate(policyDate.getDate() + 1);
-            const policyYear = policyDate.getFullYear();
-
-            const planIdentifiers = getUniqueIdentifiers(plan);
-            if (planIdentifiers.some(id => excludeIdentifiers.includes(id))) {
-                return false;
+ 
+    const filterPlansByYear = (plansList, isCurrentYear) => {
+        return plansList.filter(plan => {
+            // For Final Expense plans, inclusion is based solely on the policyStatus.
+            if (plan.productCategory === 'Final Expense') {
+                const isInCurrentYearBasedOnStatus = !isDeclinedStatus(plan.policyStatus);
+                return isCurrentYear ? isInCurrentYearBasedOnStatus : !isInCurrentYearBasedOnStatus;
             }
-
-            if (productCategory === 'Final Expense') {
-                return isCurrentYear ? false : policyYear !== year && isDeclinedStatus(policyStatus);
+ 
+            // For non-Final Expense plans, use the policyEffectiveDate to determine the year.
+            const effectiveDate = plan.policyEffectiveDate ? new Date(plan.policyEffectiveDate) : null;
+            const policyYear = effectiveDate ? effectiveDate.getFullYear() : null;
+ 
+            if (isCurrentYear) {
+                // Include in the current year if the policyEffectiveDate is within the current year and not declined/inactive.
+                return policyYear === currentYear && !isDeclinedStatus(plan.policyStatus);
+            } else {
+                // Include in the previous year if the policyEffectiveDate is before the current year.
+                return policyYear < currentYear;
             }
-
-            return isCurrentYear ? policyYear === year : policyYear !== year;
         });
     };
-
-    const currentYearPlansData = filterPlansByYear(enrollPlansList, currentYear, true);
-    const previousYearExcludedIds = currentYearPlansData.flatMap(getUniqueIdentifiers);
-    const previousYearPlansData = filterPlansByYear(enrollPlansList, currentYear, false, previousYearExcludedIds);
-
+ 
+    const currentYearPlansData = filterPlansByYear(enrollPlansList, true);
+    const previousYearPlansData = filterPlansByYear(enrollPlansList, false);
+ 
     const renderPlans = (plansData, isCurrentYear) => (
         plansData.length > 0 ? (
             plansData.map((plan, index) => (
@@ -78,7 +76,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
             <NoPlansAvailable guideLink={isCurrentYear ? FINAL_EXPENSE_GUIDE_LINK : MEDICARE_GUIDE_LINK} />
         )
     );
-
+ 
     return (
         <>
             <ContactSectionCard
@@ -102,18 +100,18 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         </>
     );
 }
-
+ 
 EnrollmentHistoryContainer.propTypes = {
     leadId: PropTypes.string.isRequired,
 };
-
+ 
 const NoPlansAvailable = ({ guideLink }) => (
     <div className={styles.noPlansAvailable}>
         <div>There is no policy information available for this contact at this time. For more information about policy data, please view our guides.</div>
         <a href={guideLink} target="_blank" rel="noopener noreferrer">Policy Data Guide</a>
     </div>
 );
-
+ 
 NoPlansAvailable.propTypes = {
     guideLink: PropTypes.string.isRequired,
 };
