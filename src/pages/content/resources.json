@@ -89,9 +89,15 @@
       "name": "PlanEnroll Agent Site",
       "description": "Learn how to use the PlanEnroll Agent Site to manage your contacts and sales opportunities.",
       "categories": ["New User Guide"],
-      "filename": "Integrity-Getting-Started-About-PlanEnroll.pdf"
+      "filename": "Integrity-Getting-Started-Agent-Website.pdf"
     },
     {
+      "name": "About PlanEnroll.com",
+      "description": "Discover the essentials of PlanEnroll.com, including our mission, the services we offer, and how we empower our users in their insurance and financial planning journeys.",
+      "categories": ["New User Guide"],
+      "filename": "Integrity-Getting-Started-About-PlanEnroll.pdf"
+    },
+     {
       "name": "LeadCENTER & Availability Preferences",
       "description": "Learn how to use the LeadCENTER and availability preferences in Integrity to manage your contacts and sales opportunities.",
       "categories": ["New User Guide"],

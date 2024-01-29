@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
@@ -18,10 +17,10 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
     } = useAgentInformationByID();
 
     useEffect(() => {
-        if (open) {
+        if (open && !agentFirstName) {
             getAgentAvailability();
         }
-    }, [open, getAgentAvailability]);
+    }, [open, getAgentAvailability, agentFirstName]);
 
     const navigateToNewUserGuide = () => {
         window.open(`${process.env.REACT_APP_RESOURCES_URL}/Integrity-Getting-Started-Guide.pdf`, "_blank").focus();

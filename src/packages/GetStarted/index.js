@@ -30,10 +30,8 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
     color: "white",
 }));
 
-export default function GetStarted(props) {
-    const leadPreference = props.leadPreference;
+export default function GetStarted({ learnMoreModal, setLearnMoreModal, leadPreference }) {
     const [show, setShow] = useState(true);
-    const [modalOpen, setModalOpen] = useState(false);
     const showToast = useToast();
 
     const { agentId } = useUserProfile();
@@ -65,38 +63,39 @@ export default function GetStarted(props) {
     }
 
     return (
-        <div className={styles.layout}>
-            <StyledIconButton onClick={handleCloseModal} />
-            <div className={styles.bannerImage}>
-                <Box component="img" alt="The house from the offer." src={phonesImage} />
-                <div className={styles.bannerText}>
-                    <div className={styles.title1}>Welcome to Integrity</div>
-                    <div className={styles.title2}>
-                        Manage your entire client workflow, from client history to quoting and applications
+        <>
+            <div className={styles.layout}>
+                <StyledIconButton onClick={handleCloseModal} />
+                <div className={styles.bannerImage}>
+                    <Box component="img" alt="The house from the offer." src={phonesImage} />
+                    <div className={styles.bannerText}>
+                        <div className={styles.title1}>Welcome to Integrity</div>
+                        <div className={styles.title2}>
+                            Manage your entire client workflow, from client history to quoting and applications
+                        </div>
                     </div>
                 </div>
+
+                <Box className={styles.bannerButton}>
+                    <Button
+                        icon={<ArrowForwardWithCirlce />}
+                        label={"Learn More"}
+                        className={styles.buttonWithIcon}
+                        onClick={() => {
+                            setLearnMoreModal(true);
+                        }}
+                        type="tertiary"
+                        iconPosition="right"
+                    />
+                </Box>
             </div>
-
-            <Box className={styles.bannerButton}>
-                <Button
-                    icon={<ArrowForwardWithCirlce />}
-                    label={"Learn More"}
-                    className={styles.buttonWithIcon}
-                    onClick={() => {
-                        setModalOpen(true);
-                    }}
-                    type="tertiary"
-                    iconPosition="right"
-                />
-            </Box>
-
-            {modalOpen && (
+            {learnMoreModal && (
                 <AgentWelcomeDialog
-                    open={modalOpen}
-                    handleConfirm={() => setModalOpen(false)}
-                    close={() => setModalOpen(false)}
+                    open={learnMoreModal}
+                    handleConfirm={() => setLearnMoreModal(false)}
+                    close={() => setLearnMoreModal(false)}
                 />
             )}
-        </div>
+        </>
     );
 }
