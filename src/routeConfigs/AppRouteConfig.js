@@ -151,8 +151,10 @@ const appProtectedRoutes = [
         path: "/contact/:leadId/duplicate/:duplicateLeadId",
         component: (
             <>
-                <ContactProfile />
-                <WebChatComponent />
+                <ContactDetailsProvider>
+                    <ContactProfile />
+                    <WebChatComponent />
+                </ContactDetailsProvider>
             </>
         ),
     },
@@ -160,8 +162,10 @@ const appProtectedRoutes = [
         path: "/contact/:leadId",
         component: (
             <>
-                <ContactProfile />
-                <WebChatComponent />
+                <ContactDetailsProvider>
+                    <ContactProfile />
+                    <WebChatComponent />
+                </ContactDetailsProvider>
             </>
         ),
     },
@@ -169,8 +173,10 @@ const appProtectedRoutes = [
         path: "/contact/:leadId/:sectionId",
         component: (
             <>
-                <ContactProfile />
-                <WebChatComponent />
+                <ContactDetailsProvider>
+                    <ContactProfile />
+                    <WebChatComponent />
+                </ContactDetailsProvider>
             </>
         ),
     },
