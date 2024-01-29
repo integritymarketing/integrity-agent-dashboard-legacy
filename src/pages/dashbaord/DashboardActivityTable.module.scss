@@ -18,11 +18,13 @@
   .icon {
     padding: 10px;
     cursor: pointer;
+
     &:hover {
       background-color: #f1faff;
       border-radius: 40px;
     }
   }
+
   .iconReverse {
     transform: rotate(180deg);
   }
@@ -32,6 +34,7 @@
   @include small() {
     margin-left: 10px;
   }
+
   font-size: 32px;
   font-weight: normal;
 }
@@ -39,7 +42,16 @@
 .filterButton {
   top: 90px;
   position: relative;
+
   @include small() {
     top: 0;
   }
+}
+
+.segregator {
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.content {
+  padding: 0;
 }

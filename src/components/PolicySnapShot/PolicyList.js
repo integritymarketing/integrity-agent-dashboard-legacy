@@ -98,7 +98,7 @@ const PolicyCard = ({ callData }) => {
           }}
         >
           <Button
-            icon={<Person />}
+            icon={<Person color="#ffffff" />}
             label={"View Contact"}
             className={"policy-card-link-btn"}
             onClick={() => navigate(`/contact/${callData?.leadId}`)}

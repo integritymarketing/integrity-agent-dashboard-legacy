@@ -2,9 +2,11 @@
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
+
 .reminder-card-container {
   background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 8px;
+
   @media screen and (max-width: 480px) {
     margin: 16px 12px 0px 15px;
   }
@@ -24,13 +26,13 @@
 
 .reminder-card-link-btn {
   border-radius: 25px !important;
-  padding: 5px 20px !important;
-  background-color: #deebfb !important;
+  padding: 6px 30px 6px 10px !important;
+  background-color: #4178ff !important;
 }
 
-.reminder-card-link-btn > .label {
-  font-size: 16px !important;
-  color: #434a51 !important;
+.reminder-card-link-btn>.label {
+  font-size: 14px !important;
+  color: #ffffff !important;
 }
 
 .reminder-name {
@@ -47,6 +49,7 @@
   text-overflow: ellipsis;
   text-align: left;
 }
+
 .overDue {
   color: #f23b2f !important;
 }
@@ -58,12 +61,13 @@
   margin-bottom: 20px;
   padding-top: 10px;
   border-radius: 0px 0px 8px 8px;
+
   @media screen and (max-width: 480px) {
     margin: 0px 0px 20px 0px;
   }
 }
 
-.jumpList-btn > span {
+.jumpList-btn>span {
   color: #0052ce;
   font-weight: 600;
 }
@@ -77,6 +81,7 @@
 
 .infoContainer {
   color: #434a51;
+
   @media screen and (max-width: 480px) {
     flex-direction: column !important;
   }
@@ -87,6 +92,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+
   @media screen and (max-width: 480px) {
     max-width: 100% !important;
   }
@@ -97,6 +103,7 @@
   display: flex;
   justify-content: center;
   width: 30%;
+
   @media screen and (max-width: 480px) {
     width: 100% !important;
     max-width: 100% !important;

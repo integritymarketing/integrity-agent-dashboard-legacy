@@ -584,25 +584,25 @@ export default function DashboardActivityTable({
                 title="Recent Activity"
                 className={styles.enrollmentPlanContainer}
                 isDashboard={true}
+                customStyle={styles.segregator}
+                contentClassName={styles.content}
                 actions={
-                    <div className={styles.filterButton}>
-                        <Filter
-                            Icon={FilterIcon}
-                            ActiveIcon={ActiveFilter}
-                            heading={"Filter by Activity Type"}
-                            open={filterToggle}
-                            onToggle={setFilterToggle}
-                            filtered={selectedFilterValues.length > 0 ? true : false}
-                            content={
-                                <FilterOptions
-                                    values={[...filterValues]}
-                                    multiSelect={true}
-                                    onApply={onFilterApply}
-                                    onReset={onResetFilter}
-                                />
-                            }
-                        />
-                    </div>
+                    <Filter
+                        Icon={FilterIcon}
+                        ActiveIcon={ActiveFilter}
+                        heading={"Filter by Activity Type"}
+                        open={filterToggle}
+                        onToggle={setFilterToggle}
+                        filtered={selectedFilterValues.length > 0 ? true : false}
+                        content={
+                            <FilterOptions
+                                values={[...filterValues]}
+                                multiSelect={true}
+                                onApply={onFilterApply}
+                                onReset={onResetFilter}
+                            />
+                        }
+                    />
                 }
                 preferencesKey={"RecentActivity_collapse"}
                 hideActionIfCollapse={true}

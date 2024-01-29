@@ -151,7 +151,7 @@ const RemindersCard = ({ callData, refreshData }) => {
                 )}
                 <Grid item xs={6} md={3} alignSelf={"center"} className="reminder-button-mobile">
                     <Button
-                        icon={<Person color="#4178ff" />}
+                        icon={<Person color="#ffffff" />}
                         label={"View Contact"}
                         className={"reminder-card-link-btn"}
                         onClick={() => navigate(`/contact/${callData?.leadId}`)}
