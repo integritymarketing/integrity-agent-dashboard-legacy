@@ -290,7 +290,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                             searchString={searchString}
                             list={results}
                             title={"Pharmacy"}
-                            defaultMessage={zipCode?.length !== 5 ? "zipcode must be 5 digits" : null}
+                            defaultMessage={zipCode?.length !== 5 ? "Zip code must be 5 digits" : null}
                         />
                     ) : (
                         <>
