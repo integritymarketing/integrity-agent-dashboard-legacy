@@ -622,7 +622,7 @@ export default function DashboardActivityTable({
                     onClose={() => setSelectedActivity(null)}
                     leadFullName={selectedLead?.fullName}
                     activityObj={selectedActivity}
-                    leadsId={selectedLead?.leadsId}
+                    leadId={selectedLead?.leadsId}
                 />
             )}
             {selectedCall && <CallDetails open={true} onClose={() => setSelectedCall(null)} callObj={selectedCall} />}

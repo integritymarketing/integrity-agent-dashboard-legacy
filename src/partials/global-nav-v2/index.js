@@ -334,7 +334,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                 showPhoneNotification={showPhoneNotification}
                 showMaintenaceNotification={showMaintenaceNotification}
             />
-            {!showBanner && (
+            {showBanner && (
                 <GetStarted
                     leadPreference={leadPreference}
                     learnMoreModal={learnMoreModal}

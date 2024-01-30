@@ -333,7 +333,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
                             searchString={searchString}
                             list={providerList}
                             title={"Provider"}
-                            defaultMessage={zipCode?.length !== 5 ? "zipcode must be 5 digits" : null}
+                            defaultMessage={zipCode?.length !== 5 ? "Zip code must be 5 digits" : null}
                         />
                     ) : (
                         <>
