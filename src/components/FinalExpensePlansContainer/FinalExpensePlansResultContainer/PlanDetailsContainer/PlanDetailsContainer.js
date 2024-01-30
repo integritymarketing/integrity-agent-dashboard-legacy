@@ -38,9 +38,6 @@ import { ACTIVE_SELLING_PERMISSIONS_REQUIRED, VIEW_SELLING_PERMISSIONS } from ".
 
 import ArrowRightIcon from "components/icons/arrowRightLight";
 
-
-
-
 export const PlanDetailsContainer = ({
     selectedTab,
     coverageType,
@@ -106,7 +103,9 @@ export const PlanDetailsContainer = ({
                 const code = sessionStorage.getItem(contactId)
                     ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
                     : addresses[0]?.stateCode;
-                if (!code || !birthdate) { return; }
+                if (!code || !birthdate) {
+                    return;
+                }
                 setIsLoadingFinalExpensePlans(true);
                 const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
                 const age = getAgeFromBirthDate(birthdate);
@@ -224,21 +223,23 @@ export const PlanDetailsContainer = ({
     }, [isLoadingFinalExpensePlans, pagedResults.length, fetchPlansError]);
 
     const renderActiveSellingPermissionsSection = useCallback(() => {
-        if (!isRTS) {
+        if (!isRTS || !isMyAppointedProducts) {
             return (
                 <div className={styles.activeSellingPermissionsRequired}>
                     <p>{ACTIVE_SELLING_PERMISSIONS_REQUIRED}</p>
-                    <Button label={VIEW_SELLING_PERMISSIONS}
+                    <Button
+                        label={VIEW_SELLING_PERMISSIONS}
                         className={styles.viewSellingPermissions}
                         onClick={() => navigate(`/account/selfAttestedPermissions`)}
                         type="primary"
                         icon={<ArrowRightIcon />}
-                        iconPosition="right" />
+                        iconPosition="right"
+                    />
                 </div>
             );
         }
         return null;
-    }, [isRTS, navigate]);
+    }, [isRTS, navigate, isMyAppointedProducts]);
 
     const hasCarrierInfo = useMemo(() => {
         return carrierInfo?.length > 0;
@@ -284,9 +285,11 @@ export const PlanDetailsContainer = ({
                                 });
                             }
                             const formatRate = (rate) => {
-                                return (rate.toFixed(2));
+                                return rate.toFixed(2);
                             };
-                            const monthlyRate = formatRate(parseFloat(modalRates.find((rate) => rate.type === "month")?.totalPremium || 0));
+                            const monthlyRate = formatRate(
+                                parseFloat(modalRates.find((rate) => rate.type === "month")?.totalPremium || 0)
+                            );
                             return (
                                 <PlanCard
                                     key={`${name}-${index}`}
