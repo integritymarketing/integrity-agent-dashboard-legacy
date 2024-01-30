@@ -37,21 +37,21 @@ const RegistrationConfirmEmailPage = () => {
     };
 
     const confirmEmail = async () => {
-      let response = await handleComfirmEmail();
+      const response = await handleComfirmEmail();
 
       if (response.status >= 200 && response.status < 300) {
-        navigate("registration-complete");
+        navigate("/registration-complete");
       } else {
-        let errorsArr = await response.json();
-        let errors = validationService.formikErrorsFor(errorsArr);
+        const errorsArr = await response.json();
+        const errors = validationService.formikErrorsFor(errorsArr);
         if (
           errors &&
           errors.hasOwnProperty("NPN") &&
           errors.NPN === "account_already_confirmed"
         ) {
-          navigate("registration-complete");
+          navigate("/registration-complete");
         } else {
-          navigate(`confirm-link-expired?npn=${params.get("npn")}`);
+          navigate(`/confirm-link-expired?npn=${params.get("npn")}`);
         }
       }
     };
