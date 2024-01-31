@@ -76,7 +76,7 @@ export default function PossibleMatches({ phone }) {
                 });
             }
         },
-        [navigate, callLogIdNumber, showToast, updatePrimaryContact]
+        [callLogIdNumber, updatePrimaryContact, showToast, fireEvent, navigate]
     );
 
     if (matches?.length > 0) {

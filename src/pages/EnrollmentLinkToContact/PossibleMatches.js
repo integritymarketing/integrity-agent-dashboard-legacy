@@ -105,7 +105,7 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
                 });
             }
         },
-        [navigate, showToast, updatePrimaryContact, state]
+        [state, updatePrimaryContact, showToast, fireEvent, navigate]
     );
 
     if (matches?.length > 0) {
