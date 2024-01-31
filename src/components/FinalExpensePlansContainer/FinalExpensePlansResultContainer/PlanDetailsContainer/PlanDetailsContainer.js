@@ -172,21 +172,6 @@ export const PlanDetailsContainer = ({
             coverageAmount >= 1000 && coverageAmount <= 999999 && selectedTab === COVERAGE_AMOUNT;
         const monthlyPremiumValue = monthlyPremium >= 10 && monthlyPremium <= 999 && selectedTab === MONTHLY_PREMIUM;
 
-        fireEvent("Life Quote Results Viewed", {
-            leadid: contactId,
-            flow: "final_expense",
-            line_of_business: "Life",
-            product_type: "final_expense",
-            enabled_filters: [],
-            coverage_vs_premium: selectedTab,
-            coverage_amount: coverageAmount,
-            premium_amount: monthlyPremium,
-            coverage_type_selected: coverageType,
-            number_of_conditions: healthConditionsDataRef.current?.length,
-            number_of_completed_condtions: healthConditionsDataRef.current?.filter((item) => item.lastTreatmentDate)
-                .length,
-        });
-
         if (!isLoadingHealthConditions && (coverageAmountValue || monthlyPremiumValue)) {
             fetchPlans();
         }
@@ -202,6 +187,23 @@ export const PlanDetailsContainer = ({
         isShowExcludedProducts,
         isRTS,
     ]);
+
+    useEffect(() => {
+        fireEvent("Life Quote Results Viewed", {
+            leadid: contactId,
+            flow: "final_expense",
+            line_of_business: "Life",
+            product_type: "final_expense",
+            enabled_filters: [],
+            coverage_vs_premium: selectedTab,
+            coverage_amount: coverageAmount,
+            premium_amount: monthlyPremium,
+            coverage_type_selected: coverageType,
+            number_of_conditions: healthConditionsDataRef.current?.length,
+            number_of_completed_condtions: healthConditionsDataRef.current?.filter((item) => item.lastTreatmentDate)
+                .length,
+        });
+    }, []);
 
     const loadersCards = useMemo(() => {
         const loaders = Array.from({ length: 10 }, (_, i) => <PlanCardLoader key={i} />);
