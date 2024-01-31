@@ -12,6 +12,7 @@ import { formatMbiNumber, onlyAlphabets, scrollTop } from "utils/shared-utils/sh
 
 import useToast from "../../hooks/useToast";
 import useQueryParams from "hooks/useQueryParams";
+import useAnalytics from "hooks/useAnalytics";
 
 import DatePickerMUI from "components/DatePicker";
 import Warning from "components/icons/warning";
@@ -45,6 +46,7 @@ const NewContactForm = ({
 }) => {
     const { get } = useQueryParams();
     const addNewDuplicateErrorRef = useRef();
+    const fireEvent = useAnalytics();
     const callFrom = get("callFrom");
     const isRelink = get("relink") === "true";
     const [showAddress2, setShowAddress2] = useState(false);
@@ -118,11 +120,12 @@ const NewContactForm = ({
 
     const linkContact = async (leadIdParam) => {
         const { policyId, policyNumber, sourceId, agentNpn, policyStatus, firstName, lastName, linkingType } = state;
+        const leadIdString = leadIdParam.toString()
 
         try {
             const updateBusinessBookPayload = {
                 agentNpn: agentNpn,
-                leadId: leadIdParam.toString(),
+                leadId: leadIdString,
                 policyNumber: policyId || policyNumber,
                 consumerFirstName: firstName,
                 consumerLastName: lastName,
@@ -137,8 +140,11 @@ const NewContactForm = ({
                     message: "Contact linked successfully",
                     time: 4000,
                 });
+                fireEvent("Call Linked", {
+                    leadid: leadIdString,
+                });
                 setTimeout(() => {
-                    goToContactDetailPage(leadId);
+                    goToContactDetailPage(leadIdString);
                     setSubmitting(false);
                 }, 4000);
             }
@@ -473,7 +479,7 @@ const NewContactForm = ({
                                         fetchCountyAndState(e.target.value);
                                         if (e.target.value.length < 5) {
                                             setZipLengthValid(false);
-                                        } else setZipLengthValid(true);
+                                        } else {setZipLengthValid(true);}
                                     }}
                                     onBlur={handleBlur}
                                     onInput={(e) => {

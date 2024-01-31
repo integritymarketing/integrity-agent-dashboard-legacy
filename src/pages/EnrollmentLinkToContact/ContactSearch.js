@@ -8,13 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 import * as Sentry from "@sentry/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useParams } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "./styles.module.scss";
 import useToast from "hooks/useToast";
+import useAnalytics from "hooks/useAnalytics";
 import Heading3 from "packages/Heading3";
 import { styled } from "@mui/system";
-import { useParams } from "react-router-dom";
+
 import Spinner from "components/ui/Spinner/index";
 import clientsService from "services/clientsService";
 import enrollPlansService from "services/enrollPlansService";
@@ -39,6 +40,7 @@ const ContactListItemButton = ({
 }) => {
   const showToast = useToast();
   const navigate = useNavigate();
+  const fireEvent = useAnalytics();
   const firstRender = useRef(true);
   useEffect(() => {
     if (firstRender.current) {
@@ -64,7 +66,7 @@ const ContactListItemButton = ({
   }, [contact, callFrom]);
 
   const onClickHandler = useCallback(async () => {
-    let { policyId, agentNpn, policyStatus, sourceId, linkingType } = state;
+    const { policyId, agentNpn, policyStatus, sourceId, linkingType } = state;
     try {
       const reverseArray = contact?.phones?.reverse();
       const updateBusinessBookPayload = {
@@ -87,8 +89,11 @@ const ContactListItemButton = ({
       );
       if (response) {
         showToast({
-          message: "Contact linked succesfully",
+          message: "Contact linked successfully",
         });
+        fireEvent("Call Linked", {
+          leadid: selectedLeadId,
+      });
         navigate(`/contact/${selectedLeadId}`);
       }
     } catch (error) {
@@ -109,6 +114,7 @@ const ContactListItemButton = ({
     contact.firstName,
     contact.lastName,
     contact.leadsId,
+    fireEvent,
   ]);
 
   return (
@@ -140,7 +146,7 @@ export default function ContactSearch({
 
     return (
       <ListItem
-        key={"contactindex" + index}
+        key={`contactindex${  index}`}
         className={styles.contactItem}
         disablePadding
       >

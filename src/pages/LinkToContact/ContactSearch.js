@@ -6,6 +6,7 @@ import { InputAdornment, ListItem, ListItemButton, ListItemText, OutlinedInput, 
 import { styled } from "@mui/system";
 
 import useToast from "hooks/useToast";
+import useAnalytics from "hooks/useAnalytics";
 
 import Heading3 from "packages/Heading3";
 
@@ -27,6 +28,7 @@ const SearchInput = styled(OutlinedInput)(() => ({
 
 const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children }) => {
     const showToast = useToast();
+    const fireEvent = useAnalytics();
     const navigate = useNavigate();
 
     const updatePrimaryContact = useCallback(() => {
@@ -47,7 +49,10 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children 
                     isInbound: true,
                 });
                 showToast({
-                    message: "Contact linked succesfully",
+                    message: "Contact linked successfully",
+                });
+                fireEvent("Call Linked", {
+                    leadid: leadId,
                 });
                 navigate(`/contact/${leadId}`);
             }
@@ -57,7 +62,7 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children 
                 message: `${error.message}`,
             });
         }
-    }, [navigate, leadId, callLogId, showToast, contact.phones, updatePrimaryContact]);
+    }, [navigate, leadId, callLogId, showToast, contact.phones, fireEvent, updatePrimaryContact]);
 
     return (
         <div className={styles.contactName} onClick={onClickHandler}>
