@@ -28,7 +28,7 @@ const SearchInput = styled(OutlinedInput)(() => ({
 
 const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children }) => {
     const showToast = useToast();
-    const fireEvent = useAnalytics();
+    const { fireEvent } = useAnalytics();
     const navigate = useNavigate();
 
     const updatePrimaryContact = useCallback(() => {

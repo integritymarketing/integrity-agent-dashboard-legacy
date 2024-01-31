@@ -40,7 +40,7 @@ const ContactListItemButton = ({
 }) => {
   const showToast = useToast();
   const navigate = useNavigate();
-  const fireEvent = useAnalytics();
+  const { fireEvent } = useAnalytics();
   const firstRender = useRef(true);
   useEffect(() => {
     if (firstRender.current) {

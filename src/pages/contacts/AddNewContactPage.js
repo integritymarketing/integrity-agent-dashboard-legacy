@@ -46,7 +46,7 @@ const NewContactForm = ({
 }) => {
     const { get } = useQueryParams();
     const addNewDuplicateErrorRef = useRef();
-    const fireEvent = useAnalytics();
+    const { fireEvent } = useAnalytics();
     const callFrom = get("callFrom");
     const isRelink = get("relink") === "true";
     const [showAddress2, setShowAddress2] = useState(false);
@@ -120,7 +120,7 @@ const NewContactForm = ({
 
     const linkContact = async (leadIdParam) => {
         const { policyId, policyNumber, sourceId, agentNpn, policyStatus, firstName, lastName, linkingType } = state;
-        const leadIdString = leadIdParam.toString()
+        const leadIdString = leadIdParam?.toString()
 
         try {
             const updateBusinessBookPayload = {
