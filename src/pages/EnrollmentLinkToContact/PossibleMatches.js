@@ -5,12 +5,14 @@ import styles from "./styles.module.scss";
 import clientsService from "services/clientsService";
 import enrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
+import useAnalytics from "hooks/useAnalytics";
 
 // eslint-disable-next-line max-lines-per-function
 export default function PossibleMatches({ phone, policyHolder, state }) {
     const [matches, setMatches] = useState([]);
     const { callFrom } = useParams();
     const navigate = useNavigate();
+    const { fireEvent } = useAnalytics();
     const showToast = useToast();
 
     useEffect(() => {
@@ -85,6 +87,9 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
                 if (response) {
                     showToast({
                         message: "Contact linked successfully",
+                    });
+                    fireEvent("Call Linked", {
+                        leadid: contact.leadsId,
                     });
                     navigate(`/contact/${contact.leadsId}`);
                 } else {
