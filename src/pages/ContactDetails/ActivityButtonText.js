@@ -5,6 +5,8 @@ import { useLeadDetails } from "providers/ContactDetails";
 import { useScopeOfAppointment } from "providers/ContactDetails/ContactDetailsContext";
 
 import useUserProfile from "hooks/useUserProfile";
+import SOAVIEW from "components/icons/activities/SoaView";
+import OpenIcon from "components/icons/open";
 
 import { Navigate } from "components/ContactDetailsContainer/ConnectModal/Icons";
 import { Button } from "components/ui/Button";
@@ -27,7 +29,7 @@ const buttonTextByActivity = {
 };
 
 export default function ActivityButtonText(props) {
-    const { activityTypeName, activityInteractionURL, activitySubject } = props.activity;
+    const { activityTypeName, activityInteractionURL, activitySubject, activityInteractionLabel = "" } = props.activity;
     const { leadsId, setDisplay } = props;
     const navigate = useNavigate();
     const userProfile = useUserProfile();
@@ -44,12 +46,10 @@ export default function ActivityButtonText(props) {
                 setSelectedTab("scope-of-appointment");
                 navigate(`/contact/${leadsId}/scope-of-appointment`);
                 break;
-                break;
             case "Scope of Appointment Completed":
                 setLinkCode(activityInteractionURL);
                 setSelectedTab("view-scope-of-appointment");
                 navigate(`/contact/${leadsId}/view-scope-of-appointment`);
-                break;
                 break;
             case "Plan Shared":
                 navigate(`/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`);
@@ -75,15 +75,18 @@ export default function ActivityButtonText(props) {
         }
     };
 
-    const showButton = activityTypeName && activityTypeName === "Triggered" && activityInteractionURL ? true : false;
+    const showButton =
+        activityTypeName && activityTypeName === "Triggered" && activityInteractionURL && activityInteractionLabel
+            ? true
+            : false;
 
-    const buttonText = buttonTextByActivity[activitySubject];
+    const buttonText = activityInteractionLabel;
 
     return (
         <>
             {showButton && (
                 <Button
-                    icon={<Navigate color="#ffffff" />}
+                    icon={<OpenIcon color="#ffffff" />}
                     iconPosition="right"
                     label={buttonText}
                     onClick={() => handleClick(activitySubject, activityInteractionURL, leadsId)}

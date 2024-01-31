@@ -65,4 +65,7 @@
   &:hover {
       background-color: #1357FF !important;
     }
+    @include small {
+      width: 100%;
+   }
 }
