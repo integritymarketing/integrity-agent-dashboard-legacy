@@ -77,9 +77,17 @@ export const PlanCard = ({
         const response = await enrollLeadFinalExpensePlan(body);
 
         if (response.RedirectUrl) {
+            fireEvent("Life SSO Completed", {
+                leadid: contactId,
+                success: "Yes",
+            });
             window.open(response.RedirectUrl, "_blank");
         } else {
             setEnrollResponse(response);
+            fireEvent("Life SSO Completed", {
+                leadid: contactId,
+                success: "No",
+            });
         }
     };
 
