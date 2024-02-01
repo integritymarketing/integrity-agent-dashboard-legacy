@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
-
 import PropTypes from "prop-types";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
-
 import { convertToTitleCase } from "utils/toTitleCase";
-
 import { useLeadDetails } from "providers/ContactDetails";
 import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
-
 import {
     APPLY,
     COVERAGE_AMOUNT,
@@ -21,7 +17,6 @@ import {
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import InfoBlue from "components/icons/version-2/InfoBlue";
 import { Button } from "components/ui/Button";
-
 import { FinalExpenseEnrollResponseModal } from "./FinalExpenseEnrollResponseModal";
 import styles from "./PlanDetailsContainer.module.scss";
 import { getPlanEnrollBody } from "./PlanDetailsContainer.utils";
@@ -64,9 +59,9 @@ export const PlanCard = ({
             coverage_amount: coverageAmount,
             premium_amount: monthlyPremium,
             coverage_type_selected: coverageType,
-            pre_screening_status: eligibility, // TODO-EVENT: pre_screening_status
-            carrier_group: null, // TODO-EVENT: carrier_group
-            carrier: null, // TODO-EVENT: carrier
+            pre_screening_status: eligibility,
+            carrier_group: null,
+            carrier: null,
         });
 
         const body = getPlanEnrollBody(
@@ -118,12 +113,15 @@ export const PlanCard = ({
                 coverage_amount: coverageAmount,
                 premium_amount: monthlyPremium,
                 coverage_type_selected: coverageType,
-                pre_screening_status: eligibility, // TODO-EVENT: pre_screening_status
-                carrier_group: null, // TODO-EVENT: carrier_group
-                carrier: null, // TODO-EVENT: carrier
+                pre_screening_status: eligibility,
+                carrier_group: null,
+                carrier: null,
             });
         }
     }, [isPrescreenModalOpen, contactId]);
+
+    // Safely rendering coverageAmount using optional chaining and nullish coalescing
+    const safeCoverageAmount = coverageAmount?.toLocaleString() ?? 'N/A';
 
     return (
         <div className={styles.planBox}>
@@ -139,7 +137,7 @@ export const PlanCard = ({
                 <div className={styles.amountInfo}>
                     <div className={styles.coverageAmount}>
                         <div>{COVERAGE_AMOUNT}</div>
-                        <div className={styles.amount}>${coverageAmount.toLocaleString()}</div>
+                        <div className={styles.amount}>${safeCoverageAmount}</div>
                     </div>
                     <div>
                         <div>{MONTHLY_PREMIUM}</div>
@@ -154,9 +152,10 @@ export const PlanCard = ({
                         <span className={styles.label}>{POLICY_FEE}</span>
                         <span>${policyFee}</span>
                     </div>
-                    {benefits.length > 0 && renderBenefits() && (
+                    {benefits.length > 0 && (
                         <div className={styles.flex}>
                             <span className={styles.label}>{PLAN_INFO}&nbsp;&nbsp;</span>
+                            {renderBenefits()}
                         </div>
                     )}
                 </div>
@@ -205,9 +204,16 @@ PlanCard.propTypes = {
     contactId: PropTypes.string.isRequired,
     writingAgentNumber: PropTypes.string.isRequired,
     coverageType: PropTypes.string.isRequired,
-    coverageAmount: PropTypes.number.isRequired,
+    coverageAmount: PropTypes.number, // Updated to be optional
     monthlyPremium: PropTypes.number.isRequired,
     policyFee: PropTypes.number.isRequired,
     eligibility: PropTypes.string.isRequired,
     benefits: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+    isRTSPlan: PropTypes.bool.isRequired,
+    isHaveCarriers: PropTypes.bool.isRequired,
+    selectedTab: PropTypes.string.isRequired,
+};
+
+PlanCard.defaultProps = {
+    coverageAmount: null, // Provide a default null value for coverageAmount
 };
