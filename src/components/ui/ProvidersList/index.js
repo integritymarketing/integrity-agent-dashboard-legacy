@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import EditIcon from "components/icons/icon-edit";
 import { formatPhoneNumber } from "utils/phones";
 import makeStyles from "@mui/styles/makeStyles";
-import IconButton from "components/IconButton";
+import { Button } from "components/ui/Button";
 import ProviderPersonalInfo from "./ProviderPersonalInfo";
 import InNetworkIcon from "components/icons/inNetwork";
 import OutNetworkIcon from "components/icons/outNetwork";
@@ -12,6 +12,7 @@ import Arrow from "components/icons/down";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
+import styles from "./providerList.module.scss";
 
 const useWebStyles = makeStyles({
     addressContainer: {
@@ -45,7 +46,7 @@ const useWebStyles = makeStyles({
             top: "12px",
             right: "15px",
         },
-        width: '10%'
+        width: "10%",
     },
     compareTable: {
         width: "100% !important",
@@ -162,8 +163,8 @@ const Address = ({ addresses, isPlanPage }) => {
                                     <div>
                                         {address
                                             ? [address?.city, address?.state, address?.zipCode]
-                                                .filter(Boolean)
-                                                .join(",")
+                                                  .filter(Boolean)
+                                                  .join(",")
                                             : null}
                                     </div>
                                 </div>
@@ -250,12 +251,23 @@ const RenderProviders = ({ provider, handleEditProvider, isPlanPage = false, isM
             )}
             {handleEditProvider && (
                 <Box className={isPlanPage ? classes.editbtn : classes.editbtn2}>
-                    <IconButton
+                    {/* <IconButton
                         label="Edit"
                         onClick={() => {
                             handleEditProvider(provider);
                         }}
                         icon={<EditIcon />}
+                    /> */}
+
+                    <Button
+                        icon={<EditIcon />}
+                        label={"Edit"}
+                        className={styles.editButton}
+                        onClick={() => {
+                            handleEditProvider(provider);
+                        }}
+                        type="tertiary"
+                        iconPosition="right"
                     />
                 </Box>
             )}
