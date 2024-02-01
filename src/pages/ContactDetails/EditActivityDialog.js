@@ -58,7 +58,7 @@ export default function EditActivityDialog({ open, onClose, onSave, activity, le
                     </div>
                 }
                 onSave={() => {
-                    onSave(activityId, activitySubject, note, leadId);
+                    onSave(activity, note, leadId);
                 }}
                 actionButtonName="Save"
                 actionButtonDisabled={activityNote === note || !note || note?.length < 2}

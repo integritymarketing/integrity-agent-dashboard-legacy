@@ -39,40 +39,44 @@ export default function ActivityButtonText(props) {
     const { setLinkCode } = useScopeOfAppointment();
     const { setSelectedTab } = useLeadDetails();
 
-    const handleClick = async (activitySubject, activityInteractionURL) => {
-        switch (activitySubject) {
-            case "Scope of Appointment Signed":
-                setLinkCode(activityInteractionURL);
-                setSelectedTab("scope-of-appointment");
-                navigate(`/contact/${leadsId}/scope-of-appointment`);
-                break;
-            case "Scope of Appointment Completed":
-                setLinkCode(activityInteractionURL);
-                setSelectedTab("view-scope-of-appointment");
-                navigate(`/contact/${leadsId}/view-scope-of-appointment`);
-                break;
-            case "Plan Shared":
-                navigate(`/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`);
-                break;
-            case "Incoming Call Recorded":
-            case "Outbound Call Recorded":
-            case "Call Recording":
-            case "Meeting Recorded":
-            case "Contact's new call log created":
-                window.open(activityInteractionURL, "_blank");
-                break;
-            case "Application Submitted":
-                let link = await comparePlansService?.getPdfSource(activityInteractionURL, npn);
+    // const handleClick = async (activitySubject, activityInteractionURL) => {
+    //     switch (activitySubject) {
+    //         case "Scope of Appointment Signed":
+    //             setLinkCode(activityInteractionURL);
+    //             setSelectedTab("scope-of-appointment");
+    //             navigate(`/contact/${leadsId}/scope-of-appointment`);
+    //             break;
+    //         case "Scope of Appointment Completed":
+    //             setLinkCode(activityInteractionURL);
+    //             setSelectedTab("view-scope-of-appointment");
+    //             navigate(`/contact/${leadsId}/view-scope-of-appointment`);
+    //             break;
+    //         case "Plan Shared":
+    //             navigate(`/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`);
+    //             break;
+    //         case "Incoming Call Recorded":
+    //         case "Outbound Call Recorded":
+    //         case "Call Recording":
+    //         case "Meeting Recorded":
+    //         case "Contact's new call log created":
+    //             window.open(activityInteractionURL, "_blank");
+    //             break;
+    //         case "Application Submitted":
+    //             let link = await comparePlansService?.getPdfSource(activityInteractionURL, npn);
 
-                var url = await window.URL.createObjectURL(link);
+    //             var url = await window.URL.createObjectURL(link);
 
-                if (url && url !== "") {
-                    window.open(url, "_blank");
-                }
-                break;
-            default:
-                break;
-        }
+    //             if (url && url !== "") {
+    //                 window.open(url, "_blank");
+    //             }
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // };
+
+    const handleClick = async () => {
+        window.open(activityInteractionURL, "_blank");
     };
 
     const showButton =
@@ -89,7 +93,7 @@ export default function ActivityButtonText(props) {
                     icon={<OpenIcon color="#ffffff" />}
                     iconPosition="right"
                     label={buttonText}
-                    onClick={() => handleClick(activitySubject, activityInteractionURL, leadsId)}
+                    onClick={handleClick}
                     type="tertiary"
                     className={styles.activityButton}
                 />

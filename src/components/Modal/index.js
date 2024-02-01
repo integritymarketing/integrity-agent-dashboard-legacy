@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -8,6 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import makeStyles from "@mui/styles/makeStyles";
 import CloseIcon from "@mui/icons-material/Close";
+import Media from "react-media";
 
 const useStyles = makeStyles((theme) => ({
     addButton: {
@@ -52,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: "#FFFFFF !important",
             borderRadius: "20px",
             boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 0.2)",
-
         },
     },
     closeButton: {
@@ -127,9 +127,16 @@ export default function Modal({
     maxWidth = "sm",
 }) {
     const classes = useStyles();
+    const [isMobile, setIsMobile] = useState(false);
 
     return (
         <div>
+            <Media
+                query={"(max-width: 500px)"}
+                onChange={(isMobile) => {
+                    setIsMobile(isMobile);
+                }}
+            />
             <Dialog
                 open={open}
                 onClose={onClose}
@@ -145,7 +152,13 @@ export default function Modal({
                     },
                 }}
             >
-                <DialogTitle disableTypography className={classes.title}>
+                <DialogTitle
+                    disableTypography
+                    className={classes.title}
+                    sx={{
+                        fontSize: isMobile ? "24px !important" : "32px !important",
+                    }}
+                >
                     <div
                         style={{
                             alignItems: "center",

@@ -16,6 +16,7 @@ import styles from "./OverviewContainer.module.scss";
 import { RemindersContainer } from "./RemindersContainer/RemindersContainer";
 import { StageContainer } from "./StageContainer/StageContainer";
 import TagsContainer from "./TagsContainer/TagsContainer";
+import LegacySafeGuard from "./LegacySafeGuard";
 
 export const OverviewContainer = () => {
     const { leadDetails } = useLeadDetails();
@@ -62,6 +63,7 @@ export const OverviewContainer = () => {
                 <Box className={styles.rightSection}>
                     <Box>
                         <RemindersContainer />
+                        <LegacySafeGuard leadDetails={leadDetails} />
                         <ActivitiesTableContainer />
                         <ClientNotes />
                     </Box>

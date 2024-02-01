@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styles from "./ActivityDetails.module.scss";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import { ArrowForwardWithCircle } from "components/ContactDetailsContainer/OverviewContainer/Icons";
 import Modal from "components/Modal";
-import { Add } from "components/ContactDetailsContainer/ContactDetailsModals/Icons";
 import ActivityButtonText from "pages/ContactDetails/ActivityButtonText.js";
 import CreatedDate from "./CreatedDate";
 import { formatPhoneNumber } from "utils/phones";
@@ -59,7 +59,7 @@ export default function ActivityDetails({ open, onSave, onClose, activityObj, le
                 }}
                 actionButtonName="Save"
                 actionButtonDisabled={activityObj?.activityNote === note || !note || note?.length < 2}
-                endIcon={<Add color="#ffffff" />}
+                endIcon={<ArrowForwardWithCircle />}
             >
                 <div className={styles.subSection}>
                     <div>
@@ -77,13 +77,6 @@ export default function ActivityDetails({ open, onSave, onClose, activityObj, le
                                             setDisplay={setDisplay}
                                         />
                                     </div>
-                                    <CreatedDate
-                                        value={
-                                            type === "Note" && activityObj?.modifyDate
-                                                ? activityObj?.modifyDate
-                                                : activityObj?.createDate
-                                        }
-                                    />
                                 </>
                             )}
                     </div>
@@ -114,11 +107,14 @@ export default function ActivityDetails({ open, onSave, onClose, activityObj, le
                                 }}
                             />
                         </div>
-                        {type === "Note" && (
-                            <CreatedDate
-                                value={activityObj?.modifyDate ? activityObj?.modifyDate : activityObj?.createDate}
-                            />
-                        )}
+
+                        <CreatedDate
+                            value={
+                                type === "Note" && activityObj?.modifyDate
+                                    ? activityObj?.modifyDate
+                                    : activityObj?.createDate
+                            }
+                        />
                     </div>
                 </div>
             </Modal>

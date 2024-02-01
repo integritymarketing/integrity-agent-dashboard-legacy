@@ -178,11 +178,10 @@ export const OverViewProvider = ({ children }) => {
         );
     };
 
-    const editActivity = async (activityId, activitySubject, activityNote, leadId) => {
+    const editActivity = async (activity, activityNote, leadId) => {
         const payload = {
+            ...activity,
             activityNote,
-            activitySubject,
-            activityId,
         };
         const path = `Activities/${leadId}`;
         await performAsyncOperation(
@@ -204,11 +203,8 @@ export const OverViewProvider = ({ children }) => {
 
     const addActivityNotes = async (activity, activityNote, leadId) => {
         const path = `Activities/${leadId}`;
-        const { activitySubject, activityBody, activityId } = activity;
         const payload = {
-            activityBody,
-            activitySubject,
-            activityId,
+            ...activity,
             activityNote,
         };
         await performAsyncOperation(
