@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+
 
 import Box from "@mui/material/Box";
 
@@ -10,9 +10,9 @@ import { TagsList } from "./TagsList/TagsList";
 
 const TagsContainer = function () {
     const { leadDetails } = useLeadDetails();
-    const { leadId } = useParams();
 
-    const { getLeadTags, tags, editLeadTags } = useOverView();
+
+    const { getLeadTags, tags } = useOverView();
 
     const [tagsList, setTagsList] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);

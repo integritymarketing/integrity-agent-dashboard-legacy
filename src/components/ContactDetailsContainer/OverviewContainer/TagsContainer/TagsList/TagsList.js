@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
 
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 
 import TagIcon from "images/Tag.png";
 import RecommendationIcon from "images/recommendation.png";
 import { useOverView } from "providers/ContactDetails";
 
-import useToast from "hooks/useToast";
+
 
 import { DeleteTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteTagModal/DeleteTagModal";
-import EditIcon from "components/icons/icon-edit";
-import { Button } from "components/ui/Button";
+
 
 import { AssignNewTagContainer } from "./AssignNewTagsContainer/AssignNewTagContainer";
 import styles from "./TagsList.module.scss";
@@ -112,9 +106,8 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
         return (
             <div
                 key={item.label}
-                className={`${styles.selectableItemContainer} ${
-                    selectedTags?.includes(item?.id) ? styles.selectedItem : ""
-                }`}
+                className={`${styles.selectableItemContainer} ${selectedTags?.includes(item?.id) ? styles.selectedItem : ""
+                    }`}
                 onClick={() => onSelectTag(item.id)}
             >
                 <div className={styles.tabLabel}>
@@ -163,7 +156,7 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
                     <Chevron />
                 </div>
                 <Label
-                    value={label === "Other" ? "Custom tags" : label}
+                    value={label === "Other" ? "Custom Tags" : label}
                     size="16px"
                     color="#052A63"
                     fontWeight="bold"
