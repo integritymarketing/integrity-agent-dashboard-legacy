@@ -23,7 +23,7 @@
         cursor: pointer;
 
         @include small {
-            position: static;
+             display: none;
         }
 
         .backButton {
@@ -51,7 +51,7 @@
         width: 40%;
 
         @include small {
-            width: 100%;
+            width: 90%;
         }
 
         .userName {
@@ -101,7 +101,7 @@
 
         .quoteButton {
             width: 232px;
-            height: 32px;
+            height: 45px;
             background: #4178ff;
             border-radius: 20px;
             color: #ffffff;
@@ -113,6 +113,9 @@
             &:hover {
                 background-color: #0052ce;
             }
+            @include small {
+                width: 90%;
+             }
         }
     }
 }

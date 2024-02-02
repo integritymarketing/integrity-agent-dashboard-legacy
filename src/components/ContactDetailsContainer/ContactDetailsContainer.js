@@ -23,6 +23,7 @@ import {
     SCOPE_OF_APPOINTMENT,
     VIEW_SCOPE_OF_APPOINTMENT,
 } from "./tabNames";
+import { ContactBodyContainer } from "./ContactBodyContainer/ContactBodyContainer";
 
 export const ContactDetailsContainer = () => {
     const { leadId, sectionId } = useParams();
@@ -57,7 +58,7 @@ export const ContactDetailsContainer = () => {
     return (
         <>
             <WithLoader isLoading={isLoadingLeadDetails}>
-                {leadDetails && <Box className={styles.ContactDetailsContainer}>{renderSection()}</Box>}
+                {leadDetails && <ContactBodyContainer>{renderSection()}</ContactBodyContainer>}
                 <SupportLinksCard />
             </WithLoader>
         </>

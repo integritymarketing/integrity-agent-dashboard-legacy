@@ -3,6 +3,7 @@ import ToggleOffline from "./ToggleOffline.svg";
 import ToggleOnline from "./ToggleOnline.svg";
 import "./myButton.scss";
 import AvailabilityOverlay from "./microComponent/AvailabilityOverlay";
+import { Switch } from "components/ui/version-2/Swich";
 
 import Notice from "./microComponent/Notice";
 import clientsService from "services/clientsService";
@@ -80,19 +81,17 @@ function MyButton({ page, leadPreference }) {
         <>
             <div id="myButton" className="myButtonWrapper">
                 <span className="myButtonText">I'm Available</span>
-                <div className="myButton" onClick={handleClick}>
-                    {statusText === "offline" && (
-                        <img
-                            src={ToggleOffline}
-                            alt="offButton"
-                            className={`buttonIcon offButton ${!isAvailable ? "show" : "hidden"}`}
-                        />
+                <div>
+                    <Switch defaultChecked={isAvailable} onChange={handleClick} />
+
+                    {/* {statusText === "offline" && (
+                        <img src={ToggleOnline} alt="offButton" className={`buttonIcon offButton  show `} />
                     )}
                     <img
                         src={ToggleOnline}
                         alt="onButton"
                         className={`buttonIcon onButton ${isAvailable ? "show" : "hidden"}`}
-                    />
+                    /> */}
                 </div>
             </div>
             {isAvailabiltyModalVisible && (

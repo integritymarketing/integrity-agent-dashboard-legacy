@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import HamburgerIcon from "components/icons/hamburger";
+import MenuIcon from "@mui/icons-material/Menu";
 import ExitIcon from "components/icons/exit";
 import useUserProfile from "hooks/useUserProfile";
 import MedicareCENTERLogo from "./assets/MedicareCENTER-Logo.svg";
@@ -36,7 +36,7 @@ const SmallFormatNav = ({ navOpen, setNavOpen, primary, secondary, tertiary }) =
         <React.Fragment>
             <button className="icon-btn global-nav-v2__mobile-trigger" onClick={() => setNavOpen(true)}>
                 <span className="visually-hidden">Open Navigation Menu</span>
-                <HamburgerIcon aria-hidden="true" className="text-white" />
+                <MenuIcon aria-hidden="true" className="text-white" fontSize="large" />
             </button>
 
             <nav className={`modal-nav ${navOpen ? "" : "visually-hidden"}`}>

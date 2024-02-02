@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines.scss";
 
 .ContactDetailsContainer {
     display: flex;
@@ -9,6 +9,6 @@
     padding: 60px 0px;
 
     @include small() {
-        padding: 2rem 2rem;
+        padding: 1rem 2rem;
     }
 }
