@@ -3,36 +3,60 @@ import Media from "react-media";
 import Grid from "@mui/material/Grid";
 import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
-import Started from "components/icons/BookofBusiness/policySnapshot/started";
-import Submitted from "components/icons/BookofBusiness/policySnapshot/submitted";
-import Pending from "components/icons/BookofBusiness/policySnapshot/pending";
-import UpComing from "components/icons/BookofBusiness/policySnapshot/upcoming";
-import Active from "components/icons/BookofBusiness/policySnapshot/active";
-import InActive from "components/icons/BookofBusiness/policySnapshot/inActive";
-import Declined from "components/icons/BookofBusiness/policySnapshot/declined";
-import Terminated from "components/icons/BookofBusiness/policySnapshot/terminated";
+import { Active } from "../../components/icons/Health/active";
+import { Declined } from "../../components/icons/Health/declined";
+import { Inactive } from "../../components/icons/Health/inactive";
+import { Pending } from "../../components/icons/Health/pending";
+import { Started } from "../../components/icons/Health/started";
+import { Submitted } from "../../components/icons/Health/submitted";
+import { Upcoming } from "../../components/icons/Health/upcoming";
+import { Unlinked } from "../../components/icons/Health/unlinked";
+import { Returned } from "../../components/icons/Health/returned";
+import { LifeStarted } from "../../components/icons/Life/started";
+import { LifeSubmitted } from "../../components/icons/Life/submitted";
+import { LifePending } from "../../components/icons/Life/pending";
+import { LifeActive } from "../../components/icons/Life/active";
+import { LifeInactive } from "../../components/icons/Life/inactive";
+import { LifeDeclined } from "../../components/icons/Life/declined";
+import { LifeUpcoming } from "../../components/icons/Life/upcoming";
+import { LifeUnlinked } from "../../components/icons/Life/unlinked";
+import { LifeReturned } from "../../components/icons/Life/returned";
 import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 import "./style.scss";
 
-const renderIcons = {
+const healthIcons = {
   Started: <Started />,
   Submitted: <Submitted />,
   Pending: <Pending />,
-  Upcoming: <UpComing />,
   Active: <Active />,
-  InActive: <InActive />,
+  Inactive: <Inactive />,
   Declined: <Declined />,
-  Terminated: <Terminated />,
+  Upcoming: <Upcoming />,
+  Unlinked: <Unlinked />,
+  Returned: <Returned />,
 };
+
+const lifeIcons = {
+  Started: <LifeStarted />,
+  Submitted: <LifeSubmitted />,
+  Pending: <LifePending />,
+  Active: <LifeActive />,
+  Inactive: <LifeInactive />,
+  Declined: <LifeDeclined />,
+  Upcoming: <LifeUpcoming />,
+  Unlinked: <LifeUnlinked />,
+  Returned: <LifeReturned />,
+}
 
 const PolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
+  const isHealthPolicy = !!(callData?.productType === "Medicare Advantage");
+  const status = callData?.policyStatus || "";
+  const policyStatus = status === "terminated" ? "Inactive" : capitalizeFirstLetter(status);
+  const IconComponent = isHealthPolicy ? healthIcons[policyStatus] : lifeIcons[policyStatus];
 
-  const policyStatus = callData?.policyStatus
-    ? capitalizeFirstLetter(callData?.policyStatus)
-    : "";
 
   return (
     <div className="policy-card">
@@ -78,11 +102,12 @@ const PolicyCard = ({ callData }) => {
           sx={{
             textAlign: "right",
             display: "flex",
+            gap: "5px",
             alignItems: "center",
             justifyContent: isMobile ? "flex-start" : "center",
           }}
         >
-          <div className="startedIcon">{renderIcons[policyStatus]}</div>
+          <div className="startedIcon">{IconComponent}</div>
           <div className="policy-info">{policyStatus}</div>
         </Grid>
         <Grid
