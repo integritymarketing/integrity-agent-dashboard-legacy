@@ -80,7 +80,7 @@ function MyButton({ page, leadPreference }) {
     return (
         <>
             <div id="myButton" className="myButtonWrapper">
-                <span className="myButtonText">I'm Available</span>
+                <span className="myButtonText">I'm Available:</span>
                 <div>
                     <Switch defaultChecked={isAvailable} onChange={handleClick} />
 

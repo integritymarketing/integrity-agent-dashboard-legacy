@@ -3,8 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import Media from "react-media";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useSetRecoilState } from "recoil";
-import { welcomeModalOpenAtom } from "recoil/agent/atoms";
+import { useSetRecoilState, useRecoilState } from "recoil";
+import { welcomeModalOpenAtom, welcomeModalTempOpenAtom } from "recoil/agent/atoms";
 
 import { useAgentAvailability } from "hooks/useAgentAvailability";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
@@ -38,7 +38,7 @@ import MobileLogout from "./assets/icons-Logout.svg";
 import "./index.scss";
 import LargeFormatMenu from "./large-format";
 import SmallFormatMenu from "./small-format";
-
+import IntegrityMobileLogo from "components/HeaderWithLogin/integrity-mobile-logo";
 import NewBackBtn from "images/new-back-btn.svg";
 
 const handleCSGSSO = async (navigate, loading) => {
@@ -115,7 +115,11 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     const navigate = useNavigate();
     const loadingHook = useLoading();
     const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
+    const [welcomeModalTempOpen] = useRecoilState(welcomeModalTempOpenAtom);
+
     const [navOpen, setNavOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
     const [helpModalOpen, setHelpModalOpen] = useState(false);
     const [learnMoreModal, setLearnMoreModal] = useState(false);
     const user = useUserProfile();
@@ -278,10 +282,10 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     };
 
     useEffect(() => {
-        if (leadPreference && !leadPreference?.isAgentMobilePopUpDismissed && !learnMoreModal) {
+        if (leadPreference && !leadPreference?.isAgentMobilePopUpDismissed && !welcomeModalTempOpen) {
             setWelcomeModalOpen(true);
         }
-    }, [leadPreference, setWelcomeModalOpen, learnMoreModal]);
+    }, [leadPreference, setWelcomeModalOpen, welcomeModalTempOpen]);
 
     useEffect(() => {
         if (user?.agentId && !agentInformation?.agentVirtualPhoneNumber && agentInformation?.isDashboardLocation) {
@@ -330,6 +334,12 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     }
     return (
         <>
+            <Media
+                query={"(max-width: 883px)"}
+                onChange={(isMobile) => {
+                    setIsMobile(isMobile);
+                }}
+            />
             <SiteNotification
                 showPhoneNotification={showPhoneNotification}
                 showMaintenaceNotification={showMaintenaceNotification}
@@ -359,15 +369,23 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                             </span>{" "}
                             Back
                         </div>
-                        <div className="taskListTitle"> {title}</div>
+                        <div className="taskListTitle">{title}</div>
                     </>
                 ) : (
-                    <h1 className={`global-nav-v2__title ${analyticsService.clickClass("nav-logo")}`}>
+                    <div className={`global-nav-v2__title ${analyticsService.clickClass("nav-logo")}`}>
+                        {isMobile && leadPreference && (
+                            <MyButton
+                                leadPreference={leadPreference}
+                                page={page}
+                                hasActiveCampaign={agentInformation?.hasActiveCampaign}
+                            />
+                        )}
+
                         <Link to={auth.isAuthenticated() ? "/dashboard" : "/welcome"}>
-                            <IntegrityLogo />
+                            {isMobile ? <IntegrityMobileLogo /> : <IntegrityLogo />}
                             <span className="visually-hidden">Integrity</span>
                         </Link>
-                    </h1>
+                    </div>
                 )}
 
                 {auth.isAuthenticated() && !menuHidden && (
@@ -377,28 +395,21 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
           Causes console error in dev env only due to this issue
           https://github.com/ReactTraining/react-media/issues/139
         */}
-                        <Media
-                            queries={{
-                                small: "(max-width: 883px)",
-                            }}
-                        >
-                            {(matches) => (
-                                <React.Fragment>
-                                    {matches.small && <SmallFormatMenu {...mobileMenuProps} />}
-                                    {!matches.small && <LargeFormatMenu {...menuProps} />}
-                                    {leadPreference && (
-                                        <MyButton
-                                            leadPreference={leadPreference}
-                                            page={page}
-                                            hasActiveCampaign={agentInformation?.hasActiveCampaign}
-                                        />
-                                    )}
-                                </React.Fragment>
+                        {isMobile && <SmallFormatMenu {...mobileMenuProps} />}
+                        <div className="onlyWeb">
+                            {!isMobile && <LargeFormatMenu {...menuProps} />}
+                            {!isMobile && leadPreference && (
+                                <MyButton
+                                    leadPreference={leadPreference}
+                                    page={page}
+                                    hasActiveCampaign={agentInformation?.hasActiveCampaign}
+                                />
                             )}
-                        </Media>
+                        </div>
                     </nav>
                 )}
             </header>
+
             {auth.isAuthenticated() && !menuHidden && <InboundCallBanner agentInformation={agentInformation} />}
             <Modal
                 open={helpModalOpen}

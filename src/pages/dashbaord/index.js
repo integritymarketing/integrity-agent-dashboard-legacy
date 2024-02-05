@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
 
 import { useRecoilState } from "recoil";
-import { welcomeModalOpenAtom } from "recoil/agent/atoms";
+import { welcomeModalOpenAtom, welcomeModalTempOpenAtom } from "recoil/agent/atoms";
 import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
 
 import { greetings } from "utils/greetings";
@@ -61,6 +61,7 @@ export default function Dashbaord() {
     const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(true);
 
     const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(welcomeModalOpenAtom);
+    const [setWelcomeModalTempOpen] = useRecoilState(welcomeModalTempOpenAtom);
 
     const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
 
@@ -258,6 +259,7 @@ export default function Dashbaord() {
                         handleConfirm={handleConfirm}
                         close={() => {
                             setWelcomeModalOpen(false);
+                            setWelcomeModalTempOpen(true);
                             setTimeout(() => (document.body.style.overflow = "auto"), 1000);
                         }}
                     />

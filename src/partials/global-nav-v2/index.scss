@@ -7,6 +7,7 @@
     width: 100%;
     padding: 0.5rem 1rem;
     align-items: center;
+    justify-content: center;
     background-color: #052A63;
 
     &__title {
@@ -14,14 +15,9 @@
         flex-shrink: 1;
         padding-left: 5rem;
 
-        @media (max-width: 700px) {
-            padding-left: 1rem;
-        }
-
+      
         a {
             display: flex;
-            // padding: 1rem; // increase hit area
-            // margin-left: -1rem;
             max-width: calc(170px);
 
             svg {
@@ -30,9 +26,10 @@
         }
 
         @media (max-width: 480px) {
-            left: 22%;
             position: absolute;
             top: 70px;
+            margin: unset;
+            padding: unset;
         }
     }
 
@@ -55,8 +52,8 @@
         }
     }
 
-    @media (max-width: 480px) {
-        height: 116px;
+    @media (max-width: 883px) {
+        height: 144px;
         position: relative;
     }
 

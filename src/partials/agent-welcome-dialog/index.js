@@ -78,7 +78,7 @@ export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
     );
 
     return (
-        <Modal maxWidth="sm" open={open} onClose={close} title={`Welcome, ${agentFirstName}!`}>
+        <Modal maxWidth="sm" open={open} onClose={close} title={`Welcome, ${agentFirstName}!`} hideFooter>
             <Box className={styles.connectModalBody}>{modalContent}</Box>
         </Modal>
     );

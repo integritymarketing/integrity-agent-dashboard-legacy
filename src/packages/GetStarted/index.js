@@ -43,6 +43,7 @@ export default function GetStarted({ learnMoreModal, setLearnMoreModal, leadPref
                 leadPreference: {
                     ...leadPreference,
                     isAgentMobileBannerDismissed: true,
+                    isAgentMobilePopUpDismissed: true,
                 },
             };
             await clientsService.updateAgentPreferences(payload);

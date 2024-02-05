@@ -17,8 +17,13 @@
 .myButtonText {
   font-size: 16px;
   width: max-content;
-  color: #7188A8;
+  color: #FFFFFF;
   margin-right: 8px;
+  margin-left: 20px;
+  @media screen and (max-width: 883px) {
+    margin-left: 0px;
+    color: #7188A8;
+  }
 }
 
 .myButtonWrapper {
@@ -27,9 +32,7 @@
   margin-right: 8px;
   margin-left: 8px;
   z-index: 100;
-  @media screen and (max-width: 480px) {
-    margin-top: -28px;
-    margin-left: 65%;
-    width: max-content;
+  @media screen and (max-width: 883px) {
+    margin-bottom: 10px;
   }
 }

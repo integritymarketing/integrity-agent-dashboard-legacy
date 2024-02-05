@@ -73,7 +73,7 @@ const ActivitySubjectWithIcon = ({ activitySubject }) => {
             "Provider Deleted": <PROVIDER />,
 
             "Medicaid Updated by Client": <MEDICAID />,
-            "Legacy Safeguard Eligible": <ImageToIcon src={LegacySafeguard} alt="Legacy Safeguard" />,
+            // "Legacy Safeguard Eligible": <ImageToIcon src={LegacySafeguard} alt="Legacy Safeguard" />,
         };
 
         return iconMapping[activitySubject] || <Activity />;

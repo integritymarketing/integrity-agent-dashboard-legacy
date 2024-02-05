@@ -56,16 +56,17 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     closeButton: {
-        backgroundColor: "#DDDDDD",
-        color: "#FFFFFF",
-        marginBottom: "5px",
-        padding: "0px",
+        color: "#FFFFFF !important",
+        marginBottom: "10px !important",
+        padding: "2px !important",
         transform: "rotate(0deg)",
         transition: "transform 1s",
+        backgroundColor: "#CCCCCC !important",
         "&:hover": {
-            backgroundColor: "#BBBBBB",
             transition: "transform 1s",
             transform: "rotate(90deg)",
+            color: "#FFFFFF !important",
+            backgroundColor: "#CCCCCC !important",
         },
     },
     footer: {
@@ -172,11 +173,11 @@ export default function Modal({
                         </IconButton>
                     </div>
                 </DialogTitle>
-                <DialogContent style={{ backgroundColor: "#F1F1F1", ...(contentStyle || {}) }}>
+                <DialogContent style={{ backgroundColor: "#F1F1F1", padding: "24px", ...(contentStyle || {}) }}>
                     {children}
                 </DialogContent>
-                <DialogActions className={classes.footer}>
-                    {!hideFooter && (
+                {!hideFooter && (
+                    <DialogActions className={classes.footer}>
                         <Box className={classes.footerButtons}>
                             {onCancel ? (
                                 <Button onClick={onCancel ? onCancel : onClose} className={classes.cancelButton}>
@@ -196,16 +197,16 @@ export default function Modal({
                                 </Button>
                             )}
                         </Box>
-                    )}
-                    {isDelete && (
-                        <Box className={classes.deleteContainer}>
-                            <Button onClick={onDelete} className={classes.cancelButton}>
-                                Delete {modalName}
-                            </Button>
-                        </Box>
-                    )}
-                    {customFooter && customFooter}
-                </DialogActions>
+                    </DialogActions>
+                )}
+                {isDelete && (
+                    <Box className={classes.deleteContainer}>
+                        <Button onClick={onDelete} className={classes.cancelButton}>
+                            Delete {modalName}
+                        </Button>
+                    </Box>
+                )}
+                {customFooter && customFooter}
             </Dialog>
         </div>
     );

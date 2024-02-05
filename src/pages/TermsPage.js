@@ -15,9 +15,10 @@ const TermsPage = () => {
             </p>
             <div className="wysiwyg">
                 <p>
-                    These Terms of Use (this "<strong className="text-body">Agreement</strong>") for Integrity (the “
-                    <strong>Platform</strong>”) is a binding contract between you ("<strong>User</strong>," "
-                    <strong>you</strong>," or "<strong>your</strong>") and Integrity Marketing Group, LLC ("
+                    These Terms of Use (this "<strong className="text-body">Agreement</strong>") for Integrity's
+                    omni-channel life, health, and wealth planning and management suite (the “<strong>Platform</strong>
+                    ”) is a binding contract between you ("<strong>User</strong>," "<strong>you</strong>," or "
+                    <strong>your</strong>") and Integrity Marketing Group, LLC ("
                     <strong>Integrity</strong>", “<strong>we</strong>”).
                 </p>
                 <p>
