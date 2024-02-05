@@ -47,7 +47,7 @@ const getActivitySubject = (activitySubject) => {
         case "Scope of Appointment Sent":
         case "Scope of Appointment Signed":
         case "Scope of Appointment Completed":
-            let text = activitySubject.replace("Scope of Appointment", "SOA");
+            const text = activitySubject.replace("Scope of Appointment", "SOA");
             return text;
         case "Stage Change":
             return "Stage Changed";
@@ -90,7 +90,7 @@ const FILTER_OPTIONS = [
     { name: "Stage Change", selected: false },
 ];
 const renderButtons = (activity, leadsId, handleClick) => {
-    if (!activity) return false;
+    if (!activity) {return false;}
     const { activityTypeName = "", activityInteractionURL = "", activitySubject = "" } = activity;
 
     if (
@@ -204,7 +204,7 @@ export default function DashboardActivityTable({
                     window.open(activityInteractionURL, "_blank");
                     break;
                 case "Application Submitted":
-                    let link = await comparePlansService?.getPdfSource(activityInteractionURL, npn);
+                    const link = await comparePlansService?.getPdfSource(activityInteractionURL, npn);
                     var url = await window.URL.createObjectURL(link);
 
                     if (url && url !== "") {
@@ -264,7 +264,7 @@ export default function DashboardActivityTable({
                             : row?.original?.activities[0]?.createDate
                     ),
                 Cell: ({ row }) => {
-                    let date = convertUTCDateToLocalDate(
+                    const date = convertUTCDateToLocalDate(
                         row?.original?.activities[0]?.modifyDate
                             ? row?.original?.activities[0]?.modifyDate
                             : row?.original?.activities[0]?.createDate
@@ -303,7 +303,11 @@ export default function DashboardActivityTable({
                 accessor: (row) => `${row?.original?.activities[0]?.activitySubject}`,
                 Cell: ({ row }) => (
                     <div className={styles.activityDataCell}>
-                        <ActivitySubjectWithIcon activitySubject={row?.original?.activities[0]?.activitySubject} />
+                        <ActivitySubjectWithIcon
+                            activitySubject={row?.original?.activities[0]?.activitySubject}
+                            iconURL={row?.original?.activities[0]?.activityInteractionIconUrl}
+                            activityId={row?.original?.activities[0]?.activityId}
+                        />
                         <Typography
                             color="#434A51"
                             fontSize={"16px"}
@@ -401,7 +405,11 @@ export default function DashboardActivityTable({
                 accessor: (row) => `${row?.original?.activities[0]?.activitySubject}`,
                 Cell: ({ row }) => (
                     <div className={styles.activityDataCell}>
-                        <ActivitySubjectWithIcon activitySubject={row?.original?.activities[0]?.activitySubject} />
+                        <ActivitySubjectWithIcon
+                            activitySubject={row?.original?.activities[0]?.activitySubject}
+                            iconURL={row?.original?.activities[0]?.activityInteractionIconUrl}
+                            activityId={row?.original?.activities[0]?.activityId}
+                        />
                         <Typography
                             color="#434A51"
                             fontSize={"16px"}
@@ -425,7 +433,7 @@ export default function DashboardActivityTable({
                             : row?.original?.activities[0]?.createDate
                     ),
                 Cell: ({ row }) => {
-                    let date = convertUTCDateToLocalDate(
+                    const date = convertUTCDateToLocalDate(
                         row?.original?.activities[0]?.modifyDate
                             ? row?.original?.activities[0]?.modifyDate
                             : row?.original?.activities[0]?.createDate
@@ -495,7 +503,7 @@ export default function DashboardActivityTable({
 
     const onFilterApply = (selectedValues) => {
         setFilterValues([...selectedValues]);
-        let data = selectedValues.filter((item) => item.selected).map((item) => item.name);
+        const data = selectedValues.filter((item) => item.selected).map((item) => item.name);
         setSelectedFilterValues([...data]);
         setPage(1);
         setFilterToggle(false);

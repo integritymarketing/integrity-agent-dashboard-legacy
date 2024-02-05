@@ -12,18 +12,18 @@ import ActivitySubjectWithIcon from "./ActivitySubjectWithIcon";
 export default function ActivityDetails({ open, onSave, onClose, activityObj, leadFullName, leadId, setDisplay }) {
     const [note, setNote] = useState(activityObj?.activityNote);
 
-    let type = activityObj?.activityTypeName;
+    const type = activityObj?.activityTypeName;
 
     const callRecordFormat = (item) => {
-        if (!item) return null;
-        let itemParse = item?.split(":");
-        let itemFormat = itemParse?.length > 0 ? formatPhoneNumber(itemParse[1], true) : "-";
+        if (!item) {return null;}
+        const itemParse = item?.split(":");
+        const itemFormat = itemParse?.length > 0 ? formatPhoneNumber(itemParse[1], true) : "-";
         return itemFormat;
     };
 
     const activityBody_Parser = (data) => {
-        if (!data) return null;
-        let dataParse = data?.split(",");
+        if (!data) {return null;}
+        const dataParse = data?.split(",");
         return (
             <div className={styles.parsedBody}>
                 {dataParse &&
@@ -49,7 +49,11 @@ export default function ActivityDetails({ open, onSave, onClose, activityObj, le
                 onCancel={onClose}
                 title={
                     <div className={styles.subHeading}>
-                        <ActivitySubjectWithIcon activitySubject={activityObj?.activitySubject} />
+                        <ActivitySubjectWithIcon
+                            activitySubject={activityObj?.activitySubject}
+                            iconURL={activityObj?.activityInteractionIconUrl}
+                            activityId={activityObj?.activityId}
+                        />
                         {activityObj?.activitySubject}
                     </div>
                 }

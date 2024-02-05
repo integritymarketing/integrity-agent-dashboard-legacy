@@ -24,7 +24,7 @@ ImageToIcon.propTypes = {
     alt: PropTypes.string.isRequired,
 };
 
-const ActivitySubjectWithIcon = ({ activitySubject }) => {
+const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId }) => {
     const iconComponent = useMemo(() => {
         const iconMapping = {
             "Contact Updated": <ContactUpdated />,
@@ -76,7 +76,7 @@ const ActivitySubjectWithIcon = ({ activitySubject }) => {
             // "Legacy Safeguard Eligible": <ImageToIcon src={LegacySafeguard} alt="Legacy Safeguard" />,
         };
 
-        return iconMapping[activitySubject] || <Activity />;
+        return iconURL ? <ImageToIcon src={iconURL} alt={activityId} /> : <Activity />;
     }, [activitySubject]);
 
     return <div className={styles.icon}>{iconComponent}</div>;

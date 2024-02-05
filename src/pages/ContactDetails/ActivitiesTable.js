@@ -50,7 +50,7 @@ const buttonTextByActivity = {
 };
 
 const renderButtons = (activity, handleClick) => {
-    if (!activity) return false;
+    if (!activity) {return false;}
     const { activityTypeName = "", activityInteractionURL = "", activitySubject = "" } = activity;
     if (
         activityTypeName &&
@@ -139,7 +139,7 @@ export default function ActivitiesTable({
                     window.open(activityInteractionURL, "_blank");
                     break;
                 case "Application Submitted":
-                    let link = await comparePlansService?.getPdfSource(activityInteractionURL, npn);
+                    const link = await comparePlansService?.getPdfSource(activityInteractionURL, npn);
                     var url = await window.URL.createObjectURL(link);
 
                     if (url && url !== "") {
@@ -160,7 +160,7 @@ export default function ActivitiesTable({
                 Header: "Date",
                 accessor: (row) => (row?.original?.modifyDate ? row?.original?.modifyDate : row?.original?.createDate),
                 Cell: ({ row }) => {
-                    let date = convertUTCDateToLocalDate(
+                    const date = convertUTCDateToLocalDate(
                         row?.original?.modifyDate ? row?.original?.modifyDate : row?.original?.createDate
                     );
                     return (
@@ -176,7 +176,11 @@ export default function ActivitiesTable({
                 Header: "Activity",
                 Cell: ({ row }) => (
                     <div className={styles.activityDataCell}>
-                        <ActivitySubjectWithIcon activitySubject={row?.original?.activitySubject} />
+                        <ActivitySubjectWithIcon
+                            activitySubject={row?.original?.activitySubject}
+                            iconURL={row?.original?.activityInteractionIconUrl}
+                            activityId={row?.original?.activityId}
+                        />
                         <div noWrap onClick={() => onActivityClick(row?.original)}>
                             <div className={styles.activitySubject}>
                                 {row?.original?.activitySubject}
@@ -229,7 +233,7 @@ export default function ActivitiesTable({
                 Header: "Date",
                 accessor: (row) => (row?.original?.modifyDate ? row?.original?.modifyDate : row?.original?.createDate),
                 Cell: ({ row }) => {
-                    let date = convertUTCDateToLocalDate(
+                    const date = convertUTCDateToLocalDate(
                         row?.original?.modifyDate ? row?.original?.modifyDate : row?.original?.createDate
                     );
                     return (
@@ -245,7 +249,11 @@ export default function ActivitiesTable({
                 Header: "Activity",
                 Cell: ({ row }) => (
                     <div className={styles.activityDataCell}>
-                        <ActivitySubjectWithIcon activitySubject={row?.original?.activitySubject} />
+                        <ActivitySubjectWithIcon
+                            activitySubject={row?.original?.activitySubject}
+                            iconURL={row?.original?.activityInteractionIconUrl}
+                            activityId={row?.original?.activityId}
+                        />
                         <Typography noWrap onClick={() => onActivityClick(row?.original)}>
                             <strong>
                                 {row?.original?.activitySubject?.length > 15
@@ -270,7 +278,7 @@ export default function ActivitiesTable({
         [onActivityClick]
     );
 
-    let columns = isMobile ? mobileColumns : webColumns;
+    const columns = isMobile ? mobileColumns : webColumns;
 
     const handleSortUpdate = (value) => {
         switch (value) {
