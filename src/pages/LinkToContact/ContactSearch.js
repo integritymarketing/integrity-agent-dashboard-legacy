@@ -46,6 +46,7 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children 
                 await callRecordingsService.assignsLeadToInboundCallRecord({
                     callLogId,
                     leadId,
+                    tagIds: contact?.leadTags?.map((tag) => tag.tag.tagId) || [],
                     isInbound: true,
                 });
                 showToast({

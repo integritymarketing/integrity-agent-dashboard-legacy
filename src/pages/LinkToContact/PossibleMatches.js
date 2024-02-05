@@ -59,6 +59,7 @@ export default function PossibleMatches({ phone }) {
                     await callRecordingsService.assignsLeadToInboundCallRecord({
                         callLogId: callLogIdNumber,
                         leadId: contact.leadsId,
+                        tagIds: contact?.leadTags?.map((tag) => tag.tag.tagId) || [],
                         isInbound: true,
                     });
                     showToast({
