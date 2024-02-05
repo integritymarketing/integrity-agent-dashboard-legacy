@@ -261,6 +261,7 @@ const FinalExpensePlansResultContainer = () => {
                     isMyAppointedProducts={isMyAppointedProducts}
                     isShowExcludedProducts={isShowExcludedProducts}
                     isRTS={isRTS}
+                    setIsRTS={setIsRTS}
                 />
                 <div className={styles.resultContent}></div>
             </div>

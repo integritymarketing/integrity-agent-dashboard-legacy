@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 import MonthlyCostTable from "./monthly-cost-table";
 import MonthlyCostCompareTable from "./monthly-cost-comapare-table";
+import { calculatePartialYearDrugCost } from "components/ui/PlanCard/calculatePartialDrugCost";
 
 const months = [
     "January",
@@ -53,8 +54,14 @@ const RXCostBasedOnPlantypes = (planData, effectiveStartDate) => {
     const type = PLAN_TYPE_ENUMS[planData.planType];
     switch (type) {
         case "PDP":
-        case "MAPD":
-            return currencyFormatter.format(planData.estimatedAnnualDrugCostPartialYear - (planData.drugPremium * (12 - effectiveStartDate?.getMonth())));
+        case "MAPD": {
+            const result = calculatePartialYearDrugCost(
+                planData.estimatedAnnualDrugCostPartialYear,
+                planData.drugPremium,
+                effectiveStartDate
+            );
+            return isNaN(result) ? currencyFormatter.format(0) : currencyFormatter.format(result);
+        }
         default:
             return currencyFormatter.format(0);
     }
@@ -82,7 +89,7 @@ function TotalEstLabel({ effectiveMonth, effectiveYear }) {
                     <span>Based on plan premium and drug costs</span>
                 </i>
                 <i>
-                    <span>(Effective {effectiveMonth + " " + effectiveYear})</span>
+                    <span>(Effective {`${effectiveMonth} ${effectiveYear}`})</span>
                 </i>
             </span>
         </>
@@ -117,7 +124,7 @@ function getShortFormMonthSpan(monthNumber) {
     if (monthNumber === 12) {
         return getMonthShortName(monthNumber - 1);
     } else {
-        return getMonthShortName(monthNumber - 1) + " - " + getMonthShortName(11);
+        return `${getMonthShortName(monthNumber - 1)} - ${getMonthShortName(11)}`;
     }
 }
 
@@ -285,7 +292,11 @@ export function CostCompareTable({ plans, effectiveDate }) {
                 />
             ),
             ...clonedPlans?.reduce((acc, plan, index) => {
-                acc[`plan-${index}`] = plan ? <EstRxValue planData={plan} monthNumber={parseInt(m)} effectiveStartDate={effectiveStartDate} /> : "-";
+                acc[`plan-${index}`] = plan ? (
+                    <EstRxValue planData={plan} monthNumber={parseInt(m)} effectiveStartDate={effectiveStartDate} />
+                ) : (
+                    "-"
+                );
                 return acc;
             }, {}),
         },
