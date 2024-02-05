@@ -40,8 +40,10 @@
 .flex {
     display: flex;
 
-    thead tr th {
-        border-bottom: 1px solid #cccccc;
+    thead th {
+        color: #052a63;
+        font-weight: bold;
+        padding-right: 3rem;
     }
 }
 
@@ -53,10 +55,6 @@
     svg {
         max-width: 100%;
     }
-}
-
-.spacing {
-    padding-right: 2rem;
 }
 
 .amount {
@@ -88,31 +86,21 @@
         background: #f1faff;
         padding: 24px 16px 20px 16px;
         border-radius: 8px;
-        display: flex;
         margin: 18px 0;
 
         .amountInfo {
             display: flex;
-            flex-direction: column;
-            gap: 16px;
-            padding-right: 3rem;
-        }
+            justify-content: space-around;
+            gap: 10px;
 
-        .feePlanInfo {
-            padding-left: 2rem;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            border-left: 1px solid #cccccc;
-
-            >div>span {
-                padding-right: 2rem;
+            .separator {
+                border-right: 1px solid #cccccc;
             }
         }
 
-        .MfeePlanInfo {
-            padding: 20px 0 0 0;
-            border: none;
+        .horizSeparator {
+            border: 0.5px solid #cccccc;
+            margin: 16px 0;
         }
     }
 

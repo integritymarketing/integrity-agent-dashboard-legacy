@@ -8,10 +8,24 @@ import { Arrow } from "../Icons";
 import { formatDate } from "utils/dates";
 import useUserProfile from "hooks/useUserProfile";
 
-const LegacySafeGuard = ({
-    leadDetails: { firstName, lastName, birthdate, emails, phones, addresses, gender, leadsId, leadTags },
-}) => {
-    const { npn: userNPN } = useUserProfile();
+/**
+ * Component to render Legacy SafeGuard card with eligibility check and redirection functionality.
+ * @param {Object} props Component props
+ * @param {Object} props.leadDetails Details of the lead
+ */
+const LegacySafeGuard = ({ leadDetails }) => {
+    const { npn: userNpn } = useUserProfile();
+    const {
+        firstName,
+        lastName,
+        birthdate,
+        emails,
+        phones,
+        addresses,
+        gender,
+        leadsId,
+        leadTags,
+    } = leadDetails;
 
     const leadPhone = useMemo(() => phones?.[0]?.leadPhone || "", [phones]);
     const leadEmail = useMemo(() => emails?.[0]?.leadEmail || "", [emails]);
@@ -23,9 +37,13 @@ const LegacySafeGuard = ({
     const formattedGender = useMemo(() => (gender === "Male" ? "M" : gender === "Female" ? "F" : ""), [gender]);
     const isLSGTagPresent = useMemo(() => leadTags?.some((tag) => tag?.tag?.tagLabel === "LS USER"), [leadTags]);
 
+    /**
+     * Constructs the URL for Legacy SafeGuard with query parameters based on lead details.
+     * @returns {string} URL for Legacy SafeGuard
+     */
     const constructLegacySafeGuardUrl = () => {
-        const legacySafeGuardQueryParams = new URLSearchParams({
-            ...(userNPN && { npn: userNPN }),
+        const queryParams = new URLSearchParams({
+            ...(userNpn && { npn: userNpn }),
             ...(leadsId && { leadid: leadsId }),
             ...(firstName && { mc_fn: firstName }),
             ...(lastName && { mc_ln: lastName }),
@@ -39,34 +57,31 @@ const LegacySafeGuard = ({
             ...(formattedBirthdate && { mc_dob: formattedBirthdate }),
         }).toString();
 
-        return `http://legacysafeguard.com/?${legacySafeGuardQueryParams}`;
+        return `https://legacysafeguarduniversity.com/enrollment-form/?${queryParams}`;
     };
 
+    /**
+     * Handles click on the card, redirecting to the constructed URL.
+     */
     const handleCardClick = () => {
-        if (!userNPN || !leadsId) {
-            return;
-        }
+        if (!userNpn || !leadsId) return;
 
         const url = constructLegacySafeGuardUrl();
         window.open(url, "_blank");
     };
 
-    if (isLSGTagPresent) {
-        return null;
-    }
+    // Render nothing if the LS USER tag is present
+    if (isLSGTagPresent) return null;
 
     return (
         <Box className={styles.legacySafeGuardCardContainer}>
             <Box className={styles.legacySafeGuardCard}>
                 <Box className={styles.legacySafeGuardCardImage}>
-                    <Box component="img" alt="Legacy Safe Guard Card" src={LegacySafeGuardCardImage} />
+                    <img alt="Legacy Safe Guard Card" src={LegacySafeGuardCardImage} />
                 </Box>
                 <Box className={styles.legacySafeGuardCardContent}>
                     <div className={styles.legacySafeGuardCardTitle}>
-                        <strong>Eligible for a</strong>
-                    </div>
-                    <div className={styles.legacySafeGuardCardTitle}>
-                        <strong>FREE MEMBERSHIP</strong>
+                        <strong>Eligible for a FREE MEMBERSHIP</strong>
                     </div>
                     <Button
                         icon={<Arrow />}
@@ -107,6 +122,11 @@ LegacySafeGuard.propTypes = {
         ),
         gender: PropTypes.string,
         leadsId: PropTypes.string,
+        leadTags: PropTypes.arrayOf(
+            PropTypes.shape({
+                tagLabel: PropTypes.string,
+            })
+        ),
     }),
 };
 

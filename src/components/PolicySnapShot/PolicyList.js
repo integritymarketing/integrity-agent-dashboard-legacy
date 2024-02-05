@@ -104,7 +104,8 @@ const PolicyCard = ({ callData }) => {
             display: "flex",
             gap: "5px",
             alignItems: "center",
-            justifyContent: isMobile ? "flex-start" : "center",
+            paddingLeft: "10rem !important",
+            justifyContent: "flex-start",
           }}
         >
           <div className="startedIcon">{IconComponent}</div>
