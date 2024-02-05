@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
@@ -22,7 +21,6 @@ import { FinalExpenseEnrollResponseModal } from "./FinalExpenseEnrollResponseMod
 import styles from "./PlanDetailsContainer.module.scss";
 import { getPlanEnrollBody } from "./PlanDetailsContainer.utils";
 import { PrescreenModal } from "./PrescreenModal";
-import { SingleSignOnModal } from "components/FinalExpensePlansContainer/SingleSignOnModal";
 
 export const PlanCard = ({
     isMobile,
@@ -33,7 +31,6 @@ export const PlanCard = ({
     coverageType,
     coverageAmount,
     monthlyPremium,
-    policyFee,
     eligibility,
     conditionList,
     benefits = [],
@@ -42,19 +39,15 @@ export const PlanCard = ({
     writingAgentNumber,
     contactId,
     selectedTab,
-    carrierInfo,
-    setIsRTS,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
-    const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
     const { leadDetails } = useLeadDetails();
     const { fireEvent } = useAnalytics();
     const { agentInformation } = useAgentInformationByID();
     const { agentFirstName, agentLastName } = agentInformation;
     const { Post: enrollLeadFinalExpensePlan } = useFetch(`${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`);
     const [enrollResponse, setEnrollResponse] = useState(null);
-
-    const onPreApply = () => {
+    const onApply = async () => {
         fireEvent("Life Apply CTA Clicked", {
             leadid: contactId,
             line_of_business: "Life",
@@ -64,19 +57,11 @@ export const PlanCard = ({
             coverage_amount: coverageAmount,
             premium_amount: monthlyPremium,
             coverage_type_selected: coverageType,
-            pre_screening_status: eligibility, // TODO-EVENT: pre_screening_status
-            carrier_group: null, // TODO-EVENT: carrier_group
-            carrier: null, // TODO-EVENT: carrier
+            pre_screening_status: eligibility,
+            carrier_group: null,
+            carrier: null,
         });
-        // Show Single Sign On Modal for for Non-RTS user
-        if (!isRTSPlan) {
-            setIsSingleSignOnModalOpen(true);
-        } else {
-            onApply();
-        }
-    };
 
-    const onApply = async () => {
         const body = getPlanEnrollBody(
             writingAgentNumber,
             agentFirstName,
@@ -88,6 +73,7 @@ export const PlanCard = ({
             contactId
         );
         const response = await enrollLeadFinalExpensePlan(body);
+
         if (response.RedirectUrl) {
             fireEvent("Life SSO Completed", {
                 leadid: contactId,
@@ -107,14 +93,16 @@ export const PlanCard = ({
         <table>
             <thead>
                 <tr>
-                    <th className={styles.spacing}>{benefits[0][0]}</th>
+                    <th>{PLAN_INFO}</th>
+                    <th>{benefits[0][0]}</th>
                     <th>{benefits[0][1]}</th>
                 </tr>
             </thead>
             <tbody>
                 {benefits.slice(1).map((benefit, index) => (
                     <tr key={index}>
-                        <td className={styles.spacing}>{benefit[0]}</td>
+                        <td></td>
+                        <td>{benefit[0]}</td>
                         <td>{benefit[1]}</td>
                     </tr>
                 ))}
@@ -141,7 +129,7 @@ export const PlanCard = ({
     }, [isPrescreenModalOpen, contactId]);
 
     // Safely rendering coverageAmount using optional chaining and nullish coalescing
-    const safeCoverageAmount = coverageAmount?.toLocaleString() ?? "N/A";
+    const safeCoverageAmount = coverageAmount?.toLocaleString() ?? 'N/A';
 
     return (
         <div className={styles.planBox}>
@@ -159,6 +147,7 @@ export const PlanCard = ({
                         <div>{COVERAGE_AMOUNT}</div>
                         <div className={styles.amount}>${safeCoverageAmount}</div>
                     </div>
+                    <div className={styles.separator}></div>
                     <div>
                         <div>{MONTHLY_PREMIUM}</div>
                         <div className={styles.amount}>
@@ -167,18 +156,13 @@ export const PlanCard = ({
                         </div>
                     </div>
                 </div>
-                <div className={`${styles.feePlanInfo} ${isMobile ? styles.MfeePlanInfo : ""}`}>
-                    <div>
-                        <span className={styles.label}>{POLICY_FEE}</span>
-                        <span>${policyFee}</span>
+                {benefits.length > 0 && <>
+                    <div className={styles.horizSeparator}></div>
+                    <div className={styles.flex}>
+                        {renderBenefits()}
                     </div>
-                    {benefits.length > 0 && (
-                        <div className={styles.flex}>
-                            <span className={styles.label}>{PLAN_INFO}&nbsp;&nbsp;</span>
-                            {renderBenefits()}
-                        </div>
-                    )}
-                </div>
+                </>
+                }
             </div>
             {eligibility && (
                 <div className={styles.prescreen}>
@@ -188,17 +172,7 @@ export const PlanCard = ({
                     {eligibility}
                 </div>
             )}
-            <div className={styles.applyCTA}>
-                <Button
-                    label={APPLY}
-                    disabled={!isHaveCarriers}
-                    onClick={onPreApply}
-                    type="primary"
-                    icon={<ButtonCircleArrow />}
-                    iconPosition="right"
-                    className={`${styles.applyButton} ${!isHaveCarriers ? styles.disabled : ""}`}
-                />
-            </div>
+
             <PrescreenModal
                 isOpen={isPrescreenModalOpen}
                 onClose={() => setIsPrescreenModalOpen(false)}
@@ -210,14 +184,17 @@ export const PlanCard = ({
                 onClose={() => setEnrollResponse(null)}
                 enrollResponse={enrollResponse}
             />
-            <SingleSignOnModal
-                isOpen={isSingleSignOnModalOpen}
-                onClose={() => setIsSingleSignOnModalOpen(false)}
-                carrierInfo={carrierInfo}
-                resourceUrl={resource_url}
-                onApply={onApply}
-                setIsRTS={setIsRTS}
-            />
+            <div className={styles.applyCTA}>
+                <Button
+                    label={APPLY}
+                    disabled={!isRTSPlan || !isHaveCarriers}
+                    onClick={onApply}
+                    type="primary"
+                    icon={<ButtonCircleArrow />}
+                    iconPosition="right"
+                    className={`${styles.applyButton} ${!isRTSPlan || !isHaveCarriers ? styles.disabled : ""}`}
+                />
+            </div>
         </div>
     );
 };
@@ -233,10 +210,8 @@ PlanCard.propTypes = {
     coverageType: PropTypes.string.isRequired,
     coverageAmount: PropTypes.number, // Updated to be optional
     monthlyPremium: PropTypes.number.isRequired,
-    policyFee: PropTypes.number.isRequired,
     eligibility: PropTypes.string.isRequired,
     benefits: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
-    carrierInfo: PropTypes.object,
     isRTSPlan: PropTypes.bool.isRequired,
     isHaveCarriers: PropTypes.bool.isRequired,
     selectedTab: PropTypes.string.isRequired,
@@ -244,5 +219,4 @@ PlanCard.propTypes = {
 
 PlanCard.defaultProps = {
     coverageAmount: null, // Provide a default null value for coverageAmount
-    carrierInfo: PropTypes.object,
 };

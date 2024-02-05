@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Media from "react-media";
 import { useParams, useNavigate } from "react-router-dom";
@@ -47,7 +46,6 @@ export const PlanDetailsContainer = ({
     isShowExcludedProducts,
     isMyAppointedProducts,
     isRTS,
-    setIsRTS,
 }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [pagedResults, setPagedResults] = useState([]);
@@ -267,11 +265,10 @@ export const PlanDetailsContainer = ({
                         {pagedResults.map((plan, index) => {
                             const {
                                 carrier: { logoUrl, naic, resource_url },
-                                product: { name },
+                                product: { name, benefits },
                                 coverageType,
                                 faceValue,
                                 modalRates,
-                                policyFee,
                                 eligibility,
                                 reason,
                                 writingAgentNumber,
@@ -299,11 +296,11 @@ export const PlanDetailsContainer = ({
                                     key={`${name}-${index}`}
                                     isMobile={isMobile}
                                     planName={name}
+                                    benefits={benefits}
                                     logoUrl={logoUrl}
                                     coverageType={coverageType}
                                     coverageAmount={faceValue}
                                     monthlyPremium={monthlyRate}
-                                    policyFee={policyFee}
                                     eligibility={eligibility}
                                     conditionList={conditionList}
                                     isRTSPlan={isRTSPlan}
@@ -313,8 +310,6 @@ export const PlanDetailsContainer = ({
                                     writingAgentNumber={writingAgentNumber}
                                     isHaveCarriers={hasCarrierInfo}
                                     selectedTab={selectedTab}
-                                    carrierInfo={plan.carrier}
-                                    setIsRTS={setIsRTS}
                                 />
                             );
                         })}
