@@ -15,8 +15,7 @@ import SOA from "components/icons/activities/SOA";
 import styles from "./ActivitySubjectWithIcon.module.scss";
 import share from "../../images/Plans-Shared.png";
 import MeetingRecord from "../../images/MeetingRecording.png";
-import LegacySafeguard from "../../images/LegacySafeguard.png";
-// Reusable ImageToIcon function component
+
 export const ImageToIcon = ({ src, alt }) => <img src={src} alt={alt} />;
 
 ImageToIcon.propTypes = {
@@ -40,50 +39,45 @@ const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId }) => {
             "Scope of Appointment Sent": <SOA />,
             "Scope of Appointment Signed": <SOA />,
             "Scope of Appointment Completed": <SOA />,
-            "Plan Shared": <ImageToIcon src={share} alt="Plans shared" />,
+            "Plan Shared": <ImageToIcon src={share} alt="Plan Shared" />,
             "Contact's new call log created": <CallRecording />,
             "Application Submitted": <ApplicationSubmitted />,
             "Meeting Recorded": <ImageToIcon src={MeetingRecord} alt="Meeting Recorded" />,
             "Medicare ID Updated by Client": <ContactUpdated />,
             "ZipCode Updated by Client": <LOCATION />,
-
             "Pharmacy Updated by Client": <PHARMACY />,
             "Pharmacies Added by Client": <PHARMACY />,
             "Pharmacies Deleted by Client": <PHARMACY />,
-
             "Pharmacies Added": <PHARMACY />,
             "Pharmacies Updated": <PHARMACY />,
             "Pharmacies Deleted": <PHARMACY />,
-
             "Prescription Updated by Client": <PRESCRIPTION />,
             "Prescription Added by Client": <PRESCRIPTION />,
             "Prescription Deleted by Client": <PRESCRIPTION />,
-
             "Prescription Updated": <PRESCRIPTION />,
             "Prescriptions Updated": <PRESCRIPTION />,
             "Prescriptions Added": <PRESCRIPTION />,
             "Prescriptions Deleted": <PRESCRIPTION />,
-
             "Providers Updated by Client": <PROVIDER />,
             "Provider Added by Client": <PROVIDER />,
             "Provider Deleted by Client": <PROVIDER />,
-
             "Providers Updated": <PROVIDER />,
             "Provider Added": <PROVIDER />,
             "Provider Deleted": <PROVIDER />,
-
             "Medicaid Updated by Client": <MEDICAID />,
-            // "Legacy Safeguard Eligible": <ImageToIcon src={LegacySafeguard} alt="Legacy Safeguard" />,
+            'Legacy Safeguard Eligible': iconURL ? <ImageToIcon src={iconURL} alt={activityId} /> : <Activity />,
         };
 
-        return iconURL ? <ImageToIcon src={iconURL} alt={activityId} /> : <Activity />;
-    }, [activitySubject]);
+        return iconMapping[activitySubject] || <Activity />;
+    }, [activityId, activitySubject, iconURL]);
 
     return <div className={styles.icon}>{iconComponent}</div>;
 };
 
 ActivitySubjectWithIcon.propTypes = {
     activitySubject: PropTypes.string.isRequired,
+    iconURL: PropTypes.string, // iconURL might not always be provided, so it's not marked as required.
+    activityId: PropTypes.string, // Added activityId propType based on its presence in the component props.
 };
 
 export default ActivitySubjectWithIcon;
