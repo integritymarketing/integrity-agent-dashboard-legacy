@@ -104,7 +104,7 @@ const PolicyCard = ({ callData }) => {
             display: "flex",
             gap: "5px",
             alignItems: "center",
-            paddingLeft: "2rem !important",
+            paddingLeft: "10rem !important",
             justifyContent: "flex-start",
           }}
         >
