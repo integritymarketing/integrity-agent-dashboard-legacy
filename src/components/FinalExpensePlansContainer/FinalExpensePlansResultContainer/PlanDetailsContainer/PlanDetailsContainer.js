@@ -46,6 +46,7 @@ export const PlanDetailsContainer = ({
     isShowExcludedProducts,
     isMyAppointedProducts,
     isRTS,
+    setIsRTS,
 }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [pagedResults, setPagedResults] = useState([]);
@@ -310,6 +311,8 @@ export const PlanDetailsContainer = ({
                                     writingAgentNumber={writingAgentNumber}
                                     isHaveCarriers={hasCarrierInfo}
                                     selectedTab={selectedTab}
+                                    carrierInfo={plan.carrier}
+                                    setIsRTS={setIsRTS}
                                 />
                             );
                         })}

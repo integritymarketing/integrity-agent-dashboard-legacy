@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable max-lines-per-function */
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { convertToTitleCase } from "utils/toTitleCase";
@@ -21,6 +22,7 @@ import { FinalExpenseEnrollResponseModal } from "./FinalExpenseEnrollResponseMod
 import styles from "./PlanDetailsContainer.module.scss";
 import { getPlanEnrollBody } from "./PlanDetailsContainer.utils";
 import { PrescreenModal } from "./PrescreenModal";
+import { SingleSignOnModal } from "components/FinalExpensePlansContainer/SingleSignOnModal";
 
 export const PlanCard = ({
     isMobile,
@@ -39,15 +41,19 @@ export const PlanCard = ({
     writingAgentNumber,
     contactId,
     selectedTab,
+    carrierInfo,
+    setIsRTS,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
+    const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
     const { leadDetails } = useLeadDetails();
     const { fireEvent } = useAnalytics();
     const { agentInformation } = useAgentInformationByID();
     const { agentFirstName, agentLastName } = agentInformation;
     const { Post: enrollLeadFinalExpensePlan } = useFetch(`${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`);
     const [enrollResponse, setEnrollResponse] = useState(null);
-    const onApply = async () => {
+
+    const onPreApply = () => {
         fireEvent("Life Apply CTA Clicked", {
             leadid: contactId,
             line_of_business: "Life",
@@ -62,6 +68,14 @@ export const PlanCard = ({
             carrier: null,
         });
 
+        if (!isRTSPlan) {
+            setIsSingleSignOnModalOpen(true);
+        } else {
+            onApply();
+        }
+    };
+
+    const onApply = async () => {
         const body = getPlanEnrollBody(
             writingAgentNumber,
             agentFirstName,
@@ -129,7 +143,7 @@ export const PlanCard = ({
     }, [isPrescreenModalOpen, contactId]);
 
     // Safely rendering coverageAmount using optional chaining and nullish coalescing
-    const safeCoverageAmount = coverageAmount?.toLocaleString() ?? 'N/A';
+    const safeCoverageAmount = coverageAmount?.toLocaleString() ?? "N/A";
 
     return (
         <div className={styles.planBox}>
@@ -156,13 +170,12 @@ export const PlanCard = ({
                         </div>
                     </div>
                 </div>
-                {benefits.length > 0 && <>
-                    <div className={styles.horizSeparator}></div>
-                    <div className={styles.flex}>
-                        {renderBenefits()}
-                    </div>
-                </>
-                }
+                {benefits.length > 0 && (
+                    <>
+                        <div className={styles.horizSeparator}></div>
+                        <div className={styles.flex}>{renderBenefits()}</div>
+                    </>
+                )}
             </div>
             {eligibility && (
                 <div className={styles.prescreen}>
@@ -184,15 +197,23 @@ export const PlanCard = ({
                 onClose={() => setEnrollResponse(null)}
                 enrollResponse={enrollResponse}
             />
+            <SingleSignOnModal
+                isOpen={isSingleSignOnModalOpen}
+                onClose={() => setIsSingleSignOnModalOpen(false)}
+                carrierInfo={carrierInfo}
+                resourceUrl={resource_url}
+                onApply={onApply}
+                setIsRTS={setIsRTS}
+            />
             <div className={styles.applyCTA}>
                 <Button
                     label={APPLY}
-                    disabled={!isRTSPlan || !isHaveCarriers}
-                    onClick={onApply}
+                    disabled={!isHaveCarriers}
+                    onClick={onPreApply}
                     type="primary"
                     icon={<ButtonCircleArrow />}
                     iconPosition="right"
-                    className={`${styles.applyButton} ${!isRTSPlan || !isHaveCarriers ? styles.disabled : ""}`}
+                    className={`${styles.applyButton} ${!isHaveCarriers ? styles.disabled : ""}`}
                 />
             </div>
         </div>
@@ -215,6 +236,8 @@ PlanCard.propTypes = {
     isRTSPlan: PropTypes.bool.isRequired,
     isHaveCarriers: PropTypes.bool.isRequired,
     selectedTab: PropTypes.string.isRequired,
+    carrierInfo: PropTypes.object,
+    setIsRTS: PropTypes.func,
 };
 
 PlanCard.defaultProps = {

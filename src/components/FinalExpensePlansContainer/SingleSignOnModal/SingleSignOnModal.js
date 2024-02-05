@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
+import { useWindowSize } from "hooks/useWindowSize";
 import useUserProfile from "hooks/useUserProfile";
 
 import Textfield from "components/ui/textfield";
@@ -23,6 +24,9 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
     const [producerId, setProducerId] = useState("");
     const showToast = useToast();
     const { npn } = useUserProfile();
+    const { width: windowWidth } = useWindowSize();
+
+    const isMobile = windowWidth <= 784;
 
     const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/fexAttestation/${npn}`;
 
@@ -68,13 +72,20 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
 
     return (
         <Modal open={isOpen} onClose={onClose} title="Single Sign On" size="wide" hideFooter>
-            <Box className={styles.modalContentHeader}>Update your Producer ID for an Improved Experience</Box>
+            {!isMobile && (
+                <Box className={styles.modalContentHeader}>Update your Producer ID for an Improved Experience</Box>
+            )}
             <Box className={styles.modalContent}>
+                {isMobile && (
+                    <Box className={styles.modalContentHeaderMobile}>
+                        Update your Producer ID for an Improved Experience
+                    </Box>
+                )}
                 <Box>Updating your Producer ID for this Carrier and Product helps you to:</Box>
                 <ul className={styles.listStyle}>
                     <li>Filter the Quote results by the Products and Carriers you are contracted with</li>
-                    <li>Gain Single Sign On and Application Pre-Fill for select carrier and product websites</li>
-                    <li>Automatically link Final Expense Policies to your Account</li>
+                    <li>Gain Single Sign On to select Carriers and Product Websites</li>
+                    <li>Automatically link Policies from this Carrier and Product to your Account</li>
                 </ul>
                 <Box className={styles.actions}>
                     <Box>
