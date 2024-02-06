@@ -144,6 +144,15 @@ export const PlanCard = ({
 
     // Safely rendering coverageAmount using optional chaining and nullish coalescing
     const safeCoverageAmount = coverageAmount?.toLocaleString() ?? "N/A";
+    const convertToTitleCase = (text) => {
+        if (!text) return ''; // Returns an empty string if text is null or undefined
+        return text
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    };
+
 
     return (
         <div className={styles.planBox}>
@@ -241,5 +250,5 @@ PlanCard.propTypes = {
 };
 
 PlanCard.defaultProps = {
-    coverageAmount: null, // Provide a default null value for coverageAmount
+    coverageType: '', // Provide a default null value for coverageAmount
 };
