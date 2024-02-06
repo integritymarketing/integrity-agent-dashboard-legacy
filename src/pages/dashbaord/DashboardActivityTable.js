@@ -88,6 +88,7 @@ const FILTER_OPTIONS = [
     { name: "Scope of Appointment Completed", selected: false },
     { name: "Scope of Appointment Signed", selected: false },
     { name: "Stage Change", selected: false },
+    { name: "Legacy Safeguard Eligible", selected: false },
 ];
 const renderButtons = (activity, leadsId, handleClick) => {
     if (!activity) {return false;}
@@ -598,13 +599,14 @@ export default function DashboardActivityTable({
                         heading={"Filter by Activity Type"}
                         open={filterToggle}
                         onToggle={setFilterToggle}
-                        filtered={selectedFilterValues.length > 0 ? true : false}
+                        filtered={selectedFilterValues?.length > 0 ? true : false}
                         content={
                             <FilterOptions
                                 values={[...filterValues]}
                                 multiSelect={true}
                                 onApply={onFilterApply}
                                 onReset={onResetFilter}
+                                showOnlyFilterIcon={true}
                             />
                         }
                     />

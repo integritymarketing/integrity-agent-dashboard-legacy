@@ -10,12 +10,13 @@ export default function FilterOptions({
   onApply,
   multiSelect = true,
   onReset,
+  showOnlyFilterIcon
 }) {
   const [updatedValues, setUpdatedValues] = useState([]);
 
   useEffect(() => {
     if (values) {
-      let parsedValues = JSON.parse(JSON.stringify(values));
+      const parsedValues = JSON.parse(JSON.stringify(values));
       setUpdatedValues(parsedValues);
       if (!multiSelect) {
         parsedValues.forEach((v) => {
@@ -90,7 +91,7 @@ export default function FilterOptions({
               key={row.name + i}
             >
               <div style={{ display: "flex", padding: "0 8px" }}>
-                <ActivitySubjectWithIcon activitySubject={row.name} />
+                <ActivitySubjectWithIcon activitySubject={row.name} showOnlyFilterIcon={showOnlyFilterIcon} />
 
                 <Typography
                   sx={{

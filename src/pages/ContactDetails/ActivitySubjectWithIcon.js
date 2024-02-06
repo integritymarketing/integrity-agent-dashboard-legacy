@@ -15,6 +15,7 @@ import SOA from "components/icons/activities/SOA";
 import styles from "./ActivitySubjectWithIcon.module.scss";
 import share from "../../images/Plans-Shared.png";
 import MeetingRecord from "../../images/MeetingRecording.png";
+import LegacySafeguard from "../../images/LegacySafeguard.png";
 
 export const ImageToIcon = ({ src, alt }) => <img src={src} alt={alt} />;
 
@@ -23,7 +24,7 @@ ImageToIcon.propTypes = {
     alt: PropTypes.string.isRequired,
 };
 
-const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId }) => {
+const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId, showOnlyFilterIcon }) => {
     const iconComponent = useMemo(() => {
         const iconMapping = {
             "Contact Updated": <ContactUpdated />,
@@ -65,19 +66,20 @@ const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId }) => {
             "Provider Added": <PROVIDER />,
             "Provider Deleted": <PROVIDER />,
             "Medicaid Updated by Client": <MEDICAID />,
-            'Legacy Safeguard Eligible': iconURL ? <ImageToIcon src={iconURL} alt={activityId} /> : <Activity />,
+            "Legacy Safeguard Eligible": showOnlyFilterIcon ? <ImageToIcon src={LegacySafeguard} alt="Legacy Safeguard Eligible" /> : iconURL ? <ImageToIcon src={iconURL} alt={activityId} /> : <Activity />,
         };
 
         return iconMapping[activitySubject] || <Activity />;
-    }, [activityId, activitySubject, iconURL]);
+    }, [activityId, activitySubject, iconURL, showOnlyFilterIcon]);
 
     return <div className={styles.icon}>{iconComponent}</div>;
 };
 
 ActivitySubjectWithIcon.propTypes = {
     activitySubject: PropTypes.string.isRequired,
-    iconURL: PropTypes.string, // iconURL might not always be provided, so it's not marked as required.
-    activityId: PropTypes.string, // Added activityId propType based on its presence in the component props.
+    iconURL: PropTypes.string,
+    activityId: PropTypes.string,
+    showOnlyFilterIcon: PropTypes.bool,
 };
 
 export default ActivitySubjectWithIcon;
