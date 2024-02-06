@@ -26,7 +26,7 @@ const SearchInput = styled(OutlinedInput)(() => ({
     },
 }));
 
-const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children }) => {
+const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children, tagIds }) => {
     const showToast = useToast();
     const { fireEvent } = useAnalytics();
     const navigate = useNavigate();
@@ -46,7 +46,7 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children 
                 await callRecordingsService.assignsLeadToInboundCallRecord({
                     callLogId,
                     leadId,
-                    tagIds: contact?.leadTags?.map((tag) => tag.tag.tagId) || [],
+                    tagIds: tagIds || [],
                     isInbound: true,
                 });
                 showToast({

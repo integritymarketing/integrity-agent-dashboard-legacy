@@ -10,7 +10,7 @@ import clientsService from "services/clientsService";
 
 import styles from "./styles.module.scss";
 
-export default function PossibleMatches({ phone }) {
+export default function PossibleMatches({ phone, tagIds }) {
     const [matches, setMatches] = useState([]);
     const { callLogId, callFrom } = useParams();
     const navigate = useNavigate();
@@ -59,7 +59,7 @@ export default function PossibleMatches({ phone }) {
                     await callRecordingsService.assignsLeadToInboundCallRecord({
                         callLogId: callLogIdNumber,
                         leadId: contact.leadsId,
-                        tagIds: contact?.leadTags?.map((tag) => tag.tag.tagId) || [],
+                        tagIds: tagIds || [],
                         isInbound: true,
                     });
                     showToast({

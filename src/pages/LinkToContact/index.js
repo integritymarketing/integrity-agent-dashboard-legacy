@@ -84,6 +84,9 @@ export default function LinkToContact() {
         callsRecordingTags?.length > 0 &&
         callsRecordingTags[0]?.callLogTags?.map((callLogTag) => callLogTag.tag.tagLabel);
 
+    const tagIds =
+        callsRecordingTags?.length > 0 && callsRecordingTags[0]?.callLogTags?.map((callLogTag) => callLogTag.tag.tagId);
+
     return (
         <>
             <Helmet>
@@ -112,12 +115,17 @@ export default function LinkToContact() {
                             <Tags words={tags} flexDirection={"column"} />
                         </div>
                     ) : null}
-                    <PossibleMatches phone={callFrom} />
+                    <PossibleMatches phone={callFrom} tagIds={tagIds} />
                     <div className={styles.medContent}>
                         <CreateNewContact goToAddNewContactsPage={goToAddNewContactsPage} />
                     </div>
                     <div className={styles.medContent}>
-                        <ContactSearch isLoading={isLoading} onChange={getContacts} contacts={contacts} />
+                        <ContactSearch
+                            isLoading={isLoading}
+                            onChange={getContacts}
+                            contacts={contacts}
+                            tagIds={tagIds}
+                        />
                     </div>
                 </div>
             </div>
