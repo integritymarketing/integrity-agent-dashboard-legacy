@@ -47,7 +47,7 @@ function HealthLead({ setShowAvilabilityDialog }) {
     return (
         <SectionItem
             title="Health"
-            actionTitle={!hasActiveHealthCallCampaign ? "Set Up" : "Settings"}
+            actionTitle={!hasActiveHealthCallCampaign ? "Set Up" : "Configure"}
             action={() => window.open(`/leadcenter-redirect/${npn}`, "_blank")}
             onChange={handleLeadCenter}
             disabled={shouldDisable}
