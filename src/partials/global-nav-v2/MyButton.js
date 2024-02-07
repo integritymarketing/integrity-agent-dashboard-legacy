@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import ToggleOffline from "./ToggleOffline.svg";
-import ToggleOnline from "./ToggleOnline.svg";
 import "./myButton.scss";
 import AvailabilityOverlay from "./microComponent/AvailabilityOverlay";
 import { Switch } from "components/ui/version-2/Swich";

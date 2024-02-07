@@ -1,9 +1,11 @@
-import { lazy } from "react";
+import { lazy, useEffect } from "react";
+
 import Media from "react-media";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import { appProtectedRoutes, appRoutes } from "routeConfigs/AppRouteConfig";
-
+import { useAgentAvailability } from "hooks/useAgentAvailability";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useRemoveLeadIdsOnRouteChange from "hooks/useRemoveLeadIdsOnRouteChange";
 
 import { ProtectedRoute, UnProtectedRoute } from "components/functional/auth-routes";
@@ -13,8 +15,14 @@ const MaintenancePage = lazy(() => import("pages/MaintenancePage"));
 const Welcome = lazy(() => import("pages/welcome"));
 
 const App = () => {
+    const [, setIsAvailable] = useAgentAvailability();
+    const { agentInformation } = useAgentInformationByID();
     useRemoveLeadIdsOnRouteChange();
     const isMaintainanceMode = process.env.REACT_APP_MAINTENANCE_MODE;
+
+    useEffect(() => {
+        setIsAvailable(agentInformation?.isAvailable);
+    }, [agentInformation?.isAvailable, setIsAvailable]);
 
     if (isMaintainanceMode) {
         return (

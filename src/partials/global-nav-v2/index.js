@@ -1,15 +1,12 @@
-import * as Sentry from "@sentry/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Media from "react-media";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { welcomeModalOpenAtom, welcomeModalTempOpenAtom } from "recoil/agent/atoms";
 
-import { useAgentAvailability } from "hooks/useAgentAvailability";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useLoading from "hooks/useLoading";
-import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
 
 import GetStarted from "packages/GetStarted";
@@ -111,7 +108,6 @@ const SiteNotification = ({ showPhoneNotification, showMaintenaceNotification })
 // eslint-disable-next-line max-lines-per-function
 const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props }) => {
     const auth = useContext(AuthContext);
-    const showToast = useToast();
     const navigate = useNavigate();
     const loadingHook = useLoading();
     const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
@@ -123,11 +119,9 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     const [helpModalOpen, setHelpModalOpen] = useState(false);
     const [learnMoreModal, setLearnMoreModal] = useState(false);
     const user = useUserProfile();
-    const [, setIsAvailable] = useAgentAvailability();
 
-    const { agentInformation, getAgentAvailability } = useAgentInformationByID();
+    const { agentInformation } = useAgentInformationByID();
     const leadPreference = agentInformation?.leadPreference;
-    useEffect(() => setIsAvailable(agentInformation?.isAvailable), [setIsAvailable, agentInformation?.isAvailable]);
 
     const mobileMenuProps = {
         navOpen,
@@ -292,22 +286,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
             setTimeout(() => clientService.genarateAgentTwiloNumber(user?.agentId), 5000);
         }
     }, [agentInformation, user]);
-
-    const updateAgentAvailability = async (data) => {
-        try {
-            const response = await clientService.updateAgentAvailability(data);
-            if (response.ok) {
-                getAgentAvailability();
-            }
-        } catch (error) {
-            showToast({
-                type: "error",
-                message: "Failed to Save the Availability.",
-                time: 10000,
-            });
-            Sentry.captureException(error);
-        }
-    };
 
     let showPhoneNotification = false;
 
