@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
-import { convertToTitleCase } from "utils/toTitleCase";
 import { useLeadDetails } from "providers/ContactDetails";
 import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
@@ -13,7 +12,6 @@ import {
     ENROLLEMENT_SERVICE,
     MONTHLY_PREMIUM,
     PLAN_INFO,
-    POLICY_FEE,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import InfoBlue from "components/icons/version-2/InfoBlue";
@@ -36,13 +34,13 @@ export const PlanCard = ({
     eligibility,
     conditionList,
     benefits = [],
-    isRTSPlan,
     isHaveCarriers,
     writingAgentNumber,
     contactId,
     selectedTab,
     carrierInfo,
     setIsRTS,
+    isRTSUser,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
@@ -68,16 +66,17 @@ export const PlanCard = ({
             carrier: null,
         });
 
-        if (!isRTSPlan) {
+        if (!isRTSUser) {
             setIsSingleSignOnModalOpen(true);
         } else {
             onApply();
         }
     };
 
-    const onApply = async () => {
+    const onApply = async (producerId) => {
+        const writingAgentNumberToSend = writingAgentNumber ?? producerId;
         const body = getPlanEnrollBody(
-            writingAgentNumber,
+            writingAgentNumberToSend,
             agentFirstName,
             agentLastName,
             leadDetails,
@@ -140,19 +139,29 @@ export const PlanCard = ({
                 carrier: null,
             });
         }
-    }, [isPrescreenModalOpen, contactId]);
+    }, [
+        isPrescreenModalOpen,
+        contactId,
+        fireEvent,
+        selectedTab,
+        coverageAmount,
+        monthlyPremium,
+        coverageType,
+        eligibility,
+    ]);
 
     // Safely rendering coverageAmount using optional chaining and nullish coalescing
     const safeCoverageAmount = coverageAmount?.toLocaleString() ?? "N/A";
     const convertToTitleCase = (text) => {
-        if (!text) return ''; // Returns an empty string if text is null or undefined
+        if (!text) {
+            return "";
+        } // Returns an empty string if text is null or undefined
         return text
             .toLowerCase()
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
     };
-
 
     return (
         <div className={styles.planBox}>
@@ -242,13 +251,13 @@ PlanCard.propTypes = {
     monthlyPremium: PropTypes.number.isRequired,
     eligibility: PropTypes.string.isRequired,
     benefits: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
-    isRTSPlan: PropTypes.bool.isRequired,
     isHaveCarriers: PropTypes.bool.isRequired,
     selectedTab: PropTypes.string.isRequired,
     carrierInfo: PropTypes.object,
     setIsRTS: PropTypes.func,
+    isRTSUser: PropTypes.bool,
 };
 
 PlanCard.defaultProps = {
-    coverageType: '', // Provide a default null value for coverageAmount
+    coverageType: "", // Provide a default null value for coverageAmount
 };

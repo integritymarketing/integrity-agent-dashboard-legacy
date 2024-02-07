@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
+/* eslint-disable max-lines-per-function */
+import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Media from "react-media";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -313,6 +314,7 @@ export const PlanDetailsContainer = ({
                                     selectedTab={selectedTab}
                                     carrierInfo={plan.carrier}
                                     setIsRTS={setIsRTS}
+                                    isRTSUser={isRTS}
                                 />
                             );
                         })}

@@ -17,7 +17,6 @@ function MyButton({ page, leadPreference }) {
     const [isCheckInUpdateModalDismissed, setIsCheckInUpdateModalDismissed] = useState(true);
     const [isAvailabiltyModalVisible, setIsAvailabiltyModalVisible] = useState(false);
     const [isNoticeVisible, setIsNoticeVisible] = useState(false);
-    const statusText = isAvailable ? "online" : "offline";
 
     async function handleClick() {
         const response = await clientsService.getAgentAvailability(agentId);
@@ -81,18 +80,7 @@ function MyButton({ page, leadPreference }) {
         <>
             <div id="myButton" className="myButtonWrapper">
                 <span className="myButtonText">I'm Available:</span>
-                <div>
-                    <Switch defaultChecked={isAvailable} onChange={handleClick} />
-
-                    {/* {statusText === "offline" && (
-                        <img src={ToggleOnline} alt="offButton" className={`buttonIcon offButton  show `} />
-                    )}
-                    <img
-                        src={ToggleOnline}
-                        alt="onButton"
-                        className={`buttonIcon onButton ${isAvailable ? "show" : "hidden"}`}
-                    /> */}
-                </div>
+                <Switch checked={isAvailable} onChange={handleClick} />
             </div>
             {isAvailabiltyModalVisible && (
                 <AvailabilityOverlay

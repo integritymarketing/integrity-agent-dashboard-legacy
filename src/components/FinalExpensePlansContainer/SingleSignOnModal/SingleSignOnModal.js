@@ -54,7 +54,7 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
         const res = await addSALifeRecord(payload, true);
         if (res.ok) {
             setIsRTS(true);
-            await onApply();
+            await onApply(producerId);
             onClose();
         } else {
             showToast({
