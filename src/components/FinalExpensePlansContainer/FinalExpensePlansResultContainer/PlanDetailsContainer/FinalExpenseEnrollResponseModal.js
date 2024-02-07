@@ -34,10 +34,7 @@ export const FinalExpenseEnrollResponseModal = ({ isOpen, onClose, enrollRespons
         }
     }, [isOpen, enrollResponse, onClose, isEnrollResponseDefined]);
 
-    const isProducerNotAppointed = isEnrollResponseDefined && (
-        enrollResponse.errorMessage === AGENT_NOT_CONTRACTED_ERROR ||
-        (enrollResponse.redirectUrl === null && enrollResponse.errorMessage != null)
-    );
+    const isProducerNotAppointed = isEnrollResponseDefined && enrollResponse.redirectUrl === null;
 
     const isCarrierSiteUnavailable = isEnrollResponseDefined &&
         enrollResponse.redirectUrl === null &&
