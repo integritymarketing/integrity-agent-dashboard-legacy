@@ -61,7 +61,7 @@ export const PlanDetailsContainer = ({
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
     const { leadDetails } = useLeadDetails();
     const [fetchPlansError, setFetchPlansError] = useState(false);
-
+    const noPlanResults = pagedResults.length === 0;
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
 
     const navigate = useNavigate();
@@ -213,7 +213,7 @@ export const PlanDetailsContainer = ({
     }, []);
 
     const renderNoPlansMessage = useCallback(() => {
-        if (!isLoadingFinalExpensePlans && pagedResults.length === 0) {
+        if (!isLoadingFinalExpensePlans && noPlanResults) {
             return (
                 <div className={styles.noPlans}>
                     <div className={styles.alertIcon}>
@@ -257,10 +257,10 @@ export const PlanDetailsContainer = ({
                     setIsMobile(isMobile);
                 }}
             />
-            <div className={styles.planContainer}>
+            <div className={`${styles.planContainer} ${noPlanResults ? styles.alignCenter : ""}`}>
                 {isLoadingFinalExpensePlans && loadersCards}
-                {renderNoPlansMessage()}
                 <PersonalisedQuoteBox />
+                {renderNoPlansMessage()}
                 {renderActiveSellingPermissionsSection()}
                 {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
                     <>
@@ -273,6 +273,7 @@ export const PlanDetailsContainer = ({
                                 modalRates,
                                 eligibility,
                                 reason,
+                                type,
                                 writingAgentNumber,
                                 isRTS: isRTSPlan,
                             } = plan;
@@ -315,6 +316,7 @@ export const PlanDetailsContainer = ({
                                     carrierInfo={plan.carrier}
                                     setIsRTS={setIsRTS}
                                     isRTSUser={isRTS}
+                                    planType={type}
                                 />
                             );
                         })}

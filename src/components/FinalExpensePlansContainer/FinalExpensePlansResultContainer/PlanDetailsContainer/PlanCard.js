@@ -11,7 +11,7 @@ import {
     COVERAGE_TYPE,
     ENROLLEMENT_SERVICE,
     MONTHLY_PREMIUM,
-    PLAN_INFO,
+    PLAN_INFO
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import InfoBlue from "components/icons/version-2/InfoBlue";
@@ -21,6 +21,7 @@ import styles from "./PlanDetailsContainer.module.scss";
 import { getPlanEnrollBody } from "./PlanDetailsContainer.utils";
 import { PrescreenModal } from "./PrescreenModal";
 import { SingleSignOnModal } from "components/FinalExpensePlansContainer/SingleSignOnModal";
+import { GRADEDMODIFIED, GRADED_MODIFIED } from "./PlanDetailsContainer.constants";
 
 export const PlanCard = ({
     isMobile,
@@ -41,6 +42,7 @@ export const PlanCard = ({
     carrierInfo,
     setIsRTS,
     isRTSUser,
+    planType
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
@@ -63,7 +65,7 @@ export const PlanCard = ({
             coverage_type_selected: coverageType,
             pre_screening_status: eligibility,
             carrier_group: null,
-            carrier: null,
+            carrier: null
         });
 
         if (!isRTSUser) {
@@ -83,7 +85,8 @@ export const PlanCard = ({
             coverageAmount,
             planName,
             resource_url,
-            contactId
+            contactId,
+            planType
         );
         const response = await enrollLeadFinalExpensePlan(body);
 
@@ -171,7 +174,7 @@ export const PlanCard = ({
             </div>
             <div>
                 <span className={styles.label}>{COVERAGE_TYPE}</span>
-                <span>{convertToTitleCase(coverageType)}</span>
+                <span>{coverageType === GRADED_MODIFIED ? GRADEDMODIFIED : convertToTitleCase(coverageType)}</span>
             </div>
             <div className={`${styles.additionalInfo} ${isMobile ? styles.column : ""}`}>
                 <div className={styles.amountInfo}>
@@ -256,6 +259,7 @@ PlanCard.propTypes = {
     carrierInfo: PropTypes.object,
     setIsRTS: PropTypes.func,
     isRTSUser: PropTypes.bool,
+    planType: PropTypes.string.isRequired
 };
 
 PlanCard.defaultProps = {

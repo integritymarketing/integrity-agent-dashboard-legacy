@@ -100,7 +100,6 @@ export default function LinkToContact() {
     const tagIds = flattenedTags?.map((tag) => tag.tagId);
 
     // Log the result to see the extracted and flattened tags
-    console.log(flattenedTags, tagIds);
 
     return (
         <>
