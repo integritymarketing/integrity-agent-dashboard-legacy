@@ -27,6 +27,7 @@ const SearchInput = styled(OutlinedInput)(() => ({
 }));
 
 const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children, tagIds }) => {
+    console.log("ContactListItemButton", tagIds);
     const showToast = useToast();
     const { fireEvent } = useAnalytics();
     const navigate = useNavigate();
@@ -72,7 +73,7 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children,
     );
 };
 
-export default function ContactSearch({ contacts, onChange, isLoading }) {
+export default function ContactSearch({ contacts, onChange, isLoading, tagIds }) {
     const { callLogId, callFrom } = useParams();
     const [searchStr, setSearchStr] = useState("");
     const callLogIdNumber = Number(callLogId);
@@ -95,6 +96,7 @@ export default function ContactSearch({ contacts, onChange, isLoading }) {
                     callLogId={callLogIdNumber}
                     contact={value}
                     callFrom={callFrom}
+                    tagIds={tagIds}
                 >
                     <ListItemText
                         primary={

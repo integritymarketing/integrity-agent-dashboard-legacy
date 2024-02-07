@@ -80,12 +80,27 @@ export default function LinkToContact() {
         navigate(`/contact/add-new/${callLogId || ""}${callFrom ? "?callFrom=" + callFrom : ""}`);
     };
 
-    const tags =
-        callsRecordingTags?.length > 0 &&
-        callsRecordingTags[0]?.callLogTags?.map((callLogTag) => callLogTag.tag.tagLabel);
+    const extractAndFlattenTags = (callLogs) => {
+        const flattenedTags = callLogs.flatMap((callLog) =>
+            callLog.callLogTags.map((tagInfo) => ({
+                tagId: tagInfo.tag.tagId,
+                tagLabel: tagInfo.tag.tagLabel,
+            }))
+        );
 
-    const tagIds =
-        callsRecordingTags?.length > 0 && callsRecordingTags[0]?.callLogTags?.map((callLogTag) => callLogTag.tag.tagId);
+        // Remove potential duplicates based on tagId
+        const uniqueTags = Array.from(new Map(flattenedTags.map((tag) => [tag.tagId, tag])).values());
+
+        return uniqueTags;
+    };
+
+    // Extract and flatten tags from the provided data
+    const flattenedTags = callsRecordingTags?.length > 0 ? extractAndFlattenTags(callsRecordingTags) : [];
+
+    const tagIds = flattenedTags?.map((tag) => tag.tagId);
+
+    // Log the result to see the extracted and flattened tags
+    console.log(flattenedTags, tagIds);
 
     return (
         <>
@@ -110,9 +125,9 @@ export default function LinkToContact() {
                         <div className={styles.content}>{dateFormatter(date, "MM/DD/yyyy hh:mm A")}</div>
                         <div className={`${styles.content} ${styles.mt10}`}>Duration: {duration} </div>
                     </div>
-                    {tags?.length > 0 ? (
+                    {flattenedTags?.length > 0 ? (
                         <div className={styles.medContent}>
-                            <Tags words={tags} flexDirection={"column"} />
+                            <Tags words={flattenedTags} flexDirection={"column"} />
                         </div>
                     ) : null}
                     <PossibleMatches phone={callFrom} tagIds={tagIds} />
