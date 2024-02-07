@@ -20,7 +20,7 @@ import styles from "./index.module.scss";
 
 const AGENTS_API_VERSION = "v1.0";
 
-export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, onApply, setIsRTS }) => {
+export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, onApply }) => {
     const [producerId, setProducerId] = useState("");
     const showToast = useToast();
     const { npn } = useUserProfile();
@@ -53,7 +53,6 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
         };
         const res = await addSALifeRecord(payload, true);
         if (res.ok) {
-            setIsRTS(true);
             await onApply(producerId);
             onClose();
         } else {
@@ -111,7 +110,6 @@ SingleSignOnModal.propTypes = {
     carrierInfo: PropTypes.object,
     resourceUrl: PropTypes.string,
     onApply: PropTypes.func,
-    setIsRTS: PropTypes.func,
 };
 
 SingleSignOnModal.defaultProps = {

@@ -11,7 +11,7 @@ import {
     COVERAGE_TYPE,
     ENROLLEMENT_SERVICE,
     MONTHLY_PREMIUM,
-    PLAN_INFO
+    PLAN_INFO,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import InfoBlue from "components/icons/version-2/InfoBlue";
@@ -40,9 +40,9 @@ export const PlanCard = ({
     contactId,
     selectedTab,
     carrierInfo,
-    setIsRTS,
-    isRTSUser,
-    planType
+    isRTSPlan,
+    planType,
+    fetchPlans,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
@@ -53,7 +53,7 @@ export const PlanCard = ({
     const { Post: enrollLeadFinalExpensePlan } = useFetch(`${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`);
     const [enrollResponse, setEnrollResponse] = useState(null);
 
-    const onPreApply = () => {
+    const onPreApply = async () => {
         fireEvent("Life Apply CTA Clicked", {
             leadid: contactId,
             line_of_business: "Life",
@@ -65,14 +65,17 @@ export const PlanCard = ({
             coverage_type_selected: coverageType,
             pre_screening_status: eligibility,
             carrier_group: null,
-            carrier: null
+            carrier: null,
         });
 
-        if (!isRTSUser) {
-            setIsSingleSignOnModalOpen(true);
-        } else {
-            onApply();
-        }
+        // if (!isRTSPlan) {
+        //     setIsSingleSignOnModalOpen(true);
+        // } else {
+        //     await onApply();
+        //     await fetchPlans();
+        // }
+
+        await onApply();
     };
 
     const onApply = async (producerId) => {
@@ -89,7 +92,6 @@ export const PlanCard = ({
             planType
         );
         const response = await enrollLeadFinalExpensePlan(body);
-
         if (response.RedirectUrl) {
             fireEvent("Life SSO Completed", {
                 leadid: contactId,
@@ -224,17 +226,16 @@ export const PlanCard = ({
                 carrierInfo={carrierInfo}
                 resourceUrl={resource_url}
                 onApply={onApply}
-                setIsRTS={setIsRTS}
             />
             <div className={styles.applyCTA}>
                 <Button
                     label={APPLY}
-                    disabled={!isHaveCarriers}
+                    disabled={!isHaveCarriers || !isRTSPlan}
                     onClick={onPreApply}
                     type="primary"
                     icon={<ButtonCircleArrow />}
                     iconPosition="right"
-                    className={`${styles.applyButton} ${!isHaveCarriers ? styles.disabled : ""}`}
+                    className={`${styles.applyButton} ${!isHaveCarriers || !isRTSPlan ? styles.disabled : ""}`}
                 />
             </div>
         </div>
@@ -257,9 +258,9 @@ PlanCard.propTypes = {
     isHaveCarriers: PropTypes.bool.isRequired,
     selectedTab: PropTypes.string.isRequired,
     carrierInfo: PropTypes.object,
-    setIsRTS: PropTypes.func,
-    isRTSUser: PropTypes.bool,
-    planType: PropTypes.string.isRequired
+    isRTSPlan: PropTypes.bool,
+    planType: PropTypes.string.isRequired,
+    fetchPlans: PropTypes.func,
 };
 
 PlanCard.defaultProps = {

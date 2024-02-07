@@ -66,6 +66,89 @@ export const PlanDetailsContainer = ({
 
     const navigate = useNavigate();
 
+    const fetchPlans = useCallback(async () => {
+        try {
+            setFetchPlansError(false);
+            const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
+            const code = sessionStorage.getItem(contactId)
+                ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
+                : addresses[0]?.stateCode;
+            if (!code || !birthdate) {
+                return;
+            }
+            setIsLoadingFinalExpensePlans(true);
+            const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
+            const age = getAgeFromBirthDate(birthdate);
+            const todayDate = formatDate(new Date(), "yyyy-MM-dd");
+            const conditions = [];
+            const healthConditions = healthConditionsDataRef.current;
+
+            if (!healthConditions || healthConditions.length === 0) {
+                conditions.push({ categoryId: 0, lastTreatmentDate: null });
+            } else {
+                healthConditions.forEach(({ conditionId, lastTreatmentDate }) => {
+                    conditions.push({
+                        categoryId: conditionId,
+                        lastTreatmentDate: lastTreatmentDate ? formatServerDate(lastTreatmentDate) : null,
+                    });
+                });
+            }
+
+            const quotePlansPostBody = {
+                usState: code,
+                age: Number(age),
+                gender: gender === "Male" ? "M" : "F",
+                tobacco: Boolean(isTobaccoUser),
+                desiredFaceValue: selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
+                desiredMonthlyRate: selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
+                coverageTypes: covType || [COVERAGE_TYPE[4].value],
+                effectiveDate: todayDate,
+                underWriting: {
+                    user: { height: height || 0, weight: weight || 0 },
+                    conditions,
+                },
+            };
+
+            const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
+            setIsLoadingFinalExpensePlans(false);
+
+            if (!isRTS) {
+                if (isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
+                } else {
+                    setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts false
+                }
+            }
+
+            // Life RTS Experience (My Appointed Products checked by default)
+            if (isRTS) {
+                if (isMyAppointedProducts && isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.rtsPlansWithExclusions); // Condition 1
+                } else if (!isMyAppointedProducts && !isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.nonRTSPlans); // Condition 2
+                } else if (isMyAppointedProducts && !isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.rtsPlans); // Condition 3
+                } else if (!isMyAppointedProducts && isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // Condition 4
+                }
+            }
+        } catch (error) {
+            setIsLoadingFinalExpensePlans(false);
+            setFetchPlansError(true);
+        }
+    }, [
+        contactId,
+        coverageAmount,
+        coverageType,
+        getFinalExpenseQuotePlans,
+        isMyAppointedProducts,
+        isRTS,
+        isShowExcludedProducts,
+        leadDetails,
+        monthlyPremium,
+        selectedTab,
+    ]);
+
     useEffect(() => {
         const fetchHealthConditionsListData = async () => {
             const resp = await getHealthConditions();
@@ -98,78 +181,6 @@ export const PlanDetailsContainer = ({
     }, [finalExpensePlans, currentPage, pageSize]);
 
     useEffect(() => {
-        const fetchPlans = async () => {
-            try {
-                setFetchPlansError(false);
-                const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
-                const code = sessionStorage.getItem(contactId)
-                    ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
-                    : addresses[0]?.stateCode;
-                if (!code || !birthdate) {
-                    return;
-                }
-                setIsLoadingFinalExpensePlans(true);
-                const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
-                const age = getAgeFromBirthDate(birthdate);
-                const todayDate = formatDate(new Date(), "yyyy-MM-dd");
-                const conditions = [];
-                const healthConditions = healthConditionsDataRef.current;
-
-                if (!healthConditions || healthConditions.length === 0) {
-                    conditions.push({ categoryId: 0, lastTreatmentDate: null });
-                } else {
-                    healthConditions.forEach(({ conditionId, lastTreatmentDate }) => {
-                        conditions.push({
-                            categoryId: conditionId,
-                            lastTreatmentDate: lastTreatmentDate ? formatServerDate(lastTreatmentDate) : null,
-                        });
-                    });
-                }
-
-                const quotePlansPostBody = {
-                    usState: code,
-                    age: Number(age),
-                    gender: gender === "Male" ? "M" : "F",
-                    tobacco: Boolean(isTobaccoUser),
-                    desiredFaceValue: selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
-                    desiredMonthlyRate: selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
-                    coverageTypes: covType || [COVERAGE_TYPE[4].value],
-                    effectiveDate: todayDate,
-                    underWriting: {
-                        user: { height: height || 0, weight: weight || 0 },
-                        conditions,
-                    },
-                };
-
-                const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
-                setIsLoadingFinalExpensePlans(false);
-
-                if (!isRTS) {
-                    if (isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
-                    } else {
-                        setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts false
-                    }
-                }
-
-                // Life RTS Experience (My Appointed Products checked by default)
-                if (isRTS) {
-                    if (isMyAppointedProducts && isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.rtsPlansWithExclusions); // Condition 1
-                    } else if (!isMyAppointedProducts && !isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.nonRTSPlans); // Condition 2
-                    } else if (isMyAppointedProducts && !isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.rtsPlans); // Condition 3
-                    } else if (!isMyAppointedProducts && isShowExcludedProducts) {
-                        setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // Condition 4
-                    }
-                }
-            } catch (error) {
-                setIsLoadingFinalExpensePlans(false);
-                setFetchPlansError(true);
-            }
-        };
-
         const coverageAmountValue =
             coverageAmount >= 1000 && coverageAmount <= 999999 && selectedTab === COVERAGE_AMOUNT;
         const monthlyPremiumValue = monthlyPremium >= 10 && monthlyPremium <= 999 && selectedTab === MONTHLY_PREMIUM;
@@ -177,18 +188,7 @@ export const PlanDetailsContainer = ({
         if (!isLoadingHealthConditions && (coverageAmountValue || monthlyPremiumValue)) {
             fetchPlans();
         }
-    }, [
-        leadDetails,
-        isLoadingHealthConditions,
-        selectedTab,
-        coverageType,
-        coverageAmount,
-        monthlyPremium,
-        getFinalExpenseQuotePlans,
-        isMyAppointedProducts,
-        isShowExcludedProducts,
-        isRTS,
-    ]);
+    }, [coverageAmount, fetchPlans, isLoadingHealthConditions, monthlyPremium, selectedTab]);
 
     useEffect(() => {
         fireEvent("Life Quote Results Viewed", {
@@ -314,9 +314,8 @@ export const PlanDetailsContainer = ({
                                     isHaveCarriers={hasCarrierInfo}
                                     selectedTab={selectedTab}
                                     carrierInfo={plan.carrier}
-                                    setIsRTS={setIsRTS}
-                                    isRTSUser={isRTS}
                                     planType={type}
+                                    fetchPlans={fetchPlans}
                                 />
                             );
                         })}
