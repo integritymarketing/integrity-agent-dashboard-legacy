@@ -11,6 +11,8 @@ import clientsService from "services/clientsService";
 import styles from "./styles.module.scss";
 
 export default function PossibleMatches({ phone, tagIds }) {
+    console.log("PossibleMatches", tagIds);
+
     const [matches, setMatches] = useState([]);
     const { callLogId, callFrom } = useParams();
     const navigate = useNavigate();

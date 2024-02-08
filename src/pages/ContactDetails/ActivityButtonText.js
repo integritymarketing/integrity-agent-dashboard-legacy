@@ -1,18 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-
-import { useLeadDetails } from "providers/ContactDetails";
-import { useScopeOfAppointment } from "providers/ContactDetails/ContactDetailsContext";
-
+import { useScopeOfAppointment, useLeadDetails } from "providers/ContactDetails";
 import useUserProfile from "hooks/useUserProfile";
-import SOAVIEW from "components/icons/activities/SoaView";
 import OpenIcon from "components/icons/open";
-
-import { Navigate } from "components/ContactDetailsContainer/ConnectModal/Icons";
 import { Button } from "components/ui/Button";
-
 import comparePlansService from "services/comparePlansService";
-
 import styles from "./ActivityDetails.module.scss";
 
 const buttonTextByActivity = {
@@ -28,76 +21,92 @@ const buttonTextByActivity = {
     "Meeting Recorded": "Download",
 };
 
-export default function ActivityButtonText(props) {
-    const { activityTypeName, activityInteractionURL, activitySubject, activityInteractionLabel = "" } = props.activity;
-    const { leadsId, setDisplay } = props;
+const ActivityButtonText = ({ activity, leadsId }) => {
+    const { activityTypeName, activityInteractionURL, activitySubject, activityInteractionLabel = "" } = activity;
     const navigate = useNavigate();
     const userProfile = useUserProfile();
     const { npn } = userProfile;
-    const splitViewPlansURL = activityInteractionURL?.split("/");
-
     const { setLinkCode } = useScopeOfAppointment();
     const { setSelectedTab } = useLeadDetails();
 
-    // const handleClick = async (activitySubject, activityInteractionURL) => {
-    //     switch (activitySubject) {
-    //         case "Scope of Appointment Signed":
-    //             setLinkCode(activityInteractionURL);
-    //             setSelectedTab("scope-of-appointment");
-    //             navigate(`/contact/${leadsId}/scope-of-appointment`);
-    //             break;
-    //         case "Scope of Appointment Completed":
-    //             setLinkCode(activityInteractionURL);
-    //             setSelectedTab("view-scope-of-appointment");
-    //             navigate(`/contact/${leadsId}/view-scope-of-appointment`);
-    //             break;
-    //         case "Plan Shared":
-    //             navigate(`/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`);
-    //             break;
-    //         case "Incoming Call Recorded":
-    //         case "Outbound Call Recorded":
-    //         case "Call Recording":
-    //         case "Meeting Recorded":
-    //         case "Contact's new call log created":
-    //             window.open(activityInteractionURL, "_blank");
-    //             break;
-    //         case "Application Submitted":
-    //             let link = await comparePlansService?.getPdfSource(activityInteractionURL, npn);
+    const splitViewPlansURL = activityInteractionURL?.split("/");
 
-    //             var url = await window.URL.createObjectURL(link);
+    const handleClick = useCallback(async () => {
+        try {
+            if (activityInteractionLabel) {
+                window.open(activityInteractionURL, "_blank");
+            } else {
+                switch (activitySubject) {
+                    case "Scope of Appointment Signed":
+                        setLinkCode(activityInteractionURL);
+                        setSelectedTab("scope-of-appointment");
+                        navigate(`/contact/${leadsId}/scope-of-appointment`);
+                        break;
+                    case "Scope of Appointment Completed":
+                        setLinkCode(activityInteractionURL);
+                        setSelectedTab("view-scope-of-appointment");
+                        navigate(`/contact/${leadsId}/view-scope-of-appointment`);
+                        break;
+                    case "Plan Shared":
+                        navigate(`/plans/${leadsId}/compare/${splitViewPlansURL[7]}/${splitViewPlansURL[8]}`);
+                        break;
+                    case "Incoming Call Recorded":
+                    case "Outbound Call Recorded":
+                    case "Call Recording":
+                    case "Meeting Recorded":
+                    case "Contact's new call log created":
+                        window.open(activityInteractionURL, "_blank");
+                        break;
+                    case "Application Submitted":
+                        let link = await comparePlansService?.getPdfSource(activityInteractionURL, npn);
 
-    //             if (url && url !== "") {
-    //                 window.open(url, "_blank");
-    //             }
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // };
+                        var url = await window.URL.createObjectURL(link);
 
-    const handleClick = async () => {
-        window.open(activityInteractionURL, "_blank");
-    };
+                        if (url && url !== "") {
+                            window.open(url, "_blank");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } catch (error) {
+            console.error("Error handling activity button click:", error);
+        }
+    }, [
+        activityInteractionLabel,
+        activityInteractionURL,
+        activitySubject,
+        leadsId,
+        npn,
+        setLinkCode,
+        setSelectedTab,
+        navigate,
+    ]);
 
-    const showButton =
-        activityTypeName && activityTypeName === "Triggered" && activityInteractionURL && activityInteractionLabel
-            ? true
-            : false;
+    const showButton = activityTypeName === "Triggered" && Boolean(activityInteractionURL);
+    const buttonText = activityInteractionLabel || buttonTextByActivity[activitySubject] || "View";
 
-    const buttonText = activityInteractionLabel;
+    return showButton ? (
+        <Button
+            icon={<OpenIcon color="#ffffff" />}
+            iconPosition="right"
+            label={buttonText}
+            onClick={handleClick}
+            type="tertiary"
+            className={styles.activityButton}
+        />
+    ) : null;
+};
 
-    return (
-        <>
-            {showButton && (
-                <Button
-                    icon={<OpenIcon color="#ffffff" />}
-                    iconPosition="right"
-                    label={buttonText}
-                    onClick={handleClick}
-                    type="tertiary"
-                    className={styles.activityButton}
-                />
-            )}
-        </>
-    );
-}
+ActivityButtonText.propTypes = {
+    activity: PropTypes.shape({
+        activityTypeName: PropTypes.string.isRequired,
+        activityInteractionURL: PropTypes.string,
+        activitySubject: PropTypes.string.isRequired,
+        activityInteractionLabel: PropTypes.string,
+    }).isRequired,
+    leadId: PropTypes.string.isRequired,
+};
+
+export default ActivityButtonText;
