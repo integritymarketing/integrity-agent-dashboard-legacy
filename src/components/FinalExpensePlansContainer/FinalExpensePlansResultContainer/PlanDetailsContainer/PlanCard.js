@@ -22,6 +22,7 @@ import { getPlanEnrollBody } from "./PlanDetailsContainer.utils";
 import { PrescreenModal } from "./PrescreenModal";
 import { SingleSignOnModal } from "components/FinalExpensePlansContainer/SingleSignOnModal";
 import { GRADEDMODIFIED, GRADED_MODIFIED } from "./PlanDetailsContainer.constants";
+import { convertToTitleCase } from "utils/toTitleCase";
 
 export const PlanCard = ({
     isMobile,
@@ -157,16 +158,6 @@ export const PlanCard = ({
 
     // Safely rendering coverageAmount using optional chaining and nullish coalescing
     const safeCoverageAmount = coverageAmount?.toLocaleString() ?? "N/A";
-    const convertToTitleCase = (text) => {
-        if (!text) {
-            return "";
-        } // Returns an empty string if text is null or undefined
-        return text
-            .toLowerCase()
-            .split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ");
-    };
 
     return (
         <div className={styles.planBox}>

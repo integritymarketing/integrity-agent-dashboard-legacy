@@ -13,6 +13,9 @@ export function toTitleCase(str) {
 }
 
 export function convertToTitleCase(inputString) {
+    if (!inputString) {
+        return "";
+    }
     // Split the string by underscore
     let parts = inputString.split("_");
 
