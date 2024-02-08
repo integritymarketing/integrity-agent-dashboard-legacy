@@ -139,7 +139,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
 
     return (
         <>
-            <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Choose Plan Type">
+            <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Choose Quote Type">
                 <Box className={styles.container}>
                     <Box className={styles.plan} onClick={handleFinalExpensePlanClick}>
                         <Box className={styles.icon}>

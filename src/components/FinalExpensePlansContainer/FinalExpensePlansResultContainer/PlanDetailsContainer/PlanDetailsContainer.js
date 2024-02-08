@@ -260,8 +260,8 @@ export const PlanDetailsContainer = ({
             <div className={`${styles.planContainer} ${noPlanResults ? styles.alignCenter : ""}`}>
                 {isLoadingFinalExpensePlans && loadersCards}
                 <PersonalisedQuoteBox />
-                {renderNoPlansMessage()}
                 {renderActiveSellingPermissionsSection()}
+                {renderNoPlansMessage()}
                 {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
                     <>
                         {pagedResults.map((plan, index) => {
@@ -323,7 +323,7 @@ export const PlanDetailsContainer = ({
 
                         <Pagination
                             currentPage={currentPage}
-                            resultName="plans"
+                            resultName="products"
                             totalPages={Math.ceil(finalExpensePlans?.length / 10)}
                             totalResults={finalExpensePlans?.length}
                             pageSize={pageSize}
