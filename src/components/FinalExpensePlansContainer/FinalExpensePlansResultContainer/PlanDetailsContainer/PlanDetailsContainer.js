@@ -267,7 +267,7 @@ export const PlanDetailsContainer = ({
                         {pagedResults.map((plan, index) => {
                             const {
                                 carrier: { logoUrl, naic, resource_url },
-                                product: { name, benefits },
+                                product: { name, benefits, limits },
                                 coverageType,
                                 faceValue,
                                 modalRates,
@@ -316,6 +316,8 @@ export const PlanDetailsContainer = ({
                                     carrierInfo={plan.carrier}
                                     planType={type}
                                     fetchPlans={fetchPlans}
+                                    reason={reason}
+                                    limits={limits}
                                 />
                             );
                         })}

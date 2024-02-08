@@ -44,6 +44,8 @@ export const PlanCard = ({
     isRTSPlan,
     planType,
     fetchPlans,
+    reason,
+    limits
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
@@ -205,6 +207,8 @@ export const PlanCard = ({
                 onClose={() => setIsPrescreenModalOpen(false)}
                 eligibility={eligibility}
                 conditionList={conditionList}
+                reason={reason}
+                limits={limits}
             />
             <FinalExpenseEnrollResponseModal
                 isOpen={enrollResponse !== null}
@@ -252,6 +256,19 @@ PlanCard.propTypes = {
     isRTSPlan: PropTypes.bool,
     planType: PropTypes.string.isRequired,
     fetchPlans: PropTypes.func,
+    limits: PropTypes.arrayOf(PropTypes.shape({
+        maxAge: PropTypes.number,
+        maxAmount: PropTypes.number,
+        minAge: PropTypes.number,
+        minAmount: PropTypes.number,
+    })),
+    reason: PropTypes.shape({
+        MaxAgeExceeded: PropTypes.bool,
+        MaxFaceAmountExceeded: PropTypes.bool,
+        MinAgeNotMet: PropTypes.bool,
+        MinFaceAmountNotMet: PropTypes.bool,
+        build: PropTypes.bool,
+    }),
 };
 
 PlanCard.defaultProps = {
