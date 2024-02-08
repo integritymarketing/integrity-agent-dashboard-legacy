@@ -31,7 +31,7 @@ export const COVERAGE_TYPE = "Coverage Type: ";
 export const COVERAGE_AMOUNT = "Coverage Amount";
 export const MONTHLY_PREMIUM = "Monthly Premium";
 export const POLICY_FEE = "Policy Fee";
-export const PLAN_INFO = "Plan Information";
+export const PLAN_INFO = "Product Information";
 export const APPLY = "Apply";
 export const UPDATE_SELLING_PERMISSIONS_TEXT = "Update Your Selling Permissions";
 export const UPDATE_SELLING_PERMISSIONS_SUBTEXT = "Update your Selling Permissions for an Improved Experience";
@@ -42,6 +42,6 @@ export const BENEFITS_SELLING_PERMISSIONS = [
 ];
 export const CONTINUE_QUOTE = "Continue to Quote";
 export const UPDATE_PERMISSIONS = "Update my Permissions";
-export const FETCH_PLANS_ERROR = "No Final Expense plans available. Review the selected filters and retry.";
+export const FETCH_PLANS_ERROR = "No Final Expense products available. Review the selected filters and retry.";
 export const NO_PLANS_ERROR = "Final Expense data is temporarily unavailable. Please try again later.";
 export const COVERAGE_TYPE_FINALOPTION = ["LEVEL", "GRADED_MODIFIED", "GUARANTEED"];
