@@ -15,7 +15,7 @@ export const COVERAGE_TYPE = [
     },
 ];
 
-export const PLAN_OPTIONS_HEADING = "Plan Options";
+export const PLAN_OPTIONS_HEADING = "Quote Options";
 export const COVERAGE_TYPE_HEADING = "Coverage Type";
 export const MY_APPOINTED_LABEL = "My Appointed Products";
 export const EXCLUDE_LABEL = "Show Only Excluded Products";
