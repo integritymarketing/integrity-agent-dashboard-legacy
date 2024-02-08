@@ -131,6 +131,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
                 showSellingPermissionModal={showSellingPermissionModal}
                 handleModalClose={() => {
                     setShowSellingPermissionModal(false);
+                    handleModalClose();
                 }}
                 handleContinue={handleContinue}
             />
@@ -163,6 +164,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
                 showSellingPermissionModal={showSellingPermissionModal}
                 handleModalClose={() => {
                     setShowSellingPermissionModal(false);
+                    handleModalClose();
                 }}
                 handleContinue={handleContinue}
             />
