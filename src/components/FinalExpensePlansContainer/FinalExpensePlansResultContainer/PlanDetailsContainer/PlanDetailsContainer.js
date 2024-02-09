@@ -200,10 +200,10 @@ export const PlanDetailsContainer = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                    ? ["My Appointed Products"]
-                    : isShowExcludedProducts
-                    ? ["Show Excluded Products"]
-                    : [],
+                        ? ["My Appointed Products"]
+                        : isShowExcludedProducts
+                            ? ["Show Excluded Products"]
+                            : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -336,6 +336,7 @@ export const PlanDetailsContainer = ({
                                     setIsRTS={setIsRTS}
                                     isShowExcludedProducts={isShowExcludedProducts}
                                     isMyAppointedProducts={isMyAppointedProducts}
+                                    healthConditionsDataRef={healthConditionsDataRef}
                                 />
                             );
                         })}
