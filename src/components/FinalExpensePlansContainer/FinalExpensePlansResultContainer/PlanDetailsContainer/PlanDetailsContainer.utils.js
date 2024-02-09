@@ -9,6 +9,7 @@ export const getPlanEnrollBody = (agentNumber, agentFirstName, agentLastName, le
     const effectiveDate = formatDate(new Date(), "yyyy-MM-dd");
     const heightInches = height ? height : 0;
     const weightLbs = weight ? weight : 0;
+    const faceAmount = coverageAmount != null ? coverageAmount.toString() : "0";
     return {
         "enroller": {
             agentLastName,
@@ -38,7 +39,7 @@ export const getPlanEnrollBody = (agentNumber, agentFirstName, agentLastName, le
         "medicareNumber": medicareBeneficiaryID,
         "partADate": partA,
         "partBDate": partB,
-        "faceAmount": coverageAmount.toString(),
+        "faceAmount": faceAmount,
         "productName": planName,
         "carrierUrl": resource_url,
         planType
