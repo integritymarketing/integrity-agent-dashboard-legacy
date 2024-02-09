@@ -4,6 +4,10 @@
     height: 6rem;
     padding-left: 5rem;
     background: $blue-5;
+
+    @include small {
+        padding-left: 0;
+    }
 }
 
 .logo {
