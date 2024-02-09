@@ -120,7 +120,7 @@ const NewContactForm = ({
 
     const linkContact = async (leadIdParam) => {
         const { policyId, policyNumber, sourceId, agentNpn, policyStatus, firstName, lastName, linkingType } = state;
-        const leadIdString = leadIdParam?.toString()
+        const leadIdString = leadIdParam?.toString();
 
         try {
             const updateBusinessBookPayload = {
@@ -277,6 +277,9 @@ const NewContactForm = ({
                             isInbound: true,
                         });
                     }
+                    analyticsService.fireEvent("Call Linked", {
+                        leadid: leadId,
+                    });
                     showToast({
                         message: "Contact added successfully",
                     });
@@ -479,7 +482,9 @@ const NewContactForm = ({
                                         fetchCountyAndState(e.target.value);
                                         if (e.target.value.length < 5) {
                                             setZipLengthValid(false);
-                                        } else {setZipLengthValid(true);}
+                                        } else {
+                                            setZipLengthValid(true);
+                                        }
                                     }}
                                     onBlur={handleBlur}
                                     onInput={(e) => {

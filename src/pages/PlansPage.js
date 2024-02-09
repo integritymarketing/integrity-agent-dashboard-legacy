@@ -53,7 +53,7 @@ import ViewAvailablePlans from "../pages/contacts/contactRecordInfo/viewAvailabl
 import { PlanPageFooter } from "./PlanPageFooter";
 import styles from "./PlansPage.module.scss";
 
-import { PLAN_SORT_OPTIONS } from "../constants";
+import { PLAN_SORT_OPTIONS, PLAN_TYPE_ENUMS } from "../constants";
 
 const premAsc = (res1, res2) => {
     return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
@@ -392,7 +392,7 @@ const PlansPage = () => {
                 fireEvent("Health Quote Results Viewed", {
                     leadid: id,
                     line_of_business: "Health",
-                    product_type: planType,
+                    product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
                     enabled_filters: [], // TODO-EVENT: add filters
                 });
             } catch (e) {

@@ -17,12 +17,13 @@ import { Button } from "components/ui/Button";
 import { HEALTH_CONDITION_API } from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthConditionsContainer.constants";
 import {
     COVERAGE_AMOUNT,
-    COVERAGE_TYPE,
     COVERAGE_TYPE_FINALOPTION,
     FETCH_PLANS_ERROR,
     MONTHLY_PREMIUM,
     NO_PLANS_ERROR,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
+
+import { COVERAGE_TYPE } from "../FinalExpensePlansResultContainer.constants";
 import { AlertIcon } from "components/icons/alertIcon";
 import { BackToTop } from "components/ui/BackToTop";
 import Pagination from "components/ui/Pagination/pagination";
@@ -190,22 +191,36 @@ export const PlanDetailsContainer = ({
         }
     }, [coverageAmount, fetchPlans, isLoadingHealthConditions, monthlyPremium, selectedTab]);
 
-    useEffect(() => {
-        fireEvent("Life Quote Results Viewed", {
+    const lifeQuoteEvent = (eventName) => {
+        fireEvent(eventName, {
             leadid: contactId,
-            flow: "final_expense",
             line_of_business: "Life",
             product_type: "final_expense",
-            enabled_filters: [],
-            coverage_vs_premium: selectedTab,
-            coverage_amount: coverageAmount,
-            premium_amount: monthlyPremium,
-            coverage_type_selected: coverageType,
+            enabled_filters:
+                isShowExcludedProducts && isMyAppointedProducts
+                    ? ["My Appointed Products", "Show Excluded Products"]
+                    : isMyAppointedProducts
+                    ? ["My Appointed Products"]
+                    : isShowExcludedProducts
+                    ? ["Show Excluded Products"]
+                    : [],
+            coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
+            quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
+            quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
+            quote_coverage_type: coverageType?.toLowerCase(),
             number_of_conditions: healthConditionsDataRef.current?.length,
             number_of_completed_condtions: healthConditionsDataRef.current?.filter((item) => item.lastTreatmentDate)
                 .length,
         });
+    };
+
+    useEffect(() => {
+        lifeQuoteEvent("Life Quote Results Viewed");
     }, []);
+
+    useEffect(() => {
+        lifeQuoteEvent("Life Quote Results Updated");
+    }, [selectedTab, coverageType, coverageAmount, monthlyPremium, isShowExcludedProducts, isMyAppointedProducts]);
 
     const loadersCards = useMemo(() => {
         const loaders = Array.from({ length: 10 }, (_, i) => <PlanCardLoader key={i} />);
@@ -318,6 +333,9 @@ export const PlanDetailsContainer = ({
                                     fetchPlans={fetchPlans}
                                     reason={reason}
                                     limits={limits}
+                                    setIsRTS={setIsRTS}
+                                    isShowExcludedProducts={isShowExcludedProducts}
+                                    isMyAppointedProducts={isMyAppointedProducts}
                                 />
                             );
                         })}
