@@ -71,7 +71,7 @@ export default function EnrollmentLinkToContact() {
 
     const handleBackToRoute = () => {
         if (state?.page === "Contacts Details") {
-            navigate(`/contact/${state?.leadId}/details`);
+            navigate(`/contact/${state?.leadId}/overview`);
         } else if (state?.page === "Dashboard") {
             navigate(`/dashboard`);
         }

@@ -100,7 +100,7 @@ const NewContactForm = ({
         [showToast]
     );
 
-    const getContactLink = (id) => `/contact/${id}/details`;
+    const getContactLink = (id) => `/contact/${id}/overview`;
     const goToContactDetailPage = (id) => {
         navigate(getContactLink(id));
     };
