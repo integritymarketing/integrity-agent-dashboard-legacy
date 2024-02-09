@@ -22,7 +22,7 @@ export const SellingPermissionsModal = ({ showSellingPermissionModal, handleModa
     const navigate = useNavigate();
 
     const redirectToAccount = () => {
-        navigate(`/account`);
+        navigate(`/account/sellingPermissions`);
     };
 
     return (
