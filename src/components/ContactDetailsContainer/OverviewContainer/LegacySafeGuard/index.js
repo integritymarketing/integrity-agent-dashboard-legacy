@@ -7,6 +7,7 @@ import styles from "./styles.module.scss";
 import LegacySafeGuardCardImage from "images/LegacySafeGuardCard.png";
 import { Arrow } from "../Icons";
 import useUserProfile from "hooks/useUserProfile";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 
 /**
  * Component to render Legacy SafeGuard card with eligibility check and redirection functionality.
@@ -15,6 +16,7 @@ import useUserProfile from "hooks/useUserProfile";
  */
 const LegacySafeGuard = ({ leadDetails }) => {
     const { npn: userNpn } = useUserProfile();
+    const { agentInformation } = useAgentInformationByID();
     const {
         firstName,
         lastName,
@@ -27,7 +29,11 @@ const LegacySafeGuard = ({ leadDetails }) => {
         leadTags,
     } = leadDetails;
 
-    const leadPhone = useMemo(() => phones?.[0]?.leadPhone || "", [phones]);
+    const agentFirstName = useMemo(() => agentInformation?.agentFirstName || "", [agentInformation]);
+    const agentLastName = useMemo(() => agentInformation?.agentLastName || "", [agentInformation]);
+    const agentPhone = useMemo(() => agentInformation?.phone || "", [agentInformation]);
+    const agentEmail = useMemo(() => agentInformation?.email || "", [agentInformation]);
+    const leadPhones = useMemo(() => phones?.[0]?.leadPhone || "", [phones]);
     const leadEmail = useMemo(() => emails?.[0]?.leadEmail || '', [emails]);
     const leadAddress = useMemo(() => addresses?.[0]?.address1 || '', [addresses]);
     const leadCity = useMemo(() => addresses?.[0]?.city || "", [addresses]);
@@ -51,10 +57,14 @@ const LegacySafeGuard = ({ leadDetails }) => {
             ...(leadCity && { mc_city: leadCity }),
             ...(leadZip && { mc_zip: leadZip }),
             ...(leadState && { mc_state: leadState }),
-            ...(leadPhone && { mc_phone: leadPhone }),
             ...(leadEmail && { mc_email: leadEmail }),
+            ...(leadPhones && { mc_phone: leadPhones }),
             ...(formattedGender && { gender: formattedGender }),
             ...(formattedBirthdate && { mc_dob: formattedBirthdate }),
+            ...(agentFirstName && { agent_fname: agentFirstName }),
+            ...(agentLastName && { agent_lname: agentLastName }),
+            ...(agentPhone && { agent_phone: agentPhone }),
+            ...(agentEmail && { agent_email: agentEmail })
         }).toString();
 
         return `https://legacysafeguarduniversity.com/enrollment-form/?${queryParams}`;
@@ -64,14 +74,14 @@ const LegacySafeGuard = ({ leadDetails }) => {
      * Handles click on the card, redirecting to the constructed URL.
      */
     const handleCardClick = () => {
-        if (!userNpn || !leadsId) {return;}
+        if (!userNpn || !leadsId) { return; }
 
         const url = constructLegacySafeGuardUrl();
         window.open(url, "_blank");
     };
 
     // Render nothing if the LS USER tag is present
-    if (isLSGTagPresent) {return null;}
+    if (isLSGTagPresent) { return null; }
 
     return (
         <Box className={styles.legacySafeGuardCardContainer}>
