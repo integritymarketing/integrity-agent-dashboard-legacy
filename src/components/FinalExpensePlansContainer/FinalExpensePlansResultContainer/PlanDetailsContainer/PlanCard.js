@@ -45,7 +45,7 @@ export const PlanCard = ({
     planType,
     fetchPlans,
     reason,
-    limits
+    limits,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
@@ -56,20 +56,48 @@ export const PlanCard = ({
     const { Post: enrollLeadFinalExpensePlan } = useFetch(`${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`);
     const [enrollResponse, setEnrollResponse] = useState(null);
 
-    const onPreApply = async () => {
-        fireEvent("Life Apply CTA Clicked", {
+    useEffect(() => {
+        if (isPrescreenModalOpen) {
+            lifeQuoteEvent("Final Expense Prescreening Notes Viewed");
+        }
+    }, [isPrescreenModalOpen, contactId]);
+
+    const lifeQuoteEvent = (eventName) => {
+        fireEvent(eventName, {
             leadid: contactId,
             line_of_business: "Life",
             product_type: "final_expense",
-            enabled_filters: [],
-            coverage_vs_premium: selectedTab,
-            coverage_amount: coverageAmount,
-            premium_amount: monthlyPremium,
-            coverage_type_selected: coverageType,
-            pre_screening_status: eligibility,
-            carrier_group: null,
-            carrier: null,
+            enabled_filters:
+                isShowExcludedProducts && isMyAppointedProducts
+                    ? ["My Appointed Products", "Show Excluded Products"]
+                    : isMyAppointedProducts
+                    ? ["My Appointed Products"]
+                    : isShowExcludedProducts
+                    ? ["Show Excluded Products"]
+                    : [],
+            coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
+            quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
+            quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
+            quote_coverage_type: coverageType?.toLowerCase(),
+            number_of_conditions: healthConditionsDataRef.current?.length,
+            number_of_completed_condtions: healthConditionsDataRef.current?.filter((item) => item.lastTreatmentDate)
+                .length,
         });
+    };
+
+    const lifeQuoteCallEvent = (success) => {
+        fireEvent("Life SSO Eligibility Call Completed", {
+            leadid: contactId,
+            success: success ? "Yes" : "No",
+            line_of_business: "life",
+            product_type: "final_expense",
+            carrier_group: carrierInfo?.parent,
+            carrier: carrierInfo?.name,
+        });
+    };
+
+    const onPreApply = async () => {
+        lifeQuoteEvent("Life Apply CTA Clicked");
 
         // if (!isRTSPlan) {
         //     setIsSingleSignOnModalOpen(true);
@@ -96,17 +124,11 @@ export const PlanCard = ({
         );
         const response = await enrollLeadFinalExpensePlan(body);
         if (response.RedirectUrl) {
-            fireEvent("Life SSO Completed", {
-                leadid: contactId,
-                success: "Yes",
-            });
+            lifeQuoteCallEvent(true);
             window.open(response.RedirectUrl, "_blank");
         } else {
             setEnrollResponse(response);
-            fireEvent("Life SSO Completed", {
-                leadid: contactId,
-                success: "No",
-            });
+            lifeQuoteCallEvent(false);
         }
     };
 
@@ -130,33 +152,6 @@ export const PlanCard = ({
             </tbody>
         </table>
     );
-
-    useEffect(() => {
-        if (isPrescreenModalOpen) {
-            fireEvent("Final Expense Prescreening Notes Viewed", {
-                leadid: contactId,
-                line_of_business: "Life",
-                product_type: "final_expense",
-                enabled_filters: [],
-                coverage_vs_premium: selectedTab,
-                coverage_amount: coverageAmount,
-                premium_amount: monthlyPremium,
-                coverage_type_selected: coverageType,
-                pre_screening_status: eligibility,
-                carrier_group: null,
-                carrier: null,
-            });
-        }
-    }, [
-        isPrescreenModalOpen,
-        contactId,
-        fireEvent,
-        selectedTab,
-        coverageAmount,
-        monthlyPremium,
-        coverageType,
-        eligibility,
-    ]);
 
     // Safely rendering coverageAmount using optional chaining and nullish coalescing
     const safeCoverageAmount = coverageAmount?.toLocaleString() ?? "N/A";
@@ -256,12 +251,14 @@ PlanCard.propTypes = {
     isRTSPlan: PropTypes.bool,
     planType: PropTypes.string.isRequired,
     fetchPlans: PropTypes.func,
-    limits: PropTypes.arrayOf(PropTypes.shape({
-        maxAge: PropTypes.number,
-        maxAmount: PropTypes.number,
-        minAge: PropTypes.number,
-        minAmount: PropTypes.number,
-    })),
+    limits: PropTypes.arrayOf(
+        PropTypes.shape({
+            maxAge: PropTypes.number,
+            maxAmount: PropTypes.number,
+            minAge: PropTypes.number,
+            minAmount: PropTypes.number,
+        })
+    ),
     reason: PropTypes.shape({
         MaxAgeExceeded: PropTypes.bool,
         MaxFaceAmountExceeded: PropTypes.bool,
