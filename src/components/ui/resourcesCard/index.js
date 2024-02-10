@@ -28,8 +28,8 @@ export default function ResourceSection() {
             />
             <Help
                 icon={ContactSupport}
-                text="Need Help? Visit the help center for 24/7 professional"
-                labelName="Zendesk Assistance"
+                text="Need Help? Visit the help center for professional"
+                labelName="Professional Assistance"
                 handleClick={navigateToHelp}
             />
         </div>

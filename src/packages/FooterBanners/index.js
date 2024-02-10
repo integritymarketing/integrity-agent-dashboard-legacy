@@ -33,16 +33,16 @@ const FooterBanners = ({ className = "", type = "row" }) => {
                 <Banner
                     className={styles.footerBanner1}
                     icon={GlassesIcon}
-                    text="For the latest resources and news for integrity visit the"
+                    text="For the latest resources and news for Integrity visit the"
                     link="/learning-center"
                     linkText="Knowledge Center"
                 />
                 <Banner
                     className={styles.footerBanner2}
                     icon={HeadsetIcon}
-                    text="Need help? Visit the help center for 24/7 professional"
+                    text="Need help? Visit the help center for professional"
                     link="/help"
-                    linkText="Zendesk Assistance"
+                    linkText="Professional Assistance"
                 />
             </div>
         </div>

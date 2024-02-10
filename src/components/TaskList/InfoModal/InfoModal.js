@@ -24,7 +24,7 @@ export const InfoModal = ({ open, onClose, isMobile }) => {
                     "See and contact new leads generated for you on PlanEnroll.com. For more information about PlanEnroll.com leads, please read our PlanEnroll Leads Guide.",
             },
             {
-                title: "SOA 48 Hour Rule",
+                title: "SoA",
                 content:
                     "Track the 48-hour cooling off period as required by CMS. Tracked SOAs will appear here as soon as they’re signed by your clients, and you’ll be able to complete the SOAs as soon as the cooling off period has expired. For more information about SOA Tracking, including disabling SOA Tracking, please read our SOA Guide.",
             },

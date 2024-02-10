@@ -44,8 +44,8 @@ const SupportLinksCard = ({ position }) => {
             {renderCard(
                 ContactSupportImage,
                 "Contact Support",
-                "Need Help? Visit the help center for 24/7 professional",
-                "Zendesk Assistance",
+                "Need Help? Visit the help center for professional",
+                "Professional Assistance",
                 "/help"
             )}
         </div>

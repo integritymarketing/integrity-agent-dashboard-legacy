@@ -44,7 +44,7 @@ const DEFAULT_TABS = [
         value: 3,
     },
     {
-        policyStatus: "SOA 48-hour Rule",
+        policyStatus: "SoA",
         policyStatusColor: "#4178FF",
         name: "Soa48HoursRule",
         value: 0,
@@ -214,7 +214,7 @@ export default function TaskList({ isMobile, npn }) {
 
             case "Reminders":
                 return <RemindersList taskList={taskList} refreshData={refreshData} />;
-            case "SOA 48-hour Rule":
+            case "SoA":
                 return <Soa48HoursRule isMobile={isMobile} taskList={taskList || []} refreshData={refreshData} />;
 
             case "PlanEnroll Leads":
@@ -229,7 +229,7 @@ export default function TaskList({ isMobile, npn }) {
             case "Reminders": {
                 return "There are no reminders to display at this time.";
             }
-            case "SOA 48-hour Rule": {
+            case "SoA": {
                 return "There are no incomplete SOAs being tracked for you at this time.";
             }
             case "PlanEnroll Leads": {
@@ -248,7 +248,7 @@ export default function TaskList({ isMobile, npn }) {
                 return NoUnlinkedCalls;
             case "PlanEnroll Leads":
                 return NoSOA48Hours;
-            case "SOA 48-hour Rule":
+            case "SoA":
                 return NoSOA48Hours;
             default:
                 return null;
@@ -263,7 +263,7 @@ export default function TaskList({ isMobile, npn }) {
             case "Unlinked Calls": {
                 return "about unlinked calls.";
             }
-            case "SOA 48-hour Rule": {
+            case "SoA": {
                 return "To track an SOA sent through Contact Management, make sure you check the “Track SOA” box on the Send SOA screen. Tracked SOAs will be displayed here once they’re signed by your Contacts. When you complete tracked SOAs, they’ll be removed from this view but will still be available in the Contact records.";
             }
             default:
