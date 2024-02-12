@@ -10,7 +10,7 @@
 
 .horizontalLayout {
     position: relative;
-    
+
     .editIcon {
         cursor: pointer;
         position: absolute;
@@ -22,6 +22,9 @@
 .emailAddress {
     overflow: hidden;
     word-wrap: break-word;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .border {
@@ -30,6 +33,32 @@
 
 .gap {
     justify-content: space-between;
+}
+
+.beneficiaryId {
+    display: flex;
+
+    div {
+        width: 127px;
+    }
+
+    span {
+        color: #1457FF;
+        font-weight: 600;
+        display: flex;
+        gap: 5px;
+        cursor: pointer;
+
+        svg {
+            margin-left: 1rem;
+        }
+    }
+}
+
+.dateAlignment {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem
 }
 
 .buttonContainer {

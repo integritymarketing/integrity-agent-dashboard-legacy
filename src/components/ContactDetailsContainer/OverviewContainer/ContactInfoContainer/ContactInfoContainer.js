@@ -18,12 +18,15 @@ import ContactInfoForm from "./ContactInfoForm";
 import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
 import { EditWithIcon, Favorite } from "../Icons";
+import { Hide } from "../Icons/Hide";
+import { Show } from "../Icons/Show";
 
 const NOT_AVAILABLE = "-";
 
 export const ContactInfoContainer = () => {
     const [isEditMode, setIsEditMode] = useState(false);
     const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
+    const [isShowBeneficiaryId, setShowBeneficiaryId] = useState(false);
 
     let {
         firstName = "",
@@ -92,6 +95,10 @@ export const ContactInfoContainer = () => {
 
     const leadMBID = useMemo(() => {
         return medicareBeneficiaryID ? formatMBID(medicareBeneficiaryID) : NOT_AVAILABLE;
+    }, [medicareBeneficiaryID]);
+
+    const leadMBIDFull = useMemo(() => {
+        return medicareBeneficiaryID ? formatMBID(medicareBeneficiaryID, true) : NOT_AVAILABLE;
     }, [medicareBeneficiaryID]);
 
     const leadPartA = useMemo(() => {
@@ -219,8 +226,8 @@ export const ContactInfoContainer = () => {
                             <Box className={styles.horizontalLayout}>
                                 <Box className={styles.emailAddress}>
                                     <Label value={leadEmail} color="#4178FF" size="16px" />
+                                    {isPrimary === "email" && <Favorite />}
                                 </Box>
-                                {isPrimary === "email" && <Favorite />}
                             </Box>
                         </SectionContainer>
                         <SectionContainer>
@@ -244,8 +251,14 @@ export const ContactInfoContainer = () => {
                         </SectionContainer>
                         <SectionContainer>
                             <Label value="Medicare Beneficiary Identifier (MBIs)" color="#717171" size="14px" />
-                            <Label value={leadMBID} color="#052A63" size="16px" />
-                            <Box className={`${styles.horizontalLayout} ${styles.gap}`}>
+                            <div className={styles.beneficiaryId}>
+                                <Label value={isShowBeneficiaryId ? leadMBIDFull : leadMBID} color="#052A63" size="16px" />
+                                <span onClick={() => setShowBeneficiaryId(!isShowBeneficiaryId)}>
+                                    {isShowBeneficiaryId ? <Hide /> : <Show />}
+                                    {isShowBeneficiaryId ? "Hide" : "Show"}
+                                </span>
+                            </div>
+                            <Box className={`${styles.horizontalLayout} ${styles.dateAlignment}`}>
                                 <Box>
                                     <Label value="Part A start date" color="#717171" size="14px" />
                                     <Label value={leadPartA} color="#052A63" size="16px" />

@@ -203,7 +203,7 @@ const FinalExpensePlansResultContainer = () => {
                         onChange={handleInputChange}
                         inputErrorStyle={
                             (covAmtError && selectedTab === COVERAGE_AMOUNT) ||
-                            (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
+                                (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
                                 ? styles.inputError
                                 : ""
                         }
@@ -226,9 +226,8 @@ const FinalExpensePlansResultContainer = () => {
                         />
                         <div className={styles.checkboxesWrapper}>
                             <div
-                                className={`${styles.checkbox} ${
-                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
-                                } ${!isRTS ? styles.inActive : ""}`}
+                                className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                    } ${!isRTS ? styles.inActive : ""}`}
                                 onClick={() => {
                                     if (!isRTS) {
                                         return;
@@ -242,9 +241,8 @@ const FinalExpensePlansResultContainer = () => {
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
-                                className={`${styles.checkbox} ${
-                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                }`}
+                                className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                    }`}
                                 onClick={() => setIsShowExcludedProducts(!isShowExcludedProducts)}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}

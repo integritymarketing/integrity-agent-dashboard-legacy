@@ -59,7 +59,7 @@ export const PlanDetailsContainer = ({
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
     const { getFinalExpenseQuotePlans, getCarriersInfo, carrierInfo } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
-    const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(false);
+    const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState();
     const { leadDetails } = useLeadDetails();
     const [fetchPlansError, setFetchPlansError] = useState(false);
     const noPlanResults = pagedResults.length === 0;
@@ -228,7 +228,7 @@ export const PlanDetailsContainer = ({
     }, []);
 
     const renderNoPlansMessage = useCallback(() => {
-        if (!isLoadingFinalExpensePlans && noPlanResults) {
+        if (isLoadingFinalExpensePlans === false && noPlanResults) {
             return (
                 <div className={styles.noPlans}>
                     <div className={styles.alertIcon}>
@@ -239,10 +239,10 @@ export const PlanDetailsContainer = ({
             );
         }
         return null;
-    }, [isLoadingFinalExpensePlans, pagedResults.length, fetchPlansError]);
+    }, [isLoadingFinalExpensePlans, noPlanResults, fetchPlansError]);
 
     const renderActiveSellingPermissionsSection = useCallback(() => {
-        if (!isRTS || !isMyAppointedProducts) {
+        if (!noPlanResults && (!isRTS || !isMyAppointedProducts)) {
             return (
                 <div className={styles.activeSellingPermissionsRequired}>
                     <p>{ACTIVE_SELLING_PERMISSIONS_REQUIRED}</p>
@@ -258,7 +258,7 @@ export const PlanDetailsContainer = ({
             );
         }
         return null;
-    }, [isRTS, navigate, isMyAppointedProducts]);
+    }, [isRTS, navigate, isMyAppointedProducts, noPlanResults]);
 
     const hasCarrierInfo = useMemo(() => {
         return carrierInfo?.length > 0;
@@ -274,7 +274,7 @@ export const PlanDetailsContainer = ({
             />
             <div className={`${styles.planContainer} ${noPlanResults ? styles.alignCenter : ""}`}>
                 {isLoadingFinalExpensePlans && loadersCards}
-                <PersonalisedQuoteBox />
+                {!noPlanResults && <PersonalisedQuoteBox />}
                 {renderActiveSellingPermissionsSection()}
                 {renderNoPlansMessage()}
                 {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
