@@ -23,7 +23,7 @@ export default function ResourceSection() {
             <Help
                 icon={LearningCenter}
                 text="For the latest resources and news from Integrity visit the"
-                labelName="Knowledge Center"
+                labelName="Learning Center"
                 handleClick={handleLearningCenter}
             />
             <Help

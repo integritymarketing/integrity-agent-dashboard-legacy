@@ -38,7 +38,7 @@ const SupportLinksCard = ({ position }) => {
                 LearningCenterImage,
                 "Learning Center",
                 "For the latest resources and news from Integrity visit the",
-                "Knowledge Center",
+                "Learning Center",
                 "/learning-center"
             )}
             {renderCard(

@@ -35,7 +35,7 @@ const FooterBanners = ({ className = "", type = "row" }) => {
                     icon={GlassesIcon}
                     text="For the latest resources and news for Integrity visit the"
                     link="/learning-center"
-                    linkText="Knowledge Center"
+                    linkText="Learning Center"
                 />
                 <Banner
                     className={styles.footerBanner2}
