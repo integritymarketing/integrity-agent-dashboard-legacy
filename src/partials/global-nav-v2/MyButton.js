@@ -64,6 +64,7 @@ function MyButton({ page, leadPreference }) {
         if (
             leadPreference.isCheckInUpdateModalDismissed !== undefined &&
             leadPreference.isCheckInUpdateModalDismissed === false &&
+            leadPreference?.isAgentMobilePopUpDismissed &&
             page === "dashboard"
         ) {
             setIsAvailabiltyModalVisible(true);

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import * as Sentry from "@sentry/react";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
@@ -253,17 +254,15 @@ export default function Dashbaord() {
                         {isMobile && <FooterBanners className="banners" type="column" />}
                     </section>
                 </div>
-                {welcomeModalOpen && (
-                    <AgentWelcomeDialog
-                        open={welcomeModalOpen}
-                        handleConfirm={handleConfirm}
-                        close={() => {
-                            setWelcomeModalOpen(false);
-                            setWelcomeModalTempOpen(true);
-                            setTimeout(() => (document.body.style.overflow = "auto"), 1000);
-                        }}
-                    />
-                )}
+
+                <AgentWelcomeDialog
+                    open={welcomeModalOpen}
+                    handleConfirm={handleConfirm}
+                    close={() => {
+                        setWelcomeModalOpen(false);
+                        setWelcomeModalTempOpen(true);
+                    }}
+                />
             </WithLoader>
             <GlobalFooter />
         </>
