@@ -235,7 +235,7 @@ export const ContactInfoContainer = () => {
                             <Box className={`${styles.horizontalLayout}   ${styles.gap}`}>
                                 <Box className={styles.horizontalLayout}>
                                     <Label value="Home:" color="#052A63" size="16px" />
-                                    <Label value={leadPhone} color="#4178FF" size="16px" />
+                                    <Label value={` ${leadPhone}`} color="#4178FF" size="16px" />
                                 </Box>
                                 {isPrimary === "phone" && <Favorite />}
                             </Box>

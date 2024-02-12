@@ -46,7 +46,7 @@ const DEFAULT_TABS = [
         value: 2,
     },
     {
-        policyStatus: "SoA",
+        policyStatus: "Health SOAs",
         name: "Soa48HoursRule",
         value: 0,
     },
@@ -154,7 +154,7 @@ export default function TaskListMobileLayout() {
                 return <UnLinkedCalls taskList={taskList} refreshData={refreshData} />;
             case "Reminders":
                 return <RemindersList taskList={taskList} refreshData={refreshData} />;
-            case "SoA":
+            case "Health SOAs":
                 return <Soa48HoursRule isMobile={isMobile} taskList={taskList || []} refreshData={refreshData} />;
             default:
                 return <Soa48HoursRule isMobile={isMobile} taskList={taskList || []} refreshData={refreshData} />;
@@ -166,7 +166,7 @@ export default function TaskListMobileLayout() {
             case "Reminders": {
                 return "There are no reminders to display at this time.";
             }
-            case "SoA": {
+            case "Health SOAs": {
                 return "There are no incomplete SOAs being tracked for you at this time.";
             }
             case "PlanEnroll Leads":
@@ -184,7 +184,7 @@ export default function TaskListMobileLayout() {
                 return NoUnlinkedCalls;
             case "PlanEnroll Leads":
                 return PlanEnrollBig;
-            case "SoA":
+            case "Health SOAs":
                 return NoSOA48Hours;
             default:
                 return null;
@@ -200,7 +200,7 @@ export default function TaskListMobileLayout() {
                 return "about unlinked calls.";
             }
 
-            case "SoA": {
+            case "Health SOAs": {
                 return "To track an SOA sent through Contact Management, make sure you check the “Track SOA” box on the Send SOA screen. Tracked SOAs will be displayed here once they’re signed by your Contacts. When you complete tracked SOAs, they’ll be removed from this view but will still be available in the Contact records.";
             }
             default:

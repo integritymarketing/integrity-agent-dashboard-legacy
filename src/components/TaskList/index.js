@@ -44,12 +44,6 @@ const DEFAULT_TABS = [
         value: 3,
     },
     {
-        policyStatus: "SoA",
-        policyStatusColor: "#4178FF",
-        name: "Soa48HoursRule",
-        value: 0,
-    },
-    {
         policyStatus: "Reminders",
         policyStatusColor: "#4178FF",
         name: "Reminders",
@@ -60,6 +54,12 @@ const DEFAULT_TABS = [
         policyStatusColor: "#DEEBFB",
         name: "UnlinkedCalls",
         value: 2,
+    },
+    {
+        policyStatus: "Health SOAs",
+        policyStatusColor: "#4178FF",
+        name: "Soa48HoursRule",
+        value: 0,
     },
 ];
 
@@ -214,7 +214,7 @@ export default function TaskList({ isMobile, npn }) {
 
             case "Reminders":
                 return <RemindersList taskList={taskList} refreshData={refreshData} />;
-            case "SoA":
+            case "Health SOAs":
                 return <Soa48HoursRule isMobile={isMobile} taskList={taskList || []} refreshData={refreshData} />;
 
             case "PlanEnroll Leads":
@@ -229,7 +229,7 @@ export default function TaskList({ isMobile, npn }) {
             case "Reminders": {
                 return "There are no reminders to display at this time.";
             }
-            case "SoA": {
+            case "Health SOAs": {
                 return "There are no incomplete SOAs being tracked for you at this time.";
             }
             case "PlanEnroll Leads": {
@@ -248,7 +248,7 @@ export default function TaskList({ isMobile, npn }) {
                 return NoUnlinkedCalls;
             case "PlanEnroll Leads":
                 return NoSOA48Hours;
-            case "SoA":
+            case "Health SOAs":
                 return NoSOA48Hours;
             default:
                 return null;
@@ -263,7 +263,7 @@ export default function TaskList({ isMobile, npn }) {
             case "Unlinked Calls": {
                 return "about unlinked calls.";
             }
-            case "SoA": {
+            case "Health SOAs": {
                 return "To track an SOA sent through Contact Management, make sure you check the “Track SOA” box on the Send SOA screen. Tracked SOAs will be displayed here once they’re signed by your Contacts. When you complete tracked SOAs, they’ll be removed from this view but will still be available in the Contact records.";
             }
             default:
