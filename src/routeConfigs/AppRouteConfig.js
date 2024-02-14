@@ -153,7 +153,6 @@ const appProtectedRoutes = [
             <>
                 <ContactDetailsProvider>
                     <ContactProfile />
-                    <WebChatComponent />
                 </ContactDetailsProvider>
             </>
         ),
@@ -164,7 +163,6 @@ const appProtectedRoutes = [
             <>
                 <ContactDetailsProvider>
                     <ContactProfile />
-                    <WebChatComponent />
                 </ContactDetailsProvider>
             </>
         ),
@@ -175,7 +173,6 @@ const appProtectedRoutes = [
             <>
                 <ContactDetailsProvider>
                     <ContactProfile />
-                    <WebChatComponent />
                 </ContactDetailsProvider>
             </>
         ),
