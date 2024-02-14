@@ -3,6 +3,7 @@ import React, { useCallback, useState } from "react";
 
 import useAnalytics from "hooks/useAnalytics";
 import useToast from "hooks/useToast";
+import { PLAN_TYPE_ENUMS } from "../../../constants";
 
 import Radio from "components/ui/Radio";
 import Modal from "components/ui/modal";
@@ -51,7 +52,7 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
                 fireEvent("Health Submit CTA Clicked", {
                     leadid: contact.leadsId,
                     line_of_business: "Health",
-                    product_type: planData?.planType,
+                    product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
                 });
             } else {
                 showToast({

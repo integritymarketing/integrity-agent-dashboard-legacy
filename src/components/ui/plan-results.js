@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { formatDate } from "utils/dates";
 
 import useAnalytics from "hooks/useAnalytics";
+import { PLAN_TYPE_ENUMS } from "../../constants";
 
 import EnrollmentModal from "./Enrollment/enrollment-modal";
 import PlanCard from "./PlanCard";
@@ -56,7 +57,7 @@ const PlanResults = ({
                         fireEvent("Health Apply CTA Clicked", {
                             leadid: leadId,
                             line_of_business: "Health",
-                            product_type: planType,
+                            product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
                         });
                         setEnrollingPlan(plan);
                         setModalOpen(true);

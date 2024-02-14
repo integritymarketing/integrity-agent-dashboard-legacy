@@ -43,6 +43,7 @@ const NewContactForm = ({
     partA = "",
     partB = "",
     medicareBeneficiaryID = "",
+    tags = [],
 }) => {
     const { get } = useQueryParams();
     const addNewDuplicateErrorRef = useRef();
@@ -275,6 +276,7 @@ const NewContactForm = ({
                             callLogId,
                             leadId,
                             isInbound: true,
+                            tags: tags?.split(","), // tags from the url
                         });
                     }
                     analyticsService.fireEvent("Call Linked", {
@@ -746,7 +748,7 @@ const NewContactForm = ({
 };
 
 export default function AddNewContactPage() {
-    const { callLogId } = useParams();
+    const { callLogId, tags } = useParams();
     const { state } = useLocation();
     const callLogIdNumber = callLogId ? Number(callLogId) : null;
     const { policyHolder } = state?.state ?? {};
@@ -783,6 +785,7 @@ export default function AddNewContactPage() {
                         firstName={firstName}
                         lastName={lastName}
                         state={state}
+                        tags={tags}
                     />
                 </Container>
             </div>

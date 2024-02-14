@@ -32,7 +32,7 @@ export const OverviewContainer = () => {
             selection: "start_quote",
             tags: leadTags,
             stage: statusName,
-            plan_enroll_profile_created: true, // TODO-EVENT: Need to update this value
+            plan_enroll_profile_created: "Yes",
         });
     }, []);
 

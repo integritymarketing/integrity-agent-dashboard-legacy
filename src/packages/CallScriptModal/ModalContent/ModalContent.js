@@ -11,9 +11,14 @@ import { LifeScript } from "./LifeScript";
 const LIFE = "LIFE";
 const HEALTH = "HEALTH";
 
-function ModalContent({ productCount, carrierCount, shouldShowOptionalHealthInfo, currentType }) {
+function ModalContent({ productCount, carrierCount, shouldShowOptionalHealthInfo, currentType, leadId }) {
     const [layout, setLayout] = useState(currentType);
-
+    useEffect(() => {
+        fireEvent("Call Script Viewed", {
+            leadid: leadId,
+            line_of_business: layout === LIFE ? "life" : "Health",
+        });
+    }, [fireEvent, layout, leadId]);
     return (
         <Box minHeight="430px">
             <Layout layout={layout} setLayout={setLayout} />

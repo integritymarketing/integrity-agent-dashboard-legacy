@@ -4,7 +4,7 @@ import useFetch from "hooks/useFetch";
 
 import ContactSectionCard from "packages/ContactSectionCard";
 import Table from "packages/TableWrapper";
-
+import useAnalytics from "hooks/useAnalytics";
 import Icon from "components/Icon";
 import EditIcon from "components/icons/icon-edit";
 import Plus from "components/icons/plus";
@@ -30,6 +30,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
     const [isAddNewActivityDialogOpen, setIsAddNewActivityDialogOpen] = useState(false);
     const [healthConditions, setHealthConditions] = useState([]);
     const isLoadingRef = useRef(false);
+    const { fireEvent } = useAnalytics();
 
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
 
@@ -47,6 +48,13 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
             getHealthConditionsListData();
         }
     }, []);
+
+    useEffect(() => {
+        fireEvent("Health Conditions Page Viewed", {
+            leadid: contactId,
+            flow: "final_expense",
+        });
+    }, [contactId]);
 
     const sectionHeaderChildren = () => {
         return (
@@ -154,6 +162,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                     setHealthConditions={setHealthConditions}
                     refetchConditionsList={getHealthConditionsListData}
                     disableLastTreatmentDate={isHealthPage}
+                    page={isHealthPage ? "health_profile" : "final_expense"}
                 />
             )}
         </>

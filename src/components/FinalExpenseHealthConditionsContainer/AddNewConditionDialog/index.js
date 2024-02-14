@@ -56,6 +56,7 @@ const AddNewConditionDialog = ({
     refetchConditionsList,
     healthConditions,
     disableLastTreatmentDate = false,
+    page,
 }) => {
     const [searchString, setSearchString] = useState("");
     const [searchResults, setSearchResults] = useState(null);
@@ -132,7 +133,7 @@ const AddNewConditionDialog = ({
             if (response && response.length > 0) {
                 fireEvent("Health Condition Updated", {
                     leadid: contactId,
-                    flow: "final_expense",
+                    flow: page,
                     fex_questions_required: "Yes", // TODO-EVENT: This is a guess.  We need to confirm.
                     fex_questions_complete: "Yes", // TODO-EVENT: This is a guess.  We need to confirm.
                 });
@@ -155,7 +156,7 @@ const AddNewConditionDialog = ({
 
                 fireEvent("Health Condition Added", {
                     leadid: contactId,
-                    flow: "final_expense",
+                    flow: page,
                     fex_questions_required: "Yes", // TODO-EVENT: This is a guess.  We need to confirm.
                     fex_questions_complete: "Yes", // TODO-EVENT: This is a guess.  We need to confirm.
                 });
@@ -198,7 +199,7 @@ const AddNewConditionDialog = ({
         if (response && response.status === 200) {
             fireEvent("Health Condition Deleted", {
                 leadid: contactId,
-                flow: "final_expense",
+                flow: page,
             });
             showToast({
                 type: "success",

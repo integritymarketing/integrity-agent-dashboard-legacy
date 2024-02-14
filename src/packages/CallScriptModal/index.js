@@ -57,15 +57,6 @@ export const CallScriptModal = ({ modalOpen, handleClose, leadId, countyFips, po
         productCount = carrierProductData.planCount || DEFAULT_PLAN_COUNT;
     }
 
-    useEffect(() => {
-        if(modalOpen) {
-        fireEvent("Call Script Viewed", {
-            leadid: leadId,
-            line_of_business: "Health",
-        });
-    }
-    }, [fireEvent, modalOpen, leadId]);
-
     return (
         <Modal open={modalOpen} onClose={handleClose} title="Recorded Call Script" hideFooter>
             <WithLoader isLoading={isLoadingData}>
@@ -75,6 +66,7 @@ export const CallScriptModal = ({ modalOpen, handleClose, leadId, countyFips, po
                     shouldShowOptionalHealthInfo={shouldShowOptionalHealthInfo}
                     leadPreference={leadPreference}
                     currentType={currentType}
+                    leadId={leadId}
                 />
             </WithLoader>
         </Modal>

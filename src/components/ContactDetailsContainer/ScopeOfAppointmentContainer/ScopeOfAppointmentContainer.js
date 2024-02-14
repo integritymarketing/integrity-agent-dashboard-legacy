@@ -25,16 +25,22 @@ export const ScopeOfAppointmentContainer = () => {
     const { leadId } = useParams();
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
-    const { setSelectedTab } = useLeadDetails();
+    const { setSelectedTab, leadDetails } = useLeadDetails();
     const [isMobile, setIsMobile] = useState(false);
     const [openSOAModal, setOpenSOAModal] = useState(false);
     const { getSoaList, soaList = [], isSoaListLoading, setLinkCode } = useScopeOfAppointment();
 
+    const { leadsId, leadTags, statusName } = leadDetails;
+
     useEffect(() => {
         fireEvent("Contact SOA Page Viewed", {
             leadid: leadId,
+            selection: "start_quote",
+            tags: leadTags,
+            stage: statusName,
+            plan_enroll_profile_created: "Yes",
         });
-    }, [leadId]);
+    }, []);
 
     useEffect(() => {
         if (!leadId) return;

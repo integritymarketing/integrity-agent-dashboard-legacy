@@ -75,19 +75,6 @@ function Table({ columns }) {
     }, [deleteLeadId, showToast, leadName, setDeleteLeadId, setLeadName, navigate]);
 
     useEffect(() => {
-        fireEvent("Contact List Viewed", {
-            // TODO-EVENT
-            contacts_with_health_policies_count: 0,
-
-            contacts_without_policies_count: 0,
-
-            contacts_with_life_policies_count: 0,
-
-            total_contacts_count: rows?.length,
-        });
-    }, []);
-
-    useEffect(() => {
         deleteContact();
     }, [deleteLeadId, deleteContact]);
 

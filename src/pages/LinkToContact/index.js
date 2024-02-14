@@ -76,10 +76,6 @@ export default function LinkToContact() {
         );
     };
 
-    const goToAddNewContactsPage = () => {
-        navigate(`/contact/add-new/${callLogId || ""}${callFrom ? "?callFrom=" + callFrom : ""}`);
-    };
-
     const extractAndFlattenTags = (callLogs) => {
         const flattenedTags = callLogs.flatMap((callLog) =>
             callLog.callLogTags.map((tagInfo) => ({
@@ -99,7 +95,19 @@ export default function LinkToContact() {
 
     const tagIds = flattenedTags?.map((tag) => tag.tagId);
 
+    const arrayToString = () => {
+        return tagIds?.join(", ");
+    };
+
     // Log the result to see the extracted and flattened tags
+
+    const goToAddNewContactsPage = () => {
+        navigate(
+            `/contact/add-new/${callLogId || ""}${callFrom ? "?callFrom=" + callFrom : ""}${
+                arrayToString ? "?tags=" + arrayToString : ""
+            }`
+        );
+    };
 
     return (
         <>
