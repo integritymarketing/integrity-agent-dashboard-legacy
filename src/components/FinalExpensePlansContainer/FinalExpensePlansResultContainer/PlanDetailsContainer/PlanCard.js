@@ -46,6 +46,9 @@ export const PlanCard = ({
     fetchPlans,
     reason,
     limits,
+    isShowExcludedProducts,
+    isMyAppointedProducts,
+    healthConditionsDataRef,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
