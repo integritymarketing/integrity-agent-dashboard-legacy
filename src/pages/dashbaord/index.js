@@ -62,7 +62,7 @@ export default function Dashbaord() {
     const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(true);
 
     const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(welcomeModalOpenAtom);
-    const [setWelcomeModalTempOpen] = useRecoilState(welcomeModalTempOpenAtom);
+    const [, setWelcomeModalTempOpen] = useRecoilState(welcomeModalTempOpenAtom);
 
     const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
 
