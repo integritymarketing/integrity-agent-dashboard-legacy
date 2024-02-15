@@ -35,6 +35,22 @@ function Table({ columns }) {
     );
 
     useEffect(() => {
+        const contacts_with_health_policies_count = policyCounts.filter(
+            (contact) => contact.healthPolicyCount > 0
+        ).length;
+        const contacts_with_life_policies_count = policyCounts.filter((contact) => contact.lifePolicyCount > 0).length;
+
+        const contacts_without_policies_count = tableData?.length - policyCounts?.length;
+
+        fireEvent("Contact List Viewed", {
+            contacts_with_health_policies_count: contacts_with_health_policies_count,
+            contacts_without_policies_count: contacts_without_policies_count,
+            contacts_with_life_policies_count: contacts_with_life_policies_count,
+            total_contacts_count: tableData?.length,
+        });
+    }, [policyCounts]);
+
+    useEffect(() => {
         setSelectedContacts(selectedFlatRows.map((contact) => contact.original.leadsId));
     }, [selectedFlatRows, setSelectedContacts]);
 

@@ -301,6 +301,7 @@ const PlansPage = () => {
     const [carrierFilters_mobile, setCarrierFilters_mobile] = useState(carrierFilters);
 
     const toggleAppointedPlans = (e) => {
+        healthQuoteResultsUpdatedEvent();
         if (isMobile) {
             setMyAppointedPlans_mobile(e.target.checked);
         } else {
@@ -308,6 +309,8 @@ const PlansPage = () => {
         }
     };
     const toggleNeeds = (e) => {
+        healthQuoteResultsUpdatedEvent();
+
         if (isMobile) {
             setSpecialNeedsFilter_mobile(e.target.checked);
         } else {
@@ -315,11 +318,22 @@ const PlansPage = () => {
         }
     };
     const toggleRebates = (e) => {
+        healthQuoteResultsUpdatedEvent();
+
         if (isMobile) {
             setRebatesFilter_mobile(e.target.checked);
         } else {
             setRebatesFilter(e.target.checked);
         }
+    };
+
+    const healthQuoteResultsUpdatedEvent = () => {
+        fireEvent("Health Quote Results Updated", {
+            leadid: id,
+            line_of_business: "Health",
+            product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
+            enabled_filters: [policyFilters, carrierFilters, rebatesFilter], // TODO-EVENT: add filters
+        });
     };
 
     const changeFilters = (e) => {
@@ -344,8 +358,11 @@ const PlansPage = () => {
         } else if (name === "carrier" && !isMobile) {
             setCarrierFilters(resultingList);
         }
+        healthQuoteResultsUpdatedEvent();
     };
     const changeEffectiveDate = (value) => {
+        healthQuoteResultsUpdatedEvent();
+
         if (isMobile) {
             setEffectiveDate_mobile(value);
         } else {
@@ -354,6 +371,8 @@ const PlansPage = () => {
     };
 
     const changePlanType = (value) => {
+        healthQuoteResultsUpdatedEvent();
+
         if (isMobile) {
             setPlanType_mobile(value);
         } else {
@@ -362,6 +381,42 @@ const PlansPage = () => {
         }
         setSelectedPlans({});
     };
+
+    const refreshPlans = useCallback(async () => {
+        if (contact) {
+            setPlansAvailableCount(0);
+            setFilteredPlansCount(0);
+            setPlansLoading(true);
+            try {
+                setResults([]);
+                setSubTypeList([]);
+                setCarrierList([]);
+                const plansData = await plansService.getPlans(contact.leadsId, {
+                    fips: contact.addresses?.[0].countyFips.toString(),
+                    zip: contact.addresses?.[0].postalCode.toString(),
+                    year: effectiveDate.getFullYear(),
+                    ReturnAllMedicarePlans: !myAppointedPlans,
+                    ShowFormulary: true,
+                    ShowPharmacy: true,
+                    PlanType: planType,
+                    effectiveDate: `${effectiveDate.getFullYear()}-${effectiveDate.getMonth() + 1}-01`,
+                });
+                setPlansAvailableCount(plansData?.medicarePlans?.length);
+                setCurrentPage(1);
+                setResults(plansData?.medicarePlans);
+                const carriers = [...new Set(plansData?.medicarePlans.map((plan) => plan.marketingName))];
+                const subTypes = [...new Set(plansData?.medicarePlans.map((plan) => plan?.planSubType || "PDP"))];
+                setSubTypeList(subTypes);
+                setCarrierList(carriers);
+                healthQuoteResultsUpdatedEvent();
+            } catch (e) {
+                Sentry.captureException(e);
+            } finally {
+                setPlansLoading(false);
+            }
+        }
+    }, [contact, effectiveDate, planType, myAppointedPlans]);
+
     const getAllPlans = useCallback(async () => {
         if (contact) {
             setPlansAvailableCount(0);
@@ -728,7 +783,7 @@ const PlansPage = () => {
                                                 selectedPlans={selectedPlans}
                                                 setSelectedPlans={setSelectedPlans}
                                                 setSessionData={setSessionData}
-                                                refresh={getAllPlans}
+                                                refresh={refreshPlans}
                                             />
                                             {!plansLoading && filteredPlansCount > 0 && (
                                                 <div>

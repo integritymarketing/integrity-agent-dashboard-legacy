@@ -63,6 +63,7 @@ export const PlanDetailsContainer = ({
     const [conditionsListState, setConditionsListState] = useState([]);
     const { leadDetails } = useLeadDetails();
     const [fetchPlansError, setFetchPlansError] = useState(false);
+    const initialRender = useRef(true);
     const noPlanResults = pagedResults.length === 0;
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
 
@@ -220,7 +221,19 @@ export const PlanDetailsContainer = ({
     }, []);
 
     useEffect(() => {
-        lifeQuoteEvent("Life Quote Results Updated");
+        if (initialRender.current) {
+            const timer = setTimeout(() => {
+                initialRender.current = false;
+            }, 10000);
+
+            return () => clearTimeout(timer);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!initialRender.current) {
+            lifeQuoteEvent("Life Quote Results Updated");
+        }
     }, [
         selectedTab,
         coverageType,

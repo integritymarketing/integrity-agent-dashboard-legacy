@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-
 import Box from "@mui/material/Box";
 
 import { useLeadDetails, useOverView } from "providers/ContactDetails";
@@ -10,7 +9,6 @@ import { TagsList } from "./TagsList/TagsList";
 
 const TagsContainer = function () {
     const { leadDetails } = useLeadDetails();
-
 
     const { getLeadTags, tags } = useOverView();
 
@@ -58,7 +56,10 @@ const TagsContainer = function () {
     }, [leadDetails]);
 
     const filterCampaignTags = (tagCategory, selectedIds) => {
-        if (tagCategory.label === "Campaigns" && tagCategory?.items?.length) {
+        if (
+            (tagCategory.label === "Campaigns" || tagCategory.label === "Ask Integrity Recommendations") &&
+            tagCategory?.items?.length
+        ) {
             return {
                 ...tagCategory,
                 items: tagCategory?.items?.filter((tag) => selectedIds?.includes(tag?.id)),

@@ -272,11 +272,12 @@ const NewContactForm = ({
                         formName: "New Contact",
                     });
                     if (callLogId !== "undefined" && callLogId) {
+                        const tagsArray = tags?.split(",").map(Number);
                         await callRecordingsService.assignsLeadToInboundCallRecord({
                             callLogId,
                             leadId,
                             isInbound: true,
-                            tags: tags?.split(","), // tags from the url
+                            tagIds: tagsArray, // tags from the url
                         });
                     }
                     fireEvent("Call Linked", {

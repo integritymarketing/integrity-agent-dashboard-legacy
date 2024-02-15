@@ -99,7 +99,6 @@ const PharmacyList = ({ setSelectedPharmacy, list, selectedPharmacy }) => {
         () =>
             list?.map((pharmacy) => {
                 const { name, address1 = "", address2 = "", city = "", state = "", pharmacyID } = pharmacy;
-                console.log("pharmacy", pharmacyID, selectedPharmacy?.pharmacyID);
                 return (
                     <ListItemButton
                         key={pharmacy.label}
