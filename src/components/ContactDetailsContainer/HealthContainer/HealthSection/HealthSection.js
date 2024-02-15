@@ -70,6 +70,9 @@ const HealthDetailsSection = () => {
     useEffect(() => {
         fireEvent("Contact Health Profile Page Viewed", {
             leadid: leadId,
+            plan_enroll_profile_created: leadDetails?.plan_enroll_profile_created,
+            tags: leadDetails?.leadTags,
+            stage: leadDetails?.statusName,
         });
     }, [leadId]);
 

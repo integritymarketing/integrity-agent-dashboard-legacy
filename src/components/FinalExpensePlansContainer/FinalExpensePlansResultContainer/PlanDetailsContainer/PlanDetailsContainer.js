@@ -60,6 +60,7 @@ export const PlanDetailsContainer = ({
     const { getFinalExpenseQuotePlans, getCarriersInfo, carrierInfo } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState();
+    const [conditionsListState, setConditionsListState] = useState([]);
     const { leadDetails } = useLeadDetails();
     const [fetchPlansError, setFetchPlansError] = useState(false);
     const noPlanResults = pagedResults.length === 0;
@@ -155,6 +156,7 @@ export const PlanDetailsContainer = ({
             const resp = await getHealthConditions();
             if (resp) {
                 healthConditionsDataRef.current = [...resp];
+                setConditionsListState(resp);
                 setIsLoadingHealthConditions(false);
             }
         };
@@ -200,17 +202,16 @@ export const PlanDetailsContainer = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                        ? ["My Appointed Products"]
-                        : isShowExcludedProducts
-                            ? ["Show Excluded Products"]
-                            : [],
+                    ? ["My Appointed Products"]
+                    : isShowExcludedProducts
+                    ? ["Show Excluded Products"]
+                    : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
             quote_coverage_type: coverageType?.toLowerCase(),
-            number_of_conditions: healthConditionsDataRef.current?.length,
-            number_of_completed_condtions: healthConditionsDataRef.current?.filter((item) => item.lastTreatmentDate)
-                .length,
+            number_of_conditions: conditionsListState?.length,
+            number_of_completed_condtions: conditionsListState?.filter((item) => item.isComplete)?.length || 0,
         });
     };
 
@@ -220,7 +221,15 @@ export const PlanDetailsContainer = ({
 
     useEffect(() => {
         lifeQuoteEvent("Life Quote Results Updated");
-    }, [selectedTab, coverageType, coverageAmount, monthlyPremium, isShowExcludedProducts, isMyAppointedProducts]);
+    }, [
+        selectedTab,
+        coverageType,
+        coverageAmount,
+        monthlyPremium,
+        isShowExcludedProducts,
+        isMyAppointedProducts,
+        conditionsListState,
+    ]);
 
     const loadersCards = useMemo(() => {
         const loaders = Array.from({ length: 10 }, (_, i) => <PlanCardLoader key={i} />);
@@ -283,7 +292,7 @@ export const PlanDetailsContainer = ({
                             const {
                                 carrier: { logoUrl, naic, resource_url },
                                 product: { name, benefits, limits },
-                                coverageType,
+                                coverageType: apiCoverageType,
                                 faceValue,
                                 modalRates,
                                 eligibility,
@@ -291,6 +300,7 @@ export const PlanDetailsContainer = ({
                                 type,
                                 writingAgentNumber,
                                 isRTS: isRTSPlan,
+                                policyFee,
                             } = plan;
                             let conditionList = [];
                             if (reason?.categoryReasons?.length > 0) {
@@ -309,6 +319,10 @@ export const PlanDetailsContainer = ({
                             const monthlyRate = formatRate(
                                 parseFloat(modalRates.find((rate) => rate.type === "month")?.totalPremium || 0)
                             );
+                            const product_monthly_premium = formatRate(
+                                parseFloat(modalRates.find((rate) => rate.type === "month")?.rate || 0)
+                            );
+
                             return (
                                 <PlanCard
                                     key={`${name}-${index}`}
@@ -316,7 +330,7 @@ export const PlanDetailsContainer = ({
                                     planName={name}
                                     benefits={benefits}
                                     logoUrl={logoUrl}
-                                    coverageType={coverageType}
+                                    coverageType={apiCoverageType}
                                     coverageAmount={faceValue}
                                     monthlyPremium={monthlyRate}
                                     eligibility={eligibility}
@@ -336,7 +350,10 @@ export const PlanDetailsContainer = ({
                                     setIsRTS={setIsRTS}
                                     isShowExcludedProducts={isShowExcludedProducts}
                                     isMyAppointedProducts={isMyAppointedProducts}
-                                    healthConditionsDataRef={healthConditionsDataRef}
+                                    conditionsListState={conditionsListState}
+                                    product_monthly_premium={product_monthly_premium}
+                                    policyFee={policyFee}
+                                    selectedCoverageType={coverageType}
                                 />
                             );
                         })}

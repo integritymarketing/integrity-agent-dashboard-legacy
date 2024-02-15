@@ -268,7 +268,7 @@ const NewContactForm = ({
                 if (response.ok) {
                     const resMessage = await response.json();
                     const leadId = resMessage.leadsId;
-                    analyticsService.fireEvent("event-form-submit", {
+                    fireEvent("event-form-submit", {
                         formName: "New Contact",
                     });
                     if (callLogId !== "undefined" && callLogId) {
@@ -279,9 +279,11 @@ const NewContactForm = ({
                             tags: tags?.split(","), // tags from the url
                         });
                     }
-                    analyticsService.fireEvent("Call Linked", {
+                    fireEvent("Call Linked", {
                         leadid: leadId,
                     });
+                    console.log("Contact linked event", leadId);
+
                     showToast({
                         message: "Contact added successfully",
                     });
@@ -748,8 +750,12 @@ const NewContactForm = ({
 };
 
 export default function AddNewContactPage() {
-    const { callLogId, tags } = useParams();
-    const { state } = useLocation();
+    const { callLogId } = useParams();
+    const { state, search } = useLocation();
+
+    const searchParams = new URLSearchParams(search);
+    const tags = searchParams.get("tags"); // Retrieve the 'tags' query parameter
+
     const callLogIdNumber = callLogId ? Number(callLogId) : null;
     const { policyHolder } = state?.state ?? {};
     let firstName = "";

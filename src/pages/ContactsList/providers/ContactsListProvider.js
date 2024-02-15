@@ -71,6 +71,7 @@ export const ContactsListProvider = ({ children }) => {
             refreshData,
             pageResult,
             setPageSize,
+            policyCounts,
         }),
         [
             mergedData,
@@ -86,6 +87,7 @@ export const ContactsListProvider = ({ children }) => {
             refreshData,
             pageResult,
             fetchSilently,
+            policyCounts,
         ]
     );
 

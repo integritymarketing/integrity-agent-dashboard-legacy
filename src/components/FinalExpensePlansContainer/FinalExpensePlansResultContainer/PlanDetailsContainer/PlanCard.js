@@ -48,7 +48,10 @@ export const PlanCard = ({
     limits,
     isShowExcludedProducts,
     isMyAppointedProducts,
-    healthConditionsDataRef,
+    conditionsListState,
+    product_monthly_premium,
+    policyFee,
+    selectedCoverageType,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
@@ -82,17 +85,23 @@ export const PlanCard = ({
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
-            quote_coverage_type: coverageType?.toLowerCase(),
-            number_of_conditions: healthConditionsDataRef.current?.length,
-            number_of_completed_condtions: healthConditionsDataRef.current?.filter((item) => item.lastTreatmentDate)
-                .length,
+            quote_coverage_type: selectedCoverageType?.toLowerCase(),
+            number_of_conditions: conditionsListState?.length,
+            number_of_completed_condtions: conditionsListState?.filter((item) => item.isComplete)?.length || 0,
+            carrier_group: carrierInfo?.parent,
+            carrier: carrierInfo?.name,
+            product_coverage_type: coverageType?.toLowerCase(),
+            product_coverage_amount: coverageAmount,
+            product_monthly_premium: product_monthly_premium,
+            product_total_monthly_premium: monthlyPremium,
+            product_monthly_policy_fee: policyFee,
+            pre_screening_status: eligibility,
         });
     };
 
     const lifeQuoteCallEvent = (success) => {
         fireEvent("Life SSO Eligibility Call Completed", {
             leadid: contactId,
-            success: success ? "Yes" : "No",
             line_of_business: "life",
             product_type: "final_expense",
             carrier_group: carrierInfo?.parent,
@@ -122,12 +131,14 @@ export const PlanCard = ({
         const response = await enrollLeadFinalExpensePlan(body);
         setIsLoadingEnroll(false);
 
+        if (response?.isSso) {
+            lifeQuoteCallEvent();
+        }
+
         if (response.RedirectUrl) {
-            lifeQuoteCallEvent(true);
             window.open(response.RedirectUrl, "_blank");
         } else {
             setEnrollResponse(response);
-            lifeQuoteCallEvent(false);
         }
     };
 

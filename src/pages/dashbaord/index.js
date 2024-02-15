@@ -6,7 +6,6 @@ import Media from "react-media";
 import { useNavigate } from "react-router-dom";
 
 import { Box } from "@mui/material";
-
 import { useRecoilState } from "recoil";
 import { welcomeModalOpenAtom, welcomeModalTempOpenAtom } from "recoil/agent/atoms";
 import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
@@ -34,7 +33,7 @@ import GlobalNav from "partials/global-nav-v2";
 import stageSummaryContext from "contexts/stageSummary";
 
 import clientsService from "services/clientsService";
-
+import { useAgentPreferences } from "providers/AgentPreferencesProvider/AgentPreferencesProvider";
 import DashboardActivityTable from "./DashboardActivityTable";
 import Afternoon from "./afternoon.svg";
 import Evening from "./evening.svg";
@@ -65,10 +64,15 @@ export default function Dashbaord() {
     const [, setWelcomeModalTempOpen] = useRecoilState(welcomeModalTempOpenAtom);
 
     const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
+    const { trackAgentPreferencesEvents } = useAgentPreferences();
 
     const { agentInformation } = useAgentInformationByID();
     const leadPreference = agentInformation?.leadPreference;
     const agentID = agentInformation?.agentID;
+
+    useEffect(() => {
+        trackAgentPreferencesEvents();
+    }, [trackAgentPreferencesEvents]);
 
     useEffect(() => {
         const performAsyncTask = async () => {

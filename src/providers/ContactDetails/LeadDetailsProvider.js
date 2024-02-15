@@ -46,7 +46,11 @@ export const LeadDetailsProvider = ({ children }) => {
         async (leadId) => {
             try {
                 const response = await fetchLeadDetails(null, false, leadId);
-                setLeadDetails(response);
+                const plan_enroll_profile_created =
+                    response?.leadTags?.filter((tagCategory) => tagCategory?.tag?.tagLabel === "PE PURL")?.length > 0
+                        ? "Yes"
+                        : "No";
+                setLeadDetails({ ...response, plan_enroll_profile_created });
             } catch (error) {
                 showToast({
                     type: "error",

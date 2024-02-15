@@ -11,7 +11,7 @@ import "focus-visible";
 import { AgentAccountProvider } from "providers/AgentAccountProvider/AgentAccountProvider";
 import { ContactDetailsProvider } from "providers/ContactDetails";
 import { RecoilRoot } from "recoil";
-
+import { AgentPreferencesProvider } from "providers/AgentPreferencesProvider/AgentPreferencesProvider";
 import PortalUrl from "components/functional/portal-url";
 import AppRouter from "components/functional/router";
 import ToastContextProvider from "components/ui/Toast/ToastContextProvider";
@@ -58,19 +58,21 @@ root.render(
                                             <BackNavProvider>
                                                 <StageSummaryProvider>
                                                     <TaskListProvider>
-                                                        <HelmetProvider>
-                                                            <Helmet>
-                                                                <title>Integrity</title>
-                                                            </Helmet>
-                                                            <Suspense fallback={<div>Loading...</div>}>
-                                                                <AppRouter>
-                                                                    <div className="content-frame">
-                                                                        <AppRoutes />
-                                                                    </div>
-                                                                </AppRouter>
-                                                            </Suspense>
-                                                            <PortalUrl />
-                                                        </HelmetProvider>
+                                                        <AgentPreferencesProvider>
+                                                            <HelmetProvider>
+                                                                <Helmet>
+                                                                    <title>Integrity</title>
+                                                                </Helmet>
+                                                                <Suspense fallback={<div>Loading...</div>}>
+                                                                    <AppRouter>
+                                                                        <div className="content-frame">
+                                                                            <AppRoutes />
+                                                                        </div>
+                                                                    </AppRouter>
+                                                                </Suspense>
+                                                                <PortalUrl />
+                                                            </HelmetProvider>
+                                                        </AgentPreferencesProvider>
                                                     </TaskListProvider>
                                                 </StageSummaryProvider>
                                             </BackNavProvider>

@@ -7,6 +7,7 @@ import Notice from "./microComponent/Notice";
 import clientsService from "services/clientsService";
 import useUserProfile from "hooks/useUserProfile";
 import { useAgentAvailability } from "hooks/useAgentAvailability";
+import { useAgentPreferences } from "providers/AgentPreferencesProvider/AgentPreferencesProvider";
 
 function MyButton({ page, leadPreference }) {
     const userProfile = useUserProfile();
@@ -15,6 +16,7 @@ function MyButton({ page, leadPreference }) {
     const [isCheckInUpdateModalDismissed, setIsCheckInUpdateModalDismissed] = useState(true);
     const [isAvailabiltyModalVisible, setIsAvailabiltyModalVisible] = useState(false);
     const [isNoticeVisible, setIsNoticeVisible] = useState(false);
+    const { trackAgentPreferencesEvents } = useAgentPreferences();
 
     async function handleClick() {
         const response = await clientsService.getAgentAvailability(agentId);
@@ -42,6 +44,8 @@ function MyButton({ page, leadPreference }) {
         if (!isCheckInUpdateModalDismissed && isAvailable) {
             setIsAvailabiltyModalVisible(true);
         }
+
+        trackAgentPreferencesEvents({ availability_switch_enabled: !isAvailable });
     }
 
     const onDismissed = () => {

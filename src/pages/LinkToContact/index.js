@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -95,19 +95,18 @@ export default function LinkToContact() {
 
     const tagIds = flattenedTags?.map((tag) => tag.tagId);
 
-    const arrayToString = () => {
-        return tagIds?.join(", ");
-    };
+    const arrayToString = tagIds?.length > 0 ? tagIds?.join(", ") : "";
 
-    // Log the result to see the extracted and flattened tags
+    const goToAddNewContactsPage = useCallback(() => {
+        const baseRoute = `/contact/add-new/`;
+        const logIdParam = callLogId ? `${callLogId}` : "";
+        const tagsParam = tagIds ? `tags=${tagIds}` : "";
+        const callFromParam = callFrom ? `callFrom=${callFrom}` : "";
+        const queryParams = [tagsParam, callFromParam].filter(Boolean).join("&");
 
-    const goToAddNewContactsPage = () => {
-        navigate(
-            `/contact/add-new/${callLogId || ""}${callFrom ? "?callFrom=" + callFrom : ""}${
-                arrayToString ? "?tags=" + arrayToString : ""
-            }`
-        );
-    };
+        const route = `${baseRoute}${logIdParam}${queryParams ? `?${queryParams}` : ""}`;
+        navigate(route);
+    }, [callLogId, tagIds, callFrom, navigate]);
 
     return (
         <>

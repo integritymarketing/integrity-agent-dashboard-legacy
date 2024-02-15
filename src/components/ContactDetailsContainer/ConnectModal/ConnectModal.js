@@ -40,6 +40,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
         addresses = [],
         leadTags = [],
         statusName = "",
+        plan_enroll_profile_created,
     } = leadDetails || {};
     const fullName = `${firstName} ${lastName}`;
     const email = emails.length > 0 ? emails[0] : NOT_AVAILABLE;
@@ -72,6 +73,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
                     leadid: leadId,
                     tags: leadTags,
                     stage: statusName,
+                    plan_enroll_profile_created,
                 });
             } catch (error) {
                 showToast({

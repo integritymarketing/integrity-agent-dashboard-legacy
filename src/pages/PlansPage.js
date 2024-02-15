@@ -393,7 +393,7 @@ const PlansPage = () => {
                     leadid: id,
                     line_of_business: "Health",
                     product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
-                    enabled_filters: [], // TODO-EVENT: add filters
+                    enabled_filters: [policyFilters, carrierFilters, rebatesFilter], // TODO-EVENT: add filters
                 });
             } catch (e) {
                 Sentry.captureException(e);

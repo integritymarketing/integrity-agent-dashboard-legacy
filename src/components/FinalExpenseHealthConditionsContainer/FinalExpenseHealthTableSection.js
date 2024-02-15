@@ -52,7 +52,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
     useEffect(() => {
         fireEvent("Health Conditions Page Viewed", {
             leadid: contactId,
-            flow: "final_expense",
+            flow: isHealthPage ? "health_profile" : "final_expense",
         });
     }, [contactId]);
 

@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 
 import SectionContainer from "mobile/Components/SectionContainer";
 import { useAgentAccountContext } from "providers/AgentAccountProvider";
+import { useAgentPreferences } from "providers/AgentPreferencesProvider/AgentPreferencesProvider";
 
 import useUserProfile from "hooks/useUserProfile";
 
@@ -13,6 +14,7 @@ const HEALTH = "hideHealthQuote";
 function SellingPreferences() {
     const { leadPreference, updateAgentPreferences } = useAgentAccountContext();
     const { agentId } = useUserProfile();
+    const { trackAgentPreferencesEvents } = useAgentPreferences();
 
     const hideHealthQuoteOn = leadPreference?.hideHealthQuote;
     const hideLifeQuoteOn = leadPreference?.hideLifeQuote;
@@ -26,7 +28,14 @@ function SellingPreferences() {
                 [type]: value,
             },
         };
+
         updateAgentPreferences(payload);
+        if (type === LIFE) {
+            trackAgentPreferencesEvents({ life_selling_enabled: value ? "N" : "Y" });
+        }
+        if (type === HEALTH) {
+            trackAgentPreferencesEvents({ health_selling_enabled: value ? "N" : "Y" });
+        }
     };
 
     return (

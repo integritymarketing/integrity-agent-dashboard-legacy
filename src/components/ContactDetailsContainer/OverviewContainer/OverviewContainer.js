@@ -24,7 +24,15 @@ export const OverviewContainer = () => {
 
     const [deleteModalStatus, setDeleteModalStatus] = useState(false);
 
-    const { firstName = "", middleName = "", lastName = "", leadsId, leadTags, statusName } = leadDetails;
+    const {
+        firstName = "",
+        middleName = "",
+        lastName = "",
+        leadsId,
+        leadTags,
+        statusName,
+        plan_enroll_profile_created,
+    } = leadDetails;
 
     useEffect(() => {
         fireEvent("Contact Overview Page Viewed", {
@@ -32,7 +40,7 @@ export const OverviewContainer = () => {
             selection: "start_quote",
             tags: leadTags,
             stage: statusName,
-            plan_enroll_profile_created: "Yes",
+            plan_enroll_profile_created: plan_enroll_profile_created,
         });
     }, []);
 

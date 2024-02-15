@@ -18,7 +18,7 @@ import { TableBody } from "../TableBody";
 import { TableHeader } from "../TableHeader";
 
 function Table({ columns }) {
-    const { setSelectedContacts, tableData } = useContactsListContext();
+    const { setSelectedContacts, tableData, policyCounts } = useContactsListContext();
     const showToast = useToast();
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();

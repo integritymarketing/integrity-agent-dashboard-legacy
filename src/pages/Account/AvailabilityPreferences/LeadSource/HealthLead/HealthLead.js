@@ -4,6 +4,7 @@ import useUserProfile from "hooks/useUserProfile";
 import { useAgentAvailability } from "hooks/useAgentAvailability";
 
 import clientsService from "services/clientsService";
+import { useAgentPreferences } from "providers/AgentPreferencesProvider/AgentPreferencesProvider";
 
 import { useAgentAccountContext } from "providers/AgentAccountProvider";
 
@@ -16,6 +17,7 @@ function HealthLead({ setShowAvilabilityDialog }) {
     const { leadPreference, updateAgentPreferences, agentAvailability } = useAgentAccountContext();
     const { agentId, npn } = useUserProfile();
     const [isAvailable, setIsAvailable] = useAgentAvailability();
+    const { trackAgentPreferencesEvents } = useAgentPreferences();
 
     const hasActiveLifeCallCampaign = agentAvailability?.activeCampaign?.hasActiveLifeCallCampaign;
     const hasActiveHealthCallCampaign = agentAvailability?.activeCampaign?.hasActiveHealthCallCampaign;
@@ -42,6 +44,7 @@ function HealthLead({ setShowAvilabilityDialog }) {
             setIsAvailable(false);
             setShowAvilabilityDialog(true);
         }
+        await trackAgentPreferencesEvents();
     };
 
     return (

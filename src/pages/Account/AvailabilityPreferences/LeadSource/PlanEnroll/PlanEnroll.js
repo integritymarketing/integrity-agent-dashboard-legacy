@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import useUserProfile from "hooks/useUserProfile";
 import { useAgentAvailability } from "hooks/useAgentAvailability";
 import clientsService from "services/clientsService";
+import { useAgentPreferences } from "providers/AgentPreferencesProvider/AgentPreferencesProvider";
 
 import PlanEnrollIcon from "components/icons/version-2/PlanEnroll";
 
@@ -14,6 +15,7 @@ function PlanEnroll({ setShowAvilabilityDialog }) {
     const { leadPreference, updateAgentPreferences, agentAvailability } = useAgentAccountContext();
     const { agentId } = useUserProfile();
     const [isAvailable, setIsAvailable] = useAgentAvailability();
+    const { trackAgentPreferencesEvents } = useAgentPreferences();
 
     const hasActiveLifeCallCampaign = agentAvailability?.activeCampaign?.hasActiveLifeCallCampaign;
     const hasActiveHealthCallCampaign = agentAvailability?.activeCampaign?.hasActiveHealthCallCampaign;
@@ -33,6 +35,8 @@ function PlanEnroll({ setShowAvilabilityDialog }) {
             },
         };
         await updateAgentPreferences(data);
+        trackAgentPreferencesEvents({ plan_enroll_leads_enabled: data?.medicareEnrollPurl ? "Y" : "N" });
+
         if (isAvailable && leadPreference?.medicareEnrollPurl && !isHealthChecked && !isLifeCheck) {
             await clientsService.updateAgentAvailability({
                 agentID: agentId,
