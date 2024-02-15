@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
 import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
 
 import useRoles from "hooks/useRoles";
+import useAnalytics from "hooks/useAnalytics";
 
 import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import Info from "components/icons/info-blue";
 import ShareIcon from "components/icons/vector";
 import ShareIconDisabled from "components/icons/vector-disabled";
 import Popover from "components/ui/Popover";
+
+import { PLAN_TYPE_ENUMS } from "constants";
 
 import "./index.scss";
 
@@ -24,8 +28,10 @@ const REACT_APP_HIDE_ENROLL_BTN = process.env.REACT_APP_HIDE_ENROLL_BTN || false
 
 const CompactPlanCard = ({ planData, onEnrollClick, onShareClick, isMobile, onlyButtons = false, effectiveDate }) => {
     const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
+    const { contactId } = useParams();
     const { documents } = planData;
     const { isNonRTS_User } = useRoles();
+    const { fireEvent } = useAnalytics();
 
     const disableEnroll = shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
 
@@ -51,7 +57,18 @@ const CompactPlanCard = ({ planData, onEnrollClick, onShareClick, isMobile, only
             )}
 
             {!planData.nonLicensedPlan && !isNonRTS_User && (
-                <Button label="Apply" onClick={() => setPreCheckListPdfModal(true)} disabled={disableEnroll} />
+                <Button
+                    label="Apply"
+                    onClick={() => {
+                        fireEvent("Health Apply CTA Clicked", {
+                            leadid: String(contactId),
+                            line_of_business: "Health",
+                            product_type: PLAN_TYPE_ENUMS[planData.planType]?.toLowerCase(),
+                        });
+                        setPreCheckListPdfModal(true);
+                    }}
+                    disabled={disableEnroll}
+                />
             )}
         </div>
     );

@@ -4,12 +4,15 @@ import { useParams } from "react-router-dom";
 import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
 
 import useRoles from "hooks/useRoles";
+import useAnalytics from "hooks/useAnalytics";
 
 import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import Info from "components/icons/info-blue";
 import Popover from "components/ui/Popover";
 
 import "./index.scss";
+
+import { PLAN_TYPE_ENUMS } from "constants";
 
 import { Button } from "../Button";
 import Rating from "../Rating";
@@ -28,7 +31,9 @@ const CompactPlanCardNew = ({ planData, onEnrollClick, onShareClick, isMobile, o
     const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
     const { documents } = planData;
     const { isNonRTS_User } = useRoles();
-    const { effectiveDate } = useParams();
+    const { effectiveDate, contactId } = useParams();
+    const { fireEvent } = useAnalytics();
+
     const disableEnroll = shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
     const buttons = (
         <div className={`footer ${isMobile ? "mobile controlButtons" : ""}`}>
@@ -57,7 +62,14 @@ const CompactPlanCardNew = ({ planData, onEnrollClick, onShareClick, isMobile, o
             {!planData.nonLicensedPlan && !isNonRTS_User && (
                 <Button
                     label={"Apply"}
-                    onClick={() => setPreCheckListPdfModal(true)}
+                    onClick={() => {
+                        fireEvent("Health Apply CTA Clicked", {
+                            leadid: String(contactId),
+                            line_of_business: "Health",
+                            product_type: PLAN_TYPE_ENUMS[planData.planType]?.toLowerCase(),
+                        });
+                        setPreCheckListPdfModal(true);
+                    }}
                     icon={<img src={EnrollBack} alt="enroll" />}
                     className={"enroll-btn"}
                     iconPosition={"right"}

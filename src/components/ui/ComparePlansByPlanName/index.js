@@ -1,5 +1,6 @@
+/* eslint-disable max-lines-per-function */
 import * as Sentry from "@sentry/react";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
@@ -10,6 +11,7 @@ import useToast from "hooks/useToast";
 import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import Container from "components/ui/container";
 
+import useAnalytics from "hooks/useAnalytics";
 import clientsService from "services/clientsService";
 import enrollPlansService from "services/enrollPlansService";
 
@@ -20,6 +22,8 @@ import EnrollmentModal from "../Enrollment/enrollment-modal";
 
 import EnrollBack from "images/enroll-btn-back.svg";
 import NewShareIcon from "images/new-share-icon.svg";
+
+import { PLAN_TYPE_ENUMS } from "constants";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -40,12 +44,13 @@ export default function ComparePlansByPlanName({
     contactData,
 }) {
     const showToast = useToast();
-    const { effectiveDate } = useParams();
+    const { effectiveDate, contactId } = useParams();
     const [userData, setUserData] = useState(contactData);
     const [modalOpen, setModalOpen] = useState(false);
     const [enrollingPlan, setEnrollingPlan] = useState();
     const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
     const { isNonRTS_User } = useRoles();
+    const { fireEvent } = useAnalytics();
 
     const isEmailNonRts = isEmail ? agentInfo?.Roles?.includes("nonRts") : isNonRTS_User;
 
@@ -170,6 +175,11 @@ export default function ComparePlansByPlanName({
                                             <Button
                                                 label={"Apply"}
                                                 onClick={() => {
+                                                    fireEvent("Health Apply CTA Clicked", {
+                                                        leadid: String(contactId),
+                                                        line_of_business: "Health",
+                                                        product_type: PLAN_TYPE_ENUMS[plan.planType]?.toLowerCase(),
+                                                    });
                                                     setEnrollingPlan(plan);
                                                     setPreCheckListPdfModal(true);
                                                 }}

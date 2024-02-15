@@ -1,4 +1,5 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+/* eslint-disable max-lines-per-function */
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -283,7 +284,6 @@ const NewContactForm = ({
                     fireEvent("Call Linked", {
                         leadid: leadId,
                     });
-                    console.log("Contact linked event", leadId);
 
                     showToast({
                         message: "Contact added successfully",

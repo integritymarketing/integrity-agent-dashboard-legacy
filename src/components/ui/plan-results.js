@@ -39,7 +39,7 @@ const PlanResults = ({
         return dict;
     }, {});
     if (plans && plans.length) {
-        var key = 0;
+        let key = 0;
         for (const plan of plans) {
             cards.push(
                 <PlanCard
@@ -65,7 +65,7 @@ const PlanResults = ({
                     onChangeCompare={(checked) => {
                         setSelectedPlans((prev) => ({ ...prev, [plan.id]: checked }));
                     }}
-                    isChecked={!!selectedPlans[plan.id]}
+                    isChecked={Boolean(selectedPlans[plan.id])}
                     isCompareDisabled={
                         Object.values(selectedPlans).filter(Boolean).length >= 3 && !selectedPlans[plan.id]
                     }
