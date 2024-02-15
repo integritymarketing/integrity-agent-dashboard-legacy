@@ -48,7 +48,7 @@ export const AgentPreferencesProvider = ({ children }) => {
         if (!eventData.agentId) return;
 
         // Logic to trigger the event using fireEvent and the provided data
-        fireEvent("Agent Properties", eventData);
+        fireEvent("User Properties", eventData);
     };
 
     return (
