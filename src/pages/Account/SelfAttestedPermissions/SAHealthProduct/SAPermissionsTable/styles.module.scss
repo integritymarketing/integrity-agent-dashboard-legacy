@@ -20,6 +20,7 @@
   color: #F44336;
   display: flex;
   align-items: center;
+  gap: 2px;
 }
 
 .expired {
@@ -28,5 +29,6 @@
 
 .expiredIcon {
   cursor: pointer;
-  padding-right: 2px;
+  position: relative;
+  top: 2px;
 }

@@ -20,9 +20,9 @@ export const PrescreenModal = ({ isOpen, onClose, eligibility, conditionList, re
 
     const reasonMapper = useMemo(() => ({
         MaxAgeExceededReason: reason?.MaxAgeExceeded ? `The applicant's age is above the product limit of ${maxAge} years.` : '',
-        MaxFaceAmountExceededReason: reason?.MaxFaceAmountExceeded ? `The requested face amount is above the product limit of $${maxAmount}` : '',
+        MaxFaceAmountExceededReason: reason?.MaxFaceAmountExceeded ? `The requested face amount is above the product limit of $${maxAmount.toLocaleString()}` : '',
         MinAgeNotMetReason: reason?.MinAgeNotMet ? `The applicant's age is below the product limit of ${minAge} years.` : '',
-        MinFaceAmountNotMetReason: reason?.MinFaceAmountNotMet ? `The requested face amount is below the product limit of $${minAmount}` : '',
+        MinFaceAmountNotMetReason: reason?.MinFaceAmountNotMet ? `The requested face amount is below the product limit of $${minAmount.toLocaleString()}` : '',
         buildReason: reason?.build ? 'The applicant may be ineligible due to height/weight' : '',
     }), [reason, maxAge, maxAmount, minAge, minAmount]);
 
