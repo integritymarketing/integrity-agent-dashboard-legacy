@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Box } from "@mui/material";
 
@@ -7,11 +7,14 @@ import PropTypes from "prop-types";
 import { HealthScript } from "./HealthScript";
 import { Layout } from "./Layout";
 import { LifeScript } from "./LifeScript";
+import useAnalytics from "hooks/useAnalytics";
 
 const LIFE = "LIFE";
 const HEALTH = "HEALTH";
 
+
 function ModalContent({ productCount, carrierCount, shouldShowOptionalHealthInfo, currentType, leadId }) {
+    const { fireEvent } = useAnalytics();
     const [layout, setLayout] = useState(currentType);
     useEffect(() => {
         fireEvent("Call Script Viewed", {
