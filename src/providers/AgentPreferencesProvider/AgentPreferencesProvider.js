@@ -1,4 +1,5 @@
 import { useEffect, useState, createContext, useContext } from "react";
+import PropTypes from 'prop-types';
 import useUserProfile from "hooks/useUserProfile";
 import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
@@ -17,8 +18,6 @@ export const AgentPreferencesProvider = ({ children }) => {
     const { Get: fetchAgentNonRTSStatus } = useFetch(
         `${process.env.REACT_APP_AGENTS_URL}/api/v1.0/AgentsSelfService/isLifeNonRTS/${npn}`
     );
-
-    // State to hold the default data
     const [defaults, setDefaults] = useState({});
 
     useEffect(() => {
@@ -38,14 +37,14 @@ export const AgentPreferencesProvider = ({ children }) => {
         };
 
         fetchData();
-    }, [agentId, npn, fetchAgentNonRTSStatus]);
+    }, [agentId, npn, fetchAgentNonRTSStatus, isNonRTS_User, leadPreference.hideLifeQuote, leadPreference.hideHealthQuote, leadPreference.hasActiveLifeCallCampaign, leadPreference.medicareEnrollPurl, agentAvailability.isAvailable]);
 
     // Define the tracking function within the provider
-    const trackAgentPreferencesEvents = async (overrides = {}) => {
+    const trackAgentPreferencesEvents = (overrides = {}) => {
         // Combine defaults with overrides, where overrides take precedence
         const eventData = { ...defaults, ...overrides };
 
-        if (!eventData.agentId) return;
+        if (!eventData.agentId) {return;}
 
         // Logic to trigger the event using fireEvent and the provided data
         fireEvent("User Properties", eventData);
@@ -56,4 +55,8 @@ export const AgentPreferencesProvider = ({ children }) => {
             {children}
         </AgentPreferencesContext.Provider>
     );
+};
+
+AgentPreferencesProvider.propTypes = {
+    children: PropTypes.node.isRequired,
 };

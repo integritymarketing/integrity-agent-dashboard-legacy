@@ -9,7 +9,6 @@ import { ThemeProvider } from "@mui/material/styles";
 
 import "focus-visible";
 import { AgentAccountProvider } from "providers/AgentAccountProvider/AgentAccountProvider";
-import { ContactDetailsProvider } from "providers/ContactDetails";
 import { RecoilRoot } from "recoil";
 import { AgentPreferencesProvider } from "providers/AgentPreferencesProvider/AgentPreferencesProvider";
 import PortalUrl from "components/functional/portal-url";
@@ -51,6 +50,7 @@ root.render(
                     <CssBaseline />
                     <RecoilRoot>
                         <ToastContextProvider>
+                        <AgentPreferencesProvider>
                             <AgentAccountProvider>
                                 <CountyProvider>
                                     <DeleteLeadProvider>
@@ -58,7 +58,6 @@ root.render(
                                             <BackNavProvider>
                                                 <StageSummaryProvider>
                                                     <TaskListProvider>
-                                                        <AgentPreferencesProvider>
                                                             <HelmetProvider>
                                                                 <Helmet>
                                                                     <title>Integrity</title>
@@ -72,7 +71,6 @@ root.render(
                                                                 </Suspense>
                                                                 <PortalUrl />
                                                             </HelmetProvider>
-                                                        </AgentPreferencesProvider>
                                                     </TaskListProvider>
                                                 </StageSummaryProvider>
                                             </BackNavProvider>
@@ -80,6 +78,7 @@ root.render(
                                     </DeleteLeadProvider>
                                 </CountyProvider>
                             </AgentAccountProvider>
+                        </AgentPreferencesProvider>
                         </ToastContextProvider>
                     </RecoilRoot>
                 </AuthContext.Provider>
