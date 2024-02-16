@@ -26,13 +26,13 @@ export const AgentPreferencesProvider = ({ children }) => {
             setDefaults({
                 agent_id: agentId,
                 agentNpn: npn,
-                agent_has_life_rts: agentNonRTSStatus === "True" ? "N" : "Y",
-                agent_has_health_rts: isNonRTS_User ? "N" : "Y",
-                life_selling_enabled: leadPreference.hideLifeQuote ? "N" : "Y",
-                health_selling_enabled: leadPreference.hideHealthQuote ? "N" : "Y",
-                life_leads_enabled: leadPreference.hasActiveLifeCallCampaign ? "Y" : "N",
-                plan_enroll_leads_enabled: leadPreference.medicareEnrollPurl ? "Y" : "N",
-                availability_switch_enabled: agentAvailability.isAvailable ? "Y" : "N",
+                agent_has_life_rts: agentNonRTSStatus === "True" ? "No" : "Yes",
+                agent_has_health_rts: isNonRTS_User ? "No" : "Yes",
+                life_selling_enabled: leadPreference.hideLifeQuote ? "No" : "Yes",
+                health_selling_enabled: leadPreference.hideHealthQuote ? "No" : "Yes",
+                life_leads_enabled: leadPreference.hasActiveLifeCallCampaign ? "Yes" : "No",
+                plan_enroll_leads_enabled: leadPreference.medicareEnrollPurl ? "Yes" : "No",
+                availability_switch_enabled: agentAvailability.isAvailable ? "Yes" : "No",
             });
         };
 
