@@ -195,6 +195,8 @@ export const PlanDetailsContainer = ({
     }, [coverageAmount, fetchPlans, isLoadingHealthConditions, monthlyPremium, selectedTab]);
 
     const lifeQuoteEvent = (eventName) => {
+        let aa = conditionsListState?.filter((item) => item.isComplete)?.length;
+
         fireEvent(eventName, {
             leadid: contactId,
             line_of_business: "Life",
@@ -217,8 +219,10 @@ export const PlanDetailsContainer = ({
     };
 
     useEffect(() => {
-        lifeQuoteEvent("Life Quote Results Viewed");
-    }, []);
+        if (!isLoadingHealthConditions) {
+            lifeQuoteEvent("Life Quote Results Viewed");
+        }
+    }, [isLoadingHealthConditions]);
 
     useEffect(() => {
         if (initialRender.current) {

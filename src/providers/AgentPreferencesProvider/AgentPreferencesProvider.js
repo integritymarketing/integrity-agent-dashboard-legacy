@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext, useContext } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import useUserProfile from "hooks/useUserProfile";
 import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
@@ -37,16 +37,27 @@ export const AgentPreferencesProvider = ({ children }) => {
         };
 
         fetchData();
-    }, [agentId, npn, fetchAgentNonRTSStatus, isNonRTS_User, leadPreference.hideLifeQuote, leadPreference.hideHealthQuote, leadPreference.hasActiveLifeCallCampaign, leadPreference.medicareEnrollPurl, agentAvailability.isAvailable]);
+    }, [
+        agentId,
+        npn,
+        fetchAgentNonRTSStatus,
+        isNonRTS_User,
+        leadPreference.hideLifeQuote,
+        leadPreference.hideHealthQuote,
+        leadPreference.hasActiveLifeCallCampaign,
+        leadPreference.medicareEnrollPurl,
+        agentAvailability.isAvailable,
+    ]);
 
     // Define the tracking function within the provider
     const trackAgentPreferencesEvents = (overrides = {}) => {
         // Combine defaults with overrides, where overrides take precedence
         const eventData = { ...defaults, ...overrides };
 
-        if (!eventData.agent_id) {return;}
+        if (!eventData.agent_id) return;
 
         // Logic to trigger the event using fireEvent and the provided data
+        console.log("User Properties triggered", eventData);
         fireEvent("User Properties", eventData);
     };
 

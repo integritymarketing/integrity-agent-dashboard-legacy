@@ -42,18 +42,18 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
                 planDetail: planData,
             });
 
+            fireEvent("Health Submitted CTA Clicked", {
+                leadid: contact.leadsId,
+                line_of_business: "Health",
+                product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
+                selection: option === "send" ? "client_application_selected" : "agent_application_selected",
+            });
+
             if (enrolled && enrolled.url) {
                 window.open(enrolled.url, "_blank").focus();
                 showToast({
                     type: "success",
                     message: "Successfully Sent to Client",
-                });
-
-                fireEvent("Health Submitted CTA Clicked", {
-                    leadid: contact.leadsId,
-                    line_of_business: "Health",
-                    product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
-                    selection: option === "send" ? "client_application_selected" : "agent_application_selected",
                 });
             } else {
                 showToast({

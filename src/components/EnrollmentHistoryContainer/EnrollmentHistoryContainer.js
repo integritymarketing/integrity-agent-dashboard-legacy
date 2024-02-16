@@ -49,18 +49,16 @@ export default function EnrollmentHistoryContainer({ leadId }) {
     const previousYearPlansData = filterPlansByYear(enrollPlansList, false);
 
     useEffect(() => {
-        if (enrollPlansList) {
-            const active_product_types = currentYearPlansData.map((plan) => plan.productCategory);
-            const inactive_product_types = previousYearPlansData.map((plan) => plan.productCategory);
-            fireEvent("Contact Policies Page Viewed", {
-                leadid: leadId,
-                plan_enroll_profile_created: leadDetails?.plan_enroll_profile_created,
-                tags: leadDetails?.leadTags,
-                stage: leadDetails?.statusName,
-                active_product_types,
-                inactive_product_types,
-            });
-        }
+        const active_product_types = currentYearPlansData.map((plan) => plan.productCategory);
+        const inactive_product_types = previousYearPlansData.map((plan) => plan.productCategory);
+        fireEvent("Contact Policies Page Viewed", {
+            leadid: leadId,
+            plan_enroll_profile_created: leadDetails?.plan_enroll_profile_created,
+            tags: leadDetails?.leadTags,
+            stage: leadDetails?.statusName,
+            active_product_types,
+            inactive_product_types,
+        });
     }, [enrollPlansList, leadDetails, leadId, fireEvent]);
 
     const renderPlans = (plansData, isCurrentYear) =>

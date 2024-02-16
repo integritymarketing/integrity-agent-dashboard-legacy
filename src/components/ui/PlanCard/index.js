@@ -16,7 +16,7 @@ import CostBreakdowns from "./cost-breakdowns";
 import "./index.scss";
 import PlanCoverage from "./plan-coverage/PlanCoverage";
 import SelfRecommendation from "./self-recommendation/SelfRecommendation";
-
+import useAnalytics from "hooks/useAnalytics";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import { Button } from "../Button";
 import Rating from "../Rating";
@@ -58,10 +58,12 @@ export default function PlanCard({
     isChecked,
     isCompareDisabled,
     refresh,
+    leadId,
 }) {
     let [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
     const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
     const { contactId } = useParams();
+    const { fireEvent } = useAnalytics();
 
     const { logoURL } = planData;
     const checkForImage = logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
@@ -198,7 +200,14 @@ export default function PlanCard({
                 {!planData.nonLicensedPlan && (
                     <Button
                         label={"Apply"}
-                        onClick={() => setPreCheckListPdfModal(true)}
+                        onClick={() => {
+                            setPreCheckListPdfModal(true);
+                            fireEvent("Health Apply CTA Clicked", {
+                                leadid: leadId,
+                                line_of_business: "Health",
+                                product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
+                            });
+                        }}
                         icon={<img src={EnrollBack} alt="enroll" />}
                         className={"enroll-btn"}
                         disabled={disableEnroll}
