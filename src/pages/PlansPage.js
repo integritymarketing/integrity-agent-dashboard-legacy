@@ -328,11 +328,23 @@ const PlansPage = () => {
     };
 
     const healthQuoteResultsUpdatedEvent = () => {
-        fireEvent("Health Quote Results Updated", {
+        HealthQuoteResultsEvent("Health Quote Results Updated");
+    };
+
+    const HealthQuoteResultsEvent = (event) => {
+        const enabledFilters = [];
+        if (policyFilters?.length > 0) {
+            enabledFilters.push(policyFilters);
+        }
+        if (carrierFilters?.length > 0) {
+            enabledFilters.push(carrierFilters);
+        }
+
+        fireEvent(event, {
             leadid: id,
             line_of_business: "Health",
-            product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
-            enabled_filters: [policyFilters, carrierFilters, rebatesFilter], // TODO-EVENT: add filters
+            product_type: `${PLAN_TYPE_ENUMS[planType]?.toLowerCase()}`,
+            enabled_filters: enabledFilters.concat([rebatesFilter]),
         });
     };
 
@@ -444,12 +456,7 @@ const PlansPage = () => {
                 setSubTypeList(subTypes);
                 setCarrierList(carriers);
                 analyticsService.fireEvent("event-quoting-plans");
-                fireEvent("Health Quote Results Viewed", {
-                    leadid: id,
-                    line_of_business: "Health",
-                    product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
-                    enabled_filters: [policyFilters, carrierFilters, rebatesFilter], // TODO-EVENT: add filters
-                });
+                HealthQuoteResultsEvent("Health Quote Results Viewed");
             } catch (e) {
                 Sentry.captureException(e);
             } finally {

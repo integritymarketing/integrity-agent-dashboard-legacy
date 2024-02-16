@@ -49,10 +49,11 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
                     message: "Successfully Sent to Client",
                 });
 
-                fireEvent("Health Submit CTA Clicked", {
+                fireEvent("Health Submitted CTA Clicked", {
                     leadid: contact.leadsId,
                     line_of_business: "Health",
                     product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
+                    selection: option === "send" ? "client_application_selected" : "agent_application_selected",
                 });
             } else {
                 showToast({

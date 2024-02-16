@@ -55,7 +55,7 @@ const Activities = ({ leadId }) => {
             let sortedActivities = [];
 
             if (sortBy === "createDate") {
-                sortedActivities = activities.sort((a, b) => {
+                sortedActivities = activities?.sort((a, b) => {
                     return order === "desc"
                         ? new Date(b.createDate) - new Date(a.createDate)
                         : new Date(a.createDate) - new Date(b.createDate);
@@ -63,7 +63,7 @@ const Activities = ({ leadId }) => {
             }
 
             if (sortBy === "activitySubject") {
-                sortedActivities = activities.sort((a, b) => {
+                sortedActivities = activities?.sort((a, b) => {
                     return order === "desc"
                         ? b?.activitySubject?.localeCompare(a?.activitySubject)
                         : a?.activitySubject?.localeCompare(b?.activitySubject);
@@ -78,12 +78,12 @@ const Activities = ({ leadId }) => {
     const filteredAndSortedActivities = useMemo(() => {
         const applyFilter = Object.keys(activitiesFilters).some((key) => activitiesFilters[key]);
         const filteredActivities = applyFilter
-            ? leadDetails.activities.filter((activity) => activitiesFilters[activity.activitySubject])
-            : leadDetails.activities;
+            ? leadDetails?.activities?.filter((activity) => activitiesFilters[activity.activitySubject])
+            : leadDetails?.activities;
 
         const sortedActivities = sortActivities(filteredActivities, sortingOptions);
 
-        return sortedActivities.slice(0, activitiesPageLimit.size);
+        return sortedActivities?.slice(0, activitiesPageLimit.size);
     }, [leadDetails.activities, activitiesFilters, activitiesPageLimit, sortingOptions]);
 
     const handleFilterChange = useCallback(
@@ -103,7 +103,7 @@ const Activities = ({ leadId }) => {
         setActivitiesPageLimit((prev) => ({ ...prev, size: prev.size + prev.initial }));
     }, []);
 
-    const ACTIVE_FILTER = filterValues.filter((item) => item.selected);
+    const ACTIVE_FILTER = filterValues?.filter((item) => item.selected);
     const renderSectionHeader = () => (
         <div className={styles.wrapper}>
             <Media query="(max-width: 500px)" onChange={setIsMobile} />

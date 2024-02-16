@@ -65,9 +65,24 @@ export const PlanCard = ({
 
     useEffect(() => {
         if (isPrescreenModalOpen) {
-            lifeQuoteEvent("Final Expense Prescreening Notes Viewed");
+            lifeQuotePrescreeningEvent("Final Expense Prescreening Notes Viewed");
         }
     }, [isPrescreenModalOpen, contactId]);
+
+    const lifeQuotePrescreeningEvent = (eventName) => {
+        fireEvent(eventName, {
+            leadid: contactId,
+            line_of_business: "Life",
+            product_type: "final_expense",
+            coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
+            coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
+            premium_amount: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
+            coverage_type_selected: selectedCoverageType?.toLowerCase(),
+            carrier_group: carrierInfo?.parent,
+            carrier: carrierInfo?.name,
+            pre_screening_status: eligibility,
+        });
+    };
 
     const lifeQuoteEvent = (eventName) => {
         fireEvent(eventName, {
@@ -106,6 +121,7 @@ export const PlanCard = ({
             product_type: "final_expense",
             carrier_group: carrierInfo?.parent,
             carrier: carrierInfo?.name,
+            success,
         });
     };
 
@@ -132,7 +148,9 @@ export const PlanCard = ({
         setIsLoadingEnroll(false);
 
         if (response?.isSso) {
-            lifeQuoteCallEvent();
+            lifeQuoteCallEvent(true);
+        } else {
+            lifeQuoteCallEvent(false);
         }
 
         if (response.RedirectUrl) {
