@@ -44,7 +44,7 @@ export const AgentPreferencesProvider = ({ children }) => {
         // Combine defaults with overrides, where overrides take precedence
         const eventData = { ...defaults, ...overrides };
 
-        if (!eventData.agentId) {return;}
+        if (!eventData.agent_id) {return;}
 
         // Logic to trigger the event using fireEvent and the provided data
         fireEvent("User Properties", eventData);
