@@ -50,6 +50,11 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
                     return response;
                 }
 
+                if (response?.status === 400) {
+                    const errorText = await response.text();
+                    throw new Error(errorText || "Network response was not ok");
+                }
+
                 try {
                     const jsonData = await response.clone().json();
                     setData(jsonData);

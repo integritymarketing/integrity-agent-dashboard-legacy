@@ -59,7 +59,7 @@ export const PlanDetailsContainer = ({
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
     const { getFinalExpenseQuotePlans, getCarriersInfo, carrierInfo } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
-    const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState();
+    const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(true);
     const [conditionsListState, setConditionsListState] = useState([]);
     const { leadDetails } = useLeadDetails();
     const [fetchPlansError, setFetchPlansError] = useState(false);
@@ -70,6 +70,7 @@ export const PlanDetailsContainer = ({
     const navigate = useNavigate();
 
     const fetchPlans = useCallback(async () => {
+        if (!leadDetails) return;
         try {
             setFetchPlansError(false);
             const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
@@ -113,7 +114,6 @@ export const PlanDetailsContainer = ({
             };
 
             const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
-            setIsLoadingFinalExpensePlans(false);
 
             if (!isRTS) {
                 if (isShowExcludedProducts) {
@@ -138,6 +138,8 @@ export const PlanDetailsContainer = ({
         } catch (error) {
             setIsLoadingFinalExpensePlans(false);
             setFetchPlansError(true);
+        } finally {
+            setIsLoadingFinalExpensePlans(false);
         }
     }, [
         contactId,
@@ -195,8 +197,6 @@ export const PlanDetailsContainer = ({
     }, [coverageAmount, fetchPlans, isLoadingHealthConditions, monthlyPremium, selectedTab]);
 
     const lifeQuoteEvent = (eventName) => {
-        let aa = conditionsListState?.filter((item) => item.isComplete)?.length;
-
         fireEvent(eventName, {
             leadid: contactId,
             line_of_business: "Life",
@@ -205,10 +205,10 @@ export const PlanDetailsContainer = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                        ? ["My Appointed Products"]
-                        : isShowExcludedProducts
-                            ? ["Show Excluded Products"]
-                            : [],
+                    ? ["My Appointed Products"]
+                    : isShowExcludedProducts
+                    ? ["Show Excluded Products"]
+                    : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -219,10 +219,8 @@ export const PlanDetailsContainer = ({
     };
 
     useEffect(() => {
-        if (!isLoadingHealthConditions) {
-            lifeQuoteEvent("Life Quote Results Viewed");
-        }
-    }, [isLoadingHealthConditions]);
+        lifeQuoteEvent("Life Quote Results Viewed");
+    }, []);
 
     useEffect(() => {
         if (initialRender.current) {
@@ -254,7 +252,7 @@ export const PlanDetailsContainer = ({
     }, []);
 
     const renderNoPlansMessage = useCallback(() => {
-        if (isLoadingFinalExpensePlans === false && noPlanResults) {
+        if (!isLoadingFinalExpensePlans && noPlanResults) {
             return (
                 <div className={styles.noPlans}>
                     <div className={styles.alertIcon}>
@@ -265,7 +263,7 @@ export const PlanDetailsContainer = ({
             );
         }
         return null;
-    }, [isLoadingFinalExpensePlans, noPlanResults, fetchPlansError]);
+    }, [noPlanResults, isLoadingFinalExpensePlans]);
 
     const renderActiveSellingPermissionsSection = useCallback(() => {
         if (!noPlanResults && (!isRTS || !isMyAppointedProducts)) {
@@ -300,9 +298,13 @@ export const PlanDetailsContainer = ({
             />
             <div className={`${styles.planContainer} ${noPlanResults ? styles.alignCenter : ""}`}>
                 {isLoadingFinalExpensePlans && loadersCards}
-                {noPlanResults && <PersonalisedQuoteBox />}
-                {renderActiveSellingPermissionsSection()}
-                {renderNoPlansMessage()}
+                {!isLoadingFinalExpensePlans && (
+                    <>
+                        {noPlanResults && <PersonalisedQuoteBox />}
+                        {renderActiveSellingPermissionsSection()}
+                        {renderNoPlansMessage()}
+                    </>
+                )}
                 {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
                     <>
                         {pagedResults.map((plan, index) => {
