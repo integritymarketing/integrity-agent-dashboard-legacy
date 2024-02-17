@@ -70,7 +70,9 @@ export const PlanDetailsContainer = ({
     const navigate = useNavigate();
 
     const fetchPlans = useCallback(async () => {
-        if (!leadDetails) return;
+        if (!leadDetails) {
+            return;
+        }
         try {
             setFetchPlansError(false);
             const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
@@ -101,7 +103,7 @@ export const PlanDetailsContainer = ({
             const quotePlansPostBody = {
                 usState: code,
                 age: Number(age),
-                gender: gender === "Male" ? "M" : "F",
+                gender: gender.toLowerCase() === "male" ? "M" : "F",
                 tobacco: Boolean(isTobaccoUser),
                 desiredFaceValue: selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
                 desiredMonthlyRate: selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
