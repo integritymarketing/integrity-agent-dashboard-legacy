@@ -92,7 +92,9 @@ export const ContactsListProvider = ({ children }) => {
     );
 
     useEffect(() => {
-        fetchTableData({ pageSize, pageIndex, searchString, sort });
+        if (location.pathname.includes("/contacts")) {
+            fetchTableData({ pageSize, pageIndex, searchString, sort });
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchTableData, searchString, location.search, pageIndex, sort]);
 
