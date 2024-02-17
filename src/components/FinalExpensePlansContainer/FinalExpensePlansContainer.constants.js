@@ -22,7 +22,10 @@ export const FEET_PLACEHOLDER = "ft";
 export const INCH_PLACEHOLDER = "in";
 export const SMOKER = "Smoker";
 export const TOBACCO_USE = "Tobacco Use";
-export const GENDER_OPTS = ["Male", "Female"];
+export const GENDER_OPTS = [
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" }
+];
 export const SMOKER_OPTS = [
     { label: "Yes", value: true },
     { label: "No", value: false },

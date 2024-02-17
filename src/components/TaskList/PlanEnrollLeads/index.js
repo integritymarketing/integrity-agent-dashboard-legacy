@@ -85,7 +85,7 @@ const PlanEnrollCard = ({ callData, refreshData }) => {
                     </div>
                 </div>
             </Box>
-            <Box className="plan-name-info" width={"15%"}>
+            <Box className="plan-name-info">
                 <Button
                     icon={<Person color="#ffffff" />}
                     label={"View Contact"}
