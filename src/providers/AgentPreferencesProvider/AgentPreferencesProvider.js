@@ -22,6 +22,9 @@ export const AgentPreferencesProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchData = async () => {
+            if (!agentId || !npn) {
+                return;
+            }
             const agentNonRTSStatus = await fetchAgentNonRTSStatus();
             setDefaults({
                 agent_id: agentId,
@@ -38,24 +41,14 @@ export const AgentPreferencesProvider = ({ children }) => {
         };
 
         fetchData();
-    }, [
-        agentId,
-        npn,
-        fetchAgentNonRTSStatus,
-        isNonRTS_User,
-        leadPreference.hideLifeQuote,
-        leadPreference.hideHealthQuote,
-        leadPreference.hasActiveLifeCallCampaign,
-        leadPreference.medicareEnrollPurl,
-        agentAvailability.isAvailable,
-    ]);
+    }, [agentId, npn, fetchAgentNonRTSStatus, isNonRTS_User, leadPreference.hideLifeQuote, leadPreference.hideHealthQuote, leadPreference.hasActiveLifeCallCampaign, leadPreference.medicareEnrollPurl, agentAvailability.isAvailable, leadPreference.hasActiveHealthCallCampaign]);
 
     // Define the tracking function within the provider
     const trackAgentPreferencesEvents = (overrides = {}) => {
         // Combine defaults with overrides, where overrides take precedence
         const eventData = { ...defaults, ...overrides };
 
-        if (!eventData.agent_id) return;
+        if (!eventData.agent_id) {return;}
 
         // Logic to trigger the event using fireEvent and the provided data
         fireEvent("User Properties", eventData);
