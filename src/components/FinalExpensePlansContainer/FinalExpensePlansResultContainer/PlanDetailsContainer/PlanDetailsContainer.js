@@ -221,8 +221,9 @@ export const PlanDetailsContainer = ({
     };
 
     useEffect(() => {
+        if (isLoadingHealthConditions) return;
         lifeQuoteEvent("Life Quote Results Viewed");
-    }, []);
+    }, [conditionsListState, isLoadingHealthConditions]);
 
     useEffect(() => {
         if (initialRender.current) {

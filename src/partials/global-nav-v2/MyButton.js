@@ -45,7 +45,7 @@ function MyButton({ page, leadPreference }) {
             setIsAvailabiltyModalVisible(true);
         }
 
-        trackAgentPreferencesEvents({ availability_switch_enabled: !isAvailable });
+        trackAgentPreferencesEvents({ availability_switch_enabled: !isAvailable ? "Yes" : "No" });
     }
 
     const onDismissed = () => {
