@@ -437,7 +437,7 @@ const PlansPage = () => {
 
     useEffect(() => {
         healthQuoteResultsEvent("Health Quote Results Viewed");
-    }, [healthQuoteResultsEvent]);
+    }, [myAppointedPlans]);
 
     const getAllPlans = useCallback(async () => {
         if (contact) {
