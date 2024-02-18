@@ -21,6 +21,13 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
     const { fireEvent } = useAnalytics();
 
     const enroll = useCallback(async () => {
+        console.log("Enroll in Plan : Health Submitted CTA Clicked Triggered");
+        fireEvent("Health Submitted CTA Clicked", {
+            leadid: contact.leadsId,
+            line_of_business: "Health",
+            product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
+            selection: option === "send" ? "client_application_selected" : "agent_application_selected",
+        });
         try {
             const enrolled = await enrollPlansService.enroll(contact.leadsId, planData.id, {
                 enrollRequest: {
@@ -40,13 +47,6 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
                     effectiveDate: effectiveDate,
                 },
                 planDetail: planData,
-            });
-
-            fireEvent("Health Submitted CTA Clicked", {
-                leadid: contact.leadsId,
-                line_of_business: "Health",
-                product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
-                selection: option === "send" ? "client_application_selected" : "agent_application_selected",
             });
 
             if (enrolled && enrolled.url) {

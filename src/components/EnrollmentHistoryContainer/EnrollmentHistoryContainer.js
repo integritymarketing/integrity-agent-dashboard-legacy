@@ -8,6 +8,17 @@ import { FINAL_EXPENSE_GUIDE_LINK, MEDICARE_GUIDE_LINK } from "./EnrollmentHisto
 import { useLeadDetails } from "providers/ContactDetails";
 import useAnalytics from "hooks/useAnalytics";
 
+const convertCategoryName = (categoryName) => {
+    const categoryMap = {
+        "Medicare Advantage": "ma",
+        "Medicare Advantage Prescription Drug": "mapd",
+        "Prescription Drug Plans": "pdp",
+        "Final Expense": "final_expense",
+    };
+
+    return categoryMap[categoryName] || categoryName;
+};
+
 export default function EnrollmentHistoryContainer({ leadId }) {
     const { getEnrollPlansList, enrollPlansList } = usePolicies();
     const { leadDetails } = useLeadDetails();
@@ -49,8 +60,9 @@ export default function EnrollmentHistoryContainer({ leadId }) {
     const previousYearPlansData = filterPlansByYear(enrollPlansList, false);
 
     useEffect(() => {
-        const active_product_types = currentYearPlansData.map((plan) => plan.productCategory);
-        const inactive_product_types = previousYearPlansData.map((plan) => plan.productCategory);
+        const active_product_types = currentYearPlansData.map((plan) => convertCategoryName(plan.productCategory));
+        const inactive_product_types = previousYearPlansData.map((plan) => convertCategoryName(plan.productCategory));
+
         fireEvent("Contact Policies Page Viewed", {
             leadid: leadId,
             plan_enroll_profile_created: leadDetails?.plan_enroll_profile_created,

@@ -75,9 +75,9 @@ export const PlanCard = ({
             line_of_business: "Life",
             product_type: "final_expense",
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
-            coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
-            premium_amount: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
-            coverage_type_selected: selectedCoverageType?.toLowerCase(),
+            coverage_amount: coverageAmount,
+            premium_amount: monthlyPremium,
+            coverage_type_selected: coverageType?.toLowerCase(),
             carrier_group: carrierInfo?.parent,
             carrier: carrierInfo?.name,
             pre_screening_status: eligibility,
@@ -148,9 +148,7 @@ export const PlanCard = ({
         setIsLoadingEnroll(false);
 
         if (response?.isSso) {
-            lifeQuoteCallEvent(true);
-        } else {
-            lifeQuoteCallEvent(false);
+            lifeQuoteCallEvent(response?.success);
         }
 
         if (response.RedirectUrl) {

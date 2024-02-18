@@ -301,7 +301,7 @@ const PlansPage = () => {
     const [carrierFilters_mobile, setCarrierFilters_mobile] = useState(carrierFilters);
 
     const toggleAppointedPlans = (e) => {
-        healthQuoteResultsUpdatedEvent();
+        healthQuoteResultsUpdatedEvent("my_appointed_plans", e.target.checked);
         if (isMobile) {
             setMyAppointedPlans_mobile(e.target.checked);
         } else {
@@ -309,7 +309,7 @@ const PlansPage = () => {
         }
     };
     const toggleNeeds = (e) => {
-        healthQuoteResultsUpdatedEvent();
+        healthQuoteResultsUpdatedEvent("special_needs", e.target.checked);
 
         if (isMobile) {
             setSpecialNeedsFilter_mobile(e.target.checked);
@@ -318,7 +318,7 @@ const PlansPage = () => {
         }
     };
     const toggleRebates = (e) => {
-        healthQuoteResultsUpdatedEvent();
+        healthQuoteResultsUpdatedEvent("includes_part_b_rebates", e.target.checked);
 
         if (isMobile) {
             setRebatesFilter_mobile(e.target.checked);
@@ -327,24 +327,34 @@ const PlansPage = () => {
         }
     };
 
-    const healthQuoteResultsUpdatedEvent = () => {
-        HealthQuoteResultsEvent("Health Quote Results Updated");
+    const healthQuoteResultsUpdatedEvent = (key, value) => {
+        HealthQuoteResultsEvent("Health Quote Results Updated", key, value);
     };
 
-    const HealthQuoteResultsEvent = (event) => {
-        const enabledFilters = [];
-        if (policyFilters?.length > 0) {
-            enabledFilters.push(policyFilters);
+    const HealthQuoteResultsEvent = (event, key, value) => {
+        let enabledFilters = [];
+        if (myAppointedPlans) {
+            enabledFilters.push("my_appointed_plans");
         }
-        if (carrierFilters?.length > 0) {
-            enabledFilters.push(carrierFilters);
+        if (specialNeedsFilter) {
+            enabledFilters.push("special_needs");
+        }
+        if (rebatesFilter) {
+            enabledFilters.push("includes_part_b_rebates");
+        }
+        if (key && value !== undefined) {
+            if (value) {
+                enabledFilters.push(key);
+            } else {
+                enabledFilters = enabledFilters.filter((filter) => filter !== key);
+            }
         }
 
         fireEvent(event, {
             leadid: id,
             line_of_business: "Health",
             product_type: `${PLAN_TYPE_ENUMS[planType]?.toLowerCase()}`,
-            enabled_filters: enabledFilters.concat([rebatesFilter]),
+            enabled_filters: enabledFilters,
         });
     };
 
@@ -370,11 +380,8 @@ const PlansPage = () => {
         } else if (name === "carrier" && !isMobile) {
             setCarrierFilters(resultingList);
         }
-        healthQuoteResultsUpdatedEvent();
     };
     const changeEffectiveDate = (value) => {
-        healthQuoteResultsUpdatedEvent();
-
         if (isMobile) {
             setEffectiveDate_mobile(value);
         } else {
@@ -383,8 +390,6 @@ const PlansPage = () => {
     };
 
     const changePlanType = (value) => {
-        healthQuoteResultsUpdatedEvent();
-
         if (isMobile) {
             setPlanType_mobile(value);
         } else {

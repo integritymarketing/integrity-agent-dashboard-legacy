@@ -31,6 +31,7 @@ export const AgentPreferencesProvider = ({ children }) => {
                 life_selling_enabled: leadPreference.hideLifeQuote ? "No" : "Yes",
                 health_selling_enabled: leadPreference.hideHealthQuote ? "No" : "Yes",
                 life_leads_enabled: leadPreference.hasActiveLifeCallCampaign ? "Yes" : "No",
+                health_leads_enabled: leadPreference.hasActiveHealthCallCampaign ? "Yes" : "No",
                 plan_enroll_leads_enabled: leadPreference.medicareEnrollPurl ? "Yes" : "No",
                 availability_switch_enabled: agentAvailability.isAvailable ? "Yes" : "No",
             });
@@ -57,7 +58,6 @@ export const AgentPreferencesProvider = ({ children }) => {
         if (!eventData.agent_id) return;
 
         // Logic to trigger the event using fireEvent and the provided data
-        console.log("User Properties triggered", eventData);
         fireEvent("User Properties", eventData);
     };
 
