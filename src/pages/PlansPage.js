@@ -8,8 +8,8 @@ import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { addProviderModalAtom, showViewAvailablePlansAtom } from "recoil/providerInsights/atom.js";
 
-import { getFirstEffectiveDateOption } from "utils/dates";
-import { formatDate } from "utils/dates";
+import { getFirstEffectiveDateOption , formatDate } from "utils/dates";
+
 import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear";
 import { scrollTop } from "utils/shared-utils/sharedUtility";
 
@@ -270,7 +270,7 @@ const PlansPage = () => {
         } finally {
             setLoading(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+         
     }, [id, postSpecialists, setShowViewAvailablePlans]);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -328,10 +328,10 @@ const PlansPage = () => {
     };
 
     const healthQuoteResultsUpdatedEvent = (key, value) => {
-        HealthQuoteResultsEvent("Health Quote Results Updated", key, value);
+        healthQuoteResultsEvent("Health Quote Results Updated", key, value);
     };
 
-    const HealthQuoteResultsEvent = (event, key, value) => {
+    const healthQuoteResultsEvent = (event, key, value) => {
         let enabledFilters = [];
         if (myAppointedPlans) {
             enabledFilters.push("my_appointed_plans");
@@ -360,8 +360,8 @@ const PlansPage = () => {
 
     const changeFilters = (e) => {
         const { checked, value, name } = e.target;
-        let policy_filters = isMobile ? policyFilters_mobile : policyFilters;
-        let carrier_filters = isMobile ? carrierFilters_mobile : carrierFilters;
+        const policy_filters = isMobile ? policyFilters_mobile : policyFilters;
+        const carrier_filters = isMobile ? carrierFilters_mobile : carrierFilters;
         const list = name === "policy" ? policy_filters : carrier_filters;
         let resultingList = [];
         if (checked === true) {
@@ -436,8 +436,8 @@ const PlansPage = () => {
     }, [contact, effectiveDate, planType, myAppointedPlans]);
 
     useEffect(() => {
-        HealthQuoteResultsEvent("Health Quote Results Viewed");
-    }, [myAppointedPlans]);
+        healthQuoteResultsEvent("Health Quote Results Viewed");
+    }, [healthQuoteResultsEvent]);
 
     const getAllPlans = useCallback(async () => {
         if (contact) {
@@ -555,7 +555,7 @@ const PlansPage = () => {
         setSort(sort_mobile);
         setfiltersOpen(false);
     };
-    let selectedOptions = {
+    const selectedOptions = {
         s_sort: sort,
         s_carrierFilters: carrierFilters,
         s_policyFilters: policyFilters,
@@ -565,7 +565,7 @@ const PlansPage = () => {
     };
 
     const setSessionData = () => {
-        let s_plans = results?.filter((plan) => selectedPlans[plan.id]);
+        const s_plans = results?.filter((plan) => selectedPlans[plan.id]);
         sessionStorage.setItem(
             "__plans__",
             JSON.stringify({
