@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import React, { useCallback, useEffect, useState } from "react";
 
 import Button from "@mui/material/Button";
@@ -71,12 +72,15 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
         }
     }, []);
 
-    const updateInch = useCallback((value) => {
-        if (value === '' || (Number.isInteger(Number(value)) && Number(value) >= 0 && Number(value) <= 11)) {
-            setInch(value);
-        }
-    }, [setInch]);
-    
+    const updateInch = useCallback(
+        (value) => {
+            if (value === "" || (Number.isInteger(Number(value)) && Number(value) >= 0 && Number(value) <= 11)) {
+                setInch(value);
+            }
+        },
+        [setInch]
+    );
+
     const updateWeight = useCallback((value) => {
         if (!value || (value > 0 && value < 999)) {
             setWeight(value);
@@ -114,7 +118,7 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
             <div className={styles.inputBox}>
                 <SelectableButtonGroup
                     labelText={GENDER}
-                    selectedButtonText={gender === "Male" ? "Male" : "Female"}
+                    selectedButtonText={gender.toLowerCase() === "male" ? "Male" : "Female"}
                     buttonOptions={GENDER_OPTS}
                     onSelect={handleSelectGender}
                 />
