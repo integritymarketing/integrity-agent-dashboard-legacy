@@ -1,4 +1,4 @@
-import React from 'react';
+import {useMemo} from 'react';
 import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
@@ -22,14 +22,13 @@ const SelectableButtonGroup = ({
   onSelect
 }) => {
 
-  const isSelectedOptionValid = buttonOptions.includes(selectedButtonText);
-
-  const getButtonStyle = (buttonText, index) => {
-    const isSelected = isSelectedOptionValid && selectedButtonText === buttonText;
+  const getButtonStyle = useMemo(() => (buttonText, index) => {
+    const isSelected = buttonOptions.some(option => option?.toLowerCase() === selectedButtonText.toLowerCase()) && 
+                       buttonText.toLowerCase() === selectedButtonText?.toLowerCase();
     const baseStyle = isSelected ? `${styles.expandableButton} ${styles.selected}` : styles.expandableButton;
     const customClassName = buttonClassNames[index] || '';
     return `${baseStyle} ${customClassName}`;
-  };
+  }, [buttonOptions, selectedButtonText, buttonClassNames]);
 
   return (
     <div>

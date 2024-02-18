@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 
 import { useLeadDetails } from "providers/ContactDetails";
 
@@ -13,13 +12,13 @@ const HealthInfoContainer = () => {
     const { leadDetails, updateLeadDetails } = useLeadDetails();
 
     const formatMbiNumber = (value) => {
-        if (!value) return;
+        if (!value) {return;}
         let formattedValue = value.replace(/-/g, "");
         if (formattedValue.length > 4) {
-            formattedValue = formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
+            formattedValue = `${formattedValue.slice(0, 4)  }-${  formattedValue.slice(4)}`;
         }
         if (formattedValue.length > 8) {
-            formattedValue = formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
+            formattedValue = `${formattedValue.slice(0, 8)  }-${  formattedValue.slice(8)}`;
         }
         return formattedValue.toUpperCase();
     };
@@ -49,11 +48,10 @@ const HealthInfoContainer = () => {
 
     const smoker = isTobaccoUser ? "Yes" : "No";
 
-    // const { Put: updateLeadData } = useFetch(`${UPDATE_LEAD_DETAILS}${leadId}`);
     const onSave = async (formData) => {
-        let email = emails.length > 0 ? emails[0].leadEmail : null;
-        let phoneData = phones.length > 0 ? phones[0] : null;
-        let addressData = addresses.length > 0 ? addresses?.[0] : null;
+        const email = emails.length > 0 ? emails[0].leadEmail : null;
+        const phoneData = phones.length > 0 ? phones[0] : null;
+        const addressData = addresses.length > 0 ? addresses?.[0] : null;
         const emailID = emails.length > 0 ? emails[0].emailID : 0;
         const leadAddressId = addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
         const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
