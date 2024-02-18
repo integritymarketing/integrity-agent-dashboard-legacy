@@ -81,11 +81,8 @@ export const onlyNumbersBetween1And8 = (e) => {
  * @param {KeyboardEvent} e - Keyboard event triggered on key press
  */
 export const onlyNumbersBetween0And11 = (e) => {
-    // Allow numbers 0-9 or 10 and 11
     const regex = /^(0?[0-9]|1[01])$/;
-    const value = e.target.value + e.key; // Calculate the value after the keypress
-  
-    // Prevent input if the key is not Backspace or Delete and the value doesn't match the regex
+    const value = e.target.value + e.key; 
     if (e.key !== "Backspace" && e.key !== "Delete" && !regex.test(value)) {
       e.preventDefault();
     }

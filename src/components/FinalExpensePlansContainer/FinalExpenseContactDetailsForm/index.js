@@ -58,8 +58,8 @@ const FinalExpenseContactDetailsForm = ({
             const sessionItem = sessionStorage.getItem(contactId);
             const code = sessionItem ? JSON.parse(sessionItem).stateCode : leadDetails?.addresses?.[0]?.stateCode;
 
-            let hFeet = leadDetails?.height ? Math.floor(leadDetails?.height / 12) : "";
-            let hInch = leadDetails?.height ? leadDetails?.height % 12 : "";
+            const hFeet = leadDetails?.height ? Math.floor(leadDetails?.height / 12) : "";
+            const hInch = leadDetails?.height ? leadDetails?.height % 12 : "";
 
             setGender(leadDetails?.gender);
             setBDate(leadDetails?.birthdate);
@@ -78,7 +78,9 @@ const FinalExpenseContactDetailsForm = ({
     };
 
     const updateInch = (value) => {
-        if (!value || (value > 0 && value <= 12 && !value.includes("."))) {
+        const numericValue = Number(value);
+    
+        if (value !== '' && Number.isInteger(numericValue) && numericValue >= 0 && numericValue <= 11) {
             setInch(value);
         }
     };
@@ -103,7 +105,7 @@ const FinalExpenseContactDetailsForm = ({
             stateCode,
             gender,
             birthdate,
-            height: feet ? +(feet * 12) + +inch : null,
+            height: feet ? Number(feet * 12) + Number(inch) : null,
             weight: weight ? weight : null,
             isTobaccoUser,
         };

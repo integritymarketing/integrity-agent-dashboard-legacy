@@ -72,11 +72,12 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
     }, []);
 
     const updateInch = useCallback((value) => {
-        if (!value || (value > 0 && value <= 12 && !value.includes("."))) {
+        const numericValue = Number(value);
+        if (value !== '' && numericValue >= 0 && numericValue <= 11 && !value.includes(".")) {
             setInch(value);
         }
-    }, []);
-
+    }, [setInch]); 
+    
     const updateWeight = useCallback((value) => {
         if (!value || (value > 0 && value < 999)) {
             setWeight(value);
@@ -87,7 +88,7 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
         const formData = {
             gender,
             birthdate: bDate ? formatDate(bDate) : "",
-            height: feet ? +(feet * 12) + +inch : null,
+            height: feet ? Number(feet * 12) + Number(inch) : null,
             weight: weight ? weight : null,
             isTobaccoUser: isTobaccoUser === "Yes",
         };
