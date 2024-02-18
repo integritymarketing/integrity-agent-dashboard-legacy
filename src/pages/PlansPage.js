@@ -387,6 +387,7 @@ const PlansPage = () => {
         } else {
             setEffectiveDate(value);
         }
+        healthQuoteResultsUpdatedEvent();
     };
 
     const changePlanType = (value) => {
@@ -397,6 +398,7 @@ const PlansPage = () => {
             navigate({ state: { planType: parseInt(value) } });
         }
         setSelectedPlans({});
+        healthQuoteResultsUpdatedEvent();
     };
 
     const refreshPlans = useCallback(async () => {
@@ -425,7 +427,6 @@ const PlansPage = () => {
                 const subTypes = [...new Set(plansData?.medicarePlans.map((plan) => plan?.planSubType || "PDP"))];
                 setSubTypeList(subTypes);
                 setCarrierList(carriers);
-                healthQuoteResultsUpdatedEvent();
             } catch (e) {
                 Sentry.captureException(e);
             } finally {
@@ -433,6 +434,10 @@ const PlansPage = () => {
             }
         }
     }, [contact, effectiveDate, planType, myAppointedPlans]);
+
+    useEffect(() => {
+        HealthQuoteResultsEvent("Health Quote Results Viewed");
+    }, []);
 
     const getAllPlans = useCallback(async () => {
         if (contact) {
@@ -461,7 +466,6 @@ const PlansPage = () => {
                 setSubTypeList(subTypes);
                 setCarrierList(carriers);
                 analyticsService.fireEvent("event-quoting-plans");
-                HealthQuoteResultsEvent("Health Quote Results Viewed");
             } catch (e) {
                 Sentry.captureException(e);
             } finally {

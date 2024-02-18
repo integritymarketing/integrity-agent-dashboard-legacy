@@ -25,7 +25,7 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
         fireEvent("Health Submitted CTA Clicked", {
             leadid: contact.leadsId,
             line_of_business: "Health",
-            product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
+            product_type: PLAN_TYPE_ENUMS[planData?.planType]?.toLowerCase(),
             selection: option === "send" ? "client_application_selected" : "agent_application_selected",
         });
         try {
