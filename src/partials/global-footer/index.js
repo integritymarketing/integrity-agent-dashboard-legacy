@@ -71,7 +71,7 @@ const GlobalFooter = ({ className = "", hideMedicareIcon = false, ...props }) =>
                                         ) : null
                                     }
                                 </Media>
-                                <li>
+                                {/* <li>
                                     <a
                                         href={process.env.REACT_APP_AUTH_AUTHORITY_URL + "/external/SamlLogin/2023"}
                                         rel="noopener noreferrer"
@@ -90,7 +90,7 @@ const GlobalFooter = ({ className = "", hideMedicareIcon = false, ...props }) =>
                                     >
                                         MedicareLINK
                                     </a>
-                                </li>
+                                </li> */}
                                 <li>
                                     <a
                                         href={`${portalUrl || ""}/terms`}
