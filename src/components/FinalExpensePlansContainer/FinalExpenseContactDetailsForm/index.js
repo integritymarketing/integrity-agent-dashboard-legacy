@@ -80,10 +80,11 @@ const FinalExpenseContactDetailsForm = ({
     const updateInch = (value) => {
         const numericValue = Number(value);
     
-        if (value === '' && Number.isInteger(numericValue) && numericValue >= 0 && numericValue <= 11) {
+        if (value === '' || (Number.isInteger(numericValue) && numericValue >= 0 && numericValue <= 11)) {
             setInch(value);
         }
     };
+    
 
     const updateWeight = (value) => {
         if (!value || (value > 0 && value < 999)) {

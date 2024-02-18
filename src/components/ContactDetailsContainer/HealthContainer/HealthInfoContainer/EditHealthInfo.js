@@ -72,11 +72,10 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
     }, []);
 
     const updateInch = useCallback((value) => {
-        const numericValue = Number(value);
-        if (value === '' && numericValue >= 0 && numericValue <= 11 && !value.includes(".")) {
+        if (value === '' || (Number.isInteger(Number(value)) && Number(value) >= 0 && Number(value) <= 11)) {
             setInch(value);
         }
-    }, [setInch]); 
+    }, [setInch]);
     
     const updateWeight = useCallback((value) => {
         if (!value || (value > 0 && value < 999)) {
