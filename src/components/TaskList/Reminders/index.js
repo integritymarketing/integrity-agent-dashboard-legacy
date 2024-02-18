@@ -11,6 +11,7 @@ import { convertToLocalDateTime, isOverDue } from "utils/dates";
 
 import useToast from "hooks/useToast";
 
+import Person from "components/icons/personLatest";
 import RoundCheck from "components/icons/round-check";
 import { Button } from "components/ui/Button";
 
@@ -150,6 +151,7 @@ const RemindersCard = ({ callData, refreshData }) => {
                 )}
                 <Grid item xs={6} md={3} alignSelf={"center"} className="reminder-button-mobile">
                     <Button
+                        icon={<Person color="#ffffff" />}
                         label={"View Contact"}
                         className={"reminder-card-link-btn"}
                         onClick={() => navigate(`/contact/${callData?.leadId}`)}
