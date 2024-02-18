@@ -157,6 +157,7 @@ const RemindersCard = ({ callData, refreshData }) => {
                         onClick={() => navigate(`/contact/${callData?.leadId}`)}
                         type="tertiary"
                         style={isMobile ? { padding: "11px 6px" } : {}}
+                        iconPosition="right"
                     />
                 </Grid>
             </Grid>
