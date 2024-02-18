@@ -221,7 +221,7 @@ export const PlanDetailsContainer = ({
     };
 
     useEffect(() => {
-        if (isLoadingHealthConditions) return;
+        if (isLoadingHealthConditions) {return;}
         lifeQuoteEvent("Life Quote Results Viewed");
     }, [conditionsListState, isLoadingHealthConditions]);
 
@@ -303,7 +303,7 @@ export const PlanDetailsContainer = ({
                 {isLoadingFinalExpensePlans && loadersCards}
                 {!isLoadingFinalExpensePlans && (
                     <>
-                        {noPlanResults && <PersonalisedQuoteBox />}
+                        {<PersonalisedQuoteBox />}
                         {renderActiveSellingPermissionsSection()}
                         {renderNoPlansMessage()}
                     </>
