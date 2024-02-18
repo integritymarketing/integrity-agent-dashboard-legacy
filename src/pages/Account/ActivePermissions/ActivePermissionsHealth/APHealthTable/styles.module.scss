@@ -5,3 +5,11 @@
         overflow: scroll;
     }
 }
+
+.noDataWrapper {
+    min-height: auto;
+
+    @media (max-width: 768px) {
+        overflow: scroll;
+    }
+}

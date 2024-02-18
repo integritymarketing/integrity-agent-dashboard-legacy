@@ -25,7 +25,7 @@ function APHealthTable() {
     }
 
     return (
-        <Box className={styles.tableWrapper}>
+        <Box className={visibleItems?.length > 0 ? styles.tableWrapper: styles.noDataWrapper}>
             <Table data={visibleItems} />
             {hasMore && <LoadMoreButton loadMore={loadMore} />}
         </Box>
