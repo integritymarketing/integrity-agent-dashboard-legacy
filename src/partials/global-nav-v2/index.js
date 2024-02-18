@@ -173,6 +173,30 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           },
                           label: "CSG App",
                       },
+                      {
+                        component: "button",
+                        props: {
+                          type: "button",
+                          onClick: () => {
+                            window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
+                          },
+                        },
+                        label: "MedicareLink",
+                      },
+                      {
+                        component: "button",
+                        props: {
+                          type: "button",
+                          onClick: () => {
+                            window.open(
+                              `${process.env.REACT_APP_AUTH_AUTHORITY_URL 
+                                }/external/SamlLogin/2023`,
+                              "_blank"
+                            );
+                          },
+                        },
+                        label: "MedicareAPP",
+                      },
                   ],
                   tertiary: [
                       {
@@ -239,6 +263,30 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                                   window.open(`/leadcenter-redirect/${agentInformation?.agentNPN}`, "_blank"),
                           },
                           label: "LeadCENTER",
+                      },
+                      {
+                        component: "button",
+                        props: {
+                          type: "button",
+                          onClick: () => {
+                            window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
+                          },
+                        },
+                        label: "MedicareLink",
+                      },
+                      {
+                        component: "button",
+                        props: {
+                          type: "button",
+                          onClick: () => {
+                            window.open(
+                              `${process.env.REACT_APP_AUTH_AUTHORITY_URL 
+                                }/external/SamlLogin/2023`,
+                              "_blank"
+                            );
+                          },
+                        },
+                        label: "MedicareAPP",
                       },
                       {
                           component: "button",

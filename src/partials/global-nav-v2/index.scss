@@ -15,7 +15,7 @@
         flex-shrink: 1;
         padding-left: 5rem;
 
-      
+
         a {
             display: flex;
             max-width: calc(170px);
@@ -185,6 +185,12 @@
 
     @media (min-width: 480px) {
         padding: 1.75rem 1.75rem 3.25;
+    }
+
+    @media (max-width: 479px) {
+        :last-child {
+            margin-top: 0;
+        }
     }
 
     @media (min-width: 768px) {
