@@ -118,7 +118,7 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
             <div className={styles.inputBox}>
                 <SelectableButtonGroup
                     labelText={GENDER}
-                    selectedButtonText={gender?.toLowerCase() === "male" ? "Male" : "Female"}
+                    selectedButtonText={gender}
                     buttonOptions={GENDER_OPTS}
                     onSelect={handleSelectGender}
                 />
@@ -168,7 +168,7 @@ export const EditHealthInfo = ({ birthdate, sexuality, wt, hFeet, hInch, smoker,
             <div className={styles.inputBox}>
                 <SelectableButtonGroup
                     labelText={TOBACCO_USE}
-                    selectedButtonText={isTobaccoUser === "Yes" ? "Yes" : "No"}
+                    selectedButtonText={isTobaccoUser}
                     buttonOptions={SMOKER_OPTS}
                     onSelect={handleSelectTobacco}
                 />
