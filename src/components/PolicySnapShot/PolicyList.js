@@ -52,7 +52,7 @@ const lifeIcons = {
 const PolicyCard = ({ callData }) => {
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
-  const isHealthPolicy = !!(callData?.productType === "Medicare Advantage");
+  const isHealthPolicy = Boolean(callData?.productType === "Medicare Advantage");
   const status = callData?.policyStatus || "";
   const policyStatus = status === "terminated" ? "Inactive" : capitalizeFirstLetter(status);
   const IconComponent = isHealthPolicy ? healthIcons[policyStatus] : lifeIcons[policyStatus];
@@ -129,6 +129,7 @@ const PolicyCard = ({ callData }) => {
             onClick={() => navigate(`/contact/${callData?.leadId}`)}
             type="tertiary"
             style={isMobile ? { padding: "11px 6px" } : {}}
+            iconPosition="right"
           />
         </Grid>
       </Grid>
