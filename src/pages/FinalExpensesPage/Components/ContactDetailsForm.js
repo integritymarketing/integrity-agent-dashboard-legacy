@@ -28,7 +28,7 @@ import DatePickerMUI from "components/DatePicker";
 import { useLeadDetails } from "providers/ContactDetails";
 import { useLife } from "contexts/Life";
 import useToast from "hooks/useToast";
-import { onlyNumbersBetween1And8, onlyNumbersBetween1And12 } from "utils/shared-utils/sharedUtility";
+import { onlyNumbersBetween1And8, onlyNumbersBetween0And11 } from "utils/shared-utils/sharedUtility";
 
 import moment from "moment";
 
@@ -98,7 +98,7 @@ const FormComponent = () => {
     };
 
     const checkIfInvalidWeight = (weight) => {
-        return weight && (+weight < 10 || +weight > 999);
+        return weight && (Number(weight) < 10 || Number(weight) > 999);
     };
 
     const checkIfInvalidFeet = (feet) => {
@@ -217,8 +217,8 @@ const FormComponent = () => {
     }
 
     function formatGender(gender) {
-        if (gender === "M") return "Male";
-        if (gender === "F") return "Female";
+        if (gender === "M") {return "Male";}
+        if (gender === "F") {return "Female";}
         return null;
     }
 
@@ -298,7 +298,7 @@ const FormComponent = () => {
                                             type="text"
                                             maxLength="2"
                                             value={formData.inches}
-                                            onKeyDown={onlyNumbersBetween1And12}
+                                            onKeyDown={onlyNumbersBetween0And11}
                                             onChange={({ target }) => {
                                                 onChangeFormData("inches", target.value);
                                             }}

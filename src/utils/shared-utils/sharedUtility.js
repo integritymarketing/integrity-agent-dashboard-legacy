@@ -80,13 +80,16 @@ export const onlyNumbersBetween1And8 = (e) => {
  * Allows empty strings to pass through.
  * @param {KeyboardEvent} e - Keyboard event triggered on key press
  */
-export const onlyNumbersBetween1And12 = (e) => {
-  const regex = /^[1-9][0-2]?$/; // Updated regex pattern
-  const value = e.target.value + e.key; // Calculate the value after the keypress
-  if (e.key !== "Backspace" && e.key !== "Delete" && !regex.test(value)) {
-    e.preventDefault();
-  }
-};
+export const onlyNumbersBetween0And11 = (e) => {
+    // Allow numbers 0-9 or 10 and 11
+    const regex = /^(0?[0-9]|1[01])$/;
+    const value = e.target.value + e.key; // Calculate the value after the keypress
+  
+    // Prevent input if the key is not Backspace or Delete and the value doesn't match the regex
+    if (e.key !== "Backspace" && e.key !== "Delete" && !regex.test(value)) {
+      e.preventDefault();
+    }
+  };
 
 // Scrolls the window to the top
 export const scrollTop = () => {
@@ -95,13 +98,13 @@ export const scrollTop = () => {
 
 // Capitalizes the first letter of a string
 export const capitalizeFirstLetter = (string) => {
-    if (!string) return "";
+    if (!string) {return "";}
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 // Formats a string by replacing underscores with spaces and capitalizing words
 export const formatUnderScoreString = (string) => {
-    let formattedString = capitalizeFirstLetter(string);
+    const formattedString = capitalizeFirstLetter(string);
     return formattedString.replaceAll("_", " ");
 };
 
@@ -117,13 +120,13 @@ export const formattedName = (string) => {
 
 // Formats a Medicare Beneficiary Identifier (MBI) by masking or formatting it
 export const formatMBID = (mbid, showMBID) => {
-    if (!mbid) return null;
+    if (!mbid) {return null;}
     return showMBID ? formatMbiNumber(mbid) : `****-***-${mbid.slice(-4)}`;
 };
 
 // Formats a string as an MBI number
 export const formatMbiNumber = (mbi) => {
-    if (!mbi) return "";
+    if (!mbi) {return "";}
     let formattedMbi = mbi.replace(/-/g, "");
     if (formattedMbi.length > 4) {
         formattedMbi = `${formattedMbi.slice(0, 4)}-${formattedMbi.slice(4)}`;
