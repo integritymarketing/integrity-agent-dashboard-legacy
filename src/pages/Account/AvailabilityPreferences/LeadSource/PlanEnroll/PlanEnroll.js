@@ -35,7 +35,7 @@ function PlanEnroll({ setShowAvilabilityDialog }) {
             },
         };
         await updateAgentPreferences(data);
-        trackAgentPreferencesEvents({ plan_enroll_leads_enabled: data?.medicareEnrollPurl ? "Y" : "N" });
+        trackAgentPreferencesEvents({ plan_enroll_leads_enabled: data?.medicareEnrollPurl ? "Y" : "No" });
 
         if (isAvailable && leadPreference?.medicareEnrollPurl && !isHealthChecked && !isLifeCheck) {
             await clientsService.updateAgentAvailability({

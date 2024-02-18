@@ -31,10 +31,10 @@ function SellingPreferences() {
 
         updateAgentPreferences(payload);
         if (type === LIFE) {
-            trackAgentPreferencesEvents({ life_selling_enabled: value ? "N" : "Y" });
+            trackAgentPreferencesEvents({ life_selling_enabled: value ? "No" : "Y" });
         }
         if (type === HEALTH) {
-            trackAgentPreferencesEvents({ health_selling_enabled: value ? "N" : "Y" });
+            trackAgentPreferencesEvents({ health_selling_enabled: value ? "No" : "Y" });
         }
     };
 
