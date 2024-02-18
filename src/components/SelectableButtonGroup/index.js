@@ -22,8 +22,10 @@ const SelectableButtonGroup = ({
   onSelect
 }) => {
 
+  const isSelectedOptionValid = buttonOptions.includes(selectedButtonText);
+
   const getButtonStyle = (buttonText, index) => {
-    const isSelected = selectedButtonText === buttonText;
+    const isSelected = isSelectedOptionValid && selectedButtonText === buttonText;
     const baseStyle = isSelected ? `${styles.expandableButton} ${styles.selected}` : styles.expandableButton;
     const customClassName = buttonClassNames[index] || '';
     return `${baseStyle} ${customClassName}`;
