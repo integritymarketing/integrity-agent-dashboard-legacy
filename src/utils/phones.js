@@ -12,10 +12,10 @@ export const formatPhoneNumber = (phoneNumberString, includeCountryCode = false)
   }
 
 
-  const digitsOnly = originalInput.replace(/\D/g, "");
+  const digitsOnly = originalInput?.replace(/\D/g, "");
 
 
-  const partsMatch = digitsOnly.match(/^(\d{3})(\d{3})(\d{4})$/);
+  const partsMatch = digitsOnly?.match(/^(\d{3})(\d{3})(\d{4})$/);
 
   return partsMatch ? `${partsMatch[1]}-${partsMatch[2]}-${partsMatch[3]}` : (digitsOnly === "" ? null : originalInput);
 };

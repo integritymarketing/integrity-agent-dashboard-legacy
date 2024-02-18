@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -16,7 +17,7 @@ import CostBreakdowns from "./cost-breakdowns";
 import "./index.scss";
 import PlanCoverage from "./plan-coverage/PlanCoverage";
 import SelfRecommendation from "./self-recommendation/SelfRecommendation";
-
+import useAnalytics from "hooks/useAnalytics";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import { Button } from "../Button";
 import Rating from "../Rating";
@@ -31,13 +32,15 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 const LOGO_BASE_URL = "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
 const getCoverageRecommendations = (planData) => {
-    if (!planData?.crossUpSellPlanOptions) return false;
+    if (!planData?.crossUpSellPlanOptions) {
+        return false;
+    }
 
-    let list = { ...planData?.crossUpSellPlanOptions };
-    let coverageArray = [];
+    const list = { ...planData?.crossUpSellPlanOptions };
+    const coverageArray = [];
     Object.keys(list).map((keyName) => {
         if (list[keyName] === "1") {
-            let value = keyName.includes("_") ? formatUnderScoreString(keyName) : capitalizeFirstLetter(keyName);
+            const value = keyName.includes("_") ? formatUnderScoreString(keyName) : capitalizeFirstLetter(keyName);
 
             coverageArray.push(value);
         }
@@ -58,10 +61,12 @@ export default function PlanCard({
     isChecked,
     isCompareDisabled,
     refresh,
+    leadId,
 }) {
-    let [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
+    const [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
     const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
     const { contactId } = useParams();
+    const { fireEvent } = useAnalytics();
 
     const { logoURL } = planData;
     const checkForImage = logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
@@ -114,7 +119,9 @@ export default function PlanCard({
                         onClick={() => {
                             if (planType === "MA" && isMobile) {
                                 setBreakdownCollapsed(isMobile && !breakdownCollapsed);
-                            } else return false;
+                            } else {
+                                return false;
+                            }
                         }}
                     >
                         <div className={"label"}>Monthly Plan Premium</div>
@@ -198,7 +205,14 @@ export default function PlanCard({
                 {!planData.nonLicensedPlan && (
                     <Button
                         label={"Apply"}
-                        onClick={() => setPreCheckListPdfModal(true)}
+                        onClick={() => {
+                            setPreCheckListPdfModal(true);
+                            fireEvent("Health Apply CTA Clicked", {
+                                leadid: leadId,
+                                line_of_business: "Health",
+                                product_type: PLAN_TYPE_ENUMS[planData.planType]?.toLowerCase(),
+                            });
+                        }}
                         icon={<img src={EnrollBack} alt="enroll" />}
                         className={"enroll-btn"}
                         disabled={disableEnroll}

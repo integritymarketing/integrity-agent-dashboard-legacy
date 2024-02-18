@@ -39,15 +39,15 @@ function SAAddNewRow() {
 
     const validateInput = (input) => {
         const alphanumericRegex = /^[a-z0-9]+$/i;
-    
+
         if (!alphanumericRegex.test(input)) {
             return "Input must contain only alphanumeric characters.";
         }
-    
+
         if (input.length < 1 || input.length > 13) {
             return "Input must be between 1 and 13 characters long.";
         }
-    
+
         return null;
     };
 
@@ -108,7 +108,7 @@ function SAAddNewRow() {
                         <Box className={styles.title}>Product</Box>
                         <Select
                             placeholder="Final Expense"
-                            style={{ width: "100%" }}
+                            style={{ width: "360px" }}
                             showValueAlways={false}
                             disabled={true}
                         />
@@ -129,6 +129,7 @@ function SAAddNewRow() {
                         </>
                     </Box>
                 </td>
+                <td></td>
                 <td>
                     <Box display="flex" textAlign="center" justifyContent="right" paddingRight="20px" gap="40px">
                         <Button

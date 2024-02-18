@@ -3,9 +3,6 @@ import { useNavigate } from "react-router";
 
 import { formatDate } from "utils/dates";
 
-import useAnalytics from "hooks/useAnalytics";
-import { PLAN_TYPE_ENUMS } from "../../constants";
-
 import EnrollmentModal from "./Enrollment/enrollment-modal";
 import PlanCard from "./PlanCard";
 import PlanCardLoader from "./PlanCard/loader";
@@ -30,7 +27,6 @@ const PlanResults = ({
     refresh,
 }) => {
     const navigate = useNavigate();
-    const { fireEvent } = useAnalytics();
     const [modalOpen, setModalOpen] = useState(false);
     const [enrollingPlan, setEnrollingPlan] = useState();
     const cards = [];
@@ -54,11 +50,6 @@ const PlanResults = ({
                         navigate(`/${leadId}/plan/${plan.id}/${formatDate(effectiveDate, "yyyy-MM-01")}`);
                     }}
                     onEnrollClick={() => {
-                        fireEvent("Health Apply CTA Clicked", {
-                            leadid: leadId,
-                            line_of_business: "Health",
-                            product_type: PLAN_TYPE_ENUMS[planType]?.toLowerCase(),
-                        });
                         setEnrollingPlan(plan);
                         setModalOpen(true);
                     }}
@@ -70,6 +61,7 @@ const PlanResults = ({
                         Object.values(selectedPlans).filter(Boolean).length >= 3 && !selectedPlans[plan.id]
                     }
                     refresh={refresh}
+                    leadId={leadId}
                 />
             );
         }

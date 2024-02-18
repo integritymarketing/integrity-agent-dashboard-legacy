@@ -59,7 +59,7 @@ export const PlanDetailsContainer = ({
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
     const { getFinalExpenseQuotePlans, getCarriersInfo, carrierInfo } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
-    const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState();
+    const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(true);
     const [conditionsListState, setConditionsListState] = useState([]);
     const { leadDetails } = useLeadDetails();
     const [fetchPlansError, setFetchPlansError] = useState(false);
@@ -70,6 +70,9 @@ export const PlanDetailsContainer = ({
     const navigate = useNavigate();
 
     const fetchPlans = useCallback(async () => {
+        if (!leadDetails) {
+            return;
+        }
         try {
             setFetchPlansError(false);
             const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
@@ -100,7 +103,7 @@ export const PlanDetailsContainer = ({
             const quotePlansPostBody = {
                 usState: code,
                 age: Number(age),
-                gender: gender === "Male" ? "M" : "F",
+                gender: gender.toLowerCase() === "male" ? "M" : "F",
                 tobacco: Boolean(isTobaccoUser),
                 desiredFaceValue: selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
                 desiredMonthlyRate: selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
@@ -113,7 +116,6 @@ export const PlanDetailsContainer = ({
             };
 
             const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
-            setIsLoadingFinalExpensePlans(false);
 
             if (!isRTS) {
                 if (isShowExcludedProducts) {
@@ -138,6 +140,8 @@ export const PlanDetailsContainer = ({
         } catch (error) {
             setIsLoadingFinalExpensePlans(false);
             setFetchPlansError(true);
+        } finally {
+            setIsLoadingFinalExpensePlans(false);
         }
     }, [
         contactId,
@@ -250,7 +254,7 @@ export const PlanDetailsContainer = ({
     }, []);
 
     const renderNoPlansMessage = useCallback(() => {
-        if (isLoadingFinalExpensePlans === false && noPlanResults) {
+        if (!isLoadingFinalExpensePlans && noPlanResults) {
             return (
                 <div className={styles.noPlans}>
                     <div className={styles.alertIcon}>
@@ -261,7 +265,7 @@ export const PlanDetailsContainer = ({
             );
         }
         return null;
-    }, [isLoadingFinalExpensePlans, noPlanResults, fetchPlansError]);
+    }, [noPlanResults, isLoadingFinalExpensePlans]);
 
     const renderActiveSellingPermissionsSection = useCallback(() => {
         if (!noPlanResults && (!isRTS || !isMyAppointedProducts)) {
@@ -296,9 +300,13 @@ export const PlanDetailsContainer = ({
             />
             <div className={`${styles.planContainer} ${noPlanResults ? styles.alignCenter : ""}`}>
                 {isLoadingFinalExpensePlans && loadersCards}
-                {!noPlanResults && <PersonalisedQuoteBox />}
-                {renderActiveSellingPermissionsSection()}
-                {renderNoPlansMessage()}
+                {!isLoadingFinalExpensePlans && (
+                    <>
+                        {noPlanResults && <PersonalisedQuoteBox />}
+                        {renderActiveSellingPermissionsSection()}
+                        {renderNoPlansMessage()}
+                    </>
+                )}
                 {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
                     <>
                         {pagedResults.map((plan, index) => {

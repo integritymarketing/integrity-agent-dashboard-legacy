@@ -120,11 +120,11 @@ const FinalExpenseContactDetailsForm = ({
         () =>
             GENDER_OPTS.map((option) => (
                 <div
-                    key={option}
-                    className={`${styles.optionValueBox} ${option === gender ? styles.selected : ""}`}
-                    onClick={() => setGender(option)}
+                    key={option.label}
+                    className={`${styles.optionValueBox} ${option.value === gender ? styles.selected : ""}`}
+                    onClick={() => setGender(option.value)}
                 >
-                    {option}
+                    {option.label}
                 </div>
             )),
         [gender]

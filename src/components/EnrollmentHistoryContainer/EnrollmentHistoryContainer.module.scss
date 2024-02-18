@@ -3,6 +3,9 @@
 .layout {
     margin-bottom: 3rem;
     border-radius: 8px;
+    @include small {
+        width: 100%;
+    }
 }
 
 .noPlansAvailable {

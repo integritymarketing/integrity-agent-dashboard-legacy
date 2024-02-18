@@ -157,13 +157,13 @@ export default function TaskList({ isMobile, npn }) {
             const sortedList = sortListByDate(fullList, "signedDate", false);
             const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
             setTaskList([...list]);
-        } else if (statusIndex === 1) {
+        } else if (statusIndex === 3) {
             const sortedList = fullList?.sort((a, b) =>
                 moment(b.taskList, "MM/DD/YYYY HH:mm:ss").diff(moment(a.taskList, "MM/DD/YYYY HH:mm:ss"))
             );
             const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
             setTaskList([...list]);
-        } else if (statusIndex === 2) {
+        } else if (statusIndex === 1) {
             const sortedList = sortListByDate(fullList, "taskDate", true);
             const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
             setTaskList([...list]);
@@ -173,6 +173,8 @@ export default function TaskList({ isMobile, npn }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, fullList]);
+
+    // const sortedList = sortListByDate(taskList, "taskDate", true);
 
     useEffect(() => {
         if (selectedName !== "PlanEnroll Leads") {

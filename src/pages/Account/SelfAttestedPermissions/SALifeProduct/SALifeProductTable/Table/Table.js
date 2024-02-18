@@ -12,7 +12,9 @@ import useDataHandler from "../../hooks/useDataHandler";
 
 import useAnalytics from "hooks/useAnalytics";
 
+import EditIcon from "components/icons/icon-edit";
 import TrashBinIcon from "components/icons/trashbin";
+import SaveBlue from "components/icons/version-2/SaveBlue";
 import { Button } from "components/ui/Button";
 import { Select } from "components/ui/Select";
 
@@ -170,23 +172,54 @@ function Table({ data }) {
                         </Box>
                     );
                 },
+                EditableCell: () => <></>,
             },
             {
                 Header: () => <></>,
                 accessor: "actions",
                 disableSortBy: true,
-                Cell: ({ row }) => (
-                    <Box display="flex" textAlign="center" justifyContent="right" paddingRight="20px">
-                        <Button
-                            icon={<TrashBinIcon color="#4178ff" />}
-                            label="Delete"
-                            className={styles.buttonWithIcon}
-                            onClick={() => onDeleteHandle(row?.original)}
-                            type="tertiary"
-                            iconPosition="right"
-                        />
-                    </Box>
-                )
+                Cell: ({ row }) => {
+                    const isExpired = row.original.isExpired;
+                    return (
+                        <Box display="flex" textAlign="center" justifyContent="right" paddingRight="20px">
+                            <Button
+                                icon={isExpired ? <TrashBinIcon color="#4178ff" /> : <EditIcon color="#4178ff" />}
+                                label={isExpired ? "Delete" : "Edit"}
+                                className={styles.buttonWithIcon}
+                                onClick={
+                                    isExpired
+                                        ? () => onDeleteHandle(row?.original)
+                                        : () => toggleEditMode(row?.original?.fexAttestationId)
+                                }
+                                type="tertiary"
+                                iconPosition="right"
+                            />
+                        </Box>
+                    );
+                },
+                EditableCell: ({ row }) => {
+                    return (
+                        <Box display="flex" textAlign="center" justifyContent="right" paddingRight="20px" gap="40px">
+                            <Button
+                                icon={<TrashBinIcon color="#4178ff" />}
+                                label="Delete"
+                                className={styles.buttonWithIcon}
+                                onClick={() => onDeleteHandle(row?.original)}
+                                type="tertiary"
+                                iconPosition="right"
+                            />
+                            <Button
+                                icon={<SaveBlue />}
+                                label="Save"
+                                className={styles.buttonWithIcon}
+                                onClick={() => onSaveHandle(row?.original)}
+                                type="tertiary"
+                                iconPosition="right"
+                                disabled={invalidProducerId}
+                            />
+                        </Box>
+                    );
+                },
             },
         ],
         [onDeleteHandle, onSaveHandle, toggleEditMode, updateMyData, invalidProducerId]
