@@ -15,7 +15,7 @@ const getPortalUrl = () => {
       process.env.REACT_APP_PORTAL_URL ||
       cookies.get("portal_url") ||
       cookies.get("client_url") ||
-      "https://www.clients.integrity.com"
+      "https://clients.integrity.com"
     );
   }
 };
@@ -48,7 +48,7 @@ class authService {
     });
 
     this.UserManager.events.addSilentRenewError((e) => {
-      throw new Error("authService: " + e.message);
+      throw new Error(`authService: ${  e.message}`);
     });
 
     this.UserManager.events.addAccessTokenExpired(() => {
@@ -80,9 +80,9 @@ class authService {
       client_id: process.env.REACT_APP_AUTH_CLIENT_ID,
       response_type: process.env.REACT_APP_AUTH_RESPONSE_TYPE,
       scope: process.env.REACT_APP_AUTH_SCOPES,
-      redirect_uri: portal_url + "/signin-oidc",
-      post_logout_redirect_uri: portal_url + "/signout-oidc",
-      silent_redirect_uri: portal_url + "/signin-oidc-silent",
+      redirect_uri: `${portal_url  }/signin-oidc`,
+      post_logout_redirect_uri: `${portal_url  }/signout-oidc`,
+      silent_redirect_uri: `${portal_url  }/signin-oidc-silent`,
     };
   };
 
@@ -182,7 +182,7 @@ class authService {
         `oidc.user:${process.env.REACT_APP_AUTH_AUTHORITY_URL}:${process.env.REACT_APP_AUTH_CLIENT_ID}`
       )
     );
-    return !!oidcStorage && !!oidcStorage.id_token;
+    return Boolean(oidcStorage) && Boolean(oidcStorage.id_token);
   };
 
   signinSilent = async () => {
@@ -223,8 +223,8 @@ class authService {
   redirectAndRestartLoginFlow = () => {
     const portal_url = getPortalUrl();
 
-    window.location = portal_url + "/signin";
-    return;
+    window.location = `${portal_url  }/signin`;
+    
   };
 
   updateAccountMetadata = async (values) =>

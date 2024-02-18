@@ -13,7 +13,7 @@ const usePortalUrl = () => {
       process.env.REACT_APP_PORTAL_URL ||
       cookies.get("portal_url") ||
       cookies.get("client_url") ||
-      "https://www.clients.integrity.com" // last resort fallback if cookie is removed in auth app.
+      "https://clients.integrity.com" // last resort fallback if cookie is removed in auth app.
     );
   }
 };
