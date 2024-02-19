@@ -40,7 +40,7 @@ const PlanDetailsPage = () => {
     const { leadDetails } = useLeadDetails();
 
     const [isMobile, setIsMobile] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [contact, setContact] = useState(leadDetails);
     const [plan, setPlan] = useState();
@@ -91,20 +91,7 @@ const PlanDetailsPage = () => {
                         setIsMobile(isMobile);
                     }}
                 />
-                <EnrollmentModal
-                    modalOpen={modalOpen}
-                    planData={plan}
-                    contact={contact}
-                    handleCloseModal={() => setModalOpen(false)}
-                    effectiveDate={effectiveDate}
-                />
-                <SharePlanModal
-                    modalOpen={shareModalOpen}
-                    planData={plan}
-                    contact={contact}
-                    handleCloseModal={() => setShareModalOpen(false)}
-                    effectiveDate={effectiveDate}
-                />
+
                 <WithLoader isLoading={isLoading}>
                     <Helmet>
                         <title>Integrity - Plans</title>
@@ -170,6 +157,24 @@ const PlanDetailsPage = () => {
                     </Container>
                     <ContactFooter />
                     <BackToTop />
+                    {!isLoading && (
+                        <>
+                            <EnrollmentModal
+                                modalOpen={modalOpen}
+                                planData={plan}
+                                contact={contact}
+                                handleCloseModal={() => setModalOpen(false)}
+                                effectiveDate={effectiveDate}
+                            />
+                            <SharePlanModal
+                                modalOpen={shareModalOpen}
+                                planData={plan}
+                                contact={contact}
+                                handleCloseModal={() => setShareModalOpen(false)}
+                                effectiveDate={effectiveDate}
+                            />
+                        </>
+                    )}
                 </WithLoader>
             </div>
         </React.Fragment>
