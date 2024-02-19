@@ -207,10 +207,10 @@ export const PlanDetailsContainer = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                    ? ["My Appointed Products"]
-                    : isShowExcludedProducts
-                    ? ["Show Excluded Products"]
-                    : [],
+                        ? ["My Appointed Products"]
+                        : isShowExcludedProducts
+                            ? ["Show Excluded Products"]
+                            : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -221,7 +221,7 @@ export const PlanDetailsContainer = ({
     };
 
     useEffect(() => {
-        if (isLoadingHealthConditions) {return;}
+        if (isLoadingHealthConditions) { return; }
         lifeQuoteEvent("Life Quote Results Viewed");
     }, [conditionsListState, isLoadingHealthConditions]);
 
@@ -311,19 +311,34 @@ export const PlanDetailsContainer = ({
                 {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
                     <>
                         {pagedResults.map((plan, index) => {
+                            // Ensure that carrier and product are not null before destructuring
+                            const carrier = plan.carrier || {};
+                            const product = plan.product || {};
                             const {
-                                carrier: { logoUrl, naic, resource_url },
-                                product: { name, benefits, limits },
-                                coverageType: apiCoverageType,
-                                faceValue,
-                                modalRates,
-                                eligibility,
-                                reason,
-                                type,
-                                writingAgentNumber,
-                                isRTS: isRTSPlan,
-                                policyFee,
-                            } = plan;
+                                logoUrl,
+                                naic,
+                                resource_url,
+                            } = carrier;
+
+                            const {
+                                name,
+                                benefits,
+                                limits,
+                            } = product;
+
+                            // Ensure other destructured properties are safely accessed
+                            const {
+                                coverageType: apiCoverageType = '',
+                                faceValue = '',
+                                modalRates = [],
+                                eligibility = {},
+                                reason = {},
+                                type = '',
+                                writingAgentNumber = '',
+                                isRTS: isRTSPlan = false,
+                                policyFee = 0,
+                            } = plan || {};
+
                             let conditionList = [];
                             if (reason?.categoryReasons?.length > 0) {
                                 conditionList = reason?.categoryReasons?.map(({ categoryId, lookBackPeriod }) => {
