@@ -29,7 +29,7 @@ import FilterIcon from "components/icons/activities/Filter";
 import ActionsDropdown from "components/ui/ActionsDropdown";
 
 import ContactContext from "contexts/contacts";
-
+import { ActionsCell } from "../ContactsList/ContactsTable/ActionsCell";
 import clientsService from "services/clientsService";
 import comparePlansService from "services/comparePlansService";
 
@@ -91,7 +91,9 @@ const FILTER_OPTIONS = [
     { name: "Legacy Safeguard Eligible", selected: false },
 ];
 const renderButtons = (activity, leadsId, handleClick) => {
-    if (!activity) {return false;}
+    if (!activity) {
+        return false;
+    }
     const { activityTypeName = "", activityInteractionURL = "", activitySubject = "" } = activity;
 
     if (
@@ -353,13 +355,15 @@ export default function DashboardActivityTable({
                     }
                     return (
                         <>
-                            <ActionsDropdown
+                            {/* <ActionsDropdown
                                 options={options}
                                 id={row.original.leadsId}
                                 onClick={handleDropdownActions(row.original)}
                             >
                                 <MoreHorizOutlinedIcon />
-                            </ActionsDropdown>
+                            </ActionsDropdown> */}
+
+                            <ActionsCell row={row} />
                             {showAddNewModal && (
                                 <AddReminderModal
                                     open={showAddNewModal}

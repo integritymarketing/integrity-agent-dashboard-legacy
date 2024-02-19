@@ -200,11 +200,13 @@ export default function Modal({
                     </DialogActions>
                 )}
                 {isDelete && (
-                    <Box className={classes.deleteContainer}>
-                        <Button onClick={onDelete} className={classes.cancelButton}>
-                            Delete {modalName}
-                        </Button>
-                    </Box>
+                    <DialogActions className={classes.footer}>
+                        <Box className={classes.deleteContainer}>
+                            <Button onClick={onDelete} className={classes.cancelButton}>
+                                Delete {modalName}
+                            </Button>
+                        </Box>
+                    </DialogActions>
                 )}
                 {customFooter && customFooter}
             </Dialog>
