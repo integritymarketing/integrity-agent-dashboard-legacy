@@ -163,8 +163,8 @@ const Address = ({ addresses, isPlanPage }) => {
                                     <div>
                                         {address
                                             ? [address?.city, address?.state, address?.zipCode]
-                                                  .filter(Boolean)
-                                                  .join(",")
+                                                .filter(Boolean)
+                                                .join(",")
                                             : null}
                                     </div>
                                 </div>
