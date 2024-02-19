@@ -174,8 +174,8 @@ export default function Dashbaord() {
                                     greetings() === "Evening"
                                         ? Evening
                                         : greetings() === "Morning"
-                                            ? Morning
-                                            : Afternoon
+                                        ? Morning
+                                        : Afternoon
                                 }
                                 alt="Greeting"
                             />

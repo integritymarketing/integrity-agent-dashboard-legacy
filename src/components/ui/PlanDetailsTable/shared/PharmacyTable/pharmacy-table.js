@@ -47,21 +47,21 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 columns: [
                     ...(isMobile
                         ? [
-                            {
-                                hideHeader: true,
-                                accessor: "name_address",
-                            },
-                        ]
+                              {
+                                  hideHeader: true,
+                                  accessor: "name_address",
+                              },
+                          ]
                         : [
-                            {
-                                hideHeader: true,
-                                accessor: "name",
-                            },
-                            {
-                                hideHeader: true,
-                                accessor: "address",
-                            },
-                        ]),
+                              {
+                                  hideHeader: true,
+                                  accessor: "name",
+                              },
+                              {
+                                  hideHeader: true,
+                                  accessor: "address",
+                              },
+                          ]),
                 ],
             },
         ],

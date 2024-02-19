@@ -7,8 +7,6 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
-
-
 const CostBreakdowns = ({ planData, effectiveDate }) => {
   const rows = [];
   const planTypeBreakdowns =

@@ -1,19 +1,9 @@
 import React from "react";
-import { styled } from '@mui/material/styles';
 import Button from "@mui/material/Button";
-const PREFIX = 'IconButton';
+import makeStyles from "@mui/styles/makeStyles";
 
-const classes = {
-  addButton: `${PREFIX}-addButton`,
-  iconWrapper: `${PREFIX}-iconWrapper`
-};
-
-const StyledButton = styled(Button)((
-  {
-    theme
-  }
-) => ({
-  [`&.${classes.addButton}`]: {
+const useStyles = makeStyles((theme) => ({
+  addButton: {
     color: "#4178FF",
     fontSize: "14px",
     fontWeight: "500",
@@ -43,24 +33,23 @@ const StyledButton = styled(Button)((
       },
     },
   },
-
-  [`& .${classes.iconWrapper}`]: {
+  iconWrapper: {
     marginBottom: "2px",
-  }
+  },
 }));
 
 const IconButton = ({ label, onClick, disabled, icon }) => {
-
+  const classes = useStyles();
 
   return (
-    <StyledButton
+    <Button
       onClick={onClick}
       className={classes.addButton}
       endIcon={<span className={classes.iconWrapper}>{icon}</span>}
       disabled={disabled}
     >
       {label}
-    </StyledButton>
+    </Button>
   );
 };
 

@@ -1,20 +1,10 @@
 import React from "react";
-import { styled } from '@mui/material/styles';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-const PREFIX = 'CustomFooter';
+import makeStyles from "@mui/styles/makeStyles";
 
-const classes = {
-  customButton: `${PREFIX}-customButton`,
-  customFooterContainer: `${PREFIX}-customFooterContainer`
-};
-
-const StyledBox = styled(Box)((
-  {
-    theme
-  }
-) => ({
-  [`& .${classes.customButton}`]: {
+const useStyles = makeStyles((theme) => ({
+  customButton: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -31,21 +21,21 @@ const StyledBox = styled(Box)((
     },
   },
 
-  [`&.${classes.customFooterContainer}`]: {
+  customFooterContainer: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     padding: "20px",
     backgroundColor: "#F1F1F1",
     width: "90%",
-  }
+  },
 }));
 
 export default function CustomFooter({ buttonName, onClick, icon }) {
-
+  const classes = useStyles();
 
   return (
-    <StyledBox className={classes.customFooterContainer}>
+    <Box className={classes.customFooterContainer}>
       <Button
         onClick={onClick}
         endIcon={icon ? <span className={classes.buttonIcon}>{icon}</span> : ""}
@@ -53,6 +43,6 @@ export default function CustomFooter({ buttonName, onClick, icon }) {
       >
         {buttonName}
       </Button>
-    </StyledBox>
+    </Box>
   );
 }
