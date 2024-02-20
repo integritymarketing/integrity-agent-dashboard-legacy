@@ -220,24 +220,30 @@
     #mcContactSummaryButtonsCard {
       .ac-actionSet {
         flex-direction: row-reverse !important;
-
-        button:first-child {
+    
+        button {
           background-color: #4178ff;
           border-radius: 50px;
           flex-direction: row-reverse;
           gap: 4px;
         }
-
+    
         button:last-child {
-          // background-color: transparent;
-
+          background-color: transparent;
+    
           &:hover {
             background-color: #4178ff !important;
             border-radius: 50px;
           }
         }
+    
+        /* Style for the case when there is only one child */
+        button:only-child {
+          background-color: #4178ff;
+        }
       }
     }
+    
   }
 
   .ac-actionSet {
