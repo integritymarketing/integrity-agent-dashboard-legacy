@@ -40,7 +40,7 @@ const LegacySafeGuard = ({ leadDetails }) => {
     const leadState = useMemo(() => addresses?.[0]?.state || "", [addresses]);
     const leadZip = useMemo(() => addresses?.[0]?.postalCode || "", [addresses]);
     const formattedBirthdate = useMemo(() => (birthdate ? moment(birthdate).format('MM-DD-YYYY') : ""), [birthdate]);
-    const formattedGender = useMemo(() => (gender === "Male" ? "M" : gender === "Female" ? "F" : ""), [gender]);
+    const formattedGender = useMemo(() => (gender === "male" ? "M" : gender === "female" ? "F" : ""), [gender]);
     const isLSGTagPresent = useMemo(() => leadTags?.some((tag) => tag?.tag?.tagLabel === "LS USER"), [leadTags]);
 
     /**
