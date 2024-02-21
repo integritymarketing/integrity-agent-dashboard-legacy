@@ -7,14 +7,13 @@ import usePortalUrl from "hooks/usePortalUrl";
 const ServerLogoutPage = () => {
   const params = useQueryParams();
   const portal_url = usePortalUrl();
-  debugger
 
   useEffect(() => {
     const handleLogout = async () => {
       const response = await authService.logoutUser(params.get("logoutId"));
       const data = await response.json();
 
-      if (data.postLogoutRedirectUri) {
+      if (data.postLogoutRedirectUri) {        
         window.location = data.postLogoutRedirectUri;
       } else {
         Sentry.captureException(

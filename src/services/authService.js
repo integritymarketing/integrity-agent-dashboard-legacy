@@ -209,6 +209,7 @@ class authService {
   logout = () => {
     this.UserManager.signoutRedirect({
       id_token_hint: localStorage.getItem("id_token"),
+      post_logout_redirect_uri: `https://integrity.com/`,
     });
   };
 
