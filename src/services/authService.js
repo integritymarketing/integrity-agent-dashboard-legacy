@@ -80,9 +80,9 @@ class authService {
       client_id: process.env.REACT_APP_AUTH_CLIENT_ID,
       response_type: process.env.REACT_APP_AUTH_RESPONSE_TYPE,
       scope: process.env.REACT_APP_AUTH_SCOPES,
-      redirect_uri: `${portal_url  }/signin-oidc`,
-      post_logout_redirect_uri: `${portal_url  }/signout-oidc`,
-      silent_redirect_uri: `${portal_url  }/signin-oidc-silent`,
+      redirect_uri: `${portal_url}/signin-oidc`,
+      post_logout_redirect_uri: `${portal_url}/signout-oidc`,
+      silent_redirect_uri: `${portal_url}/signin-oidc-silent`,
     };
   };
 
@@ -223,7 +223,7 @@ class authService {
   redirectAndRestartLoginFlow = () => {
     const portal_url = getPortalUrl();
 
-    window.location = `${portal_url  }/signin`;
+    window.location = `${portal_url}/signin`;
     
   };
 
