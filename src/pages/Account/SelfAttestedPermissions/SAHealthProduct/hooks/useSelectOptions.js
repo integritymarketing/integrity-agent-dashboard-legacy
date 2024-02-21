@@ -8,18 +8,13 @@ import {
   groupCarriers,
 } from "../utils/helper";
 
-import useFeatureFlag from "hooks/useFeatureFlag";
-
-const FLAG_NAME = "REACT_APP_SELECTION_2024_FLAG";
-
 function useSelectOptions(data) {
   const [carriersGroup, setCarriersGroup] = useState({});
   const [carriersOptions, setCarriersOptions] = useState([]);
-  const isFeatureEnabled = useFeatureFlag(FLAG_NAME);
 
   const getProductsOptions = useCallback(
     (carrier) => {
-      if (!carrier) return [];
+      if (!carrier) {return [];}
       const uniquePlanTypesByCarrier = groupUniquePlanTypesByCarrier(data);
       return convertArrayToOptions(uniquePlanTypesByCarrier[carrier]);
     },
@@ -28,22 +23,22 @@ function useSelectOptions(data) {
 
   const getPlanYearOptions = useCallback(
     (carrier) => {
-      if (!carrier) return [];
+      if (!carrier) {return [];}
       const planYearsByCarrier = groupUniquePlanYearsByCarrier(data);
       const planYearyOptions = planYearsByCarrier[carrier];
       const has2024 = planYearyOptions.some(year => year === 2024);
       // Business logic - https://integritymarketing.atlassian.net/browse/SPW-285070
-      if(isFeatureEnabled && !has2024) {
+      if(!has2024) {
         planYearyOptions.push(2024)
       }
       return convertArrayToOptions(planYearyOptions);
     },
-    [data, isFeatureEnabled]
+    [data]
   );
 
   const getProducerID = useCallback(
     (carrier) => {
-      if (!carrier) return [];
+      if (!carrier) {return [];}
       const producerIds = groupUniqueProducerIdsByCarrier(data);
       return producerIds[carrier][0];
     },
