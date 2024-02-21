@@ -43,14 +43,14 @@ function SellingPreferences() {
             <SectionContainer title="Selling Preferences">
                 <SellingPreferenceItem
                     title="Quote Life Products"
-                    description="Enable quoting Final Expense products in Client Manager and Personal Website."
+                    description="Enable quoting Final Expense products in Integrity and PlanEnroll Agent Website."
                     checked={!hideLifeQuoteOn}
                     onChange={handleChange(LIFE)}
                     disabled={hideHealthQuoteOn}
                 />
                 <SellingPreferenceItem
                     title="Quote Health Products"
-                    description="Enable quoting Medicare products in Client Manager and Personal Website."
+                    description="Enable quoting Medicare products in Integrity and PlanEnroll Agent Website."
                     checked={!hideHealthQuoteOn}
                     onChange={handleChange(HEALTH)}
                     disabled={hideLifeQuoteOn}
