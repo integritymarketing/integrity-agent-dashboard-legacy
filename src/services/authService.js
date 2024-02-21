@@ -216,7 +216,7 @@ class authService {
     this.UserManager.signoutRedirectCallback().then(() => {
       this.UserManager.clearStaleState();
       localStorage.clear();
-      window.location.href = `https://integrity.com/`;
+      window.location.href = process.env.REACT_APP_BUILD_ENV === "Production" ?`https://integrity.com/` :process.env.REACT_APP_PORTAL_URL;
     });
   };
 
