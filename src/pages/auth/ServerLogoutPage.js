@@ -7,6 +7,7 @@ import usePortalUrl from "hooks/usePortalUrl";
 const ServerLogoutPage = () => {
   const params = useQueryParams();
   const portal_url = usePortalUrl();
+  debugger
 
   useEffect(() => {
     const handleLogout = async () => {
@@ -22,7 +23,7 @@ const ServerLogoutPage = () => {
             level: "warning",
           }
         );
-        window.location = portal_url + "/signout-oidc";
+        window.location = `${portal_url}/signout-oidc`;
       }
     };
 
