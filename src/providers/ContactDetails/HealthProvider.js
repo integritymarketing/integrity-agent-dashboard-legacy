@@ -1,26 +1,14 @@
-import React, {
-    createContext,
-    useState,
-    useEffect,
-    useCallback,
-    useMemo,
-} from "react";
+import React, { createContext, useState, useEffect, useCallback, useMemo } from "react";
 import * as Sentry from "@sentry/react";
 import PropTypes from "prop-types";
-import { useRecoilValue } from "recoil";
-import { contactLeadDetailsAtom } from "pages/ContactDetails/state";
 import useToast from "hooks/useToast";
 import useFetch from "hooks/useFetch";
 import { QUOTES_API_VERSION } from "services/clientsService";
+import { useLeadDetails } from "providers/ContactDetails";
 
 const toastTimer = 10000;
 
-const performAsyncOperation = async (
-    operation,
-    setLoading,
-    onSuccess,
-    onError
-) => {
+const performAsyncOperation = async (operation, setLoading, onSuccess, onError) => {
     setLoading(true);
     try {
         const data = await operation();
@@ -33,28 +21,22 @@ const performAsyncOperation = async (
     }
 };
 
-
 export const HealthContext = createContext();
 
 export const HealthProvider = ({ children }) => {
+    const { leadDetails } = useLeadDetails();
 
-    const { consumerId } = useRecoilValue(contactLeadDetailsAtom);
+    const { consumerId } = leadDetails || {};
 
     const URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead`;
 
     const { Post: saveLeadProviders, Delete: deleteLeadProviders, Get: fetchLeadProviders } = useFetch(URL);
 
-    const {
-        Get: fetchLeadPharmacies,
-        Delete: deleteLeadPharmacies,
-        Post: saveLeadPharmacies,
-    } = useFetch(URL);
+    const { Get: fetchLeadPharmacies, Delete: deleteLeadPharmacies, Post: saveLeadPharmacies } = useFetch(URL);
 
     const { Get: fetchLeadPrescriptions, Delete: deleteLeadPrescription, Post: createPrescription } = useFetch(URL);
 
-
     const { Post: updateLeadPrescription } = useFetch(URL);
-
 
     const [pharmacies, setPharmacies] = useState([]);
     const [pharmacyLoading, setPharmacyLoading] = useState(false);
@@ -67,10 +49,8 @@ export const HealthProvider = ({ children }) => {
 
     const showToast = useToast();
 
-
-
     const fetchPrescriptions = async (leadId) => {
-        const path = `${leadId}/Prescriptions`
+        const path = `${leadId}/Prescriptions`;
         await performAsyncOperation(
             () => fetchLeadPrescriptions(null, false, path),
             setPrescriptionLoading,
@@ -78,31 +58,25 @@ export const HealthProvider = ({ children }) => {
         );
     };
 
-
     const fetchPharmacies = async (leadId) => {
-        const path = `${leadId}/Pharmacies`
+        const path = `${leadId}/Pharmacies`;
         await performAsyncOperation(
             () => fetchLeadPharmacies(null, false, path),
             setPharmacyLoading,
             (data) => {
-                setPharmacies(data || [])
+                setPharmacies(data || []);
             }
         );
     };
 
-
-
-
     const fetchProviders = async (leadId) => {
-        const path = `${leadId}/Provider/ProviderSearchLookup`
+        const path = `${leadId}/Provider/ProviderSearchLookup`;
         await performAsyncOperation(
             () => fetchLeadProviders(null, false, path),
             setProviderLoading,
-            (data) => setProviders(data?.providers || []),
+            (data) => setProviders(data?.providers || [])
         );
     };
-
-
 
     const addPrescription = async (item, refresh, leadId) => {
         const itemObject = {
@@ -142,7 +116,6 @@ export const HealthProvider = ({ children }) => {
             ? `${leadId}/Prescriptions/${updatedData.dosageRecordID}/syncid/${consumerId}`
             : `${leadId}/Prescriptions/${updatedData.dosageRecordID}/syncid`;
 
-
         await performAsyncOperation(
             () => updateLeadPrescription(updatedData, false, path),
             setPrescriptionLoading,
@@ -165,7 +138,9 @@ export const HealthProvider = ({ children }) => {
 
     const deletePrescription = async (prescriptionData, refresh, leadId) => {
         const dosageRecordID = prescriptionData?.dosage?.dosageRecordID;
-        const path = consumerId ? `${leadId}/Prescriptions/${dosageRecordID}/${consumerId}` : `${leadId}/Prescriptions/${dosageRecordID}`;
+        const path = consumerId
+            ? `${leadId}/Prescriptions/${dosageRecordID}/${consumerId}`
+            : `${leadId}/Prescriptions/${dosageRecordID}`;
         await performAsyncOperation(
             () => deleteLeadPrescription(null, false, path),
             setPrescriptionLoading,
@@ -209,7 +184,9 @@ export const HealthProvider = ({ children }) => {
 
     const deletePharmacy = async (pharmacy, refresh, leadId) => {
         const pharmacyId = pharmacy?.pharmacyRecordID;
-        const path = consumerId ? `${leadId}/Pharmacies/${pharmacyId}/${consumerId}` : `${leadId}/Pharmacies/${pharmacyId}`;
+        const path = consumerId
+            ? `${leadId}/Pharmacies/${pharmacyId}/${consumerId}`
+            : `${leadId}/Pharmacies/${pharmacyId}`;
         await performAsyncOperation(
             () => deleteLeadPharmacies(null, true, path),
             setPharmacyLoading,
@@ -230,13 +207,7 @@ export const HealthProvider = ({ children }) => {
         );
     };
 
-    const addProvider = async (
-        request,
-        providerName,
-        refresh,
-        isUpdate = false,
-        leadId
-    ) => {
+    const addProvider = async (request, providerName, refresh, isUpdate = false, leadId) => {
         const path = consumerId ? `${leadId}/Provider/${consumerId}` : `${leadId}/Provider`;
 
         await performAsyncOperation(
@@ -248,8 +219,7 @@ export const HealthProvider = ({ children }) => {
                     await refresh();
                 }
                 showToast({
-                    message: `${providerName} ${isUpdate ? "updated" : "added to the list."
-                        }`,
+                    message: `${providerName} ${isUpdate ? "updated" : "added to the list."}`,
                 });
             },
             (err) =>
@@ -289,7 +259,6 @@ export const HealthProvider = ({ children }) => {
         );
     };
 
-
     const contextValue = useMemo(
         () => ({
             pharmacies,
@@ -309,32 +278,12 @@ export const HealthProvider = ({ children }) => {
             fetchPharmacies,
             fetchProviders,
         }),
-        [pharmacies,
-            pharmacyLoading,
-            providers,
-            providerLoading,
-            prescriptions,
-            prescriptionLoading,
-        ]
+        [pharmacies, pharmacyLoading, providers, providerLoading, prescriptions, prescriptionLoading]
     );
 
-
     return <HealthContext.Provider value={contextValue}>{children}</HealthContext.Provider>;
-
 };
 
 HealthProvider.propTypes = {
     children: PropTypes.node.isRequired, // Child components that this provider will wrap
 };
-
-
-
-
-
-
-
-
-
-
-
-
