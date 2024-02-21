@@ -33,21 +33,23 @@ const SupportLinksCard = ({ position }) => {
     );
 
     return (
-        <div className={`${styles.supportLinks} ${layoutClass}`}>
-            {renderCard(
-                LearningCenterImage,
-                "Learning Center",
-                "For the latest resources and news from Integrity visit the",
-                "Learning Center",
-                "/learning-center"
-            )}
-            {renderCard(
-                ContactSupportImage,
-                "Contact Support",
-                "Need Help? Visit the help center for professional",
-                "Professional Assistance",
-                "/help"
-            )}
+        <div className={styles.supportLinksContainer}>
+            <div className={`${styles.supportLinks} ${layoutClass}`}>
+                {renderCard(
+                    LearningCenterImage,
+                    "Learning Center",
+                    "For the latest resources and news from Integrity visit the",
+                    "Learning Center",
+                    "/learning-center"
+                )}
+                {renderCard(
+                    ContactSupportImage,
+                    "Contact Support",
+                    "Need Help? Visit the help center for professional",
+                    "Professional Assistance",
+                    "/help"
+                )}
+            </div>
         </div>
     );
 };

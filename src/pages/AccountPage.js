@@ -252,12 +252,12 @@ const AccountPage = () => {
     }, []);
 
     useEffect(() => {
-        if (section === 'sellingPermissions' && sellingPermissionsRef.current) {
-            setLayout(LIFE)
-            sellingPermissionsRef.current.scrollIntoView({ behavior: 'smooth' });
-        } else if (section === 'selfAttestedPermissions' && selfAttestedPermissionsRef.current) {
-            setLayout(LIFE)
-            selfAttestedPermissionsRef.current.scrollIntoView({ behavior: 'smooth' });
+        if (section === "sellingPermissions" && sellingPermissionsRef.current) {
+            setLayout(LIFE);
+            sellingPermissionsRef.current.scrollIntoView({ behavior: "smooth" });
+        } else if (section === "selfAttestedPermissions" && selfAttestedPermissionsRef.current) {
+            setLayout(LIFE);
+            selfAttestedPermissionsRef.current.scrollIntoView({ behavior: "smooth" });
         }
     });
 
@@ -286,7 +286,7 @@ const AccountPage = () => {
                 <title>Integrity - Edit Account</title>
             </Helmet>
             <GlobalNav />
-            <div className="v2" data-gtm="account-update-form">
+            <div className={`v2 ${styles.accountPageBodySection}`} data-gtm="account-update-form">
                 {!isMobile ? (
                     <div className={styles.headerLayoutContainer}>
                         <div id="main-content" className={mainContentClassName}>
@@ -645,8 +645,12 @@ const AccountPage = () => {
                 )}
 
                 <div className={styles.rtsTableContainer}>
-                    <div ref={sellingPermissionsRef}><ActivePermissions /></div>
-                    <div ref={selfAttestedPermissionsRef}><SelfAttestedPermissions /> </div>
+                    <div ref={sellingPermissionsRef}>
+                        <ActivePermissions />
+                    </div>
+                    <div ref={selfAttestedPermissionsRef}>
+                        <SelfAttestedPermissions />{" "}
+                    </div>
                     <div>
                         <ResourceSection />
                     </div>

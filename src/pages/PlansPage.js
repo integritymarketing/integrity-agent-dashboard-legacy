@@ -8,7 +8,7 @@ import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { addProviderModalAtom, showViewAvailablePlansAtom } from "recoil/providerInsights/atom.js";
 
-import { getFirstEffectiveDateOption , formatDate } from "utils/dates";
+import { getFirstEffectiveDateOption, formatDate } from "utils/dates";
 
 import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear";
 import { scrollTop } from "utils/shared-utils/sharedUtility";
@@ -270,7 +270,6 @@ const PlansPage = () => {
         } finally {
             setLoading(false);
         }
-         
     }, [id, postSpecialists, setShowViewAvailablePlans]);
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -436,7 +435,10 @@ const PlansPage = () => {
     }, [contact, effectiveDate, planType, myAppointedPlans]);
 
     useEffect(() => {
-        healthQuoteResultsEvent("Health Quote Results Viewed");
+        const timer = setTimeout(() => {
+            healthQuoteResultsEvent("Health Quote Results Viewed");
+        }, 10000);
+        return () => clearTimeout(timer);
     }, [myAppointedPlans]);
 
     const getAllPlans = useCallback(async () => {

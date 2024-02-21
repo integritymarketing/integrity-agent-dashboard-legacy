@@ -14,6 +14,8 @@ const convertCategoryName = (categoryName) => {
         "Medicare Advantage Prescription Drug": "mapd",
         "Prescription Drug Plans": "pdp",
         "Final Expense": "final_expense",
+        "Part D": "pdp",
+        "Medicare Supliment": "mapd",
     };
 
     return categoryMap[categoryName] || categoryName;

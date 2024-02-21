@@ -1,5 +1,10 @@
 @import "../../scss/globalDefines.scss";
 
+.supportLinksContainer {
+    display: flex;
+    justify-content: center;
+    background-color: #f1f1f1;
+}
 .supportLinks {
     display: flex;
     justify-content: center;
@@ -28,6 +33,7 @@
     align-items: center;
     text-decoration: none;
     margin: 8px 0;
+    background-color: #ffffff;
 }
 
 .cardContent {
