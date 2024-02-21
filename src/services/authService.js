@@ -209,7 +209,6 @@ class authService {
   logout = () => {
     this.UserManager.signoutRedirect({
       id_token_hint: localStorage.getItem("id_token"),
-      post_logout_redirect_uri: `https://integrity.com/`,
     });
   };
 
@@ -217,7 +216,7 @@ class authService {
     this.UserManager.signoutRedirectCallback().then(() => {
       this.UserManager.clearStaleState();
       localStorage.clear();
-      window.location.replace("/");
+      window.location.href = `https://integrity.com/`;
     });
   };
 
