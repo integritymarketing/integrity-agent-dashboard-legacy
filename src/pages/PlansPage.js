@@ -332,6 +332,7 @@ const PlansPage = () => {
 
     const healthQuoteResultsEvent = (event, key, value) => {
         let enabledFilters = [];
+        let planTypeValue = PLAN_TYPE_ENUMS[planType]?.toLowerCase();
         if (myAppointedPlans) {
             enabledFilters.push("my_appointed_plans");
         }
@@ -341,18 +342,21 @@ const PlansPage = () => {
         if (rebatesFilter) {
             enabledFilters.push("includes_part_b_rebates");
         }
-        if (key && value !== undefined) {
+        if (key && key !== "planType" && value !== undefined) {
             if (value) {
                 enabledFilters.push(key);
             } else {
                 enabledFilters = enabledFilters.filter((filter) => filter !== key);
             }
         }
+        if (key === "planType") {
+            planTypeValue = PLAN_TYPE_ENUMS[value]?.toLowerCase();
+        }
 
         fireEvent(event, {
             leadid: id,
             line_of_business: "Health",
-            product_type: `${PLAN_TYPE_ENUMS[planType]?.toLowerCase()}`,
+            product_type: planTypeValue,
             enabled_filters: enabledFilters,
         });
     };
@@ -397,7 +401,7 @@ const PlansPage = () => {
             navigate({ state: { planType: parseInt(value) } });
         }
         setSelectedPlans({});
-        healthQuoteResultsUpdatedEvent();
+        healthQuoteResultsUpdatedEvent("planType", value);
     };
 
     const refreshPlans = useCallback(async () => {

@@ -50,7 +50,9 @@ const buttonTextByActivity = {
 };
 
 const renderButtons = (activity, handleClick) => {
-    if (!activity) {return false;}
+    if (!activity) {
+        return false;
+    }
     const { activityTypeName = "", activityInteractionURL = "", activitySubject = "" } = activity;
     if (
         activityTypeName &&
@@ -158,11 +160,9 @@ export default function ActivitiesTable({
             {
                 id: "date",
                 Header: "Date",
-                accessor: (row) => (row?.original?.modifyDate ? row?.original?.modifyDate : row?.original?.createDate),
+                accessor: (row) => row?.original?.createDate,
                 Cell: ({ row }) => {
-                    const date = convertUTCDateToLocalDate(
-                        row?.original?.modifyDate ? row?.original?.modifyDate : row?.original?.createDate
-                    );
+                    const date = convertUTCDateToLocalDate(row?.original?.createDate);
                     return (
                         <div className={styles.activityDate} onClick={() => onActivityClick(row?.original)}>
                             {dateFormatter(date, "MM/DD/yyyy")}
@@ -231,11 +231,9 @@ export default function ActivitiesTable({
             {
                 id: "date",
                 Header: "Date",
-                accessor: (row) => (row?.original?.modifyDate ? row?.original?.modifyDate : row?.original?.createDate),
+                accessor: (row) => row?.original?.createDate,
                 Cell: ({ row }) => {
-                    const date = convertUTCDateToLocalDate(
-                        row?.original?.modifyDate ? row?.original?.modifyDate : row?.original?.createDate
-                    );
+                    const date = convertUTCDateToLocalDate(row?.original?.createDate);
                     return (
                         <div className={styles.activityDate} onClick={() => onActivityClick(row?.original)}>
                             {dateFormatter(date, "MM/DD/YY")}
