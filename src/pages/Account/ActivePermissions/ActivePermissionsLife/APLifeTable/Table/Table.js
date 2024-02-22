@@ -26,7 +26,8 @@ function Table({ data }) {
                 accessor: "productCategoryName",
                 disableSortBy: true,
                 Cell: ({ value }) => {
-                    return <Box className={styles.pill}>{value}</Box>;
+                    const formattedValue = value?.charAt(0).toUpperCase() + value?.slice(1).toLowerCase();
+                    return <Box className={styles.pill}>{formattedValue}</Box>;
                 },
             },
             {
