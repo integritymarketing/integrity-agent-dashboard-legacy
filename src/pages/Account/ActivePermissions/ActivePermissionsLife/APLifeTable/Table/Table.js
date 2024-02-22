@@ -23,7 +23,7 @@ function Table({ data }) {
             },
             {
                 Header: "Product",
-                accessor: "productCategortyName",
+                accessor: "productCategoryName",
                 disableSortBy: true,
                 Cell: ({ value }) => {
                     return <Box className={styles.pill}>{value}</Box>;
