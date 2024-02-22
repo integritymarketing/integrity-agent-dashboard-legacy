@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Media from "react-media";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -11,7 +11,7 @@ import WithLoader from "components/ui/WithLoader";
 
 import SOAModal from "pages/contacts/contactRecordInfo/soaList/SOAModal";
 
-import { Info, Share } from "./Icons";
+import { Share } from "./Icons";
 import { SOAContainer } from "./SOAContainer/SOAContainer";
 import { SOASent } from "./SOASent/SOASent";
 import { SOASignedComplete } from "./SOASignedComplete/SOASignedComplete";
@@ -43,7 +43,7 @@ export const ScopeOfAppointmentContainer = () => {
     }, []);
 
     useEffect(() => {
-        if (!leadId) return;
+        if (!leadId) {return;}
         getSoaList(leadId);
     }, [getSoaList, leadId]);
 
@@ -53,7 +53,7 @@ export const ScopeOfAppointmentContainer = () => {
             setSelectedTab(COMPLETE_SCOPE_OF_APPOINTMENT);
             navigate(`/contact/${leadId}/${COMPLETE_SCOPE_OF_APPOINTMENT}`);
         },
-        [setLinkCode, setSelectedTab]
+        [leadId, navigate, setLinkCode, setSelectedTab]
     );
 
     const handleView = useCallback(
@@ -62,7 +62,7 @@ export const ScopeOfAppointmentContainer = () => {
             setSelectedTab(VIEW_SCOPE_OF_APPOINTMENT);
             navigate(`/contact/${leadId}/${VIEW_SCOPE_OF_APPOINTMENT}`);
         },
-        [setLinkCode, setSelectedTab]
+        [leadId, navigate, setLinkCode, setSelectedTab]
     );
 
     const renderSOACard = (soa) => {
@@ -83,7 +83,6 @@ export const ScopeOfAppointmentContainer = () => {
             <div className={`${isMobile ? styles.columnView : ""} ${styles.soaTitleHeader}`}>
                 <div className={styles.titleWrapper}>
                     <div className={styles.soaTitle}>{SCOPES_OF_APPOINTMENT}</div>
-                    {/* <Info className={styles.infoStyle} /> */}
                 </div>
                 <div className={styles.titleWrapper} onClick={() => setOpenSOAModal(true)}>
                     <div className={styles.sendStyle}>{SEND_NEW}</div>
@@ -110,7 +109,7 @@ export const ScopeOfAppointmentContainer = () => {
         <WithLoader isLoading={isSoaListLoading}>
             <Media
                 query={"(max-width: 540px)"}
-                onChange={(isMobile) => {
+                onChange={() => {
                     setIsMobile(isMobile);
                 }}
             />

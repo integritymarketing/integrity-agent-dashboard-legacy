@@ -26,7 +26,7 @@ import {
 
 export const __formatPhoneNumber = (phoneNumberString) => {
   const originalInput = phoneNumberString;
-  const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
+  const cleaned = (`${  phoneNumberString}`).replace(/\D/g, "");
   const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
 
   if (match) {
@@ -60,27 +60,29 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
     agentInformation: { agentPurl },
   } = useAgentInformationByID();
 
+  const handleCloseModal = () => {
+    setNewSoaContactDetails({});
+    onCloseModal();
+  }
+
   useEffect(() => {
     const getContactInfo = async () => {
       try {
         const data = await clientsService.getContactInfo(leadId);
         setNewSoaContactDetails(data);
       } catch (err) {
-        showToast({
-          type: "error",
-          message: "Failed to load lead information",
-        });
+        showToast({ type: "error", message: "Failed to load lead information" });
       }
     };
-    if (!newSoaContactDetails.firstName && leadId) {
+
+    if (leadId && (!newSoaContactDetails.leadsId || newSoaContactDetails.leadsId !== leadId)) {
       getContactInfo();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newSoaContactDetails, leadId]);
+  }, [leadId, newSoaContactDetails.leadsId, setNewSoaContactDetails, showToast]);
+
   useEffect(() => {
     setCurrentPage("Scope of Appointment Page");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setCurrentPage]);
 
   const {
     firstName,
@@ -89,6 +91,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
     phones,
     leadsId,
   } = newSoaContactDetails;
+  
   const agentFirstName = agentUserProfile?.firstName;
   const agentLastName = agentUserProfile?.lastName;
   const agentEmail = agentUserProfile?.email;
@@ -112,13 +115,13 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
   };
 
   const mobile = useMemo(
-    () => (formattedMobile ? ("" + formattedMobile).replace(/\D/g, "") : ""),
+    () => (formattedMobile ? (`${  formattedMobile}`).replace(/\D/g, "") : ""),
     [formattedMobile]
   );
 
   const handleSend = async () => {
     try {
-      let payload = {
+      const payload = {
         leadFirstName: firstName,
         leadLastName: lastName,
         agentFirstName: agentFirstName,
@@ -160,7 +163,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
           await clientsService.sendSoaInformation(data, leadsId);
         }
       }
-      onCloseModal();
+      handleCloseModal();
       showToast({
         message: "Scope of Appointment sent",
       });
@@ -321,7 +324,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
               <Track onCheckChange={setIsTracking} />
             </Card>
             <div className="send-button">
-              <div className="soaCancelBtn" onClick={onCloseModal}>
+              <div className="soaCancelBtn" onClick={handleCloseModal}>
                 Cancel
               </div>
               <Button
