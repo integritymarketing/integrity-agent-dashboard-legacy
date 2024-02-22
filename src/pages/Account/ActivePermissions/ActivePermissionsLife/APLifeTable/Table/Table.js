@@ -10,6 +10,7 @@ import styles from "./styles.module.scss";
 
 import { TableBody } from "../TableBody";
 import { TableHeader } from "../TableHeader";
+import { toSentenceCase } from "utils/toSentenceCase";
 
 function Table({ data }) {
     const columns = useMemo(
@@ -26,7 +27,7 @@ function Table({ data }) {
                 accessor: "productCategoryName",
                 disableSortBy: true,
                 Cell: ({ value }) => {
-                    const formattedValue = value?.charAt(0).toUpperCase() + value?.slice(1).toLowerCase();
+                    const formattedValue = toSentenceCase(value);
                     return <Box className={styles.pill}>{formattedValue}</Box>;
                 },
             },
