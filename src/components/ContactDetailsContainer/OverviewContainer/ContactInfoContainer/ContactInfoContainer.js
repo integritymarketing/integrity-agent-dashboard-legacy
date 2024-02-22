@@ -28,7 +28,7 @@ export const ContactInfoContainer = () => {
     const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
     const [isShowBeneficiaryId, setShowBeneficiaryId] = useState(false);
 
-    let {
+    const {
         firstName = "",
         middleName = "",
         lastName = "",
@@ -56,7 +56,7 @@ export const ContactInfoContainer = () => {
         modifyDate,
     } = leadDetails;
 
-    let phonesData = phones?.filter((phone) => {
+    const phonesData = phones?.filter((phone) => {
         return phone?.leadPhone && phone?.leadPhone !== "" ? phone : null;
     });
 
@@ -225,7 +225,9 @@ export const ContactInfoContainer = () => {
                             <Label value="Email" color="#717171" size="14px" />
                             <Box className={styles.horizontalLayout}>
                                 <Box className={styles.emailAddress}>
+                                <Box className={styles.emailText}> 
                                     <Label value={leadEmail} color="#4178FF" size="16px" />
+                                    </Box>
                                     {isPrimary === "email" && <Favorite />}
                                 </Box>
                             </Box>

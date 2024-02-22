@@ -22,11 +22,18 @@
 }
 
 .emailAddress {
-    overflow: hidden;
-    word-wrap: break-word;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 50px;
+    gap: 10px;
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+.emailText {
+    flex: 1;
+    min-width: 0;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .border {
