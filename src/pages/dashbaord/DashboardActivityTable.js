@@ -261,17 +261,9 @@ export default function DashboardActivityTable({
                 id: "date",
                 Header: "Date",
                 accessor: (row) =>
-                    new Date(
-                        row?.original?.activities[0]?.modifyDate
-                            ? row?.original?.activities[0]?.modifyDate
-                            : row?.original?.activities[0]?.createDate
-                    ),
+                    row?.original?.createDate,
                 Cell: ({ row }) => {
-                    const date = convertUTCDateToLocalDate(
-                        row?.original?.activities[0]?.modifyDate
-                            ? row?.original?.activities[0]?.modifyDate
-                            : row?.original?.activities[0]?.createDate
-                    );
+                    const date = convertUTCDateToLocalDate(row?.original?.createDate);
                     return (
                         <Typography color="#434A51" fontSize="16px">
                             {dateFormatter(date, "MM/DD/yyyy")}
@@ -432,17 +424,9 @@ export default function DashboardActivityTable({
                 id: "date",
                 Header: "Date",
                 accessor: (row) =>
-                    new Date(
-                        row?.original?.activities[0]?.modifyDate
-                            ? row?.original?.activities[0]?.modifyDate
-                            : row?.original?.activities[0]?.createDate
-                    ),
+                    row?.original?.createDate,
                 Cell: ({ row }) => {
-                    const date = convertUTCDateToLocalDate(
-                        row?.original?.activities[0]?.modifyDate
-                            ? row?.original?.activities[0]?.modifyDate
-                            : row?.original?.activities[0]?.createDate
-                    );
+                    const date = convertUTCDateToLocalDate(row?.original?.createDate);
                     return (
                         <Typography color="#434A51" fontSize="16px">
                             {dateFormatter(date, "MM/DD/yyyy")}
