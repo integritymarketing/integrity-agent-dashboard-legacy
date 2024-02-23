@@ -260,10 +260,9 @@ export default function DashboardActivityTable({
             {
                 id: "date",
                 Header: "Date",
-                accessor: (row) =>
-                    row?.original?.createDate,
+                accessor: (row) => row?.original?.activities[0]?.createDate,
                 Cell: ({ row }) => {
-                    const date = convertUTCDateToLocalDate(row?.original?.createDate);
+                    const date = convertUTCDateToLocalDate(row?.original?.activities[0]?.createDate);
                     return (
                         <Typography color="#434A51" fontSize="16px">
                             {dateFormatter(date, "MM/DD/yyyy")}
@@ -423,10 +422,9 @@ export default function DashboardActivityTable({
             {
                 id: "date",
                 Header: "Date",
-                accessor: (row) =>
-                    row?.original?.createDate,
+                accessor: (row) => row?.original?.activities[0]?.createDate,
                 Cell: ({ row }) => {
-                    const date = convertUTCDateToLocalDate(row?.original?.createDate);
+                    const date = convertUTCDateToLocalDate(row?.original?.activities[0]?.createDate);
                     return (
                         <Typography color="#434A51" fontSize="16px">
                             {dateFormatter(date, "MM/DD/yyyy")}

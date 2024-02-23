@@ -49,11 +49,18 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
         }
     }, []);
 
-    useEffect(() => {
+    const healthConditionsPageViewEvent = () => {
         fireEvent("Health Conditions Page Viewed", {
             leadid: contactId,
             flow: isHealthPage ? "health_profile" : "final_expense",
         });
+    };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            healthConditionsPageViewEvent();
+        }, 2000);
+        return () => clearTimeout(timer);
     }, [contactId]);
 
     const sectionHeaderChildren = () => {

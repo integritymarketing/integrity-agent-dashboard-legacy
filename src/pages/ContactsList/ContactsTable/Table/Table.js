@@ -34,7 +34,7 @@ function Table({ columns }) {
         useRowSelect
     );
 
-    useEffect(() => {
+    const contactsListResultsEvent = () => {
         const contacts_with_health_policies_count = policyCounts.filter(
             (contact) => contact.healthPolicyCount > 0
         ).length;
@@ -48,6 +48,13 @@ function Table({ columns }) {
             contacts_with_life_policies_count: contacts_with_life_policies_count,
             total_contacts_count: tableData?.length,
         });
+    };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            contactsListResultsEvent();
+        }, 5000);
+        return () => clearTimeout(timer);
     }, [policyCounts]);
 
     useEffect(() => {
