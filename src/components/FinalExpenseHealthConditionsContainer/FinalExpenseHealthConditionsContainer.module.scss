@@ -3,7 +3,7 @@
 .activitiesContainer {
     border-radius: 8px;
 
-    > div {
+    >div {
         box-shadow: none !important;
     }
 }
@@ -141,4 +141,8 @@
     font-style: italic;
     margin-bottom: 20px;
     margin-top: 2px;
+}
+
+.noItemsWrapper {
+    background-color: #ffffff;
 }

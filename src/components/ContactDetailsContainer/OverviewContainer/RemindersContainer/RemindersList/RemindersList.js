@@ -81,6 +81,22 @@ export const RemindersList = () => {
                     </div>
                 }
             >
+
+                {sortedTasks.length === 0 && (
+                    <div className="no-items">
+                        <span>This contact has no reminders.&nbsp;</span>
+                        <button
+                            className="link"
+                            data-gtm={`button-add-${reminders}`}
+                            onClick={() => {
+                                setIsAddNewModalOpen(true);
+                            }}
+                        >
+                            {" "}
+                            Add a reminder
+                        </button>
+                    </div>
+                )}
                 <>
                     {sortedTasks?.map((reminder) => {
                         const { reminderNote = "", isComplete = false, reminderId, reminderDate } = reminder;
@@ -150,7 +166,7 @@ export const RemindersList = () => {
                         );
                     })}
                 </>
-            </ContactSectionCard>
+            </ContactSectionCard >
             {isAddNewModalOpen && (
                 <AddReminderModal
                     open={isAddNewModalOpen}
@@ -162,7 +178,8 @@ export const RemindersList = () => {
                     leadId={leadId}
                     selectedReminder={selectedReminder}
                 />
-            )}
+            )
+            }
         </>
     );
 };

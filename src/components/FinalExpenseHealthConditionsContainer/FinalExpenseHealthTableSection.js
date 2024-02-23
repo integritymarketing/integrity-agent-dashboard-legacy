@@ -34,6 +34,10 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
 
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
 
+    const onAddClick = () => {
+        setSelectedConditionForEdit(null);
+        setIsAddNewActivityDialogOpen(true);
+    }
     const getHealthConditionsListData = useCallback(async () => {
         isLoadingRef.current = true;
         const resp = await getHealthConditions();
@@ -70,10 +74,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                     icon={<Plus />}
                     iconPosition="right"
                     label={ADD_NEW}
-                    onClick={() => {
-                        setSelectedConditionForEdit(null);
-                        setIsAddNewActivityDialogOpen(true);
-                    }}
+                    onClick={onAddClick}
                     type="tertiary"
                     className={styles.buttonWithIcon}
                 />
@@ -92,35 +93,35 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
         ...(isHealthPage
             ? []
             : [
-                  {
-                      id: "status",
-                      Header: "",
-                      Cell: ({ row }) => {
-                          return (
-                              <div className={styles.conditionStatusCell}>
-                                  {row.original.isComplete && (
-                                      <>
-                                          <Complete />
-                                          <span className={styles.completedStatus}>{COMPLETED}</span>
-                                      </>
-                                  )}
-                                  {row.original.isComplete === false && (
-                                      <>
-                                          <Icon image={IncompleteSvg} className={styles.statusIcon} />
-                                          <span className={styles.incompleteStatus}>{INCOMPLETE}</span>
-                                      </>
-                                  )}
-                                  {row.original.isComplete === undefined && (
-                                      <>
-                                          <Icon image={OutdatedSvg} className={styles.statusIcon} />
-                                          <span className={styles.outdatedStatus}>{OUTDATED}</span>
-                                      </>
-                                  )}
-                              </div>
-                          );
-                      },
-                  },
-              ]),
+                {
+                    id: "status",
+                    Header: "",
+                    Cell: ({ row }) => {
+                        return (
+                            <div className={styles.conditionStatusCell}>
+                                {row.original.isComplete && (
+                                    <>
+                                        <Complete />
+                                        <span className={styles.completedStatus}>{COMPLETED}</span>
+                                    </>
+                                )}
+                                {row.original.isComplete === false && (
+                                    <>
+                                        <Icon image={IncompleteSvg} className={styles.statusIcon} />
+                                        <span className={styles.incompleteStatus}>{INCOMPLETE}</span>
+                                    </>
+                                )}
+                                {row.original.isComplete === undefined && (
+                                    <>
+                                        <Icon image={OutdatedSvg} className={styles.statusIcon} />
+                                        <span className={styles.outdatedStatus}>{OUTDATED}</span>
+                                    </>
+                                )}
+                            </div>
+                        );
+                    },
+                },
+            ]),
         {
             id: "action",
             Header: "",
@@ -156,8 +157,27 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                 contentClassName={styles.activitiesContainer_content}
                 actions={<div className="actions">{sectionHeaderChildren()}</div>}
             >
-                <Table initialState={{}} data={healthConditions} columns={columns} />
-            </ContactSectionCard>
+
+                {healthConditions.length === 0 && (
+                    <div className={styles.noItemsWrapper}>
+                        <div className="no-items">
+                            <span>This contact has no conditions.&nbsp;</span>
+                            <button
+                                className="link"
+                                data-gtm={`button-add-${CONDITIONS}`}
+                                onClick={onAddClick}
+                            >
+                                {" "}
+                                Add a condition
+                            </button>
+                        </div>
+                    </div>
+                )}
+                {healthConditions.length > 0 && (
+                    <Table initialState={{}} data={healthConditions} columns={columns} />
+                )}
+
+            </ContactSectionCard >
 
             {isAddNewActivityDialogOpen && (
                 <AddNewConditionDialog
@@ -171,7 +191,8 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                     disableLastTreatmentDate={isHealthPage}
                     page={isHealthPage ? "health_profile" : "final_expense"}
                 />
-            )}
+            )
+            }
         </>
     );
 };
