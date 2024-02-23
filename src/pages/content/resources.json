@@ -18,6 +18,12 @@
       "analyticsKey": "returningUserGuide"
     },
     {
+      "id": "carrier-charts",
+      "name": "Carrier Chart",
+      "icon": "document",
+      "analyticsKey": "carrierCharts"
+    },
+    {
       "id": "training-schedule",
       "name": "Training Schedule",
       "icon": "computer",
@@ -36,6 +42,20 @@
       "description": "Find out what's new in Integrity - including more sales opportunities than ever before.",
       "categories": ["Returning User Guide"],
       "filename": "Integrity-Whats-New.pdf"
+    },
+    {
+      "name": "Final Expense Carrier Chart",
+      "description": "View the carriers who offer Final Expense products in Integrity",
+      "categories": ["carrier-charts"],
+      "filename": "Integrity-Getting-Started-Guide.pdf",
+      "filePath": "https://learningcenter.tawebhost.com/Integrity-Getting-Started-Guide.pdf"
+    },
+    {
+      "name": "Medicare Carrier Chart",
+      "description": "View the carriers who offer Medicare plans in Integrity",
+      "categories": ["carrier-charts"],
+      "filename": "Integrity-Medicare-Carrier-Chart.pdf",
+      "filePath": "https://learningcenter.tawebhost.com/Integrity-Medicare-Carrier-Chart.pdf"
     },
     {
       "name": "Integrity Training Schedule",
