@@ -21,6 +21,7 @@ import styles from "./index.module.scss";
 const AGENTS_API_VERSION = "v1.0";
 
 export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, onApply, fetchPlans }) => {
+    const [isContinuing, setIsContinuing] = useState(false);
     const [producerId, setProducerId] = useState("");
     const showToast = useToast();
     const { npn } = useUserProfile();
@@ -32,7 +33,7 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
 
     const { Post: addSALifeRecord } = useFetch(URL);
 
-    const shouldDisable = !producerId;
+    const shouldDisable = !producerId || isContinuing;
 
     const onChange = (e) => {
         const inputValue = e.target.value;
@@ -40,6 +41,7 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
     };
 
     const onContinueWithIdHandle = async () => {
+        setIsContinuing(true);
         const payload = {
             agentNPN: npn,
             carrierName: carrierInfo?.name,
@@ -57,6 +59,7 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
             setTimeout(async () => {
                 await fetchPlans();
             }, 1000);
+            setIsContinuing(false);
             onClose();
         } else {
             showToast({
