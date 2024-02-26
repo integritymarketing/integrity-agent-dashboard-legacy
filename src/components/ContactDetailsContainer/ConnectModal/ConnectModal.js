@@ -43,7 +43,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
         plan_enroll_profile_created,
     } = leadDetails || {};
     const fullName = `${firstName} ${lastName}`;
-    const email = emails.length > 0 ? emails[0] : NOT_AVAILABLE;
+    const email = emails.length > 0 ? emails[0]?.leadEmail : NOT_AVAILABLE;
     const validPhones = phones.filter((phone) => phone?.leadPhone);
     const phone = validPhones.length > 0 ? validPhones?.[0]?.leadPhone : NOT_AVAILABLE;
 
