@@ -39,7 +39,7 @@ const SmallFormatNav = ({ navOpen, setNavOpen, primary, secondary, tertiary }) =
                 <MenuIcon aria-hidden="true" className="text-white" fontSize="large" />
             </button>
 
-            <nav className={`modal-nav ${navOpen ? "" : "visually-hidden"}`}>
+            <nav className={`modal-nav ${navOpen ? "" : "visually-hidden"}`} style={navOpen ? {} : { width: 0 }}>
                 <div className="modal-nav__header mb-4">
                     <button className="icon-btn modal-nav__exit-trigger" onClick={() => setNavOpen(false)}>
                         <span className="visually-hidden">Open Navigation Menu</span>
@@ -109,7 +109,6 @@ const SmallFormatNav = ({ navOpen, setNavOpen, primary, secondary, tertiary }) =
                             })}
                     </ul>
                     <hr className="modal-nav__hr"></hr>
-
                     <Logo color="white" className="logoImg" />
                 </div>
             </nav>
