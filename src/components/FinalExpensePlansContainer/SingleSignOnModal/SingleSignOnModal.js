@@ -76,7 +76,14 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
     };
 
     return (
-        <Modal open={isOpen} onClose={onClose} title="Single Sign On" size="wide" hideFooter>
+        <Modal
+            open={isOpen}
+            onClose={onClose}
+            title="Single Sign On"
+            size="wide"
+            hideFooter
+            contentStyle={{ borderRadius: "8px" }}
+        >
             {!isMobile && (
                 <Box className={styles.modalContentHeader}>Update your Producer ID for an Improved Experience</Box>
             )}
