@@ -3,6 +3,8 @@ import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Media from "react-media";
 import { useParams, useNavigate } from "react-router-dom";
 
+import Box from "@mui/material/Box";
+
 import PropTypes from "prop-types";
 import { useFinalExpensePlans } from "providers/FinalExpense";
 
@@ -32,9 +34,11 @@ import PlanCardLoader from "components/ui/PlanCard/loader";
 import { useLeadDetails } from "providers/ContactDetails";
 
 import { PlanCard } from "./PlanCard";
-import styles from "./PlanDetailsContainer.module.scss";
+import useFinalExpenseErrorMessage from "./hooks/useFinalExpenseErrorMessage";
 
 import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
+
+import styles from "./PlanDetailsContainer.module.scss";
 
 import { ACTIVE_SELLING_PERMISSIONS_REQUIRED, VIEW_SELLING_PERMISSIONS } from "./PlanDetailsContainer.constants";
 
@@ -49,6 +53,8 @@ export const PlanDetailsContainer = ({
     isMyAppointedProducts,
     isRTS,
     setIsRTS,
+    handleMyAppointedProductsCheck,
+    handleIsShowExcludedProductsCheck,
 }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [pagedResults, setPagedResults] = useState([]);
@@ -66,7 +72,10 @@ export const PlanDetailsContainer = ({
     const initialRender = useRef(true);
     const noPlanResults = pagedResults.length === 0;
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
-
+    const { updateErrorMesssage, errorMessage, actionLink } = useFinalExpenseErrorMessage(
+        handleMyAppointedProductsCheck,
+        handleIsShowExcludedProductsCheck
+    );
     const navigate = useNavigate();
 
     const fetchPlans = useCallback(async () => {
@@ -117,6 +126,9 @@ export const PlanDetailsContainer = ({
 
             const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
 
+            // Update error message based on business logic
+            updateErrorMesssage(result, isMyAppointedProducts, isShowExcludedProducts);
+
             if (!isRTS) {
                 if (isShowExcludedProducts) {
                     setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
@@ -154,6 +166,7 @@ export const PlanDetailsContainer = ({
         leadDetails,
         monthlyPremium,
         selectedTab,
+        updateErrorMesssage,
     ]);
 
     useEffect(() => {
@@ -207,10 +220,10 @@ export const PlanDetailsContainer = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                        ? ["My Appointed Products"]
-                        : isShowExcludedProducts
-                            ? ["Show Excluded Products"]
-                            : [],
+                    ? ["My Appointed Products"]
+                    : isShowExcludedProducts
+                    ? ["Show Excluded Products"]
+                    : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -221,7 +234,9 @@ export const PlanDetailsContainer = ({
     };
 
     useEffect(() => {
-        if (isLoadingHealthConditions) { return; }
+        if (isLoadingHealthConditions) {
+            return;
+        }
         lifeQuoteEvent("Life Quote Results Viewed");
     }, [conditionsListState, isLoadingHealthConditions]);
 
@@ -255,18 +270,34 @@ export const PlanDetailsContainer = ({
     }, []);
 
     const renderNoPlansMessage = useCallback(() => {
-        if (!isLoadingFinalExpensePlans && noPlanResults) {
-            return (
-                <div className={styles.noPlans}>
-                    <div className={styles.alertIcon}>
-                        <AlertIcon />
-                    </div>
-                    <div>{fetchPlansError ? NO_PLANS_ERROR : FETCH_PLANS_ERROR}</div>
-                </div>
-            );
+        // Case 1: Display error message
+        if (errorMessage) {
+            return renderAlertMessage(errorMessage, actionLink);
         }
+        // Case 2: Display fetch plans error or default message
+        if (noPlanResults) {
+            const plansErrorMessage = fetchPlansError ? NO_PLANS_ERROR : FETCH_PLANS_ERROR;
+            return renderAlertMessage(plansErrorMessage);
+        }
+        // Default: No message to display
         return null;
-    }, [noPlanResults, isLoadingFinalExpensePlans]);
+    }, [errorMessage, noPlanResults, fetchPlansError, actionLink]);
+
+    const renderAlertMessage = (message, _actionLink) => (
+        <Box className={styles.noPlans}>
+            <Box display="flex" gap="10px">
+                <Box className={styles.alertIcon}>
+                    <AlertIcon />
+                </Box>
+                <Box>{message}</Box>
+            </Box>
+            {_actionLink && (
+                <Box onClick={_actionLink.callbackFunc} className={styles.link}>
+                    {_actionLink.text}
+                </Box>
+            )}
+        </Box>
+    );
 
     const renderActiveSellingPermissionsSection = useCallback(() => {
         if (!noPlanResults && (!isRTS || !isMyAppointedProducts)) {
@@ -314,27 +345,19 @@ export const PlanDetailsContainer = ({
                             // Ensure that carrier and product are not null before destructuring
                             const carrier = plan.carrier || {};
                             const product = plan.product || {};
-                            const {
-                                logoUrl,
-                                naic,
-                                resource_url,
-                            } = carrier;
+                            const { logoUrl, naic, resource_url } = carrier;
 
-                            const {
-                                name,
-                                benefits,
-                                limits,
-                            } = product;
+                            const { name, benefits, limits } = product;
 
                             // Ensure other destructured properties are safely accessed
                             const {
-                                coverageType: apiCoverageType = '',
-                                faceValue = '',
+                                coverageType: apiCoverageType = "",
+                                faceValue = "",
                                 modalRates = [],
                                 eligibility = {},
                                 reason = {},
-                                type = '',
-                                writingAgentNumber = '',
+                                type = "",
+                                writingAgentNumber = "",
                                 isRTS: isRTSPlan = false,
                                 policyFee = 0,
                             } = plan || {};

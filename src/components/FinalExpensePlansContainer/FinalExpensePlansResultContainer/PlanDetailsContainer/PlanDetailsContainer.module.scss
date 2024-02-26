@@ -13,9 +13,6 @@
     }
 
     .noPlans {
-        display: flex;
-        align-items: center;
-        gap: 5px;
         background: #ffffff;
         padding: 16px;
         border-radius: 8px;
@@ -23,6 +20,15 @@
         .alertIcon {
             width: 24px;
             height: 24px;
+        }
+
+        .link {
+            color: #4178ff;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 15px;
+            margin-left: 33px;
         }
     }
 }
@@ -143,7 +149,7 @@
         }
 
         .disabled {
-            background-color: #B3C9FF !important;
+            background-color: #b3c9ff !important;
         }
     }
 
@@ -184,7 +190,7 @@
     justify-content: flex-end;
 
     .viewSellingPermissions {
-        background-color: #4178FF;
+        background-color: #4178ff;
         padding: 10px 10px 11px 16px;
         color: #ffffff;
         font-weight: 600;
@@ -196,7 +202,7 @@
 .activeSellingPermissionsRequired {
     display: flex;
     color: white;
-    background-color: #052A63;
+    background-color: #052a63;
     padding: 16px;
     flex-direction: column;
     gap: 12px;

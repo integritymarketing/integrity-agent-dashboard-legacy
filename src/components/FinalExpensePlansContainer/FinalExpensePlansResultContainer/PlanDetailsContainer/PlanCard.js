@@ -127,11 +127,15 @@ export const PlanCard = ({
 
     const onPreApply = async () => {
         lifeQuoteEvent("Life Apply CTA Clicked");
-        setIsLoadingEnroll(true);
-        await onApply();
+        if (!isRTSPlan) {
+            setIsSingleSignOnModalOpen(true);
+        } else {
+            await onApply();
+        }
     };
 
     const onApply = async (producerId) => {
+        setIsLoadingEnroll(true);
         const writingAgentNumberToSend = writingAgentNumber ?? producerId;
         const body = getPlanEnrollBody(
             writingAgentNumberToSend,
@@ -242,6 +246,7 @@ export const PlanCard = ({
                 carrierInfo={carrierInfo}
                 resourceUrl={resource_url}
                 onApply={onApply}
+                fetchPlans={fetchPlans}
             />
             {isLoadingEnroll && (
                 <div className={styles.spinner}>
@@ -252,12 +257,12 @@ export const PlanCard = ({
             <div className={styles.applyCTA}>
                 <Button
                     label={APPLY}
-                    disabled={!isHaveCarriers || !isRTSPlan}
+                    disabled={!isHaveCarriers}
                     onClick={onPreApply}
                     type="primary"
                     icon={<ButtonCircleArrow />}
                     iconPosition="right"
-                    className={`${styles.applyButton} ${!isHaveCarriers || !isRTSPlan ? styles.disabled : ""}`}
+                    className={`${styles.applyButton} ${!isHaveCarriers ? styles.disabled : ""}`}
                 />
             </div>
         </div>

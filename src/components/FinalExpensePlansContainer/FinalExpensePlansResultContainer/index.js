@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
@@ -175,6 +176,18 @@ const FinalExpensePlansResultContainer = () => {
         setSelectedTab(tab);
     };
 
+    const handleMyAppointedProductsCheck = () => {
+        if (!isRTS) {
+            return;
+        }
+        setIsMyAppointedProducts(!isMyAppointedProducts);
+        setAppointmentSession(true);
+    };
+
+    const handleIsShowExcludedProductsCheck = () => {
+        setIsShowExcludedProducts(!isShowExcludedProducts);
+    };
+
     const covAmtError = useMemo(() => {
         return coverageAmount < covMin || coverageAmount > covMax;
     }, [coverageAmount, covMin, covMax]);
@@ -203,7 +216,7 @@ const FinalExpensePlansResultContainer = () => {
                         onChange={handleInputChange}
                         inputErrorStyle={
                             (covAmtError && selectedTab === COVERAGE_AMOUNT) ||
-                                (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
+                            (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
                                 ? styles.inputError
                                 : ""
                         }
@@ -226,24 +239,19 @@ const FinalExpensePlansResultContainer = () => {
                         />
                         <div className={styles.checkboxesWrapper}>
                             <div
-                                className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""
-                                    } ${!isRTS ? styles.inActive : ""}`}
-                                onClick={() => {
-                                    if (!isRTS) {
-                                        return;
-                                    }
-                                    setIsMyAppointedProducts(!isMyAppointedProducts);
-
-                                    setAppointmentSession(true);
-                                }}
+                                className={`${styles.checkbox} ${
+                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                } ${!isRTS ? styles.inActive : ""}`}
+                                onClick={handleMyAppointedProductsCheck}
                             >
                                 {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
-                                className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                    }`}
-                                onClick={() => setIsShowExcludedProducts(!isShowExcludedProducts)}
+                                className={`${styles.checkbox} ${
+                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                }`}
+                                onClick={handleIsShowExcludedProductsCheck}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{EXCLUDE_LABEL}</span>
@@ -258,6 +266,8 @@ const FinalExpensePlansResultContainer = () => {
                     selectedTab={selectedTab}
                     isMyAppointedProducts={isMyAppointedProducts}
                     isShowExcludedProducts={isShowExcludedProducts}
+                    handleMyAppointedProductsCheck={handleMyAppointedProductsCheck}
+                    handleIsShowExcludedProductsCheck={handleIsShowExcludedProductsCheck}
                     isRTS={isRTS}
                     setIsRTS={setIsRTS}
                 />
