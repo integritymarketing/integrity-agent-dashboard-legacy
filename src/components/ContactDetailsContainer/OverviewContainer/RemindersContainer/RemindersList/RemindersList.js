@@ -62,7 +62,6 @@ export const RemindersList = () => {
         <>
             <ContactSectionCard
                 title="Reminders"
-                infoIcon={`(${remindersList?.length})`}
                 className={styles.remindersContainer}
                 isDashboard
                 contentClassName={styles.remindersContainer_content}
