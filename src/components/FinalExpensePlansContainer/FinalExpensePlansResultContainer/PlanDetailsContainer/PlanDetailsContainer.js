@@ -37,6 +37,7 @@ import { PlanCard } from "./PlanCard";
 import useFinalExpenseErrorMessage from "./hooks/useFinalExpenseErrorMessage";
 
 import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
+import { getVisibleProducts } from "./helper";
 
 import styles from "./PlanDetailsContainer.module.scss";
 
@@ -193,7 +194,8 @@ export const PlanDetailsContainer = ({
         if (finalExpensePlans?.length > 0) {
             const pagedStart = (currentPage - 1) * pageSize;
             const pageLimit = pageSize * currentPage;
-            const slicedResults = [...finalExpensePlans]?.slice(pagedStart, pageLimit);
+            const visableProducts = getVisibleProducts(finalExpensePlans);
+            const slicedResults = visableProducts.slice(pagedStart, pageLimit);
             setPagedResults(slicedResults);
             scrollTop();
         } else {
