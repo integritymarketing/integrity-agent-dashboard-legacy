@@ -71,7 +71,7 @@ function useFinalExpenseErrorMessage(handleMyAppointedProductsCheck, handleIsSho
                     });
                 }
             } else if (!isMyAppointedProducts && isShowExcludedProducts) {
-                if (!hasNonRtsPlans) {
+                if (!hasNonRTSPlansWithExclusions) {
                     setErrorMessage(ERROR_4);
                     setActionLink({
                         text: "View Available Products",
