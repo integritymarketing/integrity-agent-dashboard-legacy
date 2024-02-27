@@ -26,11 +26,16 @@ const FinalExpenseHealthConditionsContainer = () => {
     };
 
     useEffect(() => {
-        fireEvent("Health Conditions Page Viewed", {
-            leadid: contactId,
-            flow: "final_expense",
-        });
-    }, [contactId]);
+        const timer = setTimeout(() => {
+            fireEvent("Health Conditions Page Viewed", {
+                leadid: contactId,
+                flow: "final_expense",
+            });
+        }, 2000);
+
+        
+        return () => clearTimeout(timer);
+    }, [contactId, fireEvent]);
 
     return (
         <div>
