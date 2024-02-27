@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import useAnalytics from "hooks/useAnalytics";
@@ -20,20 +20,25 @@ const FinalExpenseHealthConditionsContainer = () => {
     const { contactId } = useParams();
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
-    const eventFiredRef = useRef(false);
 
     const onClickViewQuote = () => {
         navigate(`/finalexpenses/plans/${contactId}`);
     };
 
     useEffect(() => {
-        if (!eventFiredRef.current) {
-            fireEvent("Health Conditions Page Viewed", {
-                leadid: contactId,
-                flow: "final_expense",
-            });
-            eventFiredRef.current = true;
-        }
+        sessionStorage.removeItem(`fired-${contactId}`);
+
+        const timer = setTimeout(() => {
+            if (!sessionStorage.getItem(`fired-${contactId}`)) {
+                fireEvent("Health Conditions Page Viewed", {
+                    leadid: contactId,
+                    flow: "final_expense",
+                });
+                sessionStorage.setItem(`fired-${contactId}`, 'true');
+            }
+        }, 2000);
+
+        return () => clearTimeout(timer);
     }, [contactId, fireEvent]);
 
     return (
