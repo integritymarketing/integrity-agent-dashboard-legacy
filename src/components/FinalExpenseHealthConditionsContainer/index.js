@@ -26,19 +26,10 @@ const FinalExpenseHealthConditionsContainer = () => {
     };
 
     useEffect(() => {
-        sessionStorage.removeItem(`fired-${contactId}`);
-
-        const timer = setTimeout(() => {
-            if (!sessionStorage.getItem(`fired-${contactId}`)) {
-                fireEvent("Health Conditions Page Viewed", {
-                    leadid: contactId,
-                    flow: "final_expense",
-                });
-                sessionStorage.setItem(`fired-${contactId}`, 'true');
-            }
-        }, 2000);
-
-        return () => clearTimeout(timer);
+        fireEvent("Health Conditions Page Viewed", {
+            leadid: contactId,
+            flow: "final_expense",
+        });
     }, [contactId, fireEvent]);
 
     return (
