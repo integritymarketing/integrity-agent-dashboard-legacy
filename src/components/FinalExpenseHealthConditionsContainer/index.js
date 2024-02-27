@@ -1,7 +1,4 @@
-import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-import useAnalytics from "hooks/useAnalytics";
 
 import FinalExpenseContactBar from "components/FinalExpensePlansContainer/FinalExpenseContactBar";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
@@ -19,18 +16,10 @@ import FinalExpenseHealthTableSection from "./FinalExpenseHealthTableSection";
 const FinalExpenseHealthConditionsContainer = () => {
     const { contactId } = useParams();
     const navigate = useNavigate();
-    const { fireEvent } = useAnalytics();
 
     const onClickViewQuote = () => {
         navigate(`/finalexpenses/plans/${contactId}`);
     };
-
-    useEffect(() => {
-        fireEvent("Health Conditions Page Viewed", {
-            leadid: contactId,
-            flow: "final_expense",
-        });
-    }, [contactId, fireEvent]);
 
     return (
         <div>
@@ -56,4 +45,4 @@ const FinalExpenseHealthConditionsContainer = () => {
     );
 };
 
-export default React.memo(FinalExpenseHealthConditionsContainer);
+export default FinalExpenseHealthConditionsContainer;

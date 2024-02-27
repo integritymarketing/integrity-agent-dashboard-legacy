@@ -9,7 +9,7 @@ const FinalExpenseHealthConditionsPage = () => {
     return (
         <>
             <Helmet>
-                <title>Integrity - Final Expenses Health COnditions</title>
+                <title>Integrity - Final Expenses Health Conditions</title>
             </Helmet>
             <GlobalNav />
             <FinalExpenseHealthConditionsContainer />
