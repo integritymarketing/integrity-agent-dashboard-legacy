@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useState } from "react";
 
 import PropTypes from "prop-types";
@@ -22,6 +23,7 @@ const AGENTS_API_VERSION = "v1.0";
 
 export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, onApply, fetchPlans }) => {
     const [isContinuing, setIsContinuing] = useState(false);
+    const [error, setError] = useState(null);
     const [producerId, setProducerId] = useState("");
     const showToast = useToast();
     const { npn } = useUserProfile();
@@ -33,11 +35,31 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
 
     const { Post: addSALifeRecord } = useFetch(URL);
 
-    const shouldDisable = !producerId || isContinuing;
+    const shouldDisable = !producerId || isContinuing || error;
 
     const onChange = (e) => {
         const inputValue = e.target.value;
         setProducerId(inputValue);
+    };
+
+    const validateInput = (input) => {
+        const alphanumericRegex = /^[a-z0-9]+$/i;
+        if (input.length < 1 || input.length > 13) {
+            return "Input must be between 1 and 13 characters long.";
+        }
+        if (!alphanumericRegex.test(input)) {
+            return "Input must contain only alphanumeric characters.";
+        }
+        return null;
+    };
+
+    const onBlur = () => {
+        const validatedError = validateInput(producerId);
+        if (validatedError) {
+            setError(validatedError);
+        } else {
+            setError(null);
+        }
     };
 
     const onContinueWithIdHandle = async () => {
@@ -102,7 +124,13 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
                 <Box className={styles.actions}>
                     <Box>
                         <Box className={styles.label}>Producers ID/ Writing Number (AWN)</Box>
-                        <Textfield value={producerId} onChange={onChange} placeholder="Enter your ID Number" />
+                        <Textfield
+                            value={producerId}
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            placeholder="Enter your ID Number"
+                        />
+                        {error && <Box className={styles.errorMessage}>{error}</Box>}
                     </Box>
                     <StyledButton onClick={onContinueWithIdHandle} disabled={shouldDisable}>
                         <span>Continue with Producers ID</span>
