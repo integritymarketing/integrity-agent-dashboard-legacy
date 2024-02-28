@@ -77,10 +77,12 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
         };
         const res = await addSALifeRecord(payload, true);
         if (res.ok) {
-            await onApply(producerId);
-            setTimeout(async () => {
-                await fetchPlans();
-            }, 1000);
+            const hasRedirectURL = await onApply(producerId);
+            if (hasRedirectURL) {
+                setTimeout(async () => {
+                    await fetchPlans();
+                }, 1000);
+            }
             setIsContinuing(false);
             onClose();
         } else {

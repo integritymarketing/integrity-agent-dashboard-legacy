@@ -155,10 +155,12 @@ export const PlanCard = ({
             lifeQuoteCallEvent(response?.success);
         }
 
-        if (response.RedirectUrl) {
-            window.open(response.RedirectUrl, "_blank");
+        if (response.redirectUrl) {
+            window.open(response.redirectUrl, "_blank");
+            return true;
         } else {
             setEnrollResponse(response);
+            return false;
         }
     };
 
@@ -237,7 +239,10 @@ export const PlanCard = ({
             />
             <FinalExpenseEnrollResponseModal
                 isOpen={enrollResponse !== null}
-                onClose={() => setEnrollResponse(null)}
+                onClose={() => {
+                    setEnrollResponse(null);
+                    fetchPlans();
+                }}
                 enrollResponse={enrollResponse}
             />
             <SingleSignOnModal
