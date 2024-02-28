@@ -31,17 +31,17 @@ export const AgentPreferencesProvider = ({ children }) => {
                 agentNpn: npn,
                 agent_has_life_rts: agentNonRTSStatus === "True" ? "No" : "Yes",
                 agent_has_health_rts: isNonRTS_User ? "No" : "Yes",
-                life_selling_enabled: leadPreference.hideLifeQuote ? "No" : "Yes",
-                health_selling_enabled: leadPreference.hideHealthQuote ? "No" : "Yes",
-                life_leads_enabled: leadPreference.hasActiveLifeCallCampaign ? "Yes" : "No",
-                health_leads_enabled: leadPreference.hasActiveHealthCallCampaign ? "Yes" : "No",
-                plan_enroll_leads_enabled: leadPreference.medicareEnrollPurl ? "Yes" : "No",
-                availability_switch_enabled: agentAvailability.isAvailable ? "Yes" : "No",
+                life_selling_enabled: leadPreference?.hideLifeQuote ? "No" : "Yes",
+                health_selling_enabled: leadPreference?.hideHealthQuote ? "No" : "Yes",
+                life_leads_enabled: leadPreference?.hasActiveLifeCallCampaign ? "Yes" : "No",
+                health_leads_enabled: leadPreference?.hasActiveHealthCallCampaign ? "Yes" : "No",
+                plan_enroll_leads_enabled: leadPreference?.medicareEnrollPurl ? "Yes" : "No",
+                availability_switch_enabled: agentAvailability?.isAvailable ? "Yes" : "No",
             });
         };
 
         fetchData();
-    }, [agentId, npn, fetchAgentNonRTSStatus, isNonRTS_User, leadPreference.hideLifeQuote, leadPreference.hideHealthQuote, leadPreference.hasActiveLifeCallCampaign, leadPreference.medicareEnrollPurl, agentAvailability.isAvailable, leadPreference.hasActiveHealthCallCampaign]);
+    }, [agentId, npn, fetchAgentNonRTSStatus, isNonRTS_User, leadPreference,agentAvailability]);
 
     // Define the tracking function within the provider
     const trackAgentPreferencesEvents = (overrides = {}) => {
