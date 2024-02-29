@@ -12,6 +12,7 @@ import useUserProfile from "hooks/useUserProfile";
 
 import Textfield from "components/ui/textfield";
 import Modal from "components/Modal";
+import Spinner from "components/ui/Spinner";
 
 import { StyledButton } from "pages/FinalExpensesPage/Components/StyledComponents";
 
@@ -117,31 +118,36 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
                         Update your Producer ID for an Improved Experience
                     </Box>
                 )}
-                <Box>Updating your Producer ID for this Carrier and Product helps you to:</Box>
-                <ul className={styles.listStyle}>
-                    <li>Filter the Quote results by the Products and Carriers you are contracted with</li>
-                    <li>Gain Single Sign On to select Carriers and Product Websites</li>
-                    <li>Automatically link Policies from this Carrier and Product to your Account</li>
-                </ul>
-                <Box className={styles.actions}>
-                    <Box>
-                        <Box className={styles.label}>Producers ID/ Writing Number (AWN)</Box>
-                        <Textfield
-                            value={producerId}
-                            onChange={onChange}
-                            onBlur={onBlur}
-                            placeholder="Enter your ID Number"
-                        />
-                        {error && <Box className={styles.errorMessage}>{error}</Box>}
-                    </Box>
-                    <StyledButton onClick={onContinueWithIdHandle} disabled={shouldDisable}>
-                        <span>Continue with Producers ID</span>
-                        <img src={EnrollBack} alt="arrow" />
-                    </StyledButton>
-                    <Box className={styles.link} onClick={onContinueWithoutIdHandle}>
-                        Continue without Producer ID
-                    </Box>
-                </Box>
+                {isContinuing && <Spinner />}
+                {!isContinuing && (
+                    <>
+                        <Box>Updating your Producer ID for this Carrier and Product helps you to:</Box>
+                        <ul className={styles.listStyle}>
+                            <li>Filter the Quote results by the Products and Carriers you are contracted with</li>
+                            <li>Gain Single Sign On to select Carriers and Product Websites</li>
+                            <li>Automatically link Policies from this Carrier and Product to your Account</li>
+                        </ul>
+                        <Box className={styles.actions}>
+                            <Box>
+                                <Box className={styles.label}>Producers ID/ Writing Number (AWN)</Box>
+                                <Textfield
+                                    value={producerId}
+                                    onChange={onChange}
+                                    onBlur={onBlur}
+                                    placeholder="Enter your ID Number"
+                                />
+                                {error && <Box className={styles.errorMessage}>{error}</Box>}
+                            </Box>
+                            <StyledButton onClick={onContinueWithIdHandle} disabled={shouldDisable}>
+                                <span>Continue with Producers ID</span>
+                                <img src={EnrollBack} alt="arrow" />
+                            </StyledButton>
+                            <Box className={styles.link} onClick={onContinueWithoutIdHandle}>
+                                Continue without Producer ID
+                            </Box>
+                        </Box>
+                    </>
+                )}
             </Box>
         </Modal>
     );
