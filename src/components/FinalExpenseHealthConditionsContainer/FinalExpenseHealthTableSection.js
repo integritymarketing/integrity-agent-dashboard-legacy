@@ -101,26 +101,33 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                     Header: "",
                     Cell: ({ row }) => {
                         return (
-                            <div className={styles.conditionStatusCell}>
-                                {row.original.isComplete && (
-                                    <>
-                                        <Complete />
-                                        <span className={styles.completedStatus}>{COMPLETED}</span>
-                                    </>
-                                )}
-                                {row.original.isComplete === false && (
-                                    <>
-                                        <Icon image={IncompleteSvg} className={styles.statusIcon} />
-                                        <span className={styles.incompleteStatus}>{INCOMPLETE}</span>
-                                    </>
-                                )}
-                                {row.original.isComplete === undefined && (
-                                    <>
-                                        <Icon image={OutdatedSvg} className={styles.statusIcon} />
-                                        <span className={styles.outdatedStatus}>{OUTDATED}</span>
-                                    </>
-                                )}
+                            <div className={`${isMobile ? styles.flex : ""}`}>
+                                <div className={styles.conditionStatusCell}>
+                                    {row.original.isComplete && (
+                                        <>
+                                            <Complete />
+                                            <span className={styles.completedStatus}>{COMPLETED}</span>
+                                        </>
+                                    )}
+                                    {row.original.isComplete === false && (
+                                        <>
+                                            <Incomplete />
+                                            <span className={styles.incompleteStatus}>{INCOMPLETE}</span>
+                                        </>
+                                    )}
+                                    {row.original.isComplete === undefined && (
+                                        <>
+                                            <Icon image={OutdatedSvg} className={styles.statusIcon} />
+                                            <span className={styles.outdatedStatus}>{OUTDATED}</span>
+                                        </>
+                                    )}
+                                </div>
+                                {isMobile && <div className={styles.arrowStyle} onClick={() => {
+                                    setSelectedConditionForEdit(row?.original);
+                                    setIsAddNewActivityDialogOpen(true);
+                                }}><Arrow /></div>}
                             </div>
+
                         );
                     },
                 },
