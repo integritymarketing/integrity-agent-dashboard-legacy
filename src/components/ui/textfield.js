@@ -1,45 +1,11 @@
-import React, { useRef, useState } from "react";
-
-import dateFnsFormat from "date-fns/format";
-import isDate from "date-fns/isDate";
-import dateFnsParse from "date-fns/parse";
+/* eslint-disable max-lines-per-function */
+import { useRef, useState } from "react";
 
 import DeleteIcon from "components/icons/cross";
 import ErrorIcon from "components/icons/error";
 import PasswordHideIcon from "components/icons/password-hide";
 import PasswordRevealIcon from "components/icons/password-reveal";
 import SuccessIcon from "components/icons/success";
-
-function parseDate(str, format, locale) {
-    if (str.length < 10) return undefined; // don't parse before full date
-    const parsed = dateFnsParse(str, format, new Date(), { locale });
-    if (isDate(parsed)) {
-        return parsed;
-    }
-    return undefined;
-}
-
-function formatDate(date, format, locale) {
-    return dateFnsFormat(date, format, { locale });
-}
-
-const dayPickerConfig = {
-    classNames: {
-        container: "DayPickerInput form-input__date-wrap",
-        overlayWrapper: "DayPickerInput-OverlayWrapper",
-        overlay: "DayPickerInput-Overlay",
-    },
-    dayPickerProps: {
-        modifiersStyles: {
-            today: {
-                color: "var(--brand-text-color)",
-            },
-            selected: {
-                backgroundColor: "var(--brand-text-color)",
-            },
-        },
-    },
-};
 
 const Textfield = ({
     id,
@@ -63,14 +29,14 @@ const Textfield = ({
     onReset = null,
     ...inputProps
 }) => {
-    let InputElement = multiline ? "textarea" : "input";
+    const InputElement = multiline ? "textarea" : "input";
     const [passwordsVisible, setPasswordsVisible] = useState(false);
     const inputEl = useRef(null);
     const classes = [
         "form-input form-input--textfield",
         className,
-        !!readOnly ? "form-input--readonly" : "",
-        !!error ? "form-input--error" : "",
+        readOnly ? "form-input--readonly" : "",
+        error ? "form-input--error" : "",
         hasSuccess ? "form-input--success" : "",
     ]
         .filter((x) => x.trim() !== "")

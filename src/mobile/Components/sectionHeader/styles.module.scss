@@ -4,20 +4,21 @@
   margin-bottom: 10px;
   align-items: center;
   .title {
-    color: #002d72;
+    color: #052A63;
     font-size: 32px;
-
+  
     @media (max-width: 480px) {
-      font-size: 20px;
+      font-size: 24px;
     }
   }
+
   .action {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 14%;
     .actionTitle {
-      color: #0052ce;
+      color: #4178FF;
       font-size: 16px;
       font-weight: bold;
     }

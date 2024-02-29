@@ -1,15 +1,12 @@
-import React from "react";
 import SectionContainer from "mobile/Components/SectionContainer";
 import CopyPersonalURL from "components/ui/CopyPersonalURL";
 
-const AgentWebsite = ({ npn }) => {
-  return (
-    <div className={"mt-4"}>
-      <SectionContainer title={"Agent Website"}>
-        <CopyPersonalURL agentnpn={npn} />
-      </SectionContainer>
-    </div>
-  );
+const AgentWebsite = () => {
+    return (
+        <SectionContainer title="Agent Website">
+            <CopyPersonalURL />
+        </SectionContainer>
+    );
 };
 
 export default AgentWebsite;

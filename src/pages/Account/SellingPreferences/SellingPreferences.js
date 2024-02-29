@@ -39,7 +39,7 @@ function SellingPreferences() {
     };
 
     return (
-        <Box mt={4}>
+        <Box>
             <SectionContainer title="Selling Preferences">
                 <SellingPreferenceItem
                     title="Quote Life Products"

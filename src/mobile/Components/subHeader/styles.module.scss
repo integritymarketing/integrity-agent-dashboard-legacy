@@ -2,15 +2,14 @@
   background-color: #ffffff;
   border-bottom: 1px solid #cdd0d5;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 20px;
   padding: 14px 24px;
+  align-items: center;
+
   .title {
     color: #002d72;
     font-size: 24px;
   }
-  .actionTitle {
-    .actionIcon {
-    }
-  }
+ 
 }
