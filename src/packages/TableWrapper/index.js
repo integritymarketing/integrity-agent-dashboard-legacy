@@ -95,6 +95,7 @@ function Table(props) {
     initialState,
     fixedRows = [],
     handleSort,
+    overflowHide = false
   } = props;
 
   const [isMobile, setIsMobile] = useState(false);
@@ -110,9 +111,15 @@ function Table(props) {
   );
 
   // Render the UI for table
+  const style = {
+    width: '100%', marginLeft: 'auto', marginRight: 'auto', borderRadius: '8px'
+  };
+  if (overflowHide) {
+    style.overflowX = "hidden";
+  }
   return (
     <TableContainer
-      sx={{ width: '100%', marginLeft: 'auto', marginRight: 'auto' }}
+      sx={style}
     >
       <Media
         query={"(max-width: 500px)"}
@@ -176,7 +183,7 @@ function Table(props) {
           </TableFooter>
         ) : null}
       </SMUITable>
-    </TableContainer>
+    </TableContainer >
   );
 }
 

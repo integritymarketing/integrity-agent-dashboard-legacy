@@ -5,12 +5,13 @@
     align-items: center;
     border-radius: 8px 8px 0px 0px;
     display: flex;
-    padding: 0rem 1.7rem 0rem 0.7rem;
+    padding: 0rem 0rem 0rem 0.7rem;
     width: 100%;
+
     @include small {
         background: none;
         box-shadow: none;
-       }
+    }
 
     .iconWithTitle {
         display: flex;

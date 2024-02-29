@@ -22,8 +22,10 @@ import {
 } from "./FinalExpenseHealthConditionsContainer.constants";
 import styles from "./FinalExpenseHealthConditionsContainer.module.scss";
 import { Complete } from "./icons/Complete";
-import IncompleteSvg from "./icons/incomplete.svg";
+import { Incomplete } from "./icons/Incomplete";
 import OutdatedSvg from "./icons/outdated.svg";
+import Media from "react-media";
+import { Arrow } from "./icons/Arrow";
 
 const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
     const [selectedConditionForEdit, setSelectedConditionForEdit] = useState(null);
@@ -31,6 +33,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
     const [healthConditions, setHealthConditions] = useState([]);
     const isLoadingRef = useRef(false);
     const { fireEvent } = useAnalytics();
+    const [isMobile, setIsMobile] = useState(false);
 
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
 
@@ -126,20 +129,18 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
             id: "action",
             Header: "",
             Cell: ({ row }) => {
-                return (
-                    <div className={styles.conditionActionCell}>
-                        <Button
-                            icon={<EditIcon />}
-                            iconPosition="right"
-                            label={EDIT}
-                            onClick={() => {
-                                setSelectedConditionForEdit(row?.original);
-                                setIsAddNewActivityDialogOpen(true);
-                            }}
-                            type="tertiary"
-                            className={styles.buttonWithIcon}
-                        />
-                    </div>
+                return isMobile ? null : (
+                    <Button
+                        icon={<EditIcon />}
+                        iconPosition="right"
+                        label={EDIT}
+                        onClick={() => {
+                            setSelectedConditionForEdit(row?.original);
+                            setIsAddNewActivityDialogOpen(true);
+                        }}
+                        type="tertiary"
+                        className={styles.buttonWithIcon}
+                    />
                 );
             },
         },
@@ -150,6 +151,12 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
     }, []);
     return (
         <>
+            <Media
+                query={"(max-width: 500px)"}
+                onChange={(isMobile) => {
+                    setIsMobile(isMobile);
+                }}
+            />
             <ContactSectionCard
                 title={CONDITIONS}
                 infoIcon={healthConditions.length > 0 ? `(${healthConditions.length})` : ''}
