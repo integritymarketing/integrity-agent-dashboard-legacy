@@ -8,9 +8,27 @@ import Media from "react-media";
 import Icon from "components/Icon";
 import { Button } from "components/ui/Button";
 import SharePlan from "components/icons/sharePlan";
-import { formattedName } from "utils/shared-utils/sharedUtility";
+import { capitalizeFirstLetter, formattedName } from "utils/shared-utils/sharedUtility";
 import OpenIcon from "components/icons/open";
 import Relink from "../Icons/relink";
+import { Started } from "components/icons/Health/started";
+import { Active } from "components/icons/Health/active";
+import { Submitted } from "components/icons/Health/submitted";
+import { Pending } from "components/icons/Health/pending";
+import { Inactive } from "components/icons/Health/inactive";
+import { Declined } from "components/icons/Health/declined";
+import { Upcoming } from "components/icons/Health/upcoming";
+import { Unlinked } from "components/icons/Health/unlinked";
+import { Returned } from "components/icons/Health/returned";
+import { LifeStarted } from "components/icons/Life/started";
+import { LifeSubmitted } from "components/icons/Life/submitted";
+import { LifePending } from "components/icons/Life/pending";
+import { LifeActive } from "components/icons/Life/active";
+import { LifeInactive } from "components/icons/Life/inactive";
+import { LifeDeclined } from "components/icons/Life/declined";
+import { LifeUpcoming } from "components/icons/Life/upcoming";
+import { LifeUnlinked } from "components/icons/Life/unlinked";
+import { LifeReturned } from "components/icons/Life/returned";
 
 export default function EnrollmentPlanCard(props) {
     const {
@@ -52,8 +70,34 @@ export default function EnrollmentPlanCard(props) {
             state: props,
         });
     };
+    const healthIcons = {
+        Started: <Started />,
+        Submitted: <Submitted />,
+        Pending: <Pending />,
+        Active: <Active />,
+        Inactive: <Inactive />,
+        Declined: <Declined />,
+        Upcoming: <Upcoming />,
+        Unlinked: <Unlinked />,
+        Returned: <Returned />,
+    };
 
+    const lifeIcons = {
+        Started: <LifeStarted />,
+        Submitted: <LifeSubmitted />,
+        Pending: <LifePending />,
+        Active: <LifeActive />,
+        Inactive: <LifeInactive />,
+        Declined: <LifeDeclined />,
+        Upcoming: <LifeUpcoming />,
+        Unlinked: <LifeUnlinked />,
+        Returned: <LifeReturned />,
+    }
+
+    const status = policyStatus === "terminated" ? "Inactive" : capitalizeFirstLetter(policyStatus);
     const isFinalExepense = productCategory === "Final Expense";
+    const IconComponent = isFinalExepense ? lifeIcons[status] : healthIcons[status]
+
     return (
         <div className={styles.planCardContainer}>
             <Media
@@ -65,7 +109,8 @@ export default function EnrollmentPlanCard(props) {
             <div className={`${styles.planCard} ${!currentYear ? styles.isBordered : ""}`}>
                 {currentYear && (
                     <div className={styles.status} style={{ backgroundColor: policyStatusColor }}>
-                        <strong>Status:</strong> {policyStatus}
+                        <span><strong>Status:</strong> {policyStatus}</span>
+                        <span>{IconComponent}</span>
                     </div>
                 )}
                 <div className={`${!currentYear ? styles.previousYear : ""} ${styles.planDetails}`}>

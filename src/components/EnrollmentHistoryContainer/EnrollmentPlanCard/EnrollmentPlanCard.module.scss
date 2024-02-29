@@ -14,6 +14,7 @@
     display: flex;
     flex-direction: column;
     border-radius: 8px 8px 0px 0px;
+
     @include small {
         border-radius: 8px 8px 0px 0px;
     }
@@ -24,6 +25,9 @@
         border-radius: 8px 8px 0px 0px;
         padding: 8px 16px;
         align-self: flex-end;
+        display: flex;
+        align-items: center;
+        gap: 5px;
 
         &.pending {
             background-color: $white-1;
@@ -55,12 +59,14 @@
         display: flex;
         gap: 2rem;
         width: 80%;
+
         @include small {
             display: flex;
             flex-direction: column;
             gap: 0;
         }
     }
+
     .planDetails {
         background-color: #f1faff;
 
@@ -73,11 +79,13 @@
         display: flex;
         justify-content: space-between;
         flex-direction: column;
+
         @include small {
             display: flex;
             align-items: flex-start;
             flex-wrap: row;
         }
+
         .planName {
             font-size: 24px;
             color: $dark-blue;
@@ -87,6 +95,7 @@
         .details {
             gap: 8px;
             width: 50%;
+
             .planCompany {
                 color: $cyan-blue;
                 font-size: 16px;
@@ -117,10 +126,12 @@
             flex-direction: column;
             align-items: flex-start;
             justify-content: center;
+
             .date {
                 letter-spacing: 0.16px;
                 color: $dark-blue;
                 margin-top: 5px;
+
                 span {
                     color: $cyan-blue;
                 }
@@ -202,6 +213,7 @@
 .shareBtnContainer {
     display: flex;
     margin-top: 10px;
+
     .shareText {
         font-size: 16px;
         font-weight: bold;
@@ -233,6 +245,7 @@
         color: #4178ff !important;
         font-weight: 500;
     }
+
     &:hover {
         border-radius: 20px;
         box-shadow: inset 0px -1px 0px #dddddd;
@@ -242,5 +255,4 @@
 .detailsContainer {
     display: flex;
     justify-content: space-between;
-    width: 100%;
 }
