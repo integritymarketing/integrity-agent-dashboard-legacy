@@ -1,3 +1,7 @@
+@import "../../../scss/globalDefines.scss";
+
+
+
 .outerContainer {
     @media (min-width: 768px) {
         padding: 0 24px 60px 24px;
@@ -29,5 +33,17 @@
             width: calc(100% - 280px);
             margin-top: -10px;
         }
+    }
+}
+
+
+.deleteContactSection {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 24px;
+   @include small {
+        margin-bottom: 16px;
     }
 }

@@ -1,14 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-import Box from "@mui/material/Box";
+import Media from "react-media";
 
 import { useLeadDetails } from "providers/ContactDetails";
 
 import SupportLinksCard from "components/SupportLinksCard";
 import WithLoader from "components/ui/WithLoader";
 
-import styles from "./ContactDetailsContainer.module.scss";
 import { HealthContainer } from "./HealthContainer";
 import { OverviewContainer } from "./OverviewContainer";
 import { PoliciesContainer } from "./PoliciesContainer";
@@ -30,6 +28,8 @@ export const ContactDetailsContainer = () => {
     const { selectedTab, setSelectedTab, isLoadingLeadDetails, leadDetails } = useLeadDetails();
     const navigate = useNavigate();
 
+    const [isMobile, setIsMobile] = useState(false);
+
     useEffect(() => {
         const targetTab = sectionId || "overview";
         setSelectedTab(targetTab);
@@ -39,24 +39,30 @@ export const ContactDetailsContainer = () => {
     const renderSection = () => {
         switch (selectedTab) {
             case OVERVIEW:
-                return <OverviewContainer />;
+                return <OverviewContainer isMobile={isMobile} />;
             case POLICIES:
-                return <PoliciesContainer />;
+                return <PoliciesContainer isMobile={isMobile} />;
             case HEALTH:
-                return <HealthContainer />;
+                return <HealthContainer isMobile={isMobile} />;
             case SCOPE_OF_APPOINTMENT:
-                return <ScopeOfAppointmentContainer />;
+                return <ScopeOfAppointmentContainer isMobile={isMobile} />;
             case VIEW_SCOPE_OF_APPOINTMENT:
-                return <SOAViewForm />;
+                return <SOAViewForm isMobile={isMobile} />;
             case COMPLETE_SCOPE_OF_APPOINTMENT:
-                return <SOAConfirmationForm />;
+                return <SOAConfirmationForm isMobile={isMobile} />;
             default:
-                return <OverviewContainer />;
+                return <OverviewContainer isMobile={isMobile} />;
         }
     };
 
     return (
         <>
+            <Media
+                query={"(max-width: 500px)"}
+                onChange={(isMobile) => {
+                    setIsMobile(isMobile);
+                }}
+            />
             <WithLoader isLoading={isLoadingLeadDetails}>
                 {leadDetails && <ContactBodyContainer>{renderSection()}</ContactBodyContainer>}
                 <SupportLinksCard />

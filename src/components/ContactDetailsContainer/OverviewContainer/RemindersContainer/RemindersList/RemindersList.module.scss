@@ -30,7 +30,7 @@
     align-items: center;
 
     @include small {
-        width: auto;
+        width: 100%;
     }
 }
 
@@ -55,7 +55,6 @@
 
     @include small {
         width: 100%;
-   
     }
 }
 
@@ -67,7 +66,7 @@
     width: 100px;
 
     @include small {
-        flex-direction: row;
+        flex-direction: row-reverse;
         align-items: center;
         width: 100%;
     }
@@ -107,6 +106,9 @@
 .remindersContainer {
     margin-bottom: 3rem;
     border-radius: 8px;
+    @include small {
+        margin-top: 3rem;
+    }
 }
 
 .no-items {
@@ -137,8 +139,21 @@
     align-items: center;
     justify-content: center;
     margin-right: 10px;
+    @include small {
+        width: 10%;
+    }
 }
 
 .dueIcon {
     background-color: #ffc3c3;
 }
+.segregator {
+    padding: unset;
+    max-width: none;
+  }
+
+  .dueDateStyles{
+    @include small {
+        width: 40%;
+    }
+  }

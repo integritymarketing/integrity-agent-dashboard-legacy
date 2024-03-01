@@ -19,7 +19,7 @@ import styles from "./RemindersList.module.scss";
 import { Complete, Delete } from "../../Icons";
 import Reminder from "../../Icons/reminder";
 
-export const RemindersList = () => {
+export const RemindersList = ({ isMobile }) => {
     const { leadId } = useParams();
     const { getReminders, reminders, addReminder, removeReminder, editReminder } = useOverView();
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
@@ -66,6 +66,7 @@ export const RemindersList = () => {
                 className={styles.remindersContainer}
                 isDashboard
                 contentClassName={styles.remindersContainer_content}
+                customStyle={styles.segregator}
                 actions={
                     <div className="actions">
                         <Button
@@ -107,7 +108,7 @@ export const RemindersList = () => {
                                     <Box className={`${styles.reminderIcon} ${isOverDue ? styles.dueIcon : ""}`}>
                                         {isOverDue ? <Reminder color="#FF1717" /> : <Reminder color="#4178FF" />}
                                     </Box>
-                                    <Box>
+                                    <Box className={styles.dueDateStyles}>
                                         <Box className={styles.dueLabel}>
                                             Due:
                                             <span className={styles.dueValue}>
@@ -121,21 +122,41 @@ export const RemindersList = () => {
                                             </span>
                                         </Box>
                                     </Box>
+                                    {isMobile && (
+                                        <Box
+                                            sx={{
+                                                width: "50%",
+                                                display: "flex",
+                                                justifyContent: "flex-end",
+                                            }}
+                                        >
+                                            <Button
+                                                icon={<Complete color="#4178FF" />}
+                                                label={"Complete"}
+                                                className={styles.buttonWithIcon}
+                                                onClick={() => updateReminder(reminder, true)}
+                                                type="tertiary"
+                                                iconPosition="right"
+                                            />
+                                        </Box>
+                                    )}
                                 </Box>
                                 <Box className={styles.reminderDescription}>{reminderNote}</Box>
                                 <Box className={styles.reminderActions}>
                                     {!isComplete && (
                                         <>
-                                            <Box>
-                                                <Button
-                                                    icon={<Complete color="#4178FF" />}
-                                                    label={"Complete"}
-                                                    className={styles.buttonWithIcon}
-                                                    onClick={() => updateReminder(reminder, true)}
-                                                    type="tertiary"
-                                                    iconPosition="right"
-                                                />
-                                            </Box>
+                                            {!isMobile && (
+                                                <Box>
+                                                    <Button
+                                                        icon={<Complete color="#4178FF" />}
+                                                        label={"Complete"}
+                                                        className={styles.buttonWithIcon}
+                                                        onClick={() => updateReminder(reminder, true)}
+                                                        type="tertiary"
+                                                        iconPosition="right"
+                                                    />
+                                                </Box>
+                                            )}
                                             <Box className={styles.editButton}>
                                                 <Button
                                                     icon={<EditIcon />}

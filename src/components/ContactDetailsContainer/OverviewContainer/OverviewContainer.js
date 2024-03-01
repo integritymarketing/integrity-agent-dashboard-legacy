@@ -18,7 +18,7 @@ import { StageContainer } from "./StageContainer/StageContainer";
 import TagsContainer from "./TagsContainer/TagsContainer";
 import LegacySafeGuard from "./LegacySafeGuard";
 
-export const OverviewContainer = () => {
+export const OverviewContainer = ({ isMobile }) => {
     const { leadDetails } = useLeadDetails();
     const { fireEvent } = useAnalytics();
 
@@ -50,16 +50,28 @@ export const OverviewContainer = () => {
                 <Box className={styles.leftSection}>
                     <StageContainer />
                     <TagsContainer />
-                    <ContactInfoContainer />
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "24px",
-                            marginTop: "24px",
-                            flexDirection: "column",
-                        }}
-                    >
+                    <ContactInfoContainer isMobile={isMobile} />
+                    {!isMobile && (
+                        <Box className={styles.deleteContactSection}>
+                            <Box
+                                sx={{ color: "#F44336", fontSize: "16px", cursor: "pointer" }}
+                                onClick={() => setDeleteModalStatus(true)}
+                            >
+                                Delete Contact
+                            </Box>
+                        </Box>
+                    )}
+                </Box>
+                <Box className={styles.rightSection}>
+                    <Box>
+                        <RemindersContainer isMobile={isMobile} />
+                        <LegacySafeGuard leadDetails={leadDetails} />
+                        <ActivitiesTableContainer />
+                        <ClientNotes isMobile={isMobile} />
+                    </Box>
+                </Box>
+                {isMobile && (
+                    <Box className={styles.deleteContactSection}>
                         <Box
                             sx={{ color: "#F44336", fontSize: "16px", cursor: "pointer" }}
                             onClick={() => setDeleteModalStatus(true)}
@@ -67,15 +79,7 @@ export const OverviewContainer = () => {
                             Delete Contact
                         </Box>
                     </Box>
-                </Box>
-                <Box className={styles.rightSection}>
-                    <Box>
-                        <RemindersContainer />
-                        <LegacySafeGuard leadDetails={leadDetails} />
-                        <ActivitiesTableContainer />
-                        <ClientNotes />
-                    </Box>
-                </Box>
+                )}
             </Box>
             {deleteModalStatus && (
                 <DeleteContactModal

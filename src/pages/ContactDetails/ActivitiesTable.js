@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Typography from "@mui/material/Typography";
 
 import { useLeadDetails } from "providers/ContactDetails";
@@ -243,8 +244,7 @@ export default function ActivitiesTable({
             },
             {
                 id: "activity",
-                accessor: (row) => row?.original?.activitySubject,
-                Header: "Activity",
+                Header: "",
                 Cell: ({ row }) => (
                     <div className={styles.activityDataCell}>
                         <ActivitySubjectWithIcon
@@ -252,13 +252,17 @@ export default function ActivitiesTable({
                             iconURL={row?.original?.activityInteractionIconUrl}
                             activityId={row?.original?.activityId}
                         />
-                        <Typography noWrap onClick={() => onActivityClick(row?.original)}>
-                            <strong>
-                                {row?.original?.activitySubject?.length > 15
-                                    ? `${row?.original?.activitySubject?.slice(0, 13)}...`
-                                    : row?.original?.activitySubject}
-                            </strong>
-                        </Typography>
+                        <div noWrap onClick={() => onActivityClick(row?.original)}>
+                            <div className={styles.activitySubject}>
+                                {row?.original?.activitySubject}
+
+                                <span className={styles.activityBody}>
+                                    {row?.original?.activityBody?.length > 15
+                                        ? `${row?.original?.activityBody?.slice(0, 13)}...`
+                                        : row?.original?.activityBody}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 ),
             },
@@ -268,7 +272,7 @@ export default function ActivitiesTable({
                 Header: "",
                 Cell: ({ row }) => (
                     <span onClick={() => onActivityClick(row?.original)}>
-                        <MoreHorizOutlinedIcon />
+                        <ArrowForwardIosIcon color="primary" />
                     </span>
                 ),
             },

@@ -23,7 +23,7 @@ export const FormField = ({
     autoComplete,
     minLength,
     maxLength,
-    touched
+    touched,
 }) => {
     const [field, meta, helpers] = useField(name);
     const { setFieldValue } = useFormikContext();

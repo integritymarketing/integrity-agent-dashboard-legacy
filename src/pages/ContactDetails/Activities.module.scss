@@ -106,8 +106,7 @@
   
     @include small {
         background: none;
-        padding: 0.5rem;
-    }
+     }
   }
 
 
@@ -126,4 +125,8 @@
     color: #717171;
     font-size: 14px;
     margin-left: 5px;
+  }
+  .segregator {
+    padding: unset;
+    max-width: none;
   }

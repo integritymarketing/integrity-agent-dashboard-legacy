@@ -145,6 +145,7 @@ const Activities = ({ leadId }) => {
                         infoIcon={`(${leadDetails.activities?.length})`}
                         className={styles.activitiesContainer}
                         contentClassName={styles.activitiesContainer_content}
+                        customStyle={styles.segregator}
                         actions={<div className="actions">{renderSectionHeader()}</div>}
                     >
                         <ActivitiesTable

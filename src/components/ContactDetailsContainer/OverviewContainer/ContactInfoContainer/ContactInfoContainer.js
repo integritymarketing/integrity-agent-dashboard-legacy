@@ -23,7 +23,7 @@ import { Show } from "../Icons/Show";
 
 const NOT_AVAILABLE = "-";
 
-export const ContactInfoContainer = () => {
+export const ContactInfoContainer = ({ isMobile }) => {
     const [isEditMode, setIsEditMode] = useState(false);
     const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
     const [isShowBeneficiaryId, setShowBeneficiaryId] = useState(false);
@@ -61,36 +61,36 @@ export const ContactInfoContainer = () => {
     });
 
     const leadPhone = useMemo(() => {
-        return phonesData?.[0]?.leadPhone ? formatPhoneNumber(phonesData?.[0]?.leadPhone) : NOT_AVAILABLE;
+        return phonesData?.[0]?.leadPhone ? formatPhoneNumber(phonesData?.[0]?.leadPhone) : "";
     }, [phonesData]);
 
     const leadEmail = useMemo(() => {
-        return emails?.length > 0 ? emails?.[0]?.leadEmail : NOT_AVAILABLE;
+        return emails?.length > 0 ? emails?.[0]?.leadEmail : "";
     }, [emails]);
 
     const leadAddress1 = useMemo(() => {
         const address1 = addresses?.[0]?.address1;
-        return address1 ? address1 : NOT_AVAILABLE;
+        return address1 ? address1 : "";
     }, [addresses]);
 
     const leadAddress2 = useMemo(() => {
         const address2 = addresses?.[0]?.address2;
-        return address2 ? address2 : NOT_AVAILABLE;
+        return address2 ? address2 : "";
     }, [addresses]);
 
     const leadCity = useMemo(() => {
         const city = addresses?.[0]?.city;
-        return city ? city : NOT_AVAILABLE;
+        return city ? city : "";
     }, [addresses]);
 
     const leadState = useMemo(() => {
         const state = addresses?.[0]?.state;
-        return state ? state : NOT_AVAILABLE;
+        return state ? state : "";
     }, [addresses]);
 
     const leadZip = useMemo(() => {
         const postalCode = addresses?.[0]?.postalCode;
-        return postalCode ? postalCode : NOT_AVAILABLE;
+        return postalCode ? postalCode : "";
     }, [addresses]);
 
     const leadMBID = useMemo(() => {
@@ -180,7 +180,7 @@ export const ContactInfoContainer = () => {
 
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
-            <Box>
+            <Box marginTop={"20px"}>
                 <Box className={`${styles.horizontalLayout} ${styles.gap}`} marginBottom="-16px">
                     <Label value={isEditMode ? "Edit Contact Details" : "Contact Details"} />
                     {!isEditMode && (
@@ -212,21 +212,25 @@ export const ContactInfoContainer = () => {
                             />
                         </SectionContainer>
                         <Box className={styles.miniContainer}>
-                            <SectionContainer>
-                                <Label value="Birthdate" color="#717171" size="14px" />
-                                <Label value={leadBirthdate} color="#052A63" size="20px" />
-                            </SectionContainer>
-                            <SectionContainer>
-                                <Label value="Age" color="#717171" size="14px" />
-                                <Label value={leadAge} color="#052A63" size="20px" />
-                            </SectionContainer>
+                            <Box className={styles.miniCard}>
+                                <SectionContainer>
+                                    <Label value="Birthdate" color="#717171" size="14px" />
+                                    <Label value={leadBirthdate} color="#052A63" size="20px" />
+                                </SectionContainer>
+                            </Box>
+                            <Box className={styles.miniCard}>
+                                <SectionContainer>
+                                    <Label value="Age" color="#717171" size="14px" />
+                                    <Label value={leadAge} color="#052A63" size="20px" />
+                                </SectionContainer>
+                            </Box>
                         </Box>
                         <SectionContainer>
                             <Label value="Email" color="#717171" size="14px" />
-                            <Box className={styles.horizontalLayout}>
+                            <Box className={styles.emailBox}>
                                 <Box className={styles.emailAddress}>
-                                <Box className={styles.emailText}> 
-                                    <Label value={leadEmail} color="#4178FF" size="16px" />
+                                    <Box className={styles.emailText}>
+                                        <Label value={leadEmail} color="#4178FF" size="16px" />
                                     </Box>
                                     {isPrimary === "email" && <Favorite />}
                                 </Box>
@@ -247,14 +251,18 @@ export const ContactInfoContainer = () => {
                             <Label value={leadAddress1} color="#4178FF" size="16px" />
                             <Label value={`${leadCity} ${leadState} ${leadZip}`} color="#4178FF" size="16px" />
                             <Box className={styles.horizontalLayout}>
-                                <Label value="County:" color="#052A63" size="16px" />
-                                <Label value={leadCounty} color="#717171" size="16px" />
+                                <Label value="County: " color="#052A63" size="16px" />
+                                <Label value={leadCounty} color="#717171" size="16px" left={"5px"} />
                             </Box>
                         </SectionContainer>
                         <SectionContainer>
                             <Label value="Medicare Beneficiary Identifier (MBIs)" color="#717171" size="14px" />
                             <div className={styles.beneficiaryId}>
-                                <Label value={isShowBeneficiaryId ? leadMBIDFull : leadMBID} color="#052A63" size="16px" />
+                                <Label
+                                    value={isShowBeneficiaryId ? leadMBIDFull : leadMBID}
+                                    color="#052A63"
+                                    size="16px"
+                                />
                                 <span onClick={() => setShowBeneficiaryId(!isShowBeneficiaryId)}>
                                     {isShowBeneficiaryId ? <Hide /> : <Show />}
                                     {isShowBeneficiaryId ? "Hide" : "Show"}
@@ -265,7 +273,7 @@ export const ContactInfoContainer = () => {
                                     <Label value="Part A start date" color="#717171" size="14px" />
                                     <Label value={leadPartA} color="#052A63" size="16px" />
                                 </Box>
-                                <Box>
+                                <Box className={styles.miniCard}>
                                     <Label value="Part B start date" color="#717171" size="14px" />
                                     <Label value={leadPartB} color="#052A63" size="16px" />
                                 </Box>
@@ -275,9 +283,11 @@ export const ContactInfoContainer = () => {
                             <Label value="Medicaid" color="#717171" size="14px" />
                             <Label value={hasMedicAid ? "Yes" : "No"} color="#052A63" size="16px" />
                         </SectionContainer>
-                        <Box display="flex" alignItems="center" justifyContent="center" marginTop="10px">
-                            <Label value={`Created Date: ${leadCreatedDate}`} color="#717171" size="14px" />
-                        </Box>
+                        {!isMobile && (
+                            <Box display="flex" alignItems="center" justifyContent="center" marginTop="10px">
+                                <Label value={`Created Date: ${leadCreatedDate}`} color="#717171" size="14px" />
+                            </Box>
+                        )}
                     </Box>
                 )}
             </Box>

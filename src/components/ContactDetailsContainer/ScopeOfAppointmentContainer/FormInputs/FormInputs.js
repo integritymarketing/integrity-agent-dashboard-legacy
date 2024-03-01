@@ -1,16 +1,26 @@
-import React from 'react';
-import { Form, Formik } from 'formik';
+import React from "react";
+import { Form, Formik } from "formik";
 import validationService from "services/validationService";
-import { AGENT_FNAME, AGENT_LNAME, AGENT_PHONE, INITIAL_METHOD_OF_CONTACT, SOA_SIGNED_OPTS, SOA_SIGNED_AT_APPOINTMENT, SOA_EXPLANATION, SOA_FORM_CONSENT, SUBMIT } from '../ScopeOfAppointmentContainer.constants';
+import {
+    AGENT_FNAME,
+    AGENT_LNAME,
+    AGENT_PHONE,
+    INITIAL_METHOD_OF_CONTACT,
+    SOA_SIGNED_OPTS,
+    SOA_SIGNED_AT_APPOINTMENT,
+    SOA_EXPLANATION,
+    SOA_FORM_CONSENT,
+    SUBMIT,
+} from "../ScopeOfAppointmentContainer.constants";
 import styles from "./FormInputs.module.scss";
 import DatePickerMUI from "components/DatePicker";
 import TextField from "@mui/material/TextField";
-import { FormField } from 'components/SharedFormFields/FormField';
-import { Checked, Unchecked } from '../Icons';
+import { FormField } from "components/SharedFormFields/FormField";
+import { Checked, Unchecked } from "../Icons";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import dateFnsFormat from "date-fns/format";
 
 const SubmitButton = styled(Button)(() => ({
@@ -24,23 +34,19 @@ const SubmitButton = styled(Button)(() => ({
     marginTop: "20px",
 }));
 
-
-
 export const FormInputs = ({ agentSection, saveDetails }) => {
     return (
         <Formik
-            initialValues={
-                {
-                    firstName: agentSection?.firstName,
-                    lastName: agentSection?.lastName,
-                    phoneNumber: agentSection?.phoneNumber,
-                    methodOfContact: "",
-                    acceptedSOA: false,
-                    soaSignedAtApointment: "",
-                    appointmentDate: new Date(),
-                    explanationOfSOASignedDuringAppointment: "",
-                }
-            }
+            initialValues={{
+                firstName: agentSection?.firstName,
+                lastName: agentSection?.lastName,
+                phoneNumber: agentSection?.phoneNumber,
+                methodOfContact: "",
+                acceptedSOA: false,
+                soaSignedAtApointment: "",
+                appointmentDate: new Date(),
+                explanationOfSOASignedDuringAppointment: "",
+            }}
             validate={async (values) => {
                 return validationService.validateMultiple(
                     [
@@ -64,11 +70,9 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                             validator: validationService.validateRequired,
                             args: ["Method of Contact"],
                         },
-
                     ],
                     values
                 );
-
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
                 setSubmitting(true);
@@ -76,50 +80,42 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                     ...values,
                     appointmentDate: dateFnsFormat(values.appointmentDate, "MM/dd/yy"),
                     submittedDateTime: new Date().toISOString(),
-                }
+                };
                 saveDetails(payload);
                 setSubmitting(false);
             }}
         >
-            {({
-                values,
-                errors,
-                touched,
-                isValid,
-                dirty,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                setFieldValue,
-            }) => {
+            {({ values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
                 return (
                     <Form>
-
-                        <FormField label={AGENT_FNAME}
+                        <FormField
+                            label={AGENT_FNAME}
                             name={"firstName"}
                             className={styles.fieldContainer}
                             labelClassName={styles.label}
                             placeholder="First Name"
-                            width={"50%"}
                             initialValue={values.firstName}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             touched={touched.firstName}
-                            required />
+                            required
+                        />
 
-                        <FormField label={AGENT_LNAME}
+                        <FormField
+                            label={AGENT_LNAME}
                             name={"lastName"}
                             className={styles.fieldContainer}
                             labelClassName={styles.label}
                             placeholder="Last Name"
-                            width={"50%"}
                             initialValue={values.lastName}
                             touched={touched.lastName}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            required />
+                            required
+                        />
 
-                        <FormField label={AGENT_PHONE}
+                        <FormField
+                            label={AGENT_PHONE}
                             name={"phoneNumber"}
                             className={styles.fieldContainer}
                             labelClassName={styles.label}
@@ -127,9 +123,10 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                             touched={touched.phoneNumber}
                             initialValue={values.phoneNumber}
                             onChange={handleChange}
-                            width={"50%"} />
+                        />
 
-                        <FormField label={INITIAL_METHOD_OF_CONTACT}
+                        <FormField
+                            label={INITIAL_METHOD_OF_CONTACT}
                             name={"methodOfContact"}
                             className={styles.fieldContainer}
                             labelClassName={styles.label}
@@ -137,9 +134,10 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                             initialValue={values.methodOfContact}
                             onChange={handleChange}
                             touched={touched.methodOfContact}
-                            width={"50%"} />
+                        />
 
-                        <Box marginTop="10px" className={styles.signedText}>{SOA_SIGNED_AT_APPOINTMENT}
+                        <Box marginTop="10px" className={styles.signedText}>
+                            {SOA_SIGNED_AT_APPOINTMENT}
                             {SOA_SIGNED_OPTS.map((option, index) => {
                                 const isChecked = values.soaSignedAtApointment === option;
                                 return (
@@ -161,7 +159,7 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                                     <TextField
                                         id="outlined-basic"
                                         placeholder=""
-                                        name='explanationOfSOASignedDuringAppointment'
+                                        name="explanationOfSOASignedDuringAppointment"
                                         variant="outlined"
                                         value={values.explanationOfSOASignedDuringAppointment}
                                         onChange={handleChange}
@@ -170,11 +168,10 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                                         className={styles.explanationInput}
                                     />
                                 </>
-                            )
-                            }
+                            )}
                         </Box>
 
-                        <Box marginTop="10px" >
+                        <Box marginTop="10px">
                             <h4 className={styles.formText}>Date Appointment Completed</h4>
 
                             <DatePickerMUI
@@ -182,26 +179,31 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                                 disableFuture={true}
                                 onChange={(date) => {
                                     setFieldValue("appointmentDate", date);
-                                }
-                                }
+                                }}
                             />
                         </Box>
-                        <Box marginTop="10px" >
-                            <div className={styles.consentWrapper} onClick={() => {
-                                setFieldValue("acceptedSOA", !values.acceptedSOA);
-
-                            }}>
+                        <Box marginTop="10px">
+                            <div
+                                className={styles.consentWrapper}
+                                onClick={() => {
+                                    setFieldValue("acceptedSOA", !values.acceptedSOA);
+                                }}
+                            >
                                 <span>{values.acceptedSOA ? <Checked /> : <Unchecked strokeColor="#DDDDDD" />}</span>
                                 <span>{SOA_FORM_CONSENT}</span>
                             </div>
                         </Box>
-                        <SubmitButton disabled={!dirty || !isValid || !values.acceptedSOA || !values.soaSignedAtApointment} variant="contained" onClick={handleSubmit} endIcon={<ButtonCircleArrow />}>
+                        <SubmitButton
+                            disabled={!dirty || !isValid || !values.acceptedSOA || !values.soaSignedAtApointment}
+                            variant="contained"
+                            onClick={handleSubmit}
+                            endIcon={<ButtonCircleArrow />}
+                        >
                             {SUBMIT}
                         </SubmitButton>
                     </Form>
-                )
+                );
             }}
-        </Formik >
-    )
-}
-
+        </Formik>
+    );
+};

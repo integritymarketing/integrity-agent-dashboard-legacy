@@ -1,8 +1,14 @@
+ @import "../../../../scss/globalDefines.scss";
+
 .selectPdtContainer {
     background: #F1F1F1;
     border-radius: 8px;
     padding: 24px;
     margin: 33px 0;
+
+    @include small {
+        background: #F1FAFF;
+     }
 
     .label {
         color: #052A63;
