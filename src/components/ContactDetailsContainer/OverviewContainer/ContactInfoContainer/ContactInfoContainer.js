@@ -256,7 +256,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
                             </Box>
                         </SectionContainer>
                         <SectionContainer>
-                            <Label value="Medicare Beneficiary Identifier (MBIs)" color="#717171" size="14px" />
+                            <Label value="Medicare Beneficiary Identifier (MBI)" color="#717171" size="14px" />
                             <div className={styles.beneficiaryId}>
                                 <Label
                                     value={isShowBeneficiaryId ? leadMBIDFull : leadMBID}

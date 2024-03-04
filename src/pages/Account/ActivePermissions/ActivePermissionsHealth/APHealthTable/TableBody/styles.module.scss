@@ -5,9 +5,13 @@
   tr {
     border-bottom: 1px solid #F1F1F1;
   }
+
+  // tr:last-child {
+  //   border: none;
+  // }
 }
 
-.customBodyRow { 
+.customBodyRow {
   padding: 24px 15px;
   padding-right: 0;
 }
