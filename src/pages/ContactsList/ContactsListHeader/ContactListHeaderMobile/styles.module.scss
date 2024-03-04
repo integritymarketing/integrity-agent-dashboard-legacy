@@ -1,24 +1,26 @@
-.wrapper {
-    box-shadow: inset 0px -1px 0px #DDDDDD;
-}
-
 .header {
-    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    justify-content: center;
+    padding: 10px 0;
+}
 
-    @media (max-width: 480px) {
-        flex-direction: column;
-        gap: 20px;
-    }
+.lowerContainer {
+    background-color: #f1f1f1;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 40px 24px 10px 24px;
 }
 
 .title {
     font-size: 32px;
-    color: #052A63;
+    color: #052a63;
+
+    @media (max-width: 480px) {
+        font-size: 24px;
+    }
 }
 
 .linkBlue {
@@ -54,4 +56,9 @@
         background-color: #ffffff;
         box-shadow: inset 0px -1px 0px #c7ccd1;
     }
+}
+
+.backButton {
+    position: absolute;
+    left: 20px;
 }

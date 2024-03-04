@@ -32,7 +32,7 @@ function Search() {
             name="search"
             defaultValue={searchString}
             icon={<SearchBlue />}
-            placeholder="Search for a contact"
+            placeholder="Search"
             className={styles.searchInput}
             onChange={onChangeHandle}
             onBlur={() => analyticsService.fireEvent("event-search")}

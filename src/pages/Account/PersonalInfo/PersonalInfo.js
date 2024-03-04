@@ -1,7 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import { useState } from "react";
 
-import { Formik } from "formik";
+import { useFormik } from "formik";
 
 import Box from "@mui/material/Box";
 
@@ -71,6 +71,49 @@ function PersonalInfo() {
         }
     };
 
+    const { values, errors, touched, isValid, dirty, handleSubmit, handleChange, handleBlur } = useFormik({
+        enableReinitialize: true,
+        initialValues: {
+            firstName,
+            lastName,
+            phone: formattedPhoneNumber,
+            npn,
+            email,
+        },
+        validate: (values) => {
+            return validationService.validateMultiple(
+                [
+                    {
+                        name: "firstName",
+                        validator: validationService.validateOnlyAlphabetics,
+                        args: ["First Name"],
+                    },
+                    {
+                        name: "lastName",
+                        validator: validationService.validateOnlyAlphabetics,
+                        args: ["Last Name"],
+                    },
+                    {
+                        name: "phone",
+                        validator: validationService.composeValidator([
+                            validationService.validateRequired,
+                            validationService.validatePhone,
+                        ]),
+                    },
+                    {
+                        name: "email",
+                        validator: validationService.composeValidator([
+                            validationService.validateRequired,
+                            validationService.validateEmail,
+                        ]),
+                    },
+                ],
+                values
+            );
+        },
+        onSubmit: onSubmitHandler,
+    });
+
     return (
         <SectionContainer
             title="Personal Information"
@@ -94,105 +137,61 @@ function PersonalInfo() {
                     />
                 )}
                 {((isMobile && isEdit) || !isMobile) && (
-                    <Formik
-                        initialValues={{
-                            firstName,
-                            lastName,
-                            phone: formattedPhoneNumber,
-                            npn,
-                            email,
-                        }}
-                        validate={(values) => {
-                            return validationService.validateMultiple(
-                                [
-                                    {
-                                        name: "firstName",
-                                        validator: validationService.validateOnlyAlphabetics,
-                                        args: ["First Name"],
-                                    },
-                                    {
-                                        name: "lastName",
-                                        validator: validationService.validateOnlyAlphabetics,
-                                        args: ["Last Name"],
-                                    },
-                                    {
-                                        name: "phone",
-                                        validator: validationService.composeValidator([
-                                            validationService.validateRequired,
-                                            validationService.validatePhone,
-                                        ]),
-                                    },
-                                    {
-                                        name: "email",
-                                        validator: validationService.composeValidator([
-                                            validationService.validateRequired,
-                                            validationService.validateEmail,
-                                        ]),
-                                    },
-                                ],
-                                values
-                            );
-                        }}
-                        onSubmit={onSubmitHandler}
-                    >
-                        {({ values, errors, touched, isValid, dirty, handleSubmit, handleChange, handleBlur }) => (
-                            <form action="" onSubmit={handleSubmit}>
-                                <Box className={styles.label}>First Name</Box>
-                                <Textfield
-                                    id="account-fname"
-                                    placeholder="Enter your first name"
-                                    name="firstName"
-                                    value={values.firstName}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={touched.firstName && errors.firstName}
-                                />
-                                <Box className={styles.label}>Last Name</Box>
-                                <Textfield
-                                    id="account-lname"
-                                    placeholder="Enter your last name"
-                                    name="lastName"
-                                    value={values.lastName}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={touched.lastName && errors.lastName}
-                                />
-                                <Box className={styles.label}>National Producer Number (NPN)</Box>
-                                <Textfield
-                                    id="account-npn"
-                                    placeholder="Enter your NPN"
-                                    name="npn"
-                                    value={values.npn}
-                                    readOnly
-                                />
-                                <Box className={styles.label}>Email Address</Box>
-                                <Textfield
-                                    id="account-email"
-                                    type="email"
-                                    placeholder="Enter your email address"
-                                    name="email"
-                                    value={values.email}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={touched.email && errors.email}
-                                />
-                                <Box className={styles.label}>Phone Number</Box>
-                                <Textfield
-                                    id="account-phone"
-                                    type="tel"
-                                    placeholder="XXX-XXX-XXXX"
-                                    name="phone"
-                                    value={values.phone}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={(touched.phone && errors.phone) || errors.Global}
-                                />
-                                <Box display="flex" justifyContent="flex-end" marginTop="20px">
-                                    <RoundButton type="submit" label="Save" disabled={!dirty || !isValid} />
-                                </Box>
-                            </form>
-                        )}
-                    </Formik>
+                    <form action="" onSubmit={handleSubmit}>
+                        <Box className={styles.label}>First Name</Box>
+                        <Textfield
+                            id="account-fname"
+                            placeholder="Enter your first name"
+                            name="firstName"
+                            value={values.firstName}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.firstName && errors.firstName}
+                        />
+                        <Box className={styles.label}>Last Name</Box>
+                        <Textfield
+                            id="account-lname"
+                            placeholder="Enter your last name"
+                            name="lastName"
+                            value={values.lastName}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.lastName && errors.lastName}
+                        />
+                        <Box className={styles.label}>National Producer Number (NPN)</Box>
+                        <Textfield
+                            id="account-npn"
+                            placeholder="Enter your NPN"
+                            name="npn"
+                            value={values.npn}
+                            readOnly
+                        />
+                        <Box className={styles.label}>Email Address</Box>
+                        <Textfield
+                            id="account-email"
+                            type="email"
+                            placeholder="Enter your email address"
+                            name="email"
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.email && errors.email}
+                        />
+                        <Box className={styles.label}>Phone Number</Box>
+                        <Textfield
+                            id="account-phone"
+                            type="tel"
+                            placeholder="XXX-XXX-XXXX"
+                            name="phone"
+                            value={values.phone}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={(touched.phone && errors.phone) || errors.Global}
+                        />
+                        <Box display="flex" justifyContent="flex-end" marginTop="20px">
+                            <RoundButton type="submit" label="Save" disabled={!dirty || !isValid} />
+                        </Box>
+                    </form>
                 )}
             </section>
         </SectionContainer>

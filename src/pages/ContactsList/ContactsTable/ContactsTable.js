@@ -1,7 +1,16 @@
+/* eslint-disable max-lines-per-function */
 /* eslint-disable react/prop-types */
-import { useMemo } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
+
+import { useWindowSize } from "hooks/useWindowSize";
+import DeleteLeadContext from "contexts/deleteLead";
+import useAnalytics from "hooks/useAnalytics";
+import useToast from "hooks/useToast";
+
+import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 
 import HealthActive from "components/icons/version-2/HealthActive";
 import HealthInactive from "components/icons/version-2/HealthInactive";
@@ -9,16 +18,93 @@ import Heartactive from "components/icons/version-2/HeartActive";
 import HeartInactive from "components/icons/version-2/HeartInactive";
 import { Checkbox } from "components/ui/version-2/Checkbox";
 
+import clientsService from "services/clientsService";
+
 import { ActionsCell } from "./ActionsCell";
 import { NameCell } from "./NameCell";
 import { StageCell } from "./StageCell";
 import { Table } from "./Table";
 import { TagCell } from "./TagCell";
+import { TableMobile } from "./TableMobile";
+
 import styles from "./styles.module.scss";
 
 import { LoadMoreButton } from "../LoadMoreButton";
 
 function ContactsTable() {
+    const { tableData, policyCounts } = useContactsListContext();
+    const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(DeleteLeadContext);
+    const { width: windowWidth } = useWindowSize();
+    const { fireEvent } = useAnalytics();
+    const navigate = useNavigate();
+    const showToast = useToast();
+
+    const isMobile = windowWidth <= 784;
+
+    const contactsListResultsEvent = () => {
+        const contacts_with_health_policies_count = policyCounts.filter(
+            (contact) => contact.healthPolicyCount > 0
+        ).length;
+        const contacts_with_life_policies_count = policyCounts.filter((contact) => contact.lifePolicyCount > 0).length;
+
+        const contacts_without_policies_count = tableData?.length - policyCounts?.length;
+
+        fireEvent("Contact List Viewed", {
+            contacts_with_health_policies_count: contacts_with_health_policies_count,
+            contacts_without_policies_count: contacts_without_policies_count,
+            contacts_with_life_policies_count: contacts_with_life_policies_count,
+            total_contacts_count: tableData?.length,
+        });
+    };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            contactsListResultsEvent();
+        }, 5000);
+        return () => clearTimeout(timer);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [policyCounts]);
+
+    const deleteContact = useCallback(() => {
+        if (deleteLeadId !== null) {
+            const clearTimer = () =>
+                setTimeout(() => {
+                    clearContext();
+                }, 10000);
+            clearTimer();
+            const clearContext = () => {
+                setDeleteLeadId(null);
+                setLeadName(null);
+            };
+            const unDODelete = async () => {
+                const response = await clientsService.reActivateClients([deleteLeadId]);
+                if (response.ok) {
+                    clearContext();
+                    navigate(`/contact/${deleteLeadId}/overview`);
+                } else if (response.status === 400) {
+                    showToast({
+                        type: "error",
+                        message: "Error while reactivating contact",
+                    });
+                }
+            };
+
+            showToast({
+                type: "success",
+                message: `${leadName} Deleted`,
+                time: 10000,
+                link: "UNDO",
+                onClickHandler: unDODelete,
+                closeToastRequired: true,
+                onCloseCallback: clearContext,
+            });
+        }
+    }, [deleteLeadId, showToast, leadName, setDeleteLeadId, setLeadName, navigate]);
+
+    useEffect(() => {
+        deleteContact();
+    }, [deleteLeadId, deleteContact]);
+
     const columns = useMemo(
         () => [
             {
@@ -90,10 +176,16 @@ function ContactsTable() {
     );
 
     return (
-        <Box className={styles.tableWrapper}>
-            <Table columns={columns} />
-            <LoadMoreButton />
-        </Box>
+        <>
+            {isMobile ? (
+                <TableMobile />
+            ) : (
+                <Box className={styles.tableWrapper}>
+                    <Table columns={columns} />
+                    <LoadMoreButton />
+                </Box>
+            )}
+        </>
     );
 }
 

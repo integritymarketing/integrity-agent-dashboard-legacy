@@ -25,8 +25,8 @@ function AccountPageMobile() {
             <SubHeaderMobile title="Account Settings" />
             <Box className={styles.content}>
                 <PersonalInfo />
-                <AgentWebsite />
                 <AgentPhone />
+                <AgentWebsite />
                 <AvailabilityPreferences />
                 <SellingPreferences />
                 <ChangePassword />

@@ -14,6 +14,9 @@ import GlobalNav from "partials/global-nav-v2";
 import { StageStatusProvider } from "contexts/stageStatus";
 
 import { ContactsListHeader } from "pages/ContactsList/ContactsListHeader";
+import { ContactListHeaderMobile } from "./ContactsListHeader/ContactListHeaderMobile";
+
+import { useWindowSize } from "hooks/useWindowSize";
 
 import { ContactsCard } from "./ContactsCard";
 import { ContactsListActions } from "./ContactsListActions";
@@ -22,9 +25,13 @@ import { DuplicateBanner } from "./DuplicateBanner";
 import { FilteredLeadIdsBanner } from "./FilteredLeadIdsBanner";
 import { ContactsListModalProvider } from "./providers/ContactsListModalProvider";
 import { ContactsListProvider } from "./providers/ContactsListProvider";
+
 import styles from "./styles.module.scss";
 
 function ContactsList() {
+    const { width: windowWidth } = useWindowSize();
+
+    const isMobile = windowWidth <= 784;
 
     return (
         <>
@@ -32,16 +39,17 @@ function ContactsList() {
                 <title>Integrity - Contacts</title>
             </Helmet>
             <GlobalNav />
-            <ContactsListHeader />
+            {!isMobile && <ContactsListHeader />}
+            {isMobile && <ContactListHeaderMobile />}
             <StageStatusProvider>
                 <ContactsListModalProvider>
                     <ContactsListProvider>
                         <Box className={styles.wrapper}>
-                            <Container className={styles.container}>
+                            <Container>
                                 <ContactsListActions />
                                 <FilteredLeadIdsBanner />
                                 <DuplicateBanner />
-                                <Divider className={styles.divider} />
+                                {!isMobile && <Divider className={styles.divider} />}
                                 <Routes>
                                     <Route path="/" element={<Navigate to="/contacts/list" replace={true} />} />
                                     <Route path="/list" element={<ContactsTable />} />
@@ -51,7 +59,7 @@ function ContactsList() {
                         </Box>
                     </ContactsListProvider>
                 </ContactsListModalProvider>
-                    <SupportLinksCard />
+                <SupportLinksCard />
                 <GlobalFooter />
             </StageStatusProvider>
         </>

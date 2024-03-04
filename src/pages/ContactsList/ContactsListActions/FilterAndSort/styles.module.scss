@@ -4,11 +4,16 @@
 }
 
 .customBox {
+    @media (max-width: 480px) {
+        position: relative;
+        right: -17px;
+    }
+
     > div {
         margin-right: 10px !important;
     }
 }
 
 .pointerBox {
- cursor: pointer;
+    cursor: pointer;
 }

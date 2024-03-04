@@ -1,5 +1,8 @@
 .subText {
-    color: #434A51;
     font-size: 16px;
-    font-weight: 600;
+    color: #434A51;
+
+    @media (max-width: 480px) {
+      font-weight: 600;
+    }
   }

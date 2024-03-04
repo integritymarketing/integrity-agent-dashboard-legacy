@@ -21,8 +21,8 @@
 }
 
 .innerWrapper {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-between;
+    display: flex;
     gap: 25px;
     padding: 15px;
 }

@@ -1,4 +1,15 @@
 .searchInput {
-  max-width: 328px;
-  width: 100%;
+    width: 100%;
+
+    @media (min-width: 480px) {
+        max-width: 328px;
+    }
+
+    @media (max-width: 480px) {
+        input {
+            padding: 1.5rem !important;
+            padding-left: 0 !important;
+            padding-right: 0.5rem !important;
+        }
+    }
 }
