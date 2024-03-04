@@ -50,6 +50,7 @@ export const OverviewContainer = ({ isMobile }) => {
                 <Box className={styles.leftSection}>
                     <StageContainer />
                     <TagsContainer />
+                    {isMobile && <LegacySafeGuard leadDetails={leadDetails} />}
                     <ContactInfoContainer isMobile={isMobile} />
                     {!isMobile && (
                         <Box className={styles.deleteContactSection}>
@@ -65,7 +66,7 @@ export const OverviewContainer = ({ isMobile }) => {
                 <Box className={styles.rightSection}>
                     <Box>
                         <RemindersContainer isMobile={isMobile} />
-                        <LegacySafeGuard leadDetails={leadDetails} />
+                        {!isMobile && <LegacySafeGuard leadDetails={leadDetails} />}
                         <ActivitiesTableContainer />
                         <ClientNotes isMobile={isMobile} />
                     </Box>

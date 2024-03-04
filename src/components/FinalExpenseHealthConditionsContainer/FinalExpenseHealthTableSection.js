@@ -85,72 +85,114 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
         );
     };
 
-    const columns = [
-        {
-            id: "name",
-            Header: "",
-            Cell: ({ row }) => {
-                return <div className={styles.conditionNameCell}>{row.original.conditionName}</div>;
-            },
+    const nameCol = {
+        id: "name",
+        Header: "",
+        Cell: ({ row }) => {
+            return <div className={styles.conditionNameCell}>{row.original.conditionName}</div>;
+        }
+    };
+
+    const actionCol = {
+        id: "action",
+        Header: "",
+        Cell: ({ row }) => {
+            return <Button
+                icon={<EditIcon />}
+                iconPosition="right"
+                label={EDIT}
+                onClick={() => {
+                    setSelectedConditionForEdit(row?.original);
+                    setIsAddNewActivityDialogOpen(true);
+                }}
+                type="tertiary"
+                className={styles.buttonWithIcon}
+            />
         },
+    };
+
+    const statusCol = {
+        id: "status",
+        Header: "",
+        Cell: ({ row }) => {
+            return (
+                <div className={styles.conditionStatusCell}>
+                    {row.original.isComplete && (
+                        <>
+                            <Complete />
+                            <span className={styles.completedStatus}>{COMPLETED}</span>
+                        </>
+                    )}
+                    {row.original.isComplete === false && (
+                        <>
+                            <Incomplete />
+                            <span className={styles.incompleteStatus}>{INCOMPLETE}</span>
+                        </>
+                    )}
+                    {row.original.isComplete === undefined && (
+                        <>
+                            <Icon image={OutdatedSvg} className={styles.statusIcon} />
+                            <span className={styles.outdatedStatus}>{OUTDATED}</span>
+                        </>
+                    )}
+                </div>
+            );
+        },
+    };
+
+    const statusMobileCol = {
+        id: "status",
+        Header: "",
+        Cell: ({ row }) => {
+            return (
+                <div className={styles.flex}>
+                    <div className={styles.conditionStatusCell}>
+                        {row.original.isComplete && (
+                            <>
+                                <Complete />
+                                <span className={styles.completedStatus}>{COMPLETED}</span>
+                            </>
+                        )}
+                        {row.original.isComplete === false && (
+                            <>
+                                <Incomplete />
+                                <span className={styles.incompleteStatus}>{INCOMPLETE}</span>
+                            </>
+                        )}
+                        {row.original.isComplete === undefined && (
+                            <>
+                                <Icon image={OutdatedSvg} className={styles.statusIcon} />
+                                <span className={styles.outdatedStatus}>{OUTDATED}</span>
+                            </>
+                        )}
+                    </div>
+                    <div className={styles.arrowStyle} onClick={() => {
+                        setSelectedConditionForEdit(row?.original);
+                        setIsAddNewActivityDialogOpen(true);
+                    }}><Arrow /></div>
+                </div>
+
+            );
+        },
+    };
+
+    const columns = [
+        nameCol,
         ...(isHealthPage
             ? []
             : [
-                {
-                    id: "status",
-                    Header: "",
-                    Cell: ({ row }) => {
-                        return (
-                            <div className={`${isMobile ? styles.flex : ""}`}>
-                                <div className={styles.conditionStatusCell}>
-                                    {row.original.isComplete && (
-                                        <>
-                                            <Complete />
-                                            <span className={styles.completedStatus}>{COMPLETED}</span>
-                                        </>
-                                    )}
-                                    {row.original.isComplete === false && (
-                                        <>
-                                            <Incomplete />
-                                            <span className={styles.incompleteStatus}>{INCOMPLETE}</span>
-                                        </>
-                                    )}
-                                    {row.original.isComplete === undefined && (
-                                        <>
-                                            <Icon image={OutdatedSvg} className={styles.statusIcon} />
-                                            <span className={styles.outdatedStatus}>{OUTDATED}</span>
-                                        </>
-                                    )}
-                                </div>
-                                {isMobile && <div className={styles.arrowStyle} onClick={() => {
-                                    setSelectedConditionForEdit(row?.original);
-                                    setIsAddNewActivityDialogOpen(true);
-                                }}><Arrow /></div>}
-                            </div>
-
-                        );
-                    },
-                },
+                statusCol,
             ]),
-        {
-            id: "action",
-            Header: "",
-            Cell: ({ row }) => {
-                return isMobile ? null : (
-                    <Button
-                        icon={<EditIcon />}
-                        iconPosition="right"
-                        label={EDIT}
-                        onClick={() => {
-                            setSelectedConditionForEdit(row?.original);
-                            setIsAddNewActivityDialogOpen(true);
-                        }}
-                        type="tertiary"
-                        className={styles.buttonWithIcon}
-                    />
-                );
-            },
-        },
+        actionCol,
+    ];
+
+    const mobileColumns = [
+        nameCol,
+        ...(isHealthPage
+            ? []
+            : [
+                statusMobileCol,
+            ])
     ];
 
     const handleOnClose = useCallback(() => {
@@ -188,7 +230,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                     </div>
                 )}
                 {healthConditions.length > 0 && (
-                    <Table initialState={{}} data={healthConditions} columns={columns} />
+                    <Table initialState={{}} data={healthConditions} columns={isMobile ? mobileColumns : columns} />
                 )}
 
             </ContactSectionCard >
