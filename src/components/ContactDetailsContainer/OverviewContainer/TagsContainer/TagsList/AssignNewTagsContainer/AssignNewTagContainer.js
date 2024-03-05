@@ -30,7 +30,7 @@ const tags = [
     { label: "Four", id: 4 },
 ];
 
-export const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID }) => {
+export const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMobile }) => {
     const { removeLeadTags, editTagByID, createNewTag, editLeadTags } = useOverView();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
@@ -143,6 +143,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryI
                     }}
                     onSelectTag={handleSelectTag}
                     selectedTempTags={selectedTags}
+                    isMobile={isMobile}
                 />
             )}
             {addNewTagModal && (

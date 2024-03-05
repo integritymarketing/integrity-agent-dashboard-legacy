@@ -22,7 +22,7 @@ import styles from "./AssignNewTagModal.module.scss";
 import Label from "../../OverviewContainer/CommonComponents/Label";
 import { Add, AddForward } from "../Icons";
 
-const Tag = React.memo(({ item, onSelect, onEdit, onDelete, isSelected }) => {
+const Tag = React.memo(({ item, onSelect, onEdit, onDelete, isSelected, isMobile }) => {
     const [hovered, setHovered] = useState(false);
 
     return (
@@ -39,7 +39,7 @@ const Tag = React.memo(({ item, onSelect, onEdit, onDelete, isSelected }) => {
                 <Label value={item.label} size="16px" color="#434A51" />
             </div>
 
-            {hovered && (
+            {(hovered || isMobile) && (
                 <div className={styles.actionIcons}>
                     <div onClick={() => onEdit(item.id, item.label)}>
                         <EditIcon />
@@ -64,6 +64,7 @@ export const AssignNewTagModal = ({
     setDeleteTag,
     onSelectTag,
     selectedTempTags,
+    isMobile,
 }) => {
     const isDisabled = useMemo(() => {
         const sortedSelectedTags = [...selectedTags].sort();
@@ -114,7 +115,7 @@ export const AssignNewTagModal = ({
                         <Box
                             sx={{
                                 display: "flex",
-                                flexDirection: "row",
+                                flexDirection: isMobile ? "column" : "row",
                                 justifyContent: "space-between",
                                 width: "100%",
                                 marginTop: "10px",
@@ -124,7 +125,7 @@ export const AssignNewTagModal = ({
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
-                                    width: "45%",
+                                    width: isMobile ? "100%" : "45%",
                                 }}
                             >
                                 {allTags?.map((item, i) => {
@@ -137,6 +138,7 @@ export const AssignNewTagModal = ({
                                                 onEdit={handleEditTag}
                                                 onDelete={handleDeleteTag}
                                                 isSelected={selectedTags.includes(item.id)}
+                                                isMobile={isMobile}
                                             />
                                         );
                                     }
@@ -146,7 +148,7 @@ export const AssignNewTagModal = ({
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
-                                    width: "45%",
+                                    width: isMobile ? "100%" : "45%",
                                 }}
                             >
                                 {allTags?.map((item, j) => {
@@ -159,6 +161,7 @@ export const AssignNewTagModal = ({
                                                 onEdit={handleEditTag}
                                                 onDelete={handleDeleteTag}
                                                 isSelected={selectedTags.includes(item.id)}
+                                                isMobile={isMobile}
                                             />
                                         );
                                     }

@@ -7,7 +7,7 @@ import { useLeadDetails, useOverView } from "providers/ContactDetails";
 import styles from "./TagsContainer.module.scss";
 import { TagsList } from "./TagsList/TagsList";
 
-const TagsContainer = function () {
+const TagsContainer = ({ isMobile }) => {
     const { leadDetails } = useLeadDetails();
 
     const { getLeadTags, tags } = useOverView();
@@ -91,6 +91,7 @@ const TagsContainer = function () {
                         setAddNewTag={setAddNewTag}
                         newTag={newTag}
                         setNewTag={setNewTag}
+                        isMobile={isMobile}
                     />
                 ))}
             </Box>
