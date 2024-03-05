@@ -13,8 +13,8 @@ const HealthLifeCell = ({ row }) => {
 
     return (
         <Box display="flex" gap="20px">
-            {hasLife ? <Heartactive /> : <HeartInactive />}
-            {hashealth ? <HealthActive /> : <HealthInactive />}
+            {!hasLife ? <Heartactive /> : <HeartInactive />}
+            {!hashealth ? <HealthActive /> : <HealthInactive />}
         </Box>
     );
 };
