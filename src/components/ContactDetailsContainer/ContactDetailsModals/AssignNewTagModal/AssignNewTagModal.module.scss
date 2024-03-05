@@ -13,14 +13,25 @@
 
 
 .addNewButton{
-    padding: 5px 14px !important;
-    border-radius: 8px !important;
+    padding: 8px 14px !important;
+    border-radius: 20px !important;
+
     span {
        font-size: 16px !important;
        color: #4178FF !important;
        font-weight: 500;
    }
+   &:hover {
+       background-color: #FFFFFF !important;
+       box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+   }
+   @include small {
+       background-color: #FFFFFF !important;
+       box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+   }
 }
+
+ 
 
 .labelContainer {
     display: flex;

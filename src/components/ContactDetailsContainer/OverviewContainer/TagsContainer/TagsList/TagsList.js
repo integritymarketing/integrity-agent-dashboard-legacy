@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-
 import TagIcon from "images/Tag.png";
 import RecommendationIcon from "images/recommendation.png";
 import { useOverView } from "providers/ContactDetails";
 
-
-
 import { DeleteTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteTagModal/DeleteTagModal";
-
 
 import { AssignNewTagContainer } from "./AssignNewTagsContainer/AssignNewTagContainer";
 import styles from "./TagsList.module.scss";
@@ -42,7 +38,17 @@ const getIconName = (label, itemLabel, metadata) => {
     }
 };
 
-export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagId, setTagId, categoryID }) => {
+export const TagsList = ({
+    label,
+    items,
+    selectedTags,
+    leadId,
+    setTagValue,
+    tagId,
+    setTagId,
+    categoryID,
+    isMobile,
+}) => {
     const { editLeadTags } = useOverView();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
@@ -106,8 +112,9 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
         return (
             <div
                 key={item.label}
-                className={`${styles.selectableItemContainer} ${selectedTags?.includes(item?.id) ? styles.selectedItem : ""
-                    }`}
+                className={`${styles.selectableItemContainer} ${
+                    selectedTags?.includes(item?.id) ? styles.selectedItem : ""
+                }`}
                 onClick={() => onSelectTag(item.id)}
             >
                 <div className={styles.tabLabel}>
@@ -135,7 +142,7 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
                     </div>
 
                     <div className={styles.actionIcons}>
-                        {hovered === item?.label && (
+                        {((hovered === item?.label && !isMobile) || isMobile) && (
                             <div onClick={() => openDeleteTagModal(item?.id)}>
                                 <Delete />
                             </div>
@@ -196,6 +203,7 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, tagI
                     selectedTags={selectedTags}
                     leadId={leadId}
                     categoryID={categoryID}
+                    isMobile={isMobile}
                 />
             )}
         </div>

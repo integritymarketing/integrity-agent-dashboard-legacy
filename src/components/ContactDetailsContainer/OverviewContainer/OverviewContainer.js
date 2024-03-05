@@ -49,7 +49,7 @@ export const OverviewContainer = ({ isMobile }) => {
             <Box className={styles.innerContainer}>
                 <Box className={styles.leftSection}>
                     <StageContainer />
-                    <TagsContainer />
+                    <TagsContainer isMobile={isMobile} />
                     {isMobile && <LegacySafeGuard leadDetails={leadDetails} />}
                     <ContactInfoContainer isMobile={isMobile} />
                     {!isMobile && (
