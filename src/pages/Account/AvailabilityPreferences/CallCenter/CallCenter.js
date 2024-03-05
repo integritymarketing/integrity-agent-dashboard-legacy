@@ -57,7 +57,7 @@ const CallCenterContent = () => {
             }
             setPhone(formatPhoneNumber(response.phone, true));
             if (response.callForwardNumber) {
-                setCallForwardNumber(callForwardNumber);
+                setCallForwardNumber(formatPhoneNumber(response.callForwardNumber, true));
             }
         } catch (error) {
             Sentry.captureException(error);

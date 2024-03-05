@@ -59,7 +59,7 @@ const AccountPage = () => {
                 <title>Integrity - Edit Account</title>
             </Helmet>
             <GlobalNav />
-            <div className="v2" data-gtm="account-update-form">
+            <div className="v2" data-gtm="account-update-form" style={{ backgroundColor: "#f1f1f1" }}>
                 <div className={styles.headerLayoutContainer}>
                     <div id="main-content" className={mainContentClassName}>
                         <div>

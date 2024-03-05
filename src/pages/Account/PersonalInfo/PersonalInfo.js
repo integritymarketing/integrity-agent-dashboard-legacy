@@ -38,8 +38,7 @@ function PersonalInfo() {
 
     const { Put: updateAccount } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/update`);
 
-    const onSubmitHandler = async (values, { setErrors, setSubmitting, resetForm }) => {
-        resetForm({ values });
+    const onSubmitHandler = async (values, { setErrors, setSubmitting }) => {
         setSubmitting(true);
         const formattedValues = {
             ...values,
