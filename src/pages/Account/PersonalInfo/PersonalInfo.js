@@ -20,7 +20,7 @@ import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 
 import SectionContainer from "mobile/Components/SectionContainer";
-import AccountMobile from "mobile/AcoountPage";
+import AccountMobile from "mobile/AccountPage";
 
 import { formatPhoneNumber } from "../helper";
 
