@@ -1,23 +1,20 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import OpenIcon from 'components/icons/open';
-import { SOACTAOPTS, SOA_SIGNED } from '../ScopeOfAppointmentContainer.constants';
-import styles from './SOASignedComplete.module.scss';
-import { Button } from 'components/ui/Button';
-import Media from 'react-media';
-import { getLocalDateTime, getHoursDiffBetweenTwoDays, getSoaDatesFromSummary } from 'utils/dates';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import OpenIcon from "components/icons/open";
+import { SOACTAOPTS, SOA_SIGNED } from "../ScopeOfAppointmentContainer.constants";
+import styles from "./SOASignedComplete.module.scss";
+import { Button } from "components/ui/Button";
+import Media from "react-media";
+import { getLocalDateTime, getHoursDiffBetweenTwoDays, getSoaDatesFromSummary } from "utils/dates";
 
 export const SOASignedComplete = ({ onComplete, soa }) => {
     const { contactAfterDate, isTracking48HourRule, soaSummary, signedDate } = soa;
     const [isMobile, setIsMobile] = useState(false);
     const productsToDiscuss = soa?.soa?.leadSection?.products ?? [];
 
-    const isEarlierThanCurrentDate = (contactAfterDate) =>
-        getHoursDiffBetweenTwoDays(contactAfterDate, new Date()) < 0;
-
+    const isEarlierThanCurrentDate = (contactAfterDate) => getHoursDiffBetweenTwoDays(contactAfterDate, new Date()) < 0;
 
     const { sentDate } = getSoaDatesFromSummary(soaSummary);
-
 
     return (
         <>
@@ -30,11 +27,23 @@ export const SOASignedComplete = ({ onComplete, soa }) => {
             <div className={styles.soaSignedContainer}>
                 <div className={styles.titleWrapper}>{SOA_SIGNED}</div>
                 <div className={`${isMobile ? styles.columnView : ""} ${styles.contentWrapper}`}>
-                    <Column label='Sent:' date={getLocalDateTime(sentDate)?.date} time={getLocalDateTime(sentDate)?.time} style={styles.width15} />
-                    <Column label='Signed:' date={getLocalDateTime(signedDate)?.date} time={getLocalDateTime(signedDate)?.time} style={styles.width15} />
-                    <Column label='Products to Discuss' products={productsToDiscuss} style={styles.width45} />
+                    <div className={`${styles.mobileStyles}`}>
+                        <Column
+                            label="Sent:"
+                            date={getLocalDateTime(sentDate)?.date}
+                            time={getLocalDateTime(sentDate)?.time}
+                            style={styles.width15}
+                        />
+                        <Column
+                            label="Signed:"
+                            date={getLocalDateTime(signedDate)?.date}
+                            time={getLocalDateTime(signedDate)?.time}
+                            style={styles.width15}
+                        />
+                    </div>
+                    <Column label="Products to Discuss" products={productsToDiscuss} style={styles.width45} />
                     <div className={`${styles.boxColumn} ${styles.width25}`}>
-                        {isTracking48HourRule &&
+                        {isTracking48HourRule && (
                             <>
                                 <div className={styles.columnLabel}>Contact After</div>
                                 <div className={styles.contactWrapper}>
@@ -43,26 +52,29 @@ export const SOASignedComplete = ({ onComplete, soa }) => {
                                     <div className={styles.contactBox}>{getLocalDateTime(contactAfterDate)?.time}</div>
                                 </div>
                             </>
-                        }
+                        )}
                         <div className={styles.completeCTAWrapper}>
                             <Button
                                 label={SOACTAOPTS.COMPLETE}
                                 onClick={() => onComplete(soa.linkCode)}
-                                disabled={
-                                    isTracking48HourRule &&
-                                    isEarlierThanCurrentDate(contactAfterDate)
+                                disabled={isTracking48HourRule && isEarlierThanCurrentDate(contactAfterDate)}
+                                type="primary"
+                                icon={
+                                    <OpenIcon
+                                        color={
+                                            isTracking48HourRule && isEarlierThanCurrentDate(contactAfterDate)
+                                                ? "#aba7a7"
+                                                : null
+                                        }
+                                    />
                                 }
-                                type='primary'
-                                icon={<OpenIcon color={isTracking48HourRule &&
-                                    isEarlierThanCurrentDate(contactAfterDate) ? "#aba7a7" : null} />}
-                                iconPosition='right'
+                                iconPosition="right"
                             />
                         </div>
                     </div>
-                </div >
+                </div>
             </div>
         </>
-
     );
 };
 
@@ -71,7 +83,9 @@ const Column = ({ label, date, time, products, style }) => (
         <div className={styles.columnLabel}>{label}</div>
         {products ? (
             <ul className={styles.productsContainer}>
-                {products.map((product, index) => <li key={index}>{product}</li>)}
+                {products.map((product, index) => (
+                    <li key={index}>{product}</li>
+                ))}
             </ul>
         ) : (
             <>
@@ -91,5 +105,5 @@ Column.propTypes = {
     date: PropTypes.string,
     time: PropTypes.string,
     products: PropTypes.arrayOf(PropTypes.string),
-    style: PropTypes.string
+    style: PropTypes.string,
 };
