@@ -35,6 +35,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   width: 40%;
 }
 
@@ -43,7 +44,8 @@
   font-size: 18px;
 
   @include small {
-    font-size: 14px;
+    font-size: 15px;
+    transform: translateX(-30px);
   }
 }
 
@@ -53,6 +55,11 @@
   border-radius: 25px !important;
   padding: 4px 6px 4px 14px !important;
   background: #ffffff 0% 0% no-repeat padding-box;
+
+
+  @include small {
+    transform: translateX(-30%);
+  }
 
   svg {
     width: 24px;

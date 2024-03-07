@@ -85,7 +85,8 @@ const LegacySafeGuard = ({ leadDetails }) => {
                 </Box>
                 <Box className={styles.legacySafeGuardCardContent}>
                     <div className={styles.legacySafeGuardCardTitle}>
-                        <strong>Eligible for a FREE MEMBERSHIP</strong>
+                        <strong>Eligible for a</strong> <br />
+                        <strong>FREE MEMBERSHIP</strong>
                     </div>
                     <div>
                         <Button
