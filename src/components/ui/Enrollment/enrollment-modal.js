@@ -29,7 +29,7 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
             selection: option === "send" ? "client_application_selected" : "agent_application_selected",
         });
 
-        const { medicareBeneficiaryID = null } = contact;
+        const { medicareBeneficiaryID: mbi } = contact;
 
         try {
             const enrolled = await enrollPlansService.enroll(contact.leadsId, planData.id, {
@@ -48,7 +48,7 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
                     email: contact?.emails[0]?.leadEmail,
                     sendToBeneficiary: option === "send",
                     effectiveDate: effectiveDate,
-                    medicareBeneficiaryID,
+                    mbi: mbi || null,
                 },
                 planDetail: planData,
             });
