@@ -45,8 +45,7 @@ const useWebStyles = makeStyles({
             position: "absolute",
             top: "12px",
             right: "15px",
-        },
-        width: "10%",
+        }
     },
     compareTable: {
         width: "100% !important",
@@ -163,8 +162,8 @@ const Address = ({ addresses, isPlanPage }) => {
                                     <div>
                                         {address
                                             ? [address?.city, address?.state, address?.zipCode]
-                                                  .filter(Boolean)
-                                                  .join(",")
+                                                .filter(Boolean)
+                                                .join(",")
                                             : null}
                                     </div>
                                 </div>
@@ -251,14 +250,6 @@ const RenderProviders = ({ provider, handleEditProvider, isPlanPage = false, isM
             )}
             {handleEditProvider && (
                 <Box className={isPlanPage ? classes.editbtn : classes.editbtn2}>
-                    {/* <IconButton
-                        label="Edit"
-                        onClick={() => {
-                            handleEditProvider(provider);
-                        }}
-                        icon={<EditIcon />}
-                    /> */}
-
                     <Button
                         icon={<EditIcon />}
                         label={"Edit"}

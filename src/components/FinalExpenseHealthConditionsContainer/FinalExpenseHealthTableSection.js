@@ -176,23 +176,24 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
         },
     };
 
+    const healthActionCol = {
+        id: "action",
+        Header: "",
+        Cell: ({ row }) => {
+            return (
+                <div className={styles.editCta} onClick={() => {
+                    setSelectedConditionForEdit(row?.original);
+                    setIsAddNewActivityDialogOpen(true);
+                }}><Arrow /></div>
+
+            );
+        },
+    };
+
     const columns = [
         nameCol,
-        ...(isHealthPage
-            ? []
-            : [
-                statusCol,
-            ]),
-        actionCol,
-    ];
-
-    const mobileColumns = [
-        nameCol,
-        ...(isHealthPage
-            ? []
-            : [
-                statusMobileCol,
-            ])
+        ...(isHealthPage ? [] : (isMobile ? [statusMobileCol] : [statusCol])),
+        ...(isHealthPage && isMobile ? [healthActionCol] : (isMobile ? [] : [actionCol]))
     ];
 
     const handleOnClose = useCallback(() => {
@@ -230,7 +231,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                     </div>
                 )}
                 {healthConditions.length > 0 && (
-                    <Table initialState={{}} data={healthConditions} columns={isMobile ? mobileColumns : columns} />
+                    <Table initialState={{}} data={healthConditions} columns={columns} />
                 )}
 
             </ContactSectionCard >

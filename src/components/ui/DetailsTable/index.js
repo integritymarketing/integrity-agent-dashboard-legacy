@@ -72,7 +72,10 @@ function DetailsTable({ items, Row, onDelete, onEdit, headerTitle }) {
                   {deleteButton(item)}
                 </>
               ) : (
-                <>{sideButtonMobile(item)}</>
+                <>
+                  {editButton(item)}
+                  {sideButtonMobile(item)}
+                </>
               )
             }
           </Media>

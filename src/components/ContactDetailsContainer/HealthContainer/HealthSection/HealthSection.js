@@ -107,13 +107,13 @@ const HealthDetailsSection = () => {
         const selectPackageDetails = selectedPackage
             ? `${userQuantity} X ${selectedPackage.packageDisplayText} ${getFrequencyValue(daysOfSupply)}`
             : dosageDetails
-            ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
-            : "";
+                ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
+                : "";
 
         return (
             <div className={className}>
                 <CellData header={labelName} subText={drugType} />
-                <CellData subText={selectPackageDetails} />
+                <CellData subText={selectPackageDetails} isMobile={isMobile} />
             </div>
         );
     };

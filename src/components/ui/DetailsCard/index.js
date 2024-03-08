@@ -20,62 +20,53 @@ function DetailsCard({
   provider,
   dataGtm,
 }) {
-  const title = headerTitle.toLowerCase();
-  let titleToAdd = title;
-  if (titleToAdd === "pharmacies") {
-    titleToAdd = "pharmacy";
-  } else {
-    titleToAdd = titleToAdd.slice(0, -1);
-  }
-  const itemsLength = items?.length > 0 ? items.length : "";
-  const displayTitleWithCount =
-    itemsLength > 1
-      ? `${headerTitle} (${itemsLength})`
-      : headerTitle === "Pharmacies"
-        ? `Pharmacy`
-        : `${headerTitle.slice(0, -1)} ${itemsLength > 0 ? "(" + itemsLength + ")" : itemsLength
-        }`;
-  const disableStatus =
-    headerTitle === "Pharmacies" && items.length > 0 ? true : false;
+  const isPharmacy = headerTitle.toLowerCase() === 'pharmacies';
+  const title = isPharmacy ? 'Pharmacy' : headerTitle;
+  const itemsLength = items.length;
+  const displayTitle = (
+    <span>
+      {title}
+      <span className="count"> {itemsLength > 0 ? `(${itemsLength})` : '(0)'} </span>
+    </span>
+  );
 
   return (
     <ContactSectionCard
-      title={displayTitleWithCount}
-      className={"enrollmentPlanContainer_detailsPage"}
+      title={displayTitle}
+      className='enrollmentPlanContainer_detailsPage'
       isDashboard
-      contentClassName={"enrollmentPlanContainer_detailsPage_content"}
+      contentClassName='enrollmentPlanContainer_detailsPage_content'
       actions={
         onAddClick && (
-          <div className="actions">
+          <div className='actions'>
             <Button
-              icon={<Plus disabled={disableStatus} />}
-              disabled={disableStatus}
-              iconPosition="right"
+              icon={<Plus />}
+              disabled={isPharmacy && itemsLength > 0}
+              iconPosition='right'
               label={buttonLabel}
               onClick={onAddClick}
-              type="tertiary"
-              className={"buttonWithIcon"}
+              type='tertiary'
+              className='buttonWithIcon'
             />
           </div>
         )
       }
     >
-      <div className="card-body">
+      <div className='card-body'>
         <WithLoader isLoading={isLoading}>
-          {items.length === 0 && (
-            <div className="no-items">
-              <span>This contact has no {title}.&nbsp;</span>
+          {itemsLength === 0 && (
+            <div className='no-items'>
+              <span>This contact has no {title.toLowerCase()}.</span>
               <button
-                className="link"
-                data-gtm={`button-add-${title}`}
+                className='link'
+                data-gtm={`button-add-${title.toLowerCase()}`}
                 onClick={onAddClick}
               >
-                {" "}
-                Add a {`${titleToAdd}`}
+                Add {title}
               </button>
             </div>
           )}
-          {items.length > 0 && !provider && (
+          {itemsLength > 0 && !provider && (
             <DetailsTable
               items={items}
               Row={Row}
@@ -93,6 +84,16 @@ function DetailsCard({
 
 DetailsCard.propTypes = {
   headerTitle: PropTypes.string.isRequired,
+  onAddClick: PropTypes.func,
+  buttonLabel: PropTypes.string,
+  items: PropTypes.array,
+  Row: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
+  onEdit: PropTypes.func,
+  isLoading: PropTypes.bool,
+  itemRender: PropTypes.func,
+  provider: PropTypes.bool,
+  dataGtm: PropTypes.string,
 };
 
 export default DetailsCard;

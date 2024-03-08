@@ -3,9 +3,9 @@
     background-color: #ffffff;
     border-radius: 8px;
   }
- 
-  
-  & > .row-group {
+
+
+  &>.row-group {
     padding: 20px 40px;
     display: flex;
     justify-content: space-between;
@@ -20,40 +20,51 @@
       margin-left: 20px;
       align-self: center;
       width: 10%;
-    }
-    @media screen and (max-width: 768px) {
-      border-bottom: 1px solid #cdd0d5;
-    }
-    @media screen and (min-width: 320px) and (max-width: 480px) {
-      align-items: flex-start;
-      padding: 16px 12px;
-      flex-wrap: wrap;
-      .side-actions {
-        margin-top: 0;
-      }
-      .bottom-actions {
-        width: 100%;
-        display: flex;
-        margin-left: 0px;
-        margin-top: 15px;
+
+      @media screen and (max-width: 768px) {
+        align-self: flex-start;
       }
     }
 
-    & > .row {
+    @media screen and (max-width: 768px) {
+      border-bottom: 1px solid #cdd0d5;
+    }
+
+    @media screen and (min-width: 320px) and (max-width: 480px) {
+      align-items: flex-start;
+      padding: 16px 12px;
+
+      .side-actions {
+        margin-top: 0;
+      }
+
+      .bottom-actions {
+        width: 30%;
+        display: flex;
+        margin-left: 0px;
+        margin-top: 15px;
+        justify-content: flex-end;
+      }
+    }
+
+    &>.row {
       flex: 5;
       display: flex;
       justify-content: space-between;
-     
+
       @media screen and (min-width: 320px) and (max-width: 480px) {
         flex-direction: column;
         align-items: flex-start;
+        flex: auto;
       }
     }
+
     .side-actions {
       align-self: center;
       flex: 1;
       justify-content: flex-end;
       display: flex;
+
       @media screen and (min-width: 320px) and (max-width: 768px) {
         justify-content: flex-end;
         align-self: center;
@@ -72,32 +83,41 @@
   letter-spacing: 0em;
   color: #6c737b;
   line-height: 130%;
-  width: 40%;
+
+
   &:not(:last-child) {
     margin-right: 30px;
   }
+
   .header {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
     color: #002d72;
-    word-break: break-word;  
-    overflow-wrap: break-word;  
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: nowrap;
+    line-height: normal;
   }
+
   .subText,
   .secondarySubText {
     margin-top: 4px;
-    word-break: break-word;  
-    overflow-wrap: break-word;   }
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
   .ph {
     color: #0052ce;
     font-weight: 600;
     font-size: 16px;
   }
+
   @media screen and (min-width: 320px) and (max-width: 480px) {
     &:not(first-child) {
       margin-top: 0;
     }
-    & > * {
+
+    &>* {
       padding-top: 4px;
     }
   }
@@ -114,6 +134,7 @@ button {
   padding: 0px;
 
 }
+
 .delete {
   color: #f44336;
   font-size: 16px;
@@ -139,7 +160,7 @@ button {
   }
 }
 
-.pharmacy-address{
+.pharmacy-address {
   background-color: #F1FAFF;
-  padding: 2px 5px;
+  padding: 9px 16px;
 }
