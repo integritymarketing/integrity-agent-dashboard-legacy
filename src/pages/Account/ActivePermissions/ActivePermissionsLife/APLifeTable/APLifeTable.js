@@ -9,11 +9,15 @@ import styles from "./styles.module.scss";
 
 import { LoadMoreButton } from "../../LoadMoreButton";
 import { useAPLifeContext } from "../../providers/APLifeProvider";
+import { useWindowSize } from "hooks/useWindowSize";
+import MobileActiveSA from "./MobileActiveSA";
 
 const ITEM_PER_PAGE = 5;
 
-function APLifeTable() {
+const APLifeTable = () => {
     const { tableData } = useAPLifeContext();
+    const { width: windowWidth } = useWindowSize();
+    const isMobile = windowWidth <= 784;
     const { visibleItems, loadMore, hasMore } = useLoadMore(tableData, ITEM_PER_PAGE);
     const hasItem = tableData.length > 0;
 
@@ -28,10 +32,14 @@ function APLifeTable() {
 
     return (
         <Box className={visibleItems.length > 0 ? styles.tableWrapper : styles.noDataWrapper}>
-            <Table data={visibleItems} />
-            {hasMore && <LoadMoreButton loadMore={loadMore} />}
+            {isMobile ? (
+                <MobileActiveSA items={visibleItems} />
+            ) : (
+                <Table data={visibleItems} />
+            )}
+            {hasMore && <LoadMoreButton onClick={loadMore} />}
         </Box>
     );
-}
+};
 
 export default APLifeTable;
