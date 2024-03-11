@@ -37,7 +37,7 @@ const APLifeTable = () => {
             ) : (
                 <Table data={visibleItems} />
             )}
-            {hasMore && <LoadMoreButton onClick={loadMore} />}
+            {hasMore && <LoadMoreButton loadMore={loadMore} />}
         </Box>
     );
 };
