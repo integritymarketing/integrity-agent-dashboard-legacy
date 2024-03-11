@@ -209,7 +209,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
             />
             <ContactSectionCard
                 title={CONDITIONS}
-                infoIcon={healthConditions.length > 0 ? `(${healthConditions.length})` : ''}
+                infoIcon={`(${healthConditions.length})`}
                 className={`${styles.activitiesContainer} ${isHealthPage ? styles.healthPageActivitiesContainer : ""}`}
                 contentClassName={styles.activitiesContainer_content}
                 actions={<div className="actions">{sectionHeaderChildren()}</div>}

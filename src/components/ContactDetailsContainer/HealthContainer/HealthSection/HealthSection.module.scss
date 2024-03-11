@@ -39,7 +39,15 @@
 
         &:last-child {
             border-bottom: unset;
-            border-radius: 0px 0px 8px 8px;
+            border-radius: 8px;
         }
     }
+}
+
+.width50 {
+    width: 50%;
+}
+
+.width35 {
+    width: 35%;
 }

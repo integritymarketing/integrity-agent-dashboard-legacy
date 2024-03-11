@@ -112,8 +112,8 @@ const HealthDetailsSection = () => {
 
         return (
             <div className={className}>
-                <CellData header={labelName} subText={drugType} />
-                <CellData subText={selectPackageDetails} isMobile={isMobile} />
+                <CellData header={labelName} subText={drugType} style={styles.width50} />
+                <CellData subText={selectPackageDetails} isMobile={isMobile} style={styles.width35} />
             </div>
         );
     };
