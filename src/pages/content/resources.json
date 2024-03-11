@@ -58,6 +58,13 @@
       "filePath": "https://learningcenter.tawebhost.com/Integrity-Medicare-Carrier-Chart.pdf"
     },
     {
+      "name": "Medicare Carrier HRA Chart",
+      "description": "View the carriers who offer HRAs through the platform",
+      "categories": ["carrier-charts"],
+      "filename": "Integrity-Medicare-HRA-Chart.pdf",
+      "filePath": "https://learningcenter.tawebhost.com/Integrity-Medicare-HRA-Chart.pdf"
+    },
+    {
       "name": "Integrity Training Schedule",
       "description": "View our schedule of upcoming training webinars to learn how to use Integrity effectively, and get your questions answered by a live expert.",
       "categories": ["training-schedule"],
