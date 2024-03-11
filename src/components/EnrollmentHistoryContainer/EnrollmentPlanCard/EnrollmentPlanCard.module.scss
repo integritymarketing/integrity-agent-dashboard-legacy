@@ -69,6 +69,14 @@
 
     .planDetails {
         background-color: #f1faff;
+        font-size: 16px;
+
+        span{
+            color: #434A51;
+            @include small {
+                font-weight: bold;
+            }
+        }
 
         &.previousYear {
             background-color: $white;
@@ -87,9 +95,14 @@
         }
 
         .planName {
-            font-size: 24px;
-            color: $dark-blue;
+            font-size: 20px;
+            color: #052A63;
+            letter-spacing: 0.2px;
             padding-bottom: 0.5rem;
+
+            @include small {
+                color: #002D72;
+            }
         }
 
         .details {
@@ -97,14 +110,16 @@
             width: 50%;
 
             .planCompany {
-                color: $cyan-blue;
+                color: #052A63;
                 font-size: 16px;
                 padding-bottom: 0.5rem;
             }
 
             .planId {
-                letter-spacing: 0.16px;
-                color: $dark-blue;
+                letter-spacing: -0.16px;
+                color: #052A63;
+                font-size: 16px;
+                font-weight: bold;
 
                 @include small {
                     padding-bottom: 0.5rem;

@@ -92,11 +92,11 @@ export default function EnrollmentPlanCard(props) {
         Upcoming: <LifeUpcoming />,
         Unlinked: <LifeUnlinked />,
         Returned: <LifeReturned />,
-    }
+    };
 
     const status = policyStatus === "terminated" ? "Inactive" : capitalizeFirstLetter(policyStatus);
     const isFinalExepense = productCategory === "Final Expense";
-    const IconComponent = isFinalExepense ? lifeIcons[status] : healthIcons[status]
+    const IconComponent = isFinalExepense ? lifeIcons[status] : healthIcons[status];
 
     return (
         <div className={styles.planCardContainer}>
@@ -109,7 +109,9 @@ export default function EnrollmentPlanCard(props) {
             <div className={`${styles.planCard} ${!currentYear ? styles.isBordered : ""}`}>
                 {currentYear && (
                     <div className={styles.status} style={{ backgroundColor: policyStatusColor }}>
-                        <span><strong>Status:</strong> {policyStatus}</span>
+                        <span>
+                            <strong>Status:</strong> {policyStatus}
+                        </span>
                         <span>{IconComponent}</span>
                     </div>
                 )}
@@ -118,35 +120,43 @@ export default function EnrollmentPlanCard(props) {
                     <div className={styles.detailsContainer}>
                         <div className={styles.detailAndDateContainer}>
                             <div className={styles.details}>
+                                <div>
+                                    <strong className={styles.planId}>Product:</strong> <span>{productCategory}</span>
+                                </div>
                                 <div className={styles.planCompany}>{renderPlanDetails("Carrier", carrier)}</div>
                                 <div>
                                     <strong className={styles.planId}>Plan ID:</strong> <span>{planId}</span>
-                                </div>
-                                <div>
-                                    <strong className={styles.planId}>Product:</strong> <span>{productCategory}</span>
                                 </div>
                             </div>
                             <div className={styles.dates}>
                                 {currentYear ? (
                                     <>
-                                        {submittedDate && <PlanDate
-                                            type={isFinalExepense ? "Received" : "Submitted"}
-                                            date={submittedDate}
-                                        />}
+                                        {submittedDate && (
+                                            <PlanDate
+                                                type={isFinalExepense ? "Received" : "Submitted"}
+                                                date={submittedDate}
+                                            />
+                                        )}
 
                                         {(policyStatus === "upcoming" || policyStatus === "active") && (
                                             <>
-                                                {policyEffectiveDate && <PlanDate type="Effective" date={policyEffectiveDate} />}
-                                                {enrolledDate && <PlanDate
-                                                    type={isFinalExepense ? "Issued" : "Enrolled"}
-                                                    date={enrolledDate}
-                                                />}
+                                                {policyEffectiveDate && (
+                                                    <PlanDate type="Effective" date={policyEffectiveDate} />
+                                                )}
+                                                {enrolledDate && (
+                                                    <PlanDate
+                                                        type={isFinalExepense ? "Issued" : "Enrolled"}
+                                                        date={enrolledDate}
+                                                    />
+                                                )}
                                             </>
                                         )}
                                     </>
                                 ) : (
                                     <>
-                                        {policyEffectiveDate && <PlanDate type="Effective" date={policyEffectiveDate} />}
+                                        {policyEffectiveDate && (
+                                            <PlanDate type="Effective" date={policyEffectiveDate} />
+                                        )}
 
                                         {termedDate && <PlanDate type="Termed" date={termedDate} />}
                                     </>
