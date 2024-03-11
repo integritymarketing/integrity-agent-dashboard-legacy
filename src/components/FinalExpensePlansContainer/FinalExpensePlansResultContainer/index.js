@@ -76,8 +76,8 @@ const FinalExpensePlansResultContainer = () => {
             if (isAgentNonRTS === "True") {
                 setIsMyAppointedProducts(false);
             } else {
-                setIsRTS(true);
                 if (!appointmentSession) {
+                    setIsRTS(true);
                     setIsMyAppointedProducts(true);
                 }
             }
@@ -216,7 +216,7 @@ const FinalExpensePlansResultContainer = () => {
                         onChange={handleInputChange}
                         inputErrorStyle={
                             (covAmtError && selectedTab === COVERAGE_AMOUNT) ||
-                            (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
+                                (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
                                 ? styles.inputError
                                 : ""
                         }
@@ -239,18 +239,16 @@ const FinalExpensePlansResultContainer = () => {
                         />
                         <div className={styles.checkboxesWrapper}>
                             <div
-                                className={`${styles.checkbox} ${
-                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
-                                } ${!isRTS ? styles.inActive : ""}`}
+                                className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                    } ${!isRTS ? styles.inActive : ""}`}
                                 onClick={handleMyAppointedProductsCheck}
                             >
                                 {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
-                                className={`${styles.checkbox} ${
-                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                }`}
+                                className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                    }`}
                                 onClick={handleIsShowExcludedProductsCheck}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
