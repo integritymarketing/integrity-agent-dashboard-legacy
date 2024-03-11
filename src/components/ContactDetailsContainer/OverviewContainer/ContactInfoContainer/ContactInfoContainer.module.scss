@@ -137,3 +137,27 @@
     }
     
  }
+ .icon {
+    cursor: pointer;
+    padding-top: 6px;
+    height: 50px;
+  
+    svg {
+      transition: 300ms ease-out;
+    }
+  }
+  
+  .iconRotate {
+    svg {
+        transform: rotate(-180deg);
+    }
+  }
+  
+  .iconWithTitle {
+    display: flex;
+    align-items: center;
+  }
+
+  .underLine{
+    box-shadow: rgb(199, 204, 209) 0px -1px 0px inset;
+  }

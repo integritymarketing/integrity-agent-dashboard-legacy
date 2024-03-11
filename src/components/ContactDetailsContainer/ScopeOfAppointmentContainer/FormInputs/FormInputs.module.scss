@@ -1,3 +1,4 @@
+@import "../../../../scss/globalDefines.scss";
 .label {
     color: #052a63;
     font-weight: bold;
@@ -64,4 +65,7 @@
 .explanationInput {
     width: 50%;
     margin-bottom: 10px;
+    @include small {
+        width: 100%;
+    }
 }

@@ -635,6 +635,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                         )}
                                     </StyledFormItem>
                                 </SectionContainer>
+
                                 {duplicateLeadIds?.length > 0 && (
                                     <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>
                                         <div>

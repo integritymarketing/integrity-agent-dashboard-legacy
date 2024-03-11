@@ -20,6 +20,7 @@ import SectionContainer from "../CommonComponents/SectionContainer";
 import { EditWithIcon, Favorite } from "../Icons";
 import { Hide } from "../Icons/Hide";
 import { Show } from "../Icons/Show";
+import ArrowDownBig from "components/icons/version-2/ArrowDownBig";
 
 const NOT_AVAILABLE = "-";
 
@@ -27,6 +28,11 @@ export const ContactInfoContainer = ({ isMobile }) => {
     const [isEditMode, setIsEditMode] = useState(false);
     const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
     const [isShowBeneficiaryId, setShowBeneficiaryId] = useState(false);
+    const [isCollapsed, setCollapsed] = useState(false);
+
+    const handleToggle = () => {
+        setCollapsed(!isCollapsed);
+    };
 
     const {
         firstName = "",
@@ -181,8 +187,21 @@ export const ContactInfoContainer = ({ isMobile }) => {
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
             <Box marginTop={"20px"}>
-                <Box className={`${styles.horizontalLayout} ${styles.gap}`} marginBottom="-16px">
-                    <Label value={isEditMode ? "Edit Contact Details" : "Contact Details"} />
+                <Box
+                    className={`${styles.horizontalLayout} ${styles.gap}  ${isCollapsed ? styles.underLine : ""} `}
+                    marginBottom="-16px"
+                >
+                    <Box className={styles.iconWithTitle}>
+                        {isMobile && (
+                            <div
+                                className={`${styles.icon} ${isCollapsed ? styles.iconRotate : ""}`}
+                                onClick={handleToggle}
+                            >
+                                <ArrowDownBig />
+                            </div>
+                        )}
+                        <Label value={isEditMode ? "Edit Contact Details" : "Contact Details"} />
+                    </Box>
                     {!isEditMode && (
                         <Box
                             className={styles.editIcon}
@@ -194,14 +213,14 @@ export const ContactInfoContainer = ({ isMobile }) => {
                         </Box>
                     )}
                 </Box>
-                {isEditMode && leadDetails && (
+                {isEditMode && leadDetails && (!isCollapsed || !isMobile) && (
                     <ContactInfoForm
                         leadDetails={leadData}
                         editLeadDetails={editLeadDetails}
                         setIsEditMode={setIsEditMode}
                     />
                 )}
-                {!isEditMode && (
+                {!isEditMode && (!isCollapsed || !isMobile) && (
                     <Box>
                         <SectionContainer>
                             <Label value="Full Name" color="#717171" size="14px" />
@@ -249,7 +268,11 @@ export const ContactInfoContainer = ({ isMobile }) => {
                         <SectionContainer>
                             <Label value="Address" color="#717171" size="14px" />
                             <Label value={leadAddress1} color="#4178FF" size="16px" />
-                            <Label value={`${leadCity} ${leadState} ${leadZip}`} color="#4178FF" size="16px" />
+                            <Label
+                                value={`${leadAddress2} ${leadCity} ${leadState} ${leadZip}`}
+                                color="#4178FF"
+                                size="16px"
+                            />
                             <Box className={styles.horizontalLayout}>
                                 <Label value="County: " color="#052A63" size="16px" />
                                 <Label value={leadCounty} color="#717171" size="16px" left={"5px"} />

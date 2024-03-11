@@ -6,6 +6,7 @@ import { useLeadDetails, useOverView } from "providers/ContactDetails";
 
 import styles from "./TagsContainer.module.scss";
 import { TagsList } from "./TagsList/TagsList";
+import ArrowDownBig from "components/icons/version-2/ArrowDownBig";
 
 const TagsContainer = ({ isMobile }) => {
     const { leadDetails } = useLeadDetails();
@@ -19,7 +20,11 @@ const TagsContainer = ({ isMobile }) => {
     const [tagId, setTagId] = useState(null);
     const [addNewTag, setAddNewTag] = useState(false);
     const [newTag, setNewTag] = useState("");
+    const [isCollapsed, setCollapsed] = useState(false);
 
+    const handleToggle = () => {
+        setCollapsed(!isCollapsed);
+    };
     const transformData = (data) => {
         return data.map((category) => ({
             label: category.tagCategoryName,
@@ -74,27 +79,36 @@ const TagsContainer = ({ isMobile }) => {
 
     return (
         <Box>
-            <Box className={styles.title}>Tags</Box>
-            <Box className={styles.box}>
-                {filteredTags?.map((item) => (
-                    <TagsList
-                        leadId={leadDetails?.leadsId}
-                        label={item.label}
-                        items={item.items}
-                        categoryID={item.categoryID}
-                        selectedTags={selectedTags}
-                        tagValue={tagValue}
-                        setTagValue={setTagValue}
-                        tagId={tagId}
-                        setTagId={setTagId}
-                        addNewTag={addNewTag}
-                        setAddNewTag={setAddNewTag}
-                        newTag={newTag}
-                        setNewTag={setNewTag}
-                        isMobile={isMobile}
-                    />
-                ))}
+            <Box className={`${styles.iconWithTitle}  ${isCollapsed ? styles.underLine : ""}`}>
+                {isMobile && (
+                    <div className={`${styles.icon} ${isCollapsed ? styles.iconRotate : ""}`} onClick={handleToggle}>
+                        <ArrowDownBig />
+                    </div>
+                )}
+                <Box className={styles.title}>Tags</Box>
             </Box>
+            {(!isCollapsed || !isMobile) && (
+                <Box className={styles.box}>
+                    {filteredTags?.map((item) => (
+                        <TagsList
+                            leadId={leadDetails?.leadsId}
+                            label={item.label}
+                            items={item.items}
+                            categoryID={item.categoryID}
+                            selectedTags={selectedTags}
+                            tagValue={tagValue}
+                            setTagValue={setTagValue}
+                            tagId={tagId}
+                            setTagId={setTagId}
+                            addNewTag={addNewTag}
+                            setAddNewTag={setAddNewTag}
+                            newTag={newTag}
+                            setNewTag={setNewTag}
+                            isMobile={isMobile}
+                        />
+                    ))}
+                </Box>
+            )}
         </Box>
     );
 };
