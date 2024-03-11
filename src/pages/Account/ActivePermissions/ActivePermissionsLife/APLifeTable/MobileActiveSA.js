@@ -21,7 +21,7 @@ const MobileActiveSA = ({ items }) => {
                                     {productCategoryName}
                                 </Box>
                             </div>
-                            <div><span className={styles.title}>{`Producer ID: `}</span>{agentWritingNumber}</div>
+                            <div><div className={styles.title}>{`Producer ID: `}</div>{agentWritingNumber}</div>
                         </div>
                     )
                 })}
