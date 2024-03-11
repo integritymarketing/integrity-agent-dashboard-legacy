@@ -85,14 +85,14 @@ const FinalExpensePlansResultContainer = () => {
         if (agentNPN) {
             handleFinalExpensePlanClick();
         }
-    }, [agentNPN]);
+    }, [agentNPN, appointmentSession, getAgentNonRTS, setIsMyAppointedProducts]);
 
     useEffect(() => {
         if (contactId !== sessionLead) {
             setSessionLead(contactId);
             resetToDefaultPreferences();
         }
-    }, [contactId, sessionLead]);
+    }, [contactId, sessionLead, setSessionLead]);
 
     // Functions
     const resetToDefaultPreferences = () => {
@@ -101,6 +101,7 @@ const FinalExpensePlansResultContainer = () => {
         setCoverageType(COVERAGE_TYPE[4].value);
         setIsMyAppointedProducts(defaultIsMyAppointedProducts);
         setIsShowExcludedProducts(false);
+        setAppointmentSession(false);
     };
 
     const updateCoverageAmount = (value) => {
