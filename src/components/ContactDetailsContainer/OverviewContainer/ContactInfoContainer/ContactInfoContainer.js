@@ -306,11 +306,9 @@ export const ContactInfoContainer = ({ isMobile }) => {
                             <Label value="Medicaid" color="#717171" size="14px" />
                             <Label value={hasMedicAid ? "Yes" : "No"} color="#052A63" size="16px" />
                         </SectionContainer>
-                        {!isMobile && (
-                            <Box display="flex" alignItems="center" justifyContent="center" marginTop="10px">
-                                <Label value={`Created Date: ${leadCreatedDate}`} color="#717171" size="14px" />
-                            </Box>
-                        )}
+                        <Box display="flex" alignItems="center" justifyContent="center" marginTop="10px">
+                            <Label value={`Created Date: ${leadCreatedDate}`} color="#717171" size="14px" />
+                        </Box>
                     </Box>
                 )}
             </Box>

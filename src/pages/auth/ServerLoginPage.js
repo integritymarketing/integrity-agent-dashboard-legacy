@@ -43,15 +43,13 @@ const ServerLoginPage = () => {
     useEffect(() => {
         const params1 = new URLSearchParams(new URL(params.get("ReturnUrl")).search);
 
-        const feature_toggle = process.env.REACT_APP_MOBILE_UPDATE === "yes" ? true : false;
-
         const clientId = params1.get("client_id");
 
         if (clientId === "AEPortal" && device === DEVICES.IPHONE) {
             showMobileAppDeepLinking();
         }
 
-        if (feature_toggle && isOutdatedVersion && clientId === "AgentMobile") {
+        if (isOutdatedVersion && clientId === "AgentMobile") {
             navigate("/mobile-app-update");
         }
     }, [device, params]); // eslint-disable-line react-hooks/exhaustive-deps

@@ -29,8 +29,7 @@ const createOrReplaceMetaTag = () => {
  *
  */
 const showMobileAppDeepLinking = () => {
-    console.log("showMobileAppDeepLinking", isSafariBrowser(), process.env.REACT_APP_SMART_APP_BANNER_FLAG);
-    if (isSafariBrowser() && process.env.REACT_APP_SMART_APP_BANNER_FLAG === "show") {
+    if (isSafariBrowser()) {
         createOrReplaceMetaTag();
     }
 };

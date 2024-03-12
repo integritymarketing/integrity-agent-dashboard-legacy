@@ -25,8 +25,6 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
     currency: "USD",
 });
 
-const REACT_APP_HIDE_ENROLL_BTN = process.env.REACT_APP_HIDE_ENROLL_BTN || false;
-
 const CompactPlanCardNew = ({ planData, onEnrollClick, onShareClick, isMobile, onlyButtons = false }) => {
     const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
     const { documents } = planData;
@@ -106,7 +104,7 @@ const CompactPlanCardNew = ({ planData, onEnrollClick, onShareClick, isMobile, o
                     </div>
                 </div>
             ) : null}
-            {!REACT_APP_HIDE_ENROLL_BTN && onEnrollClick && !planData.nonLicensedPlan && buttons}
+            {onEnrollClick && !planData.nonLicensedPlan && buttons}
             {preCheckListPdfModal && (
                 <PreEnrollPDFModal
                     open={preCheckListPdfModal}
