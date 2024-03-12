@@ -162,6 +162,8 @@ function ActionsCell({ row, isCard, item }) {
                     onSave={saveReminder}
                     leadId={leadId}
                     selectedReminder={null}
+                    leadData={record}
+                    showLink={true}
                 />
             )}
             {showPlanTypeModal && (

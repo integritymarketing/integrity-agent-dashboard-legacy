@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -8,50 +7,23 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import makeStyles from "@mui/styles/makeStyles";
 import CloseIcon from "@mui/icons-material/Close";
-import Media from "react-media";
 
-const useStyles = makeStyles((theme) => ({
-    addButton: {
-        backgroundColor: "#4178FF !important",
-        borderRadius: "20px !important",
-        color: "#FFFFFF !important",
-        padding: "20px 16px !important",
-        textTransform: "capitalize !important",
-        "&:hover": {
-            backgroundColor: "#4178FF !important",
-        },
-        "&.Mui-disabled": {
-            backgroundColor: "#B3C9FF !important",
-            color: "#FFFFFF !important",
-            cursor: "not-allowed",
-            "& svg #Icon_Arrow_path": {
-                // targeting the svg path by id
-                fill: "transparent", // changing the fill color
-            },
-            "& svg #Icon_circle_path": {
-                // targeting the svg path by id
-                fill: "#FFFFFF", // changing the fill color
-            },
-            "& svg #Icon_Add_path": {
-                // targeting the svg path by id
-                fill: "transparent", // changing the fill color
-            },
-        },
-    },
-    buttonIcon: {
-        marginTop: "10px",
-    },
+import RoundButton from "components/RoundButton";
+
+import { useWindowSize } from "hooks/useWindowSize";
+
+const useStyles = makeStyles(() => ({
     cancelButton: {
-        color: "#4178FF",
+        color: "#4178FF !important",
         fontSize: "16px",
-        fontWeight: "600",
+        fontWeight: "600 !important",
         height: "40px",
-        padding: "10px 15px",
+        padding: "15px!important",
         textTransform: "capitalize !important",
+        borderRadius: "20px !important",
 
         "&:hover": {
             backgroundColor: "#FFFFFF !important",
-            borderRadius: "20px",
             boxShadow: "0px 0px 10px 1px rgba(0, 0, 0, 0.2)",
         },
     },
@@ -128,16 +100,12 @@ export default function Modal({
     maxWidth = "sm",
 }) {
     const classes = useStyles();
-    const [isMobile, setIsMobile] = useState(false);
+    const { width: windowWidth } = useWindowSize();
+
+    const isMobile = windowWidth <= 784;
 
     return (
         <div>
-            <Media
-                query={"(max-width: 500px)"}
-                onChange={(isMobile) => {
-                    setIsMobile(isMobile);
-                }}
-            />
             <Dialog
                 open={open}
                 onClose={onClose}
@@ -187,14 +155,12 @@ export default function Modal({
                                 <Box> </Box>
                             )}
                             {actionButtonName && (
-                                <Button
+                                <RoundButton
                                     onClick={onSave}
-                                    className={classes.addButton}
-                                    endIcon={<span className={classes.buttonIcon}>{endIcon}</span>}
+                                    endIcon={endIcon}
                                     disabled={actionButtonDisabled}
-                                >
-                                    {actionButtonName}
-                                </Button>
+                                    label={actionButtonName}
+                                />
                             )}
                         </Box>
                     </DialogActions>

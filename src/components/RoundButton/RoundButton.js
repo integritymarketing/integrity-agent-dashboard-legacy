@@ -10,7 +10,7 @@ const useStyles = makeStyles(() => ({
             fontSize: "16px",
             fontWeight: "500",
             textTransform: "unset",
-            padding: "3px 20px",
+            padding: "6px 20px",
             cursor: "pointer",
             borderRadius: "20px",
             height: "unset",

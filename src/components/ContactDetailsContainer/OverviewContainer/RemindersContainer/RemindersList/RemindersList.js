@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable max-lines-per-function */
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
-import { useOverView } from "providers/ContactDetails";
+import { useOverView, useLeadDetails } from "providers/ContactDetails";
 
-import { formatDate, getDateTime, getLocalDateTime, getOverDue, sortListByDate } from "utils/dates";
+import { getLocalDateTime, getOverDue, sortListByDate } from "utils/dates";
 
 import ContactSectionCard from "packages/ContactSectionCard";
 
@@ -22,6 +23,7 @@ import Reminder from "../../Icons/reminder";
 export const RemindersList = ({ isMobile }) => {
     const { leadId } = useParams();
     const { getReminders, reminders, addReminder, removeReminder, editReminder } = useOverView();
+    const leadData = useLeadDetails();
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
     const [selectedReminder, setSelectedReminder] = useState(null);
 
@@ -62,7 +64,7 @@ export const RemindersList = ({ isMobile }) => {
         <>
             <ContactSectionCard
                 title="Reminders"
-                infoIcon={remindersList && remindersList.length > 0 ? `(${remindersList.length})` : ''}
+                infoIcon={remindersList && remindersList.length > 0 ? `(${remindersList.length})` : ""}
                 className={styles.remindersContainer}
                 isDashboard
                 contentClassName={styles.remindersContainer_content}
@@ -82,7 +84,6 @@ export const RemindersList = ({ isMobile }) => {
                     </div>
                 }
             >
-
                 {sortedTasks.length === 0 && (
                     <div className="no-items">
                         <span>This contact has no reminders.&nbsp;</span>
@@ -187,7 +188,7 @@ export const RemindersList = ({ isMobile }) => {
                         );
                     })}
                 </>
-            </ContactSectionCard >
+            </ContactSectionCard>
             {isAddNewModalOpen && (
                 <AddReminderModal
                     open={isAddNewModalOpen}
@@ -198,9 +199,9 @@ export const RemindersList = ({ isMobile }) => {
                     onSave={selectedReminder ? updateReminder : saveReminder}
                     leadId={leadId}
                     selectedReminder={selectedReminder}
+                    leadData={leadData.leadDetails}
                 />
-            )
-            }
+            )}
         </>
     );
 };
