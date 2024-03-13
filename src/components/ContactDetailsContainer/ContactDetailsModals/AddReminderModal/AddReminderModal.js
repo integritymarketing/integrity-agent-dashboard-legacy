@@ -34,7 +34,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
 
     const isMobile = windowWidth <= 784;
 
-    const reminderTitle = selectedReminder ? "Save Reminder" : "Add a Reminder";
+    const reminderTitle = selectedReminder ? "Edit Reminder" : "Add a Reminder";
     const reminderActionButton = selectedReminder ? "Save Reminder" : "Add Reminder";
     const name = `${leadData?.firstName ?? ""} ${leadData?.middleName ?? ""} ${leadData?.lastName ?? ""}`;
     const actionButtonDisabled = !values.date || !isTimeValid(values.time) || !values.notes || !values.title;

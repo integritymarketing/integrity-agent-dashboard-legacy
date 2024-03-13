@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useCallback, useEffect, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
@@ -28,6 +29,8 @@ import RenderProviders from "components/ui/ProvidersList";
 
 // Local Components
 import PharmacyModal from "components/SharedModals/PharmacyModal";
+
+import { PharmacyItem } from "./PharmacyItem";
 
 // Styles
 import styles from "./HealthSection.module.scss";
@@ -107,8 +110,8 @@ const HealthDetailsSection = () => {
         const selectPackageDetails = selectedPackage
             ? `${userQuantity} X ${selectedPackage.packageDisplayText} ${getFrequencyValue(daysOfSupply)}`
             : dosageDetails
-                ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
-                : "";
+            ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
+            : "";
 
         return (
             <div className={className}>
@@ -185,9 +188,15 @@ const HealthDetailsSection = () => {
                     headerTitle="Pharmacies"
                     onAddClick={pharmacies?.length > 0 ? null : onAddNewPharmacy}
                     items={pharmacies}
-                    Row={PharamaciesRow}
-                    onEdit={onEditPharmacy}
+                    provider={true}
                     isLoading={pharmacyLoading}
+                    itemRender={(item) => {
+                        return (
+                            <div key={item?.pharmacyRecordID} className={styles.providerContainer}>
+                                <PharmacyItem pharmacy={item} onEditPharmacy={onEditPharmacy} />
+                            </div>
+                        );
+                    }}
                 />
                 <FinalExpenseHealthTableSection contactId={leadId} isHealthPage={true} />
                 {isOpen && (

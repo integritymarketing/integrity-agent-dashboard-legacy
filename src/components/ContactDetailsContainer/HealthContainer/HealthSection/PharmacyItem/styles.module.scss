@@ -1,0 +1,55 @@
+.wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 5px;
+
+    .info {
+        width: 60%;
+        @media (min-width: 480px) {
+            width: 45%;
+        }
+
+        .name {
+            color: #052a63;
+            font-size: 20px;
+        }
+
+        .phone {
+            color: #4178ff;
+            font-size: 14px;
+        }
+    }
+
+    .address {
+        background-color: #f1faff;
+        padding: 9px 16px;
+        color: #717171;
+        font-size: 14px;
+        width: 100%;
+
+        @media (min-width: 480px) {
+            width: 33%;
+        }
+    }
+}
+
+.editButton {
+    border-radius: 25px !important;
+    background-color: #ffffff !important;
+    padding: 5px 20px !important;
+
+    span {
+        font-size: 14px !important;
+        color: #4178ff !important;
+        font-weight: 500;
+    }
+
+    &:hover {
+        background: #ffffff 0% 0% no-repeat padding-box;
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        color: #1357ff !important;
+    }
+}
