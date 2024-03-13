@@ -112,11 +112,6 @@
 .enrollmentPlanContainer_detailsPage_content {
     border-radius: 8px;
     background-color: #ffffff;
-
-    @include small {
-        background: none;
-        padding: 0.5rem;
-    }
 }
 
 

@@ -1,10 +1,10 @@
 import React from "react";
 
-const DownIcon = ({ color, ...props }) => {
+const DownIcon = ({ color, width = 17, ...props }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="17"
+      width={width}
       height="10"
       viewBox="0 0 15 9"
       {...props}

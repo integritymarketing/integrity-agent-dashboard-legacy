@@ -44,7 +44,7 @@ const useWebStyles = makeStyles({
         "@media (max-width: 768px)": {
             position: "absolute",
             top: "12px",
-            right: "15px",
+            right: "0",
         }
     },
     compareTable: {
@@ -79,7 +79,7 @@ const useMobileStyles = makeStyles({
     },
 
     additional: {
-        color: "#4178FF",
+        color: "#717171",
         fontSize: "16px",
         fontWeight: "600",
         letterSpacing: "-0.16px",
@@ -194,7 +194,7 @@ const MobileAddress = ({ addresses, isPlanPage }) => {
                             className={isOpen ? classes.reverse : classes.icon}
                             onClick={() => setOpenToggle(!isOpen)}
                         >
-                            <Arrow color="#0052CE" />
+                            <Arrow color="#0052CE" width={"12"} />
                         </Typography>
                         <Typography className={classes.additional}>
                             Additional Locations ({additionalAddresses?.length})

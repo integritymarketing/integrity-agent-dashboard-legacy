@@ -9,6 +9,7 @@ const CloseIcon = (props) => {
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      transform="rotate(90 8 8 )"
       {...props}
     >
       <path
