@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import styles from './styles.module.scss';
+import { useMemo, useCallback } from "react";
+import PropTypes from "prop-types";
+import styles from "./styles.module.scss";
 
 /**
  * Component for displaying a label with selectable buttons.
@@ -15,48 +15,55 @@ import styles from './styles.module.scss';
  * @param {Function} props.onSelect - Callback function when a button is selected.
  */
 const SelectableButtonGroup = ({
-  labelText,
-  labelClassName = '',
-  selectedButtonText,
-  buttonOptions,
-  buttonClassNames = [],
-  onSelect,
+    labelText,
+    labelClassName = "",
+    selectedButtonText,
+    buttonOptions,
+    buttonClassNames = [],
+    onSelect,
 }) => {
-  const getButtonStyle = useMemo(() => {
-    return (buttonText, index) => {
-      const isSelected = buttonOptions.some(option => option && selectedButtonText && option.toLowerCase() === selectedButtonText.toLowerCase()) &&
-                         buttonText && selectedButtonText && buttonText.toLowerCase() === selectedButtonText.toLowerCase();
-      const baseStyle = isSelected ? `${styles.expandableButton} ${styles.selected}` : styles.expandableButton;
-      const customClassName = buttonClassNames[index] || '';
-      return `${baseStyle} ${customClassName}`;
-    };
-  }, [buttonOptions, selectedButtonText, buttonClassNames]);
+    const getButtonStyle = useMemo(() => {
+        return (buttonText, index) => {
+            const isSelected =
+                buttonOptions.some(
+                    (option) =>
+                        option && selectedButtonText && option.toLowerCase() === selectedButtonText.toLowerCase()
+                ) &&
+                buttonText &&
+                selectedButtonText &&
+                buttonText.toLowerCase() === selectedButtonText.toLowerCase();
+            const baseStyle = isSelected ? `${styles.expandableButton} ${styles.selected}` : styles.expandableButton;
+            const customClassName = buttonClassNames[index] || "";
+            return `${baseStyle} ${customClassName}`;
+        };
+    }, [buttonOptions, selectedButtonText, buttonClassNames]);
 
-  return (
-    <div>
-      <label className={`${styles.label} ${labelClassName || ''}`.trim()}>{labelText}</label>
-      <div className={styles.buttonContainer}>
-        {buttonOptions.map((text, index) => (
-          <button
-            key={index}
-            className={getButtonStyle(text, index)}
-            onClick={() => onSelect(text)}
-          >
-            {text}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
+    const handleSelect = (event, buttonText) => {
+        event.preventDefault(); // Prevent form submission
+        onSelect(buttonText);
+    };
+
+    return (
+        <div>
+            <label className={`${styles.label} ${labelClassName || ""}`.trim()}>{labelText}</label>
+            <div className={styles.buttonContainer}>
+                {buttonOptions.map((text, index) => (
+                    <button key={index} className={getButtonStyle(text, index)} onClick={(e) => handleSelect(e, text)}>
+                        {text}
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
 };
 
 SelectableButtonGroup.propTypes = {
-  labelText: PropTypes.string.isRequired,
-  labelClassName: PropTypes.string,
-  selectedButtonText: PropTypes.string,
-  buttonOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
-  buttonClassNames: PropTypes.arrayOf(PropTypes.string),
-  onSelect: PropTypes.func.isRequired,
+    labelText: PropTypes.string.isRequired,
+    labelClassName: PropTypes.string,
+    selectedButtonText: PropTypes.string,
+    buttonOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+    buttonClassNames: PropTypes.arrayOf(PropTypes.string),
+    onSelect: PropTypes.func.isRequired,
 };
 
 export default SelectableButtonGroup;

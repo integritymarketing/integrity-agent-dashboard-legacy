@@ -36,6 +36,8 @@ import {
     StyledNumberInputContainer,
 } from "./StyledComponents";
 
+import SelectableButtonGroup from "components/SelectableButtonGroup";
+
 import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
 import { ArrowForwardWithCircle } from "../Icons";
@@ -59,6 +61,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
         medicareBeneficiaryID,
         partA,
         partB,
+        hasMedicAid,
     } = leadDetails;
 
     let {
@@ -179,6 +182,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 medicareBeneficiaryID: medicareBeneficiaryID ? formatMbiNumber(medicareBeneficiaryID) : "",
                 partA: partA ?? "",
                 partB: partB ?? "",
+                hasMedicAid: hasMedicAid ? "Yes" : "No",
             }}
             validate={async (values) => {
                 return validationService.validateMultiple(
@@ -633,6 +637,19 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 <li className="error-msg-red">{errors.partB}</li>
                                             </ul>
                                         )}
+                                    </StyledFormItem>
+                                </SectionContainer>
+
+                                <SectionContainer>
+                                    <StyledFormItem>
+                                        <SelectableButtonGroup
+                                            labelText={"Medicaid"}
+                                            selectedButtonText={values.hasMedicAid}
+                                            buttonOptions={["Yes", "No"]}
+                                            onSelect={(value) => {
+                                                setFieldValue("hasMedicAid", value);
+                                            }}
+                                        />
                                     </StyledFormItem>
                                 </SectionContainer>
 

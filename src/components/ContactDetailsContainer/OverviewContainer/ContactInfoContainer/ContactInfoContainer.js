@@ -179,6 +179,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
             height,
             isTobaccoUser,
             modifyDate,
+            hasMedicAid: data.hasMedicAid === "Yes" ? 1 : 0,
         };
         updateLeadDetails(payload);
         setIsEditMode(false);
@@ -269,7 +270,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
                             <Label value="Address" color="#717171" size="14px" />
                             <Label value={leadAddress1} color="#4178FF" size="16px" />
                             <Label
-                                value={`${leadAddress2} ${leadCity} ${leadState} ${leadZip}`}
+                                value={`${leadAddress2} ${leadCity}, ${leadState} ${leadZip}`}
                                 color="#4178FF"
                                 size="16px"
                             />
