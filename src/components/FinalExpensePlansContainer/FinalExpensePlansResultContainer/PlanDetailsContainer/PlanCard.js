@@ -24,6 +24,7 @@ import { SingleSignOnModal } from "components/FinalExpensePlansContainer/SingleS
 import { GRADEDMODIFIED, GRADED_MODIFIED } from "./PlanDetailsContainer.constants";
 import { convertToTitleCase } from "utils/toTitleCase";
 import Spinner from "components/ui/Spinner";
+import { FinalExpenseErrorModal } from "../../FinalExpenseErrorModal";
 export const PlanCard = ({
     isMobile,
     planName,
@@ -62,6 +63,7 @@ export const PlanCard = ({
     const { Post: enrollLeadFinalExpensePlan } = useFetch(`${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`);
     const [enrollResponse, setEnrollResponse] = useState(null);
     const [isLoadingEnroll, setIsLoadingEnroll] = useState(false);
+    const [isFinalExpenseErrorModalOpen, setIsFinalExpenseErrorModalOpen] = useState(false);
 
     useEffect(() => {
         if (isPrescreenModalOpen) {
@@ -93,10 +95,10 @@ export const PlanCard = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                        ? ["My Appointed Products"]
-                        : isShowExcludedProducts
-                            ? ["Show Excluded Products"]
-                            : [],
+                    ? ["My Appointed Products"]
+                    : isShowExcludedProducts
+                    ? ["Show Excluded Products"]
+                    : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -154,6 +156,10 @@ export const PlanCard = ({
         const response = await enrollLeadFinalExpensePlan(body);
         setIsLoadingEnroll(false);
 
+        if (!response?.success && response?.status === 400 && response?.redirectUrl) {
+            setIsFinalExpenseErrorModalOpen(true);
+            return false;
+        }
         if (response?.isSso) {
             lifeQuoteCallEvent(response?.success);
         }
@@ -251,6 +257,14 @@ export const PlanCard = ({
             <SingleSignOnModal
                 isOpen={isSingleSignOnModalOpen}
                 onClose={() => setIsSingleSignOnModalOpen(false)}
+                carrierInfo={carrierInfo}
+                resourceUrl={resource_url}
+                onApply={onApply}
+                fetchPlans={fetchPlans}
+            />
+            <FinalExpenseErrorModal
+                isOpen={isFinalExpenseErrorModalOpen}
+                onClose={() => setIsFinalExpenseErrorModalOpen(false)}
                 carrierInfo={carrierInfo}
                 resourceUrl={resource_url}
                 onApply={onApply}

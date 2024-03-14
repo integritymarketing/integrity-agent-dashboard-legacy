@@ -1,0 +1,62 @@
+.modalContentHeader {
+    color: #052a63;
+    margin-top: 24px;
+    font-weight: bold;
+}
+
+.modalContentHeaderMobile {
+    color: #052a63;
+    margin-top: 24px;
+    font-size: 24px;
+    font-weight: normal;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.modalContent {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 24px;
+    margin-top: 10px;
+}
+
+.link {
+    color: #4178ff;
+    padding-left: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 600;
+}
+
+.listStyle {
+    list-style: initial;
+    padding-left: 18px;
+    padding-top: 5px;
+}
+
+.modalContent {
+    color: #434a51;
+
+    .content {
+        padding: 24px 0;
+    }
+}
+
+.label {
+    color: #052a63;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+.actions {
+  width: 270px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.errorMessage { 
+    position: absolute;
+    color: #f44336;
+    font-size: 14px;
+}
