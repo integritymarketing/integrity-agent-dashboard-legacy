@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
 
@@ -40,7 +40,7 @@ const FinalExpensePlansResultContainer = () => {
     const [isMobile, setIsMobile] = useState(false);
     const { contactId } = useParams();
 
-    const [isRTS, setIsRTS] = useState(false);
+    const [isRTS, setIsRTS] = useState();
 
     const { agentInformation } = useAgentInformationByID();
     const { agentNPN } = agentInformation;
@@ -79,6 +79,8 @@ const FinalExpensePlansResultContainer = () => {
                 if (!appointmentSession) {
                     setIsRTS(true);
                     setIsMyAppointedProducts(true);
+                } else {
+                    setIsRTS(false);
                 }
             }
         };
@@ -177,17 +179,17 @@ const FinalExpensePlansResultContainer = () => {
         setSelectedTab(tab);
     };
 
-    const handleMyAppointedProductsCheck = () => {
+    const handleMyAppointedProductsCheck = useCallback(() => {
         if (!isRTS) {
             return;
         }
         setIsMyAppointedProducts(!isMyAppointedProducts);
         setAppointmentSession(true);
-    };
+    }, [isRTS, isMyAppointedProducts]);
 
-    const handleIsShowExcludedProductsCheck = () => {
+    const handleIsShowExcludedProductsCheck = useCallback(() => {
         setIsShowExcludedProducts(!isShowExcludedProducts);
-    };
+    }, [isShowExcludedProducts]);
 
     const covAmtError = useMemo(() => {
         return coverageAmount < covMin || coverageAmount > covMax;
@@ -258,7 +260,7 @@ const FinalExpensePlansResultContainer = () => {
                         </div>
                     </div>
                 </div>
-                <PlanDetailsContainer
+                {isRTS !== undefined && <PlanDetailsContainer
                     coverageAmount={coverageAmount}
                     monthlyPremium={monthlyPremiumAmount}
                     coverageType={coverageType}
@@ -269,7 +271,7 @@ const FinalExpensePlansResultContainer = () => {
                     handleIsShowExcludedProductsCheck={handleIsShowExcludedProductsCheck}
                     isRTS={isRTS}
                     setIsRTS={setIsRTS}
-                />
+                />}
                 <div className={styles.resultContent}></div>
             </div>
         </>
