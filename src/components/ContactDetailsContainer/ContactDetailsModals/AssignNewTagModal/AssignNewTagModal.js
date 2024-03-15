@@ -36,7 +36,7 @@ const Tag = React.memo(({ item, onSelect, onEdit, onDelete, isSelected, isMobile
                 <div className={styles.tagIcon}>
                     <img alt="TagIcon" src={TagIcon} />
                 </div>
-                <Label value={item.label} size="16px" color="#434A51" />
+                <Label value={item.label} size="16px" color="#434A51" width={"110px"} wordBreak={"break-all"} />
             </div>
 
             {(hovered || isMobile) && (
@@ -125,7 +125,7 @@ export const AssignNewTagModal = ({
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
-                                    width: isMobile ? "100%" : "45%",
+                                    width: isMobile ? "100%" : "48%",
                                 }}
                             >
                                 {allTags?.map((item, i) => {
@@ -148,7 +148,7 @@ export const AssignNewTagModal = ({
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
-                                    width: isMobile ? "100%" : "45%",
+                                    width: isMobile ? "100%" : "48%",
                                 }}
                             >
                                 {allTags?.map((item, j) => {
@@ -168,18 +168,16 @@ export const AssignNewTagModal = ({
                                 })}
                             </Box>
                         </Box>
-                        {allTags?.length < 10 && (
-                            <Box marginTop={"10px"}>
-                                <Button
-                                    label={"Create New Tag"}
-                                    className={styles.addNewButton}
-                                    type="tertiary"
-                                    onClick={setAddNewTagModal}
-                                    icon={<Add color="#4178ff" />}
-                                    iconPosition="left"
-                                />
-                            </Box>
-                        )}
+                        <Box marginTop={"10px"}>
+                            <Button
+                                label={"Create New Tag"}
+                                className={styles.addNewButton}
+                                type="tertiary"
+                                onClick={setAddNewTagModal}
+                                icon={<Add color="#4178ff" />}
+                                iconPosition="left"
+                            />
+                        </Box>
                     </Box>
                 </Box>
             </Modal>

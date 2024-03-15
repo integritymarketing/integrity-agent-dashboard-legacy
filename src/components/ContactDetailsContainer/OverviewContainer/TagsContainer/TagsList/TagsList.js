@@ -138,7 +138,13 @@ export const TagsList = ({
                 >
                     <div className={styles.tabLabel}>
                         <div className={styles.tagIcon}>{getIconName(label, item?.label)}</div>
-                        <Label value={item?.label} size="16px" color="#434A51" />
+                        <Label
+                            value={item?.label}
+                            size="16px"
+                            color="#434A51"
+                            width={"140px"}
+                            wordBreak={"break-all"}
+                        />
                     </div>
 
                     <div className={styles.actionIcons}>

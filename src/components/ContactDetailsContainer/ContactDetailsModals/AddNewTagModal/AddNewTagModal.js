@@ -27,7 +27,7 @@ import { Add, AddForward } from "../Icons";
 const isValidTag = (tag) => {
     // Regular expression to match the tag against the criteria
     const validTagRegex =
-        /^(?=[\w\s-_]{2,10}$)(?!(?:.*[\s]){2,})(?!(?:.*[-]){2,})(?!(?:.*[_]){2,})[^-\s_][\w\s-]*[^-\s_]$/;
+        /^(?=[\w\s-_]{2,18}$)(?!(?:.*[\s]){2,})(?!(?:.*[-]){2,})(?!(?:.*[_]){2,})[^-\s_][\w\s-]*[^-\s_]$/;
 
     // \w matches any word character (equivalent to [a-zA-Z0-9_])
     // \s matches any whitespace character (spaces)
@@ -52,7 +52,7 @@ export const AddNewTagModal = ({ open, onClose, onSave, isEdit }) => {
         if (!isValidTag(newTag)) {
             showToast({
                 type: "error",
-                message: `Tag length should be between 2 and 10, and only allow alphanumeric, single space, single hyphen(-), single underscore(_)`,
+                message: `Tag length should be between 2 and 18, and only allow alphanumeric, single space, single hyphen(-), single underscore(_)`,
             });
         } else {
             onSave(newTag);
