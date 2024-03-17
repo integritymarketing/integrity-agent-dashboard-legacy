@@ -64,7 +64,6 @@ export const PlanCard = ({
     const [enrollResponse, setEnrollResponse] = useState(null);
     const [isLoadingEnroll, setIsLoadingEnroll] = useState(false);
     const [isFinalExpenseErrorModalOpen, setIsFinalExpenseErrorModalOpen] = useState(false);
-
     useEffect(() => {
         if (isPrescreenModalOpen) {
             lifeQuotePrescreeningEvent("Final Expense Prescreening Notes Viewed");
@@ -95,10 +94,10 @@ export const PlanCard = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                    ? ["My Appointed Products"]
-                    : isShowExcludedProducts
-                    ? ["Show Excluded Products"]
-                    : [],
+                        ? ["My Appointed Products"]
+                        : isShowExcludedProducts
+                            ? ["Show Excluded Products"]
+                            : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -269,6 +268,7 @@ export const PlanCard = ({
                 resourceUrl={resource_url}
                 onApply={onApply}
                 fetchPlans={fetchPlans}
+                writingAgentNumber={writingAgentNumber}
             />
             {isLoadingEnroll && (
                 <div className={styles.spinner}>

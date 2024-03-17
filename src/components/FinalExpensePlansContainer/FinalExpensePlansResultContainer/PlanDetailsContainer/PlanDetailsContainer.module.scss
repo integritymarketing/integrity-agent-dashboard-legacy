@@ -88,6 +88,14 @@
         padding-bottom: 22px;
         gap: 2rem;
 
+
+        div {
+            @include small {
+                width: 60%;
+                word-break: break-word;
+            }
+        }
+
         .logo {
             width: fit-content;
             height: fit-content;

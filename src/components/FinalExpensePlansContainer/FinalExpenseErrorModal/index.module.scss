@@ -16,7 +16,7 @@
 .modalContent {
     background-color: #ffffff;
     border-radius: 8px;
-    padding: 24px;
+    padding: 16px;
     margin-top: 10px;
 }
 
@@ -46,17 +46,20 @@
 .label {
     color: #052a63;
     font-weight: bold;
-    padding-bottom: 5px;
 }
 
 .actions {
-  width: 270px;
-  margin: auto;
-  margin-top: 20px;
+    width: 313px;
+    margin: auto;
+    margin-top: 20px;
 }
 
-.errorMessage { 
+.errorMessage {
     position: absolute;
     color: #f44336;
     font-size: 14px;
+}
+
+.subsection {
+    padding: 0 1rem;
 }

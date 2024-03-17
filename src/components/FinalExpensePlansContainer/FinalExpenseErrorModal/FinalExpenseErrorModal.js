@@ -14,7 +14,7 @@ import Textfield from "components/ui/textfield";
 import Modal from "components/Modal";
 import Spinner from "components/ui/Spinner";
 
-import { StyledButton } from "pages/FinalExpensesPage/Components/StyledComponents";
+import { StyledButton, StyledButton2 } from "pages/FinalExpensesPage/Components/StyledComponents";
 
 import EnrollBack from "images/enroll-btn-back.svg";
 
@@ -22,7 +22,7 @@ import styles from "./index.module.scss";
 
 const AGENTS_API_VERSION = "v1.0";
 
-export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, onApply, fetchPlans }) => {
+export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, onApply, fetchPlans, writingAgentNumber }) => {
     const [isContinuing, setIsContinuing] = useState(false);
     const [error, setError] = useState(null);
     const [producerId, setProducerId] = useState("");
@@ -109,9 +109,6 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
             hideFooter
             contentStyle={{ borderRadius: "8px" }}
         >
-            {!isMobile && (
-                <Box className={styles.modalContentHeader}>Update your Producer ID for an Improved Experience</Box>
-            )}
             <Box className={styles.modalContent}>
                 {isContinuing && <Spinner />}
                 {!isContinuing && (
@@ -123,8 +120,8 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
 
                         <Box className={styles.actions}>
                             <Box className={styles.label}>Producers ID/ Agent Writing Number (AWN)</Box>
-                            <Box> 5125425548</Box>
-                            <Box>
+                            <Box>{writingAgentNumber}</Box>
+                            <Box className={styles.subsection}>
                                 <Box className={styles.label}>Producers ID/ Writing Number (AWN)</Box>
                                 <Textfield
                                     value={producerId}
@@ -139,10 +136,10 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
                                 <img src={EnrollBack} alt="arrow" />
                             </StyledButton>
 
-                            <StyledButton onClick={onContinueWithoutIdHandle} width="60%">
+                            <StyledButton2 onClick={onContinueWithoutIdHandle} width="60%">
                                 <span>View Carrier Website</span>
                                 <img src={EnrollBack} alt="arrow" />
-                            </StyledButton>
+                            </StyledButton2>
                             <Box className={styles.link} onClick={onClose}>
                                 Cancel
                             </Box>

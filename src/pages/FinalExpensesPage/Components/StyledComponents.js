@@ -95,6 +95,27 @@ export const StyledFormItem = styled("div")`
   }
 `;
 
+export const StyledButton2 = styled("div")`
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4178ff;
+  border-radius: 50px;
+  padding: 10px 14px;
+  width: 72%;
+  color: white;
+  margin: 16px 40px 0 40px;
+  transition: 0.3s;
+  opacity: ${({ disabled }) => disabled && "0.5"};
+  cursor: ${({ disabled }) => !disabled && "pointer"};
+  pointer-events: ${({ disabled }) => disabled && "none"};
+
+  &:hover {
+    width: ${({ disabled }) => !disabled && '75%'};
+  }
+`;
+
 export const StyledButton = styled("div")`
   cursor: pointer;
   display: flex;
@@ -103,9 +124,9 @@ export const StyledButton = styled("div")`
   background-color: #4178ff;
   border-radius: 50px;
   padding: 10px 14px;
-  width: 98%;
+  width: 92%;
   color: white;
-  margin-top: 30px;
+  margin: 30px 12px 0 12px;
   transition: 0.3s;
   opacity: ${({ disabled }) => disabled && "0.5"};
   cursor: ${({ disabled }) => !disabled && "pointer"};
