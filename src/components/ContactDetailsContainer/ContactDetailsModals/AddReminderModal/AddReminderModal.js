@@ -37,17 +37,21 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
     const reminderTitle = selectedReminder ? "Edit Reminder" : "Add a Reminder";
     const reminderActionButton = selectedReminder ? "Save Reminder" : "Add Reminder";
     const name = `${leadData?.firstName ?? ""} ${leadData?.middleName ?? ""} ${leadData?.lastName ?? ""}`;
-    const actionButtonDisabled = !values.date || !isTimeValid(values.time) || !values.notes || !values.title;
+    const actionButtonDisabled = !values.date || !values.notes;
 
     const handleSaveReminder = useCallback(() => {
+        debugger;
         const reminderDateTime = new Date(values.date);
-        reminderDateTime.setHours(values.time.getHours());
-        reminderDateTime.setMinutes(values.time.getMinutes());
+        if (!isTimeValid(values?.time) && values?.time) {
+            reminderDateTime.setHours(values?.time?.getHours());
+            reminderDateTime.setMinutes(values?.time?.getMinutes());
+        }
+
         const payload = {
             ...selectedReminder,
             reminderNote: values.notes,
             reminderDate: reminderDateTime,
-            reminderTitle: values.title,
+            reminderTitle: values.title || "",
         };
         onSave(payload);
     }, [values, onSave, selectedReminder]);

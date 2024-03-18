@@ -71,6 +71,9 @@ function ChangePassword() {
                         } else {
                             loading.end();
                             const errorsArr = await response.json();
+                            showToast({
+                                message: "Failed to updated password.",
+                            });
                             setErrors(
                                 validationService.formikErrorsFor(
                                     validationService.standardizeValidationKeys(errorsArr)
@@ -92,7 +95,7 @@ function ChangePassword() {
                                     value={values.currentPassword}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    error={touched.currentPassword && errors.currentPassword}
+                                    error={errors.currentPassword}
                                     success={touched.currentPassword && !errors.currentPassword}
                                 />
                                 <Textfield
