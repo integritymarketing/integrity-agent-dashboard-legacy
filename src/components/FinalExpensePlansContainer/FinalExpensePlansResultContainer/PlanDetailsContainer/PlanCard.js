@@ -25,6 +25,7 @@ import { GRADEDMODIFIED, GRADED_MODIFIED } from "./PlanDetailsContainer.constant
 import { convertToTitleCase } from "utils/toTitleCase";
 import Spinner from "components/ui/Spinner";
 import { FinalExpenseErrorModal } from "../../FinalExpenseErrorModal";
+
 export const PlanCard = ({
     isMobile,
     planName,
@@ -138,9 +139,14 @@ export const PlanCard = ({
         }
     };
 
-    const onApply = async (producerId) => {
+    const onApply = async (producerId, apiErrorState = false) => {
+        let writingAgentNumberToSend = writingAgentNumber;
         setIsLoadingEnroll(true);
-        const writingAgentNumberToSend = writingAgentNumber ?? producerId;
+        if (!apiErrorState) {
+            writingAgentNumberToSend = writingAgentNumber ?? producerId;
+        } else {
+            writingAgentNumberToSend = producerId;
+        }
         const body = getPlanEnrollBody(
             writingAgentNumberToSend,
             agentFirstName,

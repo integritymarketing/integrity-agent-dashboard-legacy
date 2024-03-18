@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
-import { useWindowSize } from "hooks/useWindowSize";
 import useUserProfile from "hooks/useUserProfile";
 
 import Textfield from "components/ui/textfield";
@@ -28,15 +27,18 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
     const [producerId, setProducerId] = useState("");
     const showToast = useToast();
     const { npn } = useUserProfile();
-    const { width: windowWidth } = useWindowSize();
-
-    const isMobile = windowWidth <= 784;
 
     const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/fexAttestation/${npn}`;
 
     const { Post: addSALifeRecord } = useFetch(URL);
 
     const shouldDisable = !producerId || isContinuing || error;
+
+    const handleClose = () => {
+        setIsContinuing(false);
+        setProducerId("");
+        onClose();
+    };
 
     const onChange = (e) => {
         const inputValue = e.target.value;
@@ -65,45 +67,48 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
 
     const onContinueWithIdHandle = async () => {
         setIsContinuing(true);
-        const payload = {
-            agentNPN: npn,
-            carrierName: carrierInfo?.name,
-            displayCarrierName: carrierInfo?.name,
-            carrierId: carrierInfo?.id,
-            productNames: [],
-            producerId: producerId,
-            isSelfAttested: "Yes",
-            inActive: 0,
-            naic: carrierInfo?.naic,
-        };
-        const res = await addSALifeRecord(payload, true);
-        if (res.ok) {
-            const hasRedirectURL = await onApply(producerId);
-            if (hasRedirectURL) {
-                setTimeout(async () => {
-                    await fetchPlans();
-                }, 1000);
+        try {
+            const payload = {
+                agentNPN: npn,
+                carrierName: carrierInfo?.name,
+                displayCarrierName: carrierInfo?.name,
+                carrierId: carrierInfo?.id,
+                productNames: [],
+                producerId,
+                isSelfAttested: "Yes",
+                inActive: 0,
+                naic: carrierInfo?.naic,
+            };
+
+            const response = await addSALifeRecord(payload, true);
+            if (response.ok) {
+                const hasRedirectURL = await onApply(producerId, true);
+                await fetchPlans();
+                setIsContinuing(false);
+
             }
-            setIsContinuing(false);
-            onClose();
-        } else {
+        } catch (error) {
             showToast({
                 type: "error",
-                message: "Failed to add record",
+                message: error.message || "An error occurred",
                 time: 10000,
             });
+        } finally {
+            setIsContinuing(false);
+            handleClose();
         }
     };
 
+
     const onContinueWithoutIdHandle = () => {
-        onClose();
+        handleClose();
         window.open(resourceUrl, "_blank");
     };
 
     return (
         <Modal
             open={isOpen}
-            onClose={onClose}
+            onClose={handleClose}
             title="Producer ID Not Recognized"
             size="wide"
             hideFooter
@@ -140,7 +145,7 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
                                 <span>View Carrier Website</span>
                                 <img src={EnrollBack} alt="arrow" />
                             </StyledButton2>
-                            <Box className={styles.link} onClick={onClose}>
+                            <Box className={styles.link} onClick={handleClose}>
                                 Cancel
                             </Box>
                         </Box>
