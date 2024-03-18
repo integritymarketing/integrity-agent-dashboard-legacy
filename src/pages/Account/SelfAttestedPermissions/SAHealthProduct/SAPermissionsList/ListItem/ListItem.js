@@ -1,18 +1,18 @@
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-
+ 
 import { dateFormatter } from "utils/dateFormatter";
 import { DeleteButton } from "../../DeleteButton";
 import InfoRedIcon from "components/icons/info-red";
 import { useSAPModalsContext } from "../../providers/SAPModalProvider";
-
+ 
 import styles from "./styles.module.scss";
-
+ 
 function ListItem({ item }) {
   const { setIsExpriedModalOpen } = useSAPModalsContext();
   const isExpired = item.isExpired;
-
+ 
   return (
     <Grid
       className={styles.container}
@@ -57,19 +57,21 @@ function ListItem({ item }) {
         <Box>
           <Box>
             <Box className={styles.label} display="inline">
-              <Box className={isExpired && styles.expiredTitle}>Year:</Box>
-            </Box>
-            <Box display="inline" className={isExpired && styles.expired}>
-              {item.planYear}
+              <Box className={isExpired && styles.expiredTitle}>Year:
+                <span className={isExpired && styles.expired}>
+                  {` ${item.planYear}`}
+                </span></Box>
             </Box>
           </Box>
           <Box>
             <Box className={styles.label} display="inline">
-              <Box className={isExpired && styles.expiredTitle}>ID:</Box>
+              <Box className={isExpired && styles.expiredTitle}>ID:
+                <span className={isExpired && styles.expired}>
+                  {` ${item.awn}`}
+                </span>
+              </Box>
             </Box>
-            <Box display="inline" className={isExpired && styles.expired}>
-              {item.awn}
-            </Box>
+ 
           </Box>
         </Box>
         <Box>
@@ -87,9 +89,10 @@ function ListItem({ item }) {
     </Grid>
   );
 }
-
+ 
 ListItem.propTypes = {
   item: PropTypes.object,
 };
-
+ 
 export default ListItem;
+ 
