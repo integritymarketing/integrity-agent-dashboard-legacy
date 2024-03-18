@@ -10,7 +10,7 @@ import { useSAHealthProductContext } from "../providers/SAHealthProductProvider"
 
 function SAAddPermissionRow() {
     const { tableData } = useSAHealthProductContext();
-    const { isAddingHealth, handleAddHealth } = useSAPermissionsContext();
+    const { isAddingHealth, handleAddHealth, isAddingLife, handleAddLife } = useSAPermissionsContext();
     const numOfPermissions = tableData.length;
     const shouldShow = !isAddingHealth && numOfPermissions === 0;
 

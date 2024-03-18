@@ -10,13 +10,10 @@ const MobileSALife = ({ items }) => {
     return (
         <>
             <div className={styles.sectionContainer}>
+                <SAAddNewRow />
+
                 {items?.map((item, index) => {
-                    const {
-                        displayCarrierName,
-                        producerId,
-                        createDate,
-                        isExpired
-                    } = item;
+                    const { displayCarrierName, producerId, createDate, isExpired } = item;
                     return (
                         <div key={index} className={styles.row}>
                             <div className={styles.column}>
@@ -24,9 +21,7 @@ const MobileSALife = ({ items }) => {
                                 <div className={styles.spacing}>{displayCarrierName}</div>
                                 <div className={styles.title}>Products:</div>
                                 <div className={styles.pillWrapper}>
-                                    <Box className={styles.pill}>
-                                        {"Final Expense"}
-                                    </Box>
+                                    <Box className={styles.pill}>{"Final Expense"}</Box>
                                 </div>
                                 <div className={styles.title}>{`Producer ID: `}</div>
                                 <div>{producerId}</div>
@@ -38,7 +33,9 @@ const MobileSALife = ({ items }) => {
                                 </div>
                                 <Box display="flex" textAlign="center" justifyContent="right" paddingRight="20px">
                                     <Button
-                                        icon={isExpired ? <TrashbinIcon color="#4178ff" /> : <EditIcon color="#4178ff" />}
+                                        icon={
+                                            isExpired ? <TrashbinIcon color="#4178ff" /> : <EditIcon color="#4178ff" />
+                                        }
                                         label={isExpired ? "Delete" : "Edit"}
                                         className={styles.buttonWithIcon}
                                         onClick={
@@ -51,14 +48,12 @@ const MobileSALife = ({ items }) => {
                                     />
                                 </Box>
                             </div>
-
                         </div>
-                    )
+                    );
                 })}
-                <SAAddNewRow />
             </div>
         </>
-    )
-}
+    );
+};
 
 export default MobileSALife;

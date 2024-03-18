@@ -45,3 +45,38 @@
     color: #f44336;
     font-size: 14px;
 }
+
+// Mobile styling
+
+.mobileContainer {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 16px 24px;
+    background-color: white;
+    border-bottom: 1px solid #f1f1f1;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.error {
+    width: 100%;
+    text-align: center;
+    color: #f44336;
+}
+
+.errorTable {
+    position: absolute;
+    left: 35%;
+    bottom: 0;
+    color: #f44336;
+}
+
+.customRow {
+    position: relative;
+}
+
+.fieldAndActions{
+    display: flex;
+     align-items: center;
+    justify-content: space-between;
+ }

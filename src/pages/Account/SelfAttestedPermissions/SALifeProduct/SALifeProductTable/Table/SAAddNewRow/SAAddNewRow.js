@@ -1,11 +1,13 @@
 import { useState } from "react";
 
 import Box from "@mui/material/Box";
+import { useWindowSize } from "hooks/useWindowSize";
 
 import useDataHandler from "../../../hooks/useDataHandler";
 import useUserProfile from "hooks/useUserProfile";
 import useAnalytics from "hooks/useAnalytics";
-
+import { AddButton } from "pages/Account/SelfAttestedPermissions/SAHealthProduct/SAAddPermissionForm/AddButton";
+import { CancelButton } from "pages/Account/SelfAttestedPermissions/SAHealthProduct/SAAddPermissionForm/CancelButton";
 import SaveBlue from "components/icons/version-2/SaveBlue";
 import { Button } from "components/ui/Button";
 import { Select } from "components/ui/Select";
@@ -27,6 +29,8 @@ function SAAddNewRow() {
     const { isAddingLife, handleCancelLife } = useSAPermissionsContext();
     const { npn } = useUserProfile();
     const { fireEvent } = useAnalytics();
+    const { width: windowWidth } = useWindowSize();
+    const isMobile = windowWidth <= 784;
 
     const shouldDisable = !producerIdValue || !selectedCarrier || error;
 
@@ -80,6 +84,17 @@ function SAAddNewRow() {
             leadid: npn,
             carrier: original?.carrierName,
         });
+        OnCancelClickHandle();
+    };
+
+    const resetAllFields = () => {
+        setSelectedCarrier(null);
+        setProducerIdValue("");
+        setError(null);
+    };
+
+    const OnCancelClickHandle = () => {
+        resetAllFields();
         handleCancelLife();
     };
 
@@ -88,69 +103,144 @@ function SAAddNewRow() {
     }
 
     return (
-        <tbody className={styles.customBody}>
-            <tr>
-                <td>
-                    <Box className={styles.customBodyRow}>
-                        <Box className={styles.title}>Carrier</Box>
-                        <Select
-                            style={{ width: "100%" }}
-                            placeholder="Select"
-                            options={options}
-                            initialValue={selectedCarrier}
-                            onChange={setSelectedCarrier}
-                            showValueAlways={false}
-                        />
-                    </Box>
-                </td>
-                <td>
-                    <Box className={styles.customBodyRow}>
-                        <Box className={styles.title}>Product</Box>
-                        <Select
-                            placeholder="Final Expense"
-                            style={{ width: "360px" }}
-                            showValueAlways={false}
-                            disabled={true}
-                        />
-                    </Box>
-                </td>
-                <td>
-                    <Box className={styles.customTextField}>
-                        <Box className={styles.title}>Producer ID</Box>
-                        <>
-                            <Textfield
-                                value={producerIdValue}
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                error={error ? true : false}
-                                hideFieldError={true}
+        <>
+            {!isMobile && (
+                <tbody className={styles.customBody}>
+                    <tr>
+                        <td>
+                            <Box className={styles.customBodyRow}>
+                                <Box className={styles.title}>Carrier</Box>
+                                <Select
+                                    style={{ width: "100%" }}
+                                    placeholder="Select"
+                                    options={options}
+                                    initialValue={selectedCarrier}
+                                    onChange={setSelectedCarrier}
+                                    showValueAlways={false}
+                                />
+                            </Box>
+                        </td>
+                        <td>
+                            <Box className={styles.customBodyRow}>
+                                <Box className={styles.title}>Product</Box>
+                                <Select
+                                    placeholder="Final Expense"
+                                    style={{ width: "360px" }}
+                                    showValueAlways={false}
+                                    disabled={true}
+                                />
+                            </Box>
+                        </td>
+                        <td>
+                            <Box className={styles.customTextField}>
+                                <Box className={styles.title}>Producer ID</Box>
+                                <>
+                                    <Textfield
+                                        value={producerIdValue}
+                                        onChange={onChange}
+                                        onBlur={onBlur}
+                                        error={error ? true : false}
+                                        hideFieldError={true}
+                                    />
+                                    {error && <Box className={styles.errorMessage}>{error}</Box>}
+                                </>
+                            </Box>
+                        </td>
+                        <td></td>
+                        <td>
+                            <Box
+                                display="flex"
+                                textAlign="center"
+                                justifyContent="right"
+                                paddingRight="20px"
+                                gap="40px"
+                            >
+                                <Button
+                                    label="Cancel"
+                                    className={styles.buttonWithIcon}
+                                    onClick={handleCancelLife}
+                                    type="tertiary"
+                                />
+                                <Button
+                                    icon={<SaveBlue />}
+                                    label="Save"
+                                    className={styles.buttonWithIcon}
+                                    onClick={onSaveHandle}
+                                    type="tertiary"
+                                    iconPosition="right"
+                                    disabled={shouldDisable}
+                                />
+                            </Box>
+                        </td>
+                    </tr>
+                </tbody>
+            )}
+            {isMobile && (
+                <>
+                    <Box className={styles.mobileContainer}>
+                        <Box>
+                            <Box className={styles.title}>Carrier</Box>
+                            <Select
+                                style={{ width: "100%" }}
+                                placeholder="Select"
+                                options={options}
+                                initialValue={selectedCarrier}
+                                onChange={setSelectedCarrier}
+                                showValueAlways={false}
                             />
-                            {error && <Box className={styles.errorMessage}>{error}</Box>}
-                        </>
+                        </Box>
+                        <Box>
+                            <Box className={styles.title}>Product</Box>
+                            <Select
+                                placeholder="Final Expense"
+                                style={{ width: "100%" }}
+                                showValueAlways={false}
+                                disabled={true}
+                            />
+                        </Box>
+                        <Box className={styles.fieldAndActions}>
+                            <Box width={"45%"}>
+                                <Box className={styles.title}>Producer ID</Box>
+                                <>
+                                    <Textfield
+                                        value={producerIdValue}
+                                        onChange={onChange}
+                                        onBlur={onBlur}
+                                        error={error ? true : false}
+                                        hideFieldError={true}
+                                    />
+                                    {error && <Box className={styles.errorMessage}>{error}</Box>}
+                                </>
+                            </Box>
+                            <Box
+                                display="flex"
+                                textAlign="center"
+                                marginTop={"10px"}
+                                width={"45%"}
+                                justifyContent={"space-between"}
+                            >
+                                <Button
+                                    label="Cancel"
+                                    className={styles.buttonWithIcon}
+                                    onClick={OnCancelClickHandle}
+                                    type="tertiary"
+                                />
+                                <Button
+                                    icon={<SaveBlue />}
+                                    label="Save"
+                                    className={styles.buttonWithIcon}
+                                    onClick={onSaveHandle}
+                                    type="tertiary"
+                                    iconPosition="right"
+                                    disabled={shouldDisable}
+                                />
+                            </Box>
+                        </Box>
                     </Box>
-                </td>
-                <td></td>
-                <td>
-                    <Box display="flex" textAlign="center" justifyContent="right" paddingRight="20px" gap="40px">
-                        <Button
-                            label="Cancel"
-                            className={styles.buttonWithIcon}
-                            onClick={handleCancelLife}
-                            type="tertiary"
-                        />
-                        <Button
-                            icon={<SaveBlue />}
-                            label="Save"
-                            className={styles.buttonWithIcon}
-                            onClick={onSaveHandle}
-                            type="tertiary"
-                            iconPosition="right"
-                            disabled={shouldDisable}
-                        />
-                    </Box>
-                </td>
-            </tr>
-        </tbody>
+                    {error && <Box className={styles.error}>{error}</Box>}
+                </>
+            )}
+        </>
     );
 }
 

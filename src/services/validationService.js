@@ -30,13 +30,13 @@ class ValidationService {
 
     validateRequiredIf =
         (isRequired) =>
-            (field, label = "Field") => {
-                if (!field && isRequired) {
-                    return `${label} is required`;
-                }
+        (field, label = "Field") => {
+            if (!field && isRequired) {
+                return `${label} is required`;
+            }
 
-                return null;
-            };
+            return null;
+        };
 
     validateBeneficiary = (username, label = "Relationship to Beneficiary") => {
         if (username && username.length > 40) {
@@ -47,7 +47,7 @@ class ValidationService {
     };
 
     validateName = (username, label = "firstName") => {
-        if (username && !/^[A-Za-z0-9- ']{2,}$/.test(username)) {
+        if (username && !/^[A-Za-z]{2,}$/.test(username)) {
             return `${label} must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted. `;
         }
 
@@ -112,13 +112,13 @@ class ValidationService {
 
     validateFieldMatch =
         (matchingField) =>
-            (field, label = "Passwords") => {
-                if (field !== matchingField) {
-                    return `${label} must match`;
-                }
+        (field, label = "Passwords") => {
+            if (field !== matchingField) {
+                return `${label} must match`;
+            }
 
-                return null;
-            };
+            return null;
+        };
 
     validateEmail = (email, label = "Email Address") => {
         const re =
