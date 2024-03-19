@@ -30,7 +30,7 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
 
     const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/fexAttestation/${npn}`;
 
-    const { Put: addSALifeRecord } = useFetch(URL);
+    const { Post: addSALifeRecord } = useFetch(URL);
 
     const shouldDisable = !producerId || isContinuing || error;
 
