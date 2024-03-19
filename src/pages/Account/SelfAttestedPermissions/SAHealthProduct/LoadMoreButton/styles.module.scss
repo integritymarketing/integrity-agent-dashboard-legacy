@@ -1,7 +1,13 @@
+@import "../../../../../scss/globalDefines.scss";
+
 .showMoreRow {
   background-color: #ffffff;
   padding: 15px;
   min-width: 768px;
+
+  @include small() {
+    min-width: 0;
+  }
 }
 
 .showMoreLink {

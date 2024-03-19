@@ -42,10 +42,11 @@ function ListItem({ item }) {
         </Box>
         <Box className={styles.section}>
           <Box className={styles.label} display="inline">
-            <Box className={isExpired && styles.expiredTitle}>Added:</Box>
-          </Box>
-          <Box display="inline" className={isExpired && styles.expired}>
-            {dateFormatter(item.createDate, "M-DD-YY")}
+            <Box className={isExpired && styles.expiredTitle}>Added: 
+              <span className={isExpired && styles.expired}>
+                    {` ${dateFormatter(item.createDate, "M-DD-YY")}`}
+              </span>
+            </Box>
           </Box>
         </Box>
       </Grid>
