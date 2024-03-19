@@ -10,7 +10,7 @@ import useSelectOptions from "../hooks/useSelectOptions";
 import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
 import useUserProfile from "hooks/useUserProfile";
-import { useWindowSize } from "hooks/useWindowSize";
+import useDeviceType from "hooks/useDeviceType";
 
 import { AddButton } from "./AddButton";
 import { CancelButton } from "./CancelButton";
@@ -34,7 +34,6 @@ function SAAddPermissionForm() {
     const [state, setState] = useState("");
     const [year, setYear] = useState("");
     const { npn } = useUserProfile();
-    const { width: windowWidth } = useWindowSize();
     const { setIsErrorModalOpen } = useSAPModalsContext();
     const { fireEvent } = useAnalytics();
     const { agents, fetchTableData, setIsLoading, setError: setGlobalError } = useSAHealthProductContext();
@@ -50,7 +49,7 @@ function SAAddPermissionForm() {
     const planYearOptions = getPlanYearOptions(carrier);
     const producerId = getProducerID(carrier);
     const selectedCarrierGroup = carriersGroup[carrier];
-    const isMobile = windowWidth <= 784;
+    const { isMobile } = useDeviceType();
 
     const resetAllFields = () => {
         setCarrier("");
