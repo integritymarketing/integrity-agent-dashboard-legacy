@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 
 import Box from "@mui/material/Box";
 
-import { useWindowSize } from "hooks/useWindowSize";
+import useDeviceType from "hooks/useDeviceType";
 import useUserProfile from "hooks/useUserProfile";
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
@@ -30,10 +30,9 @@ function PersonalInfo() {
     const [isEdit, setIsEdit] = useState(false);
     const showToast = useToast();
     const loading = useLoading();
-    const { width: windowWidth } = useWindowSize();
+    const { isMobile } = useDeviceType();
     const { firstName, lastName, npn, email, phone } = useUserProfile();
 
-    const isMobile = windowWidth <= 784;
     const formattedPhoneNumber = formatPhoneNumber(phone ?? "");
 
     const { Put: updateAccount } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/update`);

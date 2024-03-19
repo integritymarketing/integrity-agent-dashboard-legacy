@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import RoundButton from "components/RoundButton";
 
-import { useWindowSize } from "hooks/useWindowSize";
+import useDeviceType from "hooks/useDeviceType";
 
 const useStyles = makeStyles(() => ({
     cancelButton: {
@@ -100,9 +100,7 @@ export default function Modal({
     maxWidth = "sm",
 }) {
     const classes = useStyles();
-    const { width: windowWidth } = useWindowSize();
-
-    const isMobile = windowWidth <= 784;
+    const { isMobile } = useDeviceType();
 
     return (
         <div>

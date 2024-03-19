@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
 
-import { useWindowSize } from "hooks/useWindowSize";
+import useDeviceType from "hooks/useDeviceType";
 
 import EditIcon from "components/icons/icon-edit";
 
@@ -13,9 +13,7 @@ import { formatPhoneNumber } from "utils/phones";
 import styles from "./styles.module.scss";
 
 const PharmacyItem = ({ pharmacy, onEditPharmacy }) => {
-    const { width: windowWidth } = useWindowSize();
-
-    const isMobile = windowWidth <= 784;
+    const { isMobile } = useDeviceType();
     const address = `${pharmacy.address1} ${pharmacy.address2 ?? ""}, ${pharmacy.city},
     ${pharmacy.state}, ${pharmacy.zip}`;
 

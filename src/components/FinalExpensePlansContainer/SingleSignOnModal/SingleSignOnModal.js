@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
-import { useWindowSize } from "hooks/useWindowSize";
+import useDeviceType from "hooks/useDeviceType";
 import useUserProfile from "hooks/useUserProfile";
 
 import Textfield from "components/ui/textfield";
@@ -28,9 +28,7 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
     const [producerId, setProducerId] = useState("");
     const showToast = useToast();
     const { npn } = useUserProfile();
-    const { width: windowWidth } = useWindowSize();
-
-    const isMobile = windowWidth <= 784;
+    const { isMobile } = useDeviceType();
 
     const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/fexAttestation/${npn}`;
 

@@ -1,13 +1,11 @@
 import { useState } from "react";
 
 import Box from "@mui/material/Box";
-import { useWindowSize } from "hooks/useWindowSize";
+import useDeviceType from "hooks/useDeviceType";
 
 import useDataHandler from "../../../hooks/useDataHandler";
 import useUserProfile from "hooks/useUserProfile";
 import useAnalytics from "hooks/useAnalytics";
-import { AddButton } from "pages/Account/SelfAttestedPermissions/SAHealthProduct/SAAddPermissionForm/AddButton";
-import { CancelButton } from "pages/Account/SelfAttestedPermissions/SAHealthProduct/SAAddPermissionForm/CancelButton";
 import SaveBlue from "components/icons/version-2/SaveBlue";
 import { Button } from "components/ui/Button";
 import { Select } from "components/ui/Select";
@@ -29,8 +27,7 @@ function SAAddNewRow() {
     const { isAddingLife, handleCancelLife } = useSAPermissionsContext();
     const { npn } = useUserProfile();
     const { fireEvent } = useAnalytics();
-    const { width: windowWidth } = useWindowSize();
-    const isMobile = windowWidth <= 784;
+    const { isMobile } = useDeviceType();
 
     const shouldDisable = !producerIdValue || !selectedCarrier || error;
 

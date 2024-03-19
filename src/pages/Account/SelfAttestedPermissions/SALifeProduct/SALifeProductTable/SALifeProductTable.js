@@ -1,4 +1,4 @@
-import { useWindowSize } from "hooks/useWindowSize";
+import useDeviceType from "hooks/useDeviceType";
 import Box from "@mui/material/Box";
 
 import useLoadMore from "../../hooks/useLoadMore";
@@ -14,9 +14,9 @@ const ITEM_PER_PAGE = 5;
 
 function SALifeProductTable() {
     const { tableData } = useSALifeProductContext();
-    const { width: windowWidth } = useWindowSize();
     const { visibleItems, loadMore, hasMore } = useLoadMore(tableData, ITEM_PER_PAGE);
-    const isMobile = windowWidth <= 784;
+    const { isMobile } = useDeviceType();
+
     return (
         <Box className={styles.tableWrapper}>
             {isMobile ? <MobileSALife items={visibleItems} /> : <Table data={visibleItems} />}

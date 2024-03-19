@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
-import { useWindowSize } from "hooks/useWindowSize";
+import useDeviceType from "hooks/useDeviceType";
 
 import Modal from "components/Modal";
 import DatePickerMUI from "components/DatePicker";
@@ -30,9 +30,7 @@ const initialReminderValues = {
 export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, leadData = null, showLink = false }) => {
     const [values, setValues] = useState(initialReminderValues);
     const navigate = useNavigate();
-    const { width: windowWidth } = useWindowSize();
-
-    const isMobile = windowWidth <= 784;
+    const { isMobile } = useDeviceType();
 
     const reminderTitle = selectedReminder ? "Edit Reminder" : "Add a Reminder";
     const reminderActionButton = selectedReminder ? "Save Reminder" : "Add Reminder";
@@ -40,7 +38,6 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
     const actionButtonDisabled = !values.date || !values.notes;
 
     const handleSaveReminder = useCallback(() => {
-        debugger;
         const reminderDateTime = new Date(values.date);
         if (!isTimeValid(values?.time) && values?.time) {
             reminderDateTime.setHours(values?.time?.getHours());

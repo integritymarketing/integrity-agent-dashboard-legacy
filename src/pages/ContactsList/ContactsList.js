@@ -16,7 +16,7 @@ import { StageStatusProvider } from "contexts/stageStatus";
 import { ContactsListHeader } from "pages/ContactsList/ContactsListHeader";
 import { ContactListHeaderMobile } from "./ContactsListHeader/ContactListHeaderMobile";
 
-import { useWindowSize } from "hooks/useWindowSize";
+import useDeviceType from "hooks/useDeviceType";
 
 import { ContactsCard } from "./ContactsCard";
 import { ContactsListActions } from "./ContactsListActions";
@@ -29,9 +29,7 @@ import { ContactsListProvider } from "./providers/ContactsListProvider";
 import styles from "./styles.module.scss";
 
 function ContactsList() {
-    const { width: windowWidth } = useWindowSize();
-
-    const isMobile = windowWidth <= 784;
+    const { isMobile } = useDeviceType();
 
     return (
         <>

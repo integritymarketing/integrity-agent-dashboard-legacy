@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
-import { useWindowSize } from "hooks/useWindowSize";
+import useDeviceType from "hooks/useDeviceType";
 import DeleteLeadContext from "contexts/deleteLead";
 import useAnalytics from "hooks/useAnalytics";
 import useToast from "hooks/useToast";
@@ -34,12 +34,10 @@ import { LoadMoreButton } from "../LoadMoreButton";
 function ContactsTable() {
     const { tableData, policyCounts } = useContactsListContext();
     const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(DeleteLeadContext);
-    const { width: windowWidth } = useWindowSize();
     const { fireEvent } = useAnalytics();
     const navigate = useNavigate();
     const showToast = useToast();
-
-    const isMobile = windowWidth <= 784;
+    const { isMobile } = useDeviceType();
 
     const contactsListResultsEvent = () => {
         const contacts_with_health_policies_count = policyCounts.filter(

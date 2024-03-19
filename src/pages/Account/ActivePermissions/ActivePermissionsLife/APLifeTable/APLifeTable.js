@@ -9,15 +9,14 @@ import styles from "./styles.module.scss";
 
 import { LoadMoreButton } from "../../LoadMoreButton";
 import { useAPLifeContext } from "../../providers/APLifeProvider";
-import { useWindowSize } from "hooks/useWindowSize";
+import useDeviceType from "hooks/useDeviceType";
 import MobileActiveSA from "./MobileActiveSA";
 
 const ITEM_PER_PAGE = 5;
 
 const APLifeTable = () => {
     const { tableData } = useAPLifeContext();
-    const { width: windowWidth } = useWindowSize();
-    const isMobile = windowWidth <= 784;
+    const { isMobile } = useDeviceType();
     const { visibleItems, loadMore, hasMore } = useLoadMore(tableData, ITEM_PER_PAGE);
     const hasItem = tableData.length > 0;
 
