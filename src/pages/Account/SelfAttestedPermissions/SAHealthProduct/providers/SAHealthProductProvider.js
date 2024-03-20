@@ -4,7 +4,6 @@ import useFetchAgentsData from "../hooks/useFetchAgentsData";
 import useFetchTableData from "../hooks/useFetchTableData";
 import useFilterOptions from "../hooks/useFilterOptions";
 import useFilterData from "../hooks/useFilteredData";
-import useShowSection from "../hooks/useShowSection";
 
 import Spinner from "components/ui/Spinner/index";
 
@@ -23,8 +22,6 @@ export const SAHealthProductProvider = ({ children }) => {
     const [openFilter, setOpenFilter] = useState(false);
     const { setFilters, filteredData, filters } = useFilterData(tableData);
     const { filterOptions } = useFilterOptions(tableData);
-
-    const shouldShowSection = useShowSection(agents);
 
     // Memoize the context value using useMemo
     const contextValue = useMemo(
@@ -60,10 +57,6 @@ export const SAHealthProductProvider = ({ children }) => {
 
     if (isFetchingAgentsData || isfetchingTableData || isLoading) {
         return <Spinner />;
-    }
-
-    if (!shouldShowSection) {
-        return <></>;
     }
 
     return <SAHealthProductContext.Provider value={contextValue}>{children}</SAHealthProductContext.Provider>;

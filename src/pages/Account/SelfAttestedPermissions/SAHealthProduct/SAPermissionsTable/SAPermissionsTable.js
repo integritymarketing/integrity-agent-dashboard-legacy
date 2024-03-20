@@ -4,6 +4,13 @@ import Box from "@mui/material/Box";
 
 import { dateFormatter } from "utils/dateFormatter";
 
+import useRoles from "hooks/useRoles";
+import useDeviceType from "hooks/useDeviceType";
+
+import { NonRTSModal } from "packages/NonRTS-Modal";
+
+import { InforBanner } from "pages/Account/InforBanner";
+
 import useLoadMore from "pages/Account/SelfAttestedPermissions/hooks/useLoadMore";
 
 import InfoRedIcon from "components/icons/info-red";
@@ -14,15 +21,24 @@ import styles from "./styles.module.scss";
 import { DeleteButton } from "../DeleteButton";
 import { LoadMoreButton } from "../LoadMoreButton";
 import { SAPermissionsFilter } from "../SAPermissionsFilter";
+import { SAAddPermissionRow } from "../SAAddPermissionRow";
+import { SAPermissionsList } from "../SAPermissionsList";
 import { useSAHealthProductContext } from "../providers/SAHealthProductProvider";
 import { useSAPModalsContext } from "../providers/SAPModalProvider";
 
 const ITEM_PER_PAGE = 5;
 
 function SAPermissionsTable() {
+    const { isNonRTS_User } = useRoles();
+    const { isMobile } = useDeviceType();
+
     const { setIsExpriedModalOpen } = useSAPModalsContext();
     const { filteredData } = useSAHealthProductContext();
     const { visibleItems, loadMore, hasMore } = useLoadMore(filteredData, ITEM_PER_PAGE);
+
+    if (isNonRTS_User || visibleItems.length === 0) {
+        return <InforBanner PopupModal={NonRTSModal} showModal={true} />;
+    }
 
     const columns = useMemo(
         () => [
@@ -127,7 +143,15 @@ function SAPermissionsTable() {
 
     return (
         <Box className={styles.tableWrapper}>
-            <Table columns={columns} data={visibleItems} />
+            {!isMobile && <Table columns={columns} data={visibleItems} />}
+            {isMobile && (
+                <>
+                    <SAPermissionsFilter />
+                    <SAPermissionsList />
+                </>
+            )}
+            <SAAddPermissionRow />
+
             {hasMore && <LoadMoreButton loadMore={loadMore} />}
         </Box>
     );

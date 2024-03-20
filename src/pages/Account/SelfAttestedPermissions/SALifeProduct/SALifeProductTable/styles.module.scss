@@ -18,7 +18,7 @@
     display: flex;
 
     .column {
-      width: 70%;
+      width: 60%;
     }
   }
 
@@ -49,6 +49,7 @@
   }
 
   .column2 {
+    margin-left: 12px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
