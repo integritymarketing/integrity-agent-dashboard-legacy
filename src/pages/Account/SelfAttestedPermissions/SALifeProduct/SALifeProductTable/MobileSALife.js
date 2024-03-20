@@ -143,7 +143,7 @@ const MobileSALife = ({ items }) => {
                                             </>
                                             : <Button
                                                 icon={
-                                                    isExpired ? <TrashbinIcon color="#4178ff" /> : <EditIcon color="#4178ff" />
+                                                    isExpired ? <TrashBinIcon color="#4178ff" /> : <EditIcon color="#4178ff" />
                                                 }
                                                 label={isExpired ? "Delete" : "Edit"}
                                                 className={styles.buttonWithIcon}
