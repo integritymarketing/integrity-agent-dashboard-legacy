@@ -6,6 +6,19 @@
   }
 }
 
+.expiredColumn {
+  color: #F44336;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.expiredIcon {
+  cursor: pointer;
+  position: relative;
+  top: 2px;
+}
+
 .sectionContainer {
   background-color: #ffffff;
   border-radius: 8px;
