@@ -88,7 +88,7 @@ const FinalExpensePlansResultContainer = () => {
         if (agentNPN) {
             handleFinalExpensePlanClick();
         }
-    }, [agentNPN, appointmentSession, getAgentNonRTS, setIsMyAppointedProducts]);
+    }, []);
 
     useEffect(() => {
         if (contactId !== sessionLead) {
