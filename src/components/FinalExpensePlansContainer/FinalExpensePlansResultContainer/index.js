@@ -81,6 +81,7 @@ const FinalExpensePlansResultContainer = () => {
                     setIsMyAppointedProducts(true);
                 } else {
                     setIsRTS(false);
+                    setIsMyAppointedProducts(false);
                 }
             }
         };
@@ -260,7 +261,7 @@ const FinalExpensePlansResultContainer = () => {
                         </div>
                     </div>
                 </div>
-                {isRTS !== undefined && <PlanDetailsContainer
+                {<PlanDetailsContainer
                     coverageAmount={coverageAmount}
                     monthlyPremium={monthlyPremiumAmount}
                     coverageType={coverageType}
