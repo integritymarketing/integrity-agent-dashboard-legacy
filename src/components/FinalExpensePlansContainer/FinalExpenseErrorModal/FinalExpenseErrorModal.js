@@ -82,13 +82,13 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
 
             const response = await addSALifeRecord(payload, true);
             if (response.ok) {
-                const hasRedirectURL = await onApply(producerId, true);
+                await onApply(producerId, true);
                 await fetchPlans();
             }
-        } catch (error) {
+        } catch (e) {
             showToast({
                 type: "error",
-                message: error.message || "An error occurred",
+                message: e.message || "An error occurred",
                 time: 10000,
             });
         } finally {
