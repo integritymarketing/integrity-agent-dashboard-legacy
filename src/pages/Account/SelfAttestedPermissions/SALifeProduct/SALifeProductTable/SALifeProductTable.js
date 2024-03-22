@@ -20,7 +20,7 @@ function SALifeProductTable() {
     return (
         <Box className={styles.tableWrapper}>
             {isMobile ? <MobileSALife items={visibleItems} /> : <Table data={visibleItems} />}
-            {hasMore && <LoadMoreButton loadMore={loadMore} />}
+            {!isMobile && hasMore && <LoadMoreButton loadMore={loadMore} />}
         </Box>
     );
 }
