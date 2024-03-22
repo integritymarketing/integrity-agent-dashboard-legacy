@@ -1,0 +1,21 @@
+
+const Askintegrity = () => {
+    return (
+        <svg id="AskIntegrity_-_Tag" data-name="AskIntegrity - Tag" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g id="Group_8650" data-name="Group 8650" transform="translate(3 3)">
+                <circle id="Ellipse_725" data-name="Ellipse 725" cx="12" cy="12" r="12" transform="translate(-3 -3)" fill="#052a63" />
+                <g id="Ellipse_725-2" data-name="Ellipse 725" transform="translate(0)" fill="none" stroke="#fff" stroke-width="1">
+                    <circle cx="9" cy="9" r="9" stroke="none" />
+                    <circle cx="9" cy="9" r="8.5" fill="none" />
+                </g>
+            </g>
+            <g id="Symbol" transform="translate(8.25 7)">
+                <path id="Path_21941" data-name="Path 21941" d="M3.437,0l0,10H0V9.691A2.19,2.19,0,0,0,2.19,7.5l0-5A2.188,2.188,0,0,0,0,.318V.005Z" transform="translate(0 -0.003)" fill="#fff" />
+                <path id="Path_21942" data-name="Path 21942" d="M12.994,0l0,10h3.436V9.685A2.189,2.189,0,0,1,14.246,7.5l0-5A2.187,2.187,0,0,1,16.43.313V0Z" transform="translate(-8.933)" fill="#fff" />
+            </g>
+        </svg>
+
+    );
+}
+
+export default Askintegrity;

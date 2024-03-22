@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { styled } from '@mui/material/styles';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import Box from "@mui/material/Box";
 
+import Button from '@mui/material/Button';
 import { useActiveFilters } from "hooks/useActiveFilters";
 
 import ContactListFilterOptions from "packages/ContactListFilterOptions";
@@ -28,6 +30,23 @@ function FilterAndSort() {
     const { layout, setLayout, sort, setSort, resetData } = useContactsListContext();
     const { active = false } = useActiveFilters();
     const navigate = useNavigate();
+    const LightTooltip = styled(({ className, ...props }) => (
+        <Tooltip {...props} classes={{ popper: className }} />
+    ))(() => ({
+        [`& .${tooltipClasses.tooltip}`]: {
+            backgroundColor: "transparent",
+            color: '#717171',
+            boxShadow: "none",
+            fontSize: 12,
+            border: "none"
+        },
+    }));
+
+    const StyledBtn = styled(Button)(() => ({
+        '&:hover': {
+            backgroundColor: "transparent",
+        },
+    }));
 
     const switchLayout = () => {
         setLayout(layout === "list" ? "card" : "list");
@@ -38,30 +57,40 @@ function FilterAndSort() {
     return (
         <Box className={styles.customBox} display="flex" alignItems="flex-end">
             <Box className={styles.pointerBox}>
-                <Box onClick={switchLayout}>{layout === "list" && <CardView />}</Box>
-                <Box onClick={switchLayout} position="relative" top="7px">
-                    {layout === "card" && <ListViewIcon />}
+                <Box onClick={switchLayout}>
+                    {layout === "list" && <LightTooltip title="Grid View" placement="top"><StyledBtn><CardView /></StyledBtn></LightTooltip>}
+                </Box>
+                <Box onClick={switchLayout}>
+                    {layout === "card" && <LightTooltip title="List View" placement="top"><StyledBtn><ListViewIcon /></StyledBtn></LightTooltip>}
                 </Box>
             </Box>
-            <Filter
-                Icon={SortIcon}
-                ActiveIcon={SortIcon}
-                heading="Sort by"
-                open={sortToggle}
-                onToggle={setSortToggle}
-                filtered={active}
-                content={<ContactListSort close={setSortToggle} sort={sort} setSort={(value) => setSort([value])} />}
-            />
-            <Filter
-                Icon={FilterIcon}
-                ActiveIcon={FilterActive}
-                heading="Filter by"
-                open={filterToggle}
-                onToggle={setFilterToggle}
-                filtered={active}
-                content={<ContactListFilterOptions close={setFilterToggle} layout={layout} />}
-            />
-        </Box>
+            <LightTooltip title="Sort" placement="top">
+                <StyledBtn>
+                    <Filter
+                        Icon={SortIcon}
+                        ActiveIcon={SortIcon}
+                        heading="Sort by"
+                        open={sortToggle}
+                        onToggle={setSortToggle}
+                        filtered={active}
+                        content={<ContactListSort close={setSortToggle} sort={sort} setSort={(value) => setSort([value])} />}
+                    />
+                </StyledBtn>
+            </LightTooltip>
+            <LightTooltip title="Filter" placement="top">
+                <StyledBtn>
+                    <Filter
+                        Icon={FilterIcon}
+                        ActiveIcon={FilterActive}
+                        heading="Filter by"
+                        open={filterToggle}
+                        onToggle={setFilterToggle}
+                        filtered={active}
+                        content={<ContactListFilterOptions close={setFilterToggle} layout={layout} />}
+                    />
+                </StyledBtn>
+            </LightTooltip>
+        </Box >
     );
 }
 

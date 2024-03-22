@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
-import useDeviceType from "hooks/useDeviceType";
+import { useWindowSize } from "hooks/useWindowSize";
 import DeleteLeadContext from "contexts/deleteLead";
 import useAnalytics from "hooks/useAnalytics";
 import useToast from "hooks/useToast";
@@ -16,6 +16,9 @@ import HealthActive from "components/icons/version-2/HealthActive";
 import HealthInactive from "components/icons/version-2/HealthInactive";
 import Heartactive from "components/icons/version-2/HeartActive";
 import HeartInactive from "components/icons/version-2/HeartInactive";
+import AskIntegrity from "components/icons/version-2/AskIntegrity";
+import CampaignStatus from "components/icons/version-2/CampaignStatus";
+import Connectemail from "components/icons/version-2/ConnectEmail";
 import { Checkbox } from "components/ui/version-2/Checkbox";
 
 import clientsService from "services/clientsService";
@@ -30,14 +33,16 @@ import { TableMobile } from "./TableMobile";
 import styles from "./styles.module.scss";
 
 import { LoadMoreButton } from "../LoadMoreButton";
+import { Reminder } from "components/icons/version-2/Reminder";
 
 function ContactsTable() {
     const { tableData, policyCounts } = useContactsListContext();
     const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(DeleteLeadContext);
+    const { width: windowWidth } = useWindowSize();
     const { fireEvent } = useAnalytics();
     const navigate = useNavigate();
     const showToast = useToast();
-    const { isMobile } = useDeviceType();
+    const isMobile = windowWidth <= 784;
 
     const contactsListResultsEvent = () => {
         const contacts_with_health_policies_count = policyCounts.filter(
@@ -125,9 +130,40 @@ function ContactsTable() {
                 Cell: ({ value, row }) => <StageCell initialValue={value} originalData={row?.original} />,
             },
             {
-                Header: "Tags",
+                Header: "Reminders",
                 disableSortBy: true,
-                accessor: (row) => <TagCell row={row} />,
+                accessor: "reminders",
+                Cell: ({ value }) => {
+                    return (
+                        <Box position="relative" display="inline-block">
+                            <Reminder />
+                        </Box>
+                    );
+                },
+            },
+            {
+                Header: "Campaign",
+                disableSortBy: true,
+                accessor: "campaign",
+                Cell: ({ value }) => {
+                    return (
+                        <Box position="relative" display="inline-block">
+                            <CampaignStatus />
+                        </Box>
+                    );
+                },
+            },
+            {
+                Header: "Ask Integrity",
+                disableSortBy: true,
+                accessor: "askIntegrity",
+                Cell: ({ value }) => {
+                    return (
+                        <Box position="relative" display="inline-block">
+                            <AskIntegrity />
+                        </Box>
+                    );
+                },
             },
             {
                 Header: "Life",
@@ -161,6 +197,18 @@ function ContactsTable() {
                             </Box>
                         );
                     }
+                },
+            },
+            {
+                Header: "Connect",
+                disableSortBy: true,
+                accessor: "connect",
+                Cell: ({ value }) => {
+                    return (
+                        <Box position="relative" display="inline-block">
+                            <Connectemail />
+                        </Box>
+                    );
                 },
             },
             {
