@@ -15,12 +15,12 @@ const StyledBadge = styled(Badge)({
     },
 });
 
-const CardBadge = ({ label, IconComponent, count = '' }) => (
+const CardBadge = ({ label, Icon, count = '' }) => (
     <Box display="flex" flexDirection="column" alignItems="center">
         <Box className={styles.tag}>{label}</Box>
         <IconButton size="small" aria-label={label}>
             <StyledBadge badgeContent={count} color="secondary">
-                <IconComponent />
+                {Icon}
             </StyledBadge>
         </IconButton>
     </Box>
