@@ -28,6 +28,7 @@ function FilteredLeadIdsBanner() {
                 {count} {filteredInfo?.status} {text}
             </Box>
             <Box onClick={onClickHandle} className={styles.clearIcon}>
+                <span>{'Clear Filter'}</span>
                 <RoundCloseIcon />
             </Box>
         </Box>

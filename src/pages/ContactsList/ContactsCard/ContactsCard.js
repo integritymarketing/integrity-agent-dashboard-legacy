@@ -11,6 +11,9 @@ import { Reminder } from "components/icons/version-2/Reminder";
 import CardBadge from "./CardBadge/CardBadge";
 import LifeIcon from "./LifeIcon";
 import HealthIcon from "./HealthIcon";
+import CampaignStatus from "components/icons/version-2/CampaignStatus";
+import Askintegrity from "components/icons/version-2/AskIntegrity";
+import Connectemail from "components/icons/version-2/ConnectEmail";
 
 function ContactsCard() {
     const { tableData } = useContactsListContext();
@@ -26,12 +29,12 @@ function ContactsCard() {
                             <Box className={styles.innerWrapper}>
                                 <CardStage item={item} />
                                 <CardBadge label="Reminders" Icon={<Reminder />} />
-                                <CardBadge label="Contact" Icon={<Reminder />} />
+                                <CardBadge label="Connect" Icon={<Connectemail />} />
                             </Box>
 
                             <Box className={styles.innerWrapper}>
-                                <CardBadge label="Campaign" Icon={<Reminder />} />
-                                <CardBadge label="Ask Integrity" Icon={<Reminder />} />
+                                <CardBadge label="Campaign" Icon={<CampaignStatus />} />
+                                <CardBadge label="Ask Integrity" Icon={<Askintegrity />} />
                                 <CardBadge label="Life" Icon={<LifeIcon lifePolicyCount={lifePolicyCount} />} />
                                 <CardBadge label="Health" Icon={<HealthIcon healthPolicyCount={healthPolicyCount} />} />
                             </Box>

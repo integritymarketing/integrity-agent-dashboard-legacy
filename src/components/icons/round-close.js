@@ -14,7 +14,7 @@ const RoundCloseIcon = () => {
           data-name="Ellipse 283"
           transform="translate(128 24)"
           fill="#fff"
-          stroke="#e15241"
+          stroke="#4178FF"
           strokeWidth="1"
         >
           <circle cx="8" cy="8" r="8" stroke="none" />
@@ -31,7 +31,7 @@ const RoundCloseIcon = () => {
             d="M1.526,3.5-4.5,9.526"
             transform="translate(1093 341)"
             fill="none"
-            stroke="#e15241"
+            stroke="#4178FF"
             strokeLinecap="round"
             strokeWidth="1"
           />
@@ -42,7 +42,7 @@ const RoundCloseIcon = () => {
             y2="6"
             transform="translate(1088.513 344.513)"
             fill="none"
-            stroke="#e15241"
+            stroke="#4178FF"
             strokeLinecap="round"
             strokeWidth="1"
           />

@@ -95,7 +95,7 @@ const StageCell = ({ initialValue, originalData, customWidth, customRefresh }) =
                 options={filteredStatusOptions}
                 initialValue={selectedStage || "New"}
                 onChange={handleStageChange}
-                customWidth={customWidth ? customWidth : layout === "list" && 160}
+                customWidth={customWidth ? customWidth : layout === "list" && 140}
             />
         </Box>
     );

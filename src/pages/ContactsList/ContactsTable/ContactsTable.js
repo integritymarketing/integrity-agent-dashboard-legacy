@@ -135,7 +135,7 @@ function ContactsTable() {
                 accessor: "reminders",
                 Cell: ({ value }) => {
                     return (
-                        <Box position="relative" display="inline-block">
+                        <Box position="relative" display="inline-block" sx={{ left: '15px' }}>
                             <Reminder />
                         </Box>
                     );
@@ -147,7 +147,7 @@ function ContactsTable() {
                 accessor: "campaign",
                 Cell: ({ value }) => {
                     return (
-                        <Box position="relative" display="inline-block">
+                        <Box position="relative" display="inline-block" sx={{ left: '15px' }}>
                             <CampaignStatus />
                         </Box>
                     );
@@ -159,7 +159,7 @@ function ContactsTable() {
                 accessor: "askIntegrity",
                 Cell: ({ value }) => {
                     return (
-                        <Box position="relative" display="inline-block">
+                        <Box position="relative" sx={{ left: '25px' }} display="inline-block">
                             <AskIntegrity />
                         </Box>
                     );

@@ -16,9 +16,9 @@ const StyledBadge = styled(Badge)({
 });
 
 const CardBadge = ({ label, Icon, count = '' }) => (
-    <Box display="flex" flexDirection="column" alignItems="center">
+    <Box display="flex" flexDirection="column" alignItems="center" className={styles.cardBadgeContainer}>
         <Box className={styles.tag}>{label}</Box>
-        <IconButton size="small" aria-label={label}>
+        <IconButton size="small" aria-label={label} className={styles.iconAdjustment}>
             <StyledBadge badgeContent={count} color="secondary">
                 {Icon}
             </StyledBadge>
@@ -37,4 +37,3 @@ CardBadge.defaultProps = {
 };
 
 export default CardBadge;
-
