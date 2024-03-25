@@ -6,7 +6,7 @@ import MedicareCENTERLogo from "./assets/MedicareCENTER-Logo.svg";
 import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 import useRoles from "hooks/useRoles";
 import Logo from "components/Logo";
-const nonRTS_DisableLinks = ["MedicareAPP", "MedicareLink"];
+const nonRTS_DisableLinks = ["MedicareAPP", "MedicareLINK"];
 
 const SmallFormatNav = ({ navOpen, setNavOpen, primary, secondary, tertiary }) => {
     const userProfile = useUserProfile();

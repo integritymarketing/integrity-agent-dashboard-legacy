@@ -181,7 +181,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                                   window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
                               },
                           },
-                          label: "MedicareLink",
+                          label: "MedicareLINK",
                       },
                       {
                           component: "button",
@@ -271,7 +271,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                                   window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
                               },
                           },
-                          label: "MedicareLink",
+                          label: "MedicareLINK",
                       },
                       {
                           component: "button",
