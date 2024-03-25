@@ -1,4 +1,6 @@
-.modalContentHeader {
+@import "../../../scss/globalDefines.scss";
+
+ .modalContentHeader {
     color: #052a63;
     margin-top: 24px;
     font-weight: bold;
@@ -43,9 +45,20 @@
     }
 }
 
+.label2 {
+    color: #052a63;
+    font-weight: bold;
+    @include small {
+        word-break: break-all;
+        width: 85%;
+    }
+
+}
+
 .label {
     color: #052a63;
     font-weight: bold;
+    
 }
 
 .actions {

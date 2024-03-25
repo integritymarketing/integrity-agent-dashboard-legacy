@@ -43,7 +43,9 @@ export const ScopeOfAppointmentContainer = () => {
     }, []);
 
     useEffect(() => {
-        if (!leadId) {return;}
+        if (!leadId) {
+            return;
+        }
         getSoaList(leadId);
     }, [getSoaList, leadId]);
 
@@ -84,7 +86,7 @@ export const ScopeOfAppointmentContainer = () => {
                 <div className={styles.titleWrapper}>
                     <div className={styles.soaTitle}>{SCOPES_OF_APPOINTMENT}</div>
                 </div>
-                <div className={styles.titleWrapper} onClick={() => setOpenSOAModal(true)}>
+                <div className={styles.sendNewWrapper} onClick={() => setOpenSOAModal(true)}>
                     <div className={styles.sendStyle}>{SEND_NEW}</div>
                     <Share className={styles.infoStyle} />
                 </div>

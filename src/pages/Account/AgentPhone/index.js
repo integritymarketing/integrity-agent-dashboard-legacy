@@ -17,7 +17,7 @@ const AgentPhone = () => {
         <SectionContainer title="Agent Phone Number">
             <p className={styles.subText}>
                 This phone number can be given to clients for them to contact you directly. It will be forwarded to the
-                number found in you Check-in Preferences.
+                number found in your Check-in Preferences.
             </p>
             <Heading2
                 className={styles.agentPhone}

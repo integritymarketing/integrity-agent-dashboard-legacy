@@ -51,10 +51,10 @@ function PersonalInfo() {
             });
 
             await authService.signinSilent();
-            setSubmitting(false);
             showToast({
                 message: "Your account info has been updated",
             });
+            setIsEdit(false);
         } else {
             loading.end();
             if (response.status === 401) {

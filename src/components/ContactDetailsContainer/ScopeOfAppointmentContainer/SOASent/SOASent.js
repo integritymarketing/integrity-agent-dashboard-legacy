@@ -29,7 +29,8 @@ export const SOASent = ({ soa }) => {
                         <div className={styles.columnLabel}>Products to Discuss</div>
                         <div className={styles.productsContainer}>
                             {SOA_SENT_TO}
-                            <span>{soaDestination}</span>
+                            {!isMobile && <span className={styles.email}>{soaDestination}</span>}
+                            {isMobile && <div className={styles.email}>{soaDestination}</div>}
                         </div>
                     </div>
                 </div>

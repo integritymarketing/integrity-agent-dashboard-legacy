@@ -34,8 +34,9 @@
                 color: #434a51;
                 padding: 16px 16px 21px 16px;
 
-                span {
-                    color: #4178FF
+                .email {
+                    color: #4178FF;
+                    word-break: break-all;
                 }
             }
         }
