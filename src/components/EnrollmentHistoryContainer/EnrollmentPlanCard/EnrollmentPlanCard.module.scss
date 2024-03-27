@@ -23,8 +23,7 @@
         text-transform: capitalize;
         width: fit-content;
         border-radius: 8px 8px 0px 0px;
-        padding: 8px 16px;
-        align-self: flex-end;
+         align-self: flex-end;
         display: flex;
         align-items: center;
         gap: 5px;
@@ -57,22 +56,32 @@
 
     .detailAndDateContainer {
         display: flex;
-        gap: 2rem;
+        justify-content: space-between;
+        align-items: center;
         width: 80%;
-
+        padding: 16px 24px 16px 24px;
+        border-radius: 8px;
+        margin-top: 10px;
         @include small {
-            display: flex;
             flex-direction: column;
-            gap: 0;
-        }
+            align-items: flex-start;
+         }
     }
 
     .planDetails {
         background-color: #f1faff;
         font-size: 16px;
 
-        span{
+      
+        .statusIcon {
             color: #434A51;
+             margin-right: 10px;
+            background-color: #ffffff;
+            padding: 7px 8px 2px 8px;
+            border-radius: 35px;
+            width: 40px;
+            height: 40px;
+        
             @include small {
                 font-weight: bold;
             }
@@ -98,8 +107,7 @@
             font-size: 20px;
             color: #052A63;
             letter-spacing: 0.2px;
-            padding-bottom: 0.5rem;
-
+ 
             @include small {
                 color: #002D72;
             }
@@ -145,16 +153,14 @@
             .date {
                 letter-spacing: 0.16px;
                 color: $dark-blue;
-                margin-top: 5px;
-
+ 
                 span {
                     color: $cyan-blue;
                 }
             }
 
             @include small {
-                padding-top: 0.5rem;
-                order: 3;
+                 order: 3;
             }
         }
 
@@ -201,17 +207,20 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
-    }
+     }
 }
 
 .label {
     letter-spacing: 0.16px;
-    color: $dark-blue;
+    color: #052A63;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .value {
     letter-spacing: 0.16px;
-    color: $cyan-blue;
+    color :#434A51;
+    font-size: 16px;
 }
 
 .isBordered {
@@ -270,4 +279,48 @@
 .detailsContainer {
     display: flex;
     justify-content: space-between;
+    @include small {
+        align-items: center;
+        width: 100%;
+    }
 }
+
+.statusIconAndPlanNameContainer{
+    display: flex;
+    align-items: center;
+}
+
+.statusLabel{
+    color: #052A63;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.statusValue{
+    color: #717171;
+    font-size: 14px;
+}
+
+.planLabel{
+    color: #052A63;
+    font-size: 16px;
+    font-weight: bold;
+    @include small {
+        margin-top: 5px;
+    }
+ }
+ 
+.planValue {
+    color :#434A51;
+    font-size: 16px;
+ }
+
+ .policyHolder{
+    display: flex;
+    gap: 10px;
+ }
+
+ .policyId {
+    display: flex;
+    gap: 10px;
+ }

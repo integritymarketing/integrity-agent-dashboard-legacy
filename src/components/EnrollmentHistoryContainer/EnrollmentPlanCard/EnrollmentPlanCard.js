@@ -37,7 +37,7 @@ export default function EnrollmentPlanCard(props) {
         policyEffectiveDate,
         termedDate,
         policyHolder,
-        policyId,
+        // policyId = "N/A",
         currentYear = true,
         leadId,
         isEnrollPlansPage,
@@ -46,13 +46,13 @@ export default function EnrollmentPlanCard(props) {
         confirmationNumber,
         isEmail = false,
         planName,
-        carrier,
-        planId,
+        carrier = "N/A",
+        planId = "N/A",
         hasPlanDetails,
         policyStatusColor,
-        productCategory,
+        productCategory = "N/A",
     } = props;
-
+    let policyId = "Vinod Kumar";
     const navigate = useNavigate();
     const location = useLocation();
     const [isMobile, setIsMobile] = useState(false);
@@ -107,27 +107,38 @@ export default function EnrollmentPlanCard(props) {
                 }}
             />
             <div className={`${styles.planCard} ${!currentYear ? styles.isBordered : ""}`}>
-                {currentYear && (
-                    <div className={styles.status} style={{ backgroundColor: policyStatusColor }}>
-                        <span>
-                            <strong>Status:</strong> {policyStatus}
-                        </span>
-                        <span>{IconComponent}</span>
-                    </div>
-                )}
                 <div className={`${!currentYear ? styles.previousYear : ""} ${styles.planDetails}`}>
-                    <div className={styles.planName}>{planName}</div>
-                    <div className={styles.detailsContainer}>
-                        <div className={styles.detailAndDateContainer}>
-                            <div className={styles.details}>
-                                <div>
-                                    <strong className={styles.planId}>Product:</strong> <span>{productCategory}</span>
-                                </div>
-                                <div className={styles.planCompany}>{renderPlanDetails("Carrier", carrier)}</div>
-                                <div>
-                                    <strong className={styles.planId}>Plan ID:</strong> <span>{planId}</span>
-                                </div>
+                    <div className={styles.statusIconAndPlanNameContainer}>
+                        <div
+                            className={styles.statusIcon}
+                            style={{ backgroundColor: !currentYear ? "#F1FAFF" : "#FFFFFF" }}
+                        >
+                            {IconComponent}
+                        </div>
+                        <div className={styles.planNameAndStatus}>
+                            <div className={styles.planName}>{planName}</div>
+                            <div className={styles.status}>
+                                <span className={styles.statusLabel}>Status:</span>
+                                <span className={styles.statusValue}>{policyStatus} </span>
                             </div>
+                        </div>
+                    </div>
+                    <div className={styles.detailsContainer}>
+                        <div
+                            className={styles.detailAndDateContainer}
+                            style={{ backgroundColor: !currentYear ? "#F1F1F1" : "#FFFFFF" }}
+                        >
+                            {/* <div className={styles.details}> */}
+                            <div>
+                                <div className={styles.planLabel}>Product </div>{" "}
+                                <div className={styles.planValue}>{productCategory}</div>
+                            </div>
+                            <div className={styles.planCompany}>{renderPlanDetails("Carrier", carrier)}</div>
+                            <div>
+                                <div className={styles.planLabel}>Plan ID </div>
+                                <div className={styles.planValue}>{planId}</div>
+                            </div>
+                            {/* </div> */}
                             <div className={styles.dates}>
                                 {currentYear ? (
                                     <>
@@ -194,7 +205,7 @@ export default function EnrollmentPlanCard(props) {
                                                         {hasPlanDetails && (
                                                             <div onClick={navigateEnrollDetails}>
                                                                 <IconWithText
-                                                                    text="View"
+                                                                    text="View Policy"
                                                                     icon={
                                                                         <Icon
                                                                             altText="View"
@@ -210,7 +221,7 @@ export default function EnrollmentPlanCard(props) {
                                                             policyStatus !== "started" && (
                                                                 <div onClick={navigateToEnrollmentLink}>
                                                                     <IconWithText
-                                                                        text="Relink"
+                                                                        text="Relink Policy"
                                                                         icon={
                                                                             <Icon
                                                                                 altText="Link"
@@ -228,7 +239,7 @@ export default function EnrollmentPlanCard(props) {
                                                         {hasPlanDetails && (
                                                             <Button
                                                                 icon={<OpenIcon />}
-                                                                label={"View"}
+                                                                label={"View Policy"}
                                                                 className={styles.viewButton}
                                                                 onClick={navigateEnrollDetails}
                                                                 type="tertiary"
@@ -239,7 +250,7 @@ export default function EnrollmentPlanCard(props) {
                                                             policyStatus !== "started" && (
                                                                 <Button
                                                                     icon={<Relink color="#4178FF" />}
-                                                                    label={"Relink"}
+                                                                    label={"Relink Policy"}
                                                                     className={styles.relinkButton}
                                                                     onClick={navigateToEnrollmentLink}
                                                                     type="tertiary"
@@ -258,8 +269,8 @@ export default function EnrollmentPlanCard(props) {
                 </div>
             </div>
             <div className={`${!currentYear ? styles.previousYear : ""} ${styles.policyDetails}`}>
-                <div className={styles.policyHolder}>{renderPlanDetails("Policy Holder", holderName)}</div>
-                {policyId && <div className={styles.policyId}>{renderPlanDetails("Policy ID", policyId)}</div>}
+                <div className={styles.policyHolder}>{renderPlanFooterDetails("Policy Holder", holderName)}</div>
+                {policyId && <div className={styles.policyId}>{renderPlanFooterDetails("Policy ID", policyId)}</div>}
             </div>
         </div>
     );
@@ -267,8 +278,8 @@ export default function EnrollmentPlanCard(props) {
     function PlanDate({ type, date }) {
         return (
             <div className={styles.date}>
-                <strong>{type}: </strong>
-                <span>{date}</span>
+                <div className={styles.planLabel}>{type} </div>
+                <div className={styles.planValue}>{date}</div>
             </div>
         );
     }
@@ -276,8 +287,17 @@ export default function EnrollmentPlanCard(props) {
     function renderPlanDetails(label, value) {
         return (
             <>
-                <strong className={styles.label}>{label}: </strong>
-                <span className={styles.value}>{value}</span>
+                <div className={styles.planLabel}>{label} </div>
+                <div className={styles.planValue}>{value}</div>
+            </>
+        );
+    }
+
+    function renderPlanFooterDetails(label, value) {
+        return (
+            <>
+                <div className={styles.label}>{label}: </div>
+                <div className={styles.value}>{value}</div>
             </>
         );
     }
