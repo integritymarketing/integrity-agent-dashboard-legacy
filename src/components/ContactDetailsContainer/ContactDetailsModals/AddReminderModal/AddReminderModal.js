@@ -39,9 +39,13 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
  
     const handleSaveReminder = useCallback(() => {
         const reminderDateTime = new Date(values.date);
+
         if (values?.time) {
             reminderDateTime.setHours(values?.time?.getHours());
             reminderDateTime.setMinutes(values?.time?.getMinutes());
+        } else {
+            reminderDateTime.setHours(12); 
+            reminderDateTime.setMinutes(0);
         }
  
         const payload = {
