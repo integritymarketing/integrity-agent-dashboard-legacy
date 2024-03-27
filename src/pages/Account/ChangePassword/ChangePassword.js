@@ -73,6 +73,7 @@ function ChangePassword() {
                             const errorsArr = await response.json();
                             showToast({
                                 message: "Failed to updated password.",
+                                type: "error",
                             });
                             setErrors(
                                 validationService.formikErrorsFor(
