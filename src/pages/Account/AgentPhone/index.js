@@ -4,7 +4,7 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 
 import Heading2 from "packages/Heading2";
 
-import { formatTwiloNumber } from "utils/formatTwiloNumber";
+import { formatTwilioNumber } from "utils/formatTwilioNumber";
 
 import styles from "./styles.module.scss";
 
@@ -22,7 +22,7 @@ const AgentPhone = () => {
             <Heading2
                 className={styles.agentPhone}
                 id="transition-modal-description"
-                text={formatTwiloNumber(agentVirtualPhoneNumber)}
+                text={formatTwilioNumber(agentVirtualPhoneNumber)}
             />
         </SectionContainer>
     );
