@@ -18,7 +18,13 @@ const StyledBadge = styled(Badge)({
 const CardBadge = ({ label, Icon, count = '' }) => (
     <Box display="flex" flexDirection="column" alignItems="center" className={styles.cardBadgeContainer}>
         <Box className={styles.tag}>{label}</Box>
-        <IconButton size="small" aria-label={label} className={styles.iconAdjustment}>
+        <IconButton size="small"
+            aria-label={label}
+            sx={{
+                "&.MuiButtonBase-root:hover": {
+                    bgcolor: "transparent"
+                }
+            }}>
             <StyledBadge badgeContent={count} color="secondary">
                 {Icon}
             </StyledBadge>
