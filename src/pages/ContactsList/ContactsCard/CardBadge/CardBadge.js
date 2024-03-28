@@ -1,30 +1,32 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Badge from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
-import PropTypes from 'prop-types';
-import styles from './styles.module.scss';
+import React from "react";
+import Box from "@mui/material/Box";
+import Badge from "@mui/material/Badge";
+import IconButton from "@mui/material/IconButton";
+import { styled } from "@mui/material/styles";
+import PropTypes from "prop-types";
+import styles from "./styles.module.scss";
 
 // Moved outside to avoid re-creation on every render
 const StyledBadge = styled(Badge)({
-    '& .MuiBadge-badge': {
+    "& .MuiBadge-badge": {
         right: 3,
         top: 20,
-        background: 'transparent',
+        background: "transparent",
     },
 });
 
-const CardBadge = ({ label, Icon, count = '' }) => (
+const CardBadge = ({ label, Icon, count = "" }) => (
     <Box display="flex" flexDirection="column" alignItems="center" className={styles.cardBadgeContainer}>
         <Box className={styles.tag}>{label}</Box>
-        <IconButton size="small"
+        <IconButton
+            size="small"
             aria-label={label}
             sx={{
                 "&.MuiButtonBase-root:hover": {
-                    bgcolor: "transparent"
-                }
-            }}>
+                    bgcolor: "transparent",
+                },
+            }}
+        >
             <StyledBadge badgeContent={count} color="secondary">
                 {Icon}
             </StyledBadge>
@@ -39,7 +41,7 @@ CardBadge.propTypes = {
 };
 
 CardBadge.defaultProps = {
-    count: '',
+    count: "",
 };
 
 export default CardBadge;

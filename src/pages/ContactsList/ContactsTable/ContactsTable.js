@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable react/prop-types */
-import { useCallback, useContext, useEffect, useMemo } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -11,6 +11,8 @@ import useAnalytics from "hooks/useAnalytics";
 import useToast from "hooks/useToast";
 
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
+import ReminderModals from "../RemiderModals/ReminderModals";
+import { isOverDue } from "utils/dates";
 
 import HealthActive from "components/icons/version-2/HealthActive";
 import HealthInactive from "components/icons/version-2/HealthInactive";
@@ -38,11 +40,34 @@ import { Reminder } from "components/icons/version-2/Reminder";
 function ContactsTable() {
     const { tableData, policyCounts } = useContactsListContext();
     const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(DeleteLeadContext);
+
     const { width: windowWidth } = useWindowSize();
     const { fireEvent } = useAnalytics();
     const navigate = useNavigate();
     const showToast = useToast();
+
+    const [showRemindersListModal, setShowRemindersListModal] = useState(false);
+    const [showAddReminderModal, setShowAddReminderModal] = useState(false);
     const isMobile = windowWidth <= 784;
+    const [leadData, setLeadData] = useState({});
+
+    const RemindersHandler = (remindersLength, leadData) => {
+        setLeadData(leadData);
+        if (!remindersLength) {
+            setShowAddReminderModal(true);
+        } else {
+            setShowRemindersListModal(true);
+        }
+    };
+
+    const checkOverDue = (reminders) => {
+        if (!reminders) return false;
+        const overDue = reminders.filter((reminder) => {
+            const { reminderDate } = reminder;
+            return isOverDue(reminderDate);
+        });
+        return overDue?.length > 0 ? true : false;
+    };
 
     const contactsListResultsEvent = () => {
         const contacts_with_health_policies_count = policyCounts.filter(
@@ -133,11 +158,21 @@ function ContactsTable() {
                 Header: "Reminders",
                 disableSortBy: true,
                 accessor: "reminders",
-                Cell: ({ value }) => {
+                Cell: ({ value, row }) => {
+                    const remindersLength = value?.length;
+                    const leadData = row?.original;
+                    const isOverDue = checkOverDue(leadData?.reminders) ? true : false;
                     return (
-                        <Box position="relative" display="inline-block" sx={{ left: '15px' }}>
-                            <Reminder />
-                        </Box>
+                        <>
+                            <Box
+                                position="relative"
+                                display="inline-block"
+                                sx={{ left: "15px", cursor: "pointer" }}
+                                onClick={() => RemindersHandler(remindersLength, leadData)}
+                            >
+                                <Reminder color={isOverDue ? "#F44236" : "#4178FF"} />
+                            </Box>
+                        </>
                     );
                 },
             },
@@ -147,7 +182,7 @@ function ContactsTable() {
                 accessor: "campaign",
                 Cell: ({ value }) => {
                     return (
-                        <Box position="relative" display="inline-block" sx={{ left: '15px' }}>
+                        <Box position="relative" display="inline-block" sx={{ left: "15px" }}>
                             <CampaignStatus />
                         </Box>
                     );
@@ -159,7 +194,7 @@ function ContactsTable() {
                 accessor: "askIntegrity",
                 Cell: ({ value }) => {
                     return (
-                        <Box position="relative" sx={{ left: '25px' }} display="inline-block">
+                        <Box position="relative" sx={{ left: "25px" }} display="inline-block">
                             <AskIntegrity />
                         </Box>
                     );
@@ -231,6 +266,14 @@ function ContactsTable() {
                     <LoadMoreButton />
                 </Box>
             )}
+            <ReminderModals
+                leadData={leadData}
+                isMobile={isMobile}
+                showAddReminderModal={showAddReminderModal}
+                setShowAddReminderModal={setShowAddReminderModal}
+                showRemindersListModal={showRemindersListModal}
+                setShowRemindersListModal={setShowRemindersListModal}
+            />
         </>
     );
 }
