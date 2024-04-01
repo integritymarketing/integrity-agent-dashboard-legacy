@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import CloseIcon from "@mui/icons-material/Close";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -22,6 +22,18 @@ const StyledPopover = styled(Popover)(() => ({
     },
 }));
 
+const LightTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+))(() => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+        backgroundColor: "transparent",
+        color: '#717171',
+        boxShadow: "none",
+        fontSize: 12,
+        border: "none"
+    },
+}));
+
 export default function Filter({ heading, content, open, onToggle, Icon, ActiveIcon, filtered }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [filterToggle, setFilterToggle] = useState(false);
@@ -40,13 +52,15 @@ export default function Filter({ heading, content, open, onToggle, Icon, ActiveI
     const id = open ? "simple-popover" : undefined;
     return (
         <Box sx={{ mr: 2 }}>
-            <div className={styles.filter} onClick={handleClick}>
-                {filterToggle || open || filtered ? (
-                    <ActiveIcon onMouseOut={() => setFilterToggle(false)} />
-                ) : (
-                    <Icon onMouseOver={() => setFilterToggle(true)} />
-                )}
-            </div>
+            <LightTooltip title={heading} placement="top">
+                <div className={styles.filter} onClick={handleClick}>
+                    {filterToggle || open || filtered ? (
+                        <ActiveIcon onMouseOut={() => setFilterToggle(false)} />
+                    ) : (
+                        <Icon onMouseOver={() => setFilterToggle(true)} />
+                    )}
+                </div>
+            </LightTooltip>
             <StyledPopover
                 id={id}
                 open={open}

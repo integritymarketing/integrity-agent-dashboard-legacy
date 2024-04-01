@@ -64,32 +64,24 @@ function FilterAndSort() {
                     {layout === "card" && <LightTooltip title="List View" placement="top"><StyledBtn><ListViewIcon /></StyledBtn></LightTooltip>}
                 </Box>
             </Box>
-            <LightTooltip title="Sort" placement="top">
-                <StyledBtn>
-                    <Filter
-                        Icon={SortIcon}
-                        ActiveIcon={SortIcon}
-                        heading="Sort by"
-                        open={sortToggle}
-                        onToggle={setSortToggle}
-                        filtered={active}
-                        content={<ContactListSort close={setSortToggle} sort={sort} setSort={(value) => setSort([value])} />}
-                    />
-                </StyledBtn>
-            </LightTooltip>
-            <LightTooltip title="Filter" placement="top">
-                <StyledBtn>
-                    <Filter
-                        Icon={FilterIcon}
-                        ActiveIcon={FilterActive}
-                        heading="Filter by"
-                        open={filterToggle}
-                        onToggle={setFilterToggle}
-                        filtered={active}
-                        content={<ContactListFilterOptions close={setFilterToggle} layout={layout} />}
-                    />
-                </StyledBtn>
-            </LightTooltip>
+            <Filter
+                Icon={SortIcon}
+                ActiveIcon={SortIcon}
+                heading="Sort by"
+                open={sortToggle}
+                onToggle={setSortToggle}
+                filtered={active}
+                content={<ContactListSort close={setSortToggle} sort={sort} setSort={(value) => setSort([value])} />}
+            />
+            <Filter
+                Icon={FilterIcon}
+                ActiveIcon={FilterActive}
+                heading="Filter by"
+                open={filterToggle}
+                onToggle={setFilterToggle}
+                filtered={active}
+                content={<ContactListFilterOptions close={setFilterToggle} layout={layout} />}
+            />
         </Box >
     );
 }
