@@ -27,6 +27,10 @@
     display: flex;
     gap: 25px;
     padding: 15px;
+
+    @media (max-width: 480px) {
+        gap: 15px;
+    }
 }
 
 .card {

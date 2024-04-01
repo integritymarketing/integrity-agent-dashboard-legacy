@@ -52,7 +52,7 @@ export default function EnrollmentPlanCard(props) {
         policyStatusColor,
         productCategory = "N/A",
     } = props;
-    let policyId = "Vinod Kumar";
+    let policyId = "";
     const navigate = useNavigate();
     const location = useLocation();
     const [isMobile, setIsMobile] = useState(false);
