@@ -13,7 +13,7 @@ import useToast from "hooks/useToast";
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 import ReminderModals from "../RemiderModals/ReminderModals";
 import { isOverDue } from "utils/dates";
-
+import AskIntegrityModal from "pages/ContactsList/AskIntegrityModal/AskIntegrityModal";
 import HealthActive from "components/icons/version-2/HealthActive";
 import HealthInactive from "components/icons/version-2/HealthInactive";
 import Heartactive from "components/icons/version-2/HeartActive";
@@ -22,7 +22,7 @@ import AskIntegrity from "components/icons/version-2/AskIntegrity";
 import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import Connectemail from "components/icons/version-2/ConnectEmail";
 import { Checkbox } from "components/ui/version-2/Checkbox";
-
+import CampaignModal from "pages/ContactsList/CampaignModal/CampaignModal";
 import clientsService from "services/clientsService";
 
 import { ActionsCell } from "./ActionsCell";
@@ -48,16 +48,32 @@ function ContactsTable() {
 
     const [showRemindersListModal, setShowRemindersListModal] = useState(false);
     const [showAddReminderModal, setShowAddReminderModal] = useState(false);
+    const [showAskIntegrityModal, setShowAskIntegrityModal] = useState(false);
+    const [askIntegrityList, setAskIntegrityList] = useState(false);
+    const [campaignList, setCampaignList] = useState(false);
+    const [showCampaignModal, setShowCampaignModal] = useState(false);
     const isMobile = windowWidth <= 784;
     const [leadData, setLeadData] = useState({});
 
-    const RemindersHandler = (remindersLength, leadData) => {
+    const remindersHandler = (remindersLength, leadData) => {
         setLeadData(leadData);
         if (!remindersLength) {
             setShowAddReminderModal(true);
         } else {
             setShowRemindersListModal(true);
         }
+    };
+
+    const askIntegrityHandler = (askIntegrityTags, leadData) => {
+        setLeadData(leadData);
+        setAskIntegrityList(askIntegrityTags);
+        setShowAskIntegrityModal(true);
+    };
+
+    const campaignTagsHandler = (campaignTags, leadData) => {
+        setLeadData(leadData);
+        setCampaignList(campaignTags);
+        setShowCampaignModal(true);
     };
 
     const checkOverDue = (reminders) => {
@@ -168,7 +184,7 @@ function ContactsTable() {
                                 position="relative"
                                 display="inline-block"
                                 sx={{ left: "15px", cursor: "pointer" }}
-                                onClick={() => RemindersHandler(remindersLength, leadData)}
+                                onClick={() => remindersHandler(remindersLength, leadData)}
                             >
                                 <Reminder color={isOverDue ? "#F44236" : "#4178FF"} />
                             </Box>
@@ -180,11 +196,24 @@ function ContactsTable() {
                 Header: "Campaign",
                 disableSortBy: true,
                 accessor: "campaign",
-                Cell: ({ value }) => {
+                Cell: ({ value, row }) => {
+                    const leadData = row?.original;
+                    const campaignTags = row?.original?.leadTags?.filter(
+                        (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Campaigns"
+                    );
                     return (
-                        <Box position="relative" display="inline-block" sx={{ left: "15px" }}>
-                            <CampaignStatus />
-                        </Box>
+                        <>
+                            {campaignTags?.length > 0 ? (
+                                <Box
+                                    position="relative"
+                                    display="inline-block"
+                                    sx={{ left: "15px", cursor: "pointer" }}
+                                    onClick={() => campaignTagsHandler(campaignTags, leadData)}
+                                >
+                                    <CampaignStatus />
+                                </Box>
+                            ) : null}
+                        </>
                     );
                 },
             },
@@ -192,11 +221,24 @@ function ContactsTable() {
                 Header: "Ask Integrity",
                 disableSortBy: true,
                 accessor: "askIntegrity",
-                Cell: ({ value }) => {
+                Cell: ({ value, row }) => {
+                    const leadData = row?.original;
+                    const askIntegrityTags = row?.original?.leadTags?.filter(
+                        (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
+                    );
                     return (
-                        <Box position="relative" sx={{ left: "25px" }} display="inline-block">
-                            <AskIntegrity />
-                        </Box>
+                        <>
+                            {askIntegrityTags?.length > 0 ? (
+                                <Box
+                                    position="relative"
+                                    display="inline-block"
+                                    sx={{ left: "15px", cursor: "pointer" }}
+                                    onClick={() => askIntegrityHandler(askIntegrityTags, leadData)}
+                                >
+                                    <AskIntegrity />
+                                </Box>
+                            ) : null}
+                        </>
                     );
                 },
             },
@@ -274,6 +316,22 @@ function ContactsTable() {
                 showRemindersListModal={showRemindersListModal}
                 setShowRemindersListModal={setShowRemindersListModal}
             />
+            {showAskIntegrityModal && (
+                <AskIntegrityModal
+                    open={showAskIntegrityModal}
+                    onClose={() => setShowAskIntegrityModal(false)}
+                    leadData={leadData}
+                    askIntegrityList={askIntegrityList}
+                />
+            )}
+            {showCampaignModal && (
+                <CampaignModal
+                    open={showCampaignModal}
+                    onClose={() => setShowCampaignModal(false)}
+                    leadData={leadData}
+                    campaignList={campaignList}
+                />
+            )}
         </>
     );
 }
