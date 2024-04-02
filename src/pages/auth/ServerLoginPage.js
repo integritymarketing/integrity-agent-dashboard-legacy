@@ -68,8 +68,7 @@ const ServerLoginPage = () => {
             if (
                 clientId === "ASBClient" ||
                 clientId === "FFLClient" ||
-                clientId === "AgentMobileSunfire" ||
-                clientId === "ILSClient"
+                clientId === "AgentMobileSunfire"
             ) {
                 loading.begin();
                 const userDetail = {

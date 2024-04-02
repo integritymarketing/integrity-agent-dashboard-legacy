@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import * as Sentry from "@sentry/react";
 import { UserManager, WebStorageStateStore, Log } from "oidc-client";
 import Cookies from "universal-cookie";
@@ -5,19 +6,14 @@ import Cookies from "universal-cookie";
 const AUTH_API_VERSION = "v2.0";
 
 const getPortalUrl = () => {
-  const cookies = new Cookies();
-  const clientId = cookies.get("client_id"); // Assuming you set client_id in cookies
+  const cookies = useMemo(() => new Cookies(), []);
 
-  if (clientId === "ILSClient" && cookies.get("client_url")) {
-    return cookies.get("client_url");
-  } else {
-    return (
-      process.env.REACT_APP_PORTAL_URL ||
-      cookies.get("portal_url") ||
-      cookies.get("client_url") ||
-      "https://clients.integrity.com"
-    );
-  }
+  return useMemo(() => (
+    process.env.REACT_APP_PORTAL_URL ||
+    cookies.get('portal_url') ||
+    cookies.get('client_url') ||
+    'https://clients.integrity.com' // Fallback URL if no other sources provide the portal URL.
+  ), [cookies]);
 };
 
 class authService {
