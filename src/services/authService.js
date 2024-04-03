@@ -276,7 +276,7 @@ class authService {
   handleOpenLeadsCenter = (npn) => {
     const userManager = new UserManager({
       authority: process.env.REACT_APP_AUTH_ILC_URL,
-      client_id: "AEPortal",
+      client_id: "ILSClient",
       response_type: "code",
       redirect_uri: process.env.REACT_APP_AUTH_ILC_REDIRECT_URI,
       scope:
