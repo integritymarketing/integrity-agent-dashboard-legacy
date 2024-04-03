@@ -24,7 +24,7 @@ import Connectemail from "components/icons/version-2/ConnectEmail";
 import { Checkbox } from "components/ui/version-2/Checkbox";
 import CampaignModal from "pages/ContactsList/CampaignModal/CampaignModal";
 import clientsService from "services/clientsService";
-
+import CardBadge from "../ContactsCard/CardBadge/CardBadge";
 import { ActionsCell } from "./ActionsCell";
 import { NameCell } from "./NameCell";
 import { StageCell } from "./StageCell";
@@ -180,14 +180,22 @@ function ContactsTable() {
                     const isOverDue = checkOverDue(leadData?.reminders) ? true : false;
                     return (
                         <>
-                            <Box
-                                position="relative"
-                                display="inline-block"
-                                sx={{ left: "15px", cursor: "pointer" }}
-                                onClick={() => remindersHandler(remindersLength, leadData)}
-                            >
-                                <Reminder color={isOverDue ? "#F44236" : "#4178FF"} />
-                            </Box>
+                            <CardBadge
+                                label=""
+                                Icon={
+                                    <Box
+                                        sx={{ cursor: "pointer" }}
+                                        onClick={() => remindersHandler(remindersLength, leadData)}
+                                    >
+                                        <Reminder
+                                            color={
+                                                remindersLength > 0 ? (isOverDue ? "#F44236" : "#4178FF") : "#717171"
+                                            }
+                                        />
+                                    </Box>
+                                }
+                                count={remindersLength}
+                            />
                         </>
                     );
                 },
@@ -204,14 +212,18 @@ function ContactsTable() {
                     return (
                         <>
                             {campaignTags?.length > 0 ? (
-                                <Box
-                                    position="relative"
-                                    display="inline-block"
-                                    sx={{ left: "15px", cursor: "pointer" }}
-                                    onClick={() => campaignTagsHandler(campaignTags, leadData)}
-                                >
-                                    <CampaignStatus />
-                                </Box>
+                                <CardBadge
+                                    label=""
+                                    Icon={
+                                        <Box
+                                            sx={{ cursor: "pointer" }}
+                                            onClick={() => campaignTagsHandler(campaignTags, leadData)}
+                                        >
+                                            <CampaignStatus />
+                                        </Box>
+                                    }
+                                    count={campaignTags?.length}
+                                />
                             ) : null}
                         </>
                     );
@@ -229,14 +241,18 @@ function ContactsTable() {
                     return (
                         <>
                             {askIntegrityTags?.length > 0 ? (
-                                <Box
-                                    position="relative"
-                                    display="inline-block"
-                                    sx={{ left: "15px", cursor: "pointer" }}
-                                    onClick={() => askIntegrityHandler(askIntegrityTags, leadData)}
-                                >
-                                    <AskIntegrity />
-                                </Box>
+                                <CardBadge
+                                    label="Ask Integrity"
+                                    Icon={
+                                        <Box
+                                            sx={{ cursor: "pointer" }}
+                                            onClick={() => askIntegrityHandler(askIntegrityTags, leadData)}
+                                        >
+                                            <AskIntegrity />
+                                        </Box>
+                                    }
+                                    count={askIntegrityTags?.length}
+                                />
                             ) : null}
                         </>
                     );

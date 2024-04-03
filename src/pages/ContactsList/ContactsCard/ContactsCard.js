@@ -34,7 +34,7 @@ function ContactsCard() {
     const isMobile = windowWidth <= 784;
     const [leadData, setLeadData] = useState({});
 
-    const RemindersHandler = (remindersLength, leadData) => {
+    const remindersHandler = (remindersLength, leadData) => {
         setLeadData(leadData);
         if (!remindersLength) {
             setShowAddReminderModal(true);
@@ -87,29 +87,31 @@ function ContactsCard() {
                                     Icon={
                                         <Box
                                             sx={{ cursor: "pointer" }}
-                                            onClick={() => RemindersHandler(remindersLength, item)}
+                                            onClick={() => remindersHandler(remindersLength, item)}
                                         >
                                             <Reminder color={isOverDue ? "#F44236" : "#4178FF"} />
                                         </Box>
                                     }
+                                    count={remindersLength}
                                 />
                                 <CardBadge label="Connect" Icon={<Connectemail />} />
                             </Box>
 
                             <Box className={styles.innerWrapper}>
-                                {/* {campaignTags?.length > 0 && ( */}
-                                <CardBadge
-                                    label="Campaign"
-                                    Icon={
-                                        <Box
-                                            sx={{ cursor: "pointer" }}
-                                            onClick={() => campaignTagsHandler(campaignTags, item)}
-                                        >
-                                            <CampaignStatus />
-                                        </Box>
-                                    }
-                                />
-                                {/* )} */}
+                                {campaignTags?.length > 0 && (
+                                    <CardBadge
+                                        label="Campaign"
+                                        Icon={
+                                            <Box
+                                                sx={{ cursor: "pointer" }}
+                                                onClick={() => campaignTagsHandler(campaignTags, item)}
+                                            >
+                                                <CampaignStatus />
+                                            </Box>
+                                        }
+                                        count={campaignTags?.length}
+                                    />
+                                )}
                                 {askIntegrityTags?.length > 0 && (
                                     <CardBadge
                                         label="Ask Integrity"
@@ -121,6 +123,7 @@ function ContactsCard() {
                                                 <AskIntegrity />
                                             </Box>
                                         }
+                                        count={askIntegrityTags?.length}
                                     />
                                 )}
                                 <CardBadge label="Life" Icon={<LifeIcon lifePolicyCount={lifePolicyCount} />} />

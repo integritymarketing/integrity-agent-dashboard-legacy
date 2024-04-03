@@ -9,9 +9,12 @@ import styles from "./styles.module.scss";
 // Moved outside to avoid re-creation on every render
 const StyledBadge = styled(Badge)({
     "& .MuiBadge-badge": {
-        right: 3,
         top: 20,
-        background: "transparent",
+        right: 10,
+        padding: "2px",
+        background: "#F1FAFF",
+        border: "2px solid #ffffff",
+        color: "#4178FF",
     },
 });
 
@@ -27,7 +30,7 @@ const CardBadge = ({ label, Icon, count = "" }) => (
                 },
             }}
         >
-            <StyledBadge badgeContent={count} color="secondary">
+            <StyledBadge badgeContent={count ? count : 0} color="secondary">
                 {Icon}
             </StyledBadge>
         </IconButton>
