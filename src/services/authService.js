@@ -283,11 +283,11 @@ class authService {
         "openid profile email phone IlsLeadManagementAPI_Full IlsOrderManagementAPI_Full IlsApplicationManagementAPI_Full IlsGatewayAPI_Full LeadsAPI_Full AgentService_Full",
       userStore: new WebStorageStateStore({ store: window.localStorage }),
     });
+    const redirectUriWithClientId = new URL(userManager.settings.redirect_uri);
+    redirectUriWithClientId.searchParams.append('client_id', "AEPortal");
     userManager.signinRedirect({
-      extraQueryParams: {
-        client_id: "AEPortal",
-      },
-    });
+    redirect_uri: redirectUriWithClientId.toString(),
+  });
   };
 }
 
