@@ -33,18 +33,17 @@ import "./mobileStyle.scss";
 const ServerLoginPage = () => {
     const loading = useLoading();
     const navigate = useNavigate();
-    const params = useQueryParams();
     const auth = useContext(AuthContext);
     const device = useDeviceInfo();
     const isOutdatedVersion = useMobileVersionCheck();
     const [mobileAppLogin, setMobileAppLogin] = useState(false);
     const [appTitle, setAppTitle] = useState("");
+    const params = useQueryParams();
+    const returnUrl = params.get("ReturnUrl");
+    const clientId = returnUrl ? new URLSearchParams(new URL(returnUrl).search).get("client_id") : null;
+
 
     useEffect(() => {
-        const params1 = new URLSearchParams(new URL(params.get("ReturnUrl")).search);
-
-        const clientId = params1.get("client_id");
-
         if (clientId === "AEPortal" && device === DEVICES.IPHONE) {
             showMobileAppDeepLinking();
         }
@@ -56,9 +55,6 @@ const ServerLoginPage = () => {
 
     useEffect(() => {
         async function checkForExtrnalLogin() {
-            const params1 = new URLSearchParams(new URL(params.get("ReturnUrl")).search);
-
-            const clientId = params1.get("client_id");
             if (clientId === "AgentMobile") {
                 setMobileAppLogin(true);
                 setAppTitle("Agent Mobile - Login");
@@ -111,7 +107,9 @@ const ServerLoginPage = () => {
             analyticsService.fireEvent("event-form-submit", {
                 formName: "Login",
             });
-            window.location = data.redirectUrl;
+            const redirectUrl = new URL(data.redirectUrl);
+            redirectUrl.searchParams.append('clientId', clientId);
+            window.location = redirectUrl.toString();
         } else {
             const errors = validationService.formikErrorsFor(data);
 
