@@ -69,10 +69,14 @@ const ServerLoginPage = () => {
                 clientId === "AgentMobileSunfire"
             ) {
                 loading.begin();
+                const url = new URL(returnUrl);
+                const searchParams = new URLSearchParams(url.search);
+                searchParams.append("client_id", clientId);
+                const appendedReturnUrl = `${url.origin}${url.pathname}?${searchParams.toString()}`;
                 const userDetail = {
                     Username: params1.get("username"),
                     Password: "",
-                    returnUrl: params.get("ReturnUrl"),
+                    returnUrl: appendedReturnUrl,
                     isExternal: true,
                 };
                 const response = await authService.loginUserWithClinetID(userDetail, true);
