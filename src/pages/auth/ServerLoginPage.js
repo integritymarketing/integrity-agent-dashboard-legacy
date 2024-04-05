@@ -77,7 +77,6 @@ const ServerLoginPage = () => {
                     Username: params1.get("username"),
                     Password: "",
                     returnUrl: appendedReturnUrl,
-                    isExternal: true,
                 };
                 const response = await authService.loginUserWithClinetID(userDetail, true);
                 postLogin(response, {}, userDetail, auth);
