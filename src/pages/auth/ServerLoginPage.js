@@ -55,6 +55,8 @@ const ServerLoginPage = () => {
 
     useEffect(() => {
         async function checkForExtrnalLogin() {
+            const params1 = new URLSearchParams(new URL(params.get("ReturnUrl")).search);
+            
             if (clientId === "AgentMobile") {
                 setMobileAppLogin(true);
                 setAppTitle("Agent Mobile - Login");
