@@ -24,18 +24,20 @@ import Connectemail from "components/icons/version-2/ConnectEmail";
 import { Checkbox } from "components/ui/version-2/Checkbox";
 import CampaignModal from "pages/ContactsList/CampaignModal/CampaignModal";
 import clientsService from "services/clientsService";
-import CardBadge from "../ContactsCard/CardBadge/CardBadge";
+
 import { ActionsCell } from "./ActionsCell";
 import { NameCell } from "./NameCell";
 import { StageCell } from "./StageCell";
 import { Table } from "./Table";
-import { TagCell } from "./TagCell";
 import { TableMobile } from "./TableMobile";
 
 import styles from "./styles.module.scss";
 
 import { LoadMoreButton } from "../LoadMoreButton";
 import { Reminder } from "components/icons/version-2/Reminder";
+import CardBadge from "../ContactsCard/CardBadge/CardBadge";
+import { PoliciesProvider } from "providers/ContactDetails/PoliciesProvider";
+import PolicyDetailsModal from "components/SharedModals/PolicyDetailsModal/PolicyDetailsModal";
 
 function ContactsTable() {
     const { tableData, policyCounts } = useContactsListContext();
@@ -54,6 +56,13 @@ function ContactsTable() {
     const [showCampaignModal, setShowCampaignModal] = useState(false);
     const isMobile = windowWidth <= 784;
     const [leadData, setLeadData] = useState({});
+    const [showPolicyModal, setShowPolicyModal] = useState(false);
+    const [policyDetails, setPolicyDetails] = useState({});
+
+    const openPolicyModal = (leadData) => {
+        setShowPolicyModal(true);
+        setPolicyDetails(leadData)
+    }
 
     const remindersHandler = (remindersLength, leadData) => {
         setLeadData(leadData);
@@ -180,22 +189,14 @@ function ContactsTable() {
                     const isOverDue = checkOverDue(leadData?.reminders) ? true : false;
                     return (
                         <>
-                            <CardBadge
-                                label=""
-                                Icon={
-                                    <Box
-                                        sx={{ cursor: "pointer" }}
-                                        onClick={() => remindersHandler(remindersLength, leadData)}
-                                    >
-                                        <Reminder
-                                            color={
-                                                remindersLength > 0 ? (isOverDue ? "#F44236" : "#4178FF") : "#717171"
-                                            }
-                                        />
-                                    </Box>
-                                }
-                                count={remindersLength}
-                            />
+                            <Box
+                                position="relative"
+                                display="inline-block"
+                                sx={{ left: "15px", cursor: "pointer" }}
+                                onClick={() => remindersHandler(remindersLength, leadData)}
+                            >
+                                <Reminder color={isOverDue ? "#F44236" : "#4178FF"} />
+                            </Box>
                         </>
                     );
                 },
@@ -212,18 +213,14 @@ function ContactsTable() {
                     return (
                         <>
                             {campaignTags?.length > 0 ? (
-                                <CardBadge
-                                    label=""
-                                    Icon={
-                                        <Box
-                                            sx={{ cursor: "pointer" }}
-                                            onClick={() => campaignTagsHandler(campaignTags, leadData)}
-                                        >
-                                            <CampaignStatus />
-                                        </Box>
-                                    }
-                                    count={campaignTags?.length}
-                                />
+                                <Box
+                                    position="relative"
+                                    display="inline-block"
+                                    sx={{ left: "15px", cursor: "pointer" }}
+                                    onClick={() => campaignTagsHandler(campaignTags, leadData)}
+                                >
+                                    <CampaignStatus />
+                                </Box>
                             ) : null}
                         </>
                     );
@@ -241,18 +238,14 @@ function ContactsTable() {
                     return (
                         <>
                             {askIntegrityTags?.length > 0 ? (
-                                <CardBadge
-                                    label="Ask Integrity"
-                                    Icon={
-                                        <Box
-                                            sx={{ cursor: "pointer" }}
-                                            onClick={() => askIntegrityHandler(askIntegrityTags, leadData)}
-                                        >
-                                            <AskIntegrity />
-                                        </Box>
-                                    }
-                                    count={askIntegrityTags?.length}
-                                />
+                                <Box
+                                    position="relative"
+                                    display="inline-block"
+                                    sx={{ left: "15px", cursor: "pointer" }}
+                                    onClick={() => askIntegrityHandler(askIntegrityTags, leadData)}
+                                >
+                                    <AskIntegrity />
+                                </Box>
                             ) : null}
                         </>
                     );
@@ -262,14 +255,15 @@ function ContactsTable() {
                 Header: "Life",
                 disableSortBy: true,
                 accessor: "lifePolicyCount",
-                Cell: ({ value }) => {
+                Cell: ({ value, row }) => {
                     if (value === 0 || !value) {
                         return <HeartInactive />;
                     } else {
+                        const leadDetails = row?.original;
+                        const { firstName, lastName, leadsId } = leadDetails;
                         return (
-                            <Box position="relative" display="inline-block">
-                                <Heartactive />
-                                {/* {value > 1 && <Box className={styles.count}>{value}</Box>} */}
+                            <Box position="relative" display="inline-block" onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "LIFE" })}>
+                                <CardBadge Icon={<Heartactive />} count={value} />
                             </Box>
                         );
                     }
@@ -279,14 +273,15 @@ function ContactsTable() {
                 Header: "Health",
                 disableSortBy: true,
                 accessor: "healthPolicyCount",
-                Cell: ({ value }) => {
+                Cell: ({ value, row }) => {
                     if (value === 0 || !value) {
                         return <HealthInactive />;
                     } else {
+                        const leadDetails = row?.original;
+                        const { firstName, lastName, leadsId } = leadDetails;
                         return (
-                            <Box position="relative" display="inline-block">
-                                <HealthActive />
-                                {/* {value > 1 && <Box className={styles.count}>{value}</Box>} */}
+                            <Box position="relative" display="inline-block" onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "HEALTH" })}>
+                                <CardBadge Icon={<HealthActive />} count={value} />
                             </Box>
                         );
                     }
@@ -332,6 +327,12 @@ function ContactsTable() {
                 showRemindersListModal={showRemindersListModal}
                 setShowRemindersListModal={setShowRemindersListModal}
             />
+            <PoliciesProvider>
+                <PolicyDetailsModal
+                    showPolicyModal={showPolicyModal}
+                    policyDetails={policyDetails}
+                    handleModalClose={() => setShowPolicyModal(false)} />
+            </PoliciesProvider>
             {showAskIntegrityModal && (
                 <AskIntegrityModal
                     open={showAskIntegrityModal}
