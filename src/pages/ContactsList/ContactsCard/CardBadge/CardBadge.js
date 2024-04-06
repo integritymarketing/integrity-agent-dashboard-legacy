@@ -9,17 +9,14 @@ import styles from "./styles.module.scss";
 // Moved outside to avoid re-creation on every render
 const StyledBadge = styled(Badge)({
     "& .MuiBadge-badge": {
+        right: -3,
         top: 20,
-        right: 10,
-        padding: "2px",
-        background: "#F1FAFF",
-        border: "2px solid #ffffff",
-        color: "#4178FF",
+        background: "transparent",
     },
 });
 
-const CardBadge = ({ label, Icon, count = "" }) => (
-    <Box display="flex" flexDirection="column" alignItems="center" className={styles.cardBadgeContainer}>
+const CardBadge = ({ label, Icon, count = "" }) => {
+    return label ? <Box display="flex" flexDirection="column" alignItems="center" className={styles.cardBadgeContainer}>
         <Box className={styles.tag}>{label}</Box>
         <IconButton
             size="small"
@@ -30,12 +27,14 @@ const CardBadge = ({ label, Icon, count = "" }) => (
                 },
             }}
         >
-            <StyledBadge badgeContent={count ? count : 0} color="secondary">
+            <StyledBadge badgeContent={count} color="secondary">
                 {Icon}
             </StyledBadge>
         </IconButton>
-    </Box>
-);
+    </Box> : <StyledBadge badgeContent={count} color="secondary">
+        {Icon}
+    </StyledBadge>
+};
 
 CardBadge.propTypes = {
     label: PropTypes.string.isRequired,
