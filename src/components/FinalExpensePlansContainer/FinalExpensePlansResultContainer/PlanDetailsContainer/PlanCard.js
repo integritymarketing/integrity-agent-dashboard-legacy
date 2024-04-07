@@ -20,7 +20,7 @@ import { FinalExpenseEnrollResponseModal } from "./FinalExpenseEnrollResponseMod
 import styles from "./PlanDetailsContainer.module.scss";
 import { getPlanEnrollBody } from "./PlanDetailsContainer.utils";
 import { PrescreenModal } from "./PrescreenModal";
-import { SingleSignOnModal } from "components/FinalExpensePlansContainer/SingleSignOnModal";
+import { SingleSignOnModal, SingleSignOnInitialModal } from "components/FinalExpensePlansContainer/SingleSignOnModal";
 import { GRADEDMODIFIED, GRADED_MODIFIED } from "./PlanDetailsContainer.constants";
 import { convertToTitleCase } from "utils/toTitleCase";
 import Spinner from "components/ui/Spinner";
@@ -57,6 +57,7 @@ export const PlanCard = ({
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
+    const [isSingleSignOnInitialModalOpen, setIsSingleSignOnInitialModalOpen] = useState(false);
     const { leadDetails } = useLeadDetails();
     const { fireEvent } = useAnalytics();
     const { agentInformation } = useAgentInformationByID();
@@ -95,10 +96,10 @@ export const PlanCard = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                        ? ["My Appointed Products"]
-                        : isShowExcludedProducts
-                            ? ["Show Excluded Products"]
-                            : [],
+                    ? ["My Appointed Products"]
+                    : isShowExcludedProducts
+                    ? ["Show Excluded Products"]
+                    : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -133,7 +134,7 @@ export const PlanCard = ({
     const onPreApply = async () => {
         lifeQuoteEvent("Life Apply CTA Clicked");
         if (!isRTSPlan) {
-            setIsSingleSignOnModalOpen(true);
+            setIsSingleSignOnInitialModalOpen(true);
         } else {
             await onApply();
         }
@@ -258,6 +259,14 @@ export const PlanCard = ({
                     fetchPlans();
                 }}
                 enrollResponse={enrollResponse}
+            />
+            <SingleSignOnInitialModal
+                isOpen={isSingleSignOnInitialModalOpen}
+                onClose={() => setIsSingleSignOnInitialModalOpen(false)}
+                onRetry={() => {
+                    setIsSingleSignOnInitialModalOpen(false);
+                    setIsSingleSignOnModalOpen(true);
+                }}
             />
             <SingleSignOnModal
                 isOpen={isSingleSignOnModalOpen}
