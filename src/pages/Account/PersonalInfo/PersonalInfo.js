@@ -81,7 +81,6 @@ function PersonalInfo() {
                 }
             }
         } catch (error) {
-            debugger
             Sentry.captureException(error);
             showToast({ message: "An error occurred while updating your account. Please try again." });
         } finally {
@@ -194,7 +193,7 @@ function PersonalInfo() {
                             value={values.npn}
                             readOnly
                         />
-                        {agentStateLicenses?.length && (
+                        {agentStateLicenses?.length > 0  && (
                             <>
                                 <Box className={styles.label}>California License Number (CLN)</Box>
                                 <Textfield
