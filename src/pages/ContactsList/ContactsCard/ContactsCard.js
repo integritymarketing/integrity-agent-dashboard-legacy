@@ -17,9 +17,10 @@ import LifeIcon from "./LifeIcon";
 import HealthIcon from "./HealthIcon";
 import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import AskIntegrity from "components/icons/version-2/AskIntegrity";
-import Connectemail from "components/icons/version-2/ConnectEmail";
 import AskIntegrityModal from "pages/ContactsList/AskIntegrityModal/AskIntegrityModal";
 import CampaignModal from "pages/ContactsList/CampaignModal/CampaignModal";
+import ConnectCall from "../ConnectCall";
+import ConnectEmail from "../ConnectEmail";
 
 function ContactsCard() {
     const { tableData } = useContactsListContext();
@@ -68,16 +69,15 @@ function ContactsCard() {
             <Box className={styles.cardWrapper}>
                 {tableData.map((item) => {
                     const { lifePolicyCount, healthPolicyCount, reminders } = item;
-
-                    const remindersList = reminders?.filter((reminder) => !reminder?.isComplete);
-                    const remindersLength = remindersList?.length;
-                    const isOverDue = checkOverDue(remindersList) ? true : false;
+                    const remindersLength = reminders?.length;
+                    const isOverDue = checkOverDue(reminders) ? true : false;
                     const askIntegrityTags = item?.leadTags?.filter(
                         (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
                     );
                     const campaignTags = item?.leadTags?.filter(
                         (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Campaigns"
                     );
+                    const isPhoneConnect = item?.primaryCommunication === "phone";
                     return (
                         <Box key={item?.leadsId} className={styles.card}>
                             <CardHeader item={item} />
@@ -86,51 +86,46 @@ function ContactsCard() {
                                 <CardStage item={item} />
                                 <CardBadge
                                     label="Reminders"
-                                    name={"reminder"}
-                                    onClick={() => remindersHandler(remindersLength, item)}
                                     Icon={
-                                        <Box sx={{ cursor: "pointer" }}>
-                                            <Reminder
-                                                color={
-                                                    remindersLength > 0
-                                                        ? isOverDue
-                                                            ? "#F44236"
-                                                            : "#4178FF"
-                                                        : "#717171"
-                                                }
-                                            />
+                                        <Box
+                                            sx={{ cursor: "pointer" }}
+                                            onClick={() => remindersHandler(remindersLength, item)}
+                                        >
+                                            <Reminder color={isOverDue ? "#F44236" : "#4178FF"} />
                                         </Box>
                                     }
-                                    count={remindersLength > 1 ? remindersLength : null}
+                                    count={remindersLength}
                                 />
-                                <CardBadge label="Connect" Icon={<Connectemail />} />
+                                <CardBadge label="Connect" Icon={isPhoneConnect ? <ConnectCall row={item} /> : <ConnectEmail emails={item.emails} />} />
                             </Box>
 
                             <Box className={styles.innerWrapper}>
                                 {campaignTags?.length > 0 && (
                                     <CardBadge
                                         label="Campaign"
-                                        name={"campaign"}
-                                        onClick={() => campaignTagsHandler(campaignTags, item)}
                                         Icon={
-                                            <Box sx={{ cursor: "pointer" }}>
+                                            <Box
+                                                sx={{ cursor: "pointer" }}
+                                                onClick={() => campaignTagsHandler(campaignTags, item)}
+                                            >
                                                 <CampaignStatus />
                                             </Box>
                                         }
-                                        count={campaignTags?.length > 1 ? campaignTags?.length : null}
+                                        count={campaignTags?.length}
                                     />
                                 )}
                                 {askIntegrityTags?.length > 0 && (
                                     <CardBadge
                                         label="Ask Integrity"
-                                        name="askIntegrity"
-                                        onClick={() => askIntegrityHandler(askIntegrityTags, item)}
                                         Icon={
-                                            <Box sx={{ cursor: "pointer" }}>
+                                            <Box
+                                                sx={{ cursor: "pointer" }}
+                                                onClick={() => askIntegrityHandler(askIntegrityTags, item)}
+                                            >
                                                 <AskIntegrity />
                                             </Box>
                                         }
-                                        count={askIntegrityTags?.length > 1 ? askIntegrityTags?.length : null}
+                                        count={askIntegrityTags?.length}
                                     />
                                 )}
                                 <CardBadge label="Life" Icon={<LifeIcon lifePolicyCount={lifePolicyCount} />} />
