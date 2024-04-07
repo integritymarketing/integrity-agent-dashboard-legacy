@@ -131,8 +131,22 @@ class ValidationService {
         return null;
     };
 
+    validateCaliforniaLicenseNumber = (licenseNumber, label = "California License Number (CLN)") => {
+        const alphanumericRegex = /^[a-z0-9]+$/i;
+
+        if (licenseNumber.length < 7 || licenseNumber.length > 13) {
+            return `${label} must be between 7 and 13 characters long.`;
+        }
+
+        if (!alphanumericRegex.test(licenseNumber)) {
+            return `${label} must contain only alphanumeric characters.`;
+        }
+
+        return null;
+    };
+
     validateMedicalBeneficiaryId = (mbiId) => {
-        if (!mbiId) return null;
+        if (!mbiId) {return null;}
         const formattedId = String(mbiId).toUpperCase().replace(/-/g, ""); // Convert to string and remove existing hyphens
         const validPattern =
             /^[1-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y0-9][0-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y0-9][0-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y][0-9][0-9]$/;
@@ -141,7 +155,7 @@ class ValidationService {
     };
 
     validatePhone = (phoneNumber, label = "Phone Number") => {
-        const cleaned = ("" + phoneNumber).replace(/\D/g, "");
+        const cleaned = (`${  phoneNumber}`).replace(/\D/g, "");
 
         if (phoneNumber && cleaned.length !== 10) {
             return `${label} must be a valid 10-digit phone number`;
@@ -191,7 +205,7 @@ class ValidationService {
     composeValidator = (validators = []) => {
         return (...validatorArgs) =>
             validators.reduce((result, validator) => {
-                if (result) return result;
+                if (result) {return result;}
                 return validator(...validatorArgs);
             }, null);
     };
@@ -202,7 +216,7 @@ class ValidationService {
             if (result === null) {
                 return currErrs;
             }
-            const errors = Object.assign({}, currErrs);
+            const errors = { ...currErrs};
             setProp(errors, name, result);
             return errors;
         }, errorsObj);
@@ -220,7 +234,7 @@ class ValidationService {
     };
 
     formikErrorsFor = (errorsArr) => {
-        let formikErrors = {};
+        const formikErrors = {};
         errorsArr.forEach((el) => {
             if (el.hasOwnProperty("Key")) {
                 formikErrors[el["Key"]] = el["Value"];

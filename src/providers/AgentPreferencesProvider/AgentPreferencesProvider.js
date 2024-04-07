@@ -55,7 +55,7 @@ export const AgentPreferencesProvider = ({ children }) => {
     };
 
     return (
-        <AgentPreferencesContext.Provider value={{ ...defaults, trackAgentPreferencesEvents }}>
+        <AgentPreferencesContext.Provider value={{ ...defaults, trackAgentPreferencesEvents, agentAvailability }}>
             {children}
         </AgentPreferencesContext.Provider>
     );

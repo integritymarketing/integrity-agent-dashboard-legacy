@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useMemo } from "react";
 
 import Box from "@mui/material/Box";
@@ -31,14 +32,9 @@ const ITEM_PER_PAGE = 5;
 function SAPermissionsTable() {
     const { isNonRTS_User } = useRoles();
     const { isMobile } = useDeviceType();
-
     const { setIsExpriedModalOpen } = useSAPModalsContext();
     const { filteredData } = useSAHealthProductContext();
     const { visibleItems, loadMore, hasMore } = useLoadMore(filteredData, ITEM_PER_PAGE);
-
-    if (isNonRTS_User || visibleItems.length === 0) {
-        return <InforBanner PopupModal={NonRTSModal} showModal={true} />;
-    }
 
     const columns = useMemo(
         () => [
@@ -140,6 +136,10 @@ function SAPermissionsTable() {
         ],
         [setIsExpriedModalOpen]
     );
+
+    if (isNonRTS_User || visibleItems.length === 0) {
+        return <InforBanner PopupModal={NonRTSModal} showModal={true} />;
+    }
 
     return (
         <Box className={styles.tableWrapper}>

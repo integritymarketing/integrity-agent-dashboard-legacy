@@ -5,11 +5,14 @@ import { useFormik } from "formik";
 
 import Box from "@mui/material/Box";
 
+import * as Sentry from "@sentry/react";
+
 import useDeviceType from "hooks/useDeviceType";
 import useUserProfile from "hooks/useUserProfile";
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 import useLoading from "hooks/useLoading";
+import { useAgentAccountContext } from "providers/AgentAccountProvider";
 
 import Textfield from "components/ui/textfield";
 import EditIcon from "components/icons/icon-edit";
@@ -32,43 +35,61 @@ function PersonalInfo() {
     const loading = useLoading();
     const { isMobile } = useDeviceType();
     const { firstName, lastName, npn, email, phone } = useUserProfile();
-
+    const { agentAvailability } = useAgentAccountContext();
+    const { agentStateLicenses = [], caLicense = "" } = agentAvailability;
     const formattedPhoneNumber = formatPhoneNumber(phone ?? "");
 
     const { Put: updateAccount } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/update`);
+    const { Put: updateCALicense } = useFetch(`${process.env.REACT_APP_ACCOUNT_API}/Licenses`);
 
     const onSubmitHandler = async (values, { setErrors, setSubmitting }) => {
-        setSubmitting(true);
-        const formattedValues = {
-            ...values,
-            phone: values.phone ? `${values.phone}`.replace(/\D/g, "") : "",
-        };
-
-        const response = await updateAccount(formattedValues, true);
-        if (response.status >= 200 && response.status < 300) {
-            analyticsService.fireEvent("event-form-submit", {
-                formName: "update-account",
+        try {
+            setSubmitting(true);
+            const initialValues = { firstName, lastName, phone: formattedPhoneNumber, npn, caLicense, email };
+            const accountDetailsChanged = Object.keys(values).some((key) => {
+                if (key === "caLicense") {
+                    return false;
+                }
+                return values[key] !== initialValues[key];
             });
-
-            await authService.signinSilent();
-            showToast({
-                message: "Your account info has been updated",
-            });
-            setIsEdit(false);
-        } else {
-            loading.end();
-            if (response.status === 401) {
-                authService.handleExpiredToken();
-            } else {
-                const errorsArr = await response.json();
-                analyticsService.fireEvent("event-form-submit-invalid", {
-                    formName: "update-account",
-                });
-                setErrors(validationService.formikErrorsFor(validationService.standardizeValidationKeys(errorsArr)));
+            const formattedValues = {
+                ...values,
+                phone: values.phone ? values.phone.replace(/\D/g, "") : "",
+            };
+    
+            if (values.caLicense !== caLicense) {
+                await updateCALicense([{ stateCode: "CA", licenseNumber: values.caLicense }]);
+                showToast({ message: "California license number has been updated." });
             }
+    
+            if (accountDetailsChanged) {
+                const response = await updateAccount(formattedValues, true);
+                if (response.ok) {
+                    analyticsService.fireEvent("event-form-submit", { formName: "update-account" });
+                    await authService.signinSilent();
+                    showToast({ message: "Your account info has been updated." });
+                } else {
+                    if (response.status === 401) {
+                        authService.handleExpiredToken();
+                    } else {
+                        const errorsArr = await response.json();
+                        analyticsService.fireEvent("event-form-submit-invalid", { formName: "update-account" });
+                        setErrors(
+                            validationService.formikErrorsFor(validationService.standardizeValidationKeys(errorsArr))
+                        );
+                    }
+                }
+            }
+        } catch (error) {
+            Sentry.captureException(error);
+            showToast({ message: "An error occurred while updating your account. Please try again." });
+        } finally {
+            setIsEdit(false);
+            setSubmitting(false);
+            loading.end();
         }
     };
-
+    
     const { values, errors, touched, isValid, dirty, handleSubmit, handleChange, handleBlur } = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -76,9 +97,10 @@ function PersonalInfo() {
             lastName,
             phone: formattedPhoneNumber,
             npn,
+            caLicense,
             email,
         },
-        validate: (values) => {
+        validate: () => {
             return validationService.validateMultiple(
                 [
                     {
@@ -103,6 +125,13 @@ function PersonalInfo() {
                         validator: validationService.composeValidator([
                             validationService.validateRequired,
                             validationService.validateEmail,
+                        ]),
+                    },
+                    {
+                        name: "caLicense",
+                        validator: validationService.composeValidator([
+                            validationService.validateRequired,
+                            validationService.validateCaliforniaLicenseNumber,
                         ]),
                     },
                 ],
@@ -164,6 +193,20 @@ function PersonalInfo() {
                             value={values.npn}
                             readOnly
                         />
+                        {agentStateLicenses?.length && (
+                            <>
+                                <Box className={styles.label}>California License Number (CLN)</Box>
+                                <Textfield
+                                    id="california-license-number"
+                                    placeholder="Enter your California License Number"
+                                    name="caLicense"
+                                    value={values.caLicense}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    error={touched.caLicense && errors.caLicense}
+                                />
+                            </>
+                        )}
                         <Box className={styles.label}>Email Address</Box>
                         <Textfield
                             id="account-email"
