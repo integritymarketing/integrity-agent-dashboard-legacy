@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import TagsInfo from "../TagsInfo/TagsInfo";
 
 import styles from "./styles.module.scss";
 
@@ -11,6 +12,7 @@ function LifeScript() {
             <div className={styles.planInformationSection}>
                 This call may be recorded for quality assurance or training purposes.
             </div>
+            <TagsInfo />
         </div>
     );
 }
