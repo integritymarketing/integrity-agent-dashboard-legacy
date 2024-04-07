@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AddReminderModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddReminderModal/AddReminderModal";
 import ReminderList from "./ReminderList/ReminderList";
 import { useOverView } from "providers/ContactDetails";
+import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 
 const RemindersModals = ({
     isMobile,
@@ -13,10 +14,17 @@ const RemindersModals = ({
     leadData,
 }) => {
     const { addReminder, editReminder } = useOverView();
+    const { refreshData } = useContactsListContext();
+
     const [selectedReminder, setSelectedReminder] = useState(null);
 
     const saveReminder = (payload) => {
-        addReminder(payload, leadId);
+        let data = {
+            ...payload,
+            leadsId: leadData?.leadsId,
+        };
+
+        addReminder(data, refreshData);
         setShowAddReminderModal(false);
         setSelectedReminder(null);
     };
@@ -24,10 +32,10 @@ const RemindersModals = ({
     const updateReminder = (payload, isComplete = false) => {
         const addPayload = {
             ...payload,
-            leadsId: leadId,
+            leadsId: leadData?.leadsId,
             isComplete: isComplete,
         };
-        editReminder(addPayload);
+        editReminder(addPayload, refreshData);
         setShowAddReminderModal(false);
         setSelectedReminder(null);
     };

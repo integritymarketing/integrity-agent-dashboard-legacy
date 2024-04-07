@@ -25,6 +25,7 @@ import { DuplicateBanner } from "./DuplicateBanner";
 import { FilteredLeadIdsBanner } from "./FilteredLeadIdsBanner";
 import { ContactsListModalProvider } from "./providers/ContactsListModalProvider";
 import { ContactsListProvider } from "./providers/ContactsListProvider";
+import { ContactDetailsProvider } from "providers/ContactDetails";
 
 import styles from "./styles.module.scss";
 
@@ -50,8 +51,22 @@ function ContactsList() {
                                 {!isMobile && <Divider className={styles.divider} />}
                                 <Routes>
                                     <Route path="/" element={<Navigate to="/contacts/list" replace={true} />} />
-                                    <Route path="/list" element={<ContactsTable />} />
-                                    <Route path="/card" element={<ContactsCard />} />
+                                    <Route
+                                        path="/list"
+                                        element={
+                                            <ContactDetailsProvider>
+                                                <ContactsTable />
+                                            </ContactDetailsProvider>
+                                        }
+                                    />
+                                    <Route
+                                        path="/card"
+                                        element={
+                                            <ContactDetailsProvider>
+                                                <ContactsCard />
+                                            </ContactDetailsProvider>
+                                        }
+                                    />
                                 </Routes>
                             </Container>
                         </Box>

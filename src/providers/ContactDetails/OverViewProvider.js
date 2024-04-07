@@ -224,13 +224,14 @@ export const OverViewProvider = ({ children }) => {
         );
     };
 
-    const addReminder = async (payload) => {
+    const addReminder = async (payload, refreshCallback) => {
         const path = `Reminders`;
         await performAsyncOperation(
             () => saveReminder(payload, false, path),
             () => {},
             async () => {
                 await getReminders(payload?.leadsId);
+                refreshCallback && refreshCallback();
                 showToast({
                     message: `Reminder added successfully`,
                 });
@@ -262,13 +263,14 @@ export const OverViewProvider = ({ children }) => {
         );
     };
 
-    const editReminder = async (payload) => {
+    const editReminder = async (payload, refreshCallback) => {
         const path = `Reminders/${payload?.leadsId}`;
         await performAsyncOperation(
             () => updateReminder(payload, false, path),
             () => {},
             async () => {
                 await getReminders(payload?.leadsId);
+                refreshCallback && refreshCallback();
                 showToast({
                     message: `Reminder updated successfully`,
                 });
