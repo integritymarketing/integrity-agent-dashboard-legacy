@@ -12,7 +12,7 @@ import useUserProfile from "hooks/useUserProfile";
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 import useLoading from "hooks/useLoading";
-import { useAgentAccountContext } from "providers/AgentAccountProvider";
+import useAgentPreferencesData from "hooks/useAgentPreferencesData";
 
 import Textfield from "components/ui/textfield";
 import EditIcon from "components/icons/icon-edit";
@@ -35,10 +35,9 @@ function PersonalInfo() {
     const loading = useLoading();
     const { isMobile } = useDeviceType();
     const { firstName, lastName, npn, email, phone } = useUserProfile();
-    const { agentAvailability } = useAgentAccountContext();
+    const { agentAvailability, getAgentAccountData } = useAgentPreferencesData();
     const { agentStateLicenses = [], caLicense = "" } = agentAvailability;
     const formattedPhoneNumber = formatPhoneNumber(phone ?? "");
-
     const { Put: updateAccount } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/update`);
     const { Put: updateCALicense } = useFetch(`${process.env.REACT_APP_ACCOUNT_API}/Licenses`);
 
@@ -46,25 +45,26 @@ function PersonalInfo() {
         try {
             setSubmitting(true);
             const initialValues = { firstName, lastName, phone: formattedPhoneNumber, npn, caLicense, email };
-            const accountDetailsChanged = Object.keys(values).some((key) => {
-                if (key === "caLicense") {
-                    return false;
-                }
-                return values[key] !== initialValues[key];
+            const accountDetailsChanged = Object.keys(values).some(key => {
+                const isValueChanged = key !== "caLicense" && values[key] !== initialValues[key];
+                return isValueChanged;
             });
-            const formattedValues = {
-                ...values,
-                phone: values.phone ? values.phone.replace(/\D/g, "") : "",
-            };
     
             if (values.caLicense !== caLicense) {
                 await updateCALicense([{ stateCode: "CA", licenseNumber: values.caLicense }]);
                 showToast({ message: "California license number has been updated." });
+                await getAgentAccountData();
             }
     
             if (accountDetailsChanged) {
+                // eslint-disable-next-line no-unused-vars
+                const { caLicense: caLicenseValue, ...otherValues } = values;
+                const formattedValues = {
+                    ...otherValues,
+                    phone: otherValues.phone ? otherValues.phone.replace(/\D/g, "") : "",
+                };
                 const response = await updateAccount(formattedValues, true);
-                if (response.ok) {
+                if (response.status >= 200 && response.status < 300) {
                     analyticsService.fireEvent("event-form-submit", { formName: "update-account" });
                     await authService.signinSilent();
                     showToast({ message: "Your account info has been updated." });
@@ -81,6 +81,7 @@ function PersonalInfo() {
                 }
             }
         } catch (error) {
+            debugger
             Sentry.captureException(error);
             showToast({ message: "An error occurred while updating your account. Please try again." });
         } finally {

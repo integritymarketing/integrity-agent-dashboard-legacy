@@ -55,7 +55,7 @@ function useAgentPreferencesData() {
         getAgentAccountData();
     }, [getAgentAccountData]);
 
-    return { leadPreference, isLoading, updateAgentPreferences, agentAvailability };
+    return { leadPreference, isLoading, updateAgentPreferences, agentAvailability, getAgentAccountData };
 }
 
 export default useAgentPreferencesData;
