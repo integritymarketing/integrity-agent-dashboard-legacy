@@ -1,8 +1,10 @@
 import styles from "./styles.module.scss";
 
 import Box from "@mui/material/Box";
+import PropTypes from 'prop-types';
+
 const AccountMobile = ({ data }) => {
-    const { firstName, lastName, phone, npn, email } = data;
+    const { firstName, lastName, phone, npn, email, caLicense } = data;
 
     return (
         <Box className={styles.details}>
@@ -17,6 +19,11 @@ const AccountMobile = ({ data }) => {
                 <Box className={styles.title}>National Producer Number</Box>
                 <Box className={styles.npn}>{npn}</Box>
             </Box>
+            
+            <Box className={styles.content}>
+                <Box className={styles.title}>California License Number</Box>
+                <Box className={styles.caLicense}>{caLicense}</Box>
+            </Box>
 
             <Box className={styles.content}>
                 <Box className={styles.title}>Email</Box>
@@ -29,6 +36,17 @@ const AccountMobile = ({ data }) => {
             </Box>
         </Box>
     );
+};
+
+AccountMobile.propTypes = {
+    data: PropTypes.shape({
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        phone: PropTypes.string,
+        npn: PropTypes.string,
+        email: PropTypes.string,
+        caLicense: PropTypes.string,
+    }),
 };
 
 export default AccountMobile;

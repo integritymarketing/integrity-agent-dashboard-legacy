@@ -13,18 +13,22 @@
             color: #052a63;
             font-weight: bold;
         }
+
         .name {
             color: #4178ff;
             padding: 5px;
             padding-left: 15px;
             font-weight: 600;
         }
-        .npn {
+
+        .npn,
+        .caLicense {
             color: grey;
             padding: 5px;
             padding-left: 15px;
             font-weight: 600;
         }
+
         .email {
             padding: 5px;
             color: #4178ff;
@@ -32,6 +36,7 @@
             font-weight: 600;
             word-break: break-all;
         }
+
         .phone {
             font-weight: 600;
             padding: 5px;

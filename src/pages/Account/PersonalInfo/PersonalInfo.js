@@ -160,6 +160,7 @@ function PersonalInfo() {
                             phone: formattedPhoneNumber,
                             npn,
                             email,
+                            caLicense,
                         }}
                     />
                 )}
