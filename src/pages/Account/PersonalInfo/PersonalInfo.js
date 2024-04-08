@@ -41,6 +41,7 @@ function PersonalInfo() {
     const { Put: updateAccount } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/update`);
     const { Put: updateCALicense } = useFetch(`${process.env.REACT_APP_ACCOUNT_API}/Licenses`);
 
+
     const onSubmitHandler = async (values, { setErrors, setSubmitting }) => {
         try {
             setSubmitting(true);
@@ -49,13 +50,13 @@ function PersonalInfo() {
                 const isValueChanged = key !== "caLicense" && values[key] !== initialValues[key];
                 return isValueChanged;
             });
-    
+
             if (values.caLicense !== caLicense) {
                 await updateCALicense([{ stateCode: "CA", licenseNumber: values.caLicense }]);
                 showToast({ message: "California license number has been updated." });
                 await getAgentAccountData();
             }
-    
+
             if (accountDetailsChanged) {
                 // eslint-disable-next-line no-unused-vars
                 const { caLicense: caLicenseValue, ...otherValues } = values;
@@ -89,7 +90,7 @@ function PersonalInfo() {
             loading.end();
         }
     };
-    
+
     const { values, errors, touched, isValid, dirty, handleSubmit, handleChange, handleBlur } = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -194,20 +195,19 @@ function PersonalInfo() {
                             value={values.npn}
                             readOnly
                         />
-                        {agentStateLicenses?.length > 0  && (
-                            <>
-                                <Box className={styles.label}>California License Number (CLN)</Box>
-                                <Textfield
-                                    id="california-license-number"
-                                    placeholder="Enter your California License Number"
-                                    name="caLicense"
-                                    value={values.caLicense}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={touched.caLicense && errors.caLicense}
-                                />
-                            </>
-                        )}
+                        <>
+                            <Box className={styles.label}>California License Number (CLN)</Box>
+                            <Textfield
+                                id="california-license-number"
+                                placeholder="Enter your California License Number"
+                                name="caLicense"
+                                value={values.caLicense}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={touched.caLicense && errors.caLicense}
+                            />
+                        </>
+
                         <Box className={styles.label}>Email Address</Box>
                         <Textfield
                             id="account-email"
