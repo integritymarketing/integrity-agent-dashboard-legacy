@@ -77,7 +77,7 @@ class authService {
       scope: process.env.REACT_APP_AUTH_SCOPES,
       redirect_uri: `${portal_url}/signin-oidc?client_id=${process.env.REACT_APP_AUTH_CLIENT_ID}`,
       post_logout_redirect_uri: `${portal_url}/signout-oidc`,
-      silent_redirect_uri: `${portal_url}/signin-oidc-silent`,
+      silent_redirect_uri: `${portal_url}/signin-oidc-silent?client_id=${process.env.REACT_APP_AUTH_CLIENT_ID}`,
     };
   };
 
