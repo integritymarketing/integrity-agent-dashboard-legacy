@@ -66,7 +66,7 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
                     />
                 </Box>
                 <Box className={styles.content}>
-                    {policies.map(({ policyStatus, planName, hasPlanDetails }) => {
+                    {policies.map(({ policyStatus, planName, hasPlanDetails, confirmationNumber, policyEffectiveDate }) => {
                         const status = policyStatus === "terminated" ? "Inactive" : capitalizeFirstLetter(policyStatus);
                         return <div className={styles.policyCard}>
                             <div className={styles.statusIcon}>
@@ -79,12 +79,12 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
                                     <span className={styles.statusValue}>{status} </span>
                                 </div>
                             </div>
-                            {hasPlanDetails && <Button
+                            {!hasPlanDetails && <Button
                                 icon={<OpenBlue />}
                                 iconPosition="right"
                                 label="View Policy"
                                 onClick={() => {
-                                    navigate(`/contact/${leadsId}/policies`);
+                                    navigate(`/enrollmenthistory/${leadsId}/${confirmationNumber}/${policyEffectiveDate}`)
                                     setIsAddNewModalOpen(true);
                                 }}
                                 type="tertiary"

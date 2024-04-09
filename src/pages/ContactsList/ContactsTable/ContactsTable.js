@@ -282,7 +282,7 @@ function ContactsTable() {
                                 display="inline-block"
                                 onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "LIFE" })}
                             >
-                                <CardBadge Icon={<Heartactive />} count={count} />
+                                <CardBadge Icon={<Heartactive />} count={value} />
                             </Box>
                         );
                     }
