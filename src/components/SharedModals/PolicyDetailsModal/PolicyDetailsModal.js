@@ -20,7 +20,7 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
     const isLife = policy === "LIFE";
     const { getEnrollPlansList, enrollPlansList } = usePolicies();
     const [policies, setPolicies] = useState([]);
-    console.log(policyDetails, isLife)
+
     useEffect(() => {
         if (leadsId) {
             getEnrollPlansList(leadsId);
@@ -59,7 +59,6 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
                         label="View Contact"
                         onClick={() => {
                             navigate(`/contact/${leadsId}/overview`);
-                            setIsAddNewModalOpen(true);
                         }}
                         type="tertiary"
                         className={styles.buttonWithIcon}
@@ -79,13 +78,14 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
                                     <span className={styles.statusValue}>{status} </span>
                                 </div>
                             </div>
-                            {!hasPlanDetails && <Button
+                            {hasPlanDetails && <Button
                                 icon={<OpenBlue />}
                                 iconPosition="right"
                                 label="View Policy"
                                 onClick={() => {
-                                    navigate(`/enrollmenthistory/${leadsId}/${confirmationNumber}/${policyEffectiveDate}`)
-                                    setIsAddNewModalOpen(true);
+                                    navigate(`/enrollmenthistory/${leadsId}/${confirmationNumber}/${policyEffectiveDate}`, {
+                                        state: policyDetails,
+                                    })
                                 }}
                                 type="tertiary"
                                 className={styles.buttonWithIcon}
