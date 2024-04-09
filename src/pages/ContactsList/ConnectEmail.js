@@ -12,7 +12,7 @@ const ConnectEmail = ({ emails = [] }) => {
         }
     }, [email]);
 
-    return <Box position="relative" display="inline-block" onClick={handleEmail}>
+    return <Box position="relative" display="inline-block" sx={{ left: "12px" }} onClick={handleEmail}>
         <Connectemail />
     </Box >
 }
