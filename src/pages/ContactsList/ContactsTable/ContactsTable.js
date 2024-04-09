@@ -12,7 +12,7 @@ import useToast from "hooks/useToast";
 
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 import ReminderModals from "../RemiderModals/ReminderModals";
-import { isOverDue } from "utils/dates";
+import { isOverDue, sortListByDate } from "utils/dates";
 import AskIntegrityModal from "pages/ContactsList/AskIntegrityModal/AskIntegrityModal";
 import HealthActive from "components/icons/version-2/HealthActive";
 import HealthInactive from "components/icons/version-2/HealthInactive";
@@ -62,8 +62,8 @@ function ContactsTable() {
 
     const openPolicyModal = (leadData) => {
         setShowPolicyModal(true);
-        setPolicyDetails(leadData)
-    }
+        setPolicyDetails(leadData);
+    };
 
     const remindersHandler = (remindersLength, leadData) => {
         setLeadData(leadData);
@@ -185,19 +185,27 @@ function ContactsTable() {
                 disableSortBy: true,
                 accessor: "reminders",
                 Cell: ({ value, row }) => {
-                    const remindersLength = value?.length;
                     const leadData = row?.original;
-                    const isOverDue = checkOverDue(leadData?.reminders) ? true : false;
+                    const remindersList = value?.filter((reminder) => !reminder?.isComplete);
+                    const remindersLength = remindersList?.length;
+                    const isOverDue = checkOverDue(remindersList) ? true : false;
                     return (
                         <>
-                            <Box
-                                position="relative"
-                                display="inline-block"
-                                sx={{ left: "15px", cursor: "pointer" }}
+                            <CardBadge
+                                label=""
+                                name="reminder"
                                 onClick={() => remindersHandler(remindersLength, leadData)}
-                            >
-                                <Reminder color={isOverDue ? "#F44236" : "#4178FF"} />
-                            </Box>
+                                Icon={
+                                    <Box sx={{ cursor: "pointer" }}>
+                                        <Reminder
+                                            color={
+                                                remindersLength > 0 ? (isOverDue ? "#F44236" : "#4178FF") : "#717171"
+                                            }
+                                        />
+                                    </Box>
+                                }
+                                count={remindersLength > 1 ? remindersLength : null}
+                            />
                         </>
                     );
                 },
@@ -214,14 +222,17 @@ function ContactsTable() {
                     return (
                         <>
                             {campaignTags?.length > 0 ? (
-                                <Box
-                                    position="relative"
-                                    display="inline-block"
-                                    sx={{ left: "15px", cursor: "pointer" }}
+                                <CardBadge
+                                    label=""
+                                    name={"campaign"}
                                     onClick={() => campaignTagsHandler(campaignTags, leadData)}
-                                >
-                                    <CampaignStatus />
-                                </Box>
+                                    Icon={
+                                        <Box sx={{ cursor: "pointer" }}>
+                                            <CampaignStatus />
+                                        </Box>
+                                    }
+                                    count={campaignTags?.length > 1 ? campaignTags?.length : null}
+                                />
                             ) : null}
                         </>
                     );
@@ -239,14 +250,17 @@ function ContactsTable() {
                     return (
                         <>
                             {askIntegrityTags?.length > 0 ? (
-                                <Box
-                                    position="relative"
-                                    display="inline-block"
-                                    sx={{ left: "15px", cursor: "pointer" }}
+                                <CardBadge
+                                    label=""
+                                    name="askIntegrity"
                                     onClick={() => askIntegrityHandler(askIntegrityTags, leadData)}
-                                >
-                                    <AskIntegrity />
-                                </Box>
+                                    Icon={
+                                        <Box sx={{ cursor: "pointer" }}>
+                                            <AskIntegrity />
+                                        </Box>
+                                    }
+                                    count={askIntegrityTags?.length > 1 ? askIntegrityTags?.length : null}
+                                />
                             ) : null}
                         </>
                     );
@@ -263,7 +277,11 @@ function ContactsTable() {
                         const leadDetails = row?.original;
                         const { firstName, lastName, leadsId } = leadDetails;
                         return (
-                            <Box position="relative" display="inline-block" onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "LIFE" })}>
+                            <Box
+                                position="relative"
+                                display="inline-block"
+                                onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "LIFE" })}
+                            >
                                 <CardBadge Icon={<Heartactive />} count={value} />
                             </Box>
                         );
@@ -281,7 +299,11 @@ function ContactsTable() {
                         const leadDetails = row?.original;
                         const { firstName, lastName, leadsId } = leadDetails;
                         return (
-                            <Box position="relative" display="inline-block" onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "HEALTH" })}>
+                            <Box
+                                position="relative"
+                                display="inline-block"
+                                onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "HEALTH" })}
+                            >
                                 <CardBadge Icon={<HealthActive />} count={value} />
                             </Box>
                         );
@@ -293,11 +315,9 @@ function ContactsTable() {
                 disableSortBy: true,
                 accessor: "connect",
                 Cell: ({ row }) => {
-                    const { primaryCommunication, emails } = row?.original
+                    const { primaryCommunication, emails } = row?.original;
                     const isPhoneConnect = primaryCommunication === "phone";
-                    return (
-                        isPhoneConnect ? <ConnectCall row={row?.original} /> : <ConnectEmail emails={emails} />
-                    );
+                    return isPhoneConnect ? <ConnectCall row={row?.original} /> : <ConnectEmail emails={emails} />;
                 },
             },
             {
@@ -332,7 +352,8 @@ function ContactsTable() {
                 <PolicyDetailsModal
                     showPolicyModal={showPolicyModal}
                     policyDetails={policyDetails}
-                    handleModalClose={() => setShowPolicyModal(false)} />
+                    handleModalClose={() => setShowPolicyModal(false)}
+                />
             </PoliciesProvider>
             {showAskIntegrityModal && (
                 <AskIntegrityModal

@@ -134,7 +134,7 @@ export const PlanCard = ({
     const onPreApply = async () => {
         lifeQuoteEvent("Life Apply CTA Clicked");
         if (!isRTSPlan) {
-            setIsSingleSignOnInitialModalOpen(true);
+            setIsSingleSignOnModalOpen(true);
         } else {
             await onApply();
         }
@@ -144,6 +144,7 @@ export const PlanCard = ({
         let writingAgentNumberToSend = writingAgentNumber;
         setIsLoadingEnroll(true);
         if (!apiErrorState) {
+            setIsSingleSignOnInitialModalOpen(true);
             writingAgentNumberToSend = writingAgentNumber ?? producerId;
         } else {
             writingAgentNumberToSend = producerId;

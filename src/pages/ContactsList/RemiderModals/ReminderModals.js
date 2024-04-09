@@ -50,6 +50,7 @@ const RemindersModals = ({
                     selectedReminder={selectedReminder}
                     leadData={leadData}
                     showLink={true}
+                    isMobile={isMobile}
                 />
             )}
             {showRemindersListModal && (
@@ -60,6 +61,7 @@ const RemindersModals = ({
                     leadData={leadData}
                     setSelectedReminder={setSelectedReminder}
                     setShowEditReminderModal={setShowAddReminderModal}
+                    isMobile={isMobile}
                 />
             )}
         </>
