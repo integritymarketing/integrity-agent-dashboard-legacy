@@ -36,7 +36,7 @@ function PersonalInfo() {
     const { isMobile } = useDeviceType();
     const { firstName, lastName, npn, email, phone } = useUserProfile();
     const { agentAvailability, getAgentAccountData } = useAgentPreferencesData();
-    const { agentStateLicenses = [], caLicense = "" } = agentAvailability;
+    const { caLicense = "" } = agentAvailability;
     const formattedPhoneNumber = formatPhoneNumber(phone ?? "");
     const { Put: updateAccount } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/update`);
     const { Put: updateCALicense } = useFetch(`${process.env.REACT_APP_ACCOUNT_API}/Licenses`);
@@ -131,7 +131,6 @@ function PersonalInfo() {
                     {
                         name: "caLicense",
                         validator: validationService.composeValidator([
-                            validationService.validateRequired,
                             validationService.validateCaliforniaLicenseNumber,
                         ]),
                     },
