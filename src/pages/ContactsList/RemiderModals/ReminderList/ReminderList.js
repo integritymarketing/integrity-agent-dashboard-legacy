@@ -40,7 +40,7 @@ const RemindersList = ({
             open={open}
             onClose={onClose}
             title={
-                <Box display="flex">
+                <Box display="flex" alignItems={"center"}>
                     <span className={styles.reminderTitleIcon}>
                         <Reminder />
                     </span>{" "}
