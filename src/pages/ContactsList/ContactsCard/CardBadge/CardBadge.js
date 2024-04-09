@@ -9,9 +9,8 @@ import styles from "./styles.module.scss";
 // Moved outside to avoid re-creation on every render
 const ReminderBadge = styled(Badge)({
     "& .MuiBadge-badge": {
-        right: -3,
+        right: -7,
         top: 20,
-        right: 8,
         padding: "2px",
         background: "#F1FAFF",
         border: "2px solid #ffffff",
@@ -76,9 +75,9 @@ const CardBadge = ({ label, Icon, count = "", name, onClick }) => (
             )}
 
             {!name && (
-                <ReminderBadge badgeContent={count ? count : 0} color="secondary">
+                count > 1 ? <ReminderBadge badgeContent={count} color="secondary">
                     {Icon}
-                </ReminderBadge>
+                </ReminderBadge> : <>{Icon}</>
             )}
         </IconButton>
     </Box>
