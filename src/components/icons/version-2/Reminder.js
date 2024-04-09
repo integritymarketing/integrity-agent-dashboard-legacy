@@ -5,7 +5,7 @@ export const Reminder = ({ color = "#4178FF" }) => (
         xmlns="http://www.w3.org/2000/svg"
         width="52"
         height="40"
-        viewBox="0 0 52 40"
+        viewBox="0 0 28 40"
     >
         <g id="Group_9227" data-name="Group 9227">
             <g id="IconCircleBG">

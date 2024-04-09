@@ -13,14 +13,13 @@ import { LoadMoreButton } from "../LoadMoreButton";
 import { useContactsListContext } from "../providers/ContactsListProvider";
 import { Reminder } from "components/icons/version-2/Reminder";
 import CardBadge from "./CardBadge/CardBadge";
-import LifeIcon from "./LifeIcon";
-import HealthIcon from "./HealthIcon";
 import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import AskIntegrity from "components/icons/version-2/AskIntegrity";
 import AskIntegrityModal from "pages/ContactsList/AskIntegrityModal/AskIntegrityModal";
 import CampaignModal from "pages/ContactsList/CampaignModal/CampaignModal";
 import ConnectCall from "../ConnectCall";
 import ConnectEmail from "../ConnectEmail";
+import BadgeIcon from "./BadgeIcon";
 
 function ContactsCard() {
     const { tableData } = useContactsListContext();
@@ -68,7 +67,7 @@ function ContactsCard() {
         <Box className={styles.container}>
             <Box className={styles.cardWrapper}>
                 {tableData.map((item) => {
-                    const { lifePolicyCount, healthPolicyCount, reminders } = item;
+                    const { lifePolicyCount, healthPolicyCount, reminders, firstName, lastName, leadsId, primaryCommunication } = item;
                     const remindersLength = reminders?.length;
                     const isOverDue = checkOverDue(reminders) ? true : false;
                     const askIntegrityTags = item?.leadTags?.filter(
@@ -77,7 +76,8 @@ function ContactsCard() {
                     const campaignTags = item?.leadTags?.filter(
                         (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Campaigns"
                     );
-                    const isPhoneConnect = item?.primaryCommunication === "phone";
+                    const isPhoneConnect = primaryCommunication === "phone";
+                    const leadData = { firstName, lastName, leadsId };
                     return (
                         <Box key={item?.leadsId} className={styles.card}>
                             <CardHeader item={item} />
@@ -128,14 +128,15 @@ function ContactsCard() {
                                         count={askIntegrityTags?.length}
                                     />
                                 )}
-                                <CardBadge label="Life" Icon={<LifeIcon lifePolicyCount={lifePolicyCount} />} />
-                                <CardBadge label="Health" Icon={<HealthIcon healthPolicyCount={healthPolicyCount} />} />
+                                <CardBadge label="Life" count={lifePolicyCount} Icon={<BadgeIcon count={lifePolicyCount} leadData={{ ...leadData, policy: "LIFE" }} />} />
+                                <CardBadge label="Health" count={healthPolicyCount} Icon={<BadgeIcon count={healthPolicyCount} leadData={{ ...leadData, policy: "HEALTH" }} />} />
                             </Box>
                         </Box>
                     );
                 })}
             </Box>
             <LoadMoreButton />
+
             <ReminderModals
                 leadData={leadData}
                 isMobile={isMobile}

@@ -264,7 +264,7 @@ function ContactsTable() {
                         const { firstName, lastName, leadsId } = leadDetails;
                         return (
                             <Box position="relative" display="inline-block" onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "LIFE" })}>
-                                <CardBadge Icon={<Heartactive />} count={value} />
+                                <CardBadge Icon={<Heartactive />} count={count} />
                             </Box>
                         );
                     }

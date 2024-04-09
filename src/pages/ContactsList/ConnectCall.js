@@ -66,7 +66,7 @@ const ConnectCall = ({ row }) => {
     ]);
 
     return <>
-        <Box position="relative" display="inline-block" onClick={handleCall}>
+        <Box position="relative" display="inline-block" sx={{ left: "12px" }} onClick={handleCall}>
             <ConnectPhone />
         </Box >
         {isScriptModalOpen && (
