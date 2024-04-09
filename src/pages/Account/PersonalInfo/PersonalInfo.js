@@ -128,12 +128,11 @@ function PersonalInfo() {
                             validationService.validateEmail,
                         ]),
                     },
-                    {
+                    ...(values.caLicense ? [{
                         name: "caLicense",
-                        validator: validationService.composeValidator([
-                            validationService.validateCaliforniaLicenseNumber,
-                        ]),
-                    },
+                        validator: validationService.validateCaliforniaLicenseNumber,
+                        args: ["California License Number (CLN)"],
+                    }] : []),
                 ],
                 values
             );
@@ -198,7 +197,7 @@ function PersonalInfo() {
                             <Box className={styles.label}>California License Number (CLN)</Box>
                             <Textfield
                                 id="california-license-number"
-                                placeholder="Enter your California License Number"
+                                placeholder="Enter California License Number"
                                 name="caLicense"
                                 value={values.caLicense}
                                 onChange={handleChange}

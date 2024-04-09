@@ -30,13 +30,13 @@ class ValidationService {
 
     validateRequiredIf =
         (isRequired) =>
-        (field, label = "Field") => {
-            if (!field && isRequired) {
-                return `${label} is required`;
-            }
+            (field, label = "Field") => {
+                if (!field && isRequired) {
+                    return `${label} is required`;
+                }
 
-            return null;
-        };
+                return null;
+            };
 
     validateBeneficiary = (username, label = "Relationship to Beneficiary") => {
         if (username && username.length > 40) {
@@ -112,13 +112,13 @@ class ValidationService {
 
     validateFieldMatch =
         (matchingField) =>
-        (field, label = "Passwords") => {
-            if (field !== matchingField) {
-                return `${label} must match`;
-            }
+            (field, label = "Passwords") => {
+                if (field !== matchingField) {
+                    return `${label} must match`;
+                }
 
-            return null;
-        };
+                return null;
+            };
 
     validateEmail = (email, label = "Email Address") => {
         const re =
@@ -146,7 +146,7 @@ class ValidationService {
     };
 
     validateMedicalBeneficiaryId = (mbiId) => {
-        if (!mbiId) {return null;}
+        if (!mbiId) { return null; }
         const formattedId = String(mbiId).toUpperCase().replace(/-/g, ""); // Convert to string and remove existing hyphens
         const validPattern =
             /^[1-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y0-9][0-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y0-9][0-9][AC-HJ-KM-NP-RT-Y][AC-HJ-KM-NP-RT-Y][0-9][0-9]$/;
@@ -155,7 +155,7 @@ class ValidationService {
     };
 
     validatePhone = (phoneNumber, label = "Phone Number") => {
-        const cleaned = (`${  phoneNumber}`).replace(/\D/g, "");
+        const cleaned = (`${phoneNumber}`).replace(/\D/g, "");
 
         if (phoneNumber && cleaned.length !== 10) {
             return `${label} must be a valid 10-digit phone number`;
@@ -205,7 +205,7 @@ class ValidationService {
     composeValidator = (validators = []) => {
         return (...validatorArgs) =>
             validators.reduce((result, validator) => {
-                if (result) {return result;}
+                if (result) { return result; }
                 return validator(...validatorArgs);
             }, null);
     };
@@ -216,7 +216,7 @@ class ValidationService {
             if (result === null) {
                 return currErrs;
             }
-            const errors = { ...currErrs};
+            const errors = { ...currErrs };
             setProp(errors, name, result);
             return errors;
         }, errorsObj);
