@@ -7,7 +7,7 @@ import { CardStage } from "./CardStage";
 import styles from "./styles.module.scss";
 import ReminderModals from "../RemiderModals/ReminderModals";
 import { useWindowSize } from "hooks/useWindowSize";
-import { isOverDue } from "utils/dates";
+import { isOverDue, sortListByDate } from "utils/dates";
 
 import { LoadMoreButton } from "../LoadMoreButton";
 import { useContactsListContext } from "../providers/ContactsListProvider";
@@ -67,9 +67,18 @@ function ContactsCard() {
         <Box className={styles.container}>
             <Box className={styles.cardWrapper}>
                 {tableData.map((item) => {
-                    const { lifePolicyCount, healthPolicyCount, reminders, firstName, lastName, leadsId, primaryCommunication } = item;
-                    const remindersLength = reminders?.length;
-                    const isOverDue = checkOverDue(reminders) ? true : false;
+                    const {
+                        lifePolicyCount,
+                        healthPolicyCount,
+                        reminders,
+                        firstName,
+                        lastName,
+                        leadsId,
+                        primaryCommunication,
+                    } = item;
+                    const remindersList = reminders?.filter((reminder) => !reminder?.isComplete);
+                    const remindersLength = remindersList?.length;
+                    const isOverDue = checkOverDue(remindersList) ? true : false;
                     const askIntegrityTags = item?.leadTags?.filter(
                         (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
                     );
@@ -86,50 +95,79 @@ function ContactsCard() {
                                 <CardStage item={item} />
                                 <CardBadge
                                     label="Reminders"
+                                    name={"reminder"}
+                                    onClick={() => remindersHandler(remindersLength, item)}
                                     Icon={
-                                        <Box
-                                            sx={{ cursor: "pointer" }}
-                                            onClick={() => remindersHandler(remindersLength, item)}
-                                        >
-                                            <Reminder color={isOverDue ? "#F44236" : "#4178FF"} />
+                                        <Box sx={{ cursor: "pointer" }}>
+                                            <Reminder
+                                                color={
+                                                    remindersLength > 0
+                                                        ? isOverDue
+                                                            ? "#F44236"
+                                                            : "#4178FF"
+                                                        : "#717171"
+                                                }
+                                            />
                                         </Box>
                                     }
-                                    count={remindersLength}
+                                    count={remindersLength > 1 ? remindersLength : null}
                                 />
-                                <CardBadge label="Connect" Icon={isPhoneConnect ? <ConnectCall row={item} /> : <ConnectEmail emails={item.emails} />} />
+                                <CardBadge
+                                    label="Connect"
+                                    Icon={
+                                        isPhoneConnect ? (
+                                            <ConnectCall row={item} />
+                                        ) : (
+                                            <ConnectEmail emails={item.emails} />
+                                        )
+                                    }
+                                />
                             </Box>
 
                             <Box className={styles.innerWrapper}>
                                 {campaignTags?.length > 0 && (
                                     <CardBadge
                                         label="Campaign"
+                                        name={"campaign"}
+                                        onClick={() => campaignTagsHandler(campaignTags, item)}
                                         Icon={
-                                            <Box
-                                                sx={{ cursor: "pointer" }}
-                                                onClick={() => campaignTagsHandler(campaignTags, item)}
-                                            >
+                                            <Box sx={{ cursor: "pointer" }}>
                                                 <CampaignStatus />
                                             </Box>
                                         }
-                                        count={campaignTags?.length}
+                                        count={campaignTags?.length > 1 ? campaignTags?.length : null}
                                     />
                                 )}
                                 {askIntegrityTags?.length > 0 && (
                                     <CardBadge
                                         label="Ask Integrity"
+                                        name="askIntegrity"
+                                        onClick={() => askIntegrityHandler(askIntegrityTags, item)}
                                         Icon={
-                                            <Box
-                                                sx={{ cursor: "pointer" }}
-                                                onClick={() => askIntegrityHandler(askIntegrityTags, item)}
-                                            >
+                                            <Box sx={{ cursor: "pointer" }}>
                                                 <AskIntegrity />
                                             </Box>
                                         }
-                                        count={askIntegrityTags?.length}
+                                        count={askIntegrityTags?.length > 1 ? askIntegrityTags?.length : null}
                                     />
                                 )}
-                                <CardBadge label="Life" count={lifePolicyCount} Icon={<BadgeIcon count={lifePolicyCount} leadData={{ ...leadData, policy: "LIFE" }} />} />
-                                <CardBadge label="Health" count={healthPolicyCount} Icon={<BadgeIcon count={healthPolicyCount} leadData={{ ...leadData, policy: "HEALTH" }} />} />
+                                <CardBadge
+                                    label="Life"
+                                    count={lifePolicyCount}
+                                    Icon={
+                                        <BadgeIcon count={lifePolicyCount} leadData={{ ...leadData, policy: "LIFE" }} />
+                                    }
+                                />
+                                <CardBadge
+                                    label="Health"
+                                    count={healthPolicyCount}
+                                    Icon={
+                                        <BadgeIcon
+                                            count={healthPolicyCount}
+                                            leadData={{ ...leadData, policy: "HEALTH" }}
+                                        />
+                                    }
+                                />
                             </Box>
                         </Box>
                     );
