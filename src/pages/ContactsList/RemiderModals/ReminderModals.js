@@ -44,7 +44,10 @@ const RemindersModals = ({
             {showAddReminderModal && (
                 <AddReminderModal
                     open={showAddReminderModal}
-                    onClose={() => setShowAddReminderModal(false)}
+                    onClose={() => {
+                        setSelectedReminder(null);
+                        setShowAddReminderModal(false);
+                    }}
                     onSave={selectedReminder ? updateReminder : saveReminder}
                     leadId={leadData?.leadsId}
                     selectedReminder={selectedReminder}
@@ -56,7 +59,9 @@ const RemindersModals = ({
             {showRemindersListModal && (
                 <ReminderList
                     open={showRemindersListModal}
-                    onClose={() => setShowRemindersListModal(false)}
+                    onClose={() => {
+                        setShowRemindersListModal(false);
+                    }}
                     reminders={leadData?.reminders}
                     leadData={leadData}
                     setSelectedReminder={setSelectedReminder}

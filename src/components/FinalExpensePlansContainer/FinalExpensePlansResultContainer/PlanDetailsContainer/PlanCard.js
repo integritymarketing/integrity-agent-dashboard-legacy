@@ -144,7 +144,6 @@ export const PlanCard = ({
         let writingAgentNumberToSend = writingAgentNumber;
         setIsLoadingEnroll(true);
         if (!apiErrorState) {
-            setIsSingleSignOnInitialModalOpen(true);
             writingAgentNumberToSend = writingAgentNumber ?? producerId;
         } else {
             writingAgentNumberToSend = producerId;
@@ -266,7 +265,7 @@ export const PlanCard = ({
                 onClose={() => setIsSingleSignOnInitialModalOpen(false)}
                 onRetry={() => {
                     setIsSingleSignOnInitialModalOpen(false);
-                    setIsSingleSignOnModalOpen(true);
+                    setIsFinalExpenseErrorModalOpen(true);
                 }}
             />
             <SingleSignOnModal
@@ -285,6 +284,7 @@ export const PlanCard = ({
                 onApply={onApply}
                 fetchPlans={fetchPlans}
                 writingAgentNumber={writingAgentNumber}
+                setIsSingleSignOnInitialModalOpen={setIsSingleSignOnInitialModalOpen}
             />
             {isLoadingEnroll && (
                 <div className={styles.spinner}>
