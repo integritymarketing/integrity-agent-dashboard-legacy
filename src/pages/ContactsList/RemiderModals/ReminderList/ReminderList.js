@@ -108,7 +108,7 @@ const RemindersList = ({
                                         )}
                                     </Box>
                                 </Box>
-                                <Box className={styles.reminderNote}>{reminderNote}</Box>
+                                {reminderNote && <Box className={styles.reminderNote}>{reminderNote}</Box>}
                             </Box>
                         );
                     })}

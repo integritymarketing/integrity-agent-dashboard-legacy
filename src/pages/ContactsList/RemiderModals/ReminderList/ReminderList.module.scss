@@ -151,6 +151,9 @@
     color: #052a63;
     font-size: 24px;
     width: 65%;
+    @include small {
+        width: 80%;
+    }
 }
 
 .link {
@@ -190,4 +193,8 @@
 
 .reminderTitleIcon{
     margin-top: 8px;
+    @include small {
+       margin-top: 0;
+       margin-right: 10px;
+    }
 }
