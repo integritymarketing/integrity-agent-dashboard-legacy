@@ -23,6 +23,7 @@ import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import { Checkbox } from "components/ui/version-2/Checkbox";
 import CampaignModal from "pages/ContactsList/CampaignModal/CampaignModal";
 import clientsService from "services/clientsService";
+import AddReminder from "components/icons/version-2/addReminder";
 
 import { ActionsCell } from "./ActionsCell";
 import { NameCell } from "./NameCell";
@@ -197,11 +198,13 @@ function ContactsTable() {
                                 onClick={() => remindersHandler(remindersLength, leadData)}
                                 Icon={
                                     <Box sx={{ cursor: "pointer" }}>
-                                        <Reminder
-                                            color={
-                                                remindersLength > 0 ? (isOverDue ? "#F44236" : "#4178FF") : "#717171"
-                                            }
-                                        />
+                                        {remindersLength === 0 ? (
+                                            <Box sx={{ top: "10px" }}>
+                                                <AddReminder />
+                                            </Box>
+                                        ) : (
+                                            <Reminder color={isOverDue ? "#F44236" : "#4178FF"} />
+                                        )}
                                     </Box>
                                 }
                                 count={remindersLength > 1 ? remindersLength : null}
@@ -216,8 +219,8 @@ function ContactsTable() {
                 accessor: "campaign",
                 Cell: ({ value, row }) => {
                     const leadData = row?.original;
-                    const campaignTags = row?.original?.leadTags?.filter(
-                        (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Campaigns"
+                    const campaignTags = row?.original?.leadTags?.filter((tag) =>
+                        tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign")
                     );
                     return (
                         <>

@@ -12,6 +12,7 @@ import { isOverDue, sortListByDate } from "utils/dates";
 import { LoadMoreButton } from "../LoadMoreButton";
 import { useContactsListContext } from "../providers/ContactsListProvider";
 import { Reminder } from "components/icons/version-2/Reminder";
+import AddReminder from "components/icons/version-2/addReminder";
 import CardBadge from "./CardBadge/CardBadge";
 import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import AskIntegrity from "components/icons/version-2/AskIntegrity";
@@ -82,8 +83,8 @@ function ContactsCard() {
                     const askIntegrityTags = item?.leadTags?.filter(
                         (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
                     );
-                    const campaignTags = item?.leadTags?.filter(
-                        (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Campaigns"
+                    const campaignTags = item?.leadTags?.filter((tag) =>
+                        tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign")
                     );
                     const isPhoneConnect = primaryCommunication === "phone";
                     const leadData = { firstName, lastName, leadsId };
@@ -99,15 +100,13 @@ function ContactsCard() {
                                     onClick={() => remindersHandler(remindersLength, item)}
                                     Icon={
                                         <Box sx={{ cursor: "pointer" }}>
-                                            <Reminder
-                                                color={
-                                                    remindersLength > 0
-                                                        ? isOverDue
-                                                            ? "#F44236"
-                                                            : "#4178FF"
-                                                        : "#717171"
-                                                }
-                                            />
+                                            {remindersLength === 0 ? (
+                                                <Box sx={{ top: "10px" }}>
+                                                    <AddReminder />
+                                                </Box>
+                                            ) : (
+                                                <Reminder color={isOverDue ? "#F44236" : "#4178FF"} />
+                                            )}
                                         </Box>
                                     }
                                     count={remindersLength > 1 ? remindersLength : null}

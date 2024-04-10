@@ -90,15 +90,13 @@ export const SingleSignOnModal = ({
             };
 
             const response = await addSALifeRecord(payload, true);
-            if (!response?.success && response?.status === 400) {
-                isSingleSignOnInitialModalOpen(true);
-                return false;
-            }
             if (response.ok) {
                 await onApply(producerId, true);
                 await fetchPlans();
             }
         } catch (e) {
+            isSingleSignOnInitialModalOpen(true);
+            return false;
             showToast({
                 type: "error",
                 message: e.message || "An error occurred",

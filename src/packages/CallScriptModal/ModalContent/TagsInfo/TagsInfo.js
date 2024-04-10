@@ -11,7 +11,9 @@ function TagsInfo() {
     const askIntegrityTags = leadDetails?.leadTags?.filter(
         (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
     );
-    const campaignTags = leadDetails?.leadTags?.filter((tag) => tag?.tag?.tagCategory?.tagCategoryName === "Campaigns");
+    const campaignTags = leadDetails?.leadTags?.filter((tag) =>
+        tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign")
+    );
 
     return (
         <Box marginTop={"20px"}>
