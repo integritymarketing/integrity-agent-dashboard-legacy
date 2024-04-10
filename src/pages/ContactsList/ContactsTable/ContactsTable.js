@@ -285,7 +285,7 @@ function ContactsTable() {
                                 display="inline-block"
                                 onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "LIFE" })}
                             >
-                                <CardBadge Icon={<Heartactive />} count={value} />
+                                <CardBadge Icon={<Heartactive />} count={value} classes={styles.badgeContainer} />
                             </Box>
                         );
                     }
@@ -307,7 +307,7 @@ function ContactsTable() {
                                 display="inline-block"
                                 onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "HEALTH" })}
                             >
-                                <CardBadge Icon={<HealthActive />} count={value} />
+                                <CardBadge Icon={<HealthActive />} count={value} classes={styles.badgeContainer} />
                             </Box>
                         );
                     }

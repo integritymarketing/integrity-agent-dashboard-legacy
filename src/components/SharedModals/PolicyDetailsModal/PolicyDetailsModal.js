@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useWindowSize } from "hooks/useWindowSize";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Modal from "components/Modal";
@@ -16,8 +17,10 @@ import OpenBlue from "components/icons/version-2/OpenBlue";
 
 const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }) => {
     const { firstName, lastName, leadsId, policy } = policyDetails;
+    const { width: windowWidth } = useWindowSize();
     const navigate = useNavigate();
     const isLife = policy === "LIFE";
+    const isMobile = windowWidth <= 784;
     const { getEnrollPlansList, enrollPlansList } = usePolicies();
     const [policies, setPolicies] = useState([]);
 
@@ -53,16 +56,18 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
             <Modal open={showPolicyModal} onClose={handleModalClose} title={renderTitleComp()}>
                 <Box className={styles.container}>
                     <Box className={styles.title}>{`${firstName} ${lastName}`}</Box>
-                    <Button
-                        icon={<ArrowRight />}
-                        iconPosition="right"
-                        label="View Contact"
-                        onClick={() => {
-                            navigate(`/contact/${leadsId}/overview`);
-                        }}
-                        type="tertiary"
-                        className={styles.buttonWithIcon}
-                    />
+                    <div className={styles.ctaWrapper} onClick={() => {
+                        navigate(`/contact/${leadsId}/overview`);
+                    }} >
+                        {isMobile ? <ArrowRight /> : <Button
+                            icon={<ArrowRight />}
+                            iconPosition="right"
+                            label="View Contact"
+                            type="tertiary"
+                            className={styles.buttonWithIcon}
+                        />}
+                    </div>
+
                 </Box>
                 <Box className={styles.content}>
                     {policies.map(({ policyStatus, planName, hasPlanDetails, confirmationNumber, policyEffectiveDate }) => {
@@ -78,18 +83,22 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
                                     <span className={styles.statusValue}>{status} </span>
                                 </div>
                             </div>
-                            {hasPlanDetails && <Button
-                                icon={<OpenBlue />}
-                                iconPosition="right"
-                                label="View Policy"
-                                onClick={() => {
-                                    navigate(`/enrollmenthistory/${leadsId}/${confirmationNumber}/${policyEffectiveDate}`, {
-                                        state: policyDetails,
-                                    })
-                                }}
-                                type="tertiary"
-                                className={styles.buttonWithIcon}
-                            />}
+                            {hasPlanDetails && <div className={styles.ctaWrapper} onClick={() => {
+                                navigate(`/contact/${leadsId}/overview`);
+                            }} >
+                                {isMobile ? <OpenBlue /> : <Button
+                                    icon={<OpenBlue />}
+                                    iconPosition="right"
+                                    label="View Policy"
+                                    onClick={() => {
+                                        navigate(`/enrollmenthistory/${leadsId}/${confirmationNumber}/${policyEffectiveDate}`, {
+                                            state: policyDetails,
+                                        })
+                                    }}
+                                    type="tertiary"
+                                    className={styles.buttonWithIcon}
+                                />}
+                            </div>}
                         </div>
                     })}
                 </Box>
