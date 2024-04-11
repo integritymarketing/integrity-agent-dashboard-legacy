@@ -7,6 +7,7 @@ import ArrowRightIcon from 'components/icons/version-2/ArrowRight';
 import CampaignStatusIcon from 'components/icons/version-2/CampaignStatus';
 import Modal from 'components/Modal';
 import Styles from './CampaignModal.module.scss';
+import { toSentenceCase } from "utils/toSentenceCase";
 
 const CampaignModal = ({ open, onClose, campaignList, leadData }) => {
     const navigate = useNavigate();
@@ -43,7 +44,10 @@ const CampaignModal = ({ open, onClose, campaignList, leadData }) => {
                         <Box className={Styles.campaignInfo}>
                             <CampaignStatusIcon />
                             <Box className={Styles.tagInfo}>
-                                <Box className={Styles.tagName}>{campaign?.tag?.tagLabel}</Box>
+                                <Box display="flex" alignItems="center">
+                                <Box className={Styles.tagCategoryName}>{toSentenceCase(campaign?.tag?.tagCategory?.tagCategoryName)}:</Box>
+                                <Box className={Styles.tagName}>{toSentenceCase(campaign?.tag?.tagLabel)}</Box>
+                                </Box>
                                 <Box className={Styles.tagMetaData}>{campaign?.tag?.metadata}</Box>
                             </Box>
                         </Box>
