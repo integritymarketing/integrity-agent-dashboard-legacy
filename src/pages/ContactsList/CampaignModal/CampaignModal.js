@@ -6,7 +6,7 @@ import useDeviceType from "hooks/useDeviceType";
 import ArrowRightIcon from 'components/icons/version-2/ArrowRight';
 import CampaignStatusIcon from 'components/icons/version-2/CampaignStatus';
 import Modal from 'components/Modal';
-import styles from './CampaignModal.module.scss';
+import Styles from './CampaignModal.module.scss';
 
 const CampaignModal = ({ open, onClose, campaignList, leadData }) => {
     const navigate = useNavigate();
@@ -17,28 +17,34 @@ const CampaignModal = ({ open, onClose, campaignList, leadData }) => {
     const fullName = `${leadData?.firstName ?? ''} ${leadData?.middleName ?? ''} ${leadData?.lastName ?? ''}`;
 
     return (
-        <Modal maxWidth="sm" open={open} onClose={onClose} title={
-            <Box display="flex">
-                <span className={styles.campaignTitleIcon}><CampaignStatusIcon /></span>
-                Campaigns
-            </Box>
-        }
-        hideFooter={true}
+        <Modal
+            maxWidth="sm"
+            open={open}
+            onClose={onClose}
+            title={
+                <Box display="flex">
+                    <span className={Styles.campaignTitleIcon}>
+                        <CampaignStatusIcon />
+                    </span>
+                    Campaigns
+                </Box>
+            }
+            hideFooter={true}
         >
             <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom="20px" width="100%">
-                <Box className={styles.name}>{fullName}</Box>
-                <Box className={styles.link} onClick={handleViewContact}>
-                    {!isMobile && 'View Contact'} <ArrowRightIcon />
+                <Box className={Styles.name}>{fullName}</Box>
+                <Box className={Styles.link} onClick={handleViewContact}>
+                    {!isMobile && "View Contact"} <ArrowRightIcon />
                 </Box>
             </Box>
             <Box>
                 {campaignList?.map((campaign, index) => (
-                    <Box key={index} className={styles.campaignCard}>
-                        <Box className={styles.campaignInfo}>
+                    <Box key={index} className={Styles.campaignCard}>
+                        <Box className={Styles.campaignInfo}>
                             <CampaignStatusIcon />
-                            <Box className={styles.tagInfo}>
-                                <Box className={styles.tagName}>{campaign?.tag?.tagLabel}</Box>
-                                <Box className={styles.tagMetaData}>{campaign?.tag?.metadata}</Box>
+                            <Box className={Styles.tagInfo}>
+                                <Box className={Styles.tagName}>{campaign?.tag?.tagLabel}</Box>
+                                <Box className={Styles.tagMetaData}>{campaign?.tag?.metadata}</Box>
                             </Box>
                         </Box>
                     </Box>
