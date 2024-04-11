@@ -102,6 +102,7 @@ export const RemindersList = ({ isMobile }) => {
                 <>
                     {sortedTasks?.map((reminder) => {
                         const { reminderNote = "", isComplete = false, reminderId, reminderDate } = reminder;
+
                         const isOverDue = getOverDue(reminderDate) ? true : false;
                         return (
                             <Box className={styles.reminderItem}>

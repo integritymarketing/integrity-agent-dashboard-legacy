@@ -139,7 +139,14 @@ export default function Modal({
                         </IconButton>
                     </div>
                 </DialogTitle>
-                <DialogContent style={{ backgroundColor: "#F1F1F1", padding: "24px", ...(contentStyle || {}) }}>
+                <DialogContent
+                    style={{
+                        backgroundColor: "#F1F1F1",
+                        padding: "24px",
+                        borderRadius: hideFooter ? "8px" : "",
+                        ...(contentStyle || {}),
+                    }}
+                >
                     {children}
                 </DialogContent>
                 {!hideFooter && (

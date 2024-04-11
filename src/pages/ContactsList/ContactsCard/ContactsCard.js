@@ -88,6 +88,10 @@ function ContactsCard() {
                     );
                     const isPhoneConnect = primaryCommunication === "phone";
                     const leadData = { firstName, lastName, leadsId };
+
+                    const campaignLength = campaignTags?.length;
+                    const askIntegrityLength = askIntegrityTags?.length;
+
                     return (
                         <Box key={item?.leadsId} className={styles.card}>
                             <CardHeader item={item} />
@@ -124,32 +128,38 @@ function ContactsCard() {
                             </Box>
 
                             <Box className={styles.innerWrapper}>
-                                {campaignTags?.length > 0 && (
-                                    <CardBadge
-                                        label="Campaign"
-                                        name={"campaign"}
-                                        onClick={() => campaignTagsHandler(campaignTags, item)}
-                                        Icon={
+                                <CardBadge
+                                    label="Campaign"
+                                    name={"campaign"}
+                                    onClick={() => {
+                                        campaignLength > 0 && campaignTagsHandler(campaignTags, item);
+                                    }}
+                                    Icon={
+                                        campaignLength > 0 && (
                                             <Box sx={{ cursor: "pointer" }}>
                                                 <CampaignStatus />
                                             </Box>
-                                        }
-                                        count={campaignTags?.length > 1 ? campaignTags?.length : null}
-                                    />
-                                )}
-                                {askIntegrityTags?.length > 0 && (
-                                    <CardBadge
-                                        label="Ask Integrity"
-                                        name="askIntegrity"
-                                        onClick={() => askIntegrityHandler(askIntegrityTags, item)}
-                                        Icon={
+                                        )
+                                    }
+                                    count={campaignLength > 1 ? campaignLength : null}
+                                />
+
+                                <CardBadge
+                                    label="Ask Integrity"
+                                    name="askIntegrity"
+                                    onClick={() => {
+                                        askIntegrityLength > 0 && askIntegrityHandler(askIntegrityTags, item);
+                                    }}
+                                    Icon={
+                                        askIntegrityLength > 0 && (
                                             <Box sx={{ cursor: "pointer" }}>
                                                 <AskIntegrity />
                                             </Box>
-                                        }
-                                        count={askIntegrityTags?.length > 1 ? askIntegrityTags?.length : null}
-                                    />
-                                )}
+                                        )
+                                    }
+                                    count={askIntegrityLength > 1 ? askIntegrityLength : null}
+                                />
+
                                 <CardBadge
                                     label="Life"
                                     count={lifePolicyCount}

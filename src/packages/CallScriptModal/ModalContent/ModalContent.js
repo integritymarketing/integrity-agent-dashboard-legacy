@@ -12,7 +12,6 @@ import useAnalytics from "hooks/useAnalytics";
 const LIFE = "LIFE";
 const HEALTH = "HEALTH";
 
-
 function ModalContent({ productCount, carrierCount, shouldShowOptionalHealthInfo, currentType, leadId }) {
     const { fireEvent } = useAnalytics();
     const [layout, setLayout] = useState(currentType);

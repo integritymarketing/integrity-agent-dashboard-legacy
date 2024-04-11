@@ -63,7 +63,7 @@ const RemindersList = ({
                 </Box>
                 <Box>
                     {sortedReminders?.map((reminder) => {
-                        const { reminderNote = "", isComplete = false, reminderDate } = reminder;
+                        const { reminderTitle = "", isComplete = false, reminderDate } = reminder;
                         const isOverDue = getOverDue(reminderDate) ? true : false;
                         return (
                             <Box className={styles.reminderCard}>
@@ -108,7 +108,9 @@ const RemindersList = ({
                                         )}
                                     </Box>
                                 </Box>
-                                {reminderNote && <Box className={styles.reminderNote}>{reminderNote}</Box>}
+                                <Box className={styles.reminderNote}>
+                                    {reminderTitle ? reminderTitle : "Untitled Reminder"}
+                                </Box>
                             </Box>
                         );
                     })}

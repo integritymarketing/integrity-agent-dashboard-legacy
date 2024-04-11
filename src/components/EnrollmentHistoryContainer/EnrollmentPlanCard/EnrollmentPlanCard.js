@@ -21,7 +21,7 @@ export default function EnrollmentPlanCard(props) {
         policyEffectiveDate,
         termedDate,
         policyHolder,
-        // policyId = "N/A",
+        policyId = "N/A",
         currentYear = true,
         leadId,
         isEnrollPlansPage,
@@ -36,7 +36,6 @@ export default function EnrollmentPlanCard(props) {
         policyStatusColor,
         productCategory = "N/A",
     } = props;
-    const policyId = "";
     const navigate = useNavigate();
     const location = useLocation();
     const [isMobile, setIsMobile] = useState(false);
@@ -90,23 +89,20 @@ export default function EnrollmentPlanCard(props) {
                         >
                             {/* <div className={styles.details}> */}
                             <div>
-                                <div className={styles.planLabel}>Product </div>{" "}
+                                <div className={styles.planLabel}>Product Type</div>{" "}
                                 <div className={styles.planValue}>{productCategory}</div>
                             </div>
                             <div className={styles.planCompany}>{renderPlanDetails("Carrier", carrier)}</div>
                             <div>
                                 <div className={styles.planLabel}>Plan ID </div>
-                                <div className={styles.planValue}>{planId}</div>
+                                <div className={styles.planValue}>{planId ? planId : "--"}</div>
                             </div>
                             {/* </div> */}
                             <div className={styles.dates}>
                                 {currentYear ? (
                                     <>
                                         {submittedDate && !isFinalExpense && (
-                                            <PlanDate
-                                                type={"Submitted"}
-                                                date={submittedDate}
-                                            />
+                                            <PlanDate type={"Submitted"} date={submittedDate} />
                                         )}
 
                                         {(policyStatus === "upcoming" || policyStatus === "active") && (
