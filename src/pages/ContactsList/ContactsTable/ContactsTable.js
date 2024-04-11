@@ -61,13 +61,13 @@ function ContactsTable() {
     const [showPolicyModal, setShowPolicyModal] = useState(false);
     const [policyDetails, setPolicyDetails] = useState({});
 
-    const openPolicyModal = (leadData) => {
+    const openPolicyModal = (leadDataOriginal) => {
         setShowPolicyModal(true);
-        setPolicyDetails(leadData);
+        setPolicyDetails(leadDataOriginal);
     };
 
-    const remindersHandler = (remindersLength, leadData) => {
-        setLeadData(leadData);
+    const remindersHandler = (remindersLength, leadDataOriginal) => {
+        setLeadData(leadDataOriginal);
         if (!remindersLength) {
             setShowAddReminderModal(true);
         } else {
@@ -75,20 +75,20 @@ function ContactsTable() {
         }
     };
 
-    const askIntegrityHandler = (askIntegrityTags, leadData) => {
-        setLeadData(leadData);
+    const askIntegrityHandler = (askIntegrityTags, leadDataOriginal) => {
+        setLeadData(leadDataOriginal);
         setAskIntegrityList(askIntegrityTags);
         setShowAskIntegrityModal(true);
     };
 
-    const campaignTagsHandler = (campaignTags, leadData) => {
-        setLeadData(leadData);
+    const campaignTagsHandler = (campaignTags, leadDataOriginal) => {
+        setLeadData(leadDataOriginal);
         setCampaignList(campaignTags);
         setShowCampaignModal(true);
     };
 
     const checkOverDue = (reminders) => {
-        if (!reminders) return false;
+        if (!reminders) {return false;}
         const overDue = reminders.filter((reminder) => {
             const { reminderDate } = reminder;
             return isOverDue(reminderDate);
@@ -186,16 +186,16 @@ function ContactsTable() {
                 disableSortBy: true,
                 accessor: "reminders",
                 Cell: ({ value, row }) => {
-                    const leadData = row?.original;
+                    const leadDataOriginal = row?.original;
                     const remindersList = value?.filter((reminder) => !reminder?.isComplete);
                     const remindersLength = remindersList?.length;
-                    const isOverDue = checkOverDue(remindersList) ? true : false;
+                    const isOverDueReminder = checkOverDue(remindersList) ? true : false;
                     return (
                         <>
                             <CardBadge
                                 label=""
                                 name="reminder"
-                                onClick={() => remindersHandler(remindersLength, leadData)}
+                                onClick={() => remindersHandler(remindersLength, leadDataOriginal)}
                                 Icon={
                                     <Box sx={{ cursor: "pointer" }}>
                                         {remindersLength === 0 ? (
@@ -203,7 +203,7 @@ function ContactsTable() {
                                                 <AddReminder />
                                             </Box>
                                         ) : (
-                                            <Reminder color={isOverDue ? "#F44236" : "#4178FF"} />
+                                            <Reminder color={isOverDueReminder ? "#F44236" : "#4178FF"} />
                                         )}
                                     </Box>
                                 }
@@ -218,7 +218,7 @@ function ContactsTable() {
                 disableSortBy: true,
                 accessor: "campaign",
                 Cell: ({ value, row }) => {
-                    const leadData = row?.original;
+                    const leadDataOriginal = row?.original;
                     const campaignTags = row?.original?.leadTags?.filter((tag) =>
                         tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign")
                     );
@@ -228,7 +228,7 @@ function ContactsTable() {
                                 <CardBadge
                                     label=""
                                     name={"campaign"}
-                                    onClick={() => campaignTagsHandler(campaignTags, leadData)}
+                                    onClick={() => campaignTagsHandler(campaignTags, leadDataOriginal)}
                                     Icon={
                                         <Box sx={{ cursor: "pointer" }}>
                                             <CampaignStatus />
@@ -246,7 +246,7 @@ function ContactsTable() {
                 disableSortBy: true,
                 accessor: "askIntegrity",
                 Cell: ({ value, row }) => {
-                    const leadData = row?.original;
+                    const leadDataOriginal = row?.original;
                     const askIntegrityTags = row?.original?.leadTags?.filter(
                         (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
                     );
@@ -256,7 +256,7 @@ function ContactsTable() {
                                 <CardBadge
                                     label=""
                                     name="askIntegrity"
-                                    onClick={() => askIntegrityHandler(askIntegrityTags, leadData)}
+                                    onClick={() => askIntegrityHandler(askIntegrityTags, leadDataOriginal)}
                                     Icon={
                                         <Box sx={{ cursor: "pointer" }}>
                                             <AskIntegrity />
