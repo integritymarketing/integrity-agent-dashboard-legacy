@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useWindowSize } from "hooks/useWindowSize";
+import { useEffect, useState, useMemo } from "react";
+import useDeviceType from "hooks/useDeviceType";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Modal from "components/Modal";
@@ -17,10 +17,9 @@ import OpenBlue from "components/icons/version-2/OpenBlue";
 
 const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }) => {
     const { firstName, lastName, leadsId, policy } = policyDetails;
-    const { width: windowWidth } = useWindowSize();
+    const { isMobile } = useDeviceType();
     const navigate = useNavigate();
     const isLife = policy === "LIFE";
-    const isMobile = windowWidth <= 784;
     const { getEnrollPlansList, enrollPlansList } = usePolicies();
     const [policies, setPolicies] = useState([]);
 
@@ -28,154 +27,88 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
         if (leadsId) {
             getEnrollPlansList(leadsId);
         }
-    }, [leadsId]);
+    }, [leadsId, getEnrollPlansList]);
 
     useEffect(() => {
         if (enrollPlansList.length > 0) {
-            let filteredPolicy = [];
-            if (isLife) {
-                filteredPolicy = enrollPlansList.filter((policy) => policy.productCategory === "Final Expense");
-            } else {
-                filteredPolicy = enrollPlansList.filter((policy) => policy.productCategory !== "Final Expense");
-            }
+            const filteredPolicy = enrollPlansList.filter((plan) =>
+                isLife ? plan.productCategory === "Final Expense" : plan.productCategory !== "Final Expense"
+            );
             setPolicies(filteredPolicy);
         }
     }, [enrollPlansList, isLife]);
 
-    const renderTitleComp = () => {
+    const renderTitleComponent = () => (
+        <Box className={styles.titleContainer}>
+            {isLife ? <Life /> : <Health />}
+            <Box className={styles.title}>{`${isLife ? "Life" : "Health"} Policies`}</Box>
+        </Box>
+    );
+
+    const policyCards = useMemo(() => policies.map((currentPolicy) => {
+        const status = currentPolicy.policyStatus === "terminated" ? "Inactive" : capitalizeFirstLetter(currentPolicy.policyStatus);
+        const policyData = {
+            ...currentPolicy,
+            policyHolder: `${currentPolicy.consumerFirstName} ${currentPolicy.consumerLastName}`,
+            policyId: currentPolicy.policyNumber,
+            currentYear: true,
+            leadId: leadsId,
+            status,
+        };
+    
         return (
-            <Box className={styles.titleContainer}>
-                {isLife ? <Life /> : <Health />}
-                <Box className={styles.title}>{`${isLife ? "Life" : "Health"} Polices`}</Box>
-            </Box>
+            <div key={currentPolicy.policyNumber} className={styles.policyCard}>
+                <div className={styles.statusIcon}>
+                    {isLife ? <LifePolicy status={status} /> : <HealthPolicy status={status} />}
+                </div>
+                <div className={styles.planContainer}>
+                    <div className={styles.planName}>{currentPolicy.planName}</div>
+                    <div>
+                        <span className={styles.statusLabel}>Status:</span>
+                        <span className={styles.statusValue}>{status}</span>
+                    </div>
+                </div>
+                {currentPolicy.hasPlanDetails && (
+                    <Button
+                        icon={<OpenBlue />}
+                        iconPosition="right"
+                        label="View Policy"
+                        onClick={() => navigate(`/enrollmenthistory/${leadsId}/${currentPolicy.confirmationNumber}/${currentPolicy.policyEffectiveDate}`, { state: policyData })}
+                        type="tertiary"
+                        className={styles.buttonWithIcon}
+                    />
+                )}
+            </div>
         );
-    };
+    }), [policies, isLife, navigate, leadsId]);
+    
 
     return (
-        <>
-            <Modal open={showPolicyModal} onClose={handleModalClose} title={renderTitleComp()}>
-                <Box className={styles.container}>
-                    <Box className={styles.title}>{`${firstName} ${lastName}`}</Box>
-                    <div
-                        className={styles.ctaWrapper}
-                        onClick={() => {
-                            navigate(`/contact/${leadsId}/overview`);
-                        }}
-                    >
-                        {isMobile ? (
-                            <ArrowRight />
-                        ) : (
-                            <Button
-                                icon={<ArrowRight />}
-                                iconPosition="right"
-                                label="View Contact"
-                                type="tertiary"
-                                className={styles.buttonWithIcon}
-                            />
-                        )}
-                    </div>
-                </Box>
-                <Box className={styles.content}>
-                    {policies.map(
-                        ({
-                            policyStatus,
-                            planName,
-                            hasPlanDetails,
-                            confirmationNumber,
-                            policyEffectiveDate,
-                            leadsId,
-                            policyNumber,
-                            submitDate,
-                            enrolledDate,
-                            consumerFirstName,
-                            consumerLastName,
-                            planId,
-                            agentNpn,
-                            carrier,
-                            consumerSource,
-                            termedDate,
-                            policyStatusColor,
-                            sourceId,
-                            linkingType,
-                            productCategory,
-                        }) => {
-                            const status =
-                                policyStatus === "terminated" ? "Inactive" : capitalizeFirstLetter(policyStatus);
-
-                            const data = {
-                                submittedDate: submitDate || "Not Provided by Carrier",
-                                enrolledDate,
-                                policyEffectiveDate,
-                                consumerSource,
-                                termedDate,
-                                policyHolder: `${consumerFirstName} ${consumerLastName}`,
-                                policyId: policyNumber,
-                                agentNpn,
-                                currentYear: true,
-                                leadId: leadsId,
-                                isEnrollPlansPage: true,
-                                policyStatus,
-                                confirmationNumber,
-                                planName,
-                                carrier,
-                                planId,
-                                sourceId,
-                                linkingType,
-                                hasPlanDetails,
-                                policyStatusColor,
-                                productCategory,
-                            };
-                            return (
-                                <div className={styles.policyCard}>
-                                    <div className={styles.statusIcon}>
-                                        {isLife ? <LifePolicy status={status} /> : <HealthPolicy status={status} />}
-                                    </div>
-                                    <div className={styles.planContainer}>
-                                        <div className={styles.planName}>{planName}</div>
-                                        <div>
-                                            <span className={styles.statusLabel}>Status:</span>
-                                            <span className={styles.statusValue}>{status} </span>
-                                        </div>
-                                    </div>
-
-                                    {hasPlanDetails && (
-                                        <div className={styles.ctaWrapper}>
-                                            {isMobile ? (
-                                                <div>
-                                                    <OpenBlue />
-                                                </div>
-                                            ) : (
-                                                <Button
-                                                    icon={<OpenBlue />}
-                                                    iconPosition="right"
-                                                    label="View Policy"
-                                                    onClick={() => {
-                                                        navigate(
-                                                            `/enrollmenthistory/${leadsId}/${confirmationNumber}/${policyEffectiveDate}`,
-                                                            {
-                                                                state: data,
-                                                            }
-                                                        );
-                                                    }}
-                                                    type="tertiary"
-                                                    className={styles.buttonWithIcon}
-                                                />
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        }
+        <Modal open={showPolicyModal} onClose={handleModalClose} title={renderTitleComponent()}>
+            <Box className={styles.container}>
+                <Box className={styles.title}>{`${firstName} ${lastName}`}</Box>
+                <div className={styles.ctaWrapper} onClick={() => navigate(`/contact/${leadsId}/overview`)}>
+                    {isMobile ? <ArrowRight /> : (
+                        <Button icon={<ArrowRight />} iconPosition="right" label="View Contact" type="tertiary" className={styles.buttonWithIcon} />
                     )}
-                </Box>
-            </Modal>
-        </>
+                </div>
+            </Box>
+            <Box className={styles.content}>
+                {policyCards}
+            </Box>
+        </Modal>
     );
 };
 
 PolicyDetailsModal.propTypes = {
     showPolicyModal: PropTypes.bool.isRequired,
     handleModalClose: PropTypes.func.isRequired,
+    policyDetails: PropTypes.shape({
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        leadsId: PropTypes.string.isRequired,
+        policy: PropTypes.oneOf(['LIFE', 'HEALTH']).isRequired,
+    }).isRequired,
 };
 
 export default PolicyDetailsModal;

@@ -62,8 +62,8 @@ function ContactsTable() {
     const [policyDetails, setPolicyDetails] = useState({});
 
     const openPolicyModal = (leadDataOriginal) => {
-        setShowPolicyModal(true);
         setPolicyDetails(leadDataOriginal);
+        setShowPolicyModal(true);
     };
 
     const remindersHandler = (remindersLength, leadDataOriginal) => {
