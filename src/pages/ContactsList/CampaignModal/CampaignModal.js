@@ -1,73 +1,68 @@
-/* eslint-disable max-lines-per-function */
-import { useCallback } from "react";
+import { useCallback } from 'react';
+import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
+import useDeviceType from "hooks/useDeviceType";
+import ArrowRightIcon from 'components/icons/version-2/ArrowRight';
+import CampaignStatusIcon from 'components/icons/version-2/CampaignStatus';
+import Modal from 'components/Modal';
+import styles from './CampaignModal.module.scss';
 
-import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
-import ArrowRight from "components/icons/version-2/ArrowRight";
-
-import Modal from "components/Modal";
-
-import CampaignStatus from "components/icons/version-2/CampaignStatus";
-
-import styles from "./CampaignModal.module.scss";
-
-const CampaignModal = ({ open, onClose, campaignList, leadData, isMobile }) => {
+const CampaignModal = ({ open, onClose, campaignList, leadData }) => {
     const navigate = useNavigate();
-    const onViewContactHandle = useCallback(() => {
+    const { isMobile } = useDeviceType();
+    const handleViewContact = useCallback(() => {
         navigate(`/contact/${leadData.leadsId}/overview`);
     }, [leadData.leadsId, navigate]);
-
-    const name = `${leadData?.firstName ?? ""} ${leadData?.middleName ?? ""} ${leadData?.lastName ?? ""}`;
+    const fullName = `${leadData?.firstName ?? ''} ${leadData?.middleName ?? ''} ${leadData?.lastName ?? ''}`;
 
     return (
-        <Modal
-            maxWidth="sm"
-            open={open}
-            onClose={onClose}
-            title={
-                <Box display="flex">
-                    <span className={styles.campaignTitleIcon}>
-                        <CampaignStatus />
-                    </span>
-                    Campaigns
-                </Box>
-            }
+        <Modal maxWidth="sm" open={open} onClose={onClose} title={
+            <Box display="flex">
+                <span className={styles.campaignTitleIcon}><CampaignStatusIcon /></span>
+                Campaigns
+            </Box>
+        }
+        hideFooter={true}
         >
-            <>
-                <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    marginBottom={"20px"}
-                    width={"100%"}
-                >
-                    <Box className={styles.name}>{name}</Box>
-                    <Box className={styles.link} onClick={onViewContactHandle}>
-                        {!isMobile && <>View Contact</>} <ArrowRight />
-                    </Box>
+            <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom="20px" width="100%">
+                <Box className={styles.name}>{fullName}</Box>
+                <Box className={styles.link} onClick={handleViewContact}>
+                    {!isMobile && 'View Contact'} <ArrowRightIcon />
                 </Box>
-                <Box>
-                    {campaignList?.map((tagInfo) => {
-                        const tagLabel = tagInfo?.tag?.tagLabel;
-                        const metadata = tagInfo?.tag?.metadata;
-                        return (
-                            <Box className={styles.askIntegrityCard}>
-                                <Box className={styles.askIntegrityInfo}>
-                                    <Box>
-                                        <CampaignStatus />
-                                    </Box>
-                                    <Box className={styles.tagInfo}>
-                                        <Box className={styles.tagName}>{tagLabel}</Box>
-                                        <Box className={styles.tagMetaData}>{metadata}</Box>
-                                    </Box>
-                                </Box>
+            </Box>
+            <Box>
+                {campaignList?.map((campaign, index) => (
+                    <Box key={index} className={styles.campaignCard}>
+                        <Box className={styles.campaignInfo}>
+                            <CampaignStatusIcon />
+                            <Box className={styles.tagInfo}>
+                                <Box className={styles.tagName}>{campaign?.tag?.tagLabel}</Box>
+                                <Box className={styles.tagMetaData}>{campaign?.tag?.metadata}</Box>
                             </Box>
-                        );
-                    })}
-                </Box>
-            </>
+                        </Box>
+                    </Box>
+                ))}
+            </Box>
         </Modal>
     );
+};
+
+CampaignModal.propTypes = {
+    open: PropTypes.bool.isRequired, // Indicates if the modal is currently open or not.
+    onClose: PropTypes.func.isRequired, // Function to call when the modal needs to be closed.
+    campaignList: PropTypes.arrayOf(PropTypes.shape({ // List of campaign information to display in the modal.
+        tag: PropTypes.shape({
+            tagLabel: PropTypes.string, // Label of the campaign tag.
+            metadata: PropTypes.string // Metadata associated with the campaign tag.
+        })
+    })),
+    leadData: PropTypes.shape({ // Information about the lead related to the campaigns.
+        leadsId: PropTypes.string.isRequired, // Unique identifier for the lead.
+        firstName: PropTypes.string, // First name of the lead.
+        middleName: PropTypes.string, // Middle name of the lead.
+        lastName: PropTypes.string // Last name of the lead.
+    }).isRequired,
 };
 
 export default CampaignModal;

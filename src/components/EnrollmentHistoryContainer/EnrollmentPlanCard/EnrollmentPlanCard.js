@@ -36,7 +36,7 @@ export default function EnrollmentPlanCard(props) {
         policyStatusColor,
         productCategory = "N/A",
     } = props;
-    let policyId = "";
+    const policyId = "";
     const navigate = useNavigate();
     const location = useLocation();
     const [isMobile, setIsMobile] = useState(false);
@@ -102,9 +102,9 @@ export default function EnrollmentPlanCard(props) {
                             <div className={styles.dates}>
                                 {currentYear ? (
                                     <>
-                                        {submittedDate && (
+                                        {submittedDate && !isFinalExpense && (
                                             <PlanDate
-                                                type={isFinalExpense ? "Received" : "Submitted"}
+                                                type={"Submitted"}
                                                 date={submittedDate}
                                             />
                                         )}
