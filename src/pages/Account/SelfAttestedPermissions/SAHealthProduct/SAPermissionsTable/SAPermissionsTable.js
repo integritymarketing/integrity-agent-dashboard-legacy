@@ -33,7 +33,7 @@ function SAPermissionsTable() {
     const { isNonRTS_User } = useRoles();
     const { isMobile } = useDeviceType();
     const { setIsExpriedModalOpen } = useSAPModalsContext();
-    const { filteredData } = useSAHealthProductContext();
+    const { agents, filteredData } = useSAHealthProductContext();
     const { visibleItems, loadMore, hasMore } = useLoadMore(filteredData, ITEM_PER_PAGE);
 
     const columns = useMemo(
@@ -137,7 +137,7 @@ function SAPermissionsTable() {
         [setIsExpriedModalOpen]
     );
 
-    if (isNonRTS_User || visibleItems.length === 0) {
+    if (isNonRTS_User || agents.length === 0 && visibleItems.length === 0) {
         return <InforBanner PopupModal={NonRTSModal} showModal={true} />;
     }
 
