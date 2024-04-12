@@ -24,7 +24,7 @@ function APHealthTable() {
     const [isMobile, setIsMobile] = useState(false);
     const { visibleItems, loadMore, hasMore } = useLoadMore(filteredData, ITEM_PER_PAGE);
 
-    if (isNonRTS_User || visibleItems?.length === 0) {
+    if (isNonRTS_User) {
         return <InforBanner PopupModal={NonRTSModal} showModal={true} />;
     }
 
@@ -36,11 +36,7 @@ function APHealthTable() {
                     setIsMobile(isMobile);
                 }}
             />
-            {
-                isMobile
-                    ? <PermissionsMobileView items={visibleItems} />
-                    : <Table data={visibleItems} />
-            }
+            {isMobile ? <PermissionsMobileView items={visibleItems} /> : <Table data={visibleItems} />}
             {hasMore && <LoadMoreButton loadMore={loadMore} />}
         </Box>
     );

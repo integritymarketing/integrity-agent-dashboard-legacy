@@ -41,12 +41,11 @@ function PersonalInfo() {
     const { Put: updateAccount } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/update`);
     const { Put: updateCALicense } = useFetch(`${process.env.REACT_APP_ACCOUNT_API}/Licenses`);
 
-
     const onSubmitHandler = async (values, { setErrors, setSubmitting }) => {
         try {
             setSubmitting(true);
             const initialValues = { firstName, lastName, phone: formattedPhoneNumber, npn, caLicense, email };
-            const accountDetailsChanged = Object.keys(values).some(key => {
+            const accountDetailsChanged = Object.keys(values).some((key) => {
                 const isValueChanged = key !== "caLicense" && values[key] !== initialValues[key];
                 return isValueChanged;
             });
@@ -128,11 +127,15 @@ function PersonalInfo() {
                             validationService.validateEmail,
                         ]),
                     },
-                    ...(values.caLicense ? [{
-                        name: "caLicense",
-                        validator: validationService.validateCaliforniaLicenseNumber,
-                        args: ["California License Number (CLN)"],
-                    }] : []),
+                    ...(values.caLicense
+                        ? [
+                              {
+                                  name: "caLicense",
+                                  validator: validationService.validateCaliforniaLicenseNumber,
+                                  args: ["California License Number (CLN)"],
+                              },
+                          ]
+                        : []),
                 ],
                 values
             );

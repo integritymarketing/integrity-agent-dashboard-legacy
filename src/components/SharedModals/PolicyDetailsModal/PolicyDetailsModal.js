@@ -45,57 +45,89 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
         </Box>
     );
 
-    const policyCards = useMemo(() => policies.map((currentPolicy) => {
-        const status = currentPolicy.policyStatus === "terminated" ? "Inactive" : capitalizeFirstLetter(currentPolicy.policyStatus);
-        const policyData = {
-            ...currentPolicy,
-            policyHolder: `${currentPolicy.consumerFirstName} ${currentPolicy.consumerLastName}`,
-            policyId: currentPolicy.policyNumber,
-            currentYear: true,
-            leadId: leadsId,
-            status,
-        };
-    
-        return (
-            <div key={currentPolicy.policyNumber} className={styles.policyCard}>
-                <div className={styles.statusIcon}>
-                    {isLife ? <LifePolicy status={status} /> : <HealthPolicy status={status} />}
-                </div>
-                <div className={styles.planContainer}>
-                    <div className={styles.planName}>{currentPolicy.planName}</div>
-                    <div>
-                        <span className={styles.statusLabel}>Status:</span>
-                        <span className={styles.statusValue}>{status}</span>
+    const policyCards = useMemo(
+        () =>
+            policies.map((currentPolicy) => {
+                const status =
+                    currentPolicy.policyStatus === "terminated"
+                        ? "Inactive"
+                        : capitalizeFirstLetter(currentPolicy.policyStatus);
+
+                const presentYear = new Date().getFullYear();
+
+                const isDeclinedStatus = (status) => {
+                    return status === "declined" || status === "inactive";
+                };
+
+                // For non-Final Expense plans, use the policyEffectiveDate to determine the year.
+                const effectiveDate = currentPolicy.policyEffectiveDate
+                    ? new Date(currentPolicy.policyEffectiveDate)
+                    : null;
+                const policyYear = effectiveDate ? effectiveDate.getFullYear() : null;
+
+                const currentYear = policyYear === presentYear && !isDeclinedStatus(currentPolicy.policyStatus);
+
+                const policyData = {
+                    ...currentPolicy,
+                    policyHolder: `${currentPolicy.consumerFirstName} ${currentPolicy.consumerLastName}`,
+                    policyId: currentPolicy.policyNumber,
+                    currentYear,
+                    leadId: leadsId,
+                    status,
+                };
+
+                return (
+                    <div key={currentPolicy.policyNumber} className={styles.policyCard}>
+                        <div className={styles.statusIcon}>
+                            {isLife ? <LifePolicy status={status} /> : <HealthPolicy status={status} />}
+                        </div>
+                        <div className={styles.planContainer}>
+                            <div className={styles.planName}>{currentPolicy.planName}</div>
+                            <div>
+                                <span className={styles.statusLabel}>Status:</span>
+                                <span className={styles.statusValue}>{status}</span>
+                            </div>
+                        </div>
+                        {currentPolicy.hasPlanDetails && (
+                            <Button
+                                icon={<OpenBlue />}
+                                iconPosition="right"
+                                label="View Policy"
+                                onClick={() =>
+                                    navigate(
+                                        `/enrollmenthistory/${leadsId}/${currentPolicy.confirmationNumber}/${currentPolicy.policyEffectiveDate}`,
+                                        { state: policyData }
+                                    )
+                                }
+                                type="tertiary"
+                                className={styles.buttonWithIcon}
+                            />
+                        )}
                     </div>
-                </div>
-                {currentPolicy.hasPlanDetails && (
-                    <Button
-                        icon={<OpenBlue />}
-                        iconPosition="right"
-                        label="View Policy"
-                        onClick={() => navigate(`/enrollmenthistory/${leadsId}/${currentPolicy.confirmationNumber}/${currentPolicy.policyEffectiveDate}`, { state: policyData })}
-                        type="tertiary"
-                        className={styles.buttonWithIcon}
-                    />
-                )}
-            </div>
-        );
-    }), [policies, isLife, navigate, leadsId]);
-    
+                );
+            }),
+        [policies, isLife, navigate, leadsId]
+    );
 
     return (
         <Modal open={showPolicyModal} onClose={handleModalClose} title={renderTitleComponent()}>
             <Box className={styles.container}>
                 <Box className={styles.title}>{`${firstName} ${lastName}`}</Box>
                 <div className={styles.ctaWrapper} onClick={() => navigate(`/contact/${leadsId}/overview`)}>
-                    {isMobile ? <ArrowRight /> : (
-                        <Button icon={<ArrowRight />} iconPosition="right" label="View Contact" type="tertiary" className={styles.buttonWithIcon} />
+                    {isMobile ? (
+                        <ArrowRight />
+                    ) : (
+                        <Button
+                            icon={<ArrowRight />}
+                            iconPosition="right"
+                            label="View Contact"
+                            type="tertiary"
+                            className={styles.buttonWithIcon}
+                        />
                     )}
                 </div>
             </Box>
-            <Box className={styles.content}>
-                {policyCards}
-            </Box>
+            <Box className={styles.content}>{policyCards}</Box>
         </Modal>
     );
 };
@@ -107,7 +139,7 @@ PolicyDetailsModal.propTypes = {
         firstName: PropTypes.string,
         lastName: PropTypes.string,
         leadsId: PropTypes.string.isRequired,
-        policy: PropTypes.oneOf(['LIFE', 'HEALTH']).isRequired,
+        policy: PropTypes.oneOf(["LIFE", "HEALTH"]).isRequired,
     }).isRequired,
 };
 
