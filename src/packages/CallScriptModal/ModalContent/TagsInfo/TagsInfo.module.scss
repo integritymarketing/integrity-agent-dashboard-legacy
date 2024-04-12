@@ -1,38 +1,49 @@
-.askIntegrityCard{
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 16px;
-    gap: 15px;
-    margin-bottom: 8px;
-  }
-  
-  .askIntegrityInfo{
-    display: flex;
-    align-items: center;
-  }
-  
-  
-  .askIntegrityTitleIcon{
-    margin-right: 10px;
-  }
-  
-  .tagInfo{
-    margin-left: 10px;
-  }
-  
-  .tagName{
-    font-size: 16px;
-    color: #052a63;
-  }
-  
-  .tagMetaData{
-    font-size: 14px;
-    color: #717171;
-    font-style: italic;
-  }
-  
-  .tagCategoryLabel{
-    color: #052A63;
-    font-size: 16px;
-    font-weight: 500;
-  }
+.askIntegrityCard {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  gap: 15px;
+  margin-bottom: 8px;
+}
+
+.askIntegrityInfo {
+  display: flex;
+  align-items: center;
+}
+
+
+.askIntegrityTitleIcon {
+  margin-right: 10px;
+}
+
+.tagInfo {
+  margin-left: 10px;
+}
+
+.tagName {
+  font-size: 16px;
+  color: #052a63;
+}
+
+
+.tagNameCampaign {
+  font-size: 16px;
+}
+
+.tagMetaData {
+  font-size: 14px;
+  color: #717171;
+  font-style: italic;
+}
+
+.tagCategoryLabel {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.tagCategoryLabelCampaign {
+  color: #052A63;
+  font-size: 16px;
+  font-weight: 500;
+  margin-right: 5px;
+}

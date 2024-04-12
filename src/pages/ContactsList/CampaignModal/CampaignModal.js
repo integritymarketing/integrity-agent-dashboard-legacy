@@ -44,13 +44,13 @@ const CampaignModal = ({ open, onClose, campaignList, leadData }) => {
             <Box>
                 {campaignList?.map((campaign, index) => {
                     const { tag } = campaign;
-                    const { tagCategory, tagLabel, metadata } = tag || {};
+                    const { tagCategory, tagLabel, metadata, tagIconUrl } = tag || {};
                     const { tagCategoryName } = tagCategory || {};
 
                     return (
                         <Box key={index} className={Styles.campaignCard}>
                             <Box className={Styles.campaignInfo}>
-                                <CampaignStatusIcon />
+                                <img src={tagIconUrl} />
                                 <Box className={Styles.tagInfo}>
                                     <Box display="flex" alignItems="center">
                                         <Box className={Styles.tagCategoryName}>
