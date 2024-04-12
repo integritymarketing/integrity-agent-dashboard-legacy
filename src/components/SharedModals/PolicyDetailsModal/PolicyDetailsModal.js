@@ -3,7 +3,7 @@ import useDeviceType from "hooks/useDeviceType";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Modal from "components/Modal";
-import styles from "./PolicyDetailsModal.module.scss";
+import Styles from "./PolicyDetailsModal.module.scss";
 import { Button } from "components/ui/Button";
 import ArrowRight from "components/icons/version-2/ArrowRight";
 import { usePolicies } from "providers/ContactDetails";
@@ -15,6 +15,7 @@ import { Health } from "components/icons/Health/health";
 import { useNavigate } from "react-router-dom";
 import OpenBlue from "components/icons/version-2/OpenBlue";
 
+// eslint-disable-next-line max-lines-per-function
 const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }) => {
     const { firstName, lastName, leadsId, policy } = policyDetails;
     const { isMobile } = useDeviceType();
@@ -39,9 +40,9 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
     }, [enrollPlansList, isLife]);
 
     const renderTitleComponent = () => (
-        <Box className={styles.titleContainer}>
+        <Box className={Styles.titleContainer}>
             {isLife ? <Life /> : <Health />}
-            <Box className={styles.title}>{`${isLife ? "Life" : "Health"} Policies`}</Box>
+            <Box className={Styles.title}>{`${isLife ? "Life" : "Health"} Policies`}</Box>
         </Box>
     );
 
@@ -55,8 +56,8 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
 
                 const presentYear = new Date().getFullYear();
 
-                const isDeclinedStatus = (status) => {
-                    return status === "declined" || status === "inactive";
+                const isDeclinedStatus = (policyStatus) => {
+                    return policyStatus === "declined" || policyStatus === "inactive";
                 };
 
                 // For non-Final Expense plans, use the policyEffectiveDate to determine the year.
@@ -77,43 +78,51 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
                 };
 
                 return (
-                    <div key={currentPolicy.policyNumber} className={styles.policyCard}>
-                        <div className={styles.statusIcon}>
+                    <div key={currentPolicy.policyNumber} className={Styles.policyCard}>
+                        <div className={Styles.statusIcon}>
                             {isLife ? <LifePolicy status={status} /> : <HealthPolicy status={status} />}
                         </div>
-                        <div className={styles.planContainer}>
-                            <div className={styles.planName}>{currentPolicy.planName}</div>
+                        <div className={Styles.planContainer}>
+                            <div className={Styles.planName}>{currentPolicy.planName}</div>
                             <div>
-                                <span className={styles.statusLabel}>Status:</span>
-                                <span className={styles.statusValue}>{status}</span>
+                                <span className={Styles.statusLabel}>Status:</span>
+                                <span className={Styles.statusValue}>{status}</span>
                             </div>
                         </div>
                         {currentPolicy.hasPlanDetails && (
-                            <Button
-                                icon={<OpenBlue />}
-                                iconPosition="right"
-                                label="View Policy"
+                            <div
+                                className={Styles.ctaWrapper}
                                 onClick={() =>
                                     navigate(
                                         `/enrollmenthistory/${leadsId}/${currentPolicy.confirmationNumber}/${currentPolicy.policyEffectiveDate}`,
                                         { state: policyData }
                                     )
                                 }
-                                type="tertiary"
-                                className={styles.buttonWithIcon}
-                            />
+                            >
+                                {isMobile ? (
+                                    <OpenBlue />
+                                ) : (
+                                    <Button
+                                        icon={<OpenBlue />}
+                                        iconPosition="right"
+                                        label="View Policy"
+                                        type="tertiary"
+                                        className={Styles.buttonWithIcon}
+                                    />
+                                )}
+                            </div>
                         )}
                     </div>
                 );
             }),
-        [policies, isLife, navigate, leadsId]
+        [policies, leadsId, isLife, isMobile, navigate]
     );
 
     return (
         <Modal open={showPolicyModal} onClose={handleModalClose} title={renderTitleComponent()}>
-            <Box className={styles.container}>
-                <Box className={styles.title}>{`${firstName} ${lastName}`}</Box>
-                <div className={styles.ctaWrapper} onClick={() => navigate(`/contact/${leadsId}/overview`)}>
+            <Box className={Styles.container}>
+                <Box className={Styles.title}>{`${firstName} ${lastName}`}</Box>
+                <div className={Styles.ctaWrapper} onClick={() => navigate(`/contact/${leadsId}/overview`)}>
                     {isMobile ? (
                         <ArrowRight />
                     ) : (
@@ -122,12 +131,12 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
                             iconPosition="right"
                             label="View Contact"
                             type="tertiary"
-                            className={styles.buttonWithIcon}
+                            className={Styles.buttonWithIcon}
                         />
                     )}
                 </div>
             </Box>
-            <Box className={styles.content}>{policyCards}</Box>
+            <Box className={Styles.content}>{policyCards}</Box>
         </Modal>
     );
 };
