@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
 import Styles from "./TagsInfo.module.scss";
 import { toSentenceCase } from "utils/toSentenceCase";
-import Icon from "components/Icon";
 
 function TagsInfo() {
     const { leadDetails } = useLeadDetails();
@@ -53,16 +52,16 @@ function TagsInfo() {
 
     return (
         <Box marginTop="20px">
-            {campaignTags.length > 0 && (
+            {campaignTags?.length > 0 && (
                 <Box marginBottom="10px">
                     <Box className={Styles.tagCategoryLabel}>Campaign Tags</Box>
-                    <Box>{campaignTags.map((tagInfo) => renderTag(tagInfo))}</Box>
+                    <Box>{campaignTags?.map((tagInfo) => renderTag(tagInfo))}</Box>
                 </Box>
             )}
-            {askIntegrityTags.length > 0 && (
+            {askIntegrityTags?.length > 0 && (
                 <Box marginBottom="10px">
                     <Box className={Styles.tagCategoryLabel}>Ask Integrity Suggests</Box>
-                    <Box>{askIntegrityTags.map((tagInfo) => renderTag(tagInfo))}</Box>
+                    <Box>{askIntegrityTags?.map((tagInfo) => renderTag(tagInfo))}</Box>
                 </Box>
             )}
         </Box>
