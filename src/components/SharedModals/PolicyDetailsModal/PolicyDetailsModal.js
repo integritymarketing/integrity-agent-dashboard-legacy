@@ -119,7 +119,7 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
     );
 
     return (
-        <Modal open={showPolicyModal} onClose={handleModalClose} title={renderTitleComponent()}>
+        <Modal open={showPolicyModal} onClose={handleModalClose} hideFooter={true} title={renderTitleComponent()}>
             <Box className={Styles.container}>
                 <Box className={Styles.title}>{`${firstName} ${lastName}`}</Box>
                 <div className={Styles.ctaWrapper} onClick={() => navigate(`/contact/${leadsId}/overview`)}>
