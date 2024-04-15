@@ -36,11 +36,10 @@ function TagsInfo() {
                             <Box className={Styles.tagCategoryLabelCampaign}>
                                 {toSentenceCase(removePrefix(tagInfo.tag.tagCategory.tagCategoryName))}:
                             </Box>
-                            <Box className={Styles.tagNameCampaign}>{tagInfo.tag.tagLabel}</Box>
+                            <Box className={Styles.tagNameCampaign}>{toSentenceCase(tagInfo.tag.tagLabel)}</Box>
                         </Box>
                     ) : (
                         <>
-                            <Box className={Styles.tagName}>{tagInfo.tag.tagLabel}</Box>
                             <Box className={Styles.tagName}>{tagInfo.tag.tagLabel}</Box>
                         </>
                     )}
