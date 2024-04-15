@@ -40,12 +40,12 @@ const AskIntegrityBadge = styled(Badge)({
     },
 });
 
-const CardBadge = ({ label, Icon, count = "", name, onClick, classes }) => (
+const CardBadge = ({ label, IconComponent, count = "", name, onClick, className }) => (
     <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
-        className={`${styles.cardBadgeContainer} ${classes}`}
+        className={`${styles.cardBadgeContainer} ${className}`}
         onClick={onClick}
     >
         <Box className={styles.tag}>{label}</Box>
@@ -60,37 +60,39 @@ const CardBadge = ({ label, Icon, count = "", name, onClick, classes }) => (
         >
             {name === "reminder" && (
                 <ReminderBadge badgeContent={count ? count : 0} color="secondary">
-                    {Icon}
+                    {IconComponent}
                 </ReminderBadge>
             )}
             {name === "campaign" && (
                 <CampaignBadge badgeContent={count ? count : 0} color="secondary">
-                    {Icon}
+                    {IconComponent}
                 </CampaignBadge>
             )}
             {name === "askIntegrity" && (
                 <AskIntegrityBadge badgeContent={count ? count : 0} color="secondary">
-                    {Icon}
+                    {IconComponent}
                 </AskIntegrityBadge>
             )}
 
-            {!name && (
-                count > 1 ? <ReminderBadge badgeContent={count} color="secondary">
-                    {Icon}
-                </ReminderBadge> : <>{Icon}</>
-            )}
+            {!name &&
+                (count > 1 ? (
+                    <ReminderBadge badgeContent={count} color="secondary">
+                        {IconComponent}
+                    </ReminderBadge>
+                ) : (
+                    <>{IconComponent}</>
+                ))}
         </IconButton>
     </Box>
 );
 
 CardBadge.propTypes = {
     label: PropTypes.string.isRequired,
-    IconComponent: PropTypes.elementType.isRequired,
-    count: PropTypes.string,
-};
-
-CardBadge.defaultProps = {
-    count: "",
+    IconComponent: PropTypes.element.isRequired,
+    count: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    name: PropTypes.string,
+    onClick: PropTypes.func,
+    className: PropTypes.string,
 };
 
 export default CardBadge;

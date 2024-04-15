@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useState } from "react";
 import { Divider } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -7,15 +8,13 @@ import { CardStage } from "./CardStage";
 import styles from "./styles.module.scss";
 import ReminderModals from "../RemiderModals/ReminderModals";
 import { useWindowSize } from "hooks/useWindowSize";
-import { isOverDue, sortListByDate } from "utils/dates";
+import { isOverDue } from "utils/dates";
 
 import { LoadMoreButton } from "../LoadMoreButton";
 import { useContactsListContext } from "../providers/ContactsListProvider";
 import { Reminder } from "components/icons/version-2/Reminder";
 import AddReminder from "components/icons/version-2/addReminder";
 import CardBadge from "./CardBadge/CardBadge";
-import CampaignStatus from "components/icons/version-2/CampaignStatus";
-import AskIntegrity from "components/icons/version-2/AskIntegrity";
 import AskIntegrityModal from "pages/ContactsList/AskIntegrityModal/AskIntegrityModal";
 import CampaignModal from "pages/ContactsList/CampaignModal/CampaignModal";
 import ConnectCall from "../ConnectCall";
@@ -57,7 +56,9 @@ function ContactsCard() {
     };
 
     const checkOverDue = (reminders) => {
-        if (!reminders) return false;
+        if (!reminders) {
+            return false;
+        }
         const overDue = reminders.filter((reminder) => {
             const { reminderDate } = reminder;
             return isOverDue(reminderDate);
@@ -102,7 +103,7 @@ function ContactsCard() {
                                     label="Reminders"
                                     name={"reminder"}
                                     onClick={() => remindersHandler(remindersLength, item)}
-                                    Icon={
+                                    IconComponent={
                                         <Box sx={{ cursor: "pointer" }}>
                                             {remindersLength === 0 ? (
                                                 <Box sx={{ top: "10px" }}>
@@ -117,7 +118,7 @@ function ContactsCard() {
                                 />
                                 <CardBadge
                                     label="Connect"
-                                    Icon={
+                                    IconComponent={
                                         isPhoneConnect ? (
                                             <ConnectCall row={item} />
                                         ) : (
@@ -134,10 +135,10 @@ function ContactsCard() {
                                     onClick={() => {
                                         campaignLength > 0 && campaignTagsHandler(campaignTags, item);
                                     }}
-                                    Icon={
+                                    IconComponent={
                                         campaignLength > 0 && (
                                             <Box sx={{ cursor: "pointer" }}>
-                                                <CampaignStatus />
+                                                {<img src={campaignTags[0].tag.tagIconUrl} alt="Campaign Icon" />}
                                             </Box>
                                         )
                                     }
@@ -150,10 +151,15 @@ function ContactsCard() {
                                     onClick={() => {
                                         askIntegrityLength > 0 && askIntegrityHandler(askIntegrityTags, item);
                                     }}
-                                    Icon={
+                                    IconComponent={
                                         askIntegrityLength > 0 && (
                                             <Box sx={{ cursor: "pointer" }}>
-                                                <AskIntegrity />
+                                                {
+                                                    <img
+                                                        src={askIntegrityTags?.[0].tag.tagIconUrl}
+                                                        alt="AskIntegrity Icon"
+                                                    />
+                                                }
                                             </Box>
                                         )
                                     }
@@ -163,14 +169,14 @@ function ContactsCard() {
                                 <CardBadge
                                     label="Life"
                                     count={lifePolicyCount}
-                                    Icon={
+                                    IconComponent={
                                         <BadgeIcon count={lifePolicyCount} leadData={{ ...leadData, policy: "LIFE" }} />
                                     }
                                 />
                                 <CardBadge
                                     label="Health"
                                     count={healthPolicyCount}
-                                    Icon={
+                                    IconComponent={
                                         <BadgeIcon
                                             count={healthPolicyCount}
                                             leadData={{ ...leadData, policy: "HEALTH" }}

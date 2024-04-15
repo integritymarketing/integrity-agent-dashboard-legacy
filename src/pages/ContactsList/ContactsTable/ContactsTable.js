@@ -12,14 +12,12 @@ import useToast from "hooks/useToast";
 
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 import ReminderModals from "../RemiderModals/ReminderModals";
-import { isOverDue, sortListByDate } from "utils/dates";
+import { isOverDue } from "utils/dates";
 import AskIntegrityModal from "pages/ContactsList/AskIntegrityModal/AskIntegrityModal";
 import HealthActive from "components/icons/version-2/HealthActive";
 import HealthInactive from "components/icons/version-2/HealthInactive";
 import Heartactive from "components/icons/version-2/HeartActive";
 import HeartInactive from "components/icons/version-2/HeartInactive";
-import AskIntegrity from "components/icons/version-2/AskIntegrity";
-import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import { Checkbox } from "components/ui/version-2/Checkbox";
 import CampaignModal from "pages/ContactsList/CampaignModal/CampaignModal";
 import clientsService from "services/clientsService";
@@ -88,7 +86,9 @@ function ContactsTable() {
     };
 
     const checkOverDue = (reminders) => {
-        if (!reminders) {return false;}
+        if (!reminders) {
+            return false;
+        }
         const overDue = reminders.filter((reminder) => {
             const { reminderDate } = reminder;
             return isOverDue(reminderDate);
@@ -196,7 +196,7 @@ function ContactsTable() {
                                 label=""
                                 name="reminder"
                                 onClick={() => remindersHandler(remindersLength, leadDataOriginal)}
-                                Icon={
+                                IconComponent={
                                     <Box sx={{ cursor: "pointer" }}>
                                         {remindersLength === 0 ? (
                                             <Box sx={{ top: "10px" }}>
@@ -222,6 +222,7 @@ function ContactsTable() {
                     const campaignTags = row?.original?.leadTags?.filter((tag) =>
                         tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign")
                     );
+                    const campaignTagDefaultImage = campaignTags?.[0]?.tag?.tagIconUrl;
                     return (
                         <>
                             {campaignTags?.length > 0 ? (
@@ -229,9 +230,9 @@ function ContactsTable() {
                                     label=""
                                     name={"campaign"}
                                     onClick={() => campaignTagsHandler(campaignTags, leadDataOriginal)}
-                                    Icon={
+                                    IconComponent={
                                         <Box sx={{ cursor: "pointer" }}>
-                                            <CampaignStatus />
+                                            <img src={campaignTagDefaultImage} />
                                         </Box>
                                     }
                                     count={campaignTags?.length > 1 ? campaignTags?.length : null}
@@ -250,6 +251,7 @@ function ContactsTable() {
                     const askIntegrityTags = row?.original?.leadTags?.filter(
                         (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
                     );
+                    const askIntegrityTagDefaultImage = askIntegrityTags?.[0]?.tag?.tagIconUrl;
                     return (
                         <>
                             {askIntegrityTags?.length > 0 ? (
@@ -257,9 +259,9 @@ function ContactsTable() {
                                     label=""
                                     name="askIntegrity"
                                     onClick={() => askIntegrityHandler(askIntegrityTags, leadDataOriginal)}
-                                    Icon={
+                                    IconComponent={
                                         <Box sx={{ cursor: "pointer" }}>
-                                            <AskIntegrity />
+                                            <img src={askIntegrityTagDefaultImage} />
                                         </Box>
                                     }
                                     count={askIntegrityTags?.length > 1 ? askIntegrityTags?.length : null}
@@ -285,7 +287,11 @@ function ContactsTable() {
                                 display="inline-block"
                                 onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "LIFE" })}
                             >
-                                <CardBadge Icon={<Heartactive />} count={value} classes={styles.badgeContainer} />
+                                <CardBadge
+                                    IconComponent={<Heartactive />}
+                                    count={value}
+                                    className={styles.badgeContainer}
+                                />
                             </Box>
                         );
                     }
@@ -307,7 +313,11 @@ function ContactsTable() {
                                 display="inline-block"
                                 onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "HEALTH" })}
                             >
-                                <CardBadge Icon={<HealthActive />} count={value} classes={styles.badgeContainer} />
+                                <CardBadge
+                                    IconComponent={<HealthActive />}
+                                    count={value}
+                                    classes={styles.badgeContainer}
+                                />
                             </Box>
                         );
                     }

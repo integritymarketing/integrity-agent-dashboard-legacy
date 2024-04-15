@@ -36,42 +36,46 @@ const LeadImporter = () => {
                     </a>
                 </h3>
                 <Importer
-                    chunkSize={10000} // optional, internal parsing chunk size in bytes
-                    assumeNoHeaders={false} // optional, keeps "data has headers" checkbox off by default
-                    restartable={false} // optional, lets user choose to upload another file when import is complete
-                    onStart={() => {
-                        // optional, invoked when user has mapped columns and started import
-                        // not much available in this method.. metadata basics like filename available.
-                        // see example: https://github.com/beamworks/react-csv-importer/blob/7aaa26962c3cd1a3bb1ea2ccef4f18ee2495fa87/demo-app/src/pages/ImportPage.tsx#L38
-                    }}
-                    processChunk={async (rows) => {
-                        // required, receives a list of parsed objects based on defined fields and user column mapping;
-                        // may be called several times if file is large
-                        const formattedData = rows.map((row) => getFormattedData(row));
+                    chunkSize={10000}
+                    assumeNoHeaders={false}
+                    restartable={false}
+                    processChunk={async (rows, { startIndex }) => {
+                        const errors = [];
+                        const validRows = rows.filter((row, index) => {
+                            if (!row.email && !row.phone) {
+                                errors.push({Key: `Row ${startIndex + index + 1}`, Value: "Missing both email and phone"});
+                                return false;
+                            }
+                            return true;
+                        });
+
+                        if (errors.length) {
+                            setImportErrors((prevErrors) => [...prevErrors, ...errors]);
+                            return; // Skip processing this chunk due to validation errors
+                        }
+
+                        const formattedData = validRows.map(row => getFormattedData(row));
                         try {
                             const response = await clientsService.bulkCreateClients(formattedData);
                             const data = await response.json();
 
                             if (response.status >= 200 && response.status < 300) {
-                                setImportSuccesses((prevState) => prevState + data.successfulUploadCount);
-                                handleImportError(data.uploadErrorResponse);
+                                setImportSuccesses((prev) => prev + data.successfulUploadCount);
+                                if (data.uploadErrorResponse) {
+                                    handleImportError(data.uploadErrorResponse);
+                                }
                             } else {
-                                handleImportError((data || {}).uploadErrorResponse || data);
+                                handleImportError({ Key: "HTTP Error", Value: response.statusText || "Unknown Error" });
                             }
                         } catch (e) {
-                            // eslint-disable-next-line no-console
-                            console.log({ e });
-                            handleImportError(`An internal error has occurred.`);
+                            console.error(e);
+                            handleImportError({ Key: "Internal Error", Value: "An error occurred during processing." });
                         }
                     }}
                     onComplete={() => {
-                        ((scrollToRef || {}).current || {}).scrollIntoView();
-                        // optional, invoked right after import is done (but user did not dismiss/reset the widget yet)
-                        // maybe show import issues in summary modal?
+                        scrollToRef.current?.scrollIntoView();
                     }}
-                    onClose={() => {
-                        navigate("/contacts");
-                    }}
+                    onClose={() => navigate("/contacts")}
                 >
                     <ImporterField name="contactRecordType" label="Contact Record Type" optional />
                     <ImporterField name="firstName" label="First Name" optional />

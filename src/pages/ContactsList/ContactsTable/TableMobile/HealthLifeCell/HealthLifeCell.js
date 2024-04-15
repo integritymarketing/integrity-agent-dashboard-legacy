@@ -28,10 +28,10 @@ const HealthLifeCell = ({ row }) => {
                 display="inline-block"
                 onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "HEALTH" })}
             >
-                <CardBadge Icon={<HealthActive />} count={healthPolicyCount} />
+                <CardBadge IconComponent={<HealthActive />} count={healthPolicyCount} />
             </Box>
         );
-    }
+    };
 
     const renderLifeIcon = () => {
         return (
@@ -40,26 +40,25 @@ const HealthLifeCell = ({ row }) => {
                 display="inline-block"
                 onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "LIFE" })}
             >
-                <CardBadge Icon={<Heartactive />} count={lifePolicyCount} />
+                <CardBadge IconComponent={<Heartactive />} count={lifePolicyCount} />
             </Box>
         );
-    }
+    };
 
-
-    return (<>
-        <Box display="flex" gap="20px">
-            {lifePolicyCount > 0 ? renderLifeIcon() : <HeartInactive />}
-            {healthPolicyCount > 0 ? renderHealthIcon() : <HealthInactive />}
-        </Box>
-        <PoliciesProvider>
-            <PolicyDetailsModal
-                showPolicyModal={showPolicyModal}
-                policyDetails={policyDetails}
-                handleModalClose={() => setShowPolicyModal(false)}
-            />
-        </PoliciesProvider>
-    </>
-
+    return (
+        <>
+            <Box display="flex" gap="20px">
+                {lifePolicyCount > 0 ? renderLifeIcon() : <HeartInactive />}
+                {healthPolicyCount > 0 ? renderHealthIcon() : <HealthInactive />}
+            </Box>
+            <PoliciesProvider>
+                <PolicyDetailsModal
+                    showPolicyModal={showPolicyModal}
+                    policyDetails={policyDetails}
+                    handleModalClose={() => setShowPolicyModal(false)}
+                />
+            </PoliciesProvider>
+        </>
     );
 };
 
