@@ -1,0 +1,56 @@
+const Announcement = () => {
+    return (
+        <svg id="Campaign" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g id="Button_-_BG" data-name="Button - BG">
+                <rect id="bg" width="24" height="24" fill="#ff1717" opacity="0" />
+            </g>
+            <g id="Group_8718" data-name="Group 8718" transform="translate(0.5 2.5)">
+                <path
+                    id="Path_21980"
+                    data-name="Path 21980"
+                    d="M19.5,16.312l-16-3.8v-7.6l16-3.8Z"
+                    fill="#fff"
+                    stroke="#4178ff"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1"
+                />
+                <path
+                    id="Path_21981"
+                    data-name="Path 21981"
+                    d="M3.5,13.113h-2a1,1,0,0,1-1-1v-6a1,1,0,0,1,1-1h2Z"
+                    transform="translate(0 -0.355)"
+                    fill="#fff"
+                    stroke="#4178ff"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1"
+                />
+                <path
+                    id="Path_21982"
+                    data-name="Path 21982"
+                    d="M20.5,16.34l1.684.535a.993.993,0,0,0,1.316-.9V1.453a.993.993,0,0,0-1.316-.9L20.5,1.084Z"
+                    transform="translate(-1 0)"
+                    fill="#fff"
+                    stroke="#4178ff"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1"
+                />
+                <path
+                    id="Path_21983"
+                    data-name="Path 21983"
+                    d="M6.5,14.113l.833,2.5a1,1,0,0,0,.674.645L13.7,18.885a1,1,0,0,0,1.169-.514l.629-2.258"
+                    transform="translate(-0.429 -0.801)"
+                    fill="none"
+                    stroke="#4178ff"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1"
+                />
+            </g>
+        </svg>
+    );
+};
+
+export default Announcement;

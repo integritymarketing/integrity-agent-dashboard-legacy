@@ -8,7 +8,7 @@
     word-wrap: break-word;
 
     @include small {
-        width: 50%;
+        width: 100%;
     }
 }
 
@@ -55,6 +55,7 @@
 
 .tagName {
     font-size: 16px;
+    color: #717171;
 }
 
 .tagMetaData {

@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import useDeviceType from "hooks/useDeviceType";
 import ArrowRightIcon from "components/icons/version-2/ArrowRight";
-import CampaignStatusIcon from "components/icons/version-2/CampaignStatus";
+import AnnouncementIcon from "components/icons/version-2/Announcement";
 import Modal from "components/Modal";
 import Styles from "./CampaignModal.module.scss";
 import { toSentenceCase } from "utils/toSentenceCase";
@@ -28,7 +28,7 @@ const CampaignModal = ({ open, onClose, campaignList, leadData }) => {
             title={
                 <Box display="flex">
                     <span className={Styles.campaignTitleIcon}>
-                        <CampaignStatusIcon />
+                        <AnnouncementIcon />
                     </span>
                     Campaigns
                 </Box>
