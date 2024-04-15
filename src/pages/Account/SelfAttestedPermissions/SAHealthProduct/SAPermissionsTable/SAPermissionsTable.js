@@ -137,7 +137,7 @@ function SAPermissionsTable() {
         [setIsExpriedModalOpen]
     );
 
-    if (isNonRTS_User || (agents.length === 0 && visibleItems.length === 0)) {
+    if (isNonRTS_User || agents.length === 0 && visibleItems.length === 0) {
         return <InforBanner PopupModal={NonRTSModal} showModal={true} />;
     }
 
