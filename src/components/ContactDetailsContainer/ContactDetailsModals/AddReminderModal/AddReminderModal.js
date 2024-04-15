@@ -1,42 +1,43 @@
 /* eslint-disable max-lines-per-function */
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
- 
+
 import PropTypes from "prop-types";
- 
+
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
- 
+
 import useDeviceType from "hooks/useDeviceType";
- 
+
 import Modal from "components/Modal";
 import DatePickerMUI from "components/DatePicker";
 import TimePickerMUI from "components/TimePicker/TimePicker";
 import ArrowRight from "components/icons/version-2/ArrowRight";
- 
+
 import { getLocalDateTime } from "utils/dates";
- 
+
 import { Add } from "../Icons";
- 
+import { ArrowForwardWithCircle } from "components/ContactDetailsContainer/OverviewContainer/Icons";
+
 import styles from "./AddReminderModal.module.scss";
- 
+
 const initialReminderValues = {
     date: null,
     time: null,
     notes: "",
     title: "",
 };
- 
+
 export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, leadData = null, showLink = false }) => {
     const [values, setValues] = useState(initialReminderValues);
     const navigate = useNavigate();
     const { isMobile } = useDeviceType();
- 
+
     const reminderTitle = selectedReminder ? "Edit Reminder" : "Add a Reminder";
     const reminderActionButton = selectedReminder ? "Save Reminder" : "Add Reminder";
     const name = `${leadData?.firstName ?? ""} ${leadData?.middleName ?? ""} ${leadData?.lastName ?? ""}`;
     const actionButtonDisabled = !values.date || !values.notes;
- 
+
     const handleSaveReminder = useCallback(() => {
         const reminderDateTime = new Date(values.date);
 
@@ -44,10 +45,10 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
             reminderDateTime.setHours(values?.time?.getHours());
             reminderDateTime.setMinutes(values?.time?.getMinutes());
         } else {
-            reminderDateTime.setHours(12); 
+            reminderDateTime.setHours(12);
             reminderDateTime.setMinutes(0);
         }
- 
+
         const payload = {
             ...selectedReminder,
             reminderNote: values.notes,
@@ -56,15 +57,15 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
         };
         onSave(payload);
     }, [values, onSave, selectedReminder]);
- 
+
     const handleChange = useCallback((field, value) => {
         setValues((prevValues) => ({ ...prevValues, [field]: value }));
     }, []);
- 
+
     const onViewContactHandle = useCallback(() => {
         navigate(`/contact/${leadData.leadsId}/overview`);
     }, [leadData.leadsId, navigate]);
- 
+
     useEffect(() => {
         if (selectedReminder) {
             const { date, fullDate } = getLocalDateTime(selectedReminder.reminderDate);
@@ -77,7 +78,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
             });
         }
     }, [selectedReminder]);
- 
+
     return (
         <Modal
             maxWidth="sm"
@@ -88,7 +89,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
             onSave={handleSaveReminder}
             actionButtonName={reminderActionButton}
             actionButtonDisabled={actionButtonDisabled}
-            endIcon={<Add color="white" />}
+            endIcon={< ArrowForwardWithCircle color="white" />}
         >
             <>
                 <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -102,7 +103,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
                 <Box className={styles.connectModalBody}>
                     <Box className={styles.dateTimePickers}>
                         <Box className={styles.dateTimePickersItem}>
-                            <h4 className={styles.label}>On a Day</h4>
+                            <h4 className={styles.label}>Due On*</h4>
                             <DatePickerMUI value={values.date} onChange={(date) => handleChange("date", date)} />
                         </Box>
                         <Box className={styles.dateTimePickersItem}>
@@ -123,7 +124,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
                         />
                     </Box>
                     <Box className={styles.reminderField}>
-                        <h4 className={styles.label}>Notes</h4>
+                        <h4 className={styles.label}>Notes*</h4>
                         <TextField
                             id="outlined-basic"
                             placeholder="Notes..."
@@ -141,7 +142,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
         </Modal>
     );
 };
- 
+
 AddReminderModal.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
