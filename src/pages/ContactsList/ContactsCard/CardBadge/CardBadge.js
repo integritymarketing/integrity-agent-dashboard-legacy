@@ -38,12 +38,12 @@ const AskIntegrityBadge = styled(Badge)({
     },
 });
 
-const CardBadge = ({ label, IconComponent, count = "", name, onClick, className }) => (
+const CardBadge = ({ label, IconComponent, count = "", name, onClick, classes }) => (
     <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
-        className={`${styles.cardBadgeContainer} ${className}`}
+        className={`${styles.cardBadgeContainer} ${classes}`}
         onClick={onClick}
     >
         <Box className={styles.tag}>{label}</Box>
