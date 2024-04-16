@@ -290,7 +290,7 @@ function ContactsTable() {
                                 <CardBadge
                                     IconComponent={<Heartactive />}
                                     count={value}
-                                    className={styles.badgeContainer}
+                                    classes={styles.badgeContainer}
                                 />
                             </Box>
                         );
