@@ -1,4 +1,3 @@
-import React from "react";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
@@ -6,7 +5,6 @@ import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 
-// Moved outside to avoid re-creation on every render
 const ReminderBadge = styled(Badge)({
     "& .MuiBadge-badge": {
         right: -7,

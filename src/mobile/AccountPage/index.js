@@ -1,7 +1,7 @@
 import styles from "./styles.module.scss";
 
 import Box from "@mui/material/Box";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const AccountMobile = ({ data }) => {
     const { firstName, lastName, phone, npn, email, caLicense } = data;
@@ -19,10 +19,11 @@ const AccountMobile = ({ data }) => {
                 <Box className={styles.title}>National Producer Number</Box>
                 <Box className={styles.npn}>{npn}</Box>
             </Box>
-            
+
             <Box className={styles.content}>
                 <Box className={styles.title}>California License Number</Box>
-                <Box className={styles.caLicense}>{caLicense}</Box>
+                {caLicense && <Box className={styles.caLicense}>{caLicense}</Box>}
+                {!caLicense && <Box className={styles.caLicenseEmpty}></Box>}
             </Box>
 
             <Box className={styles.content}>
