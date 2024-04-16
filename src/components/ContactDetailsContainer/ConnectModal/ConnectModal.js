@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -18,7 +18,6 @@ import styles from "./ConnectModal.module.scss";
 import { Email, Navigate, Phone, Script, Soa } from "./Icons";
 
 const NOT_AVAILABLE = "N/A";
-const LEADS_API_VERSION = "v2.0";
 
 export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
     const navigate = useNavigate();
@@ -30,7 +29,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
 
     const formattedPhoneNumber = agentVirtualPhoneNumber?.replace(/^\+1/, "");
     const { Post: outboundCallFromMedicareCenter } = useFetch(
-        `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Call/CallCustomer`
+        `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`
     );
     const {
         firstName = "",

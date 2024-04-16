@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import Link from "../Icons/relink";
@@ -10,7 +10,7 @@ import { TaskListCard } from "../TaskListCardContainer";
 
 import styles from "./styles.module.scss";
 
-export default function TaskListMobileLayout({ taskList }) {
+function TaskListMobileLayout({ taskList }) {
     const navigate = useNavigate();
 
     const linkToContact = (item) => {
@@ -20,9 +20,9 @@ export default function TaskListMobileLayout({ taskList }) {
 
     return (
         <>
-            {taskList?.map((item) => {
+            {taskList?.map((item, index) => {
                 return (
-                    <TaskListCard multi={taskList?.length > 1} background="blue">
+                    <TaskListCard key={index} multi={taskList?.length > 1} background="blue">
                         <Box className={styles.taskListInfo}>
                             <Box marginTop={"10px"}>
                                 <div className={styles.dateTimeLabel}>
@@ -77,3 +77,17 @@ export default function TaskListMobileLayout({ taskList }) {
         </>
     );
 }
+
+TaskListMobileLayout.propTypes = {
+    taskList: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            taskDate: PropTypes.string.isRequired,
+            phoneNumber: PropTypes.string.isRequired,
+            duration: PropTypes.string.isRequired,
+            recordingUrl: PropTypes.string,
+        })
+    ).isRequired,
+};
+
+export default TaskListMobileLayout;
