@@ -31,18 +31,26 @@ function TagsInfo() {
                     <img src={tagInfo.tag.tagIconUrl} />
                 </Box>
                 <Box className={Styles.tagInfo}>
-                    {campaignTags.length > 0 ? (
-                        <Box display="flex" alignItems="center">
-                            <Box className={Styles.tagCategoryLabelCampaign}>
-                                {toSentenceCase(removePrefix(tagInfo.tag.tagCategory.tagCategoryName))}:
-                            </Box>
-                            <Box className={Styles.tagNameCampaign}>{toSentenceCase(tagInfo.tag.tagLabel)}</Box>
+                    <Box display="flex" alignItems="center">
+                        <Box className={Styles.tagCategoryLabelCampaign}>
+                            {toSentenceCase(removePrefix(tagInfo.tag.tagCategory.tagCategoryName))}:
                         </Box>
-                    ) : (
-                        <>
-                            <Box className={Styles.tagName}>{tagInfo.tag.tagLabel}</Box>
-                        </>
-                    )}
+                        <Box className={Styles.tagNameCampaign}>{toSentenceCase(tagInfo.tag.tagLabel)}</Box>
+                    </Box>
+                    <Box className={Styles.tagMetaData}>{tagInfo.tag.metadata}</Box>
+                </Box>
+            </Box>
+        </Box>
+    );
+
+    const renderAskIntegrityTag = (tagInfo) => (
+        <Box className={Styles.askIntegrityCard}>
+            <Box className={Styles.askIntegrityInfo}>
+                <Box>
+                    <img src={tagInfo.tag.tagIconUrl} />
+                </Box>
+                <Box className={Styles.tagInfo}>
+                    <Box className={Styles.tagName}>{tagInfo.tag.tagLabel}</Box>
                     <Box className={Styles.tagMetaData}>{tagInfo.tag.metadata}</Box>
                 </Box>
             </Box>
@@ -60,7 +68,7 @@ function TagsInfo() {
             {askIntegrityTags?.length > 0 && (
                 <Box marginBottom="10px">
                     <Box className={Styles.tagCategoryLabel}>Ask Integrity Suggests</Box>
-                    <Box>{askIntegrityTags?.map((tagInfo) => renderTag(tagInfo))}</Box>
+                    <Box>{askIntegrityTags?.map((tagInfo) => renderAskIntegrityTag(tagInfo))}</Box>
                 </Box>
             )}
         </Box>
