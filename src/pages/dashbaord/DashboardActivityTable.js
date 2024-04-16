@@ -616,6 +616,7 @@ export default function DashboardActivityTable({
                     leadFullName={selectedLead?.fullName}
                     activityObj={selectedActivity}
                     leadId={selectedLead?.leadsId}
+                    pageName="Dashboard"
                 />
             )}
             {selectedCall && <CallDetails open={true} onClose={() => setSelectedCall(null)} callObj={selectedCall} />}

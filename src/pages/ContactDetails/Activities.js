@@ -188,6 +188,7 @@ const Activities = ({ leadId }) => {
                             leadFullName={leadFullName}
                             activityObj={selectedActivity}
                             leadId={leadId}
+                            pageName="Contact Overview"
                         />
                     )}
                 </div>
