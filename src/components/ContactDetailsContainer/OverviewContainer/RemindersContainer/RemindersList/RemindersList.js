@@ -11,6 +11,7 @@ import { getLocalDateTime, getOverDue, sortListByDate } from "utils/dates";
 import ContactSectionCard from "packages/ContactSectionCard";
 
 import { AddReminderModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddReminderModal/AddReminderModal";
+import useDeviceType from "hooks/useDeviceType";
 import EditIcon from "components/icons/icon-edit";
 import Plus from "components/icons/plus";
 import { Button } from "components/ui/Button";
@@ -20,8 +21,9 @@ import styles from "./RemindersList.module.scss";
 import { Complete, Delete } from "../../Icons";
 import Reminder from "../../Icons/reminder";
 
-export const RemindersList = ({ isMobile }) => {
+export const RemindersList = () => {
     const { leadId } = useParams();
+    const { isMobile } = useDeviceType();
     const { getReminders, reminders, addReminder, removeReminder, editReminder } = useOverView();
     const leadData = useLeadDetails();
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
@@ -100,12 +102,12 @@ export const RemindersList = ({ isMobile }) => {
                     </div>
                 )}
                 <>
-                    {sortedTasks?.map((reminder) => {
+                    {sortedTasks?.map((reminder, index) => {
                         const { reminderNote = "", isComplete = false, reminderId, reminderDate } = reminder;
 
                         const isOverDue = getOverDue(reminderDate) ? true : false;
                         return (
-                            <Box className={styles.reminderItem}>
+                            <Box className={styles.reminderItem} key={index}>
                                 <Box className={styles.reminderDue}>
                                     <Box className={`${styles.reminderIcon} ${isOverDue ? styles.dueIcon : ""}`}>
                                         {isOverDue ? <Reminder color="#FF1717" /> : <Reminder color="#4178FF" />}

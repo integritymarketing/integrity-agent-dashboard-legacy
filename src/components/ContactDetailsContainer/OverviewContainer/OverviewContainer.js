@@ -65,7 +65,7 @@ export const OverviewContainer = ({ isMobile }) => {
                 </Box>
                 <Box className={styles.rightSection}>
                     <Box>
-                        <RemindersContainer isMobile={isMobile} />
+                        <RemindersContainer />
                         {!isMobile && <LegacySafeGuard leadDetails={leadDetails} />}
                         <ActivitiesTableContainer />
                         <ClientNotes isMobile={isMobile} />

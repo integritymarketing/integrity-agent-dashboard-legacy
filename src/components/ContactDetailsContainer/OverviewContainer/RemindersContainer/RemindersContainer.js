@@ -1,13 +1,11 @@
-import React from "react";
-
 import Box from "@mui/material/Box";
 
 import { RemindersList } from "./RemindersList/RemindersList";
 
-export const RemindersContainer = ({ isMobile }) => {
+export const RemindersContainer = () => {
     return (
         <Box>
-            <RemindersList isMobile={isMobile} />
+            <RemindersList />
         </Box>
     );
 };
