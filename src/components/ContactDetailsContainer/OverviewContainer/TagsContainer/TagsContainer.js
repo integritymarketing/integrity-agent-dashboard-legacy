@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
 
@@ -7,35 +7,19 @@ import { useLeadDetails, useOverView } from "providers/ContactDetails";
 import styles from "./TagsContainer.module.scss";
 import { TagsList } from "./TagsList/TagsList";
 import ArrowDownBig from "components/icons/version-2/ArrowDownBig";
+import useDeviceType from "hooks/useDeviceType";
 
-const TagsContainer = ({ isMobile }) => {
+const TagsContainer = () => {
     const { leadDetails } = useLeadDetails();
-
     const { getLeadTags, tags } = useOverView();
-
+    const { isMobile } = useDeviceType();
     const [tagsList, setTagsList] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
-
     const [tagValue, setTagValue] = useState("");
     const [tagId, setTagId] = useState(null);
     const [addNewTag, setAddNewTag] = useState(false);
     const [newTag, setNewTag] = useState("");
     const [isCollapsed, setCollapsed] = useState(false);
-
-    const handleToggle = () => {
-        setCollapsed(!isCollapsed);
-    };
-    const transformData = (data) => {
-        return data.map((category) => ({
-            label: category.tagCategoryName,
-            items: category.tags.map((tag) => ({
-                tag,
-                label: tag.tagLabel,
-                id: tag.tagId,
-            })),
-            categoryID: category.tagCategoryId,
-        }));
-    };
 
     useEffect(() => {
         if (tags?.length > 0) {
@@ -52,17 +36,30 @@ const TagsContainer = ({ isMobile }) => {
         if (leadDetails?.leadTags) {
             const selectedTagIds = leadDetails.leadTags.map((tag) => tag.tag.tagId);
             setSelectedTags(selectedTagIds);
-
-            // if (tagsList?.length) {
-            //     const filteredTags = tagsList.map((tagCategory) => filterCampaignTags(tagCategory, selectedTagIds));
-            //     setTagsList(filteredTags);
-            // }
         }
     }, [leadDetails]);
 
+    const handleToggle = () => {
+        setCollapsed(!isCollapsed);
+    };
+
+    const transformData = (data) => {
+        return data.map((category) => ({
+            label: category.tagCategoryName,
+            items: category.tags.map((tag) => ({
+                tag,
+                label: tag.tagLabel,
+                id: tag.tagId,
+            })),
+            categoryID: category.tagCategoryId,
+        }));
+    };
+
     const filterCampaignTags = (tagCategory, selectedIds) => {
         if (
-            (tagCategory.label === "Campaigns" || tagCategory.label === "Ask Integrity Recommendations") &&
+            (tagCategory.label === "Campaigns" ||
+                tagCategory.label === "Ask Integrity Recommendations" ||
+                tagCategory.label === "Products") &&
             tagCategory?.items?.length
         ) {
             return {
@@ -74,7 +71,6 @@ const TagsContainer = ({ isMobile }) => {
     };
 
     const selectedTagIds = leadDetails?.leadTags?.map((tagItem) => tagItem?.tag?.tagId);
-
     const filteredTags = tagsList?.map((tagCategory) => filterCampaignTags(tagCategory, selectedTagIds));
 
     return (
@@ -89,8 +85,9 @@ const TagsContainer = ({ isMobile }) => {
             </Box>
             {(!isCollapsed || !isMobile) && (
                 <Box className={styles.box}>
-                    {filteredTags?.map((item) => (
+                    {filteredTags?.map((item, index) => (
                         <TagsList
+                            key={index}
                             leadId={leadDetails?.leadsId}
                             label={item.label}
                             items={item.items}
