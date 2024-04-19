@@ -8,9 +8,9 @@ import { DeleteTagModal } from "components/ContactDetailsContainer/ContactDetail
 
 import { AssignNewTagContainer } from "./AssignNewTagsContainer/AssignNewTagContainer";
 import styles from "./TagsList.module.scss";
-
+import InfoModal from "../InfoModal/InfoModal";
 import Label from "../../CommonComponents/Label";
-import { Chevron, CrossIcon, DataCenter, Delete, LeadCenter, LifeIcon, PlanEnroll } from "../../Icons";
+import { Chevron, CrossIcon, DataCenter, Delete, LeadCenter, LifeIcon, PlanEnroll, Info } from "../../Icons";
 
 const getIconName = (label, itemLabel, metadata) => {
     switch (label) {
@@ -52,6 +52,8 @@ export const TagsList = ({
     const { editLeadTags } = useOverView();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
+    const [infoModalOpen, setInfoModalOpen] = useState(false);
+    const [infoTag, setInfoTag] = useState(null);
 
     const [open, setOpen] = useState(false);
 
@@ -110,13 +112,7 @@ export const TagsList = ({
 
     const ProductTags = ({ item }) => {
         return (
-            <div
-                key={item.label}
-                className={`${styles.selectableItemContainer} ${
-                    selectedTags?.includes(item?.id) ? styles.selectedItem : ""
-                }`}
-                onClick={() => onSelectTag(item.id)}
-            >
+            <div key={item.label}>
                 <div className={styles.tabLabel}>
                     <div className={styles.tagIcon}>{getIconName(label, item.label)}</div>
                     <Label value={item.label} size="16px" color="#434A51" />
@@ -174,7 +170,15 @@ export const TagsList = ({
                     color="#052A63"
                     fontWeight="bold"
                 />
-                {/* <Info /> */}
+                <div
+                    onClick={() => {
+                        setInfoTag(label);
+                        setInfoModalOpen(true);
+                    }}
+                    styles={{ cursor: "pointer" }}
+                >
+                    <Info />
+                </div>
             </div>
 
             {open && (
@@ -211,6 +215,9 @@ export const TagsList = ({
                     categoryID={categoryID}
                     isMobile={isMobile}
                 />
+            )}
+            {infoModalOpen && (
+                <InfoModal open={infoModalOpen} onClose={() => setInfoModalOpen(false)} label={infoTag} />
             )}
         </div>
     );
