@@ -30,7 +30,9 @@ const BadgeIcon = ({ count, leadData }) => {
                 <PolicyDetailsModal
                     showPolicyModal={showPolicyModal}
                     policyDetails={policyDetails}
-                    handleModalClose={() => setShowPolicyModal(false)} />
+                    handleModalClose={() => setShowPolicyModal(false)}
+                    view={"grid"}
+                />
             </PoliciesProvider>
         </>
     );

@@ -56,6 +56,7 @@ const HealthLifeCell = ({ row }) => {
                     showPolicyModal={showPolicyModal}
                     policyDetails={policyDetails}
                     handleModalClose={() => setShowPolicyModal(false)}
+                    view={"list"}
                 />
             </PoliciesProvider>
         </>

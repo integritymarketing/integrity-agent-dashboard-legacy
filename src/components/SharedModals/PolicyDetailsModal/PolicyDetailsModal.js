@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import useAnalytics from "hooks/useAnalytics";
 import useDeviceType from "hooks/useDeviceType";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
@@ -16,13 +17,25 @@ import { useNavigate } from "react-router-dom";
 import OpenBlue from "components/icons/version-2/OpenBlue";
 
 // eslint-disable-next-line max-lines-per-function
-const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }) => {
+const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails, view }) => {
     const { firstName, lastName, leadsId, policy } = policyDetails;
     const { isMobile } = useDeviceType();
+    const { fireEvent } = useAnalytics();
     const navigate = useNavigate();
     const isLife = policy === "LIFE";
     const { getEnrollPlansList, enrollPlansList } = usePolicies();
     const [policies, setPolicies] = useState([]);
+
+    useEffect(() => {
+        if (policies.length > 0) {
+            fireEvent("Contact List Tag Viewed", {
+                leadid: policies[0].leadId,
+                view,
+                tag_category: isLife ? "life" : "health",
+                content: policies.map((policy) => policy.planName).join(", ")
+            });
+        }
+    }, [policies])
 
     useEffect(() => {
         if (leadsId) {
@@ -89,7 +102,7 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails }
                                 <span className={Styles.statusValue}>{status}</span>
                             </div>
                         </div>
-                        {currentPolicy.hasPlanDetails && (
+                        {!currentPolicy.hasPlanDetails && (
                             <div
                                 className={Styles.ctaWrapper}
                                 onClick={() =>

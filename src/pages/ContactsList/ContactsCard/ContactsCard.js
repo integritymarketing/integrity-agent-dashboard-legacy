@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { Divider } from "@mui/material";
 import Box from "@mui/material/Box";
-
 import { CardHeader } from "./CardHeader";
 import { CardStage } from "./CardStage";
 import styles from "./styles.module.scss";
@@ -33,6 +32,7 @@ function ContactsCard() {
     const [showCampaignModal, setShowCampaignModal] = useState(false);
     const isMobile = windowWidth <= 784;
     const [leadData, setLeadData] = useState({});
+
 
     const remindersHandler = (remindersLength, leadData) => {
         setLeadData(leadData);
