@@ -38,6 +38,7 @@ const RemindersList = ({
                 leadid: leadData?.leadsId,
                 view,
                 content: reminderLabelString,
+                tag_category: "reminder",
             });
         }
     }, [open, fireEvent, sortedReminders, leadData?.leadsId, view]);

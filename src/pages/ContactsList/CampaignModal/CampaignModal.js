@@ -29,6 +29,7 @@ const CampaignModal = ({ open, onClose, campaignList, leadData, view }) => {
                 leadid: leadData.leadsId,
                 view,
                 content: tagLabelsString,
+                tag_category: "campaign",
             });
         }
     }, [open, fireEvent, campaignList, leadData.leadsId, view]);

@@ -24,6 +24,7 @@ const AskIntegrityModal = ({ open, onClose, askIntegrityList, leadData, view }) 
                 leadid: leadData.leadsId,
                 view,
                 content: askIntegrityLabelsString,
+                tag_category: "ask_integrity",
             });
         }
     }, [open, fireEvent, askIntegrityList, leadData.leadsId, view]);
