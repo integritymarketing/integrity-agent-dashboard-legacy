@@ -330,7 +330,11 @@ function ContactsTable() {
                 Cell: ({ row }) => {
                     const { primaryCommunication, emails } = row?.original;
                     const isPhoneConnect = primaryCommunication === "phone";
-                    return isPhoneConnect ? <ConnectCall row={row?.original} /> : <ConnectEmail emails={emails} />;
+                    return isPhoneConnect ? (
+                        <ConnectCall row={row?.original} view="List" />
+                    ) : (
+                        <ConnectEmail data={row?.original} emails={emails} view="List" />
+                    );
                 },
             },
             {

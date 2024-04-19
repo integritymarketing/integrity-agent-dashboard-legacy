@@ -33,7 +33,6 @@ function ContactsCard() {
     const isMobile = windowWidth <= 784;
     const [leadData, setLeadData] = useState({});
 
-
     const remindersHandler = (remindersLength, leadData) => {
         setLeadData(leadData);
         if (!remindersLength) {
@@ -120,9 +119,9 @@ function ContactsCard() {
                                     label="Connect"
                                     IconComponent={
                                         isPhoneConnect ? (
-                                            <ConnectCall row={item} />
+                                            <ConnectCall row={item} view="Grid" />
                                         ) : (
-                                            <ConnectEmail emails={item.emails} />
+                                            <ConnectEmail data={item} emails={item.emails} view="Grid" />
                                         )
                                     }
                                 />
