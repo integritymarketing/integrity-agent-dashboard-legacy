@@ -9,8 +9,7 @@ const LEADS_API_VERSION = "v2.0";
 
 function generateURL(baseURL, leadIDs) {
     const leadParams = leadIDs.map((leadID) => `leadIds=${leadID}`).join("&");
-    const url = `${baseURL}${leadParams ? `?${leadParams}` : ""}`;
-    return url;
+    return `${baseURL}${leadParams ? `?${leadParams}` : ""}`;
 }
 
 function usePolicyCount(allLeads) {
@@ -18,14 +17,19 @@ function usePolicyCount(allLeads) {
     const [policyCounts, setPolicyCounts] = useState([]);
     const showToast = useToast();
     const { npn } = useUserProfile();
+    const [updateURL, setUpdateURL] = useState("");
 
-    const URL = `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/PolicyCount/${npn}`;
-    const updateURL = generateURL(URL, allLeads);
+    useEffect(() => {
+        if (npn && allLeads.length > 0) {
+            const URL = `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/PolicyCount/${npn}`;
+            setUpdateURL(generateURL(URL, allLeads));
+        }
+    }, [npn, allLeads]);
 
     const { Get: getPolicyCount } = useFetch(updateURL);
 
     const fetchPolicyCounts = useCallback(async () => {
-        if (npn) {
+        if (updateURL) {
             try {
                 setIsLoading(true);
                 const response = await getPolicyCount();
@@ -41,7 +45,7 @@ function usePolicyCount(allLeads) {
                 });
             }
         }
-    }, [npn, showToast, getPolicyCount]);
+    }, [updateURL, getPolicyCount, showToast]);
 
     useEffect(() => {
         fetchPolicyCounts();
