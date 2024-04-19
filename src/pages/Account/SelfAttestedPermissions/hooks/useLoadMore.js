@@ -1,19 +1,23 @@
 import { useEffect, useState } from "react";
 
 function useLoadMore(initialItems, itemsPerPage) {
-    const [items, setItems] = useState(initialItems);
-    const [visibleItems, setVisibleItems] = useState(initialItems?.slice(0, itemsPerPage));
+    const [items, setItems] = useState([]);
+    const [visibleItems, setVisibleItems] = useState([]);
 
     useEffect(() => {
-        setItems(initialItems);
-        setVisibleItems(initialItems.slice(0, itemsPerPage));
+        if (Array.isArray(initialItems)) {
+            setItems(initialItems);
+            setVisibleItems(initialItems.slice(0, itemsPerPage));
+        }
     }, [initialItems, itemsPerPage]);
 
     const loadMore = () => {
-        const currentLastIndex = visibleItems.length;
-        const newLastIndex = currentLastIndex + itemsPerPage;
-        const newVisibleItems = items.slice(0, newLastIndex);
-        setVisibleItems(newVisibleItems);
+        if (items.length) {
+            const currentLastIndex = visibleItems.length;
+            const newLastIndex = currentLastIndex + itemsPerPage;
+            const newVisibleItems = items.slice(0, newLastIndex);
+            setVisibleItems(newVisibleItems);
+        }
     };
 
     return {
