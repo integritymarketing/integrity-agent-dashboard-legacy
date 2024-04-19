@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 function useLoadMore(initialItems, itemsPerPage) {
     const [items, setItems] = useState(initialItems);
-    const [visibleItems, setVisibleItems] = useState(initialItems.slice(0, itemsPerPage));
+    const [visibleItems, setVisibleItems] = useState(initialItems?.slice(0, itemsPerPage));
 
     useEffect(() => {
         setItems(initialItems);
