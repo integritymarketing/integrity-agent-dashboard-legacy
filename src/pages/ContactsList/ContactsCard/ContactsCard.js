@@ -197,6 +197,7 @@ function ContactsCard() {
                 setShowAddReminderModal={setShowAddReminderModal}
                 showRemindersListModal={showRemindersListModal}
                 setShowRemindersListModal={setShowRemindersListModal}
+                view="Grid"
             />
             {showAskIntegrityModal && (
                 <AskIntegrityModal
@@ -204,6 +205,7 @@ function ContactsCard() {
                     onClose={() => setShowAskIntegrityModal(false)}
                     leadData={leadData}
                     askIntegrityList={askIntegrityList}
+                    view="Grid"
                 />
             )}
             {showCampaignModal && (
@@ -212,6 +214,7 @@ function ContactsCard() {
                     onClose={() => setShowCampaignModal(false)}
                     leadData={leadData}
                     campaignList={campaignList}
+                    view="Grid"
                 />
             )}
         </Box>

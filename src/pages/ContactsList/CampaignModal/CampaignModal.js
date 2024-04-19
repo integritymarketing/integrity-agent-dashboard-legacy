@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
@@ -8,9 +8,11 @@ import AnnouncementIcon from "components/icons/version-2/Announcement";
 import Modal from "components/Modal";
 import Styles from "./CampaignModal.module.scss";
 import { toSentenceCase } from "utils/toSentenceCase";
+import useAnalytics from "hooks/useAnalytics";
 
-const CampaignModal = ({ open, onClose, campaignList, leadData }) => {
+const CampaignModal = ({ open, onClose, campaignList, leadData, view }) => {
     const navigate = useNavigate();
+    const { fireEvent } = useAnalytics();
     const { isMobile } = useDeviceType();
     const handleViewContact = useCallback(() => {
         navigate(`/contact/${leadData.leadsId}/overview`);
@@ -19,6 +21,17 @@ const CampaignModal = ({ open, onClose, campaignList, leadData }) => {
     const removePrefix = (str) => {
         return str?.replace("Campaign ", "");
     };
+
+    useEffect(() => {
+        if (open) {
+            const tagLabelsString = campaignList.map((campaign) => campaign.tag.tagLabel).join(", ");
+            fireEvent("Contact List Tag Viewed", {
+                leadid: leadData.leadsId,
+                view,
+                content: tagLabelsString,
+            });
+        }
+    }, [open, fireEvent, campaignList, leadData.leadsId, view]);
 
     return (
         <Modal
@@ -88,6 +101,7 @@ CampaignModal.propTypes = {
         middleName: PropTypes.string, // Middle name of the lead.
         lastName: PropTypes.string, // Last name of the lead.
     }).isRequired,
+    view: PropTypes.string.isRequired, // Indicates if the modal is clicked from list or grid view
 };
 
 export default CampaignModal;

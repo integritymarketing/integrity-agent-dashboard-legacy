@@ -360,6 +360,7 @@ function ContactsTable() {
                 setShowAddReminderModal={setShowAddReminderModal}
                 showRemindersListModal={showRemindersListModal}
                 setShowRemindersListModal={setShowRemindersListModal}
+                view="List"
             />
             <PoliciesProvider>
                 <PolicyDetailsModal
@@ -374,6 +375,7 @@ function ContactsTable() {
                     onClose={() => setShowAskIntegrityModal(false)}
                     leadData={leadData}
                     askIntegrityList={askIntegrityList}
+                    view="List"
                 />
             )}
             {showCampaignModal && (
@@ -382,6 +384,7 @@ function ContactsTable() {
                     onClose={() => setShowCampaignModal(false)}
                     leadData={leadData}
                     campaignList={campaignList}
+                    view="List"
                 />
             )}
         </>

@@ -16,7 +16,6 @@ import ArrowRight from "components/icons/version-2/ArrowRight";
 
 import { getLocalDateTime } from "utils/dates";
 
-import { Add } from "../Icons";
 import { ArrowForwardWithCircle } from "components/ContactDetailsContainer/OverviewContainer/Icons";
 
 import styles from "./AddReminderModal.module.scss";
@@ -89,7 +88,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
             onSave={handleSaveReminder}
             actionButtonName={reminderActionButton}
             actionButtonDisabled={actionButtonDisabled}
-            endIcon={< ArrowForwardWithCircle color="white" />}
+            endIcon={<ArrowForwardWithCircle color="white" />}
         >
             <>
                 <Box display="flex" justifyContent="space-between" alignItems="center">

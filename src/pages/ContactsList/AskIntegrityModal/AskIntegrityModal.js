@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
@@ -8,12 +8,26 @@ import AskIntegrity from "components/icons/version-2/AskIntegrity";
 
 import Modal from "components/Modal";
 import useDeviceType from "hooks/useDeviceType";
+import useAnalytics from "hooks/useAnalytics";
 
 import styles from "./AskIntegrityModal.module.scss";
 
-const AskIntegrityModal = ({ open, onClose, askIntegrityList, leadData }) => {
+const AskIntegrityModal = ({ open, onClose, askIntegrityList, leadData, view }) => {
     const navigate = useNavigate();
+    const { fireEvent } = useAnalytics();
     const { isMobile } = useDeviceType();
+
+    useEffect(() => {
+        if (open) {
+            const askIntegrityLabelsString = askIntegrityList.map((tagInfo) => tagInfo.tag.tagLabel).join(", ");
+            fireEvent("Contact List Tag Viewed", {
+                leadid: leadData.leadsId,
+                view,
+                content: askIntegrityLabelsString,
+            });
+        }
+    }, [open, fireEvent, askIntegrityList, leadData.leadsId, view]);
+
     const onViewContactHandle = useCallback(() => {
         navigate(`/contact/${leadData.leadsId}/overview`);
     }, [leadData.leadsId, navigate]);
@@ -65,6 +79,7 @@ AskIntegrityModal.propTypes = {
     onClose: PropTypes.func.isRequired, // Function to call on modal close
     askIntegrityList: PropTypes.array, // List of integrity suggestions
     leadData: PropTypes.object.isRequired, // Lead data including names and ID
+    view: PropTypes.string.isRequired, // View name list and grid
 };
 
 export default AskIntegrityModal;
