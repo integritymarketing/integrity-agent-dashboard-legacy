@@ -23,7 +23,7 @@ const ConnectEmail = ({ data, emails = [], view }) => {
     }, [email, data.leadsId, view, fireEvent]);
 
     return (
-        <Box position="relative" display="inline-block" sx={{ left: "12px" }} onClick={handleEmail}>
+        <Box position="relative" display="inline-block" sx={{ left: "12px", cursor: "pointer" }} onClick={handleEmail}>
             <Connectemail />
         </Box>
     );
