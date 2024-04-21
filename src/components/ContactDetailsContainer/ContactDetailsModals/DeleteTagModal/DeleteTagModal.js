@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 
 import { Box } from "@mui/system";
 
@@ -6,7 +6,7 @@ import Modal from "components/Modal";
 
 import styles from "./DeleteTagModal.module.scss";
 
-import { AddForward, Delete } from "../Icons";
+import { AddForward } from "../Icons";
 
 export const DeleteTagModal = ({ onClose, open, onConfirm, label, body }) => {
     return (
@@ -25,4 +25,12 @@ export const DeleteTagModal = ({ onClose, open, onConfirm, label, body }) => {
             </Box>
         </Modal>
     );
+};
+
+DeleteTagModal.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
+    onConfirm: PropTypes.func.isRequired,
+    label: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
 };

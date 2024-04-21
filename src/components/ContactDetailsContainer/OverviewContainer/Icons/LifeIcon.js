@@ -6,23 +6,51 @@ export const LifeIcon = () => {
                     <g id="Button_-_BG" data-name="Button - BG">
                         <rect id="bg" width="24" height="24" fill="#ff1717" opacity="0" />
                     </g>
-                    <path id="heart" d="M167.258,44.543a7.46,7.46,0,0,0,0-9.962,6.243,6.243,0,0,0-8.986-.333q-.168.16-.324.333t-.286.329c-.093-.113-.188-.223-.286-.327a6.242,6.242,0,0,0-8.985-.333c-.112.107-.22.218-.324.333a7.467,7.467,0,0,0,.027,9.99l9.131,8.75a.628.628,0,0,0,.874,0l9.131-8.75C167.24,44.56,167.249,44.553,167.258,44.543Z" transform="translate(-145.664 -31)" fill="#fff" stroke="#4178ff" stroke-width="1" />
+                    <path
+                        id="heart"
+                        d="M167.258,44.543a7.46,7.46,0,0,0,0-9.962,6.243,6.243,0,0,0-8.986-.333q-.168.16-.324.333t-.286.329c-.093-.113-.188-.223-.286-.327a6.242,6.242,0,0,0-8.985-.333c-.112.107-.22.218-.324.333a7.467,7.467,0,0,0,.027,9.99l9.131,8.75a.628.628,0,0,0,.874,0l9.131-8.75C167.24,44.56,167.249,44.553,167.258,44.543Z"
+                        transform="translate(-145.664 -31)"
+                        fill="#fff"
+                        stroke="#4178ff"
+                        strokeWidth="1"
+                    />
                 </g>
                 <g id="Group_8460" data-name="Group 8460" transform="translate(-497 -745)">
-                    <g id="Ellipse_694" data-name="Ellipse 694" transform="translate(504 755)" fill="none" stroke="#4178ff" stroke-width="1">
+                    <g
+                        id="Ellipse_694"
+                        data-name="Ellipse 694"
+                        transform="translate(504 755)"
+                        fill="none"
+                        stroke="#4178ff"
+                        strokeWidth="1"
+                    >
                         <circle cx="1" cy="1" r="1" stroke="none" />
                         <circle cx="1" cy="1" r="0.5" fill="none" />
                     </g>
-                    <g id="Ellipse_695" data-name="Ellipse 695" transform="translate(508 755)" fill="none" stroke="#4178ff" stroke-width="1">
+                    <g
+                        id="Ellipse_695"
+                        data-name="Ellipse 695"
+                        transform="translate(508 755)"
+                        fill="none"
+                        stroke="#4178ff"
+                        strokeWidth="1"
+                    >
                         <circle cx="1" cy="1" r="1" stroke="none" />
                         <circle cx="1" cy="1" r="0.5" fill="none" />
                     </g>
-                    <g id="Ellipse_696" data-name="Ellipse 696" transform="translate(512 755)" fill="none" stroke="#4178ff" stroke-width="1">
+                    <g
+                        id="Ellipse_696"
+                        data-name="Ellipse 696"
+                        transform="translate(512 755)"
+                        fill="none"
+                        stroke="#4178ff"
+                        strokeWidth="1"
+                    >
                         <circle cx="1" cy="1" r="1" stroke="none" />
                         <circle cx="1" cy="1" r="0.5" fill="none" />
                     </g>
                 </g>
             </g>
         </svg>
-    )
-}
+    );
+};

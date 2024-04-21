@@ -19,7 +19,7 @@ import { Button } from "components/ui/Button";
 import styles from "./RemindersList.module.scss";
 
 import { Complete, Delete } from "../../Icons";
-import Reminder from "../../Icons/reminder";
+import { Reminder } from "../../Icons/reminder";
 
 export const RemindersList = () => {
     const { leadId } = useParams();

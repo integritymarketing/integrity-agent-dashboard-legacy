@@ -55,24 +55,6 @@ const TagsContainer = () => {
         }));
     };
 
-    const filterCampaignTags = (tagCategory, selectedIds) => {
-        if (
-            (tagCategory.label === "Campaigns" ||
-                tagCategory.label === "Ask Integrity Recommendations" ||
-                tagCategory.label === "Products") &&
-            tagCategory?.items?.length
-        ) {
-            return {
-                ...tagCategory,
-                items: tagCategory?.items?.filter((tag) => selectedIds?.includes(tag?.id)),
-            };
-        }
-        return tagCategory;
-    };
-
-    const selectedTagIds = leadDetails?.leadTags?.map((tagItem) => tagItem?.tag?.tagId);
-    const filteredTags = tagsList?.map((tagCategory) => filterCampaignTags(tagCategory, selectedTagIds));
-
     return (
         <Box>
             <Box className={`${styles.iconWithTitle}  ${isCollapsed ? styles.underLine : ""}`}>
@@ -85,7 +67,7 @@ const TagsContainer = () => {
             </Box>
             {(!isCollapsed || !isMobile) && (
                 <Box className={styles.box}>
-                    {filteredTags?.map((item, index) => (
+                    {tagsList?.map((item, index) => (
                         <TagsList
                             key={index}
                             leadId={leadDetails?.leadsId}

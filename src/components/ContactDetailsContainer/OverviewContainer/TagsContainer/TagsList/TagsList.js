@@ -1,60 +1,22 @@
-import React, { useEffect, useState } from "react";
-
-import TagIcon from "images/Tag.png";
-import RecommendationIcon from "images/recommendation.png";
+import { useEffect, useState, useCallback } from "react";
+import PropTypes from "prop-types";
 import { useOverView } from "providers/ContactDetails";
-
 import { DeleteTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteTagModal/DeleteTagModal";
-
 import { AssignNewTagContainer } from "./AssignNewTagsContainer/AssignNewTagContainer";
-import styles from "./TagsList.module.scss";
-import InfoModal from "../InfoModal/InfoModal";
+import { InfoModal } from "../InfoModal/InfoModal";
 import Label from "../../CommonComponents/Label";
-import { Chevron, CrossIcon, DataCenter, Delete, LeadCenter, LifeIcon, PlanEnroll, Info } from "../../Icons";
+import { Chevron, Info } from "../../Icons";
+import Tags from "./Tags";
+import ProductTags from "./ProductTags";
+import OtherTags from "./OtherTags";
+import styles from "./TagsList.module.scss";
 
-const getIconName = (label, itemLabel, metadata) => {
-    switch (label) {
-        case "Products":
-            if (itemLabel === "FE") {
-                return <LifeIcon />;
-            } else {
-                return <CrossIcon />;
-            }
-        case "Campaigns":
-            if (itemLabel === "LEADCENTER") {
-                return <LeadCenter />;
-            } else if (itemLabel?.includes("PE") || metadata?.includes("PlanEnroll")) {
-                return <PlanEnroll />;
-            } else if (itemLabel === "DATA LEAD") {
-                return <DataCenter />;
-            } else {
-                return <img alt="TagIcon" src={TagIcon} />;
-            }
-        case "Ask Integrity Recommendations":
-            return <img alt="RecommendationIcon" src={RecommendationIcon} />;
-
-        default:
-            return <img alt="TagIcon" src={TagIcon} />;
-    }
-};
-
-export const TagsList = ({
-    label,
-    items,
-    selectedTags,
-    leadId,
-    setTagValue,
-    tagId,
-    setTagId,
-    categoryID,
-    isMobile,
-}) => {
+export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setTagId, categoryID, isMobile }) => {
     const { editLeadTags } = useOverView();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
     const [infoModalOpen, setInfoModalOpen] = useState(false);
     const [infoTag, setInfoTag] = useState(null);
-
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
@@ -63,104 +25,42 @@ export const TagsList = ({
     }, []);
 
     useEffect(() => {
-        if (label === "Ask Integrity Recommendations" || label === "Campaigns") {
-            setOpen(true);
-        }
+        setOpen(label === "Ask Integrity Recommendations" || label === "Campaigns");
     }, [label]);
 
-    const onSelectTag = (id) => {
-        if (!id || label === "Ask Integrity Recommendations" || label === "Campaigns") return;
-        if (selectedTags.includes(id)) {
-            const payload = {
-                leadId: leadId,
-                tagIds: selectedTags.filter((item) => item !== id),
-            };
-            editLeadTags(payload);
-        } else {
-            const payload = {
-                leadId: leadId,
-                tagIds: [...selectedTags, id],
-            };
-            editLeadTags(payload);
-        }
-    };
-
-    const openDeleteTagModal = (tagId) => {
+    const openDeleteTagModal = useCallback((tagId) => {
         setTagToDelete(tagId);
         setIsDeleteTagModalOpen(true);
-    };
+    }, []);
 
-    const deleteTags = () => {
-        const payload = {
-            leadId: leadId,
+    const deleteTags = useCallback(() => {
+        editLeadTags({
+            leadId,
             tagIds: selectedTags.filter((item) => item !== tagToDelete),
-        };
-        editLeadTags(payload);
+        });
         setIsDeleteTagModalOpen(false);
-    };
+    }, [editLeadTags, leadId, selectedTags, tagToDelete]);
 
-    const Tag = ({ item }) => {
-        return (
-            <div key={item.label} className={styles.itemContainer}>
-                <div className={styles.tabLabel}>
-                    <div className={styles.tagIcon}>{getIconName(label, item.label, item?.tag?.metadata)}</div>
-                    <Label value={item.label} size="16px" color="#434A51" />
-                </div>
-            </div>
-        );
-    };
-
-    const ProductTags = ({ item }) => {
-        return (
-            <div key={item.label}>
-                <div className={styles.tabLabel}>
-                    <div className={styles.tagIcon}>{getIconName(label, item.label)}</div>
-                    <Label value={item.label} size="16px" color="#434A51" />
-                </div>
-            </div>
-        );
-    };
-
-    const OtherTags = ({ item }) => {
-        const [hovered, setHovered] = useState(null);
-
-        return (
-            <>
-                <div
-                    className={styles.selectableItemContainer}
-                    key={item?.label}
-                    onMouseEnter={() => setHovered(item?.label)}
-                    onMouseLeave={() => setHovered(null)}
-                >
-                    <div className={styles.tabLabel}>
-                        <div className={styles.tagIcon}>{getIconName(label, item?.label)}</div>
-                        <Label
-                            value={item?.label}
-                            size="16px"
-                            color="#434A51"
-                            width={"140px"}
-                            wordBreak={"break-all"}
-                        />
-                    </div>
-
-                    <div className={styles.actionIcons}>
-                        {((hovered === item?.label && !isMobile) || isMobile) && (
-                            <div onClick={() => openDeleteTagModal(item?.id)}>
-                                <Delete />
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </>
-        );
-    };
+    const renderItems = useCallback(
+        (item) => {
+            if (label === "Other" && selectedTags.includes(item.id)) {
+                return (
+                    <OtherTags item={item} label={label} isMobile={isMobile} openDeleteTagModal={openDeleteTagModal} />
+                );
+            } else if (label === "Products") {
+                return <ProductTags item={item} label={label} />;
+            }
+            return <Tags item={item} label={label} />;
+        },
+        [label, selectedTags, isMobile, openDeleteTagModal]
+    );
 
     return (
         <div className={styles.container}>
             <div className={styles.labelContainer}>
                 <div
                     className={`${styles.chevronIcon} ${open ? "" : styles.rotateIcon}`}
-                    onClick={() => setOpen((value) => !value)}
+                    onClick={() => setOpen(!open)}
                 >
                     <Chevron />
                 </div>
@@ -175,28 +75,13 @@ export const TagsList = ({
                         setInfoTag(label);
                         setInfoModalOpen(true);
                     }}
-                    styles={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer" }}
                 >
                     <Info />
                 </div>
             </div>
 
-            {open && (
-                <div className={styles.itemsContainer}>
-                    {items.map((item) => {
-                        return (
-                            <>
-                                {label === "Other" && (
-                                    <>{selectedTags.includes(item.id) && <OtherTags item={item} tagId={tagId} />}</>
-                                )}
-
-                                {label === "Products" && <ProductTags item={item} />}
-                                {label !== "Products" && label !== "Other" && <Tag item={item} />}
-                            </>
-                        );
-                    })}
-                </div>
-            )}
+            {open && <div className={styles.itemsContainer}>{items.map(renderItems)}</div>}
 
             {isDeleteTagModalOpen && (
                 <DeleteTagModal
@@ -221,4 +106,20 @@ export const TagsList = ({
             )}
         </div>
     );
+};
+
+TagsList.propTypes = {
+    label: PropTypes.string.isRequired,
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+    selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    leadId: PropTypes.string.isRequired,
+    setTagValue: PropTypes.func.isRequired,
+    setTagId: PropTypes.func.isRequired,
+    categoryID: PropTypes.string,
+    isMobile: PropTypes.bool.isRequired,
 };
