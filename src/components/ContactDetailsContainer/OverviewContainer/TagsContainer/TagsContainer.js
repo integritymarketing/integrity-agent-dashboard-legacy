@@ -24,7 +24,13 @@ const TagsContainer = () => {
 
     useEffect(() => {
         if (tags?.length > 0) {
-            const parentTags = tags.filter((tag) => tag.parentTagCategoryId === null);
+            const parentTags = tags
+                .filter((tag) => tag.parentTagCategoryId === null)
+                .map((parent) => ({
+                    ...parent,
+                    tags: [],
+                }));
+
             const childTags = leadDetails?.leadTags;
             const parentTagsWithChildren = appendChildTagsToParents(parentTags, childTags);
             const transformedData = transformData(parentTagsWithChildren);

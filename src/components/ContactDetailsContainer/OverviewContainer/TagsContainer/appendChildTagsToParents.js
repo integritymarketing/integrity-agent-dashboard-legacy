@@ -13,7 +13,7 @@ export const appendChildTagsToParents = (parentTags, childTags) => {
 
     // Append each child tag to its corresponding parent in the map
     childTags.forEach((childTag) => {
-        const parent = parentMap[childTag.tag.tagCategory.parentCategoryId];
+        const parent = parentMap[childTag.tag.tagCategory.parentCategoryId || childTag.tag.tagCategory.tagCategoryId];
         if (parent) {
             parent.tags.push({
                 tagId: childTag.tag.tagId,
