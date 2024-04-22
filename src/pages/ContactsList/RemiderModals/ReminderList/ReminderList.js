@@ -38,7 +38,7 @@ const RemindersList = ({
                 leadid: leadData?.leadsId,
                 view,
                 content: reminderLabelString,
-                tag_category: "reminder",
+                tag_category: "reminders",
             });
         }
     }, [open, fireEvent, sortedReminders, leadData?.leadsId, view]);
