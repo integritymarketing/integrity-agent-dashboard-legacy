@@ -8,6 +8,7 @@ import styles from "./TagsContainer.module.scss";
 import { TagsList } from "./TagsList/TagsList";
 import ArrowDownBig from "components/icons/version-2/ArrowDownBig";
 import useDeviceType from "hooks/useDeviceType";
+import { appendChildTagsToParents } from "./appendChildTagsToParents";
 
 const TagsContainer = () => {
     const { leadDetails } = useLeadDetails();
@@ -23,10 +24,13 @@ const TagsContainer = () => {
 
     useEffect(() => {
         if (tags?.length > 0) {
-            const transformedData = transformData(tags);
+            const parentTags = tags.filter((tag) => tag.parentTagCategoryId === null);
+            const childTags = leadDetails?.leadTags;
+            const parentTagsWithChildren = appendChildTagsToParents(parentTags, childTags);
+            const transformedData = transformData(parentTagsWithChildren);
             setTagsList(transformedData);
         }
-    }, [tags]);
+    }, [tags, leadDetails]);
 
     useEffect(() => {
         getLeadTags();

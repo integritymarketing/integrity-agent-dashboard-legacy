@@ -55,19 +55,7 @@ export const OverViewProvider = ({ children }) => {
     const getLeadTags = useCallback(async () => {
         const path = `Tag/TagsGroupByCategory`;
         const data = await fetchLeadTags(null, false, path);
-        const groupedByParentTag = (data || []).reduce((acc, item) => {
-            if (item.parentTagCategoryId === null) {
-                acc[item.tagCategoryId] = {
-                    ...item,
-                    tags: item.tags || [],
-                };
-            } else {
-                acc[item.parentTagCategoryId].tags = [...acc[item.parentTagCategoryId].tags, ...(item.tags || [])];
-            }
-            return acc;
-        }, {});
-
-        setTags(Object.values(groupedByParentTag));
+        setTags(data || []);
     }, [fetchLeadTags]);
 
     const editLeadTags = async (payload) => {
