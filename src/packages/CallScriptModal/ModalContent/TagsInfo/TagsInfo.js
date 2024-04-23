@@ -1,12 +1,18 @@
 import { Box } from "@mui/material";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
 import Styles from "./TagsInfo.module.scss";
 import { toSentenceCase } from "utils/toSentenceCase";
 
-function TagsInfo() {
-    const { leadDetails } = useLeadDetails();
+function TagsInfo({ leadId }) {
+    const { leadDetails, getLeadDetails } = useLeadDetails();
+
+    useEffect(() => {
+        if (!leadDetails) {
+            getLeadDetails(leadId);
+        }
+    }, [getLeadDetails, leadDetails, leadId]);
 
     const { askIntegrityTags, campaignTags } = useMemo(
         () => ({
@@ -76,6 +82,7 @@ function TagsInfo() {
 }
 
 TagsInfo.propTypes = {
+    leadId: PropTypes.string,
     leadDetails: PropTypes.shape({
         leadTags: PropTypes.arrayOf(
             PropTypes.shape({

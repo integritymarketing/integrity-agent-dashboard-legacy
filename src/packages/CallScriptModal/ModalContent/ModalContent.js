@@ -15,21 +15,24 @@ const HEALTH = "HEALTH";
 function ModalContent({ productCount, carrierCount, shouldShowOptionalHealthInfo, currentType, leadId }) {
     const { fireEvent } = useAnalytics();
     const [layout, setLayout] = useState(currentType);
+
     useEffect(() => {
         fireEvent("Call Script Viewed", {
             leadid: leadId,
             line_of_business: layout === LIFE ? "life" : "Health",
         });
     }, [fireEvent, layout, leadId]);
+
     return (
         <Box minHeight="430px">
             <Layout layout={layout} setLayout={setLayout} />
-            {layout === LIFE && <LifeScript />}
+            {layout === LIFE && <LifeScript leadId={leadId} />}
             {layout === HEALTH && (
                 <HealthScript
                     shouldShowOptionalHealthInfo={shouldShowOptionalHealthInfo}
                     productCount={productCount}
                     carrierCount={carrierCount}
+                    leadId={leadId}
                 />
             )}
         </Box>
@@ -41,7 +44,7 @@ ModalContent.propTypes = {
     carrierCount: PropTypes.string.isRequired,
     shouldShowOptionalHealthInfo: PropTypes.bool.isRequired,
     currentType: PropTypes.string.isRequired,
-    leadId: PropTypes.string.isRequired,
+    leadId: PropTypes.string,
 };
 
 export default ModalContent;

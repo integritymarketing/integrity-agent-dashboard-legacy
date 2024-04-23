@@ -34,7 +34,7 @@ const TagsContainer = () => {
             const childTags = leadDetails?.leadTags;
             const parentTagsWithChildren = appendChildTagsToParents(parentTags, childTags);
             const filteredParentTagsWithChildren = parentTagsWithChildren.filter(
-                (category) => category.tags.length > 0
+                (category) => category.tags.length > 0 || category.tagCategoryName === "Other"
             );
             const transformedData = transformData(filteredParentTagsWithChildren);
             setTagsList(transformedData);

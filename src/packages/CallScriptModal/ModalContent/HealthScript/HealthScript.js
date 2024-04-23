@@ -31,8 +31,7 @@ function HealthScript({ shouldShowOptionalHealthInfo, carrierCount, productCount
 }
 
 HealthScript.propTypes = {
-    shouldShowOptionalInfo: PropTypes.bool.isRequired,
-    postalCode: PropTypes.bool.isRequired,
+    shouldShowOptionalHealthInfo: PropTypes.bool.isRequired,
     productCount: PropTypes.string.isRequired,
     carrierCount: PropTypes.string.isRequired,
 };

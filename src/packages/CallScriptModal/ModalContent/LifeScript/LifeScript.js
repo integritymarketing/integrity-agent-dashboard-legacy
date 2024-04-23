@@ -3,7 +3,7 @@ import TagsInfo from "../TagsInfo/TagsInfo";
 
 import styles from "./styles.module.scss";
 
-function LifeScript() {
+function LifeScript({ leadId }) {
     return (
         <div>
             <div className={styles.cmsComplianceSection}>
@@ -12,17 +12,13 @@ function LifeScript() {
             <div className={styles.planInformationSection}>
                 This call may be recorded for quality assurance or training purposes.
             </div>
-            <TagsInfo />
+            <TagsInfo leadId={leadId} />
         </div>
     );
 }
 
 LifeScript.propTypes = {
-    modalOpen: PropTypes.bool.isRequired,
-    handleClose: PropTypes.func.isRequired,
-    leadId: PropTypes.string.isRequired,
-    countyFips: PropTypes.string.isRequired,
-    postalCode: PropTypes.string.isRequired,
+    leadId: PropTypes.string,
 };
 
 export default LifeScript;
