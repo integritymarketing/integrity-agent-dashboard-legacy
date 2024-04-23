@@ -1,90 +1,98 @@
 @import "../../../../../scss/globalDefines.scss";
 
- 
+
 .container {
-    border-bottom: 1px solid #DDDDDD;
-    padding: 15px 0px;
+  border-bottom: 1px solid #DDDDDD;
+  padding: 15px 0px;
 }
 
-
-
 .labelContainer {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
 
-    .chevronIcon {
-        cursor: pointer;
-    }
+.chevronLabelContainer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 
-    .rotateIcon {
-        transform: rotate(-90deg);
-    }
+.chevronIcon {
+  cursor: pointer;
+}
+
+.rotateIcon {
+  transform: rotate(-90deg);
 }
 
 .itemContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 5px;
-    padding: 6px 12.5px;
-    margin-top: 10px;
-    border-radius: 4px;
-    @include small {
-        padding: 4px;
-        gap: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 6px 12.5px;
+  margin-top: 10px;
+  border-radius: 4px;
 
-        svg {
-            width: 16px;
-            min-width: 16px;
-        }
+  @include small {
+    padding: 4px;
+    gap: 2px;
+
+    svg {
+      width: 16px;
+      min-width: 16px;
     }
-}
-
-.selectableItemContainer{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 5px;
-    padding: 6px 12.5px;
-    margin-top: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    &:hover {
-      background-color: #D9E4FF;
   }
-    @include small {
-        padding: 4px;
-        gap: 2px;
+}
 
-        svg {
-            width: 16px;
-            min-width: 16px;
-        }
+.selectableItemContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 6px 12.5px;
+  margin-top: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #D9E4FF;
+  }
+
+  @include small {
+    padding: 4px;
+    gap: 2px;
+
+    svg {
+      width: 16px;
+      min-width: 16px;
     }
+  }
 
 }
 
- 
 
-.tabLabel{
-    display: flex;
- 
-    .tagIcon{
-        margin-right: 10px;
-    }
+
+.tabLabel {
+  display: flex;
+
+  .tagIcon {
+    margin-right: 10px;
+  }
 }
 
 .actionIcons {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
- }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
- 
-.editTagContainer{
-    display: flex;
-    justify-content: space-between;
+
+.editTagContainer {
+  display: flex;
+  justify-content: space-between;
 }
 
 
@@ -137,25 +145,26 @@
 }
 
 
-.addNewButton{
-     padding: 5px 20px !important;
-      border-radius: 8px !important;
-     span {
-        font-size: 16px !important;
-        color: #4178FF !important;
-        font-weight: 500;
-    }
+.addNewButton {
+  padding: 5px 20px !important;
+  border-radius: 8px !important;
+
+  span {
+    font-size: 16px !important;
+    color: #4178FF !important;
+    font-weight: 500;
+  }
 }
 
 
-.createActionIcons{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 35%;
+.createActionIcons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 35%;
 }
 
-.selectedItem{
+.selectedItem {
   background-color: #F1FAFF;
-  
+
 }

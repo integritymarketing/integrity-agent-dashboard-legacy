@@ -86,7 +86,7 @@ export const InfoModal = ({ open, onClose, isMobile, label }) => {
         label === "Other"
             ? "Custom Tags"
             : label === "Ask Integrity Recommendations"
-            ? label
+            ? "Ask Integrity Suggests"
             : `${label?.replace(/s$/, "")} Tags`;
 
     return (

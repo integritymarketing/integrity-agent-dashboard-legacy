@@ -58,19 +58,28 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setT
     return (
         <div className={styles.container}>
             <div className={styles.labelContainer}>
-                <div
-                    className={`${styles.chevronIcon} ${open ? "" : styles.rotateIcon}`}
-                    onClick={() => setOpen(!open)}
-                >
-                    <Chevron />
+                <div className={styles.chevronLabelContainer}>
+                    <div
+                        className={`${styles.chevronIcon} ${open ? "" : styles.rotateIcon}`}
+                        onClick={() => setOpen(!open)}
+                    >
+                        <Chevron />
+                    </div>
+                    <Label
+                        value={
+                            label === "Other"
+                                ? "Custom Tags"
+                                : label === "Ask Integrity Recommendations"
+                                ? "Ask Integrity Suggests"
+                                : label
+                        }
+                        size="16px"
+                        color="#052A63"
+                        fontWeight="bold"
+                    />
                 </div>
-                <Label
-                    value={label === "Other" ? "Custom Tags" : label}
-                    size="16px"
-                    color="#052A63"
-                    fontWeight="bold"
-                />
                 <div
+                    className={styles.infoIcon}
                     onClick={() => {
                         setInfoTag(label);
                         setInfoModalOpen(true);

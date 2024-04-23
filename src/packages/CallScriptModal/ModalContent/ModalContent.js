@@ -41,6 +41,7 @@ ModalContent.propTypes = {
     carrierCount: PropTypes.string.isRequired,
     shouldShowOptionalHealthInfo: PropTypes.bool.isRequired,
     currentType: PropTypes.string.isRequired,
+    leadId: PropTypes.string.isRequired,
 };
 
 export default ModalContent;
