@@ -1,34 +1,12 @@
-import React, { useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-
-import TagIcon from "images/Tag.png";
-import RecommendationIcon from "images/recommendation.png";
 import { useOverView } from "providers/ContactDetails";
-
-import useToast from "hooks/useToast";
-
 import { AddNewTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddNewTagModal/AddNewTagModal";
 import { AssignNewTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/AssignNewTagModal/AssignNewTagModal";
 import { DeleteTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteTagModal/DeleteTagModal";
-import EditIcon from "components/icons/icon-edit";
 import { Button } from "components/ui/Button";
-
 import styles from "./AssignNewTagContainer.module.scss";
-
-import { Chevron, CrossIcon, DataCenter, Delete, LeadCenter, LifeIcon, PlanEnroll } from "../../../Icons";
-
-// Sample tags, replace with your data source if needed
-const tags = [
-    { label: "One", id: 1 },
-    { label: "Two", id: 2 },
-    { label: "Three", id: 3 },
-    { label: "Four", id: 4 },
-];
 
 export const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMobile }) => {
     const { removeLeadTags, editTagByID, createNewTag, editLeadTags } = useOverView();
@@ -76,7 +54,9 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryI
     };
 
     const handleSelectTag = (id) => {
-        if (!id) return;
+        if (!id) {
+            return;
+        }
         if (selectedCustomTags?.includes(id)) {
             setSelectedCustomTags(selectedCustomTags.filter((item) => item !== id));
         } else {

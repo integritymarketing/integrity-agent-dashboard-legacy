@@ -1,63 +1,19 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 
 import Box from "@mui/material/Box";
 
-import TagIcon from "images/Tag.png";
-
-import {
-    Chevron,
-    CrossIcon,
-    DataCenter,
-    Delete,
-    LeadCenter,
-    LifeIcon,
-    PlanEnroll,
-} from "components/ContactDetailsContainer/OverviewContainer/Icons";
 import Modal from "components/Modal";
-import EditIcon from "components/icons/icon-edit";
+import { useOverView } from "providers/ContactDetails";
+import Tag from "./Tag";
 import { Button } from "components/ui/Button";
-
-import styles from "./AssignNewTagModal.module.scss";
-
-import Label from "../../OverviewContainer/CommonComponents/Label";
 import { Add, AddForward } from "../Icons";
 
-const Tag = React.memo(({ item, onSelect, onEdit, onDelete, isSelected, isMobile }) => {
-    const [hovered, setHovered] = useState(false);
-
-    return (
-        <div
-            className={`${styles.selectableItemContainer} ${isSelected ? styles.selectedItem : ""}`}
-            onMouseOver={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            onClick={() => onSelect(item.id)}
-        >
-            <div className={styles.tabLabel}>
-                <div className={styles.tagIcon}>
-                    <img alt="TagIcon" src={TagIcon} />
-                </div>
-                <Label value={item.label} size="16px" color="#434A51" width={"110px"} wordBreak={"break-all"} />
-            </div>
-
-            {(hovered || isMobile) && (
-                <div className={styles.actionIcons}>
-                    <div onClick={() => onEdit(item.id, item.label)}>
-                        <EditIcon />
-                    </div>
-                    <div onClick={() => onDelete(item.id)}>
-                        <Delete />
-                    </div>
-                </div>
-            )}
-        </div>
-    );
-});
+import styles from "./AssignNewTagModal.module.scss";
 
 export const AssignNewTagModal = ({
     open,
     onClose,
     onSave,
-    allTags = [],
     selectedTags,
     setAddNewTagModal,
     setEditTag,
@@ -66,6 +22,11 @@ export const AssignNewTagModal = ({
     selectedTempTags,
     isMobile,
 }) => {
+    const { tags } = useOverView();
+    const allTags =
+        tags?.find((category) => category.parentTagCategoryId === null && category.tagCategoryName === "Other")?.tags ||
+        [];
+
     const isDisabled = useMemo(() => {
         const sortedSelectedTags = [...selectedTags].sort();
         const sortedTempTags = [...selectedTempTags].sort();
