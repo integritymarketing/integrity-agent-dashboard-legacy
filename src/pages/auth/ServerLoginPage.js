@@ -26,6 +26,7 @@ import AuthContext from "contexts/auth";
 import analyticsService from "services/analyticsService";
 import authService from "services/authService";
 import validationService from "services/validationService";
+import { getParameterFromUrl } from "./getParameterFromUrl";
 
 import Styles from "./AuthPages.module.scss";
 import "./mobileStyle.scss";
@@ -40,8 +41,8 @@ const ServerLoginPage = () => {
     const [appTitle, setAppTitle] = useState("");
     const params = useQueryParams();
     const returnUrl = params.get("ReturnUrl");
-    const clientId = returnUrl ? new URLSearchParams(new URL(returnUrl).search).get("client_id") : null;
-
+    const clientId = getParameterFromUrl(returnUrl, "client_id");
+    const isMobileSSO = getParameterFromUrl(returnUrl, "isMobileSSO");
 
     useEffect(() => {
         if (clientId === "AEPortal" && device === DEVICES.IPHONE) {
@@ -56,7 +57,7 @@ const ServerLoginPage = () => {
     useEffect(() => {
         async function checkForExtrnalLogin() {
             const params1 = new URLSearchParams(new URL(params.get("ReturnUrl")).search);
-            
+
             if (clientId === "AgentMobile") {
                 setMobileAppLogin(true);
                 setAppTitle("Agent Mobile - Login");
@@ -66,7 +67,8 @@ const ServerLoginPage = () => {
             if (
                 clientId === "ASBClient" ||
                 clientId === "FFLClient" ||
-                clientId === "AgentMobileSunfire"
+                clientId === "AgentMobileSunfire" ||
+                isMobileSSO
             ) {
                 loading.begin();
                 const url = new URL(returnUrl);
@@ -113,7 +115,7 @@ const ServerLoginPage = () => {
                 formName: "Login",
             });
             const redirectUrl = new URL(data.redirectUrl);
-            redirectUrl.searchParams.append('clientId', clientId);
+            redirectUrl.searchParams.append("clientId", clientId);
             window.location = redirectUrl.toString();
         } else {
             const errors = validationService.formikErrorsFor(data);
