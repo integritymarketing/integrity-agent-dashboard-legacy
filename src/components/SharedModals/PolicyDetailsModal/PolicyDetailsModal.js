@@ -102,7 +102,7 @@ const PolicyDetailsModal = ({ showPolicyModal, handleModalClose, policyDetails, 
                                 <span className={Styles.statusValue}>{status}</span>
                             </div>
                         </div>
-                        {!currentPolicy.hasPlanDetails && (
+                        {currentPolicy.hasPlanDetails && (
                             <div
                                 className={Styles.ctaWrapper}
                                 onClick={() =>
