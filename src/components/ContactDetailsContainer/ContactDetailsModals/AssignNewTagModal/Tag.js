@@ -2,12 +2,19 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import Label from "../../OverviewContainer/CommonComponents/Label";
 import EditIcon from "components/icons/icon-edit";
+import useAnalytics from "hooks/useAnalytics";
 import { Delete } from "components/ContactDetailsContainer/OverviewContainer/Icons";
 import TagIcon from "images/Tag.png";
 import styles from "./AssignNewTagModal.module.scss";
 
-const Tag = ({ item, onSelect, onEdit, onDelete, isSelected, isMobile }) => {
+const Tag = ({ item, onSelect, onEdit, onDelete, isSelected, isMobile, leadId }) => {
     const [hovered, setHovered] = useState(false);
+    const { fireEvent } = useAnalytics();
+
+    const handleDeleteTag = () => {
+        onDelete(item.tagId);
+        fireEvent("Tag Assignment Change", { leadId, tag_name: item.tagLabel });
+    };
 
     return (
         <div
@@ -27,7 +34,7 @@ const Tag = ({ item, onSelect, onEdit, onDelete, isSelected, isMobile }) => {
                     <div onClick={() => onEdit(item.tagId, item.tagLabel)}>
                         <EditIcon />
                     </div>
-                    <div onClick={() => onDelete(item.tagId)}>
+                    <div onClick={handleDeleteTag}>
                         <Delete />
                     </div>
                 </div>
@@ -43,6 +50,7 @@ Tag.propTypes = {
     onDelete: PropTypes.func.isRequired,
     isSelected: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool.isRequired,
+    leadId: PropTypes.string.isRequired,
 };
 
 export default Tag;

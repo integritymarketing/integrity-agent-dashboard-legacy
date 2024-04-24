@@ -4,8 +4,9 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import useToast from "hooks/useToast";
 import Modal from "components/Modal";
-import styles from "./AddNewTagModal.module.scss";
 import { AddForward } from "../Icons";
+import useAnalytics from "hooks/useAnalytics";
+import styles from "./AddNewTagModal.module.scss";
 
 const isValidTag = (tag) => {
     const validTagRegex =
@@ -13,9 +14,10 @@ const isValidTag = (tag) => {
     return validTagRegex.test(tag);
 };
 
-export const AddNewTagModal = ({ open, onClose, onSave, isEdit }) => {
+export const AddNewTagModal = ({ open, onClose, onSave, isEdit, leadId }) => {
     const [newTag, setNewTag] = useState("");
     const showToast = useToast();
+    const { fireEvent } = useAnalytics();
 
     useEffect(() => {
         if (isEdit) {
@@ -31,6 +33,7 @@ export const AddNewTagModal = ({ open, onClose, onSave, isEdit }) => {
             });
         } else {
             onSave(newTag);
+            fireEvent("Tag Assignment Change", { leadId, tag_name: newTag });
         }
     };
 
@@ -73,4 +76,5 @@ AddNewTagModal.propTypes = {
     onClose: PropTypes.func.isRequired,
     onSave: PropTypes.func.isRequired,
     isEdit: PropTypes.string,
+    leadId: PropTypes.string.isRequired,
 };

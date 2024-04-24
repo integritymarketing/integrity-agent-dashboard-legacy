@@ -19,6 +19,7 @@ export const AssignNewTagModal = ({
     onSelectTag,
     selectedTempTags,
     isMobile,
+    leadId,
 }) => {
     const { tags } = useOverView();
     const allTags =
@@ -80,6 +81,7 @@ export const AssignNewTagModal = ({
                                             onDelete={handleDeleteTag}
                                             isSelected={selectedTags.includes(item.tagId)}
                                             isMobile={isMobile}
+                                            leadId={leadId}
                                         />
                                     );
                                 }
@@ -103,6 +105,7 @@ export const AssignNewTagModal = ({
                                             onDelete={handleDeleteTag}
                                             isSelected={selectedTags.includes(item.tagId)}
                                             isMobile={isMobile}
+                                            leadId={leadId}
                                         />
                                     );
                                 }
@@ -136,4 +139,5 @@ AssignNewTagModal.propTypes = {
     onSelectTag: PropTypes.func.isRequired,
     selectedTempTags: PropTypes.array.isRequired,
     isMobile: PropTypes.bool.isRequired,
+    leadId: PropTypes.string.isRequired,
 };

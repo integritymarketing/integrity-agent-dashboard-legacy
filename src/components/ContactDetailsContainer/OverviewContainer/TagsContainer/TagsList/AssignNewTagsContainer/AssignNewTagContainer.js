@@ -128,6 +128,7 @@ const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMo
                     onSelectTag={handleSelectTag}
                     selectedTempTags={selectedTags}
                     isMobile={isMobile}
+                    leadId={leadId}
                 />
             )}
             {addNewTagModal && (
@@ -141,6 +142,7 @@ const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMo
                     }}
                     onSave={editTagId ? updateTag : createTag}
                     isEdit={editTagValue}
+                    leadId={leadId}
                 />
             )}
         </div>
