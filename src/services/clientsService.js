@@ -33,7 +33,9 @@ const getSortByRangeDates = (type) => {
 };
 
 const flattenMBI = (mbi) => {
-    if (!mbi) return null;
+    if (!mbi) {
+        return null;
+    }
     return mbi.replace(/-/g, "");
 };
 
@@ -43,7 +45,7 @@ export class ClientsService {
         const opts = {
             method,
             headers: {
-                Authorization: "Bearer " + user.access_token,
+                Authorization: `Bearer ${user.access_token}`,
                 "Content-Type": "application/json",
             },
         };
@@ -80,7 +82,7 @@ export class ClientsService {
         tags = [],
         returnAll
     ) => {
-        let params = {
+        const params = {
             ReturnAll: returnAll,
             PageSize: pageSize,
             CurrentPage: page,
@@ -160,15 +162,17 @@ export class ClientsService {
         return response;
     };
 
-    _getFormattedPhone = (phone) => (phone ? ("" + phone).replace(/\D/g, "") : null);
+    _getFormattedPhone = (phone) => (phone ? `${phone}`.replace(/\D/g, "") : null);
 
     _getFormattedData = ({ phone, followUpDate, email, leadStatusId, ...data }, baseValues = {}) => {
-        return Object.assign({}, baseValues, data, {
+        return {
+            ...baseValues,
+            ...data,
             email: email || null,
             phone: this._getFormattedPhone(phone),
             followUpDate: followUpDate ? formatServerDate(parseDate(followUpDate)) : null,
             leadStatusId: parseInt(leadStatusId, 10),
-        });
+        };
     };
 
     createClient = async (data) => {
@@ -628,7 +632,7 @@ export class ClientsService {
     };
 
     deleteHealthCondition = async (contactId, conditionId) => {
-        let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/HealthCondition/Lead/${contactId}/id/${conditionId}`;
+        const buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/HealthCondition/Lead/${contactId}/id/${conditionId}`;
         const response = await this._clientAPIRequest(`${buildUrl}`, "DELETE");
         return response;
     };
@@ -807,16 +811,19 @@ export class ClientsService {
         DateRangeFilterType,
         LeadSource = ""
     ) => {
-        let params = {
+        const params = {
             ReturnAll,
             CurrentPage: currentPage,
             PageSize: pageSize,
             Sort: sort,
             Search: searchText,
             leadIds,
-            DateRangeFilterType,
             LeadSource,
         };
+
+        if (DateRangeFilterType) {
+            params.DateRangeFilterType = DateRangeFilterType;
+        }
 
         if (activitySubjects && activitySubjects?.length > 0) {
             params.ActivitySubject = activitySubjects;
@@ -934,7 +941,7 @@ export class ClientsService {
     };
 
     updateAgentAvailability = async (payload) => {
-        let url = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`;
+        const url = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`;
         const response = await this._clientAPIRequest(url, "POST", payload);
         if (response?.ok) {
             return response;
