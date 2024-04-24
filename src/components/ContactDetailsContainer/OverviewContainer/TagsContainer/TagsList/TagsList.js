@@ -9,15 +9,24 @@ import { Chevron, Info } from "../../Icons";
 import Tags from "./Tags";
 import ProductTags from "./ProductTags";
 import OtherTags from "./OtherTags";
+import useAnalytics from "hooks/useAnalytics";
 import styles from "./TagsList.module.scss";
+
+const labelMap = {
+    Other: "Custom Tags",
+    "Ask Integrity Recommendations": "Ask Integrity Suggests",
+};
 
 export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setTagId, categoryID, isMobile }) => {
     const { editLeadTags } = useOverView();
+    const { fireEvent } = useAnalytics();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
     const [infoModalOpen, setInfoModalOpen] = useState(false);
     const [infoTag, setInfoTag] = useState(null);
     const [open, setOpen] = useState(false);
+
+    const prettyLabel = labelMap[label] || label;
 
     useEffect(() => {
         setTagId(null);
@@ -41,6 +50,14 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setT
         setIsDeleteTagModalOpen(false);
     }, [editLeadTags, leadId, selectedTags, tagToDelete]);
 
+    const toggleOpen = useCallback(() => {
+        setOpen((prevOpen) => {
+            const action = prevOpen ? "collapsed" : "expanded";
+            fireEvent("Tag Section Interaction", { leadId, tagSection: prettyLabel, action });
+            return !prevOpen;
+        });
+    }, [fireEvent, leadId, prettyLabel]);
+
     const renderItems = useCallback(
         (item) => {
             if (label === "Other" && selectedTags.includes(item.id)) {
@@ -59,24 +76,10 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setT
         <div className={styles.container}>
             <div className={styles.labelContainer}>
                 <div className={styles.chevronLabelContainer}>
-                    <div
-                        className={`${styles.chevronIcon} ${open ? "" : styles.rotateIcon}`}
-                        onClick={() => setOpen(!open)}
-                    >
+                    <div className={`${styles.chevronIcon} ${open ? "" : styles.rotateIcon}`} onClick={toggleOpen}>
                         <Chevron />
                     </div>
-                    <Label
-                        value={
-                            label === "Other"
-                                ? "Custom Tags"
-                                : label === "Ask Integrity Recommendations"
-                                ? "Ask Integrity Suggests"
-                                : label
-                        }
-                        size="16px"
-                        color="#052A63"
-                        fontWeight="bold"
-                    />
+                    <Label value={prettyLabel} size="16px" color="#052A63" fontWeight="bold" />
                 </div>
                 <div
                     className={styles.infoIcon}
