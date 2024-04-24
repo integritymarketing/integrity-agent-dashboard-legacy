@@ -93,12 +93,12 @@ export const AssignNewTagModal = ({
                                     if (i >= 0 && i < allTags.length / 2) {
                                         return (
                                             <Tag
-                                                key={item.id}
+                                                key={item.tagId}
                                                 item={item}
                                                 onSelect={handleSelectTag}
                                                 onEdit={handleEditTag}
                                                 onDelete={handleDeleteTag}
-                                                isSelected={selectedTags.includes(item.id)}
+                                                isSelected={selectedTags.includes(item.tagId)}
                                                 isMobile={isMobile}
                                             />
                                         );
@@ -116,12 +116,12 @@ export const AssignNewTagModal = ({
                                     if (j >= allTags.length / 2 && j <= allTags.length - 1) {
                                         return (
                                             <Tag
-                                                key={item.id}
+                                                key={item.tagId}
                                                 item={item}
                                                 onSelect={handleSelectTag}
                                                 onEdit={handleEditTag}
                                                 onDelete={handleDeleteTag}
-                                                isSelected={selectedTags.includes(item.id)}
+                                                isSelected={selectedTags.includes(item.tagId)}
                                                 isMobile={isMobile}
                                             />
                                         );

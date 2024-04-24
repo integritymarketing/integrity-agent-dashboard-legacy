@@ -27,7 +27,7 @@ const Tag = ({ item, onSelect, onEdit, onDelete, isSelected, isMobile }) => {
                     <div onClick={() => onEdit(item.tagId, item.tagLabel)}>
                         <EditIcon />
                     </div>
-                    <div onClick={() => onDelete(item.id)}>
+                    <div onClick={() => onDelete(item.tagId)}>
                         <Delete />
                     </div>
                 </div>
