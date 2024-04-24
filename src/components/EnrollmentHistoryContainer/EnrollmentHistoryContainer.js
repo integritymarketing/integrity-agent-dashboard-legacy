@@ -45,7 +45,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
             }
 
             // For non-Final Expense plans, use the policyEffectiveDate to determine the year.
-            const effectiveDate = plan.policyEffectiveDate ? new Date(plan.policyEffectiveDate) : null;
+            const effectiveDate = plan.policyEffectiveDate ? new Date(plan.policyEffectiveDate.split("-")) : null;
             const policyYear = effectiveDate ? effectiveDate.getFullYear() : null;
 
             if (isCurrentYear) {
