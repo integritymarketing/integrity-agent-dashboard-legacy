@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Box from "@mui/material/Box";
-import { useOverView } from "providers/ContactDetails";
+import { useOverView, useLeadDetails } from "providers/ContactDetails";
 import { AddNewTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddNewTagModal/AddNewTagModal";
 import { AssignNewTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/AssignNewTagModal/AssignNewTagModal";
 import { DeleteTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteTagModal/DeleteTagModal";
@@ -12,6 +12,7 @@ import styles from "./AssignNewTagContainer.module.scss";
 
 const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMobile }) => {
     const { removeLeadTags, editTagByID, createNewTag, editLeadTags } = useOverView();
+    const { getLeadDetails } = useLeadDetails();
     const { fireEvent } = useAnalytics();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
@@ -38,9 +39,10 @@ const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMo
         setAddNewTagModal(false);
     };
 
-    const deleteTags = () => {
-        removeLeadTags(tagToDelete);
+    const deleteTags = async () => {
+        await removeLeadTags(tagToDelete);
         setIsDeleteTagModalOpen(false);
+        await getLeadDetails(leadId);
     };
 
     const updateTag = (label) => {
