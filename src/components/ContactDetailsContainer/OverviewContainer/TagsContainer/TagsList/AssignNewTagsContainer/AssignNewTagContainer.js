@@ -76,6 +76,7 @@ const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMo
         };
         editLeadTags(payload);
         setAssignNewTagModal(false);
+        fireEvent("Tag Assignment Change", { leadId, tag_name: selectedCustomTags.join(", ") });
     };
 
     return (
