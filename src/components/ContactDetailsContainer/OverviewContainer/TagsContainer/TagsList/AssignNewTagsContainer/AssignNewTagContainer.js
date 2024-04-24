@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Box from "@mui/material/Box";
 import { useOverView } from "providers/ContactDetails";
@@ -6,10 +7,12 @@ import { AddNewTagModal } from "components/ContactDetailsContainer/ContactDetail
 import { AssignNewTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/AssignNewTagModal/AssignNewTagModal";
 import { DeleteTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteTagModal/DeleteTagModal";
 import { Button } from "components/ui/Button";
+import useAnalytics from "hooks/useAnalytics";
 import styles from "./AssignNewTagContainer.module.scss";
 
-export const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMobile }) => {
+const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMobile }) => {
     const { removeLeadTags, editTagByID, createNewTag, editLeadTags } = useOverView();
+    const { fireEvent } = useAnalytics();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
     const [assignNewTagModal, setAssignNewTagModal] = useState(false);
@@ -102,6 +105,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryI
                     onClose={() => {
                         setAssignNewTagModal(false);
                         setSelectedCustomTags(selectedTags);
+                        fireEvent("Closed Tag Filter");
                     }}
                     allTags={allTags}
                     onSave={onSave}
@@ -133,6 +137,7 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryI
                         setAddNewTagModal(false);
                         setEditTagId(null);
                         setEditTagValue("");
+                        fireEvent("Closed Tag Filter");
                     }}
                     onSave={editTagId ? updateTag : createTag}
                     isEdit={editTagValue}
@@ -141,3 +146,13 @@ export const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryI
         </div>
     );
 };
+
+AssignNewTagContainer.propTypes = {
+    allTags: PropTypes.array.isRequired,
+    selectedTags: PropTypes.array.isRequired,
+    leadId: PropTypes.number.isRequired,
+    categoryID: PropTypes.number.isRequired,
+    isMobile: PropTypes.bool.isRequired,
+};
+
+export default AssignNewTagContainer;
