@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useOverView } from "providers/ContactDetails";
 import { DeleteTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteTagModal/DeleteTagModal";
-import { AssignNewTagContainer } from "./AssignNewTagsContainer/AssignNewTagContainer";
+import AssignNewTagContainer from "./AssignNewTagsContainer/AssignNewTagContainer";
 import { InfoModal } from "../InfoModal/InfoModal";
 import Label from "../../CommonComponents/Label";
 import { Chevron, Info } from "../../Icons";
