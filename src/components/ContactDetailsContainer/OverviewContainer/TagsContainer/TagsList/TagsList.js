@@ -17,6 +17,11 @@ const labelMap = {
     "Ask Integrity Recommendations": "Ask Integrity Suggests",
 };
 
+const labelMapAmplitude = {
+    Other: "custom_tags",
+    "Ask Integrity Recommendations": "ask_Integrity_suggestions",
+};
+
 export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setTagId, categoryID, isMobile }) => {
     const { editLeadTags } = useOverView();
     const { fireEvent } = useAnalytics();
@@ -53,10 +58,10 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setT
     const toggleOpen = useCallback(() => {
         setOpen((prevOpen) => {
             const action = prevOpen ? "collapsed" : "expanded";
-            fireEvent("Tag Section Interaction", { leadId, tagSection: prettyLabel, action });
+            fireEvent("Tag Section Interaction", { leadId, tagSection: labelMapAmplitude, action });
             return !prevOpen;
         });
-    }, [fireEvent, leadId, prettyLabel]);
+    }, [fireEvent, leadId]);
 
     const renderItems = useCallback(
         (item) => {
