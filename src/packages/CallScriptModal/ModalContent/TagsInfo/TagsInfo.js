@@ -33,7 +33,7 @@ function TagsInfo({ leadId }) {
     const renderTag = (tagInfo) => (
         <Box className={Styles.askIntegrityCard}>
             <Box className={Styles.askIntegrityInfo}>
-                <Box>
+                <Box className={Styles.iconWrapper}>
                     <img src={tagInfo.tag.tagIconUrl} />
                 </Box>
                 <Box className={Styles.tagInfo}>
@@ -52,7 +52,7 @@ function TagsInfo({ leadId }) {
     const renderAskIntegrityTag = (tagInfo) => (
         <Box className={Styles.askIntegrityCard}>
             <Box className={Styles.askIntegrityInfo}>
-                <Box>
+                <Box className={Styles.iconWrapper}>
                     <img src={tagInfo.tag.tagIconUrl} />
                 </Box>
                 <Box className={Styles.tagInfo}>

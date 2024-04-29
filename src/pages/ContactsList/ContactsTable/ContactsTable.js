@@ -231,7 +231,7 @@ function ContactsTable() {
                                     name={"campaign"}
                                     onClick={() => campaignTagsHandler(campaignTags, leadDataOriginal)}
                                     IconComponent={
-                                        <Box sx={{ cursor: "pointer" }}>
+                                        <Box className={styles.iconWrapper}>
                                             <img src={campaignTagDefaultImage} />
                                         </Box>
                                     }
@@ -260,7 +260,7 @@ function ContactsTable() {
                                     name="askIntegrity"
                                     onClick={() => askIntegrityHandler(askIntegrityTags, leadDataOriginal)}
                                     IconComponent={
-                                        <Box sx={{ cursor: "pointer" }}>
+                                        <Box className={styles.iconWrapper}>
                                             <img src={askIntegrityTagDefaultImage} />
                                         </Box>
                                     }

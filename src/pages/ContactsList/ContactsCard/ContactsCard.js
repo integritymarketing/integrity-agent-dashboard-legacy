@@ -136,7 +136,7 @@ function ContactsCard() {
                                     }}
                                     IconComponent={
                                         campaignLength > 0 && (
-                                            <Box sx={{ cursor: "pointer" }}>
+                                            <Box className={styles.iconWrapper}>
                                                 {<img src={campaignTags[0].tag.tagIconUrl} alt="Campaign Icon" />}
                                             </Box>
                                         )
@@ -152,7 +152,7 @@ function ContactsCard() {
                                     }}
                                     IconComponent={
                                         askIntegrityLength > 0 && (
-                                            <Box sx={{ cursor: "pointer" }}>
+                                            <Box className={styles.iconWrapper}>
                                                 {
                                                     <img
                                                         src={askIntegrityTags?.[0].tag.tagIconUrl}

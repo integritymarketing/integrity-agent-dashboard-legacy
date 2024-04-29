@@ -29,8 +29,8 @@ const CampaignBadge = styled(Badge)({
 
 const AskIntegrityBadge = styled(Badge)({
     "& .MuiBadge-badge": {
-        top: 12,
-        left: 12,
+        top: 18,
+        left: 20,
         padding: "2px",
         background: "#F1FAFF",
         border: "2px solid #ffffff",
