@@ -11,16 +11,14 @@ import useAnalytics from "hooks/useAnalytics";
 import styles from "./AssignNewTagContainer.module.scss";
 
 const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMobile }) => {
-    const { removeLeadTags, editTagByID, createNewTag, editLeadTags } = useOverView();
+    const { removeLeadTags, editTagByID, createNewTag, editLeadTags, tags } = useOverView();
     const { getLeadDetails } = useLeadDetails();
     const { fireEvent } = useAnalytics();
     const [isDeleteTagModalOpen, setIsDeleteTagModalOpen] = useState(false);
     const [tagToDelete, setTagToDelete] = useState(null);
     const [assignNewTagModal, setAssignNewTagModal] = useState(false);
     const [addNewTagModal, setAddNewTagModal] = useState(false);
-
     const [selectedCustomTags, setSelectedCustomTags] = useState();
-
     const [editTagId, setEditTagId] = useState(null);
     const [editTagValue, setEditTagValue] = useState("");
 
@@ -76,7 +74,19 @@ const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMo
         };
         editLeadTags(payload);
         setAssignNewTagModal(false);
-        fireEvent("Tag Assignment Change", { leadId, tag_name: selectedCustomTags.join(", ") });
+
+        const customTags =
+            tags?.find((category) => category.parentTagCategoryId === null && category.tagCategoryName === "Other")
+                ?.tags || [];
+
+        const newlySelectedTabLabels = customTags
+            .filter(
+                (tag) =>
+                    (selectedCustomTags.includes(tag.tagId) && !selectedTags.includes(tag.tagId)) ||
+                    (!selectedCustomTags.includes(tag.tagId) && selectedTags.includes(tag.tagId))
+            )
+            .map((tag) => tag.tagLabel);
+        fireEvent("Tag Assignment Change", { leadId, tag_name: newlySelectedTabLabels.join(", ") });
     };
 
     return (
