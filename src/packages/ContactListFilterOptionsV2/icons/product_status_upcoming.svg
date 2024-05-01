@@ -1,0 +1,21 @@
+<svg id="Policy_-_Upcoming" data-name="Policy - Upcoming" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Policy_-_Generic" data-name="Policy - Generic">
+    <g id="Button_-_BG" data-name="Button - BG">
+      <rect id="bg" width="24" height="24" fill="#ff1717" opacity="0"/>
+    </g>
+    <g id="Rectangle_21157" data-name="Rectangle 21157" transform="translate(3 3)" fill="#fff" stroke="#4178ff" stroke-width="1">
+      <rect width="18" height="18" rx="4" stroke="none"/>
+      <rect x="0.5" y="0.5" width="17" height="17" rx="3.5" fill="none"/>
+    </g>
+  </g>
+  <g id="Group_7034" data-name="Group 7034" transform="translate(-153 -768)">
+    <g id="Ellipse_697" data-name="Ellipse 697" transform="translate(160 775)" fill="none" stroke="#4178ff" stroke-width="1">
+      <circle cx="5" cy="5" r="5" stroke="none"/>
+      <circle cx="5" cy="5" r="4.5" fill="none"/>
+    </g>
+    <g id="Group_7033" data-name="Group 7033" transform="translate(164.375 778.125)">
+      <line id="Line_1139" data-name="Line 1139" y2="2.5" fill="none" stroke="#4178ff" stroke-linecap="round" stroke-width="1"/>
+      <line id="Line_1140" data-name="Line 1140" x2="2.5" transform="translate(0 2.5)" fill="none" stroke="#4178ff" stroke-linecap="round" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

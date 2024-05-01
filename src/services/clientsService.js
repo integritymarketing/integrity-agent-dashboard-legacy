@@ -5,6 +5,7 @@ import { formatServerDate, parseDate } from "utils/dates";
 import authService from "services/authService";
 
 export const LEADS_API_VERSION = "v2.0";
+export const LEADS_ONLY_API_VERSION = "v3.0";
 export const LEADS_STATUS_API_VERSION = "v3.0";
 export const QUOTES_API_VERSION = "v1.0";
 export const AGENTS_API_VERSION = "v1.0";
@@ -69,6 +70,132 @@ export class ClientsService {
         return fetch(path, opts);
     };
 
+    getContactListPost = async (
+        page,
+        pageSize,
+        sort,
+        searchText,
+        leadIds,
+        contactRecordType = "",
+        stages = [],
+        hasReminder = false,
+        hasOverdueReminder = false,
+        tags = [],
+        returnAll,
+        selectedFilterSections,
+        filterSectionsConfig
+    ) => {
+        selectedFilterSections = selectedFilterSections.filter((item) => item.selectedFilterOption);
+        let remindersKeys = {};
+        const reminderSection = selectedFilterSections?.find((item) => item.sectionId === "reminders");
+        if (reminderSection) {
+            if (reminderSection.selectedIsOption === "is_not") {
+                if (reminderSection.selectedFilterOption === "active_reminder") {
+                    remindersKeys = {
+                        hasReminder: true,
+                        hasOverDueReminder: true,
+                    };
+                }
+                if (reminderSection.selectedFilterOption === "overdue_reminder") {
+                    remindersKeys = {
+                        hasReminder: true,
+                        hasOverdueReminder: false,
+                    };
+                }
+                if (reminderSection.selectedFilterOption === "no_reminders_added") {
+                    remindersKeys = {
+                        hasReminder: true,
+                        hasOverdueReminder: null,
+                    };
+                }
+            } else {
+                if (reminderSection.selectedFilterOption === "active_reminder") {
+                    remindersKeys = {
+                        hasReminder: true,
+                        hasOverDueReminder: null,
+                    };
+                }
+                if (reminderSection.selectedFilterOption === "overdue_reminder") {
+                    remindersKeys = {
+                        hasReminder: true,
+                        hasOverdueReminder: true,
+                    };
+                }
+                if (reminderSection.selectedFilterOption === "no_reminders_added") {
+                    remindersKeys = {
+                        hasReminder: false,
+                        hasOverdueReminder: false,
+                    };
+                }
+            }
+        }
+        const stageSections = selectedFilterSections?.filter((item) => item.sectionId === "stage");
+        let stageArray = [];
+        if (stageSections.length) {
+            stageSections.forEach((stage) => {
+                if (stage.selectedIsOption === "is_not") {
+                    if (stageArray.length) {
+                        const restOfStageIds = stageArray.filter((item) => item !== stage.selectedFilterOption);
+                        stageArray = restOfStageIds;
+                    } else {
+                        const restOfStageIds = filterSectionsConfig.stage.options
+                            .filter((item) => item.value !== stage.selectedFilterOption)
+                            .map((item) => item.value);
+                        stageArray = restOfStageIds;
+                    }
+                } else {
+                    if (!stageArray.includes(stage.selectedFilterOption)) {
+                        stageArray.push(stage.selectedFilterOption);
+                    }
+                }
+            });
+        }
+
+        const filterTagV3Request = [];
+        const tagsSections = selectedFilterSections?.filter(
+            (item) => item.sectionId !== "stage" && item.sectionId !== "reminders"
+        );
+        if (tagsSections.length) {
+            tagsSections.forEach((tagSection) => {
+                const tagSectionIndex = selectedFilterSections.findIndex((item) => item.id === tagSection.id);
+                const previousSection = tagSectionIndex === 0 ? null : selectedFilterSections[tagSectionIndex - 1];
+                const andOrValue = previousSection?.nextAndOrOption === "or" ? "OR" : "AND";
+                const selectedIsOption = tagSection.selectedIsOption === "is_not" ? "ISNOT" : "IS";
+                filterTagV3Request.push({
+                    logicalOperator: andOrValue,
+                    tagId: tagSection.selectedFilterOption,
+                    condition: selectedIsOption,
+                });
+            });
+        }
+
+        const body = {
+            pageSize,
+            currentPage: page,
+            sort: sort,
+            stage: stageArray.length ? stageArray : null,
+            tags: null,
+            includeContactPreference: true,
+            includeReminder: true,
+            includeTags: true,
+            ...remindersKeys,
+            returnAll: false,
+            filterTagV3Request,
+        };
+
+        const response = await this._clientAPIRequest(
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads/GetLeads`,
+            "POST",
+            body
+        );
+        if (response?.status >= 400) {
+            throw new Error("Leads request failed.");
+        }
+        const list = await response?.json();
+
+        return list;
+    };
+
     getList = async (
         page,
         pageSize,
@@ -128,7 +255,7 @@ export class ClientsService {
             .filter((str) => str !== null)
             .join("&");
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads?${queryStr}`
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`
         );
         if (response?.status >= 400) {
             throw new Error("Leads request failed.");
@@ -1002,7 +1129,7 @@ export class ClientsService {
 
     getAllTagsByGroups = async () => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory?mappedLeadTagsOnly=false`,
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory?mappedLeadTagsOnly=true`,
             "GET"
         );
         return response?.json();

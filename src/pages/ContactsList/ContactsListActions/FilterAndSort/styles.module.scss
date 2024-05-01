@@ -8,12 +8,32 @@
         position: relative;
         right: -17px;
     }
-
-    > div {
-        margin-right: 10px !important;
-    }
+    display: flex;
+    gap: 10px;
 }
 
 .pointerBox {
     cursor: pointer;
+    width: 34px;
+    margin-bottom: 3px;
+}
+
+.selectedFilterOneSection {
+    background-color: #ffffff;
+    padding: 3px 11px;
+    border-radius: 100px;
+    padding-top: 10px;
+    > svg {
+        width: 22px;
+    }
+}
+
+.selectedFilterMultipleSections {
+    background-color: #ffffff;
+    padding: 3px 11px;
+    border-radius: 100px;
+    padding-top: 10px;
+    > svg {
+        width: 22px;
+    }
 }

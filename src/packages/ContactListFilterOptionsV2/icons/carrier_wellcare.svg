@@ -1,0 +1,15 @@
+<svg id="Carrier_-_Wellcare" data-name="Carrier - Wellcare" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_21176" data-name="Rectangle 21176" width="15.326" height="12.27" transform="translate(0 0)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Button_-_BG" data-name="Button - BG">
+    <rect id="bg" width="24" height="24" rx="4" fill="#aaa"/>
+  </g>
+  <g id="Group_8668" data-name="Group 8668" transform="translate(4.337 6)">
+    <g id="Group_8667" data-name="Group 8667" transform="translate(0 0)" clip-path="url(#clip-path)">
+      <path id="Path_22010" data-name="Path 22010" d="M12.624,0V8.093c0,2.3-3.614,2.057-3.614.1V0H6.268V8.19c0,1.96-3.615,2.175-3.615-.1V0H0V8.144c0,4.3,5.367,5.234,7.419,2.8,0,0,.2-.281.229-.338,1.815,2.851,7.678,2.03,7.678-2.465V0Z" transform="translate(0 0)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

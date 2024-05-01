@@ -1,0 +1,10 @@
+<svg id="Carrier_-_Aetna" data-name="Carrier - Aetna" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Button_-_BG" data-name="Button - BG">
+    <rect id="bg" width="24" height="24" rx="4" fill="#aaa"/>
+  </g>
+  <g id="Group_8665" data-name="Group 8665" transform="translate(3 5)">
+    <g id="Group_8658" data-name="Group 8658" transform="translate(0 0)">
+      <path id="Aetna" d="M5.07,0A2.1,2.1,0,0,1,6.557.618L9,3.063,11.443.621a2.094,2.094,0,0,1,2.973,0l2.969,2.969a2.1,2.1,0,0,1,0,2.971L9,14.943.617,6.558a2.1,2.1,0,0,1,0-2.971L3.585.617A2.085,2.085,0,0,1,5.07,0" transform="translate(0)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

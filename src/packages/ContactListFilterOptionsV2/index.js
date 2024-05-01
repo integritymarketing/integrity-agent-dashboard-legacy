@@ -1,0 +1,491 @@
+import React, { useState, useContext, useEffect, useMemo } from "react";
+import { ChevronLeft, Add } from "@mui/icons-material";
+import { Button } from "components/ui/Button";
+import clientsService from "services/clientsService";
+import * as Sentry from "@sentry/react";
+import styles from "./styles.module.scss";
+import { Box } from "@mui/material";
+import Close from "./icons/close.svg";
+import Icon from "components/Icon";
+import Popover from "@mui/material/Popover";
+import CustomTagIcon from "./icons/custom_tag.svg";
+import ProductStatusStarted from "./icons/product_status_started.svg";
+import ProductTypeMedicare from "./icons/product_type_medicare.svg";
+import CampaignInterestDefault from "./icons/campaign_interest_default.svg";
+import CampaignTitleDefault from "./icons/campaign_title_default.svg";
+import FilterSectionBox from "./FilterSectionBox/index";
+import { styled } from "@mui/system";
+import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
+import { filterSectionsConfig as filterSectionsConfigOriginal } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
+import useFetch from "hooks/useFetch";
+import stylesFilterSectionBox from "./FilterSectionBox/styles.module.scss";
+import StageStatusContext from "contexts/stageStatus";
+
+const StyledPopover = styled(Popover)(() => ({
+    ".MuiPopover-paper": {
+        marginTop: "10px",
+        minWidth: "200px",
+        maxHeight: "300px",
+        maxWidth: "100px !important",
+    },
+}));
+
+export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
+    const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`;
+    const { Get: fetchLeadTags } = useFetch(URL);
+    const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [tagsList, setTagsList] = useState([]);
+    const { statusOptions } = useContext(StageStatusContext);
+    const [isFilterSelectOpenForSection, setIsFilterSelectOpenForSection] = useState(null);
+    const {
+        selectedFilterSections,
+        setSelectedFilterSections,
+        resetData,
+        filterSectionsConfig,
+        setFilterSectionsConfig,
+        fetchedFiltersSectionConfigFromApi,
+        setFetchedFiltersSectionConfigFromApi,
+    } = useContactsListContext();
+
+    useEffect(() => {
+        async function fetchData() {
+            const path = `Tag/TagsGroupByCategory?mappedLeadTagsOnly=true`;
+            const path1 = `Tag/TagsGroupByCategory?mappedLeadTagsOnly=false`;
+            const [data, dataWithFalse] = await Promise.all([
+                fetchLeadTags(null, false, path),
+                fetchLeadTags(null, false, path1),
+            ]);
+            const campaignTitleObject = data.find((item) => item.tagCategoryId === 16);
+            const carrierTagsObject = data.find((item) => item.tagCategoryId === 11);
+            const productStatusObject = dataWithFalse.find((item) => item.tagCategoryId === 10);
+            const productTypeObject = dataWithFalse.find((item) => item.tagCategoryId === 9);
+            const healthSoAObject = dataWithFalse.find((item) => item.tagCategoryId === 12);
+            const campaignSourceObject = dataWithFalse.find((item) => item.tagCategoryId === 13);
+            const campaignTypeObject = dataWithFalse.find((item) => item.tagCategoryId === 14);
+            const campaignInterestObject = dataWithFalse.find((item) => item.tagCategoryId === 16);
+            const askIntegrityObject = dataWithFalse.find((item) => item.tagCategoryId === 17);
+            const healthSoaOptions = healthSoAObject.tags
+                .filter(
+                    (item) =>
+                        (item.tagLabel === "SOA SIGNED" && item.tagIconUrl) ||
+                        (item.tagLabel === "SOA SENT" && item.tagIconUrl) ||
+                        item.tagLabel === "SOA COMPLETED"
+                )
+                .map((item) => ({
+                    label: item.tagLabel,
+                    value: item.tagId,
+                    icon: item.tagIconUrl || ProductStatusStarted || "",
+                }));
+            const campaignSourceOptions = campaignSourceObject.tags.map((item) => ({
+                label: item.tagLabel,
+                value: item.tagId,
+                icon:
+                    item.tagIconUrl ||
+                    filterSectionsConfigOriginal.campaign_source.options.find((item1) => item1.label === item.tagLabel)
+                        ?.icon ||
+                    "",
+            }));
+            setFilterSectionsConfig({
+                ...filterSectionsConfig,
+                campaign_title: {
+                    heading: campaignTitleObject.tagCategoryName,
+                    options:
+                        campaignTitleObject?.tags.map((item) => ({
+                            label: item.tagLabel,
+                            value: item.tagId,
+                            icon: item.tagIconUrl || CampaignTitleDefault,
+                        })) || [],
+                },
+                stage: {
+                    heading: "Stage",
+                    options: statusOptions.map((item) => ({
+                        value: item.statusId,
+                        label: item.label,
+                        color: item.color,
+                    })),
+                },
+                carrier: {
+                    heading: carrierTagsObject.tagCategoryName,
+                    options:
+                        carrierTagsObject?.tags.map((item) => ({
+                            label: item.tagLabel,
+                            value: item.tagId,
+                            icon:
+                                item.tagIconUrl ||
+                                filterSectionsConfigOriginal.carrier.options.find(
+                                    (item1) => item1.label === item.tagLabel
+                                )?.icon ||
+                                "",
+                        })) || [],
+                },
+                product_status: {
+                    heading: "Product Status",
+                    options: productStatusObject.tags.map((item) => ({
+                        label: item.tagLabel,
+                        value: item.tagId,
+                        icon:
+                            item.tagIconUrl ||
+                            filterSectionsConfigOriginal.product_status.options.find(
+                                (item1) => item1.label === item.tagLabel
+                            )?.icon ||
+                            "",
+                        iconClassName: stylesFilterSectionBox.menuItemIconMedium,
+                    })),
+                },
+                product_type: {
+                    heading: "Product Type",
+                    options: productTypeObject.tags.map((item) => ({
+                        label: item.tagLabel,
+                        value: item.tagId,
+                        icon: item.tagIconUrl || ProductTypeMedicare || "",
+                    })),
+                },
+                health_soa: {
+                    heading: "Health SOA",
+                    options: healthSoaOptions,
+                },
+                campaign_source: {
+                    heading: "Campaign Source",
+                    options: campaignSourceOptions,
+                },
+                campaign_type: {
+                    heading: "Campaign Type",
+                    options: campaignTypeObject.tags.map((item) => ({
+                        label: item.tagLabel,
+                        value: item.tagId,
+                        icon:
+                            item.tagIconUrl ||
+                            filterSectionsConfigOriginal.campaign_type.options.find(
+                                (item1) => item1.label === item.tagLabel
+                            )?.icon ||
+                            "",
+                    })),
+                },
+                campaign_interest: {
+                    heading: "Campaign Interest",
+                    options: campaignInterestObject.tags.map((item) => ({
+                        label: item.tagLabel,
+                        value: item.tagId,
+                        icon: item.tagIconUrl || CampaignInterestDefault || "",
+                    })),
+                },
+                cross_sell: {
+                    heading: "Ask Integrity Suggests",
+                    option: {
+                        label: "Cross Sell",
+                        value: askIntegrityObject.tags.find((item) => item.tagLabel === "CROSS-SELL").tagId,
+                    },
+                },
+                switcher: {
+                    heading: "Ask Integrity Suggests",
+                    option: {
+                        label: "Switcher",
+                        value: askIntegrityObject.tags.find((item) => item.tagLabel === "SWITCHER").tagId,
+                    },
+                },
+                sep: {
+                    heading: "Ask Integrity Suggests",
+                    option: {
+                        label: "SEP",
+                        value: askIntegrityObject.tags.find((item) => item.tagLabel === "SEP").tagId,
+                    },
+                },
+            });
+            setFetchedFiltersSectionConfigFromApi(true);
+        }
+        if (!fetchedFiltersSectionConfigFromApi) {
+            fetchData();
+        }
+    }, []);
+
+    useEffect(() => {
+        onFilterCountChange(selectedFilterSections);
+    }, [selectedFilterSections]);
+
+    useEffect(() => {
+        const getTags = async () => {
+            try {
+                const res = await clientsService.getAllTagsByGroups();
+                setTagsList([...res]);
+            } catch (error) {
+                Sentry.captureException(error);
+            }
+        };
+        getTags();
+    }, []);
+
+    const customTags = useMemo(() => {
+        return tagsList.find((tag) => tag.tagCategoryName === "Other")?.tags;
+    }, [tagsList]);
+
+    const handleOnClickAddNew = (event) => {
+        setAnchorEl(event.currentTarget);
+        setIsFilterDropdownOpen(true);
+    };
+
+    const handleCloseFilterDropdown = () => {
+        setAnchorEl(null);
+        setIsFilterDropdownOpen(false);
+    };
+
+    const handleFilterOptionClick = (sectionId) => {
+        const uuid = Math.random().toString(36).substring(7);
+        const filterSectionConfig = filterSectionsConfig[sectionId];
+        const optionObject = { id: uuid, sectionId };
+        if (filterSectionConfig?.option) {
+            optionObject.selectedFilterOption = filterSectionConfig.option.value;
+            setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
+        } else if (sectionId.startsWith("custom_tags_")) {
+            const tagId = sectionId.split("_")[2];
+            optionObject.selectedFilterOption = tagId;
+            const gotitem = customTags.find((item) => item.tagId == parseInt(tagId));
+            optionObject.option = { label: gotitem?.tagLabel, value: parseInt(tagId) };
+            optionObject.sectionId = "custom_tags";
+            setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
+        }
+        setSelectedFilterSections([...selectedFilterSections, optionObject]);
+        setIsFilterSelectOpenForSection(uuid);
+        handleCloseFilterDropdown();
+    };
+
+    const handleOnRemoveFilterSection = (sectionUUId) => {
+        const newSelectedFilterSections = selectedFilterSections.filter((section) => section.id !== sectionUUId);
+        setSelectedFilterSections([...newSelectedFilterSections]);
+        setTimeout(() => resetData(newSelectedFilterSections), 100);
+    };
+
+    const handleOnChangeFilterOption = (sectionUUId, value) => {
+        const newSelectedFilterSections = selectedFilterSections.map((section) => {
+            if (section.id === sectionUUId) {
+                return {
+                    ...section,
+                    selectedFilterOption: value,
+                    isFilterSelectOpen: false,
+                };
+            }
+            return section;
+        });
+        setSelectedFilterSections([...newSelectedFilterSections]);
+        setTimeout(() => resetData(newSelectedFilterSections), 100);
+    };
+
+    const handleOnChangeIsOption = (sectionUUId, value) => {
+        const newSelectedFilterSections = selectedFilterSections.map((section) => {
+            if (section.id === sectionUUId) {
+                return {
+                    ...section,
+                    selectedIsOption: value,
+                };
+            }
+            return section;
+        });
+        setSelectedFilterSections([...newSelectedFilterSections]);
+        setTimeout(() => resetData(newSelectedFilterSections), 10);
+    };
+
+    const handleOnChangeNextAndOrOption = (sectionUUId, value) => {
+        const newSelectedFilterSections = selectedFilterSections.map((section) => {
+            if (section.id === sectionUUId) {
+                return {
+                    ...section,
+                    nextAndOrOption: value,
+                };
+            }
+            return section;
+        });
+        setSelectedFilterSections([...newSelectedFilterSections]);
+        setTimeout(() => resetData(newSelectedFilterSections), 100);
+    };
+
+    const handleClearAllClick = () => {
+        setSelectedFilterSections([]);
+        setTimeout(() => resetData([]), 100);
+    };
+
+    const id = open ? "simple-popover-dropdown" : undefined;
+
+    const hasUnfinishedFilterSections = selectedFilterSections.filter((item) => !item.selectedFilterOption).length;
+
+    const hasReminderSection = selectedFilterSections.find((item) => item.sectionId === "reminders");
+    return (
+        <Box overflowY={"scroll"} maxHeight={"400px"}>
+            <Box padding={2}>
+                {selectedFilterSections.map((section, index) => {
+                    const shouldShowAndOr =
+                        index !== selectedFilterSections.length - 1 &&
+                        selectedFilterSections[index + 1].selectedFilterOption;
+                    let hasStageAndReminderNext = false;
+                    if (index !== selectedFilterSections.length - 1) {
+                        const nextSection = selectedFilterSections[index + 1];
+                        if (nextSection.sectionId === "stage" || nextSection.sectionId === "reminders") {
+                            hasStageAndReminderNext = true;
+                        }
+                    }
+                    return (
+                        <FilterSectionBox
+                            section={section}
+                            freezeAndOption={hasStageAndReminderNext}
+                            filterSectionsConfig={filterSectionsConfig}
+                            key={section.id}
+                            isFilterSelectOpenForSection={isFilterSelectOpenForSection === section.id}
+                            shouldShowAndOr={shouldShowAndOr}
+                            onChangeFilterOption={(value) => handleOnChangeFilterOption(section.id, value)}
+                            onChangeIsOption={(value) => handleOnChangeIsOption(section.id, value)}
+                            onChangeNextAndOrOption={(value) => handleOnChangeNextAndOrOption(section.id, value)}
+                            onRemove={() => handleOnRemoveFilterSection(section.id)}
+                        />
+                    );
+                })}
+                {selectedFilterSections.length < 3 && (
+                    <Button
+                        data-gtm="contacts-add-new"
+                        icon={<ChevronLeft className={styles.chevronIcon} />}
+                        disabled={Boolean(hasUnfinishedFilterSections)}
+                        iconPosition={"right"}
+                        label={
+                            <span className={styles.buttonText}>
+                                <Add /> Add Filter
+                            </span>
+                        }
+                        type="primary"
+                        className={styles.addNewButton}
+                        onClick={handleOnClickAddNew}
+                    />
+                )}
+                <StyledPopover
+                    id={id}
+                    open={isFilterDropdownOpen}
+                    anchorEl={anchorEl}
+                    onClose={handleCloseFilterDropdown}
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                    }}
+                    transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                    }}
+                >
+                    <Box className={styles.filterDropdownContent} padding={1}>
+                        <span>
+                            <Box
+                                className={`${styles.dropdownOption} ${styles.dropdownOptionWithMargin} ${styles.dropdownOptionWithBorderRadius}`}
+                                onClick={() => handleFilterOptionClick("stage")}
+                            >
+                                Stage
+                            </Box>
+                            {!hasReminderSection && (
+                                <Box
+                                    className={`${styles.dropdownOption} ${styles.dropdownOptionWithBorderRadius}`}
+                                    onClick={() => handleFilterOptionClick("reminders")}
+                                >
+                                    Reminders
+                                </Box>
+                            )}
+                        </span>
+                        <span className={styles.filterDropdownHeader}>Product Tags</span>
+                        <span>
+                            <Box
+                                className={styles.dropdownOption}
+                                onClick={() => handleFilterOptionClick("product_status")}
+                            >
+                                Product Status
+                            </Box>
+                            <Box
+                                className={styles.dropdownOption}
+                                onClick={() => handleFilterOptionClick("product_type")}
+                            >
+                                Product Type
+                            </Box>
+                            {Boolean(filterSectionsConfig.carrier?.options.length) && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("carrier")}
+                                >
+                                    Carrier
+                                </Box>
+                            )}
+                            <Box
+                                className={styles.dropdownOption}
+                                onClick={() => handleFilterOptionClick("health_soa")}
+                            >
+                                Health SOA
+                            </Box>
+                        </span>
+                        <span className={styles.filterDropdownHeader}>Campaign Tags</span>
+                        <span>
+                            <Box
+                                className={styles.dropdownOption}
+                                onClick={() => handleFilterOptionClick("campaign_source")}
+                            >
+                                Campaign Source
+                            </Box>
+                            <Box
+                                className={styles.dropdownOption}
+                                onClick={() => handleFilterOptionClick("campaign_type")}
+                            >
+                                Campaign Type
+                            </Box>
+                            {Boolean(filterSectionsConfig.campaign_title?.options.length) && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("campaign_title")}
+                                >
+                                    Campaign Title
+                                </Box>
+                            )}
+                            <Box
+                                className={styles.dropdownOption}
+                                onClick={() => handleFilterOptionClick("campaign_interest")}
+                            >
+                                Campaign Interest
+                            </Box>
+                        </span>
+                        <span className={styles.filterDropdownHeader}>Ask Integrity Suggests</span>
+                        <span>
+                            <Box
+                                className={styles.dropdownOption}
+                                onClick={() => handleFilterOptionClick("cross_sell")}
+                            >
+                                Cross-Sell
+                            </Box>
+                            <Box className={styles.dropdownOption} onClick={() => handleFilterOptionClick("switcher")}>
+                                Switcher
+                            </Box>
+                            <Box className={styles.dropdownOption} onClick={() => handleFilterOptionClick("sep")}>
+                                SEP
+                            </Box>
+                        </span>
+                        {Boolean(customTags?.length) && (
+                            <span className={styles.filterDropdownHeader}>Custom Tags</span>
+                        )}
+                        <span>
+                            {customTags?.map((tag) => (
+                                <Box
+                                    key={tag.tagId}
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("custom_tags_" + tag.tagId)}
+                                >
+                                    <Icon className={styles.menuItemIcon} image={CustomTagIcon} />
+                                    {tag.tagLabel}
+                                </Box>
+                            ))}
+                        </span>
+                    </Box>
+                </StyledPopover>
+            </Box>
+            <Box className={styles.footer}>
+                {selectedFilterSections.length > 0 && (
+                    <Button
+                        className={styles.footerCloseButton}
+                        icon={<Icon className={styles.footerCloseIcon} image={Close} />}
+                        iconPosition={"right"}
+                        label={"Clear All"}
+                        onClick={handleClearAllClick}
+                    />
+                )}
+            </Box>
+        </Box>
+    );
+}

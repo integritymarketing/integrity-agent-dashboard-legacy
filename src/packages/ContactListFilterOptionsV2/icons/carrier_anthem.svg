@@ -1,0 +1,20 @@
+<svg id="Carrier_-_Anthem" data-name="Carrier - Anthem" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_21177" data-name="Rectangle 21177" width="20" height="10.519" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Button_-_BG" data-name="Button - BG">
+    <rect id="bg" width="24" height="24" rx="4" fill="#aaa"/>
+  </g>
+  <g id="Group_8673" data-name="Group 8673" transform="translate(2 6.999)">
+    <g id="Group_8672" data-name="Group 8672" transform="translate(0 0.001)" clip-path="url(#clip-path)">
+      <path id="Path_22014" data-name="Path 22014" d="M19.422,20.8a.787.787,0,1,0,.785.785.788.788,0,0,0-.785-.785m0,1.446a.66.66,0,1,1,.659-.662.638.638,0,0,1-.659.662" transform="translate(-10.619 -11.851)" fill="#fff"/>
+      <path id="Path_22015" data-name="Path 22015" d="M20.481,21.813c0-.16-.079-.249-.314-.249h-.387v.9H19.9v-.4h.191l.253.4h.13l-.267-.4c.156-.012.277-.076.277-.25m-.427.147H19.9v-.29h.246c.109,0,.213.016.213.142,0,.17-.175.149-.3.149" transform="translate(-11.272 -12.288)" fill="#fff"/>
+      <path id="Path_22016" data-name="Path 22016" d="M7.5,3.08V.186H2.895V3.08H0V7.7H2.895v2.9H7.5V7.7h2.894V3.08Z" transform="translate(0 -0.106)" fill="#fff"/>
+      <path id="Path_22017" data-name="Path 22017" d="M42.524,20.8a.787.787,0,1,0,.784.785.789.789,0,0,0-.784-.785m0,1.446a.66.66,0,1,1,.658-.662.637.637,0,0,1-.658.662" transform="translate(-23.781 -11.851)" fill="#fff"/>
+      <path id="Path_22018" data-name="Path 22018" d="M43.582,21.813c0-.16-.08-.249-.314-.249h-.387v.9H43v-.4h.192l.254.4h.129l-.268-.4c.156-.012.278-.076.278-.25m-.425.147H43v-.29h.247c.109,0,.213.016.213.142,0,.17-.176.149-.3.149" transform="translate(-24.435 -12.288)" fill="#fff"/>
+      <path id="Path_22019" data-name="Path 22019" d="M34.989,0a6.843,6.843,0,0,1-3.46.8A6.846,6.846,0,0,1,28.07,0a6.09,6.09,0,0,0-.641,2.994,9.265,9.265,0,0,0,2.356,6.112,6.009,6.009,0,0,0,1.745,1.335,6.03,6.03,0,0,0,1.744-1.335A9.27,9.27,0,0,0,35.63,2.994,6.09,6.09,0,0,0,34.989,0" transform="translate(-15.63 0)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

@@ -11,155 +11,145 @@ import TagsByCategory from "./Tags";
 import { useActiveFilters } from "hooks/useActiveFilters";
 
 export default function ContactListFilterOptions({ close, layout }) {
-  const [filterType, setFilterType] = useState("Stage");
-  const [reminder, setReminder] = useState("");
-  const [stages, setStages] = useState([]);
-  const [tags, setTags] = useState([]);
-  const { statusOptions } = useContext(StageStatusContext);
-  const {
-    tagValue = [],
-    stageValue = [],
-    reminderValue = "",
-  } = useActiveFilters();
+    const [filterType, setFilterType] = useState("Stage");
+    const [reminder, setReminder] = useState("");
+    const [stages, setStages] = useState([]);
+    const [tags, setTags] = useState([]);
+    const { statusOptions } = useContext(StageStatusContext);
+    const { tagValue = [], stageValue = [], reminderValue = "" } = useActiveFilters();
 
-  const navigate = useNavigate();
-  const location = useLocation();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  const [tagsList, setTagsList] = useState([]);
+    const [tagsList, setTagsList] = useState([]);
 
-  useEffect(() => {
-    if (stageValue.length > 0 || tagValue.length > 0 || reminderValue !== "") {
-      setReminder(reminderValue);
-      setStages([...stageValue]);
-      setTags([...tagValue]);
-    } else {
-      setReminder("");
-      setStages([]);
-      setTags([]);
-    }
-  }, [tagValue, stageValue, reminderValue]);
+    useEffect(() => {
+        if (stageValue.length > 0 || tagValue.length > 0 || reminderValue !== "") {
+            setReminder(reminderValue);
+            setStages([...stageValue]);
+            setTags([...tagValue]);
+        } else {
+            setReminder("");
+            setStages([]);
+            setTags([]);
+        }
+    }, [tagValue, stageValue, reminderValue]);
 
-  useEffect(() => {
-    const getTags = async () => {
-      try {
-        const res = await clientsService.getAllTagsByGroups();
-        setTagsList([...res]);
-      } catch (error) {
-        Sentry.captureException(error);
-      }
-    };
-    getTags();
-  }, []);
-
-  const selectStage = (id) => {
-    let isExist = stages?.findIndex((statusId) => statusId === id);
-    let newStages = stages.slice();
-    if (isExist > -1) {
-      newStages.splice(isExist, 1);
-    } else {
-      newStages.push(id);
-    }
-    setStages([...newStages]);
-  };
-
-  const defaultOpenDetails = useMemo(() => {
-    let D_options = tagsList.map((item, i) => {
-      let selected = item?.tags?.filter((a) => tags?.includes(a?.tagId));
-      if (selected?.length > 0) {
-        return {
-          key: item.tagCategoryName,
-          length: selected.length,
+    useEffect(() => {
+        const getTags = async () => {
+            try {
+                const res = await clientsService.getAllTagsByGroups();
+                setTagsList([...res]);
+            } catch (error) {
+                Sentry.captureException(error);
+            }
         };
-      } else return null;
-    });
-    let filterValid = D_options?.filter((each) => each && each?.key);
-    return filterValid;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tagsList, tags]);
+        getTags();
+    }, []);
 
-  const selectTag = (id) => {
-    let isExist = tags?.findIndex((tagId) => tagId === id);
-    let newTags = tags.slice();
-    if (isExist > -1) {
-      newTags.splice(isExist, 1);
-    } else {
-      newTags.push(id);
-    }
-    setTags([...newTags]);
-  };
+    const selectStage = (id) => {
+        const isExist = stages?.findIndex((statusId) => statusId === id);
+        const newStages = stages.slice();
+        if (isExist > -1) {
+            newStages.splice(isExist, 1);
+        } else {
+            newStages.push(id);
+        }
+        setStages([...newStages]);
+    };
 
-  const onReset = () => {
-    setReminder("");
-    setStages([]);
-    setTags([]);
-    if (layout === "list") {
-      navigate(`/contacts/list`);
-    } else {
-      navigate(`/contacts/card`);
-    }
-  };
+    const defaultOpenDetails = useMemo(() => {
+        const D_options = tagsList.map((item, i) => {
+            const selected = item?.tags?.filter((a) => tags?.includes(a?.tagId));
+            if (selected?.length > 0) {
+                return {
+                    key: item.tagCategoryName,
+                    length: selected.length,
+                };
+            } else {
+                return null;
+            }
+        });
+        const filterValid = D_options?.filter((each) => each && each?.key);
+        return filterValid;
+    }, [tagsList, tags]);
 
-  const onApply = () => {
-    let pathname = location.pathname;
-    let searchParams = new URLSearchParams(location.search);
-    searchParams.set("Stage", stages);
-    searchParams.set("Tags", tags);
-    searchParams.delete("HasReminder");
-    searchParams.delete("HasOverdueReminder");
-    if (reminder === "Active Reminders") {
-      searchParams.set("HasReminder", true);
-    } else if (reminder === "Overdue Reminders") {
-      searchParams.set("HasOverdueReminder", true);
-    } else if (reminder === "No Reminders Added") {
-      searchParams.set("HasReminder", false);
-      searchParams.set("HasOverdueReminder", null);
-    }
+    const selectTag = (id) => {
+        const isExist = tags?.findIndex((tagId) => tagId === id);
+        const newTags = tags.slice();
+        if (isExist > -1) {
+            newTags.splice(isExist, 1);
+        } else {
+            newTags.push(id);
+        }
+        setTags([...newTags]);
+    };
 
-    navigate({
-      pathname: pathname,
-      search: searchParams.toString(),
-    });
-    close();
-  };
+    const onReset = () => {
+        setReminder("");
+        setStages([]);
+        setTags([]);
+        if (layout === "list") {
+            navigate(`/contacts/list`);
+        } else {
+            navigate(`/contacts/card`);
+        }
+    };
 
-  const disableApplyButton =
-    reminder === "" && stages?.length === 0 && tags?.length === 0;
+    const onApply = () => {
+        const pathname = location.pathname;
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set("Stage", stages);
+        searchParams.set("Tags", tags);
+        searchParams.delete("HasReminder");
+        searchParams.delete("HasOverdueReminder");
+        if (reminder === "Active Reminders") {
+            searchParams.set("HasReminder", true);
+        } else if (reminder === "Overdue Reminders") {
+            searchParams.set("HasOverdueReminder", true);
+        } else if (reminder === "No Reminders Added") {
+            searchParams.set("HasReminder", false);
+            searchParams.set("HasOverdueReminder", null);
+        }
 
-  const BUTTONS = {
-    reset: {
-      text: "Reset",
-      onClick: onReset,
-      disabled: false,
-    },
-    apply: {
-      text: "Apply",
-      onClick: onApply,
-      disabled: disableApplyButton,
-    },
-  };
-  return (
-    <>
-      <FilterTypeMenu filterType={filterType} setFilterType={setFilterType} />
-      {filterType === "Reminders" && (
-        <Reminders reminder={reminder} setReminder={setReminder} />
-      )}
-      {filterType === "Stage" && (
-        <Stages
-          statusOptions={statusOptions}
-          selectStage={selectStage}
-          stages={stages}
-        />
-      )}
-      {filterType === "Tags" && (
-        <TagsByCategory
-          selectTag={selectTag}
-          tags={tags}
-          TAGS={tagsList}
-          defaultOpenedList={defaultOpenDetails}
-        />
-      )}
+        navigate({
+            pathname: pathname,
+            search: searchParams.toString(),
+        });
+        close();
+    };
 
-      <FooterButtons buttonOne={BUTTONS.reset} buttonTwo={BUTTONS.apply} />
-    </>
-  );
+    const disableApplyButton = reminder === "" && stages?.length === 0 && tags?.length === 0;
+
+    const BUTTONS = {
+        reset: {
+            text: "Reset",
+            onClick: onReset,
+            disabled: false,
+        },
+        apply: {
+            text: "Apply",
+            onClick: onApply,
+            disabled: disableApplyButton,
+        },
+    };
+    return (
+        <>
+            <FilterTypeMenu filterType={filterType} setFilterType={setFilterType} />
+            {filterType === "Reminders" && <Reminders reminder={reminder} setReminder={setReminder} />}
+            {filterType === "Stage" && (
+                <Stages statusOptions={statusOptions} selectStage={selectStage} stages={stages} />
+            )}
+            {filterType === "Tags" && (
+                <TagsByCategory
+                    selectTag={selectTag}
+                    tags={tags}
+                    TAGS={tagsList}
+                    defaultOpenedList={defaultOpenDetails}
+                />
+            )}
+
+            <FooterButtons buttonOne={BUTTONS.reset} buttonTwo={BUTTONS.apply} />
+        </>
+    );
 }

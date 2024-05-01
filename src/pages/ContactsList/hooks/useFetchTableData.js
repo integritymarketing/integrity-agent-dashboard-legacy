@@ -45,8 +45,41 @@ function useFetchTableData() {
         };
     }, [queryParams]);
 
+    const fetchTableDataWithoutFilters = useCallback(
+        async ({ pageIndex, pageSize, sort, searchString, returnAll }) => {
+            const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
+            const filterLeadIds = getAndResetItemFromLocalStorage("filterLeadIds");
+            const leadIds = filterLeadIds ? filterLeadIds : duplicateIds ? duplicateIds : null;
+            const response = await clientsService.getList(
+                pageIndex,
+                pageSize,
+                sort,
+                searchString,
+                leadIds,
+                applyFilters?.contactRecordType,
+                applyFilters?.stages,
+                applyFilters?.hasReminder,
+                applyFilters.hasOverdueReminder,
+                applyFilters.tags,
+                returnAll
+            );
+            const total = response.pageResult.total;
+            return total;
+        },
+        [applyFilters]
+    );
+
     const fetchTableData = useCallback(
-        async ({ pageIndex, pageSize, sort, searchString, returnAll, isSilent }) => {
+        async ({
+            pageIndex,
+            pageSize,
+            sort,
+            searchString,
+            returnAll,
+            isSilent,
+            selectedFilterSections,
+            filterSectionsConfig,
+        }) => {
             try {
                 if (!isSilent) {
                     setIsLoading(true);
@@ -54,20 +87,38 @@ function useFetchTableData() {
                 const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
                 const filterLeadIds = getAndResetItemFromLocalStorage("filterLeadIds");
                 const leadIds = filterLeadIds ? filterLeadIds : duplicateIds ? duplicateIds : null;
-
-                const response = await clientsService.getList(
-                    pageIndex,
-                    pageSize,
-                    sort,
-                    searchString,
-                    leadIds,
-                    applyFilters?.contactRecordType,
-                    applyFilters?.stages,
-                    applyFilters?.hasReminder,
-                    applyFilters.hasOverdueReminder,
-                    applyFilters.tags,
-                    returnAll
-                );
+                let response;
+                if (!selectedFilterSections?.length) {
+                    response = await clientsService.getList(
+                        pageIndex,
+                        pageSize,
+                        sort,
+                        searchString,
+                        leadIds,
+                        applyFilters?.contactRecordType,
+                        applyFilters?.stages,
+                        applyFilters?.hasReminder,
+                        applyFilters.hasOverdueReminder,
+                        applyFilters.tags,
+                        returnAll
+                    );
+                } else {
+                    response = await clientsService.getContactListPost(
+                        pageIndex,
+                        pageSize,
+                        sort,
+                        searchString,
+                        leadIds,
+                        applyFilters?.contactRecordType,
+                        applyFilters?.stages,
+                        applyFilters?.hasReminder,
+                        applyFilters.hasOverdueReminder,
+                        applyFilters.tags,
+                        returnAll,
+                        selectedFilterSections,
+                        filterSectionsConfig
+                    );
+                }
                 const listData = response?.result.map((res) => ({
                     ...res,
                     contactRecordType:
@@ -92,7 +143,7 @@ function useFetchTableData() {
         [showToast, applyFilters]
     );
 
-    return { tableData, isLoading: isLoading, fetchTableData, allLeads, pageResult };
+    return { tableData, isLoading: isLoading, fetchTableData, fetchTableDataWithoutFilters, allLeads, pageResult };
 }
 
 export default useFetchTableData;

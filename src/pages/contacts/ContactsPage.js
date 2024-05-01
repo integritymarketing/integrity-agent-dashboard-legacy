@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import * as Sentry from "@sentry/react";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";

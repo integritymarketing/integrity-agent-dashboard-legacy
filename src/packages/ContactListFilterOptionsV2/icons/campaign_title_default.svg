@@ -1,0 +1,23 @@
+<svg id="Campaign_-_Name" data-name="Campaign - Name" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Campaign">
+    <g id="Button_-_BG" data-name="Button - BG">
+      <rect id="bg" width="24" height="24" fill="#ff1717" opacity="0"/>
+    </g>
+    <g id="Group_8589" data-name="Group 8589" transform="translate(-480 -1155)">
+      <g id="Ellipse_725" data-name="Ellipse 725" transform="translate(480 1155)" fill="#fff" stroke="#4178ff" stroke-width="1">
+        <circle cx="12" cy="12" r="12" stroke="none"/>
+        <circle cx="12" cy="12" r="11.5" fill="none"/>
+      </g>
+    </g>
+  </g>
+  <g id="Button_-_BG-2" data-name="Button - BG">
+    <rect id="bg-2" data-name="bg" width="24" height="24" fill="#ff1717" opacity="0"/>
+  </g>
+  <g id="Group_8730" data-name="Group 8730" transform="translate(5.667 5.667)">
+    <path id="Path_22041" data-name="Path 22041" d="M8.279,12.5H2.587A2.086,2.086,0,0,1,.5,10.413V2.587A2.086,2.086,0,0,1,2.587.5h7.826A2.09,2.09,0,0,1,12.5,2.587V8.279Z" transform="translate(-0.167 -0.167)" fill="none" stroke="#4178ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Path_22042" data-name="Path 22042" d="M15.41,19.631V17.5A2.086,2.086,0,0,1,17.5,15.41h2.134" transform="translate(-7.298 -7.298)" fill="none" stroke="#4178ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_1227" data-name="Line 1227" x2="7.025" transform="translate(2.796 3.651)" fill="none" stroke="#4178ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_1228" data-name="Line 1228" x2="7.025" transform="translate(2.796 6.333)" fill="none" stroke="#4178ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_1229" data-name="Line 1229" x2="3.761" transform="translate(2.796 9.016)" fill="none" stroke="#4178ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+  </g>
+</svg>

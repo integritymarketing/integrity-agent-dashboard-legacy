@@ -1,0 +1,11 @@
+<svg id="Policy_-_None" data-name="Policy - None" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Policy_-_Generic" data-name="Policy - Generic">
+    <g id="Button_-_BG" data-name="Button - BG">
+      <rect id="bg" width="24" height="24" fill="#ff1717" opacity="0"/>
+    </g>
+    <g id="Rectangle_21157" data-name="Rectangle 21157" transform="translate(3 3)" fill="#f1f1f1" stroke="#ccc" stroke-width="1">
+      <rect width="18" height="18" rx="4" stroke="none"/>
+      <rect x="0.5" y="0.5" width="17" height="17" rx="3.5" fill="none"/>
+    </g>
+  </g>
+</svg>

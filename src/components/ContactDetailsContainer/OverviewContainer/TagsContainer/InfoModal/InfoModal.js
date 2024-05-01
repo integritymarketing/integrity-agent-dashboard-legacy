@@ -86,8 +86,8 @@ export const InfoModal = ({ open, onClose, isMobile, label }) => {
         label === "Other"
             ? "Custom Tags"
             : label === "Ask Integrity Recommendations"
-            ? "Ask Integrity Suggests"
-            : `${label?.replace(/s$/, "")} Tags`;
+                ? "Ask Integrity Suggests"
+                : `${label?.replace(/s$/, "")} Tags`;
 
     return (
         <Modal maxWidth={isMobile ? "xs" : "sm"} open={open} onClose={onClose} hideFooter title={title}>

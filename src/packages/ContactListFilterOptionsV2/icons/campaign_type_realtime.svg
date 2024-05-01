@@ -1,0 +1,21 @@
+<svg id="Type_-_RealTimeLead" data-name="Type - RealTimeLead" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Button_-_BG" data-name="Button - BG">
+    <rect id="bg" width="24" height="24" fill="#ff1717" opacity="0"/>
+  </g>
+  <g id="Campaign">
+    <g id="Button_-_BG-2" data-name="Button - BG">
+      <rect id="bg-2" data-name="bg" width="24" height="24" fill="#ff1717" opacity="0"/>
+    </g>
+    <g id="Group_8589" data-name="Group 8589" transform="translate(-480 -1155)">
+      <g id="Ellipse_725" data-name="Ellipse 725" transform="translate(480 1155)" fill="#fff" stroke="#4178ff" stroke-width="1">
+        <circle cx="12" cy="12" r="12" stroke="none"/>
+        <circle cx="12" cy="12" r="11.5" fill="none"/>
+      </g>
+    </g>
+  </g>
+  <g id="Group_8602" data-name="Group 8602" transform="translate(-910.49 -1089.942)">
+    <circle id="Ellipse_726" data-name="Ellipse 726" cx="7" cy="7" r="7" transform="translate(915.49 1094.942)" fill="#fff" stroke="#4178ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_1196" data-name="Line 1196" y2="4.846" transform="translate(922.49 1097.095)" fill="none" stroke="#4178ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <line id="Line_1197" data-name="Line 1197" x1="3.462" y1="3.462" transform="translate(922.49 1101.942)" fill="none" stroke="#4178ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+  </g>
+</svg>
