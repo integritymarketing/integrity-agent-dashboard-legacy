@@ -180,7 +180,15 @@ export const ContactsListProvider = ({ children }) => {
     useEffect(() => {
         if (location.pathname.includes("/contacts")) {
             fetchAllListCount();
-            fetchTableData({ pageSize, pageIndex, searchString, sort, selectedFilterSections, filterSectionsConfig });
+            fetchTableData({
+                pageSize,
+                pageIndex,
+                searchString,
+                sort,
+                selectedFilterSections,
+                filterSectionsConfig,
+                isSilent: true,
+            });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchTableData, fetchAllListCount, searchString, location.search, pageIndex, sort]);

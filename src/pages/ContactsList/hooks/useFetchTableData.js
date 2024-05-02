@@ -81,7 +81,7 @@ function useFetchTableData() {
             filterSectionsConfig,
         }) => {
             try {
-                if (!isSilent) {
+                if (!isSilent && !selectedFilterSections?.length) {
                     setIsLoading(true);
                 }
                 const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
