@@ -384,7 +384,8 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                     let hasStageAndReminderNext = false;
                     if (index !== selectedFilterSections.length - 1) {
                         const nextSection = selectedFilterSections[index + 1];
-                        if (nextSection.sectionId === "stage" || nextSection.sectionId === "reminders") {
+                        const firstSection = selectedFilterSections[0];
+                        if (nextSection.sectionId === "stage" || nextSection.sectionId === "reminders" || firstSection.sectionId === "stage" || firstSection.sectionId === "reminders") {
                             hasStageAndReminderNext = true;
                         }
                     }
