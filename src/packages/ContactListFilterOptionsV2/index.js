@@ -56,16 +56,16 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                 fetchLeadTags(null, false, path),
                 fetchLeadTags(null, false, path1),
             ]);
-            const campaignTitleObject = data.find((item) => item.tagCategoryId === 16);
-            const carrierTagsObject = data.find((item) => item.tagCategoryId === 11);
-            const productStatusObject = dataWithFalse.find((item) => item.tagCategoryId === 10);
-            const productTypeObject = dataWithFalse.find((item) => item.tagCategoryId === 9);
-            const healthSoAObject = dataWithFalse.find((item) => item.tagCategoryId === 12);
-            const campaignSourceObject = dataWithFalse.find((item) => item.tagCategoryId === 13);
-            const campaignTypeObject = dataWithFalse.find((item) => item.tagCategoryId === 14);
-            const campaignInterestObject = dataWithFalse.find((item) => item.tagCategoryId === 16);
-            const askIntegrityObject = dataWithFalse.find((item) => item.tagCategoryId === 17);
-            const healthSoaOptions = healthSoAObject.tags
+            const campaignTitleObject = data.find((item) => item.tagCategoryName === "Campaign Title");
+            const carrierTagsObject = data.find((item) => item.tagCategoryName === "Carrier");
+            const productStatusObject = dataWithFalse.find((item) => item.tagCategoryName === "Product Status");
+            const productTypeObject = dataWithFalse.find((item) => item.tagCategoryName === "Product Type");
+            const healthSoAObject = dataWithFalse.find((item) => item.tagCategoryName === "Health SOA");
+            const campaignSourceObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Source");
+            const campaignTypeObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Type");
+            const campaignInterestObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Interest");
+            const askIntegrityObject = dataWithFalse.find((item) => item.tagCategoryName === "Ask Integrity Suggests");
+            const healthSoaOptions = healthSoAObject?.tags
                 .filter(
                     (item) =>
                         (item.tagLabel === "SOA SIGNED" && item.tagIconUrl) ||
@@ -77,15 +77,24 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                     value: item.tagId,
                     icon: item.tagIconUrl || ProductStatusStarted || "",
                 }));
-            const campaignSourceOptions = campaignSourceObject.tags.map((item) => ({
-                label: item.tagLabel,
-                value: item.tagId,
-                icon:
-                    item.tagIconUrl ||
-                    filterSectionsConfigOriginal.campaign_source.options.find((item1) => item1.label === item.tagLabel)
-                        ?.icon ||
-                    "",
-            }));
+            const campaignSourceOptions = campaignSourceObject?.tags
+                .filter(
+                    (item) =>
+                        item.tagLabel === "DEFAULT" ||
+                        item.tagLabel === "PLANENROLL" ||
+                        (item.tagLabel === "LEADCENTER" && item.tagIconUrl) ||
+                        item.tagLabel === "MANUALLY ADDED"
+                )
+                .map((item) => ({
+                    label: item.tagLabel,
+                    value: item.tagId,
+                    icon:
+                        item.tagIconUrl ||
+                        filterSectionsConfigOriginal.campaign_source.options.find(
+                            (item1) => item1.label === item.tagLabel
+                        )?.icon ||
+                        "",
+                }));
             setFilterSectionsConfig({
                 ...filterSectionsConfig,
                 campaign_title: {
@@ -121,7 +130,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                 },
                 product_status: {
                     heading: "Product Status",
-                    options: productStatusObject.tags.map((item) => ({
+                    options: productStatusObject?.tags.map((item) => ({
                         label: item.tagLabel,
                         value: item.tagId,
                         icon:
@@ -135,11 +144,19 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                 },
                 product_type: {
                     heading: "Product Type",
-                    options: productTypeObject.tags.map((item) => ({
-                        label: item.tagLabel,
-                        value: item.tagId,
-                        icon: item.tagIconUrl || ProductTypeMedicare || "",
-                    })),
+                    options: productTypeObject?.tags
+                        .filter(
+                            (item) =>
+                                item.tagLabel === "MEDICARE ADVANTAGE" ||
+                                item.tagLabel === "MAPD" ||
+                                (item.tagLabel === "PDP" && item.tagIconUrl) ||
+                                item.tagLabel === "FINAL EXPENSE"
+                        )
+                        .map((item) => ({
+                            label: item.tagLabel,
+                            value: item.tagId,
+                            icon: item.tagIconUrl || ProductTypeMedicare || "",
+                        })),
                 },
                 health_soa: {
                     heading: "Health SOA",
@@ -151,7 +168,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                 },
                 campaign_type: {
                     heading: "Campaign Type",
-                    options: campaignTypeObject.tags.map((item) => ({
+                    options: campaignTypeObject?.tags.map((item) => ({
                         label: item.tagLabel,
                         value: item.tagId,
                         icon:
@@ -164,7 +181,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                 },
                 campaign_interest: {
                     heading: "Campaign Interest",
-                    options: campaignInterestObject.tags.map((item) => ({
+                    options: campaignInterestObject?.tags.map((item) => ({
                         label: item.tagLabel,
                         value: item.tagId,
                         icon: item.tagIconUrl || CampaignInterestDefault || "",
@@ -174,30 +191,30 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                     heading: "Ask Integrity Suggests",
                     option: {
                         label: "Cross Sell",
-                        value: askIntegrityObject.tags.find((item) => item.tagLabel === "CROSS-SELL").tagId,
+                        value: askIntegrityObject?.tags.find((item) => item.tagLabel === "CROSS-SELL")?.tagId,
                     },
                 },
                 switcher: {
                     heading: "Ask Integrity Suggests",
                     option: {
                         label: "Switcher",
-                        value: askIntegrityObject.tags.find((item) => item.tagLabel === "SWITCHER").tagId,
+                        value: askIntegrityObject?.tags.find((item) => item.tagLabel === "SWITCHER")?.tagId,
                     },
                 },
                 sep: {
                     heading: "Ask Integrity Suggests",
                     option: {
                         label: "SEP",
-                        value: askIntegrityObject.tags.find((item) => item.tagLabel === "SEP").tagId,
+                        value: askIntegrityObject?.tags.find((item) => item.tagLabel === "SEP")?.tagId,
                     },
                 },
             });
             setFetchedFiltersSectionConfigFromApi(true);
         }
-        if (!fetchedFiltersSectionConfigFromApi) {
+        if (!fetchedFiltersSectionConfigFromApi && statusOptions?.length) {
             fetchData();
         }
-    }, []);
+    }, [statusOptions]);
 
     useEffect(() => {
         onFilterCountChange(selectedFilterSections);
@@ -243,6 +260,9 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             optionObject.option = { label: gotitem?.tagLabel, value: parseInt(tagId) };
             optionObject.sectionId = "custom_tags";
             setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
+        }
+        if ((sectionId === "reminders" || sectionId === "stage") && selectedFilterSections.length >= 1) {
+            selectedFilterSections[selectedFilterSections.length - 1].nextAndOrOption = "and";
         }
         setSelectedFilterSections([...selectedFilterSections, optionObject]);
         setIsFilterSelectOpenForSection(uuid);
@@ -327,7 +347,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                             section={section}
                             freezeAndOption={hasStageAndReminderNext}
                             filterSectionsConfig={filterSectionsConfig}
-                            key={section.id}
+                            key={section.id + section.nextAndOrOption}
                             isFilterSelectOpenForSection={isFilterSelectOpenForSection === section.id}
                             shouldShowAndOr={shouldShowAndOr}
                             onChangeFilterOption={(value) => handleOnChangeFilterOption(section.id, value)}
@@ -444,18 +464,27 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                         </span>
                         <span className={styles.filterDropdownHeader}>Ask Integrity Suggests</span>
                         <span>
-                            <Box
-                                className={styles.dropdownOption}
-                                onClick={() => handleFilterOptionClick("cross_sell")}
-                            >
-                                Cross-Sell
-                            </Box>
-                            <Box className={styles.dropdownOption} onClick={() => handleFilterOptionClick("switcher")}>
-                                Switcher
-                            </Box>
-                            <Box className={styles.dropdownOption} onClick={() => handleFilterOptionClick("sep")}>
-                                SEP
-                            </Box>
+                            {filterSectionsConfig.cross_sell.option.value && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("cross_sell")}
+                                >
+                                    Cross-Sell
+                                </Box>
+                            )}
+                            {filterSectionsConfig.switcher.option.value && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("switcher")}
+                                >
+                                    Switcher
+                                </Box>
+                            )}
+                            {filterSectionsConfig.sep.option.value && (
+                                <Box className={styles.dropdownOption} onClick={() => handleFilterOptionClick("sep")}>
+                                    SEP
+                                </Box>
+                            )}
                         </span>
                         {Boolean(customTags?.length) && (
                             <span className={styles.filterDropdownHeader}>Custom Tags</span>
