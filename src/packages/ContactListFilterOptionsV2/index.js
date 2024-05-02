@@ -70,7 +70,9 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             const campaignSourceObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Source");
             const campaignTypeObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Type");
             const campaignInterestObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Interest");
-            const askIntegrityObject = dataWithFalse.find((item) => item.tagCategoryName === "Ask Integrity Suggests");
+            const askIntegrityObject = dataWithFalse.find(
+                (item) => item.tagCategoryName === "Ask Integrity Recommendations"
+            );
             const productTypePdpOption = productTypeObject.tags.find(
                 (item) => item.tagLabel === "PDP" && item.tagIconUrl
             );
@@ -458,12 +460,14 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                                     Product Status
                                 </Box>
                             )}
-                            <Box
-                                className={styles.dropdownOption}
-                                onClick={() => handleFilterOptionClick("product_type")}
-                            >
-                                Product Type
-                            </Box>
+                            {Boolean(filterSectionsConfig.product_type?.options.length) && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("product_type")}
+                                >
+                                    Product Type
+                                </Box>
+                            )}
                             {Boolean(filterSectionsConfig.carrier?.options.length) && (
                                 <Box
                                     className={styles.dropdownOption}
@@ -481,18 +485,22 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                         </span>
                         <span className={styles.filterDropdownHeader}>Campaign Tags</span>
                         <span>
-                            <Box
-                                className={styles.dropdownOption}
-                                onClick={() => handleFilterOptionClick("campaign_source")}
-                            >
-                                Campaign Source
-                            </Box>
-                            <Box
-                                className={styles.dropdownOption}
-                                onClick={() => handleFilterOptionClick("campaign_type")}
-                            >
-                                Campaign Type
-                            </Box>
+                            {Boolean(filterSectionsConfig.campaign_source?.options.length) && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("campaign_source")}
+                                >
+                                    Campaign Source
+                                </Box>
+                            )}
+                            {Boolean(filterSectionsConfig.campaign_type?.options.length) && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("campaign_type")}
+                                >
+                                    Campaign Type
+                                </Box>
+                            )}
                             {Boolean(filterSectionsConfig.campaign_title?.options.length) && (
                                 <Box
                                     className={styles.dropdownOption}
@@ -501,12 +509,14 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                                     Campaign Title
                                 </Box>
                             )}
-                            <Box
-                                className={styles.dropdownOption}
-                                onClick={() => handleFilterOptionClick("campaign_interest")}
-                            >
-                                Campaign Interest
-                            </Box>
+                            {Boolean(filterSectionsConfig.campaign_interest?.options.length) && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("campaign_interest")}
+                                >
+                                    Campaign Interest
+                                </Box>
+                            )}
                         </span>
                         <span className={styles.filterDropdownHeader}>Ask Integrity Suggests</span>
                         <span>
