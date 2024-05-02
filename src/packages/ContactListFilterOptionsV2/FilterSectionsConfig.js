@@ -215,7 +215,7 @@ export const filterSectionsConfig = {
         heading: "Campaign Source",
         options: [
             {
-                label: "DEFAULT111",
+                label: "DEFAULT",
                 value: "default",
                 icon: CampaignSourceDefault,
             },
