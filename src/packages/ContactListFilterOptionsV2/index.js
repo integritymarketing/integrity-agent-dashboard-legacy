@@ -110,27 +110,29 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             const campaignSourceLC = campaignSourceObject.tags.find(
                 (item) => item.tagLabel === "LEADCENTER" && item.tagIconUrl
             );
-            const campaignSourceManual = campaignSourceObject.tags.find((item) => item.tagLabel === "MANUALLY ADDED");
+            const campaignSourceManual = campaignSourceObject.tags.find(
+                (item) => item.tagLabel === "MANUALLY ADDED" || item.tagLabel === "MANUAL"
+            );
             const campaignSourceOptions = [
                 {
                     label: "Default",
-                    value: campaignSourceDefault.tagId,
-                    icon: campaignSourceDefault.tagIconUrl || CampaignSourceDefaultIcon,
+                    value: campaignSourceDefault?.tagId,
+                    icon: campaignSourceDefault?.tagIconUrl || CampaignSourceDefaultIcon,
                 },
                 {
                     label: "PlanEnroll",
-                    value: campaignSourcePlanEnroll.tagId,
-                    icon: campaignSourcePlanEnroll.tagIconUrl || CampaignSourcePlanEnrollIcon,
+                    value: campaignSourcePlanEnroll?.tagId,
+                    icon: campaignSourcePlanEnroll?.tagIconUrl || CampaignSourcePlanEnrollIcon,
                 },
                 {
                     label: "LeadCenter",
-                    value: campaignSourceLC.tagId,
-                    icon: campaignSourceLC.tagIconUrl || CampaignSourceLcIcon,
+                    value: campaignSourceLC?.tagId,
+                    icon: campaignSourceLC?.tagIconUrl || CampaignSourceLcIcon,
                 },
                 {
                     label: "Manually Added",
-                    value: campaignSourceManual.tagId,
-                    icon: campaignSourceManual.tagIconUrl || CampaignSourceManuallyAdded,
+                    value: campaignSourceManual?.tagId,
+                    icon: campaignSourceManual?.tagIconUrl || CampaignSourceManuallyAdded,
                 },
             ];
             const healthSoaOptions = healthSoAObject?.tags
@@ -250,7 +252,11 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             setFetchedFiltersSectionConfigFromApi(true);
         }
         if (!fetchedFiltersSectionConfigFromApi && statusOptions?.length && !isApiCallInitiated.current) {
-            fetchData();
+            try {
+                fetchData();
+            } catch (e) {
+                console.log("ERROR", e);
+            }
         }
     }, [statusOptions]);
 
@@ -444,12 +450,14 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                         </span>
                         <span className={styles.filterDropdownHeader}>Product Tags</span>
                         <span>
-                            <Box
-                                className={styles.dropdownOption}
-                                onClick={() => handleFilterOptionClick("product_status")}
-                            >
-                                Product Status
-                            </Box>
+                            {Boolean(filterSectionsConfig.product_status?.options.length) && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("product_status")}
+                                >
+                                    Product Status
+                                </Box>
+                            )}
                             <Box
                                 className={styles.dropdownOption}
                                 onClick={() => handleFilterOptionClick("product_type")}
