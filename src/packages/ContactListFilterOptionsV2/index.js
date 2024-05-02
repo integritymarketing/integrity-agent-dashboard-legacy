@@ -83,7 +83,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                         item.tagLabel === "DEFAULT" ||
                         item.tagLabel === "PLANENROLL" ||
                         (item.tagLabel === "LEADCENTER" && item.tagIconUrl) ||
-                        item.tagLabel === "MANUAL"
+                        item.tagLabel === "MANUALLY ADDED"
                 )
                 .map((item) => ({
                     label: item.tagLabel,
