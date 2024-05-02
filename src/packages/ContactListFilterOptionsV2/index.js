@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo } from "react";
+import React, { useState, useContext, useEffect, useMemo, useRef } from "react";
 import { ChevronLeft, Add } from "@mui/icons-material";
 import { Button } from "components/ui/Button";
 import clientsService from "services/clientsService";
@@ -9,6 +9,10 @@ import Close from "./icons/close.svg";
 import Icon from "components/Icon";
 import Popover from "@mui/material/Popover";
 import CustomTagIcon from "./icons/custom_tag.svg";
+import CampaignSourceLcIcon from "./icons/campaign_source_lc.svg";
+import CampaignSourcePlanEnrollIcon from "./icons/campaign_source_planenroll.svg";
+import CampaignSourceDefaultIcon from "./icons/campaign_source_default.svg";
+import CampaignSourceManuallyAdded from "./icons/campaign_source_manually_added.svg";
 import ProductStatusStarted from "./icons/product_status_started.svg";
 import ProductTypeMedicare from "./icons/product_type_medicare.svg";
 import CampaignInterestDefault from "./icons/campaign_interest_default.svg";
@@ -35,6 +39,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
     const { Get: fetchLeadTags } = useFetch(URL);
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
+    const isApiCallInitiated = useRef(false);
     const [tagsList, setTagsList] = useState([]);
     const { statusOptions } = useContext(StageStatusContext);
     const [isFilterSelectOpenForSection, setIsFilterSelectOpenForSection] = useState(null);
@@ -50,6 +55,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
 
     useEffect(() => {
         async function fetchData() {
+            isApiCallInitiated.current = true;
             const path = `Tag/TagsGroupByCategory?mappedLeadTagsOnly=true`;
             const path1 = `Tag/TagsGroupByCategory?mappedLeadTagsOnly=false`;
             const [data, dataWithFalse] = await Promise.all([
@@ -65,6 +71,68 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             const campaignTypeObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Type");
             const campaignInterestObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Interest");
             const askIntegrityObject = dataWithFalse.find((item) => item.tagCategoryName === "Ask Integrity Suggests");
+            const productTypePdpOption = productTypeObject.tags.find(
+                (item) => item.tagLabel === "PDP" && item.tagIconUrl
+            );
+            const productTypeMapdOption = productTypeObject.tags.find(
+                (item) => item.tagLabel === "MAPD" && item.tagIconUrl
+            );
+            const productTypeFinalExpenseOption = productTypeObject.tags.find(
+                (item) => item.tagLabel === "FINAL EXPENSE" || item.tagLabel === "FEXP"
+            );
+            const productTypeMedicareAdvantageOption = productTypeObject.tags.find(
+                (item) => item.tagLabel === "MEDICARE ADVANTAGE" || item.tagLabel === "HEALTH"
+            );
+            const productTypeOptions = [
+                {
+                    label: "PDP",
+                    value: productTypePdpOption.tagId,
+                    icon: productTypePdpOption.tagIconUrl || ProductTypeMedicare,
+                },
+                {
+                    label: "MAPD",
+                    value: productTypeMapdOption.tagId,
+                    icon: productTypeMapdOption.tagIconUrl || ProductTypeMedicare,
+                },
+                {
+                    label: "FINAL EXPENSE",
+                    value: productTypeFinalExpenseOption.tagId,
+                    icon: productTypeFinalExpenseOption.tagIconUrl || ProductTypeMedicare,
+                },
+                {
+                    label: "MEDICARE ADVANTANGE",
+                    value: productTypeMedicareAdvantageOption.tagId,
+                    icon: productTypeMedicareAdvantageOption.tagIconUrl || ProductTypeMedicare,
+                },
+            ];
+            const campaignSourceDefault = campaignSourceObject.tags.find((item) => item.tagLabel === "DEFAULT");
+            const campaignSourcePlanEnroll = campaignSourceObject.tags.find((item) => item.tagLabel === "PLANENROLL");
+            const campaignSourceLC = campaignSourceObject.tags.find(
+                (item) => item.tagLabel === "LEADCENTER" && item.tagIconUrl
+            );
+            const campaignSourceManual = campaignSourceObject.tags.find((item) => item.tagLabel === "MANUALLY ADDED");
+            const campaignSourceOptions = [
+                {
+                    label: "Default",
+                    value: campaignSourceDefault.tagId,
+                    icon: campaignSourceDefault.tagIconUrl || CampaignSourceDefaultIcon,
+                },
+                {
+                    label: "PlanEnroll",
+                    value: campaignSourcePlanEnroll.tagId,
+                    icon: campaignSourcePlanEnroll.tagIconUrl || CampaignSourcePlanEnrollIcon,
+                },
+                {
+                    label: "LeadCenter",
+                    value: campaignSourceLC.tagId,
+                    icon: campaignSourceLC.tagIconUrl || CampaignSourceLcIcon,
+                },
+                {
+                    label: "Manually Added",
+                    value: campaignSourceManual.tagId,
+                    icon: campaignSourceManual.tagIconUrl || CampaignSourceManuallyAdded,
+                },
+            ];
             const healthSoaOptions = healthSoAObject?.tags
                 .filter(
                     (item) =>
@@ -76,24 +144,6 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                     label: item.tagLabel,
                     value: item.tagId,
                     icon: item.tagIconUrl || ProductStatusStarted || "",
-                }));
-            const campaignSourceOptions = campaignSourceObject?.tags
-                .filter(
-                    (item) =>
-                        item.tagLabel === "DEFAULT" ||
-                        item.tagLabel === "PLANENROLL" ||
-                        (item.tagLabel === "LEADCENTER" && item.tagIconUrl) ||
-                        item.tagLabel === "MANUALLY ADDED"
-                )
-                .map((item) => ({
-                    label: item.tagLabel,
-                    value: item.tagId,
-                    icon:
-                        item.tagIconUrl ||
-                        filterSectionsConfigOriginal.campaign_source.options.find(
-                            (item1) => item1.label === item.tagLabel
-                        )?.icon ||
-                        "",
                 }));
             setFilterSectionsConfig({
                 ...filterSectionsConfig,
@@ -144,19 +194,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                 },
                 product_type: {
                     heading: "Product Type",
-                    options: productTypeObject?.tags
-                        .filter(
-                            (item) =>
-                                item.tagLabel === "MEDICARE ADVANTAGE" ||
-                                item.tagLabel === "MAPD" ||
-                                (item.tagLabel === "PDP" && item.tagIconUrl) ||
-                                item.tagLabel === "FINAL EXPENSE"
-                        )
-                        .map((item) => ({
-                            label: item.tagLabel,
-                            value: item.tagId,
-                            icon: item.tagIconUrl || ProductTypeMedicare || "",
-                        })),
+                    options: productTypeOptions,
                 },
                 health_soa: {
                     heading: "Health SOA",
@@ -211,7 +249,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             });
             setFetchedFiltersSectionConfigFromApi(true);
         }
-        if (!fetchedFiltersSectionConfigFromApi && statusOptions?.length) {
+        if (!fetchedFiltersSectionConfigFromApi && statusOptions?.length && !isApiCallInitiated.current) {
             fetchData();
         }
     }, [statusOptions]);
