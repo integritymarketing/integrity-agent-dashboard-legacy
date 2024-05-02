@@ -310,21 +310,21 @@ export const filterSectionsConfig = {
         heading: "Ask Integrity Suggests",
         option: {
             label: "Cross Sell",
-            value: "cross_sell",
+            value: "",
         },
     },
     switcher: {
         heading: "Ask Integrity Suggests",
         option: {
             label: "Switcher",
-            value: "switcher",
+            value: "",
         },
     },
     sep: {
         heading: "Ask Integrity Suggests",
         option: {
             label: "SEP",
-            value: "sep",
+            value: "",
         },
     },
     custom_tags: {

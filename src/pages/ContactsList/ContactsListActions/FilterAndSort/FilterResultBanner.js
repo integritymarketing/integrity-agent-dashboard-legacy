@@ -27,32 +27,46 @@ function FilterResultBanner() {
         setTimeout(() => resetData([]), 100);
     };
 
-    function capitalizeFirstLetter(string) {
+    function capitalizeFirstLetter(sectionId, string) {
+        if (sectionId === "product_type") {
+            return string;
+        }
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
     }
 
     const filterLabel = useMemo(() => {
         return selectedFilterSections
-            .map((item) => {
+            .map((item, index) => {
                 const section = filterSectionsConfig[item.sectionId];
                 let thisItemLabel = "";
+                let andOrLabel = "";
+                if (index !== selectedFilterSections.length - 1) {
+                    if (item.nextAndOrOption === "or") {
+                        andOrLabel = `<span> or </span>`;
+                    } else {
+                        andOrLabel = `<span> and </span>`;
+                    }
+                }
                 if (section.options) {
                     const label =
                         section.options.find((item1) => item1.value === item.selectedFilterOption)?.label || "";
                     thisItemLabel = `<span>
                         ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"}
-                        <span style="font-weight:bold">${capitalizeFirstLetter(label)}</span>
+                        <span style="font-weight:bold">${capitalizeFirstLetter(item.sectionId, label)}</span>
                     </span>`;
                 } else if (section.option) {
                     thisItemLabel = `<span>
                         ${section.heading} ${
                         item.selectedIsOption === "is_not" ? "is not" : "is"
-                    } <span style="font-weight:bold">${capitalizeFirstLetter(section.option.label || "")}</span>
+                    } <span style="font-weight:bold">${capitalizeFirstLetter(
+                        item.sectionId,
+                        section.option.label || ""
+                    )}</span>
                     </span>`;
                 }
-                return thisItemLabel;
+                return thisItemLabel + andOrLabel;
             })
-            .join(`<span> and </span>`);
+            .join("");
     }, [selectedFilterSections, filterSectionsConfig]);
 
     if (!selectedFilterSections?.length) {
