@@ -71,7 +71,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             const campaignTypeObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Type");
             const campaignInterestObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Interest");
             const askIntegrityObject = dataWithFalse.find(
-                (item) => item.tagCategoryName === "Ask Integrity Recommendations"
+                (item) => item.tagCategoryName === "Ask Integrity Recommendations" && item.tags.length > 0
             );
             const productTypePdpOption = productTypeObject.tags.find(
                 (item) => item.tagLabel === "PDP" && item.tagIconUrl
