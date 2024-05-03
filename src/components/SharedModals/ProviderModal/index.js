@@ -37,6 +37,13 @@ const DISTANCE_OPTIONS = [
     { value: 10, label: "10 miles" },
     { value: 20, label: "20 miles" },
     { value: 30, label: "30 miles" },
+    { value: 40, label: "40 miles" },
+    { value: 50, label: "50 miles" },
+    { value: 60, label: "60 miles" },
+    { value: 70, label: "70 miles" },
+    { value: 80, label: "80 miles" },
+    { value: 90, label: "90 miles" },
+    { value: 100, label: "100 miles" }
 ];
 
 function encodeQueryData(data) {

@@ -90,7 +90,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
     }, [addresses]);
 
     const leadState = useMemo(() => {
-        const state = addresses?.[0]?.state;
+        const state = addresses?.[0]?.stateCode;
         return state ? state : "";
     }, [addresses]);
 
@@ -185,6 +185,10 @@ export const ContactInfoContainer = ({ isMobile }) => {
         setIsEditMode(false);
     };
 
+    const formatAddress = (address1, address2, city, stateCode, postalCode) => {
+        const addressParts = [address1, address2, city, stateCode, postalCode];
+        return addressParts.filter(Boolean).join(', ');
+    }
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
             <Box marginTop={"20px"}>
@@ -268,9 +272,8 @@ export const ContactInfoContainer = ({ isMobile }) => {
                         </SectionContainer>
                         <SectionContainer>
                             <Label value="Address" color="#717171" size="14px" />
-                            <Label value={leadAddress1} color="#4178FF" size="16px" />
                             <Label
-                                value={`${leadAddress2} ${leadCity}, ${leadState} ${leadZip}`}
+                                value={formatAddress(leadAddress1, leadAddress2,leadCity,leadState,leadZip)}
                                 color="#4178FF"
                                 size="16px"
                             />
