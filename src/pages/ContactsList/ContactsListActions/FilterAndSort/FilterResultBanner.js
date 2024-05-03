@@ -11,10 +11,10 @@ function FilterResultBanner() {
     const {
         withoutFilterResponseSize,
         selectedFilterSections: selectedFilterSectionsOriginal,
-        tableData,
         setSelectedFilterSections,
         resetData,
         filterSectionsConfig,
+        pageResult,
     } = useContactsListContext();
 
     const selectedFilterSections = selectedFilterSectionsOriginal.filter((item) => item.selectedFilterOption);
@@ -56,12 +56,11 @@ function FilterResultBanner() {
                     </span>`;
                 } else if (section.option) {
                     thisItemLabel = `<span>
-                        ${section.heading} ${
-                        item.selectedIsOption === "is_not" ? "is not" : "is"
-                    } <span style="font-weight:bold">${capitalizeFirstLetter(
-                        item.sectionId,
-                        section.option.label || ""
-                    )}</span>
+                        ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"
+                        } <span style="font-weight:bold">${capitalizeFirstLetter(
+                            item.sectionId,
+                            section.option.label || ""
+                        )}</span>
                     </span>`;
                 }
                 return thisItemLabel + andOrLabel;
@@ -75,7 +74,7 @@ function FilterResultBanner() {
     return (
         <Box className={styles.bannerContainer}>
             <Box>
-                Showing {tableData?.length || 0} of {withoutFilterResponseSize || 0} contacts |
+                Showing {pageResult?.total} of {withoutFilterResponseSize} contacts |
                 <span className={styles.filterLabelSpan} dangerouslySetInnerHTML={{ __html: filterLabel }}></span>
             </Box>
             <Box>

@@ -20,6 +20,8 @@ const labelMap = {
 const labelMapAmplitude = {
     "Other": "custom_tags",
     "Ask Integrity Recommendations": "ask_Integrity_suggestions",
+    "Products": "products",
+    "Campaigns": "campaigns",
 };
 
 export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setTagId, categoryID, isMobile }) => {
