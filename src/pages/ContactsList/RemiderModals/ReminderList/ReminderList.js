@@ -82,12 +82,14 @@ const RemindersList = ({
                                             {getLocalDateTime(reminder.reminderDate).date}
                                         </span>
                                     </Box>
-                                    <Box className={styles.dueLabel}>
-                                        At:{" "}
-                                        <span className={styles.dueValue}>
-                                            {getLocalDateTime(reminder.reminderDate).time}
-                                        </span>
-                                    </Box>
+                                    {getLocalDateTime(reminder.reminderDate)?.time !== "12:00 am" && (
+                                        <Box className={styles.dueLabel}>
+                                            At:{" "}
+                                            <span className={styles.dueValue}>
+                                                {getLocalDateTime(reminder.reminderDate)?.time}
+                                            </span>
+                                        </Box>
+                                    )}
                                 </Box>
                             </Box>
                             {!reminder.isComplete && (
