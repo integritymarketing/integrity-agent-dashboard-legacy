@@ -31,7 +31,6 @@ function usePolicyCount(allLeads) {
     const fetchPolicyCounts = useCallback(async () => {
         if (updateURL) {
             try {
-                setIsLoading(true);
                 const response = await getPolicyCount();
                 setPolicyCounts(response);
                 setIsLoading(false);

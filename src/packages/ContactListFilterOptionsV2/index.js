@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, useMemo, useRef } from "react";
+import useAnalytics from "hooks/useAnalytics";
 import { ChevronLeft, Add } from "@mui/icons-material";
 import { Button } from "components/ui/Button";
 import clientsService from "services/clientsService";
@@ -9,10 +10,7 @@ import Close from "./icons/close.svg";
 import Icon from "components/Icon";
 import Popover from "@mui/material/Popover";
 import CustomTagIcon from "./icons/custom_tag.svg";
-import CampaignSourceLcIcon from "./icons/campaign_source_lc.svg";
-import CampaignSourcePlanEnrollIcon from "./icons/campaign_source_planenroll.svg";
 import CampaignSourceDefaultIcon from "./icons/campaign_source_default.svg";
-import CampaignSourceManuallyAdded from "./icons/campaign_source_manually_added.svg";
 import ProductStatusStarted from "./icons/product_status_started.svg";
 import ProductTypeMedicare from "./icons/product_type_medicare.svg";
 import CampaignInterestDefault from "./icons/campaign_interest_default.svg";
@@ -41,6 +39,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const isApiCallInitiated = useRef(false);
     const [tagsList, setTagsList] = useState([]);
+    const { fireEvent } = useAnalytics();
     const { statusOptions } = useContext(StageStatusContext);
     const [isFilterSelectOpenForSection, setIsFilterSelectOpenForSection] = useState(null);
     const {
@@ -73,6 +72,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             const askIntegrityObject = dataWithFalse.find(
                 (item) => item.tagCategoryName === "Ask Integrity Recommendations" && item.tags.length > 0
             );
+            const customTagsObject = data.find((item) => item.tagCategoryName === "Other");
             const productTypePdpOption = productTypeObject.tags.find(
                 (item) => item.tagLabel === "PDP" && item.tagIconUrl
             );
@@ -107,36 +107,11 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                     icon: productTypeMedicareAdvantageOption.tagIconUrl || ProductTypeMedicare,
                 },
             ];
-            const campaignSourceDefault = campaignSourceObject.tags.find((item) => item.tagLabel === "DEFAULT");
-            const campaignSourcePlanEnroll = campaignSourceObject.tags.find((item) => item.tagLabel === "PLANENROLL");
-            const campaignSourceLC = campaignSourceObject.tags.find(
-                (item) => item.tagLabel === "LEADCENTER" && item.tagIconUrl
-            );
-            const campaignSourceManual = campaignSourceObject.tags.find(
-                (item) => item.tagLabel === "MANUALLY ADDED" || item.tagLabel === "MANUAL"
-            );
-            const campaignSourceOptions = [
-                {
-                    label: "Default",
-                    value: campaignSourceDefault?.tagId,
-                    icon: campaignSourceDefault?.tagIconUrl || CampaignSourceDefaultIcon,
-                },
-                {
-                    label: "PlanEnroll",
-                    value: campaignSourcePlanEnroll?.tagId,
-                    icon: campaignSourcePlanEnroll?.tagIconUrl || CampaignSourcePlanEnrollIcon,
-                },
-                {
-                    label: "LeadCenter",
-                    value: campaignSourceLC?.tagId,
-                    icon: campaignSourceLC?.tagIconUrl || CampaignSourceLcIcon,
-                },
-                {
-                    label: "Manually Added",
-                    value: campaignSourceManual?.tagId,
-                    icon: campaignSourceManual?.tagIconUrl || CampaignSourceManuallyAdded,
-                },
-            ];
+            const campaignSourceOptions = campaignSourceObject.tags.map((item) => ({
+                label: item.tagLabel,
+                value: item.tagId,
+                icon: item.tagIconUrl || CampaignSourceDefaultIcon
+            }));
             const healthSoaOptions = healthSoAObject?.tags
                 .filter(
                     (item) =>
@@ -199,6 +174,14 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                 product_type: {
                     heading: "Product Type",
                     options: productTypeOptions,
+                },
+                custom_tags: {
+                    heading: "Custom Tags",
+                    options: customTagsObject?.tags.map((item) => ({
+                        label: item.tagLabel,
+                        value: item.tagId.toString(),
+                        icon: item.tagIconUrl || CustomTagIcon,
+                    }))
                 },
                 health_soa: {
                     heading: "Health SOA",
@@ -324,6 +307,9 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
     const handleOnChangeFilterOption = (sectionUUId, value) => {
         const newSelectedFilterSections = selectedFilterSections.map((section) => {
             if (section.id === sectionUUId) {
+                fireEvent("Tag Filter Selected", {
+                    tag_filter: section.sectionId,
+                });
                 return {
                     ...section,
                     selectedFilterOption: value,
@@ -384,10 +370,12 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                     let hasStageAndReminderNext = false;
                     if (index !== selectedFilterSections.length - 1) {
                         const nextSection = selectedFilterSections[index + 1];
-                        const firstSection = selectedFilterSections[0];
-                        if (nextSection.sectionId === "stage" || nextSection.sectionId === "reminders" || firstSection.sectionId === "stage" || firstSection.sectionId === "reminders") {
+                        if (nextSection.sectionId === "stage" || nextSection.sectionId === "reminders") {
                             hasStageAndReminderNext = true;
                         }
+                    }
+                    if (index === 0 && (section.sectionId === "stage" || section.sectionId === "reminders")) {
+                        hasStageAndReminderNext = true;
                     }
                     return (
                         <FilterSectionBox

@@ -175,6 +175,7 @@ export class ClientsService {
             sort: sort,
             stage: stageArray.length ? stageArray : null,
             tags: null,
+            search: searchText,
             includeContactPreference: true,
             includeReminder: true,
             includeTags: true,
