@@ -122,7 +122,9 @@ export const RemindersList = () => {
                                         <Box className={styles.dueLabel}>
                                             At:
                                             <span className={styles.dueValue}>
-                                                {getLocalDateTime(reminderDate)?.time}
+                                                {getLocalDateTime(reminderDate)?.time === "12:00 am"
+                                                    ? " "
+                                                    : getLocalDateTime(reminderDate)?.time}
                                             </span>
                                         </Box>
                                     </Box>

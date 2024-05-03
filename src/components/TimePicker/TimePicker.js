@@ -13,7 +13,16 @@ import ArrowDownBlue from "components/icons/version-2/ArrowDownBig";
 function TimePickerMUI({ value, onChange }) {
     const [open, setOpen] = useState(false);
 
-    const handleOpen = () => setOpen(true);
+    const handleOpen = () => {
+        setOpen(true);
+        const reminderDateTime = new Date();
+
+        if (!value) {
+            reminderDateTime.setHours(12);
+            reminderDateTime.setMinutes(0);
+            onChange(reminderDateTime);
+        }
+    };
     const handleClose = () => setOpen(false);
 
     return (

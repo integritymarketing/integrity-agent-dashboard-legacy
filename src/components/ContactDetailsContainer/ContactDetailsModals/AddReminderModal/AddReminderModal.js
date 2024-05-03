@@ -39,12 +39,13 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
 
     const handleSaveReminder = useCallback(() => {
         const reminderDateTime = new Date(values.date);
+        debugger;
 
         if (values?.time) {
             reminderDateTime.setHours(values?.time?.getHours());
             reminderDateTime.setMinutes(values?.time?.getMinutes());
         } else {
-            reminderDateTime.setHours(12);
+            reminderDateTime.setHours(0);
             reminderDateTime.setMinutes(0);
         }
 
@@ -107,7 +108,11 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
                         </Box>
                         <Box className={styles.dateTimePickersItem}>
                             <h4 className={styles.label}>At a Time</h4>
-                            <TimePickerMUI value={values.time} onChange={(time) => handleChange("time", time)} />
+                            <TimePickerMUI
+                                value={values.time}
+                                date={values.date}
+                                onChange={(time) => handleChange("time", time)}
+                            />
                         </Box>
                     </Box>
                     <Box className={styles.reminderField}>
