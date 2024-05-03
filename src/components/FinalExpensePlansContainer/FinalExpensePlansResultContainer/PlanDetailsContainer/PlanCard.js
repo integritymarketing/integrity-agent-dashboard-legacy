@@ -275,6 +275,7 @@ export const PlanCard = ({
                 resourceUrl={resource_url}
                 onApply={onApply}
                 fetchPlans={fetchPlans}
+                setIsSingleSignOnInitialModalOpen={setIsSingleSignOnInitialModalOpen}
             />
             <FinalExpenseErrorModal
                 isOpen={isFinalExpenseErrorModalOpen}

@@ -22,7 +22,15 @@ import styles from "./index.module.scss";
 
 const AGENTS_API_VERSION = "v1.0";
 
-export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, onApply, fetchPlans }) => {
+export const SingleSignOnModal = ({
+    isOpen,
+    onClose,
+    carrierInfo,
+    resourceUrl,
+    onApply,
+    fetchPlans,
+    setIsSingleSignOnInitialModalOpen,
+}) => {
     const [isContinuing, setIsContinuing] = useState(false);
     const [error, setError] = useState(null);
     const [producerId, setProducerId] = useState("");
@@ -81,6 +89,7 @@ export const SingleSignOnModal = ({ isOpen, onClose, carrierInfo, resourceUrl, o
             setIsContinuing(false);
             onClose();
         } else {
+            setIsSingleSignOnInitialModalOpen(true);
             showToast({
                 type: "error",
                 message: "Failed to add record",

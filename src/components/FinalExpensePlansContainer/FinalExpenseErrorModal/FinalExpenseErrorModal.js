@@ -29,7 +29,7 @@ export const SingleSignOnModal = ({
     onApply,
     fetchPlans,
     writingAgentNumber,
-    isSingleSignOnInitialModalOpen,
+    setIsSingleSignOnInitialModalOpen,
 }) => {
     const [isContinuing, setIsContinuing] = useState(false);
     const [error, setError] = useState(null);
@@ -95,8 +95,7 @@ export const SingleSignOnModal = ({
                 await fetchPlans();
             }
         } catch (e) {
-            isSingleSignOnInitialModalOpen(true);
-            return false;
+            setIsSingleSignOnInitialModalOpen(true);
             showToast({
                 type: "error",
                 message: e.message || "An error occurred",
