@@ -46,7 +46,6 @@ function ContactsList() {
                         <Box className={styles.wrapper}>
                             <Container>
                                 <ContactsListActions />
-                                <FilteredLeadIdsBanner />
                                 <DuplicateBanner />
                                 {!isMobile && <Divider className={styles.divider} />}
                                 <Routes>

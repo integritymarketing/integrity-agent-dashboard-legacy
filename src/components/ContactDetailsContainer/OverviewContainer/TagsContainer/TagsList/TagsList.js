@@ -13,12 +13,12 @@ import useAnalytics from "hooks/useAnalytics";
 import styles from "./TagsList.module.scss";
 
 const labelMap = {
-    Other: "Custom Tags",
+    "Other": "Custom Tags",
     "Ask Integrity Recommendations": "Ask Integrity Suggests",
 };
 
 const labelMapAmplitude = {
-    Other: "custom_tags",
+    "Other": "custom_tags",
     "Ask Integrity Recommendations": "ask_Integrity_suggestions",
 };
 
@@ -32,6 +32,7 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setT
     const [open, setOpen] = useState(false);
 
     const prettyLabel = labelMap[label] || label;
+    const prettyLabelAmplitude = labelMapAmplitude[label] || label;
 
     useEffect(() => {
         setTagId(null);
@@ -58,7 +59,10 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setT
     const toggleOpen = useCallback(() => {
         setOpen((prevOpen) => {
             const action = prevOpen ? "collapsed" : "expanded";
-            fireEvent("Tag Section Interaction", { leadId, tagSection: labelMapAmplitude, action });
+            fireEvent("Tag Section Interaction", {
+                leadId, tagSection: prettyLabelAmplitude
+                , action
+            });
             return !prevOpen;
         });
     }, [fireEvent, leadId]);

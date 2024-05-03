@@ -190,18 +190,6 @@ export default function FilterSectionBox({
                         )}
                     </Box>
                 )}
-                {section.sectionId === "custom_tags" && (
-                    <Box display={"flex"}>
-                        <Box className={styles.singleOptionBox}>{section.option.label}</Box>
-                        {isMobile && (
-                            <Icon
-                                className={`${styles.closeIcon} ${styles.closeIconMobile}`}
-                                image={Close}
-                                onClick={onRemove}
-                            />
-                        )}
-                    </Box>
-                )}
                 {filterValue && !isMobile && <Icon className={styles.closeIcon} image={Close} onClick={onRemove} />}
             </Box>
 
