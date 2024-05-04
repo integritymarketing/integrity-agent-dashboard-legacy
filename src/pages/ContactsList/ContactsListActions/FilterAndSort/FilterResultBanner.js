@@ -6,6 +6,7 @@ import { useContactsListContext } from "pages/ContactsList/providers/ContactsLis
 import styles from "./filterResultBannerStyles.module.scss";
 import { useMemo } from "react";
 import { useWindowSize } from "hooks/useWindowSize";
+import useAnalytics from "hooks/useAnalytics";
 
 function FilterResultBanner() {
     const {
@@ -16,6 +17,7 @@ function FilterResultBanner() {
         filterSectionsConfig,
         pageResult,
     } = useContactsListContext();
+    const { fireEvent } = useAnalytics();
 
     const selectedFilterSections = selectedFilterSectionsOriginal.filter((item) => item.selectedFilterOption);
 
@@ -24,6 +26,7 @@ function FilterResultBanner() {
 
     const handleClearAllClick = () => {
         setSelectedFilterSections([]);
+        fireEvent("Closed Tag Filter");
         setTimeout(() => resetData([]), 100);
     };
 
@@ -56,11 +59,12 @@ function FilterResultBanner() {
                     </span>`;
                 } else if (section.option) {
                     thisItemLabel = `<span>
-                        ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"
-                        } <span style="font-weight:bold">${capitalizeFirstLetter(
-                            item.sectionId,
-                            section.option.label || ""
-                        )}</span>
+                        ${section.heading} ${
+                        item.selectedIsOption === "is_not" ? "is not" : "is"
+                    } <span style="font-weight:bold">${capitalizeFirstLetter(
+                        item.sectionId,
+                        section.option.label || ""
+                    )}</span>
                     </span>`;
                 }
                 return thisItemLabel + andOrLabel;

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo, useRef } from "react";
+import { useState, useContext, useEffect, useMemo, useRef } from "react";
 import useAnalytics from "hooks/useAnalytics";
 import { ChevronLeft, Add } from "@mui/icons-material";
 import { Button } from "components/ui/Button";
@@ -110,7 +110,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             const campaignSourceOptions = campaignSourceObject.tags.map((item) => ({
                 label: item.tagLabel,
                 value: item.tagId,
-                icon: item.tagIconUrl || CampaignSourceDefaultIcon
+                icon: item.tagIconUrl || CampaignSourceDefaultIcon,
             }));
             const healthSoaOptions = healthSoAObject?.tags
                 .filter(
@@ -181,7 +181,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                         label: item.tagLabel,
                         value: item.tagId.toString(),
                         icon: item.tagIconUrl || CustomTagIcon,
-                    }))
+                    })),
                 },
                 health_soa: {
                     heading: "Health SOA",
@@ -352,6 +352,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
 
     const handleClearAllClick = () => {
         setSelectedFilterSections([]);
+        fireEvent("Closed Tag Filter");
         setTimeout(() => resetData([]), 100);
     };
 
@@ -539,7 +540,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                                 <Box
                                     key={tag.tagId}
                                     className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("custom_tags_" + tag.tagId)}
+                                    onClick={() => handleFilterOptionClick(`custom_tags_${tag.tagId}`)}
                                 >
                                     <Icon className={styles.menuItemIcon} image={CustomTagIcon} />
                                     {tag.tagLabel}

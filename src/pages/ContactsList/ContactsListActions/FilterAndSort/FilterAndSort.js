@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 
 import Button from "@mui/material/Button";
 import { useActiveFilters } from "hooks/useActiveFilters";
+import useAnalytics from "hooks/useAnalytics";
 
 import ContactListSort from "packages/ContactListSort";
 import Filter from "packages/FilterContacts/Filter";
@@ -20,7 +21,6 @@ import { useContactsListContext } from "pages/ContactsList/providers/ContactsLis
 
 import styles from "./styles.module.scss";
 import ContactListFilterOptionsV2 from "packages/ContactListFilterOptionsV2";
-import useFetch from "hooks/useFetch";
 
 const LIST_PATH = "/contacts/list";
 const CARD_PATH = "/contacts/card";
@@ -28,13 +28,11 @@ const CARD_PATH = "/contacts/card";
 function FilterAndSort() {
     const [sortToggle, setSortToggle] = useState(false);
     const { selectedFilterSections, setSelectedFilterSections } = useContactsListContext();
-    const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`;
-    const { Get: fetchLeadTags } = useFetch(URL);
     const [filterToggle, setFilterToggle] = useState(false);
     const { layout, setLayout, sort, setSort, resetData } = useContactsListContext();
     const { active = false } = useActiveFilters();
     const navigate = useNavigate();
-    const getLeadTags = useCallback(async () => {}, [fetchLeadTags]);
+    const { fireEvent } = useAnalytics();
 
     const LightTooltip = styled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} />)(
         () => ({
@@ -65,6 +63,7 @@ function FilterAndSort() {
 
     const handleOnFilterToggle = (value) => {
         setFilterToggle(value);
+        fireEvent("Closed Tag Filter");
         if (value === false) {
             const hasUnfinishedFilterSections = selectedFilterSections.filter(
                 (item) => !item.selectedFilterOption
