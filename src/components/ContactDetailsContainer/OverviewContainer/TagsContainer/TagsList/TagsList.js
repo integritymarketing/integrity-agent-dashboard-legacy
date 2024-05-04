@@ -13,15 +13,15 @@ import useAnalytics from "hooks/useAnalytics";
 import styles from "./TagsList.module.scss";
 
 const labelMap = {
-    "Other": "Custom Tags",
+    Other: "Custom Tags",
     "Ask Integrity Recommendations": "Ask Integrity Suggests",
 };
 
 const labelMapAmplitude = {
-    "Other": "custom_tags",
+    Other: "custom_tags",
     "Ask Integrity Recommendations": "ask_Integrity_suggestions",
-    "Products": "products",
-    "Campaigns": "campaigns",
+    Products: "products",
+    Campaigns: "campaigns",
 };
 
 export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setTagId, categoryID, isMobile }) => {
@@ -62,12 +62,13 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setT
         setOpen((prevOpen) => {
             const action = prevOpen ? "collapsed" : "expanded";
             fireEvent("Tag Section Interaction", {
-                leadId, tagSection: prettyLabelAmplitude
-                , action
+                leadId,
+                tagSection: prettyLabelAmplitude,
+                action,
             });
             return !prevOpen;
         });
-    }, [fireEvent, leadId]);
+    }, [fireEvent, leadId, prettyLabelAmplitude]);
 
     const renderItems = useCallback(
         (item) => {
@@ -97,6 +98,9 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setT
                     onClick={() => {
                         setInfoTag(label);
                         setInfoModalOpen(true);
+                        fireEvent("Contact Profile Tag Interaction", {
+                            leadid: leadId,
+                        });
                     }}
                     style={{ cursor: "pointer" }}
                 >
@@ -125,7 +129,12 @@ export const TagsList = ({ label, items, selectedTags, leadId, setTagValue, setT
                 />
             )}
             {infoModalOpen && (
-                <InfoModal open={infoModalOpen} onClose={() => setInfoModalOpen(false)} label={infoTag} />
+                <InfoModal
+                    leadId={leadId}
+                    open={infoModalOpen}
+                    onClose={() => setInfoModalOpen(false)}
+                    label={infoTag}
+                />
             )}
         </div>
     );

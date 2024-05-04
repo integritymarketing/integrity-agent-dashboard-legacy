@@ -96,7 +96,12 @@ const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMo
                     label={"Assign New Tag"}
                     className={styles.addNewButton}
                     type="tertiary"
-                    onClick={() => setAssignNewTagModal(true)}
+                    onClick={() => {
+                        setAssignNewTagModal(true);
+                        fireEvent("Contact Profile Tag Interaction", {
+                            leadid: leadId,
+                        });
+                    }}
                     icon={<AddCircleOutlineIcon sx={{ color: "#4178ff" }} />}
                     iconPosition="left"
                 />
