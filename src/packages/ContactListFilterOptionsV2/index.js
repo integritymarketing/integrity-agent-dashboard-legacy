@@ -294,7 +294,9 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             selectedFilterSections[selectedFilterSections.length - 1].nextAndOrOption = "and";
         }
         setSelectedFilterSections([...selectedFilterSections, optionObject]);
-        setIsFilterSelectOpenForSection(uuid);
+        if (!sectionId.startsWith("custom_tags_")) {
+            setIsFilterSelectOpenForSection(uuid);
+        }
         handleCloseFilterDropdown();
     };
 

@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Popover from "@mui/material/Popover";
 import { styled } from "@mui/system";
+import useAnalytics from "hooks/useAnalytics";
 
 import styles from "./styles.module.scss";
 
@@ -53,9 +54,11 @@ export default function Filter({
     filtered,
     filterOverrideClass,
     countToDisplay,
+    selectedFilterSections
 }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [filterToggle, setFilterToggle] = useState(false);
+    const { fireEvent } = useAnalytics();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -65,6 +68,19 @@ export default function Filter({
     const handleClose = () => {
         setAnchorEl(null);
         onToggle(false);
+        if (selectedFilterSections.length > 0) {
+            let conditions = "";
+            selectedFilterSections.forEach((section, index) => {
+                let separator = "";
+                if (selectedFilterSections.length - 1 !== index) {
+                    separator += " " + (section.nextAndOrOption || "and") + " ";
+                }
+                conditions += section.sectionId + separator;
+            })
+            fireEvent("Tag Filter Selected", {
+                tag_filter: conditions
+            });
+        }
     };
 
 
