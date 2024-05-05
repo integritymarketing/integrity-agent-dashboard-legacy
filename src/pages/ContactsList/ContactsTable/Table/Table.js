@@ -28,7 +28,12 @@ function Table({ columns }) {
     return (
         <table className={styles.customTable} {...getTableProps()}>
             <TableHeader headerGroups={headerGroups} />
-            <TableBody getTableBodyProps={getTableBodyProps} rows={rows} prepareRow={prepareRow} />
+            <TableBody
+                getTableBodyProps={getTableBodyProps}
+                rows={rows}
+                prepareRow={prepareRow}
+                getRowKey={(row) => row.original.leadsId}
+            />
         </table>
     );
 }

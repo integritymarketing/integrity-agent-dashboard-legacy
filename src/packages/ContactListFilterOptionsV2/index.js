@@ -28,6 +28,7 @@ const StyledPopover = styled(Popover)(() => ({
         minWidth: "200px",
         maxHeight: "300px",
         maxWidth: "100px !important",
+        zIndex: 13000,
     },
 }));
 

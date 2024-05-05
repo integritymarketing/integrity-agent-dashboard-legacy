@@ -6,7 +6,7 @@
     bottom: 0;
     right: 0;
     margin: 1.5rem;
-    z-index: 9999;
+    z-index: 1299;
     transition: all 0.3s ease-in-out;
     display: flex;
     gap: 0.5rem;
@@ -55,7 +55,7 @@
     right: -100%;
     transition: 0.3s ease-in-out;
     display: flex;
-    z-index: 9999;
+    z-index: 1299;
     flex-direction: column;
 
     @include medium {
@@ -150,7 +150,7 @@
   width: 28rem;
   height: 100vh;
   overflow: hidden;
-  z-index: 9999;
+  z-index: 1299;
   background: #1D3E71B3 0% 0% no-repeat padding-box;
   animation: expandAnimation 0.3s ease;
 
@@ -167,6 +167,7 @@
     from {
       height: 0;
     }
+
     to {
       height: 100vh;
     }
