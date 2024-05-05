@@ -94,6 +94,16 @@ export const SingleSignOnModal = ({
                 await onApply(producerId, true);
                 await fetchPlans();
             }
+            if (!response || response.status === 400) {
+                setIsContinuing(false);
+                setIsSingleSignOnInitialModalOpen(true);
+                handleClose();
+                showToast({
+                    type: "error",
+                    message: e.message || "An error occurred",
+                    time: 10000,
+                });
+            }
         } catch (e) {
             setIsSingleSignOnInitialModalOpen(true);
             showToast({

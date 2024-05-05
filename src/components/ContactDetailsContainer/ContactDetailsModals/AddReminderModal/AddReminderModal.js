@@ -71,7 +71,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
             const timeValue = new Date(fullDate);
             setValues({
                 date: date,
-                time: timeValue,
+                time: getLocalDateTime(timeValue)?.time !== "12:00 am" ? timeValue : null,
                 notes: selectedReminder.reminderNote,
                 title: selectedReminder.reminderTitle,
             });

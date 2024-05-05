@@ -83,13 +83,27 @@ export const SingleSignOnModal = ({
             naic: carrierInfo?.naic,
         };
         const res = await addSALifeRecord(payload, true);
-        if (res.ok) {
-            await onApply(producerId);
-            await fetchPlans();
+        try {
+            if (res.ok) {
+                await onApply(producerId);
+                await fetchPlans();
+                setIsContinuing(false);
+                onClose();
+            }
+            if (!res || res.status === 400) {
+                setIsContinuing(false);
+                setIsSingleSignOnInitialModalOpen(true);
+                onClose();
+                showToast({
+                    type: "error",
+                    message: "Failed to add record",
+                    time: 10000,
+                });
+            }
+        } catch (e) {
             setIsContinuing(false);
-            onClose();
-        } else {
             setIsSingleSignOnInitialModalOpen(true);
+            onClose();
             showToast({
                 type: "error",
                 message: "Failed to add record",
