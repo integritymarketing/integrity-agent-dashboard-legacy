@@ -1,5 +1,4 @@
 import { useState, useContext, useEffect, useMemo, useRef } from "react";
-import useAnalytics from "hooks/useAnalytics";
 import { ChevronLeft, Add } from "@mui/icons-material";
 import { Button } from "components/ui/Button";
 import clientsService from "services/clientsService";
@@ -39,7 +38,6 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const isApiCallInitiated = useRef(false);
     const [tagsList, setTagsList] = useState([]);
-    const { fireEvent } = useAnalytics();
     const { statusOptions } = useContext(StageStatusContext);
     const [isFilterSelectOpenForSection, setIsFilterSelectOpenForSection] = useState(null);
     const {
@@ -309,9 +307,9 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
     const handleOnChangeFilterOption = (sectionUUId, value) => {
         const newSelectedFilterSections = selectedFilterSections.map((section) => {
             if (section.id === sectionUUId) {
-                fireEvent("Tag Filter Selected", {
-                    tag_filter: section.sectionId,
-                });
+                // fireEvent("Tag Filter Selected", {
+                //     tag_filter: section.sectionId,
+                // });
                 return {
                     ...section,
                     selectedFilterOption: value,
