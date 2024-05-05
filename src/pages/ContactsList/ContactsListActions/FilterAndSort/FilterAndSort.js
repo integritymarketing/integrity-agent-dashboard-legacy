@@ -110,6 +110,7 @@ function FilterAndSort() {
                 filterOverrideClass={selectedFilterSectionsCount >= 1 ? styles.selectedFilterOneSection : ""}
                 heading="Filter Contacts"
                 open={filterToggle}
+                selectedFilterSections={selectedFilterSections}
                 countToDisplay={selectedFilterSectionsCount > 1 ? selectedFilterSectionsCount : null}
                 onToggle={handleOnFilterToggle}
                 filtered={active}
