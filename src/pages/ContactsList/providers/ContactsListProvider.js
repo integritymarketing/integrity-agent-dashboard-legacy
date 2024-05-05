@@ -66,12 +66,12 @@ export const ContactsListProvider = ({ children }) => {
             const total = await fetchTableDataWithoutFilters({
                 pageIndex: 1,
                 pageSize: DEFAULT_PAGE_ITEM,
-                searchString: null,
+                searchString,
                 sort: DEFAULT_SORT,
             });
             setWithoutFilterResponseSize(total);
         }
-    }, [withoutFilterResponseSize, setFetchedFiltersSectionConfigFromApi, fetchTableDataWithoutFilters]);
+    }, [searchString, withoutFilterResponseSize, fetchTableDataWithoutFilters]);
 
     const refreshData = useCallback(() => {
         fetchTableData({
@@ -103,22 +103,18 @@ export const ContactsListProvider = ({ children }) => {
     const resetData = useCallback(
         (newSelectedFilterSections) => {
             fetchAllListCount();
-            setPageSize(DEFAULT_PAGE_ITEM);
-            setPageIndex(1);
-            setSort(DEFAULT_SORT);
-            setSearchString(null);
             setSelectedContacts([]);
             fetchTableData({
                 pageIndex: 1,
                 pageSize: DEFAULT_PAGE_ITEM,
-                searchString: null,
+                searchString,
                 sort: DEFAULT_SORT,
                 selectedFilterSections: newSelectedFilterSections,
                 filterSectionsConfig,
                 isSilent: true,
             });
         },
-        [fetchTableData, fetchAllListCount, filterSectionsConfig]
+        [fetchAllListCount, fetchTableData, searchString, filterSectionsConfig]
     );
 
     const contextValue = useMemo(
