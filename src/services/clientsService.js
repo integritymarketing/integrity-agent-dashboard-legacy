@@ -216,6 +216,9 @@ export class ClientsService {
             CurrentPage: page,
             Search: searchText,
             leadIds,
+            IncludeReminder: true,
+            IncludeTags: true,
+            IncludeContactPreference: true,
         };
         if (hasReminder) {
             params.HasReminder = hasReminder;
@@ -256,7 +259,7 @@ export class ClientsService {
             .filter((str) => str !== null)
             .join("&");
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads?${queryStr}`
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`
         );
         if (response?.status >= 400) {
             throw new Error("Leads request failed.");
@@ -947,6 +950,7 @@ export class ClientsService {
             Search: searchText,
             leadIds,
             LeadSource,
+            IncludeActivity: true,
         };
 
         if (DateRangeFilterType) {
@@ -987,7 +991,7 @@ export class ClientsService {
             .filter((str) => str !== null)
             .join("&");
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads?${queryStr}`
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`
         );
         if (response?.status >= 400) {
             throw new Error("Leads request failed.");
