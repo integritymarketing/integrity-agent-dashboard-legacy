@@ -21,7 +21,7 @@ import { filterSectionsConfig as filterSectionsConfigOriginal } from "packages/C
 import useFetch from "hooks/useFetch";
 import stylesFilterSectionBox from "./FilterSectionBox/styles.module.scss";
 import StageStatusContext from "contexts/stageStatus";
-import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
+
 import useAnalytics from "hooks/useAnalytics";
 
 
@@ -44,9 +44,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
     const isApiCallInitiated = useRef(false);
     const [tagsList, setTagsList] = useState([]);
     const { statusOptions } = useContext(StageStatusContext);
-    const { removeFilteredLeadIds } = useFilteredLeadIds();
     const [isFilterSelectOpenForSection, setIsFilterSelectOpenForSection] = useState(null);
-    const { refreshData } = useContactsListContext();
     const {
         selectedFilterSections,
         setSelectedFilterSections,
@@ -312,8 +310,6 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
     };
 
     const handleOnChangeFilterOption = (sectionUUId, value) => {
-        removeFilteredLeadIds();
-        refreshData();
         const newSelectedFilterSections = selectedFilterSections.map((section) => {
             if (section.id === sectionUUId) {
                 return {
