@@ -38,7 +38,7 @@ export const ACTIONS = [
 ];
 
 // eslint-disable-next-line max-lines-per-function
-function ActionsCell({ row, isCard, item }) {
+function ActionsCell({ row, isCard, item, refreshData }) {
     const [leadConnectModal, setLeadConnectModal] = useState(false);
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
     const [showPlanTypeModal, setShowPlanTypeModal] = useState(false);
@@ -104,6 +104,7 @@ function ActionsCell({ row, isCard, item }) {
                     message: "Reminder successfully added.",
                     time: 3000,
                 });
+                refreshData();
             })
             .catch(() => {
                 showToast({

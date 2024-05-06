@@ -234,6 +234,7 @@ export default function DashboardActivityTable({
                     message: "Reminder successfully added.",
                     time: 3000,
                 });
+                realoadActivityData();
             })
             .catch(() => {
                 showToast({

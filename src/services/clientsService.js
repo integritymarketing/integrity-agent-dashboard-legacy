@@ -951,6 +951,7 @@ export class ClientsService {
             leadIds,
             LeadSource,
             IncludeActivity: true,
+            IncludeContactPreference: true,
         };
 
         if (DateRangeFilterType) {

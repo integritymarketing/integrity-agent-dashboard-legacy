@@ -40,7 +40,7 @@ import ConnectCall from "../ConnectCall";
 import ConnectEmail from "../ConnectEmail";
 
 function ContactsTable() {
-    const { tableData, policyCounts } = useContactsListContext();
+    const { tableData, policyCounts, refreshData } = useContactsListContext();
     const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(DeleteLeadContext);
 
     const { width: windowWidth } = useWindowSize();
@@ -341,7 +341,7 @@ function ContactsTable() {
                 Header: "",
                 disableSortBy: true,
                 accessor: "actions",
-                Cell: ({ row }) => <ActionsCell row={row} />,
+                Cell: ({ row }) => <ActionsCell row={row} refreshData={refreshData} />,
             },
         ],
         []
