@@ -54,23 +54,20 @@ function FilterResultBanner() {
                     const label =
                         section.options.find((item1) => item1.value === item.selectedFilterOption)?.label || "";
                     thisItemLabel = `<span>
-                        ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"}
-                        <span style="font-weight:bold">${capitalizeFirstLetter(item.sectionId, label)}</span>
-                    </span>`;
+                ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"}
+                <span style="font-weight:bold">${label}</span>
+              </span>`;
                 } else if (section.option) {
                     thisItemLabel = `<span>
-                        ${section.heading} ${
-                        item.selectedIsOption === "is_not" ? "is not" : "is"
-                    } <span style="font-weight:bold">${capitalizeFirstLetter(
-                        item.sectionId,
-                        section.option.label || ""
-                    )}</span>
-                    </span>`;
+                ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"
+                        } <span style="font-weight:bold">${section.option.label || ""}</span>
+              </span>`;
                 }
                 return thisItemLabel + andOrLabel;
             })
             .join("");
     }, [selectedFilterSections, filterSectionsConfig]);
+
 
     if (!selectedFilterSections?.length) {
         return null;
