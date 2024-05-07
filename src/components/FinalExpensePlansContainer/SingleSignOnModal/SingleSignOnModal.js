@@ -90,7 +90,7 @@ export const SingleSignOnModal = ({
                 setIsContinuing(false);
                 onClose();
             }
-            if (!res || res.status === 400) {
+            if (res.status === 400) {
                 setIsContinuing(false);
                 setIsSingleSignOnInitialModalOpen(true);
                 onClose();
@@ -102,7 +102,6 @@ export const SingleSignOnModal = ({
             }
         } catch (e) {
             setIsContinuing(false);
-            setIsSingleSignOnInitialModalOpen(true);
             onClose();
             showToast({
                 type: "error",

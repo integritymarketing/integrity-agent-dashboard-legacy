@@ -355,7 +355,7 @@ export default function DashboardActivityTable({
                                 <MoreHorizOutlinedIcon />
                             </ActionsDropdown> */}
 
-                            <ActionsCell row={row} />
+                            <ActionsCell row={row} refreshData={realoadActivityData} />
                             {showAddNewModal && (
                                 <AddReminderModal
                                     open={showAddNewModal}

@@ -94,7 +94,7 @@ export const SingleSignOnModal = ({
                 await onApply(producerId, true);
                 await fetchPlans();
             }
-            if (!response || response.status === 400) {
+            if (response.status === 400) {
                 setIsContinuing(false);
                 setIsSingleSignOnInitialModalOpen(true);
                 handleClose();
@@ -105,7 +105,6 @@ export const SingleSignOnModal = ({
                 });
             }
         } catch (e) {
-            setIsSingleSignOnInitialModalOpen(true);
             showToast({
                 type: "error",
                 message: e.message || "An error occurred",
