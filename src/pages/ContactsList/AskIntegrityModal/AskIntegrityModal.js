@@ -61,7 +61,7 @@ const AskIntegrityModal = ({ open, onClose, askIntegrityList, leadData, view }) 
                     <Box key={index} className={styles.askIntegrityCard}>
                         <Box className={styles.askIntegrityInfo}>
                             <Box>
-                                <img src={tagInfo?.tag?.tagIconUrl} />
+                                {tagInfo?.tag?.tagIconUrl ? <img src={tagInfo?.tag?.tagIconUrl} /> : <AskIntegrity />}
                             </Box>
                             <Box className={styles.tagInfo}>
                                 <Box className={styles.tagName}>{tagInfo?.tag?.tagLabel}</Box>

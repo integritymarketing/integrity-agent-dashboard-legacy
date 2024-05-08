@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useDeviceType from "hooks/useDeviceType";
 import ArrowRightIcon from "components/icons/version-2/ArrowRight";
 import AnnouncementIcon from "components/icons/version-2/Announcement";
+import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import Modal from "components/Modal";
 import Styles from "./CampaignModal.module.scss";
 import { toSentenceCase } from "utils/toSentenceCase";
@@ -64,7 +65,7 @@ const CampaignModal = ({ open, onClose, campaignList, leadData, view }) => {
                     return (
                         <Box key={index} className={Styles.campaignCard}>
                             <Box className={Styles.campaignInfo}>
-                                <img src={tagIconUrl} />
+                                {tagIconUrl ? <img src={tagIconUrl} /> : <CampaignStatus />}
                                 <Box className={Styles.tagInfo}>
                                     <Box display="flex" alignItems="center">
                                         <Box className={Styles.tagCategoryName}>
