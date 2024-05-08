@@ -257,7 +257,9 @@ function ContactsTable() {
                 Cell: ({ value, row }) => {
                     const leadDataOriginal = row?.original;
                     const askIntegrityTags = row?.original?.leadTags?.filter(
-                        (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
+                        (tag) =>
+                            tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations" ||
+                            tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests"
                     );
                     const askIntegrityTagDefaultImage = askIntegrityTags?.[0]?.tag?.tagIconUrl;
                     return (

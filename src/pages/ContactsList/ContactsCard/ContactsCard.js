@@ -82,7 +82,9 @@ function ContactsCard() {
                     const remindersLength = remindersList?.length;
                     const isOverDue = checkOverDue(remindersList) ? true : false;
                     const askIntegrityTags = item?.leadTags?.filter(
-                        (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
+                        (tag) =>
+                            tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations" ||
+                            tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests"
                     );
                     const campaignTags = item?.leadTags?.filter((tag) =>
                         tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign")
