@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { useState } from "react";
 import { Divider } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -19,6 +18,8 @@ import CampaignModal from "pages/ContactsList/CampaignModal/CampaignModal";
 import ConnectCall from "../ConnectCall";
 import ConnectEmail from "../ConnectEmail";
 import BadgeIcon from "./BadgeIcon";
+import CampaignStatus from "components/icons/version-2/CampaignStatus";
+import AskIntegrity from "components/icons/version-2/AskIntegrity";
 
 function ContactsCard() {
     const { tableData } = useContactsListContext();
@@ -135,11 +136,16 @@ function ContactsCard() {
                                         campaignLength > 0 && campaignTagsHandler(campaignTags, item);
                                     }}
                                     IconComponent={
-                                        campaignLength > 0 && (
+                                        campaignLength > 0 &&
+                                        (campaignTags[0].tag.tagIconUrl ? (
                                             <Box className={styles.iconWrapper}>
                                                 {<img src={campaignTags[0].tag.tagIconUrl} alt="Campaign Icon" />}
                                             </Box>
-                                        )
+                                        ) : (
+                                            <Box className={styles.iconWrapper}>
+                                                <CampaignStatus />
+                                            </Box>
+                                        ))
                                     }
                                     count={campaignLength > 1 ? campaignLength : null}
                                 />
@@ -151,7 +157,8 @@ function ContactsCard() {
                                         askIntegrityLength > 0 && askIntegrityHandler(askIntegrityTags, item);
                                     }}
                                     IconComponent={
-                                        askIntegrityLength > 0 && (
+                                        askIntegrityLength > 0 &&
+                                        (askIntegrityTags?.[0].tag.tagIconUrl ? (
                                             <Box className={styles.iconWrapper}>
                                                 {
                                                     <img
@@ -160,7 +167,11 @@ function ContactsCard() {
                                                     />
                                                 }
                                             </Box>
-                                        )
+                                        ) : (
+                                            <Box className={styles.iconWrapper}>
+                                                <AskIntegrity />
+                                            </Box>
+                                        ))
                                     }
                                     count={askIntegrityLength > 1 ? askIntegrityLength : null}
                                 />

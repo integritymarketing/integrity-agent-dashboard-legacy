@@ -38,6 +38,8 @@ import { PoliciesProvider } from "providers/ContactDetails/PoliciesProvider";
 import PolicyDetailsModal from "components/SharedModals/PolicyDetailsModal/PolicyDetailsModal";
 import ConnectCall from "../ConnectCall";
 import ConnectEmail from "../ConnectEmail";
+import CampaignStatus from "components/icons/version-2/CampaignStatus";
+import AskIntegrity from "components/icons/version-2/AskIntegrity";
 
 function ContactsTable() {
     const { tableData, policyCounts, refreshData } = useContactsListContext();
@@ -231,9 +233,15 @@ function ContactsTable() {
                                     name={"campaign"}
                                     onClick={() => campaignTagsHandler(campaignTags, leadDataOriginal)}
                                     IconComponent={
-                                        <Box className={styles.iconWrapper}>
-                                            <img src={campaignTagDefaultImage} />
-                                        </Box>
+                                        campaignTagDefaultImage ? (
+                                            <Box className={styles.iconWrapper}>
+                                                <img src={campaignTagDefaultImage} />
+                                            </Box>
+                                        ) : (
+                                            <Box className={styles.iconWrapper}>
+                                                <CampaignStatus />
+                                            </Box>
+                                        )
                                     }
                                     count={campaignTags?.length > 1 ? campaignTags?.length : null}
                                 />
@@ -260,9 +268,15 @@ function ContactsTable() {
                                     name="askIntegrity"
                                     onClick={() => askIntegrityHandler(askIntegrityTags, leadDataOriginal)}
                                     IconComponent={
-                                        <Box className={styles.iconWrapper}>
-                                            <img src={askIntegrityTagDefaultImage} />
-                                        </Box>
+                                        askIntegrityTagDefaultImage ? (
+                                            <Box className={styles.iconWrapper}>
+                                                <img src={askIntegrityTagDefaultImage} />
+                                            </Box>
+                                        ) : (
+                                            <Box className={styles.iconWrapper}>
+                                                <AskIntegrity />
+                                            </Box>
+                                        )
                                     }
                                     count={askIntegrityTags?.length > 1 ? askIntegrityTags?.length : null}
                                 />
