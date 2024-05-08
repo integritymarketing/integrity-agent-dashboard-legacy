@@ -24,7 +24,6 @@ import StageStatusContext from "contexts/stageStatus";
 
 import useAnalytics from "hooks/useAnalytics";
 
-
 const StyledPopover = styled(Popover)(() => ({
     ".MuiPopover-paper": {
         marginTop: "10px",
@@ -72,9 +71,11 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             const campaignSourceObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Source");
             const campaignTypeObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Type");
             const campaignInterestObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Interest");
-            const askIntegrityObject = dataWithFalse.find(
-                (item) => item.tagCategoryName === "Ask Integrity Recommendations" && item.tags.length > 0
-            );
+            const askIntegrityObject =
+                dataWithFalse.find(
+                    (item) => item.tagCategoryName === "Ask Integrity Recommendations" && item.tags.length > 0
+                ) ||
+                dataWithFalse.find((item) => item.tagCategoryName === "Ask Integrity Suggests" && item.tags.length > 0);
             const customTagsObject = data.find((item) => item.tagCategoryName === "Other");
             const productTypePdpOption = productTypeObject.tags.find(
                 (item) => item.tagLabel === "PDP" && item.tagIconUrl
