@@ -39,6 +39,7 @@ import Afternoon from "./afternoon.svg";
 import Evening from "./evening.svg";
 import "./index.scss";
 import Morning from "./morning.svg";
+import { ContactsListProvider } from "pages/ContactsList/providers/ContactsListProvider";
 
 function numberWithCommas(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -174,8 +175,8 @@ export default function Dashbaord() {
                                     greetings() === "Evening"
                                         ? Evening
                                         : greetings() === "Morning"
-                                        ? Morning
-                                        : Afternoon
+                                            ? Morning
+                                            : Afternoon
                                 }
                                 alt="Greeting"
                             />
@@ -239,7 +240,9 @@ export default function Dashbaord() {
                     </section>
 
                     <section className={`recent-activity-section ${isClientSnapshotOpen ? "mt-400" : ""}`}>
-                        <PlanSnapShot isMobile={isMobile} npn={userProfile?.npn} />
+                        <ContactsListProvider>
+                            <PlanSnapShot isMobile={isMobile} npn={userProfile?.npn} />
+                        </ContactsListProvider>
                         <TaskList isMobile={isMobile} npn={userProfile?.npn} />
                         <DashboardActivityTable
                             realoadActivityData={loadActivityData}
