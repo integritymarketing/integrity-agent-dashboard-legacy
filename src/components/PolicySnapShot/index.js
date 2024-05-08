@@ -16,6 +16,7 @@ import UnlinkedPolicyList from "components/TaskList/UnlinkedPolicies";
 
 import WithLoader from "components/ui/WithLoader";
 import "./style.scss";
+import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 
 const TitleData =
     "View your policies by status. Policy status is imported directly from carriers and the availability of status and other policy information may vary by carrier. For the most complete and up-to-date policy information, submit your applications through Contact Management Quote & eApp. Please visit our Learning Center to view the list of carriers whose policies are available in Policy Snapshot or find out more about Policy Management.";
@@ -40,9 +41,10 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
     const navigate = useNavigate();
     const showToast = useToast();
-
+    const {
+        selectedFilterSections, setSelectedFilterSections
+    } = useContactsListContext();
     const status = tabs[statusIndex]?.policyStatus;
-
     const fetchPolicySnapshotList = useCallback(
         async (statusToFetch) => {
             // If status is undefined, don't hit the fetch call //
@@ -139,6 +141,10 @@ export default function PlanSnapShot({ isMobile, npn }) {
     }, [showToast, dateRange, npn]);
 
     const jumptoList = (index) => {
+        if (selectedFilterSections.length > 0) {
+            setSelectedFilterSections([])
+        }
+
         if (leadIds?.length > 0) {
             jumptoListMobile(index);
         }

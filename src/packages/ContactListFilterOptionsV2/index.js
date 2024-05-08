@@ -513,7 +513,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                         </span>
                         <span className={styles.filterDropdownHeader}>Ask Integrity Suggests</span>
                         <span>
-                            {filterSectionsConfig.cross_sell.option.value && (
+                            {filterSectionsConfig.cross_sell.option?.value && (
                                 <Box
                                     className={styles.dropdownOption}
                                     onClick={() => handleFilterOptionClick("cross_sell")}

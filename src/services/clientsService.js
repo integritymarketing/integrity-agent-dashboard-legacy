@@ -954,7 +954,7 @@ export class ClientsService {
             IncludeContactPreference: true,
         };
 
-        if (DateRangeFilterType) {
+        if (typeof DateRangeFilterType === 'number') {
             params.DateRangeFilterType = DateRangeFilterType;
         }
 
