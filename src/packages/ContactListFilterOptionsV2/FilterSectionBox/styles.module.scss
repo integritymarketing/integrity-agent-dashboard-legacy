@@ -67,6 +67,14 @@
     background-color: transparent !important;
 }
 
+.itemIcon {
+    height: 22px !important;
+    width: 22px !important;
+    padding: 0 !important;
+    background-color: transparent !important;
+
+}
+
 .menuItemIconMedium {
     height: 22px !important;
     width: 22px !important;
@@ -83,6 +91,9 @@
     text-overflow: ellipsis;
     overflow: hidden;
     border: 1px solid #dddddd;
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .selectBoxFilterValue {
