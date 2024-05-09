@@ -57,7 +57,6 @@ export default function FilterSectionBox({
         }
         return "";
     }, [filterValue]);
-
     return (
         <>
             <Text className={styles.sectionHeading} text={configData.heading} />
@@ -180,7 +179,12 @@ export default function FilterSectionBox({
                 )}
                 {configData.option && (
                     <Box display={"flex"}>
-                        <Box className={styles.singleOptionBox}>{configData.option.label}</Box>
+                        <Box className={styles.singleOptionBox}>
+                            {configData.option.icon && (
+                                <Icon className={styles.itemIcon} image={configData.option.icon} />
+                            )}
+                            {configData.option.label}
+                        </Box>
                         {isMobile && (
                             <Icon
                                 className={`${styles.closeIcon} ${styles.closeIconMobile}`}
