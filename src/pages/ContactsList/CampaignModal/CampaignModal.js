@@ -8,7 +8,6 @@ import AnnouncementIcon from "components/icons/version-2/Announcement";
 import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import Modal from "components/Modal";
 import Styles from "./CampaignModal.module.scss";
-import { toSentenceCase } from "utils/toSentenceCase";
 import useAnalytics from "hooks/useAnalytics";
 
 const CampaignModal = ({ open, onClose, campaignList, leadData, view }) => {
@@ -69,9 +68,9 @@ const CampaignModal = ({ open, onClose, campaignList, leadData, view }) => {
                                 <Box className={Styles.tagInfo}>
                                     <Box display="flex" alignItems="center">
                                         <Box className={Styles.tagCategoryName}>
-                                            {toSentenceCase(removePrefix(tagCategoryName))}:
+                                            {removePrefix(tagCategoryName)}:
                                         </Box>
-                                        <Box className={Styles.tagName}>{toSentenceCase(tagLabel)}</Box>
+                                        <Box className={Styles.tagName}>{tagLabel}</Box>
                                     </Box>
                                     <Box className={Styles.tagMetaData}>{metadata}</Box>
                                 </Box>
@@ -107,3 +106,4 @@ CampaignModal.propTypes = {
 };
 
 export default CampaignModal;
+
