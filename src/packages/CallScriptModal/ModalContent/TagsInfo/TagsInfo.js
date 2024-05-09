@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
 import Styles from "./TagsInfo.module.scss";
 import { toSentenceCase } from "utils/toSentenceCase";
+import CustomTagIcon from "components/icons/version-2/customTag";
 
 function TagsInfo({ leadId }) {
     const { leadDetails, getLeadDetails } = useLeadDetails();
@@ -34,7 +35,7 @@ function TagsInfo({ leadId }) {
         <Box className={Styles.askIntegrityCard}>
             <Box className={Styles.askIntegrityInfo}>
                 <Box className={Styles.iconWrapper}>
-                    <img src={tagInfo.tag.tagIconUrl} />
+                    {tagInfo.tag.tagIconUrl ? <img src={tagInfo.tag.tagIconUrl} /> : <CustomTagIcon />}
                 </Box>
                 <Box className={Styles.tagInfo}>
                     <Box display="flex" alignItems="center">

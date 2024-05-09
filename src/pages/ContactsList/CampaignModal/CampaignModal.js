@@ -10,7 +10,6 @@ import Styles from "./CampaignModal.module.scss";
 import useAnalytics from "hooks/useAnalytics";
 import CustomTagIcon from "components/icons/version-2/customTag";
 
-
 const CampaignModal = ({ open, onClose, campaignList, leadData, view }) => {
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
@@ -68,9 +67,7 @@ const CampaignModal = ({ open, onClose, campaignList, leadData, view }) => {
                                 {tagIconUrl ? <img src={tagIconUrl} /> : <CustomTagIcon />}
                                 <Box className={Styles.tagInfo}>
                                     <Box display="flex" alignItems="center">
-                                        <Box className={Styles.tagCategoryName}>
-                                            {removePrefix(tagCategoryName)}:
-                                        </Box>
+                                        <Box className={Styles.tagCategoryName}>{removePrefix(tagCategoryName)}:</Box>
                                         <Box className={Styles.tagName}>{tagLabel}</Box>
                                     </Box>
                                     <Box className={Styles.tagMetaData}>{metadata}</Box>
@@ -107,4 +104,3 @@ CampaignModal.propTypes = {
 };
 
 export default CampaignModal;
-
