@@ -11,10 +11,8 @@ function TagsInfo({ leadId }) {
     const { leadDetails, getLeadDetails } = useLeadDetails();
 
     useEffect(() => {
-        if (!leadDetails) {
-            getLeadDetails(leadId);
-        }
-    }, [getLeadDetails, leadDetails, leadId]);
+        getLeadDetails(leadId);
+    }, [getLeadDetails, leadId]);
 
     const { askIntegrityTags, campaignTags } = useMemo(
         () => ({
