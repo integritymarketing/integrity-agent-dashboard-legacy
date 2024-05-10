@@ -28,7 +28,7 @@ const Askintegrity = () => {
                         transform="translate(0)"
                         fill="none"
                         stroke="#fff"
-                        stroke-width="1"
+                        strokeWidth="1"
                     >
                         <circle cx="9" cy="9" r="9" stroke="none" />
                         <circle cx="9" cy="9" r="8.5" fill="none" />
