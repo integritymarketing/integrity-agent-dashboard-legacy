@@ -22,6 +22,10 @@
     background-color: #ffffff;
 }
 
+.selectBoxDisabled {
+    cursor: not-allowed !important;
+}
+
 .dot {
     width: 16px;
     height: 16px;
