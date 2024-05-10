@@ -90,6 +90,7 @@ export default function FilterSectionBox({
                             },
                             ".MuiSelect-outlined": { padding: "0px 7px", paddingRight: "0px !important" },
                             ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" },
+                            ".MuiOutlinedInput-root-MuiSelect-root.Mui-disabled": { cursor: "not-allowed" },
                             "&:hover": { ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" } },
                         }}
                     >
@@ -199,13 +200,13 @@ export default function FilterSectionBox({
 
             {shouldShowAndOr && filterValue && (
                 <Box
-                    className={`${styles.sectionContent} ${styles.sectionContentInline} ${styles.sectionContentAndOr}`}
+                    className={`${styles.sectionContent} ${styles.sectionContentInline} ${styles.sectionContentAndOr} ${freezeAndOption ? styles.selectBoxDisabled : ""}`}
                 >
                     <Select
                         IconComponent={() => <ArrowDownBlue />}
                         disabled={freezeAndOption}
                         value={filterAndOrConditionValue}
-                        className={styles.selectBox}
+                        className={`${styles.selectBox} ${freezeAndOption ? styles.selectBoxDisabled : ""}`}
                         onChange={(e) => onChangeNextAndOrOption(e.target.value)}
                         MenuProps={{
                             PaperProps: {
