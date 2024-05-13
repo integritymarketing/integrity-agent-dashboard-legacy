@@ -58,7 +58,9 @@ function FilterAndSort() {
     const switchLayout = () => {
         setLayout(layout === "list" ? "card" : "list");
         navigate(layout === "list" ? CARD_PATH : LIST_PATH);
-        resetData();
+        if (selectedFilterSections.length === 0) {
+            resetData();
+        }
     };
 
     const handleOnFilterToggle = (value) => {
