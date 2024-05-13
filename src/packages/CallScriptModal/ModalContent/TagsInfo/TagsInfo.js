@@ -4,20 +4,22 @@ import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
 import Styles from "./TagsInfo.module.scss";
 import { toSentenceCase } from "utils/toSentenceCase";
+import CustomTagIcon from "components/icons/version-2/customTag";
+import AskIntegrity from "components/icons/version-2/AskIntegrity";
 
 function TagsInfo({ leadId }) {
     const { leadDetails, getLeadDetails } = useLeadDetails();
 
     useEffect(() => {
-        if (!leadDetails) {
-            getLeadDetails(leadId);
-        }
-    }, [getLeadDetails, leadDetails, leadId]);
+        getLeadDetails(leadId);
+    }, [getLeadDetails, leadId]);
 
     const { askIntegrityTags, campaignTags } = useMemo(
         () => ({
             askIntegrityTags: leadDetails?.leadTags?.filter(
-                (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
+                (tag) =>
+                    tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations" ||
+                    tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests"
             ),
             campaignTags: leadDetails?.leadTags?.filter((tag) =>
                 tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign")
@@ -34,7 +36,7 @@ function TagsInfo({ leadId }) {
         <Box className={Styles.askIntegrityCard}>
             <Box className={Styles.askIntegrityInfo}>
                 <Box className={Styles.iconWrapper}>
-                    <img src={tagInfo.tag.tagIconUrl} />
+                    {tagInfo.tag.tagIconUrl ? <img src={tagInfo.tag.tagIconUrl} /> : <CustomTagIcon />}
                 </Box>
                 <Box className={Styles.tagInfo}>
                     <Box display="flex" alignItems="center">
@@ -53,7 +55,7 @@ function TagsInfo({ leadId }) {
         <Box className={Styles.askIntegrityCard}>
             <Box className={Styles.askIntegrityInfo}>
                 <Box className={Styles.iconWrapper}>
-                    <img src={tagInfo.tag.tagIconUrl} />
+                    {tagInfo.tag.tagIconUrl ? <img src={tagInfo.tag.tagIconUrl} /> : <AskIntegrity />}
                 </Box>
                 <Box className={Styles.tagInfo}>
                     <Box className={Styles.tagName}>{tagInfo.tag.tagLabel}</Box>

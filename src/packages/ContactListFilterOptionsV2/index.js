@@ -23,6 +23,7 @@ import stylesFilterSectionBox from "./FilterSectionBox/styles.module.scss";
 import StageStatusContext from "contexts/stageStatus";
 
 import useAnalytics from "hooks/useAnalytics";
+import Askintegrity from "components/icons/version-2/AskIntegrity";
 
 const StyledPopover = styled(Popover)(() => ({
     ".MuiPopover-paper": {
@@ -221,6 +222,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                     option: {
                         label: "Cross Sell",
                         value: askIntegrityObject?.tags.find((item) => item.tagLabel === "CROSS-SELL")?.tagId,
+                        icon: askIntegrityObject?.tags.find((item) => item.tagLabel === "CROSS-SELL")?.tagIconUrl || Askintegrity,
                     },
                 },
                 switcher: {
@@ -228,6 +230,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                     option: {
                         label: "Switcher",
                         value: askIntegrityObject?.tags.find((item) => item.tagLabel === "SWITCHER")?.tagId,
+                        icon: askIntegrityObject?.tags.find((item) => item.tagLabel === "SWITCHER")?.tagIconUrl || Askintegrity,
                     },
                 },
                 sep: {
@@ -235,6 +238,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                     option: {
                         label: "SEP",
                         value: askIntegrityObject?.tags.find((item) => item.tagLabel === "SEP")?.tagId,
+                        icon: askIntegrityObject?.tags.find((item) => item.tagLabel === "SEP")?.tagIconUrl || Askintegrity,
                     },
                 },
             });

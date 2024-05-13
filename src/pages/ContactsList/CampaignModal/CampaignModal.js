@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import useDeviceType from "hooks/useDeviceType";
 import ArrowRightIcon from "components/icons/version-2/ArrowRight";
 import AnnouncementIcon from "components/icons/version-2/Announcement";
-import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import Modal from "components/Modal";
 import Styles from "./CampaignModal.module.scss";
 import useAnalytics from "hooks/useAnalytics";
+import CustomTagIcon from "components/icons/version-2/customTag";
 
 const CampaignModal = ({ open, onClose, campaignList, leadData, view }) => {
     const navigate = useNavigate();
@@ -64,12 +64,10 @@ const CampaignModal = ({ open, onClose, campaignList, leadData, view }) => {
                     return (
                         <Box key={index} className={Styles.campaignCard}>
                             <Box className={Styles.campaignInfo}>
-                                {tagIconUrl ? <img src={tagIconUrl} /> : <CampaignStatus />}
+                                {tagIconUrl ? <img src={tagIconUrl} /> : <CustomTagIcon />}
                                 <Box className={Styles.tagInfo}>
                                     <Box display="flex" alignItems="center">
-                                        <Box className={Styles.tagCategoryName}>
-                                            {removePrefix(tagCategoryName)}:
-                                        </Box>
+                                        <Box className={Styles.tagCategoryName}>{removePrefix(tagCategoryName)}:</Box>
                                         <Box className={Styles.tagName}>{tagLabel}</Box>
                                     </Box>
                                     <Box className={Styles.tagMetaData}>{metadata}</Box>
@@ -106,4 +104,3 @@ CampaignModal.propTypes = {
 };
 
 export default CampaignModal;
-
