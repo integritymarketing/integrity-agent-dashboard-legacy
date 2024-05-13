@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+ 
 import * as Sentry from "@sentry/react";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -117,7 +117,7 @@ export default function ComparePlansByPlanName({
     }, []);
 
     return (
-        <Container>
+        <Container className={styles.stickyHeader}>
             <div
                 className={`${styles["plan-comparison-header"]} ${
                     plansLoading && styles["display-initial"]
