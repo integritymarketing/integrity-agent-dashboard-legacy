@@ -310,10 +310,12 @@
 }
 .comparePage {
     background-color: #f1f1f1;
-    @media (min-width: 320px) and (max-width: 767px) {
+    /* @media (min-width: 320px) and (max-width: 767px) {
         position: initial !important;
         width: 669px;
-    }
+    } 
+    important for mobile view to be stable when swapped from pc view */
+    max-width: 100vw;
 
     .back-button {
         color: #4178ff;
@@ -358,6 +360,7 @@
     padding: 0;
     justify-content: flex-start;
     width: 100%;
+    overflow-x: auto;
     min-height: 208px;
     background: var(--page-bg-color);
     box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -591,4 +594,5 @@
 .stickyHeader {
     position: sticky;
     top: 96px;
+    z-index: 1;
 }
