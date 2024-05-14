@@ -43,7 +43,7 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                 phoneNumber: agentSection?.phoneNumber,
                 methodOfContact: "",
                 acceptedSOA: false,
-                soaSignedAtApointment: "",
+                soaSignedDuringAppointment: "",
                 appointmentDate: new Date(),
                 explanationOfSOASignedDuringAppointment: "",
             }}
@@ -139,13 +139,13 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                         <Box marginTop="10px" className={styles.signedText}>
                             {SOA_SIGNED_AT_APPOINTMENT}
                             {SOA_SIGNED_OPTS.map((option, index) => {
-                                const isChecked = values.soaSignedAtApointment === option;
+                                const isChecked = values.soaSignedDuringAppointment === option;
                                 return (
                                     <div
                                         key={index}
                                         className={`${styles.soaSignedTime} ${isChecked ? styles.checked : ""}`}
                                         onClick={() => {
-                                            setFieldValue("soaSignedAtApointment", option);
+                                            setFieldValue("soaSignedDuringAppointment", option);
                                         }}
                                     >
                                         <span>{isChecked ? <Checked /> : <Unchecked />}</span>
@@ -153,7 +153,7 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                                     </div>
                                 );
                             })}
-                            {values.soaSignedAtApointment === "Yes" && (
+                            {values.soaSignedDuringAppointment === "Yes" && (
                                 <>
                                     <div className={styles.signedText}>{SOA_EXPLANATION}</div>
                                     <TextField
@@ -194,7 +194,7 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                             </div>
                         </Box>
                         <SubmitButton
-                            disabled={!dirty || !isValid || !values.acceptedSOA || !values.soaSignedAtApointment}
+                            disabled={!dirty || !isValid || !values.acceptedSOA || !values.soaSignedDuringAppointment}
                             variant="contained"
                             onClick={handleSubmit}
                             endIcon={<ButtonCircleArrow />}

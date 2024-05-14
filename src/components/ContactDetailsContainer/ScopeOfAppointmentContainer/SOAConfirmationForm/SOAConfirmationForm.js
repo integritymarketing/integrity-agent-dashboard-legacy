@@ -43,6 +43,7 @@ export const SOAConfirmationForm = () => {
             agentSection: {
                 ...soaDetails.agentSection,
                 ...data,
+                soaSignedDuringAppointment: data.soaSignedDuringAppointment === "Yes",
             },
         };
         updateSoaByLinkCode(payload, linkCode, handleView);

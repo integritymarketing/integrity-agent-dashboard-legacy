@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { Checked, Unchecked } from '../Icons';
+import React, { useState, useCallback } from "react";
+import PropTypes from "prop-types";
+import { Checked, Unchecked } from "../Icons";
 import {
     AGENT_FNAME,
     AGENT_LNAME,
@@ -14,18 +14,22 @@ import {
     SOA_FORM_CONSENT,
     SOA_FORM_DETAILS,
     SOA_SIGNED_AT_APPOINTMENT,
-    SOA_SIGNED_OPTS
-} from '../ScopeOfAppointmentContainer.constants';
-import { getLocalDateTime } from 'utils/dates';
+    SOA_SIGNED_OPTS,
+} from "../ScopeOfAppointmentContainer.constants";
+import { getLocalDateTime } from "utils/dates";
 
-import styles from './SOAFormDetails.module.scss';
+import styles from "./SOAFormDetails.module.scss";
 
 export const SOAFormDetails = ({ agentSection, linkCode }) => {
-    const { firstName = "", lastName = "", phoneNumber = "", methodOfContact = "", submittedDateTime = "", appointmentDate = "", soaSignedDuringAppointment } = agentSection;
-
-
-
-
+    const {
+        firstName = "",
+        lastName = "",
+        phoneNumber = "",
+        methodOfContact = "",
+        submittedDateTime = "",
+        appointmentDate = "",
+        soaSignedDuringAppointment,
+    } = agentSection;
 
     return (
         <>
@@ -42,11 +46,7 @@ export const SOAFormDetails = ({ agentSection, linkCode }) => {
             {SOA_SIGNED_OPTS.map((option, index) => {
                 const checked = soaSignedDuringAppointment ? "Yes" : "No";
                 return (
-                    <div
-                        key={index}
-                        className={`${styles.soaSignedTime} ${checked === option ? styles.checked : ""}`}
-
-                    >
+                    <div key={index} className={`${styles.soaSignedTime} ${checked === option ? styles.checked : ""}`}>
                         <span>{checked === option ? <Checked /> : <Unchecked />}</span>
                         <span>{option}</span>
                     </div>
@@ -55,12 +55,16 @@ export const SOAFormDetails = ({ agentSection, linkCode }) => {
 
             <Field label={APPOINTMENT_DATE_COMPLETED} value={appointmentDate} />
 
-            <div className={styles.consentWrapper}  >
+            <div className={styles.consentWrapper}>
                 <span>{<Checked />}</span>
                 <span>{SOA_FORM_CONSENT}</span>
             </div>
 
-            <Field label={AGENT_SUBMITTED} value={`${getLocalDateTime(submittedDateTime)?.date} ${getLocalDateTime(submittedDateTime)?.time}`} bold />
+            <Field
+                label={AGENT_SUBMITTED}
+                value={`${getLocalDateTime(submittedDateTime)?.date} ${getLocalDateTime(submittedDateTime)?.time}`}
+                bold
+            />
             <Field label={CONFIRMATION_NO} value={linkCode} bold />
         </>
     );
@@ -80,5 +84,5 @@ SOAFormDetails.propTypes = {
     initialMethodContact: PropTypes.string,
     appointmentCompletionDate: PropTypes.string,
     agentSubmitted: PropTypes.string,
-    confirmationNo: PropTypes.string
+    confirmationNo: PropTypes.string,
 };
