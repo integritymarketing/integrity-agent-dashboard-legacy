@@ -1,7 +1,6 @@
-/* eslint-disable max-lines-per-function */
 import { useState } from "react";
-
 import { useFormik } from "formik";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import Box from "@mui/material/Box";
 
@@ -20,7 +19,6 @@ import RoundButton from "components/RoundButton";
 
 import validationService from "services/validationService";
 import analyticsService from "services/analyticsService";
-import authService from "services/authService";
 
 import SectionContainer from "mobile/Components/SectionContainer";
 import AccountMobile from "mobile/AccountPage";
@@ -30,6 +28,7 @@ import { formatPhoneNumber } from "../helper";
 import styles from "./styles.module.scss";
 
 function PersonalInfo() {
+    const { getAuthTokenSilently } = useAuth0();
     const [isEdit, setIsEdit] = useState(false);
     const showToast = useToast();
     const loading = useLoading();
@@ -66,18 +65,14 @@ function PersonalInfo() {
                 const response = await updateAccount(formattedValues, true);
                 if (response.status >= 200 && response.status < 300) {
                     analyticsService.fireEvent("event-form-submit", { formName: "update-account" });
-                    await authService.signinSilent();
+                    await getAuthTokenSilently();
                     showToast({ message: "Your account info has been updated." });
                 } else {
-                    if (response.status === 401) {
-                        authService.handleExpiredToken();
-                    } else {
-                        const errorsArr = await response.json();
-                        analyticsService.fireEvent("event-form-submit-invalid", { formName: "update-account" });
-                        setErrors(
-                            validationService.formikErrorsFor(validationService.standardizeValidationKeys(errorsArr))
-                        );
-                    }
+                    const errorsArr = await response.json();
+                    analyticsService.fireEvent("event-form-submit-invalid", { formName: "update-account" });
+                    setErrors(
+                        validationService.formikErrorsFor(validationService.standardizeValidationKeys(errorsArr))
+                    );
                 }
             }
         } catch (error) {

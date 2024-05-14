@@ -13,7 +13,7 @@ import Footer from "../partials/email-footer";
 import ResendCode from "partials/resend-code";
 import WelcomeEmailUser from "partials/welcome-email-user";
 
-import plansService from "services/plansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import "./ComparePlansCodePage.scss";
 import ComparePlansPage from "./ComparePlansPage";
@@ -26,12 +26,13 @@ function ComparePlansCodePage() {
     const [isValid, setIsValid] = useState(false);
     const [agentInfo, setAgentInfo] = useState({});
     const [resendCode, setResendCode] = useState(false);
+    const { plansService } = useClientServiceContext();
 
     useEffect(() => {
         plansService.getPassCodeToken(token).then((response) => setCode(response));
         const result = JSON.parse(window.atob(request));
         setAgentInfo(result);
-    }, [token, request]);
+    }, [token, request, plansService]);
 
     const handleVerificationCode = (event) => {
         setVerificationCode(event.target.value);

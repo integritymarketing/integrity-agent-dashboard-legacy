@@ -4,7 +4,7 @@ import AvailabilityOverlay from "./microComponent/AvailabilityOverlay";
 import { Switch } from "components/ui/version-2/Swich";
 
 import Notice from "./microComponent/Notice";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useUserProfile from "hooks/useUserProfile";
 import { useAgentAvailability } from "hooks/useAgentAvailability";
 import { useAgentPreferences } from "providers/AgentPreferencesProvider/AgentPreferencesProvider";
@@ -17,6 +17,7 @@ function MyButton({ page, leadPreference }) {
     const [isAvailabiltyModalVisible, setIsAvailabiltyModalVisible] = useState(false);
     const [isNoticeVisible, setIsNoticeVisible] = useState(false);
     const { trackAgentPreferencesEvents } = useAgentPreferences();
+    const { clientsService } = useClientServiceContext();
 
     async function handleClick() {
         const response = await clientsService.getAgentAvailability(agentId);

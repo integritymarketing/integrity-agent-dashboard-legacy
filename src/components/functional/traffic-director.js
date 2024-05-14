@@ -1,19 +1,16 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "contexts/auth";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const RedirectToAppropriateRoute = () => {
-  const navigate = useNavigate();
-  const auth = useContext(AuthContext);
-  
-  useEffect(() => {
-    if (auth.isAuthenticated()) {
-      navigate("dashboard", { replace: true });
-    } else {
-      navigate("welcome", { replace: true });
-    }
-  });
-  return null;
+    const navigate = useNavigate();
+    const { isAuthenticated } = useAuth0();
+
+    useEffect(() => {
+        navigate(isAuthenticated ? "dashboard" : "welcome", { replace: true });
+    }, [isAuthenticated, navigate]);
+
+    return null;
 };
 
 export default RedirectToAppropriateRoute;

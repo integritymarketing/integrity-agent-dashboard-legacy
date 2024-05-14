@@ -5,7 +5,7 @@ import { useScopeOfAppointment, useLeadDetails } from "providers/ContactDetails"
 import useUserProfile from "hooks/useUserProfile";
 import OpenIcon from "components/icons/open";
 import { Button } from "components/ui/Button";
-import comparePlansService from "services/comparePlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import styles from "./ActivityDetails.module.scss";
 
 const buttonTextByActivity = {
@@ -28,6 +28,7 @@ const ActivityButtonText = ({ activity, leadsId }) => {
     const { npn } = userProfile;
     const { setLinkCode } = useScopeOfAppointment();
     const { setSelectedTab } = useLeadDetails();
+    const { comparePlansService } = useClientServiceContext();
 
     const splitViewPlansURL = activityInteractionURL?.split("/");
 
@@ -58,7 +59,7 @@ const ActivityButtonText = ({ activity, leadsId }) => {
                         window.open(activityInteractionURL, "_blank");
                         break;
                     case "Application Submitted":
-                        let link = await comparePlansService?.getPdfSource(activityInteractionURL, npn);
+                        const link = await comparePlansService?.getPdfSource(activityInteractionURL, npn);
 
                         var url = await window.URL.createObjectURL(link);
 
@@ -77,11 +78,13 @@ const ActivityButtonText = ({ activity, leadsId }) => {
         activityInteractionLabel,
         activityInteractionURL,
         activitySubject,
-        leadsId,
-        npn,
         setLinkCode,
         setSelectedTab,
         navigate,
+        leadsId,
+        splitViewPlansURL,
+        comparePlansService,
+        npn,
     ]);
 
     const showButton = activityTypeName === "Triggered" && Boolean(activityInteractionURL);

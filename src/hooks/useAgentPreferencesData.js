@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 function useAgentPreferencesData() {
     const [isLoading, setIsLoading] = useState(false);
@@ -12,6 +12,7 @@ function useAgentPreferencesData() {
     const [agentAvailability, setAgentAvailability] = useState({});
     const { agentId } = useUserProfile();
     const showToast = useToast();
+    const { clientsService } = useClientServiceContext();
 
     const getAgentAccountData = useCallback(async () => {
         if (!agentId) {
@@ -32,7 +33,7 @@ function useAgentPreferencesData() {
                 time: 10000,
             });
         }
-    }, [showToast, agentId]);
+    }, [agentId, clientsService, showToast]);
 
     const updateAgentPreferences = useCallback(
         async (payload) => {
@@ -48,7 +49,7 @@ function useAgentPreferencesData() {
                 Sentry.captureException(error);
             }
         },
-        [showToast]
+        [clientsService, showToast]
     );
 
     useEffect(() => {

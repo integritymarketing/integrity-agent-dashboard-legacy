@@ -19,8 +19,7 @@ import GoBackNavbar from "components/BackButtonNavbar";
 import Footer from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
-import clientsService from "services/clientsService";
-
+import { useClientServiceContext } from "services/clientServiceProvider";
 import DashboardHeaderSection from "pages/dashbaord/DashboardHeaderSection";
 
 import CallScriptIcon from "./CallScriptIcon";
@@ -37,10 +36,13 @@ export default function LinkToContact() {
     const [contacts, setContacts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const callRecordings = useCallRecordings();
+    const { clientsService } = useClientServiceContext();
     const callsRecordingTags = callRecordings.filter((callRecording) => {
         if (callRecording?.callLogId === parseInt(callLogId)) {
             return callRecording?.callLogTags;
-        } else return null;
+        } else {
+            return null;
+        }
     });
 
     const getContacts = async (searchStr) => {

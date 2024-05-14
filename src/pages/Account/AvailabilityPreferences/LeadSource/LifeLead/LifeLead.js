@@ -8,14 +8,14 @@ import { useAgentAvailability } from "hooks/useAgentAvailability";
 import LifeLeadSource from "components/icons/version-2/LifeLeadSource";
 import OpenBlue from "components/icons/version-2/OpenBlue";
 
-import clientsService from "services/clientsService";
-
+import { useClientServiceContext } from "services/clientServiceProvider";
 import { SectionItem } from "../SectionItem";
 
 function LifeLead({ setShowAvilabilityDialog }) {
     const { leadPreference, updateAgentPreferences, agentAvailability } = useAgentAccountContext();
     const { agentId, npn } = useUserProfile();
     const [isAvailable, setIsAvailable] = useAgentAvailability();
+    const { clientsService } = useClientServiceContext();
 
     const hasActiveLifeCallCampaign = agentAvailability?.activeCampaign?.hasActiveLifeCallCampaign;
     const hasActiveHealthCallCampaign = agentAvailability?.activeCampaign?.hasActiveHealthCallCampaign;

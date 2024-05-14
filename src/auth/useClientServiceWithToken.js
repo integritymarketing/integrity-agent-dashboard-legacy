@@ -1,34 +1,35 @@
 import { useEffect, useState, useCallback } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import * as Sentry from "@sentry/react";
 
 const useClientServiceWithToken = (ClientService) => {
-  const { getAccessTokenSilently } = useAuth0();
-  const [token, setToken] = useState(null);
+    const { getAccessTokenSilently } = useAuth0();
+    const [token, setToken] = useState(null);
 
-  const getAccessToken = useCallback(async () => {
-    const fetchToken = async () => {
-      try {
-        const accessToken = await getAccessTokenSilently();
-        setToken(accessToken);
-        return accessToken;
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    const getAccessToken = useCallback(async () => {
+        if (token) {
+            return token;
+        }
 
-    if (token) {
-      return token;
-    }
-    return fetchToken();
-  }, [getAccessTokenSilently, token]);
+        try {
+            const accessToken = await getAccessTokenSilently();
+            setToken(accessToken);
+            return accessToken;
+        } catch (error) {
+            Sentry.captureException(error);
+            return null;
+        }
+    }, [getAccessTokenSilently, token]);
 
-  const [clientService] = useState(new ClientService(getAccessToken));
+    const [clientService] = useState(() => new ClientService(getAccessToken));
 
-  useEffect(() => {
-    getAccessToken();
-  }, [getAccessToken]);
+    useEffect(() => {
+        if (!token) {
+            getAccessToken();
+        }
+    }, [getAccessToken, token]);
 
-  return clientService;
+    return clientService;
 };
 
 export default useClientServiceWithToken;

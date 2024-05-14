@@ -1,4 +1,4 @@
-import authService from "services/authService";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useCallback } from "react";
 import * as Sentry from "@sentry/react";
 
@@ -12,6 +12,7 @@ import * as Sentry from "@sentry/react";
  */
 
 const useFetch = (url, isPublic = false, noResponse = false) => {
+    const { getAccessTokenSilently } = useAuth0();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -26,9 +27,9 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
             try {
                 const options = { method };
                 if (!isPublic) {
-                    const user = await authService.getUser();
-                    if (user) {
-                        options.headers = { Authorization: `Bearer ${user?.access_token}` };
+                    const accessToken = await getAccessTokenSilently();
+                    if (accessToken) {
+                        options.headers = { Authorization: `Bearer ${accessToken}` };
                     }
                 }
 
@@ -73,7 +74,7 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
                 setLoading(false);
             }
         },
-        [url, isPublic]
+        [isPublic, url, getAccessTokenSilently]
     );
 
     const Get = useCallback(

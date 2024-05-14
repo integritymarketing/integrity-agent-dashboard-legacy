@@ -1,14 +1,11 @@
-import React, { useContext } from "react";
-
-import AuthContext from "contexts/auth";
-
+import { useAuth0 } from "@auth0/auth0-react";
 import BaseLegalPage from "pages/BaseLegalPage";
 
 const TermsPage = () => {
-    const auth = useContext(AuthContext);
-    const showIntegrity = auth.isAuthenticated();
+    const { isAuthenticated } = useAuth0();
+
     return (
-        <BaseLegalPage title="Terms of Use" showIntegrity={!showIntegrity}>
+        <BaseLegalPage title="Terms of Use" showIntegrity={!isAuthenticated}>
             <p>Last Modified: 10-12-2023</p>
             <p className="text-body text-body--large mb-4">
                 <strong>Please read these terms of use policies carefully.</strong>

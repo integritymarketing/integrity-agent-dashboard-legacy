@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "components/ui/Button";
@@ -13,12 +13,12 @@ import AgentWelcomeDialog from "partials/agent-welcome-dialog";
 import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import ArrowForwardWithCirlce from "./ArrowForwardWithCirlce";
 
 import styles from "./styles.module.scss";
 
-const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
+const StyledIconButton = styled(CloseIcon)(() => ({
     cursor: "pointer",
     display: "flex",
     width: "26px",
@@ -33,7 +33,7 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
 export default function GetStarted({ learnMoreModal, setLearnMoreModal, leadPreference }) {
     const [show, setShow] = useState(true);
     const showToast = useToast();
-
+    const { clientsService } = useClientServiceContext();
     const { agentId } = useUserProfile();
 
     const handleCloseModal = async () => {

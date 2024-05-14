@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 import Radio from "components/ui/Radio";
 import Modal from "components/ui/modal";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./styles.module.scss";
 
@@ -38,6 +38,7 @@ const ExportsContactsModal = () => {
     const [exportData, setExportData] = useState([]);
     const { isExportModalOpen, setIsExportModalOpen } = useContactsListModalContext();
     const { selectedContacts, allLeads } = useContactsListContext();
+    const { clientsService } = useClientServiceContext();
 
     const handleExportContactsData = async (event) => {
         event.stopPropagation();

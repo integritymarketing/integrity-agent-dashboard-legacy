@@ -19,8 +19,7 @@ import { Button } from "components/ui/Button";
 import WithLoader from "components/ui/WithLoader";
 
 import { StageStatusProvider } from "contexts/stageStatus";
-
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import UnLinkedCalls from "pages/dashbaord/UnLinkedCalls";
 
@@ -71,6 +70,7 @@ const getLink = {
 export default function TaskList({ isMobile, npn }) {
     const PAGESIZE = isMobile ? 3 : 5;
     const navigate = useNavigate();
+    const { clientsService } = useClientServiceContext();
 
     const [dRange] = usePreferences(0, "taskList_sort");
     const [index] = usePreferences(0, "taskList_widget");

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import ExitIcon from "components/icons/exit";
 import useUserProfile from "hooks/useUserProfile";
-import MedicareCENTERLogo from "./assets/MedicareCENTER-Logo.svg";
 import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
 import useRoles from "hooks/useRoles";
 import Logo from "components/Logo";

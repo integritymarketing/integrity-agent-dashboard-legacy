@@ -8,7 +8,7 @@ import NavBarWithBack from "partials/back-nav";
 
 import BackNavContext from "contexts/backNavProvider";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import "./contactsSoa.scss";
 
@@ -50,6 +50,7 @@ const ContactsSOAConfirmForm = () => {
         appointmentDate: dateFnsFormat(new Date(), "MM/dd/yy"),
     });
     const [isSubmited, setIsSubmited] = useState(false);
+    const { clientsService } = useClientServiceContext();
 
     useEffect(() => {
         getSoaByLinkCode();
@@ -406,7 +407,7 @@ const ContactsSOAConfirmForm = () => {
                                             onChange={() =>
                                                 formProps.onChangeFormValue("soaSignedDuringAppointment", true)
                                             }
-                                            checked={!!formValues.soaSignedDuringAppointment}
+                                            checked={Boolean(formValues.soaSignedDuringAppointment)}
                                         />
                                         Yes
                                     </div>

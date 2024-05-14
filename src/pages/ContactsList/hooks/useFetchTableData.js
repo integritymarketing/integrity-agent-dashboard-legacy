@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 import useToast from "hooks/useToast";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 const getAndResetItemFromLocalStorage = (key, initialValue) => {
     try {
@@ -25,6 +25,7 @@ function useFetchTableData() {
     const [pageResult, setPageResult] = useState(null);
     const showToast = useToast();
     const location = useLocation();
+    const { clientsService } = useClientServiceContext();
 
     const queryParams = useMemo(() => {
         return new URLSearchParams(location.search);

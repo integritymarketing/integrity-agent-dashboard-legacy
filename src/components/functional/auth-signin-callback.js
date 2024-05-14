@@ -1,27 +1,30 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
+import * as Sentry from "@sentry/react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "contexts/auth";
+import { useAuth0 } from "@auth0/auth0-react";
 import Cookies from "universal-cookie";
 
 const useAuthSigninCallBack = () => {
-  const auth = useContext(AuthContext);
-  const navigate = useNavigate();
+    const { signinSilent } = useAuth0();
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const cookies = new Cookies();
+    useEffect(() => {
+        const cookies = new Cookies();
+        const clientId = cookies.get("sunfire_client_id");
 
-    const clientId = cookies.get("sunfire_client_id");
-    if (clientId) {
-      window.location.href = process.env.REACT_APP_SUNFIRE_SSO_URL;
-      cookies.remove("sunfire_client_id");
-      return;
-    }
-    auth.signinSilent().catch((error) => {
-      navigate("/error?code=login_callback_error", { replace: true });
-    });
-  }, [auth, navigate]);
+        if (clientId) {
+            window.location.href = process.env.REACT_APP_SUNFIRE_SSO_URL;
+            cookies.remove("sunfire_client_id");
+            return;
+        }
 
-  return "";
+        signinSilent().catch((error) => {
+            Sentry.captureException(error);
+            navigate("/error?code=login_callback_error", { replace: true });
+        });
+    }, [signinSilent, navigate]);
+
+    return "";
 };
 
 export default useAuthSigninCallBack;

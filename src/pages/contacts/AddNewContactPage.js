@@ -29,8 +29,7 @@ import CountyContext from "contexts/counties";
 
 import analyticsService from "services/analyticsService";
 import callRecordingsService from "services/callRecordingsService";
-import clientsService from "services/clientsService";
-import enrollPlansService from "services/enrollPlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import validationService from "services/validationService";
 
 import styles from "./ContactsPage.module.scss";
@@ -60,7 +59,7 @@ const NewContactForm = ({
         fetchCountyAndState,
         loading: loadingCountyAndState,
     } = useContext(CountyContext);
-
+    const { clientsService, enrollPlansService } = useClientServiceContext();
     const navigate = useNavigate();
     const showToast = useToast();
 
@@ -99,7 +98,7 @@ const NewContactForm = ({
                 };
             }
         },
-        [showToast]
+        [clientsService, showToast]
     );
 
     const getContactLink = (id) => `/contact/${id}/overview`;

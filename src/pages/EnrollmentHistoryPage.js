@@ -19,8 +19,7 @@ import MaContent from "partials/plan-details-content/ma";
 import MapdContent from "partials/plan-details-content/mapd";
 import PdpContent from "partials/plan-details-content/pdp";
 
-import clientsService from "services/clientsService";
-
+import { useClientServiceContext } from "services/clientServiceProvider";
 import styles from "./EnrollmentHistoryPage.module.scss";
 
 import { PLAN_TYPE_ENUMS } from "../constants";
@@ -39,8 +38,9 @@ const EnrollmentHistoryPage = ({ agentInfo = {}, isComingFromEmail = false, foot
     const [isMobile, setIsMobile] = useState(false);
     const [data, setdata] = useState(null);
     const [loading, setLoading] = useState(false);
+    const { clientsService } = useClientServiceContext();
     const finalContactId = paramContactId || propLeadId;
-    let plan_data = data?.medicareEnrollment?.planDetails;
+    const plan_data = data?.medicareEnrollment?.planDetails;
     const isCurrentYear = (dateString) => {
         const inputDate = new Date(dateString);
         const inputYear = inputDate.getFullYear();
@@ -102,9 +102,8 @@ const EnrollmentHistoryPage = ({ agentInfo = {}, isComingFromEmail = false, foot
                 type: "error",
                 message: "There was an error loading the contact details.",
             });
-        } finally {
         }
-    }, [finalContactId, showToast]);
+    }, [clientsService, finalContactId, showToast]);
 
     useEffect(() => {
         if (!isComingFromEmail && finalContactId) {

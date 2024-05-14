@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import * as Sentry from "@sentry/react";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
@@ -32,7 +31,7 @@ import GlobalNav from "partials/global-nav-v2";
 
 import stageSummaryContext from "contexts/stageSummary";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import { useAgentPreferences } from "providers/AgentPreferencesProvider/AgentPreferencesProvider";
 import DashboardActivityTable from "./DashboardActivityTable";
 import Afternoon from "./afternoon.svg";
@@ -66,6 +65,7 @@ export default function Dashbaord() {
 
     const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
     const { trackAgentPreferencesEvents } = useAgentPreferences();
+    const { clientsService } = useClientServiceContext();
 
     const { agentInformation } = useAgentInformationByID();
     const leadPreference = agentInformation?.leadPreference;

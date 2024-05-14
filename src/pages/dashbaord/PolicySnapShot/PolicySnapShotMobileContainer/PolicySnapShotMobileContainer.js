@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
-import moment from "moment";
-
 import usePreferences from "hooks/usePreferences";
 import useToast from "hooks/useToast";
 
@@ -16,14 +14,13 @@ import WithLoader from "components/ui/WithLoader";
 import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
-import enrollPlansService from "services/enrollPlansService";
-
-import styles from "./PolicySnapShotMobileContainer.module.scss";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import { TaskListCardContainer } from "../../Tasklist/TaskListCardContainer";
 import UnlinkedPolicyMobileList from "../UnlinkedPoliciesMobileList/UnlinkedPoliciesMobileList";
 
 import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
+import styles from "./PolicySnapShotMobileContainer.module.scss";
 
 export default function PolicySnapshotMobileLayout() {
     const { npn } = useParams();
@@ -42,6 +39,7 @@ export default function PolicySnapshotMobileLayout() {
         count: 0,
         color: "",
     });
+    const { enrollPlansService } = useClientServiceContext();
 
     // const navigate = useNavigate();
     const showToast = useToast();
@@ -62,7 +60,7 @@ export default function PolicySnapshotMobileLayout() {
         } finally {
             setIsLoading(false);
         }
-    }, [showToast, dateRange, npn]);
+    }, [enrollPlansService, npn, dateRange, showToast]);
 
     useEffect(() => {
         fetchPolicySnapshotList();
@@ -77,7 +75,6 @@ export default function PolicySnapshotMobileLayout() {
                     setWidgetInfo({ count: data?.policyCount, color: data?.policyStatusColor });
                 }
             } catch (error) {
-                console.log("Error in fetch policy count: ", error);
                 showToast({
                     type: "error",
                     message: "Failed to get Policy Snapshot Count.",
@@ -86,7 +83,7 @@ export default function PolicySnapshotMobileLayout() {
             }
         };
         fetchCounts();
-    }, [showToast, dateRange, npn]);
+    }, [showToast, dateRange, npn, enrollPlansService]);
 
     // const refreshData = (id) => {
     //     fetchCounts();

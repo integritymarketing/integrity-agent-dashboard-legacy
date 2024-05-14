@@ -6,7 +6,7 @@ import useToast from "hooks/useToast";
 import { Button } from "components/ui/Button";
 import Modal from "components/ui/modal";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./styles.module.scss";
 
@@ -17,6 +17,7 @@ const DeleteContactsModal = () => {
     const { isDeleteModalOpen, setIsDeleteModalOpen } = useContactsListModalContext();
     const { selectedContacts, refreshData } = useContactsListContext();
     const showToast = useToast();
+    const { clientsService } = useClientServiceContext();
 
     const numberOfSelectedContacts = selectedContacts.length;
     const hasMoreThanOne = numberOfSelectedContacts > 1;

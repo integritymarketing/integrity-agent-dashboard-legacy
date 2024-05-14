@@ -12,7 +12,7 @@ import Dialog from "packages/Dialog";
 import { HealthLead } from "./HealthLead";
 import { LifeLead } from "./LifeLead";
 import { PlanEnroll } from "./PlanEnroll";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./styles.module.scss";
 
@@ -21,6 +21,7 @@ function LeadSource() {
     const { agentId } = useUserProfile();
     const { leadPreference, agentAvailability } = useAgentAccountContext();
     const [isAvailable, setIsAvailable] = useAgentAvailability();
+    const { clientsService } = useClientServiceContext();
 
     useEffect(() => {
         const hasActiveLifeCallCampaign = agentAvailability?.activeCampaign?.hasActiveLifeCallCampaign;

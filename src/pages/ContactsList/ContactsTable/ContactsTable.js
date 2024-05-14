@@ -20,7 +20,7 @@ import Heartactive from "components/icons/version-2/HeartActive";
 import HeartInactive from "components/icons/version-2/HeartInactive";
 import { Checkbox } from "components/ui/version-2/Checkbox";
 import CampaignModal from "pages/ContactsList/CampaignModal/CampaignModal";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import AddReminder from "components/icons/version-2/addReminder";
 
 import { ActionsCell } from "./ActionsCell";
@@ -60,6 +60,7 @@ function ContactsTable() {
     const [leadData, setLeadData] = useState({});
     const [showPolicyModal, setShowPolicyModal] = useState(false);
     const [policyDetails, setPolicyDetails] = useState({});
+    const { clientsService } = useClientServiceContext();
 
     const openPolicyModal = (leadDataOriginal) => {
         setPolicyDetails(leadDataOriginal);

@@ -1,10 +1,9 @@
-import React, { createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 
 import PropTypes from "prop-types";
 
 import { STATES } from "utils/address";
-
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 const CountyContext = createContext();
 
@@ -18,6 +17,7 @@ export const CountyProvider = ({ children }) => {
     const [allCounties, setAllCounties] = useState([]);
     const [allStates, setAllStates] = useState([]);
     const [loading, setLoading] = useState(false);
+    const { clientsService } = useClientServiceContext();
 
     const fetchCountyAndState = useCallback(async (zipcode) => {
         if (zipcode.length === 5) {

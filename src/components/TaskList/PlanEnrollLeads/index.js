@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { Button } from "components/ui/Button";
 import Person from "components/icons/personLatest";
@@ -9,7 +9,7 @@ import useToast from "hooks/useToast";
 import WithLoader from "components/ui/WithLoader";
 import StageSelect from "pages/contacts/contactRecordInfo/StageSelect";
 import PrimaryContactPhone from "pages/contacts/PrimaryContactPhone";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import "./style.scss";
 
@@ -28,7 +28,6 @@ const PlanEnrollCard = ({ callData, refreshData }) => {
 
     const isPrimary = callData?.primaryCommunication || null;
 
-
     const getDateTime = () => {
         const localDateTime = convertToLocalDateTime(callData?.createDate);
         const date = formatDate(localDateTime, "MM/dd/yyyy");
@@ -36,25 +35,20 @@ const PlanEnrollCard = ({ callData, refreshData }) => {
         return { date, time };
     };
 
-
     const handleEmailClick = () => {
-
         window.location.href = `mailto:${leadEmail}`;
-
-    }
+    };
 
     return (
         <div className="plan-enroll-card">
             <Box className="plan-name-info" width={"20%"}>
-
-
                 <div className="plan-name">{leadFullName}</div>
                 {leadEmail && isPrimary === "email" && (
-
-                    <div className="plan-phone" onClick={handleEmailClick} >{leadEmail}</div>
+                    <div className="plan-phone" onClick={handleEmailClick}>
+                        {leadEmail}
+                    </div>
                 )}
                 {leadPhone && isPrimary === "phone" && (
-
                     <div className="plan-phone">
                         <PrimaryContactPhone
                             countyFips={addresses?.[0]?.countyFips}
@@ -64,8 +58,6 @@ const PlanEnrollCard = ({ callData, refreshData }) => {
                         />
                     </div>
                 )}
-
-
             </Box>
             <Box className="plan-name-info">
                 <div className="plan-date-label">Date Requested</div>
@@ -101,6 +93,7 @@ const PlanEnrollCard = ({ callData, refreshData }) => {
 
 const PlanEnrollLeads = ({ dateRange }) => {
     const [page, setPage] = useState(1);
+    const { clientsService } = useClientServiceContext();
     const [totalPageSize, setTotalPageSize] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [planEnrollData, setPlanEnrollData] = useState([]);

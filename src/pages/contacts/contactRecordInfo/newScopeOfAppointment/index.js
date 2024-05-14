@@ -10,7 +10,7 @@ import { Button } from "components/ui/Button";
 import { Select } from "components/ui/Select";
 import BackNavContext from "contexts/backNavProvider";
 import ContactContext from "contexts/contacts";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import analyticsService from "services/analyticsService";
 import { formatPhoneNumber } from "utils/phones";
 import useUserProfile from "hooks/useUserProfile";
@@ -53,6 +53,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
     const [email, setEmail] = useState("");
     const [errors, setErrors] = useState("");
     const [isMobile, setIsMobile] = useState(false);
+    const { clientsService } = useClientServiceContext();
 
     const {
         agentInformation: { agentPurl },

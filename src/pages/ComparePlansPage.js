@@ -27,9 +27,7 @@ import GlobalNav from "partials/global-nav-v2";
 import WelcomeEmailUser from "partials/welcome-email-user";
 
 import analyticsService from "services/analyticsService";
-import clientsService from "services/clientsService";
-import comparePlansService from "services/comparePlansService";
-import plansService from "services/plansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./PlansPage.module.scss";
 
@@ -50,6 +48,7 @@ const ComparePlansPage = (props) => {
     const [contactData, setContactData] = useState({});
     const [hasErrorPrescriptions, setHasErrorPrescriptions] = useState(false);
     const [hasErrorPharmacies, setHasErrorPharmacies] = useState(false);
+    const { clientsService, comparePlansService, plansService } = useClientServiceContext();
 
     const { isNonRTS_User } = useRoles();
 

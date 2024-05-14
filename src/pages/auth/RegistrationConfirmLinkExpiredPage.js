@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import { useNavigate } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
@@ -14,7 +14,10 @@ const ConfirmationPage = () => {
 
     const npn = queryParams.get("npn");
 
-    const { Post: sendConfirmationEmail } = useFetch(`${process.env.REACT_APP_AGENTS_URL}/resendconfirmemail`, true);
+    const { Post: sendConfirmationEmail } = useFetch(
+        `${process.env.REACT_APP_AUTH_AUTHORITY_URL_V3}/resendconfirmemail`,
+        true
+    );
 
     const handleResendConfirmEmail = useCallback(async () => {
         try {
@@ -39,7 +42,7 @@ const ConfirmationPage = () => {
     }, [sendConfirmationEmail, npn, clientId, navigate]);
 
     const handleRedirectAndRestartLoginFlow = () => {
-        window.location = portalUrl + "/signin";
+        window.location = `${portalUrl}/signin`;
     };
 
     return (

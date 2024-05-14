@@ -11,6 +11,7 @@ import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
 import useLoading from "hooks/useLoading";
 import useMobileVersionCheck from "hooks/useMobileVersionCheck";
 import useQueryParams from "hooks/useQueryParams";
+import useFetch from "hooks/useFetch";
 
 import { Button } from "packages/Button";
 import Heading2 from "packages/Heading2";
@@ -21,10 +22,7 @@ import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
 import { MobileHeaderUnAuthenticated } from "components/MobileHeaderUnAuthenticated";
 import Textfield from "components/ui/textfield";
 
-import AuthContext from "contexts/auth";
-
 import analyticsService from "services/analyticsService";
-import authService from "services/authService";
 import validationService from "services/validationService";
 import { getParameterFromUrl } from "./getParameterFromUrl";
 
@@ -34,7 +32,6 @@ import "./mobileStyle.scss";
 const ServerLoginPage = () => {
     const loading = useLoading();
     const navigate = useNavigate();
-    const auth = useContext(AuthContext);
     const device = useDeviceInfo();
     const isOutdatedVersion = useMobileVersionCheck();
     const [mobileAppLogin, setMobileAppLogin] = useState(false);
@@ -43,6 +40,8 @@ const ServerLoginPage = () => {
     const returnUrl = params.get("ReturnUrl");
     const clientId = getParameterFromUrl(returnUrl, "client_id");
     const isMobileSSO = getParameterFromUrl(returnUrl, "isMobileSSO");
+    const { Post: loginUser } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/login`);
+    const { Post: loginUserWithClinetID } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/login`);
 
     useEffect(() => {
         if (clientId === "AEPortal" && device === DEVICES.IPHONE) {
@@ -80,8 +79,8 @@ const ServerLoginPage = () => {
                     Password: "",
                     returnUrl: appendedReturnUrl,
                 };
-                const response = await authService.loginUserWithClinetID(userDetail, true);
-                postLogin(response, {}, userDetail, auth);
+                const response = await loginUserWithClinetID(userDetail, true);
+                postLogin(response, {}, userDetail);
             } else {
                 analyticsService.fireEvent("event-content-load", {
                     pagePath: "/login/",
@@ -92,7 +91,7 @@ const ServerLoginPage = () => {
         checkForExtrnalLogin();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const postLogin = async (response, { setErrors, setSubmitting }, payload, auth) => {
+    const postLogin = async (response, { setErrors, setSubmitting }, payload) => {
         // a 500 server error occurs when invalid OIDC query string params
         // are present (eg missing ReturnUrl).
         // catch 500 and send to final error page.
@@ -169,7 +168,7 @@ const ServerLoginPage = () => {
                                 setSubmitting(true);
                                 loading.begin();
                                 values.returnUrl = params.get("ReturnUrl");
-                                const response = await authService.loginUser(values);
+                                const response = await loginUser(values);
                                 postLogin(response, { setErrors, setSubmitting }, values);
                             }}
                         >

@@ -1,5 +1,5 @@
 import { ClientsService } from "./clientsService";
-
+import useClientServiceWithToken from "auth/useClientServiceWithToken";
 export const LEADS_API_VERSION = "v2.0";
 
 class CallRecordingsService extends ClientsService {
@@ -37,6 +37,8 @@ class CallRecordingsService extends ClientsService {
     };
 }
 
-const CallRecordingsServiceInstance = new CallRecordingsService();
+export const useCallRecordingsService = () => {
+    return useClientServiceWithToken(CallRecordingsService);
+};
 
-export default CallRecordingsServiceInstance;
+export default new CallRecordingsService();

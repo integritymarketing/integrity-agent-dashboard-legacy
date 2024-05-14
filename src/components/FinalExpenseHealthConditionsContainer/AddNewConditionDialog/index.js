@@ -20,8 +20,7 @@ import RadioUnchecked from "components/icons/radio-unchecked";
 import SearchBlue from "components/icons/version-2/SearchBlue";
 import Textfield from "components/ui/textfield";
 
-import clientsService from "services/clientsService";
-
+import { useClientServiceContext } from "services/clientServiceProvider";
 import { useLeadDetails } from "providers/ContactDetails";
 
 import styles from "./AddNewCondition.module.scss";
@@ -76,7 +75,7 @@ const AddNewConditionDialog = ({
             : 0
     );
     const { leadDetails } = useLeadDetails();
-
+    const { clientsService } = useClientServiceContext();
     const showToast = useToast();
     const { fireEvent } = useAnalytics();
     const { Get: getSearchResults } = useFetch(`${HEALTH_CONDITION_SEARCH_API}${searchString}`);

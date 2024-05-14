@@ -2,9 +2,8 @@ import * as Sentry from "@sentry/react";
 import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
-
 import { Formik } from "formik";
 
 import useFlashMessage from "../../hooks/useFlashMessage";
@@ -21,10 +20,7 @@ import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
 import { HeaderUnAuthenticated } from "components/HeaderUnAuthenticated";
 import Textfield from "components/ui/textfield";
 
-import AuthContext from "../../contexts/auth";
-
 import analyticsService from "services/analyticsService";
-import authService from "services/authService";
 import validationService from "services/validationService";
 
 import Styles from "./AuthPages.module.scss";
@@ -32,13 +28,32 @@ import "./mobileStyle.scss";
 
 const LEADCENTER_LOGIN_URL = "https://www.integrityleadcenter.com/login";
 
+const registerUser = async (values) => {
+    const response = await fetch(`${process.env.REACT_APP_AUTH_REGISTRATION_URL}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            ClientId: values.ClientId,
+            FirstName: values.FirstName,
+            LastName: values.LastName,
+            NPN: values.NPN,
+            Phone: values.Phone,
+            Email: values.Email,
+            Password: values.Password,
+        }),
+    });
+    return response;
+};
+
 const RegistrationPage = () => {
     const navigate = useNavigate();
     const loading = useLoading();
     const params = useQueryParams();
     const clientId = useClientId();
     const showToast = useToast();
-    const auth = useContext(AuthContext);
+    const { loginWithRedirect } = useAuth0();
     const { show: showMessage } = useFlashMessage();
     const [hasNPN] = useState(params.get("npn"));
     const [hasEmail] = useState(params.get("email"));
@@ -51,10 +66,13 @@ const RegistrationPage = () => {
 
     async function login() {
         try {
-            auth.signinRedirect();
+            await loginWithRedirect({
+                authorizationParams: {
+                    redirect_uri: `${window.location.origin}/dashboard`,
+                },
+            });
         } catch (e) {
             Sentry.captureException(e);
-            console.error("sign in error: ", e);
             showMessage("Unable to sign in at this time.", { type: "error" });
         }
     }
@@ -121,12 +139,13 @@ const RegistrationPage = () => {
                             setSubmitting(true);
                             loading.begin();
 
-                            const formattedValues = Object.assign({}, values, {
+                            const formattedValues = {
+                                ...values,
                                 Phone: values.Phone ? `${values.Phone}`.replace(/\D/g, "") : "",
-                            });
+                            };
                             formattedValues["ClientId"] = clientId;
 
-                            const response = await authService.registerUser(formattedValues);
+                            const response = await registerUser(formattedValues);
 
                             setSubmitting(false);
                             loading.end();
@@ -293,7 +312,7 @@ const RegistrationPage = () => {
                                                 </ul>
                                             </div>
                                         }
-                                        focusBannerVisible={!!errors.Password}
+                                        focusBannerVisible={Boolean(errors.Password)}
                                     />
                                     <div className="centered-flex-col">
                                         <Button

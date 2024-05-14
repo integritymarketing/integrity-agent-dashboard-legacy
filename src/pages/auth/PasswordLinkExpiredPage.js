@@ -1,11 +1,10 @@
-import React from "react";
 import BaseConfirmationPage from "pages/auth/BaseConfirmationPage";
 import { useNavigate } from "react-router-dom";
 import useQueryParams from "hooks/useQueryParams";
 import usePortalUrl from "hooks/usePortalUrl";
 
 const requestPasswordReset = async (npn) => {
-    const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/forgotpassword`, {
+    const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -34,7 +33,7 @@ const PasswordResetExpiredPage = () => {
     };
 
     const handleRedirectAndRestartLoginFlow = () => {
-        window.location = portalUrl + "/signin";
+        window.location = `${portalUrl}/signin`;
     };
 
     return (

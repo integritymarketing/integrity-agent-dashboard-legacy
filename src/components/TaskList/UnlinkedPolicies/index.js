@@ -3,11 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Media from "react-media";
 import PropTypes from "prop-types";
-
-import OpenIcon from "components/icons/open";
 import LinkContactCircle from "components/icons/BookofBusiness/policySnapshot/linkToContact";
 import { Button } from "components/ui/Button";
-import enrollPlansService from "services/enrollPlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
 
 import "./style.scss";
@@ -16,6 +14,7 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
     const [isMobile, setIsMobile] = useState(false);
     const navigate = useNavigate();
     const showToast = useToast();
+    const { enrollPlansService } = useClientServiceContext();
 
     const handleLinkToContact = useCallback(async () => {
         try {
@@ -42,21 +41,7 @@ const UnlinkedPolicyCard = ({ callData, npn }) => {
                 time: 10000,
             });
         }
-    }, [showToast, callData, navigate, npn]);
-
-    const navigateEnrollDetails = useCallback(async () => {
-        try {
-            navigate(`/enrollmenthistory/${leadId}/${confirmationNumber}/${policyEffectiveDate}`, {
-                state: props,
-            });
-        } catch (error) {
-            showToast({
-                type: "error",
-                message: "Failed to get enroll plan info.",
-                time: 10000,
-            });
-        }
-    }, [showToast, navigate]);
+    }, [enrollPlansService, npn, callData, navigate, showToast]);
 
     return (
         <div className="up-card">
@@ -133,7 +118,7 @@ const UnlinkedPolicyList = ({ npn, policyList, showMore, setPage }) => {
         <>
             <div className="up-card-container">
                 {sortedUnlinkedPolicies?.map((data, i) => {
-                    return <UnlinkedPolicyCard callData={data} npn={npn} />;
+                    return <UnlinkedPolicyCard key={i} callData={data} npn={npn} />;
                 })}
                 {showMore && (
                     <div className="jumpList-card">

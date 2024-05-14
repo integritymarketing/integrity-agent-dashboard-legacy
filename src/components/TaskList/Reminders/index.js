@@ -15,16 +15,16 @@ import Person from "components/icons/personLatest";
 import RoundCheck from "components/icons/round-check";
 import { Button } from "components/ui/Button";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import "./style.scss";
 
 import ReminderIcon from "images/Reminder.svg";
 import Reminder_Overdue from "images/Reminder_Overdue.svg";
 
-// eslint-disable-next-line max-lines-per-function
 const RemindersCard = ({ callData, refreshData }) => {
     const [isMobile, setIsMobile] = useState(false);
+    const { clientsService } = useClientServiceContext();
     const navigate = useNavigate();
     const showToast = useToast();
 

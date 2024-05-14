@@ -37,7 +37,7 @@ import BackNavContext from "contexts/backNavProvider";
 import { StageStatusProvider } from "contexts/stageStatus";
 
 import analyticsService from "services/analyticsService";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import ContactsCard from "./ContactsCard";
 import styles from "./ContactsPage.module.scss";
@@ -85,6 +85,7 @@ const ContactsPage = () => {
     const [sortToggle, setSortToggle] = useState(false);
 
     const { active = false } = useActiveFilters();
+    const { clientsService } = useClientServiceContext();
 
     const { setCurrentPage } = useContext(BackNavContext);
     const showToast = useToast();

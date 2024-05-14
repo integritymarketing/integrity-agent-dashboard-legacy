@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import DateRangeSort from "../DateRangeSort";
 import TabsCard from "components/TabsCard";
 import PolicyList from "./PolicyList";
-import enrollPlansService from "services/enrollPlansService";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
 import Info from "components/icons/info-blue";
@@ -13,6 +12,7 @@ import ErrorState from "components/ErrorState";
 import PolicyNoData from "components/PolicySnapShot/policy-no-data.svg";
 import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
 import UnlinkedPolicyList from "components/TaskList/UnlinkedPolicies";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import WithLoader from "components/ui/WithLoader";
 import "./style.scss";
@@ -41,9 +41,9 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
     const navigate = useNavigate();
     const showToast = useToast();
-    const {
-        selectedFilterSections, setSelectedFilterSections
-    } = useContactsListContext();
+    const { enrollPlansService } = useClientServiceContext();
+
+    const { selectedFilterSections, setSelectedFilterSections } = useContactsListContext();
     const status = tabs[statusIndex]?.policyStatus;
     const fetchPolicySnapshotList = useCallback(
         async (statusToFetch) => {
@@ -77,7 +77,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
                 setIsLoading(false);
             }
         },
-        [showToast, dateRange, npn]
+        [enrollPlansService, npn, dateRange, showToast]
     );
 
     useEffect(() => {
@@ -142,7 +142,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
     const jumptoList = (index) => {
         if (selectedFilterSections.length > 0) {
-            setSelectedFilterSections([])
+            setSelectedFilterSections([]);
         }
 
         if (leadIds?.length > 0) {

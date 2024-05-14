@@ -2,8 +2,6 @@ import moment from "moment";
 
 import { formatServerDate, parseDate } from "utils/dates";
 
-import authService from "services/authService";
-
 export const LEADS_API_VERSION = "v2.0";
 export const LEADS_ONLY_API_VERSION = "v3.0";
 export const LEADS_STATUS_API_VERSION = "v3.0";
@@ -41,12 +39,15 @@ const flattenMBI = (mbi) => {
 };
 
 export class ClientsService {
+    constructor(getAccessToken) {
+        this.getAccessToken = getAccessToken;
+    }
     _clientAPIRequest = async (path, method = "GET", body) => {
-        const user = await authService.getUser();
+        const accessToken = await this.getAccessToken();
         const opts = {
             method,
             headers: {
-                Authorization: `Bearer ${user.access_token}`,
+                Authorization: `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
             },
         };
@@ -57,7 +58,7 @@ export class ClientsService {
         return fetch(path, opts);
     };
 
-    _clientPublicAPIRequest = async (path, method = "GET", body) => {
+    _clientPublicAPIRequest = (path, method = "GET", body) => {
         const opts = {
             method,
             headers: {
@@ -1386,6 +1387,4 @@ export class ClientsService {
     };
 }
 
-const clientsServiceInstance = new ClientsService();
-
-export default clientsServiceInstance;
+export default new ClientsService();

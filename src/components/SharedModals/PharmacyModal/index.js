@@ -15,8 +15,7 @@ import Pagination from "components/ui/Pagination/pagination";
 import { Select } from "components/ui/Select";
 import Spinner from "components/ui/Spinner";
 
-import clientsService from "services/clientsService";
-
+import { useClientServiceContext } from "services/clientServiceProvider";
 import "./style.scss";
 
 import AddCircleOutline from "../Icons/AddCircleOutline";
@@ -77,8 +76,7 @@ const useStyles = makeStyles(() => ({
 
 const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
     const { addPharmacy } = useHealth();
-
-    // Initializations
+    const { clientsService } = useClientServiceContext();
     const classes = useStyles();
     const { fireEvent } = useAnalytics();
 
@@ -104,7 +102,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                 modalName: "Add Pharmacy",
             });
         }
-    }, [open]);
+    }, [fireEvent, open]);
 
     useEffect(() => {
         if (!zipCode || zipCode?.length !== 5) {
@@ -120,7 +118,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                 if (data?.features?.length > 0 && data?.features[0]?.center) {
                     // mapbox returns longitude/latitude, so need to reverse order for
                     // the pharmacy search API.
-                    let latlan_value = data?.features[0]?.center.reverse().toString();
+                    const latlan_value = data?.features[0]?.center.reverse().toString();
                     setLatLng(latlan_value);
                 } else {
                     setLatLng("");
@@ -129,7 +127,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
             .catch((e) => {
                 Sentry.captureException(e);
             });
-    }, [zipCode, pharmacyAddress]);
+    }, [zipCode, pharmacyAddress, clientsService]);
 
     useEffect(() => {
         if (!zipCode || zipCode?.length !== 5) {
@@ -139,7 +137,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
             return;
         }
 
-        let payload = {
+        const payload = {
             take: perPage,
             skip: perPage * (currentPage - 1),
             fields: "",
@@ -168,7 +166,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
             .catch((e) => {
                 setIsLoading(false);
             });
-    }, [perPage, currentPage, searchString, pharmacyAddress, latLng, zipCode, radius]);
+    }, [perPage, currentPage, searchString, pharmacyAddress, latLng, zipCode, radius, clientsService]);
 
     const handleZipCode = (e) => {
         setZipCode(e.target.value);

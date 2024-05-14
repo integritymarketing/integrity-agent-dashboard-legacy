@@ -1,27 +1,33 @@
-import React, { useContext } from "react";
+import PropTypes from "prop-types";
 import { Navigate, useLocation } from "react-router-dom";
-import AuthContext from "contexts/auth";
+import { useAuth0 } from "@auth0/auth0-react";
 
-function UnProtectedRoute({ redirectPath = "/", children }) {
-  const auth = useContext(AuthContext);
-  const location = useLocation();
+function Route({ isProtected, redirectPath, children }) {
+    const { isAuthenticated, isLoading } = useAuth0();
+    const location = useLocation();
 
-  if (auth.isAuthenticated()) {
-    return <Navigate to={redirectPath} state={{ from: location }} />;
-  }
+    if (isLoading) {
+        return null;
+    }
 
-  return children;
+    if (isProtected ? !isAuthenticated : isAuthenticated) {
+        return <Navigate to={redirectPath} state={{ from: location }} />;
+    }
+
+    return children;
 }
 
-function ProtectedRoute({ redirectPath = "/", children }) {
-  const auth = useContext(AuthContext);
-  const location = useLocation();
-  
-  if (!auth.isAuthenticated()) {
-    return <Navigate to={redirectPath} state={{ from: location }} />;
-  }
+Route.propTypes = {
+    isProtected: PropTypes.bool.isRequired,
+    redirectPath: PropTypes.string,
+    children: PropTypes.node.isRequired,
+};
 
-  return children;
-}
+Route.defaultProps = {
+    redirectPath: "/",
+};
+
+const ProtectedRoute = (props) => <Route {...props} isProtected={true} />;
+const UnProtectedRoute = (props) => <Route {...props} isProtected={false} />;
 
 export { ProtectedRoute, UnProtectedRoute };

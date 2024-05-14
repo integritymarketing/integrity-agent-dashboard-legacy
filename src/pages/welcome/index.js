@@ -1,7 +1,6 @@
 import { ActionButton } from "@integritymarketing/ui-button-components";
 import { ImpactText, SectionTitle } from "@integritymarketing/ui-text-components";
 
-import React from "react";
 import ItemsContainer from "components/ItemsContainer";
 
 import SplitContentImageSection from "components/SplitContentImageSection";
@@ -27,7 +26,7 @@ const Welcome = () => {
                         <ActionButton
                             text="Get Started"
                             onClick={() => {
-                                window.open(`${process.env.REACT_APP_AUTH_BASE_URL}/register?client_id=AEPortal`);
+                                window.open(`${process.env.REACT_APP_AUTH_REGISTRATION_URL}`);
                             }}
                         />
                     </ItemsContainer>

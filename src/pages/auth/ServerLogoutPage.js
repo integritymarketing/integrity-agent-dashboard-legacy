@@ -1,35 +1,28 @@
 import { useEffect } from "react";
 import * as Sentry from "@sentry/react";
-import useQueryParams from "hooks/useQueryParams";
-import authService from "services/authService";
-import usePortalUrl from "hooks/usePortalUrl";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const ServerLogoutPage = () => {
-  const params = useQueryParams();
-  const portal_url = usePortalUrl();
+export default () => {
+    const { logout } = useAuth0();
 
-  useEffect(() => {
-    const handleLogout = async () => {
-      const response = await authService.logoutUser(params.get("logoutId"));
-      const data = await response.json();
+    useEffect(() => {
+        const handleLogout = async () => {
+            try {
+                await logout({
+                    logoutParams: {
+                        returnTo: window.location.origin,
+                    },
+                });
+            } catch (error) {
+                Sentry.captureException("Auth Logout: failed to log out", {
+                    level: "error",
+                    extra: { error },
+                });
+            }
+        };
 
-      if (data.postLogoutRedirectUri) {        
-        window.location = data.postLogoutRedirectUri;
-      } else {
-        Sentry.captureException(
-          "Auth Logout: no logout redirect URL present in authService.logoutUser() API call. sending user to /signout-oidc",
-          {
-            level: "warning",
-          }
-        );
-        window.location = `${portal_url}/signout-oidc`;
-      }
-    };
+        handleLogout();
+    }, [logout]);
 
-    handleLogout();
-  }, [params, portal_url]);
-
-  return "";
+    return "";
 };
-
-export default ServerLogoutPage;

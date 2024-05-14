@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import * as Sentry from "@sentry/react";
 import { useEffect, useState } from "react";
 
@@ -13,7 +12,7 @@ import EditIcon from "components/icons/icon-edit";
 import Textfield from "components/ui/textfield";
 import Mobile from "partials/global-nav-v2/Mobile.svg";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import validationService from "services/validationService";
 
 import { formatPhoneNumber } from "pages/Account/helper";
@@ -30,6 +29,7 @@ const CallCenterContent = () => {
     const showToast = useToast();
     const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
     const [phoneAtom] = useRecoilState(agentPhoneAtom);
+    const { clientsService } = useClientServiceContext();
 
     const phoneNumber = callForwardNumber || phone;
 

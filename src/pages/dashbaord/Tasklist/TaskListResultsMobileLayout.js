@@ -19,7 +19,7 @@ import GlobalNav from "partials/global-nav-v2";
 
 import { StageStatusProvider } from "contexts/stageStatus";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import PlanEnrollLeads from "./PlanEnrollLeads";
 import RemindersList from "./Reminders";
@@ -71,8 +71,8 @@ export default function TaskListMobileLayout() {
     const [isLoading, setIsLoading] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [isError, setIsError] = useState(false);
-
     const [taskList, setTaskList] = useState([]);
+    const { clientsService } = useClientServiceContext();
 
     const WIDGET_NAME = DEFAULT_TABS.find((tab) => tab.name === widget)?.policyStatus;
 

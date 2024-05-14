@@ -2,18 +2,17 @@ import { useState, useCallback, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import styles from "./styles.module.scss";
-import clientsService from "services/clientsService";
-import enrollPlansService from "services/enrollPlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
 import useAnalytics from "hooks/useAnalytics";
 
-// eslint-disable-next-line max-lines-per-function
 export default function PossibleMatches({ phone, policyHolder, state }) {
     const [matches, setMatches] = useState([]);
     const { callFrom } = useParams();
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
     const showToast = useToast();
+    const { clientsService, enrollPlansService } = useClientServiceContext();
 
     useEffect(() => {
         const getContacts = async () => {
@@ -28,13 +27,13 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
             }
         };
         getContacts();
-    }, [phone, policyHolder, state]);
+    }, [clientsService, phone, policyHolder, state]);
 
     const updatePrimaryContact = useCallback(
         (contact) => {
             return clientsService.updateLeadPhone(contact, callFrom);
         },
-        [callFrom]
+        [callFrom, clientsService]
     );
 
     const onClickHandler = useCallback(
@@ -105,7 +104,7 @@ export default function PossibleMatches({ phone, policyHolder, state }) {
                 });
             }
         },
-        [state, updatePrimaryContact, showToast, fireEvent, navigate]
+        [state, enrollPlansService, updatePrimaryContact, showToast, fireEvent, navigate]
     );
 
     if (matches?.length > 0) {

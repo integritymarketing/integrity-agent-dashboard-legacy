@@ -13,7 +13,7 @@ import Heading3 from "packages/Heading3";
 import Spinner from "components/ui/Spinner/index";
 
 import callRecordingsService from "services/callRecordingsService";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./styles.module.scss";
 
@@ -30,10 +30,11 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children,
     const showToast = useToast();
     const { fireEvent } = useAnalytics();
     const navigate = useNavigate();
+    const { clientsService } = useClientServiceContext();
 
     const updatePrimaryContact = useCallback(() => {
         return clientsService.updateLeadPhone(contact, callFrom);
-    }, [contact, callFrom]);
+    }, [clientsService, contact, callFrom]);
 
     const onClickHandler = useCallback(async () => {
         try {

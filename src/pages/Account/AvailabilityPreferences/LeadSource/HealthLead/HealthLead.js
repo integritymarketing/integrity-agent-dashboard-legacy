@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import useUserProfile from "hooks/useUserProfile";
 import { useAgentAvailability } from "hooks/useAgentAvailability";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import { useAgentPreferences } from "providers/AgentPreferencesProvider/AgentPreferencesProvider";
 
 import { useAgentAccountContext } from "providers/AgentAccountProvider";
@@ -18,6 +18,7 @@ function HealthLead({ setShowAvilabilityDialog }) {
     const { agentId, npn } = useUserProfile();
     const [isAvailable, setIsAvailable] = useAgentAvailability();
     const { trackAgentPreferencesEvents } = useAgentPreferences();
+    const { clientsService } = useClientServiceContext();
 
     const hasActiveLifeCallCampaign = agentAvailability?.activeCampaign?.hasActiveLifeCallCampaign;
     const hasActiveHealthCallCampaign = agentAvailability?.activeCampaign?.hasActiveHealthCallCampaign;

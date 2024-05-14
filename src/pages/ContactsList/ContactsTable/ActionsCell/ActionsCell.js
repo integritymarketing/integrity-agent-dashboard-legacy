@@ -14,7 +14,7 @@ import { AddReminderModal } from "components/ContactDetailsContainer/ContactDeta
 import PlansTypeModal from "components/PlansTypeModal";
 import MoreBlue from "components/icons/version-2/MoreBlue";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./styles.module.scss";
 
@@ -37,7 +37,6 @@ export const ACTIONS = [
     },
 ];
 
-// eslint-disable-next-line max-lines-per-function
 function ActionsCell({ row, isCard, item, refreshData }) {
     const [leadConnectModal, setLeadConnectModal] = useState(false);
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
@@ -46,6 +45,7 @@ function ActionsCell({ row, isCard, item, refreshData }) {
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
     const showToast = useToast();
+    const { clientsService } = useClientServiceContext();
 
     const record = isCard ? item : row.original;
     const leadId = record.leadsId;

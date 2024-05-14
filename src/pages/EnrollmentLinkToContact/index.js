@@ -11,7 +11,7 @@ import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/Enrollment
 import Footer from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import DashboardHeaderSection from "pages/dashbaord/DashboardHeaderSection";
 
@@ -20,7 +20,6 @@ import CreateNewContact from "./CreateNewContact";
 import PossibleMatches from "./PossibleMatches";
 import styles from "./styles.module.scss";
 
-// eslint-disable-next-line max-lines-per-function
 export default function EnrollmentLinkToContact() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -28,6 +27,7 @@ export default function EnrollmentLinkToContact() {
     const { callLogId, callFrom } = useParams();
     const [contacts, setContacts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const { clientsService } = useClientServiceContext();
     const policy = state?.policyNumber || state?.policyId;
 
     const getContacts = async (searchStr) => {

@@ -32,10 +32,7 @@ const ForgotPasswordpage = () => {
     const clientId = useClientId();
     const params = useQueryParams();
     const mobileAppLogin = Boolean(params.get("mobileAppLogin"));
-    const { Post: requestPasswordReset } = useFetch(
-        `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/forgotpassword`,
-        true
-    );
+    const { Post: requestPasswordReset } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, true);
 
     useEffect(() => {
         analyticsService.fireEvent("event-content-load", {
@@ -101,7 +98,7 @@ const ForgotPasswordpage = () => {
                                 });
                             } else {
                                 const errorsArr = await response.json();
-                                let errors = validationService.formikErrorsFor(errorsArr);
+                                const errors = validationService.formikErrorsFor(errorsArr);
 
                                 if (errors.Global === "account_unconfirmed") {
                                     navigate(`/registration-email-sent?npn=${values.Username}&mode=error`);

@@ -1,15 +1,11 @@
-import React, { useContext } from "react";
-
-import AuthContext from "contexts/auth";
-
+import { useAuth0 } from "@auth0/auth0-react";
 import BaseLegalPage from "pages/BaseLegalPage";
 
 const PrivacyPage = () => {
-    const auth = useContext(AuthContext);
-    const showIntegrity = auth.isAuthenticated();
+    const { isAuthenticated } = useAuth0();
 
     return (
-        <BaseLegalPage title="Privacy Policy" showIntegrity={!showIntegrity}>
+        <BaseLegalPage title="Privacy Policy" showIntegrity={!isAuthenticated}>
             <p className="text-body text-body--large mb-4">
                 <strong>Please read this privacy policy carefully.</strong>
             </p>

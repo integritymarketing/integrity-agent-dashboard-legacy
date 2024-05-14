@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -9,7 +9,7 @@ import { useLeadDetails } from "providers/ContactDetails";
 import { formatDate, getLocalDateTime } from "utils/dates";
 import { formatPhoneNumber } from "utils/phones";
 import { primaryContactOptions } from "utils/primaryContact";
-import { onlyAlphabets, scrollTop } from "utils/shared-utils/sharedUtility";
+import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 
 import useToast from "hooks/useToast";
 
@@ -20,21 +20,13 @@ import Textfield from "components/ui/textfield";
 
 import CountyContext from "contexts/counties";
 
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import validationService from "services/validationService";
 
 import "pages/contacts/contactRecordInfo/contactRecordInfo.scss";
 
 import styles from "./ContactInfoContainer.module.scss";
-import {
-    StyledButtonFormElement,
-    StyledDatePicker,
-    StyledElementName,
-    StyledFormItem,
-    StyledGenderFormElements,
-    StyledInputField,
-    StyledNumberInputContainer,
-} from "./StyledComponents";
+import { StyledElementName, StyledFormItem } from "./StyledComponents";
 
 import SelectableButtonGroup from "components/SelectableButtonGroup";
 
@@ -45,7 +37,7 @@ import { ArrowForwardWithCircle } from "../Icons";
 function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
     const { leadDetails } = useLeadDetails();
 
-    let {
+    const {
         firstName = "",
         middleName = "",
         lastName = "",
@@ -64,19 +56,19 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
         hasMedicAid,
     } = leadDetails;
 
-    let {
+    const {
         allCounties = [],
         allStates = [],
         fetchCountyAndState,
         loading: loadingCountyAndState,
     } = useContext(CountyContext);
 
-    const navigate = useNavigate();
     const showToast = useToast();
+    const { clientsService } = useClientServiceContext();
 
-    let email = emails.length > 0 ? emails[0].leadEmail : null;
-    let phoneData = phones.length > 0 ? phones[0] : null;
-    let addressData = addresses.length > 0 ? addresses?.[0] : null;
+    const email = emails.length > 0 ? emails[0].leadEmail : null;
+    const phoneData = phones.length > 0 ? phones[0] : null;
+    const addressData = addresses.length > 0 ? addresses?.[0] : null;
     const emailID = emails.length > 0 ? emails[0].emailID : 0;
     const leadAddressId = addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
     const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
@@ -100,13 +92,15 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
     }, [fetchCountyAndState, postalCode]);
 
     const formatMbiNumber = (value) => {
-        if (!value) return;
+        if (!value) {
+            return;
+        }
         let formattedValue = value.replace(/-/g, "");
         if (formattedValue.length > 4) {
-            formattedValue = formattedValue.slice(0, 4) + "-" + formattedValue.slice(4);
+            formattedValue = `${formattedValue.slice(0, 4)}-${formattedValue.slice(4)}`;
         }
         if (formattedValue.length > 8) {
-            formattedValue = formattedValue.slice(0, 8) + "-" + formattedValue.slice(8);
+            formattedValue = `${formattedValue.slice(0, 8)}-${formattedValue.slice(8)}`;
         }
         return formattedValue.toUpperCase();
     };
@@ -266,9 +260,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 const isInvalidZip =
                     (values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0) ||
                     (values.address.postalCode > 0 && values.address.postalCode.length < 5);
-                let countyName = allCounties[0]?.value;
-                let countyFipsName = allCounties[0]?.key;
-                let stateCodeName = allStates[0]?.value;
+                const countyName = allCounties[0]?.value;
+                const countyFipsName = allCounties[0]?.key;
+                const stateCodeName = allStates[0]?.value;
 
                 if (
                     allCounties.length === 1 &&
@@ -505,7 +499,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                     fetchCountyAndState(e.target.value);
                                                     if (e.target.value.length < 5) {
                                                         setZipLengthValid(false);
-                                                    } else setZipLengthValid(true);
+                                                    } else {
+                                                        setZipLengthValid(true);
+                                                    }
                                                 }}
                                                 onBlur={handleBlur}
                                                 onInput={(e) => {

@@ -23,9 +23,7 @@ import Container from "components/ui/container";
 import GlobalNav from "partials/global-nav-v2";
 
 import analyticsService from "services/analyticsService";
-import clientsService from "services/clientsService";
-import comparePlansService from "services/comparePlansService";
-import plansService from "services/plansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./PlansPage.module.scss";
 
@@ -42,6 +40,7 @@ export default (props) => {
     const [pharmacies, setPharmacies] = useState([]);
     const [comparePlanModalOpen, setComparePlanModalOpen] = useState(false);
     const [contactData, setContactData] = useState({});
+    const { clientsService, comparePlansService, plansService } = useClientServiceContext();
 
     function getAllPlanDetails({
         planIds,

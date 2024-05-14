@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect, useMemo, useRef } from "react";
 import { ChevronLeft, Add } from "@mui/icons-material";
 import { Button } from "components/ui/Button";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import * as Sentry from "@sentry/react";
 import styles from "./styles.module.scss";
 import { Box } from "@mui/material";
@@ -54,6 +54,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
         fetchedFiltersSectionConfigFromApi,
         setFetchedFiltersSectionConfigFromApi,
     } = useContactsListContext();
+    const { clientsService } = useClientServiceContext();
 
     useEffect(() => {
         async function fetchData() {

@@ -1,44 +1,31 @@
-import React from "react";
+import PropTypes from "prop-types";
 import { Auth0Provider } from "@auth0/auth0-react";
-import { createBrowserHistory } from "history";
-
-/**
- * Auth0ProviderWithHistory component wraps the Auth0Provider from @auth0/auth0-react
- * and provides additional configuration for handling redirects and authorization parameters.
- *
- * @component
- * @param {React.ReactNode} children - The child components to render.
- * @returns {React.ReactNode} The wrapped Auth0Provider component.
- * @see {@link https://auth0.github.io/auth0-react/interfaces/Auth0ProviderOptions.html}
- *    For a full list of the available properties on the provider.
- */
+import { useNavigate } from "react-router-dom";
 
 const Auth0ProviderWithHistory = ({ children }) => {
-  const history = createBrowserHistory();
-  const onRedirectCallback = (appState) => {
-    navigate(
-      appState && appState.returnTo
-        ? appState.returnTo
-        : window.location.pathname
-    );
-  };
+    const navigate = useNavigate();
 
-  const providerConfig = {
-    domain: process.env.REACT_APP_AUTH0_DOMAIN,
-    clientId: process.env.REACT_APP_AUTH0_CLIENT_ID,
-    onRedirectCallback,
-    authorizationParams: {
-      redirect_uri: window.location.origin,
-      ...(process.env.REACT_APP_AUTH0_AUDIENCE
-        ? { audience: process.env.REACT_APP_AUTH0_AUDIENCE }
-        : null),
-    },
-    cacheLocation:"localstorage" // Configure the storage location
-  };
+    const onRedirectCallback = (appState) => {
+        navigate(appState?.returnTo || window.location.pathname);
+    };
 
-  return <Auth0Provider {...providerConfig}>
-      {children}
-  </Auth0Provider>;
+    const providerConfig = {
+        domain: process.env.REACT_APP_AUTH0_DOMAIN,
+        clientId: process.env.REACT_APP_AUTH0_CLIENT_ID,
+        onRedirectCallback,
+        authorizationParams: {
+            redirect_uri: window.location.origin,
+            ...(process.env.REACT_APP_AUTH0_AUDIENCE && { audience: process.env.REACT_APP_AUTH0_AUDIENCE }),
+            scope: process.env.REACT_APP_AUTH_SCOPES,
+        },
+        cacheLocation: "localstorage",
+    };
+
+    return <Auth0Provider {...providerConfig}>{children}</Auth0Provider>;
+};
+
+Auth0ProviderWithHistory.propTypes = {
+    children: PropTypes.node.isRequired,
 };
 
 export default Auth0ProviderWithHistory;

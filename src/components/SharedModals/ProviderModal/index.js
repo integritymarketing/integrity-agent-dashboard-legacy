@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import useDebounce from "hooks/useDebounce";
 
@@ -21,8 +21,7 @@ import Pagination from "components/ui/Pagination/pagination";
 import { Select } from "components/ui/Select";
 import Spinner from "components/ui/Spinner";
 
-import clientsService from "services/clientsService";
-
+import { useClientServiceContext } from "services/clientServiceProvider";
 import ProviderList from "./ProviderList";
 import "./style.scss";
 
@@ -48,10 +47,11 @@ const DISTANCE_OPTIONS = [
 
 function encodeQueryData(data) {
     const ret = [];
-    for (let d in data)
+    for (const d in data) {
         if (data[d]) {
-            ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(data[d]));
+            ret.push(`${encodeURIComponent(d)}=${encodeURIComponent(data[d])}`);
         }
+    }
     return ret.join("&");
 }
 
@@ -99,13 +99,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, leadId }) => {
-    const { addProvider, deleteProvider, providers, fetchProviders } = useHealth();
+    const { addProvider, deleteProvider, providers } = useHealth();
+    const { clientsService } = useClientServiceContext();
 
-    const fetchHealthDetails = useCallback(async () => {
-        await fetchProviders(leadId);
-    }, [leadId, fetchProviders]);
-
-    // Initializations
     const classes = useStyles();
     const { fireEvent } = useAnalytics();
 

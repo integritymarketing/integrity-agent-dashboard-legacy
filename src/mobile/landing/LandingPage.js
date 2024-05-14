@@ -1,26 +1,24 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import * as Sentry from "@sentry/react";
-import React, { useContext } from "react";
-
 import { ActionButton } from "@integritymarketing/ui-button-components";
-
 import useFlashMessage from "hooks/useFlashMessage";
-
 import IntegrityLogo from "components/HeaderWithLogin/Integrity-logo";
-
-import AuthContext from "contexts/auth";
 
 import Styles from "./LandingPage.module.scss";
 
 const LandingPage = () => {
-    const auth = useContext(AuthContext);
+    const { loginWithRedirect } = useAuth0();
     const { show: showMessage } = useFlashMessage();
 
     async function handleLogin() {
         try {
-            await auth.signinRedirect();
+            await loginWithRedirect({
+                authorizationParams: {
+                    redirect_uri: `${window.location.origin}/dashboard`,
+                },
+            });
         } catch (e) {
             Sentry.captureException(e);
-            console.error("sign in error: ", e);
             showMessage("Unable to sign in at this time.", { type: "error" });
         }
     }
@@ -44,7 +42,7 @@ const LandingPage = () => {
                     <ActionButton
                         text="Get Started"
                         onClick={() => {
-                            window.open(`${process.env.REACT_APP_AUTH_BASE_URL}/register?client_id=AEPortal`);
+                            window.open(`${process.env.REACT_APP_AUTH_REGISTRATION_URL}`);
                         }}
                     />
                 </div>

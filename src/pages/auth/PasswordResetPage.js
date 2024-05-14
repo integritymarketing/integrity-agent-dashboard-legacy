@@ -9,6 +9,7 @@ import { Formik } from "formik";
 import useClientId from "hooks/auth/useClientId";
 import useLoading from "hooks/useLoading";
 import useQueryParams from "hooks/useQueryParams";
+import useFetch from "hooks/useFetch";
 
 import { ContainerUnAuthenticated } from "components/ContainerUnAuthenticated";
 import { FooterUnAuthenticated } from "components/FooterUnAuthenticated";
@@ -27,22 +28,20 @@ const PasswordResetPage = () => {
     const params = useQueryParams();
     const clientId = useClientId();
 
+    const { Post: resetpassword } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, true, true);
+    const { Post: validatePasswordResetToken } = useFetch(
+        `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/validateresetpasswordtoken`,
+        true,
+        true
+    );
+
     useEffect(() => {
         const checkIfValidToken = async () => {
-            const response = await fetch(
-                `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/validateresetpasswordtoken`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        username: params.get("npn"),
-                        token: params.get("token"),
-                        email: params.get("email"),
-                    }),
-                }
-            );
+            const response = await validatePasswordResetToken({
+                username: params.get("npn"),
+                token: params.get("token"),
+                email: params.get("email"),
+            });
 
             if (response.ok) {
                 return true;
@@ -58,7 +57,7 @@ const PasswordResetPage = () => {
 
     const handleSubmit = async (values) => {
         loading.begin();
-        const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/resetpassword`, {
+        const response = await resetpassword({
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -145,7 +144,7 @@ const PasswordResetPage = () => {
                                                     </ul>
                                                 </div>
                                             }
-                                            focusBannerVisible={!!errors.Password}
+                                            focusBannerVisible={Boolean(errors.Password)}
                                         />
                                         <Textfield
                                             id="new-password-repeat"

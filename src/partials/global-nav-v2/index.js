@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Media from "react-media";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useAuth0 } from "@auth0/auth0-react";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { welcomeModalOpenAtom, welcomeModalTempOpenAtom } from "recoil/agent/atoms";
 
@@ -13,15 +13,13 @@ import GetStarted from "packages/GetStarted";
 import InboundCallBanner from "packages/InboundCallBanner";
 
 import IntegrityLogo from "components/HeaderWithLogin/Integrity-logo";
+import WithLoader from "components/ui/WithLoader";
 import Modal from "components/ui/modal";
 
 import ContactInfo from "partials/contact-info";
-
-import AuthContext from "contexts/auth";
-
 import analyticsService from "services/analyticsService";
-import authService from "services/authService";
-import clientService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
+
 import validationService from "services/validationService";
 
 import Account from "./Account.svg";
@@ -38,15 +36,15 @@ import SmallFormatMenu from "./small-format";
 import IntegrityMobileLogo from "components/HeaderWithLogin/integrity-mobile-logo";
 import NewBackBtn from "images/new-back-btn.svg";
 
-const handleCSGSSO = async (navigate, loading) => {
+const handleCSGSSO = async (navigate, loading, getAccessToken) => {
     loading.begin(0);
 
-    const user = await authService.getUser();
+    const user = await getAccessToken();
 
     const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/`, {
         method: "GET",
         headers: {
-            Authorization: `Bearer ${user.access_token}`,
+            Authorization: `Bearer ${user}`,
             "Content-Type": "application/json",
         },
         credentials: "include",
@@ -107,7 +105,8 @@ const SiteNotification = ({ showPhoneNotification, showMaintenaceNotification })
 
 // eslint-disable-next-line max-lines-per-function
 const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props }) => {
-    const auth = useContext(AuthContext);
+    const auth = useAuth0();
+    const { clientsService } = useClientServiceContext();
     const navigate = useNavigate();
     const loadingHook = useLoading();
     const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
@@ -126,7 +125,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     const mobileMenuProps = {
         navOpen,
         setNavOpen,
-        ...(auth.isAuthenticated() && !menuHidden
+        ...(auth.isAuthenticated && !menuHidden
             ? {
                   primary: [
                       {
@@ -202,7 +201,12 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           component: "button",
                           props: {
                               type: "button",
-                              onClick: () => auth.logout(),
+                              onClick: () =>
+                                  auth.logout({
+                                      logoutParams: {
+                                          returnTo: window.location.origin,
+                                      },
+                                  }),
                           },
                           label: "Sign Out",
                           img: MobileLogout,
@@ -219,7 +223,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     const menuProps = {
         navOpen,
         setNavOpen,
-        ...(auth.isAuthenticated() && !menuHidden
+        ...(auth.isAuthenticated && !menuHidden
             ? {
                   primary: [
                       {
@@ -308,7 +312,12 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           component: "button",
                           props: {
                               type: "button",
-                              onClick: () => auth.logout(),
+                              onClick: () =>
+                                  auth.logout({
+                                      logoutParams: {
+                                          returnTo: window.location.origin,
+                                      },
+                                  }),
                           },
                           label: "Sign Out",
                           img: Logout,
@@ -329,13 +338,13 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
 
     useEffect(() => {
         if (user?.agentId && !agentInformation?.agentVirtualPhoneNumber && agentInformation?.isDashboardLocation) {
-            setTimeout(() => clientService.genarateAgentTwiloNumber(user?.agentId), 5000);
+            setTimeout(() => clientsService.genarateAgentTwiloNumber(user?.agentId), 5000);
         }
-    }, [agentInformation, user]);
+    }, [agentInformation, clientsService, user]);
 
     let showPhoneNotification = false;
 
-    if (auth.isAuthenticated() && user && !user.phone) {
+    if (auth.isAuthenticated && user && !user.phone) {
         showPhoneNotification = true;
     }
 
@@ -356,8 +365,9 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     ) {
         showBanner = true;
     }
+
     return (
-        <>
+        <WithLoader isLoading={auth.isLoading}>
             <Media
                 query={"(max-width: 883px)"}
                 onChange={(isMobile) => {
@@ -405,14 +415,14 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                             />
                         )}
 
-                        <Link to={auth.isAuthenticated() ? "/dashboard" : "/welcome"}>
+                        <Link to={auth.isAuthenticated ? "/dashboard" : "/welcome"}>
                             {isMobile ? <IntegrityMobileLogo /> : <IntegrityLogo />}
                             <span className="visually-hidden">Integrity</span>
                         </Link>
                     </div>
                 )}
 
-                {auth.isAuthenticated() && !menuHidden && (
+                {auth.isAuthenticated && !menuHidden && (
                     <nav className="global-nav-v2__links">
                         <h2 className="visually-hidden">Main Navigation</h2>
                         {/*
@@ -434,7 +444,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                 )}
             </header>
 
-            {auth.isAuthenticated() && !menuHidden && <InboundCallBanner agentInformation={agentInformation} />}
+            {auth.isAuthenticated && !menuHidden && <InboundCallBanner agentInformation={agentInformation} />}
             <Modal
                 open={helpModalOpen}
                 onClose={() => setHelpModalOpen(false)}
@@ -444,7 +454,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
             >
                 <ContactInfo testId={"header-support-modal"} />
             </Modal>
-        </>
+        </WithLoader>
     );
 };
 

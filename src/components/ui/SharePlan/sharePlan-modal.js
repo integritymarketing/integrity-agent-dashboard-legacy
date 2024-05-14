@@ -13,15 +13,14 @@ import { Button } from "../Button";
 import { Select } from "components/ui/Select";
 import { formatPhoneNumber } from "utils/phones";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
-import plansService from "services/plansService";
-import enrollPlansService from "services/enrollPlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import "./styles.scss";
 import { disableTextMessage, getCommunicationOptions } from "utilities/appConfig";
 import SMSNotification from "components/SMSNotification";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
     const originalInput = phoneNumberString;
-    const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
+    const cleaned = `${phoneNumberString}`.replace(/\D/g, "");
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
 
     if (match) {
@@ -72,6 +71,7 @@ const SharePlanModal = ({
     const [selectedDocuments, setSelectedDocuments] = useState([]);
     const [loading, setLoading] = useState(false);
     const userProfile = useUserProfile();
+    const { plansService, enrollPlansService } = useClientServiceContext();
 
     useEffect(() => {
         if (modalOpen) {
@@ -81,7 +81,7 @@ const SharePlanModal = ({
         }
     }, [modalOpen]);
 
-    const mobile = useMemo(() => (formattedMobile ? ("" + formattedMobile).replace(/\D/g, "") : ""), [formattedMobile]);
+    const mobile = useMemo(() => (formattedMobile ? `${formattedMobile}`.replace(/\D/g, "") : ""), [formattedMobile]);
 
     const validateEmail = debounce((email) => {
         if (emailRegex.test(email)) {
@@ -132,7 +132,7 @@ const SharePlanModal = ({
             updatedRoles = roles;
         }
         try {
-            let payload = {
+            const payload = {
                 leadFirstName: firstName,
                 leadLastName: lastName,
                 agentFirstName: agentFirstName,
@@ -143,7 +143,7 @@ const SharePlanModal = ({
                 starRatingsLink: planRating.toString(),
                 roles: updatedRoles,
             };
-            let sharepolicyData = {
+            const sharepolicyData = {
                 leadFirstName: firstName,
                 leadLastName: lastName,
                 agentFirstName: agentFirstName,
@@ -171,7 +171,7 @@ const SharePlanModal = ({
                     messageType: "email",
                 };
                 if (ispolicyShare) {
-                    let policyData = {
+                    const policyData = {
                         ...sharepolicyData,
                         messageDestination: leadEmail,
                         messageType: "email",
@@ -186,7 +186,7 @@ const SharePlanModal = ({
                     messageDestination: leadPhone,
                     messageType: "sms",
                 };
-                let policyData = {
+                const policyData = {
                     ...sharepolicyData,
                     messageDestination: leadPhone,
                     messageType: "sms",
@@ -204,7 +204,7 @@ const SharePlanModal = ({
                         messageType: "email",
                     };
                     if (ispolicyShare) {
-                        let policyData = {
+                        const policyData = {
                             ...sharepolicyData,
                             messageDestination: email,
                             messageType: "email",
@@ -221,7 +221,7 @@ const SharePlanModal = ({
                     };
 
                     if (ispolicyShare) {
-                        let policyData = {
+                        const policyData = {
                             ...sharepolicyData,
                             messageDestination: mobile,
                             messageType: "sms",

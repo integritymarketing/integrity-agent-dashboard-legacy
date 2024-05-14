@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import { Formik } from "formik";
 
@@ -23,9 +22,7 @@ export default () => {
     const loading = useLoading();
     const [username, setUsername] = useState();
     const [apiErrors, setApiErrors] = useState([]);
-    const { Post: forgotUsername } = useFetch(
-        `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/forgotusername`
-    );
+    const { Post: forgotUsername } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotusername`);
 
     if (username) {
         return (
@@ -124,7 +121,7 @@ export default () => {
                             } else {
                                 const errorsArr = await response.json();
                                 setApiErrors(errorsArr);
-                                let errors = validationService.formikErrorsFor(errorsArr);
+                                const errors = validationService.formikErrorsFor(errorsArr);
 
                                 if (errors.Global === "account_unconfirmed") {
                                     navigate(`registration-email-sent?npn=${values.NPN}&mode=error`);

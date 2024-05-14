@@ -10,8 +10,7 @@ import StageSelect from "pages/contacts/contactRecordInfo/StageSelect";
 import Box from "@mui/material/Box";
 import { TaskListCard } from "../TaskListCardContainer";
 import PrimaryContactPhone from "pages/contacts/PrimaryContactPhone";
-
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./styles.module.scss";
 
@@ -28,7 +27,6 @@ const PlanEnrollCard = ({ callData, refreshData, multi }) => {
     const leadEmail = callData?.emails.length > 0 ? callData?.emails?.[0]?.leadEmail : null;
     const addresses = callData?.addresses || null;
 
-
     const isPrimary = callData?.primaryCommunication || null;
 
     const getDateTime = () => {
@@ -38,12 +36,9 @@ const PlanEnrollCard = ({ callData, refreshData, multi }) => {
         return { date, time };
     };
 
-
-
     const handleEmailClick = () => {
         window.location.href = `mailto:${leadEmail}`;
-
-    }
+    };
 
     return (
         <TaskListCard multi={multi} background="white">
@@ -51,11 +46,11 @@ const PlanEnrollCard = ({ callData, refreshData, multi }) => {
                 <Box>
                     <div className={styles.name}>{leadFullName}</div>
                     {leadEmail && isPrimary === "email" && (
-
-                        <div className={styles.mobile} onClick={handleEmailClick}>{leadEmail}</div>
+                        <div className={styles.mobile} onClick={handleEmailClick}>
+                            {leadEmail}
+                        </div>
                     )}
                     {leadPhone && isPrimary === "phone" && (
-
                         <div className={styles.mobile}>
                             <PrimaryContactPhone
                                 countyFips={addresses?.[0]?.countyFips}
@@ -65,7 +60,6 @@ const PlanEnrollCard = ({ callData, refreshData, multi }) => {
                             />
                         </div>
                     )}
-
                 </Box>
                 <Box className={styles.dateInfo}>
                     <div className={styles.planDateLabel}>Date Requested</div>
@@ -107,6 +101,7 @@ const PlanEnrollLeads = ({ dateRange }) => {
     const [planEnrollData, setPlanEnrollData] = useState([]);
 
     const showToast = useToast();
+    const { clientsService } = useClientServiceContext();
 
     useEffect(() => {
         getPlanEnrollData();
@@ -157,7 +152,6 @@ const PlanEnrollLeads = ({ dateRange }) => {
     };
 
     const sortedTasks = sortListByDate(planEnrollData, "createDate", false);
-
 
     return (
         <WithLoader isLoading={isLoading}>

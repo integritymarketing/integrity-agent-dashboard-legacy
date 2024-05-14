@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import * as Sentry from "@sentry/react";
 import FooterButtons from "packages/FooterButtons";
 import StageStatusContext from "contexts/stageStatus";
@@ -17,6 +17,7 @@ export default function ContactListFilterOptions({ close, layout }) {
     const [tags, setTags] = useState([]);
     const { statusOptions } = useContext(StageStatusContext);
     const { tagValue = [], stageValue = [], reminderValue = "" } = useActiveFilters();
+    const { clientsService } = useClientServiceContext();
 
     const navigate = useNavigate();
     const location = useLocation();

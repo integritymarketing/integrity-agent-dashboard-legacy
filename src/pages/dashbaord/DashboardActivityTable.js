@@ -30,8 +30,7 @@ import ActionsDropdown from "components/ui/ActionsDropdown";
 
 import ContactContext from "contexts/contacts";
 import { ActionsCell } from "../ContactsList/ContactsTable/ActionsCell";
-import clientsService from "services/clientsService";
-import comparePlansService from "services/comparePlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
 import ActivityDetails from "pages/ContactDetails/ActivityDetails";
@@ -147,6 +146,7 @@ export default function DashboardActivityTable({
 
     const { setLinkCode } = useScopeOfAppointment();
     const { setSelectedTab } = useLeadDetails();
+    const { clientsService, comparePlansService } = useClientServiceContext();
 
     const { npn } = userProfile;
     useEffect(() => {

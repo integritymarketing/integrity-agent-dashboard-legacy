@@ -1,26 +1,36 @@
-import React, { useContext } from "react";
-
-import image from "./image.svg";
-
-import styles from "./styles.module.scss";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
 import HeaderWithLogin from "../HeaderWithLogin";
 import * as Sentry from "@sentry/react";
-import AuthContext from "../../contexts/auth";
-import useFlashMessage from "../../hooks/useFlashMessage";
+import useFlashMessage from "hooks/useFlashMessage";
+import styles from "./styles.module.scss";
 
 const Header = () => {
-    const auth = useContext(AuthContext);
+    const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
     const { show: showMessage } = useFlashMessage();
+    const navigate = useNavigate();
 
     async function login() {
         try {
-            auth.signinRedirect();
+            await loginWithRedirect({
+                authorizationParams: {
+                    redirect_uri: `${window.location.origin}/dashboard`,
+                },
+            });
         } catch (e) {
             Sentry.captureException(e);
-            console.error("sign in error: ", e);
             showMessage("Unable to sign in at this time.", { type: "error" });
         }
     }
+
+    if (isLoading) {
+        return null;
+    }
+    if (isAuthenticated) {
+        navigate("/dashboard");
+        return null;
+    }
+
     return (
         <header className={styles.header}>
             <HeaderWithLogin

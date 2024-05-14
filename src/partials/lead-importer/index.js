@@ -1,10 +1,9 @@
 import { useRef, useState } from "react";
 import { Importer, ImporterField } from "react-csv-importer";
 import { useNavigate } from "react-router-dom";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import LeadImporterStatusContainer from "partials/lead-importer/status-container";
-
-import clientsService from "services/clientsService";
 
 import { getResourceUrl } from "pages/ResourcesPage";
 
@@ -13,6 +12,7 @@ import "./index.scss";
 
 const LeadImporter = () => {
     const scrollToRef = useRef();
+    const { clientsService } = useClientServiceContext();
     const navigate = useNavigate();
     const [importErrors, setImportErrors] = useState([]);
     const [importSuccesses, setImportSuccesses] = useState(0);

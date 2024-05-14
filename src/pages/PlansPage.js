@@ -45,8 +45,7 @@ import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
 import analyticsService from "services/analyticsService";
-import clientsService from "services/clientsService";
-import plansService from "services/plansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import ViewAvailablePlans from "../pages/contacts/contactRecordInfo/viewAvailablePlans";
 
@@ -160,7 +159,7 @@ const PlansPage = () => {
     const { isNonRTS_User } = useRoles();
 
     const MY_APPOINTED_PLANS = isNonRTS_User ? false : showSelected ? s_options?.s_myAppointedPlans : true;
-
+    const { clientsService, plansService } = useClientServiceContext();
     const navigate = useNavigate();
     const location = useLocation();
     const [contact, setContact] = useState();

@@ -1,9 +1,8 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import * as Sentry from "@sentry/react";
 import debounce from "debounce";
 import Media from "react-media";
 import analyticsService from "services/analyticsService";
-import plansService from "services/plansService";
 import useToast from "hooks/useToast";
 import Modal from "components/ui/modal";
 import ComparePlansByPlanName from "components/ui/ComparePlansByPlanName";
@@ -15,11 +14,12 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useUserProfile from "hooks/useUserProfile";
 import "./index.scss";
 import { disableTextMessage, getCommunicationOptions } from "utilities/appConfig";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import SMSNotification from "components/SMSNotification";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
     const originalInput = phoneNumberString;
-    const cleaned = ("" + phoneNumberString).replace(/\D/g, "");
+    const cleaned = `${phoneNumberString}`.replace(/\D/g, "");
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
 
     if (match) {
@@ -51,6 +51,7 @@ const ComparePlanModal = ({
     const {
         agentInformation: { agentVirtualPhoneNumber, agentPurl },
     } = useAgentInformationByID();
+    const { plansService } = useClientServiceContext();
     const { firstName, lastName, emails, phones, leadsId, addresses, agentNpn, middleName, birthdate } = contactData;
     const leadEmail = emails?.[0]?.leadEmail ?? "";
     const leadPhone = phones?.[0]?.leadPhone ?? "";
@@ -69,7 +70,7 @@ const ComparePlanModal = ({
         }
     }, [modalOpen]);
 
-    const mobile = useMemo(() => (formattedMobile ? ("" + formattedMobile).replace(/\D/g, "") : ""), [formattedMobile]);
+    const mobile = useMemo(() => (formattedMobile ? `${formattedMobile}`.replace(/\D/g, "") : ""), [formattedMobile]);
 
     const validateEmail = debounce((email) => {
         if (emailRegex.test(email)) {
@@ -111,7 +112,7 @@ const ComparePlanModal = ({
             updatedRoles = roles;
         }
         try {
-            let payload = {
+            const payload = {
                 leadFirstName: firstName,
                 leadLastName: lastName,
                 agentFirstName: agentFirstName,

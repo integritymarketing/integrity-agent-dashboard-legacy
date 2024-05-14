@@ -8,7 +8,7 @@ import { PLAN_TYPE_ENUMS } from "../../../constants";
 import Radio from "components/ui/Radio";
 import Modal from "components/ui/modal";
 
-import enrollPlansService from "services/enrollPlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import "./styles.scss";
 
@@ -19,9 +19,9 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
     const [option, setOption] = useState("");
     const showToast = useToast();
     const { fireEvent } = useAnalytics();
+    const { enrollPlansService } = useClientServiceContext();
 
     const enroll = useCallback(async () => {
-        console.log("Enroll in Plan : Health Submitted CTA Clicked Triggered");
         fireEvent("Health Submitted CTA Clicked", {
             leadid: contact.leadsId,
             line_of_business: "Health",
@@ -74,7 +74,7 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
         } finally {
             handleCloseModal();
         }
-    }, [planData, contact, showToast, option, handleCloseModal, effectiveDate]);
+    }, [fireEvent, contact, planData, option, enrollPlansService, effectiveDate, showToast, handleCloseModal]);
 
     return (
         <React.Fragment>

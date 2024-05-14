@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import Typography from "@mui/material/Typography";
 
 import { useLeadDetails } from "providers/ContactDetails";
 import { useScopeOfAppointment } from "providers/ContactDetails/ContactDetailsContext";
@@ -19,9 +17,8 @@ import Table from "packages/TableWrapper";
 import EditIcon from "components/icons/icon-edit";
 import { Button } from "components/ui/Button";
 
-import comparePlansService from "services/comparePlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
-import ActivityButtonIcon from "pages/ContactDetails/ActivityButtonIcon";
 import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 
 import styles from "./Activities.module.scss";
@@ -37,42 +34,6 @@ const initialState = {
             desc: false,
         },
     ],
-};
-
-const buttonTextByActivity = {
-    "Incoming Call": "Link to Contact",
-    "Call Recording": "Download",
-    "Contact's new call log created": "Download",
-    "Outbound Call Recorded": "Download",
-    "Incoming Call Recorded": "Download",
-    "Scope of Appointment Signed": "View",
-    "Scope of Appointment Completed": "View",
-    "Plan Shared": "View Plans",
-};
-
-const renderButtons = (activity, handleClick) => {
-    if (!activity) {
-        return false;
-    }
-    const { activityTypeName = "", activityInteractionURL = "", activitySubject = "" } = activity;
-    if (
-        activityTypeName &&
-        (activityTypeName === "Triggered" || activitySubject === "Meeting Recorded") &&
-        activityInteractionURL
-    ) {
-        return (
-            <div
-                className={styles.activityDataCell}
-                onClick={(e) => handleClick(activitySubject, activityInteractionURL)}
-            >
-                <ActivityButtonIcon activitySubject={activitySubject} route="contactDetail" />
-                <Typography color="#434A51" fontSize={"16px"} noWrap>
-                    {buttonTextByActivity[activitySubject]}
-                </Typography>
-            </div>
-        );
-    }
-    return false;
 };
 
 const isCustomActivity = (row) => row.activityId && row.activityTypeName === "Note";
@@ -110,6 +71,7 @@ export default function ActivitiesTable({
 
     const userProfile = useUserProfile();
     const { npn } = userProfile;
+    const { comparePlansService } = useClientServiceContext();
 
     useEffect(() => {
         setFullList([...data]);
@@ -153,7 +115,7 @@ export default function ActivitiesTable({
                     break;
             }
         },
-        [navigate, leadId, npn]
+        [setLinkCode, setSelectedTab, navigate, leadId, comparePlansService, npn]
     );
 
     const webColumns = useMemo(

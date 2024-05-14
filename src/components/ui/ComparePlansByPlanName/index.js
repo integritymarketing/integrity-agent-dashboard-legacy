@@ -1,4 +1,3 @@
- 
 import * as Sentry from "@sentry/react";
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -12,8 +11,7 @@ import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import Container from "components/ui/container";
 
 import useAnalytics from "hooks/useAnalytics";
-import clientsService from "services/clientsService";
-import enrollPlansService from "services/enrollPlansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "../../../pages/PlansPage.module.scss";
 
@@ -44,6 +42,7 @@ export default function ComparePlansByPlanName({
     contactData,
 }) {
     const showToast = useToast();
+    const { clientsService, enrollPlansService } = useClientServiceContext();
     const { effectiveDate, contactId } = useParams();
     const [userData, setUserData] = useState(contactData);
     const [modalOpen, setModalOpen] = useState(false);

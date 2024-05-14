@@ -1,103 +1,91 @@
-import authService from "services/authService";
-
 export const QUOTES_API_VERSION = "v1.0";
 
-class ComparePlansService {
-  getLeadPharmacies = async (leadId, agentNPN) => {
-    const response = await this._clientPublicAPIRequest1(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
-      "GET",
-      {
-        AgentNPN: agentNPN,
-      }
-    );
-
-    return response.json().then((res) => res || []);
-  };
-
-  getLeadPrescriptions = async (leadId, agentNPN) => {
-    const response = await this._clientPublicAPIRequest1(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
-      "GET",
-      {
-        AgentNPN: agentNPN,
-      }
-    );
-    return response.json().then((res) => res || []);
-  };
-
-  getPlan = async (leadId, planId, agentInfo, effectiveDate, agentNPN) => {
-    const response = await this._clientPublicAPIRequest(
-      `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Plan/${planId}`,
-      "GET",
-      {
-        zip: agentInfo?.ZipCode,
-        fips: agentInfo?.CountyFIPS,
-        effectiveDate,
-      },
-      null,
-      {
-        AgentNPN: agentNPN,
-      }
-    );
-
-    return response.json();
-  };
-
-  _clientPublicAPIRequest = async (
-    path,
-    method = "GET",
-    query = {},
-    body,
-    headers = {}
-  ) => {
-    const opts = {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        ...headers,
-      },
-    };
-
-    let url = path;
-    if (query !== null) {
-      url = path + "?" + new URLSearchParams(query).toString();
+export class ComparePlansService {
+    constructor(getAccessToken, userProfile) {
+        this.getAccessToken = getAccessToken;
+        this.userProfile = userProfile;
     }
 
-    if (body) {
-      opts.body = JSON.stringify(body);
-    }
-    return fetch(url, opts);
-  };
+    getLeadPharmacies = async (leadId, agentNPN) => {
+        const response = await this._clientPublicAPIRequest1(
+            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
+            "GET",
+            {
+                AgentNPN: agentNPN,
+            }
+        );
 
-  _clientPublicAPIRequest1 = async (path, method = "GET", headers = {}) => {
-    const opts = {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-        ...headers,
-      },
+        return response.json().then((res) => res || []);
     };
 
-    return fetch(path, opts);
-  };
+    getLeadPrescriptions = async (leadId, agentNPN) => {
+        const response = await this._clientPublicAPIRequest1(
+            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
+            "GET",
+            {
+                AgentNPN: agentNPN,
+            }
+        );
+        return response.json().then((res) => res || []);
+    };
 
-  getPdfSource = async (URL, agentNPN) => {
-    const user = await authService.getUser();
-    const response = await this._clientPublicAPIRequest(
-      URL,
-      "GET",
-      null,
-      undefined,
-      {
-        AgentNPN: agentNPN || user?.profile.npn,
-        Authorization: "Bearer " + user.access_token,
-      }
-    );
-    return response.blob();
-  };
+    getPlan = async (leadId, planId, agentInfo, effectiveDate, agentNPN) => {
+        const response = await this._clientPublicAPIRequest(
+            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Plan/${planId}`,
+            "GET",
+            {
+                zip: agentInfo?.ZipCode,
+                fips: agentInfo?.CountyFIPS,
+                effectiveDate,
+            },
+            null,
+            {
+                AgentNPN: agentNPN,
+            }
+        );
+
+        return response.json();
+    };
+
+    _clientPublicAPIRequest = (path, method = "GET", query = {}, body, headers = {}) => {
+        const opts = {
+            method,
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+        };
+
+        let url = path;
+        if (query !== null) {
+            url = `${path}?${new URLSearchParams(query).toString()}`;
+        }
+
+        if (body) {
+            opts.body = JSON.stringify(body);
+        }
+        return fetch(url, opts);
+    };
+
+    _clientPublicAPIRequest1 = (path, method = "GET", headers = {}) => {
+        const opts = {
+            method,
+            headers: {
+                "Content-Type": "application/json",
+                ...headers,
+            },
+        };
+
+        return fetch(path, opts);
+    };
+
+    getPdfSource = async (URL, agentNPN) => {
+        const user = this.userProfile;
+        const userToken = await this.getAccessToken();
+        const response = await this._clientPublicAPIRequest(URL, "GET", null, undefined, {
+            AgentNPN: agentNPN || user?.profile.npn,
+            Authorization: `Bearer ${userToken.access_token}`,
+        });
+        return response.blob();
+    };
 }
-
-const ComparePlansServiceInstance = new ComparePlansService();
-
-export default ComparePlansServiceInstance;

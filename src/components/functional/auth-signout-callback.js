@@ -1,14 +1,14 @@
-import { useEffect, useContext } from "react";
-import AuthContext from "contexts/auth";
+import { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const useAuthSignOutCallBack = () => {
-  const auth = useContext(AuthContext);
+    const { logout } = useAuth0();
 
-  useEffect(() => {
-    auth.signoutRedirectCallback();
-  }, [auth]);
+    useEffect(() => {
+        logout({ returnTo: window.location.origin });
+    }, [logout]);
 
-  return "";
+    return "";
 };
 
 export default useAuthSignOutCallBack;

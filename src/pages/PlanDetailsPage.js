@@ -23,8 +23,7 @@ import MapdContent from "partials/plan-details-content/mapd";
 import PdpContent from "partials/plan-details-content/pdp";
 
 import analyticsService from "services/analyticsService";
-import clientsService from "services/clientsService";
-import plansService from "services/plansService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import { useLeadDetails } from "providers/ContactDetails";
 
@@ -48,11 +47,12 @@ const PlanDetailsPage = () => {
     const [shareModalOpen, setShareModalOpen] = useState(false);
 
     const { isNonRTS_User } = useRoles();
+    const { clientsService, plansService } = useClientServiceContext();
 
     const getContactAndPlanData = useCallback(async () => {
         setIsLoading(true);
         try {
-            let contactData = await clientsService.getContactInfo(contactId);
+            const contactData = await clientsService.getContactInfo(contactId);
 
             const planData = await plansService.getPlan(contactId, planId, contactData, effectiveDate);
 

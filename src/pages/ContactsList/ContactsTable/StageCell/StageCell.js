@@ -11,7 +11,7 @@ import { StageStatusContext } from "contexts/stageStatus";
 import stageSummaryContext from "contexts/stageSummary";
 
 import analyticsService from "services/analyticsService";
-import clientsService from "services/clientsService";
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import LostStageDispositionModal from "pages/ContactsList/ContactListModal/LostStageDispositionModal";
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
@@ -25,6 +25,7 @@ const StageCell = ({ initialValue, originalData, customWidth, customRefresh }) =
     const { allStatuses, statusOptions, lostSubStatusesOptions } = useContext(StageStatusContext);
     const { refreshData, layout } = useContactsListContext();
     const showToast = useToast();
+    const { clientsService } = useClientServiceContext();
 
     const handleLostReasonModalCancel = () => {
         setLostReasonModalVisibility(false);
