@@ -107,13 +107,15 @@ export const FinalExpensePlansContainer = () => {
             ...leadDetails,
             ...initialValues,
         };
-        await updateLeadDetails(payload);
+        const response = await updateLeadDetails(payload);
 
         contactFormDataRef.current = { ...formData };
         fireEvent("Final Expense Intake Completed", {
             leadid: contactId,
         });
-        navigate(`/finalexpenses/healthconditions/${contactId}`);
+        if (response) {
+            navigate(`/finalexpenses/healthconditions/${contactId}`);
+        }
     };
 
     const renderContactDetailsLoader = useMemo(() => <PlanCardLoader />, []);

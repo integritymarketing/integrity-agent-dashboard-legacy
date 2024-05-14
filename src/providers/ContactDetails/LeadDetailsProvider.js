@@ -137,14 +137,15 @@ export const LeadDetailsProvider = ({ children }) => {
                 ...address,
             },
         ];
-        await performAsyncOperation(
+        return await performAsyncOperation(
             () => editLeadDetails(reqData, false, newPayload.leadsId),
             () => {},
-            async () => {
+            async (data) => {
                 await getLeadDetails(newPayload?.leadsId);
                 showToast({
                     message: `Lead updated successfully`,
                 });
+                return data;
             },
             (err) =>
                 showToast({

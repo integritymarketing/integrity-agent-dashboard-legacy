@@ -1,14 +1,10 @@
 import * as Sentry from "@sentry/react";
-const performAsyncOperation = async (
-    operation,
-    setLoading,
-    onSuccess,
-    onError
-) => {
+const performAsyncOperation = async (operation, setLoading, onSuccess, onError) => {
     setLoading(true);
     try {
         const data = await operation();
         onSuccess(data);
+        return data;
     } catch (err) {
         Sentry.captureException(err);
         onError && onError(err);
