@@ -8,7 +8,6 @@ import { agentInformationSelector } from "recoil/agent/selectors";
 
 const useAgentInformationByID = () => {
     const { agentId, fullName } = useUserProfile();
-    debugger;
     const { clientsService } = useClientServiceContext();
     const agentInformation = useRecoilValue(agentInformationSelector);
     const setClientService = useSetRecoilState(clientServiceAtom);
