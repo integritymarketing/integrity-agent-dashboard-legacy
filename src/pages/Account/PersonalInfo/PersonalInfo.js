@@ -77,7 +77,7 @@ function PersonalInfo() {
             }
         } catch (error) {
             Sentry.captureException(error);
-            showToast({ message: "An error occurred while updating your account. Please try again." });
+            showToast({ type: "error", message: "An error occurred while updating your account. Please try again." });
         } finally {
             setIsEdit(false);
             setSubmitting(false);

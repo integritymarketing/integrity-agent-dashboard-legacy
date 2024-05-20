@@ -26,7 +26,7 @@ const Welcome = () => {
                         <ActionButton
                             text="Get Started"
                             onClick={() => {
-                                window.open(`${process.env.REACT_APP_AUTH_REGISTRATION_URL}`);
+                                window.open(`${process.env.REACT_APP_AUTH_BASE_URL}/register?client_id=AEPortal`);
                             }}
                         />
                     </ItemsContainer>
