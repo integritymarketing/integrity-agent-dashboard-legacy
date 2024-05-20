@@ -157,11 +157,17 @@ const RegistrationPage = () => {
                                 navigate(`/registration-email-sent?npn=${values.NPN}`);
                             } else {
                                 const errorsArr = await response.json();
+                                const updatedErrorsArr = errorsArr.map((error) => {
+                                    if (error.key === "User") {
+                                        return { ...error, key: "NPN" };
+                                    }
+                                    return error;
+                                });
                                 const errMsg =
-                                    errorsArr[0]?.Value ||
-                                    errorsArr[0]?.FirstName[0]?.FirstName[0] ||
-                                    errorsArr[0]?.LastName[0]?.LastName[0] ||
-                                    errorsArr[0]?.NPN[1]?.NPN[1] ||
+                                    updatedErrorsArr[0]?.value ||
+                                    updatedErrorsArr[0]?.FirstName[0]?.FirstName[0] ||
+                                    updatedErrorsArr[0]?.LastName[0]?.LastName[0] ||
+                                    updatedErrorsArr[0]?.NPN[1]?.NPN[1] ||
                                     null;
                                 if (errMsg) {
                                     showToast({
@@ -173,7 +179,7 @@ const RegistrationPage = () => {
                                 analyticsService.fireEvent("event-form-submit-invalid", {
                                     formName: "Register Account",
                                 });
-                                setErrors(validationService.formikErrorsFor(errorsArr));
+                                setErrors(validationService.formikErrorsFor(updatedErrorsArr));
                             }
                         }}
                     >
