@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Importer, ImporterField } from "react-csv-importer";
 import { useNavigate } from "react-router-dom";
-import { useClientServiceContext } from "services/clientServiceProvider";
 
 import LeadImporterStatusContainer from "partials/lead-importer/status-container";
+
+import { useClientServiceContext } from "services/clientServiceProvider";
 
 import { getResourceUrl } from "pages/ResourcesPage";
 
@@ -23,6 +24,35 @@ const LeadImporter = () => {
     };
 
     const templateUrl = getResourceUrl("Integrity-Client-Import.csv");
+
+    function checkPhoneOrEmailPresent(arr) {
+        return arr.every((item) => item.phone || item.email);
+    }
+
+    const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === "childList" || mutation.type === "subtree") {
+                checkAndModifyElements();
+            }
+        }
+    });
+
+    function checkAndModifyElements() {
+        const v = document.querySelectorAll(".CSVImporter_ColumnDragTargetArea__boxLabel");
+        v.forEach((element) => {
+            if (element.innerText === "Email" || element.innerText === "Phone") {
+                const type = element.innerText;
+                element.innerHTML = `${type} <span class="tooltip">*</span>`;
+            }
+        });
+    }
+
+    useEffect(() => {
+        observer.observe(document.getElementsByClassName("CSVImporter_Importer")[0], {
+            childList: true,
+            subtree: true,
+        });
+    }, []);
 
     return (
         <div ref={scrollToRef}>
@@ -47,21 +77,26 @@ const LeadImporter = () => {
                     processChunk={async (rows) => {
                         // required, receives a list of parsed objects based on defined fields and user column mapping;
                         // may be called several times if file is large
-                        const formattedData = rows.map((row) => getFormattedData(row));
-                        try {
-                            const response = await clientsService.bulkCreateClients(formattedData);
-                            const data = await response.json();
+                        const isValid = checkPhoneOrEmailPresent(rows);
+                        if (isValid) {
+                            const formattedData = rows.map((row) => getFormattedData(row));
+                            try {
+                                const response = await clientsService.bulkCreateClients(formattedData);
+                                const data = await response.json();
 
-                            if (response.status >= 200 && response.status < 300) {
-                                setImportSuccesses((prevState) => prevState + data.successfulUploadCount);
-                                handleImportError(data.uploadErrorResponse);
-                            } else {
-                                handleImportError((data || {}).uploadErrorResponse || data);
+                                if (response.status >= 200 && response.status < 300) {
+                                    setImportSuccesses((prevState) => prevState + data.successfulUploadCount);
+                                    handleImportError(data.uploadErrorResponse);
+                                } else {
+                                    handleImportError((data || {}).uploadErrorResponse || data);
+                                }
+                            } catch (e) {
+                                // eslint-disable-next-line no-console
+                                console.log({ e });
+                                handleImportError(`An internal error has occurred.`);
                             }
-                        } catch (e) {
-                            // eslint-disable-next-line no-console
-                            console.log({ e });
-                            handleImportError(`An internal error has occurred.`);
+                        } else {
+                            handleImportError("Either Phone or Email is required for all records.");
                         }
                     }}
                     onComplete={() => {
@@ -74,10 +109,10 @@ const LeadImporter = () => {
                     }}
                 >
                     <ImporterField name="contactRecordType" label="Contact Record Type" optional />
-                    <ImporterField name="firstName" label="First Name" optional />
-                    <ImporterField name="lastName" label="Last Name" optional />
-                    <ImporterField name="email" label="Email" />
-                    <ImporterField name="phone" label="Phone" />
+                    <ImporterField name="firstName" label="First Name" />
+                    <ImporterField name="lastName" label="Last Name"/>
+                    <ImporterField name="email" label="Email" optional />
+                    <ImporterField name="phone" label="Phone" optional />
                     <ImporterField name="address1" label="Address 1" optional />
                     <ImporterField name="address2" label="Address 2" optional />
                     <ImporterField name="city" label="City" optional />
