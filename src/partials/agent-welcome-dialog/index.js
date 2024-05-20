@@ -12,9 +12,11 @@ import styles from "./styles.module.scss";
 
 export default function AgentWelcomeDialog({ open, close, handleConfirm }) {
     const {
-        agentInformation: { agentFirstName },
+        agentInformation,
         getAgentAvailability,
     } = useAgentInformationByID();
+
+    const agentFirstName = agentInformation?.agentFirstName;
 
     useEffect(() => {
         if (open && !agentFirstName) {

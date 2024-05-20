@@ -13,7 +13,8 @@ const useAgentInformationByID = () => {
     const setClientService = useSetRecoilState(clientServiceAtom);
     const setAgentId = useSetRecoilState(agentIdAtom);
     const { Post: createAgentPurl } = useFetch(`${process.env.REACT_APP_AGENTS_URL}/api/v1.0/Purl`);
-    const { agentNPN, agentPurl } = agentInformation;
+    const agentNPN = agentInformation?.agentNPN;
+    const agentPurl = agentInformation?.agentPurl;
 
     const getAgentAvailability = useRecoilRefresher_UNSTABLE(agentInformationSelector);
 

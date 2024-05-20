@@ -22,7 +22,7 @@ const NOT_AVAILABLE = "N/A";
 export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
     const navigate = useNavigate();
     const { agentInformation } = useAgentInformationByID();
-    const { agentID, callForwardNumber, agentVirtualPhoneNumber, agentNPN } = agentInformation;
+    const { agentID, callForwardNumber, agentVirtualPhoneNumber, agentNPN } = agentInformation || {};
     const showToast = useToast();
     const { fireEvent } = useAnalytics();
     const [isScriptModalOpen, setIsScriptModalOpen] = useState(false);
