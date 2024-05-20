@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+ 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
@@ -43,7 +43,7 @@ const FinalExpensePlansResultContainer = () => {
     const [isRTS, setIsRTS] = useState();
 
     const { agentInformation } = useAgentInformationByID();
-    const { agentNPN } = agentInformation;
+    const agentNPN = agentInformation?.agentNPN;
 
     const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${agentNPN}`);
 

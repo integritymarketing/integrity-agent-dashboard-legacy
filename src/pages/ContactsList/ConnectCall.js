@@ -17,7 +17,7 @@ const ConnectCall = ({ row, view }) => {
     const validPhones = phones.filter((phone) => phone?.leadPhone);
     const phone = validPhones.length > 0 ? validPhones[0].leadPhone : NOT_AVAILABLE;
     const [isScriptModalOpen, setIsScriptModalOpen] = useState(false);
-    const { agentID, callForwardNumber, agentVirtualPhoneNumber, agentNPN } = agentInformation;
+    const { agentID, callForwardNumber, agentVirtualPhoneNumber, agentNPN } = agentInformation || {};
     const showToast = useToast();
     const { Post: outboundCallFromMedicareCenter } = useFetch(
         `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`

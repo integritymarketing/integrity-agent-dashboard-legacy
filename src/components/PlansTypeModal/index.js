@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function */
+ 
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -34,7 +34,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
     const showToast = useToast();
     const { agentId } = useUserProfile();
     const { agentInformation } = useAgentInformationByID();
-    const { agentNPN } = agentInformation;
+    const agentNPN  = agentInformation?.agentNPN;
     const { fireEvent } = useAnalytics();
     const { leadPreference, updateAgentPreferences } = useAgentAccountContext();
 
