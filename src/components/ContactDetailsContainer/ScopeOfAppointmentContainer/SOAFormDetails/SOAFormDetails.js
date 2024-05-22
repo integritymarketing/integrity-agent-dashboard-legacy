@@ -56,7 +56,9 @@ export const SOAFormDetails = ({ agentSection, linkCode }) => {
                     </div>
                 );
             })}
-            <Field label={SOA_EXPLANATION} value={explanationOfSOASignedDuringAppointment} />
+            {soaSignedDuringAppointment && (
+                <Field label={SOA_EXPLANATION} value={explanationOfSOASignedDuringAppointment} />
+            )}
 
             <Field label={APPOINTMENT_DATE_COMPLETED} value={appointmentDate} />
 
