@@ -36,30 +36,43 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         return status === "declined" || status === "inactive";
     };
 
-    const filterPlansByYear = (plansList, isCurrentYear) => {
+    const filterPlansByRollingYear = (plansList, isCurrentPeriod) => {
+        const currentDate = new Date();
+        const oneYearAgo = new Date();
+        oneYearAgo.setDate(currentDate.getDate() - 365);
+
         return plansList.filter((plan) => {
             // For Final Expense plans, inclusion is based solely on the policyStatus.
             if (plan.productCategory === "Final Expense") {
-                const isInCurrentYearBasedOnStatus = !isDeclinedStatus(plan.policyStatus);
-                return isCurrentYear ? isInCurrentYearBasedOnStatus : !isInCurrentYearBasedOnStatus;
+                const isInCurrentPeriodBasedOnStatus = !isDeclinedStatus(plan.policyStatus);
+                return isCurrentPeriod ? isInCurrentPeriodBasedOnStatus : !isInCurrentPeriodBasedOnStatus;
             }
 
-            // For non-Final Expense plans, use the policyEffectiveDate to determine the year.
-            const effectiveDate = plan.policyEffectiveDate ? new Date(plan.policyEffectiveDate.split("-")) : null;
-            const policyYear = effectiveDate ? effectiveDate.getFullYear() : null;
+            // For non-Final Expense plans, use the policyEffectiveDate to determine the date.
+            const effectiveDate = plan.policyEffectiveDate ? new Date(plan.policyEffectiveDate) : null;
 
-            if (isCurrentYear) {
-                // Include in the current year if the policyEffectiveDate is within the current year and not declined/inactive.
-                return policyYear === currentYear && !isDeclinedStatus(plan.policyStatus);
-            } else {
-                // Include in the previous year if the policyEffectiveDate is before the current year.
-                return policyYear < currentYear;
+            if (effectiveDate) {
+                if (isCurrentPeriod) {
+                    // Include if the policyEffectiveDate is within the last 365 days and not declined/inactive.
+                    return (
+                        effectiveDate >= oneYearAgo &&
+                        effectiveDate <= currentDate &&
+                        !isDeclinedStatus(plan.policyStatus)
+                    );
+                } else {
+                    // Include if the policyEffectiveDate is more than 365 days ago.
+                    return effectiveDate < oneYearAgo;
+                }
             }
+            return false;
         });
     };
 
-    const currentYearPlansData = filterPlansByYear(enrollPlansList, true);
-    const previousYearPlansData = filterPlansByYear(enrollPlansList, false);
+    const currentYearPlansData = useMemo(() => filterPlansByRollingYear(enrollPlansList, true), [enrollPlansList]);
+    const previousYearPlansData = useMemo(
+        () => filterPlansByRollingYear(enrollPlansList, false),
+        [enrollPlansList]
+    );
 
     useEffect(() => {
         const active_product_types = currentYearPlansData.map((plan) => convertCategoryName(plan.productCategory));
