@@ -63,7 +63,17 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children,
                 message: `${error.message}`,
             });
         }
-    }, [navigate, leadId, callLogId, showToast, contact.phones, fireEvent, updatePrimaryContact]);
+    }, [
+        contact?.phones,
+        callLogId,
+        updatePrimaryContact,
+        callRecordingsService,
+        leadId,
+        tagIds,
+        showToast,
+        fireEvent,
+        navigate,
+    ]);
 
     return (
         <div className={styles.contactName} onClick={onClickHandler}>
