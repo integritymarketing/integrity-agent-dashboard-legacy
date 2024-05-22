@@ -15,6 +15,7 @@ import {
     SOA_FORM_DETAILS,
     SOA_SIGNED_AT_APPOINTMENT,
     SOA_SIGNED_OPTS,
+    SOA_EXPLANATION,
 } from "../ScopeOfAppointmentContainer.constants";
 import { getLocalDateTime } from "utils/dates";
 
@@ -29,6 +30,7 @@ export const SOAFormDetails = ({ agentSection, linkCode }) => {
         submittedDateTime = "",
         appointmentDate = "",
         soaSignedDuringAppointment,
+        explanationOfSOASignedDuringAppointment = "",
     } = agentSection;
 
     return (
@@ -42,7 +44,9 @@ export const SOAFormDetails = ({ agentSection, linkCode }) => {
             <Field label={AGENT_PHONE} value={phoneNumber} />
             <Field label={INITIAL_METHOD_OF_CONTACT} value={methodOfContact} />
 
-            <div className={styles.fieldValue}>{SOA_SIGNED_AT_APPOINTMENT}</div>
+            <div className={styles.fieldValue}>
+                <Field label={SOA_SIGNED_AT_APPOINTMENT} />
+            </div>
             {SOA_SIGNED_OPTS.map((option, index) => {
                 const checked = soaSignedDuringAppointment ? "Yes" : "No";
                 return (
@@ -52,6 +56,7 @@ export const SOAFormDetails = ({ agentSection, linkCode }) => {
                     </div>
                 );
             })}
+            <Field label={SOA_EXPLANATION} value={explanationOfSOASignedDuringAppointment} />
 
             <Field label={APPOINTMENT_DATE_COMPLETED} value={appointmentDate} />
 

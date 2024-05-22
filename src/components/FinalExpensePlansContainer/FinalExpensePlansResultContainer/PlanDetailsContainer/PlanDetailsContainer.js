@@ -77,53 +77,52 @@ export const PlanDetailsContainer = ({
         handleIsShowExcludedProductsCheck
     );
     const navigate = useNavigate();
+    const leadDetailsData = !!leadDetails ? true : false;
 
     const fetchPlans = useCallback(async () => {
-        if (!leadDetails) {
+        setFetchPlansError(false);
+        setIsLoadingFinalExpensePlans(true);
+
+        const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
+        const code = sessionStorage.getItem(contactId)
+            ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
+            : addresses[0]?.stateCode;
+        if (!code || !birthdate) {
             return;
         }
-        try {
-            setFetchPlansError(false);
-            const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
-            const code = sessionStorage.getItem(contactId)
-                ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
-                : addresses[0]?.stateCode;
-            if (!code || !birthdate) {
-                return;
-            }
-            setIsLoadingFinalExpensePlans(true);
-            const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
-            const age = getAgeFromBirthDate(birthdate);
-            const todayDate = formatDate(new Date(), "yyyy-MM-dd");
-            const conditions = [];
-            const healthConditions = healthConditionsDataRef.current;
+        const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
+        const age = getAgeFromBirthDate(birthdate);
+        const todayDate = formatDate(new Date(), "yyyy-MM-dd");
+        const conditions = [];
+        const healthConditions = healthConditionsDataRef.current;
 
-            if (!healthConditions || healthConditions.length === 0) {
-                conditions.push({ categoryId: 0, lastTreatmentDate: null });
-            } else {
-                healthConditions.forEach(({ conditionId, lastTreatmentDate }) => {
-                    conditions.push({
-                        categoryId: conditionId,
-                        lastTreatmentDate: lastTreatmentDate ? formatServerDate(lastTreatmentDate) : null,
-                    });
+        if (!healthConditions || healthConditions.length === 0) {
+            conditions.push({ categoryId: 0, lastTreatmentDate: null });
+        } else {
+            healthConditions.forEach(({ conditionId, lastTreatmentDate }) => {
+                conditions.push({
+                    categoryId: conditionId,
+                    lastTreatmentDate: lastTreatmentDate ? formatServerDate(lastTreatmentDate) : null,
                 });
-            }
+            });
+        }
 
-            const quotePlansPostBody = {
-                usState: code,
-                age: Number(age),
-                gender: gender.toLowerCase() === "male" ? "M" : "F",
-                tobacco: Boolean(isTobaccoUser),
-                desiredFaceValue: selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
-                desiredMonthlyRate: selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
-                coverageTypes: covType || [COVERAGE_TYPE[4].value],
-                effectiveDate: todayDate,
-                underWriting: {
-                    user: { height: height || 0, weight: weight || 0 },
-                    conditions,
-                },
-            };
+        const quotePlansPostBody = {
+            usState: code,
+            age: Number(age),
+            gender: gender.toLowerCase() === "male" ? "M" : "F",
+            tobacco: Boolean(isTobaccoUser),
+            desiredFaceValue: selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
+            desiredMonthlyRate: selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
+            coverageTypes: covType || [COVERAGE_TYPE[4].value],
+            effectiveDate: todayDate,
+            underWriting: {
+                user: { height: height || 0, weight: weight || 0 },
+                conditions,
+            },
+        };
 
+        try {
             const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
 
             // Update error message based on business logic
@@ -205,11 +204,19 @@ export const PlanDetailsContainer = ({
         const coverageAmountValue =
             coverageAmount >= 1000 && coverageAmount <= 999999 && selectedTab === COVERAGE_AMOUNT;
         const monthlyPremiumValue = monthlyPremium >= 10 && monthlyPremium <= 999 && selectedTab === MONTHLY_PREMIUM;
-
-        if (!isLoadingHealthConditions && (coverageAmountValue || monthlyPremiumValue)) {
+        debugger;
+        if ((coverageAmountValue || monthlyPremiumValue) && !isLoadingHealthConditions && leadDetailsData) {
             fetchPlans();
         }
-    }, [coverageAmount, fetchPlans, isLoadingHealthConditions, monthlyPremium, selectedTab]);
+    }, [
+        coverageAmount,
+        monthlyPremium,
+        selectedTab,
+        isLoadingHealthConditions,
+        leadDetailsData,
+        isMyAppointedProducts,
+        isShowExcludedProducts,
+    ]);
 
     const lifeQuoteEvent = (eventName) => {
         fireEvent(eventName, {
