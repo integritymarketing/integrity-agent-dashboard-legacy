@@ -54,6 +54,7 @@ export const PlanCard = ({
     product_monthly_premium,
     policyFee,
     selectedCoverageType,
+    isFeatured,
 }) => {
     const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
     const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
@@ -61,7 +62,7 @@ export const PlanCard = ({
     const { leadDetails } = useLeadDetails();
     const { fireEvent } = useAnalytics();
     const { agentInformation } = useAgentInformationByID();
-    const { agentFirstName, agentLastName } = agentInformation;
+    const { agentFirstName, agentLastName } = agentInformation || {};
     const { Post: enrollLeadFinalExpensePlan } = useFetch(`${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`);
     const [enrollResponse, setEnrollResponse] = useState(null);
     const [isLoadingEnroll, setIsLoadingEnroll] = useState(false);
@@ -204,111 +205,115 @@ export const PlanCard = ({
     const safeCoverageAmount = coverageAmount?.toLocaleString() ?? "N/A";
 
     return (
-        <div className={styles.planBox}>
-            <div className={styles.header}>
-                <div>{planName}</div>
-                {logoUrl && <img src={logoUrl} alt="plan logo" className={styles.logo} />}
-            </div>
-            <div>
-                <span className={styles.label}>{COVERAGE_TYPE}</span>
-                <span>{coverageType === GRADED_MODIFIED ? GRADEDMODIFIED : convertToTitleCase(coverageType)}</span>
-            </div>
-            <div className={`${styles.additionalInfo} ${isMobile ? styles.column : ""}`}>
-                <div className={styles.amountInfo}>
-                    <div className={styles.coverageAmount}>
-                        <div>{COVERAGE_AMOUNT}</div>
-                        <div className={styles.amount}>${safeCoverageAmount}</div>
-                    </div>
-                    <div className={styles.separator}></div>
-                    <div>
-                        <div>{MONTHLY_PREMIUM}</div>
-                        <div className={styles.amount}>
-                            ${monthlyPremium}
-                            <span className={styles.unit}>/mo</span>
+        <div className={styles.planBoxWrapper}>
+            {isFeatured == true && <div className={styles.planBoxFeatureHeader}>Featured Product</div>}
+            <div className={styles.planBox}>
+                <div className={styles.header}>
+                    <div>{planName}</div>
+                    {logoUrl && <img src={logoUrl} alt="plan logo" className={styles.logo} />}
+                </div>
+                <div>
+                    <span className={styles.label}>{COVERAGE_TYPE}</span>
+                    <span>{coverageType === GRADED_MODIFIED ? GRADEDMODIFIED : convertToTitleCase(coverageType)}</span>
+                </div>
+                <div className={`${styles.additionalInfo} ${isMobile ? styles.column : ""}`}>
+                    <div className={styles.amountInfo}>
+                        <div className={styles.coverageAmount}>
+                            <div>{COVERAGE_AMOUNT}</div>
+                            <div className={styles.amount}>${safeCoverageAmount}</div>
+                        </div>
+                        <div className={styles.separator}></div>
+                        <div>
+                            <div>{MONTHLY_PREMIUM}</div>
+                            <div className={styles.amount}>
+                                ${monthlyPremium}
+                                <span className={styles.unit}>/mo</span>
+                            </div>
                         </div>
                     </div>
+                    {benefits.length > 0 && (
+                        <>
+                            <div className={styles.horizSeparator}></div>
+                            <div className={styles.flex}>{renderBenefits()}</div>
+                        </>
+                    )}
                 </div>
-                {benefits.length > 0 && (
-                    <>
-                        <div className={styles.horizSeparator}></div>
-                        <div className={styles.flex}>{renderBenefits()}</div>
-                    </>
+                {eligibility && (
+                    <div className={styles.prescreen}>
+                        <span onClick={() => setIsPrescreenModalOpen(true)}>
+                            <InfoBlue />
+                        </span>
+                        {eligibility}
+                    </div>
                 )}
-            </div>
-            {eligibility && (
-                <div className={styles.prescreen}>
-                    <span onClick={() => setIsPrescreenModalOpen(true)}>
-                        <InfoBlue />
-                    </span>
-                    {eligibility}
-                </div>
-            )}
 
-            <PrescreenModal
-                isOpen={isPrescreenModalOpen}
-                onClose={() => setIsPrescreenModalOpen(false)}
-                eligibility={eligibility}
-                conditionList={conditionList}
-                reason={reason}
-                limits={limits}
-            />
-            <FinalExpenseEnrollResponseModal
-                isOpen={enrollResponse !== null}
-                onClose={() => {
-                    setEnrollResponse(null);
-                    fetchPlans();
-                }}
-                enrollResponse={enrollResponse}
-            />
-            <SingleSignOnInitialModal
-                isOpen={isSingleSignOnInitialModalOpen}
-                onClose={() => setIsSingleSignOnInitialModalOpen(false)}
-                onRetry={() => {
-                    setIsSingleSignOnInitialModalOpen(false);
-                    setIsFinalExpenseErrorModalOpen(true);
-                }}
-            />
-            <SingleSignOnModal
-                isOpen={isSingleSignOnModalOpen}
-                onClose={() => setIsSingleSignOnModalOpen(false)}
-                carrierInfo={carrierInfo}
-                resourceUrl={resource_url}
-                onApply={onApply}
-                fetchPlans={fetchPlans}
-                setIsSingleSignOnInitialModalOpen={setIsSingleSignOnInitialModalOpen}
-            />
-            <FinalExpenseErrorModal
-                isOpen={isFinalExpenseErrorModalOpen}
-                onClose={() => setIsFinalExpenseErrorModalOpen(false)}
-                carrierInfo={carrierInfo}
-                resourceUrl={resource_url}
-                onApply={onApply}
-                fetchPlans={fetchPlans}
-                writingAgentNumber={writingAgentNumber}
-                setIsSingleSignOnInitialModalOpen={setIsSingleSignOnInitialModalOpen}
-            />
-            {isLoadingEnroll && (
-                <div className={styles.spinner}>
-                    <Spinner />
-                </div>
-            )}
-
-            <div className={styles.applyCTA}>
-                <Button
-                    label={APPLY}
-                    disabled={!isHaveCarriers || isPlanExcluded}
-                    onClick={onPreApply}
-                    type="primary"
-                    icon={<ButtonCircleArrow />}
-                    iconPosition="right"
-                    className={`${styles.applyButton} ${!isHaveCarriers || isPlanExcluded ? styles.disabled : ""}`}
+                <PrescreenModal
+                    isOpen={isPrescreenModalOpen}
+                    onClose={() => setIsPrescreenModalOpen(false)}
+                    eligibility={eligibility}
+                    conditionList={conditionList}
+                    reason={reason}
+                    limits={limits}
                 />
+                <FinalExpenseEnrollResponseModal
+                    isOpen={enrollResponse !== null}
+                    onClose={() => {
+                        setEnrollResponse(null);
+                        fetchPlans();
+                    }}
+                    enrollResponse={enrollResponse}
+                />
+                <SingleSignOnInitialModal
+                    isOpen={isSingleSignOnInitialModalOpen}
+                    onClose={() => setIsSingleSignOnInitialModalOpen(false)}
+                    onRetry={() => {
+                        setIsSingleSignOnInitialModalOpen(false);
+                        setIsFinalExpenseErrorModalOpen(true);
+                    }}
+                />
+                <SingleSignOnModal
+                    isOpen={isSingleSignOnModalOpen}
+                    onClose={() => setIsSingleSignOnModalOpen(false)}
+                    carrierInfo={carrierInfo}
+                    resourceUrl={resource_url}
+                    onApply={onApply}
+                    fetchPlans={fetchPlans}
+                    setIsSingleSignOnInitialModalOpen={setIsSingleSignOnInitialModalOpen}
+                />
+                <FinalExpenseErrorModal
+                    isOpen={isFinalExpenseErrorModalOpen}
+                    onClose={() => setIsFinalExpenseErrorModalOpen(false)}
+                    carrierInfo={carrierInfo}
+                    resourceUrl={resource_url}
+                    onApply={onApply}
+                    fetchPlans={fetchPlans}
+                    writingAgentNumber={writingAgentNumber}
+                    setIsSingleSignOnInitialModalOpen={setIsSingleSignOnInitialModalOpen}
+                />
+                {isLoadingEnroll && (
+                    <div className={styles.spinner}>
+                        <Spinner />
+                    </div>
+                )}
+
+                <div className={styles.applyCTA}>
+                    <Button
+                        label={APPLY}
+                        disabled={!isHaveCarriers || isPlanExcluded}
+                        onClick={onPreApply}
+                        type="primary"
+                        icon={<ButtonCircleArrow />}
+                        iconPosition="right"
+                        className={`${styles.applyButton} ${!isHaveCarriers || isPlanExcluded ? styles.disabled : ""}`}
+                    />
+                </div>
             </div>
         </div>
     );
 };
 
 PlanCard.propTypes = {
+    isFeatured: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool.isRequired,
     planName: PropTypes.string.isRequired,
     logoUrl: PropTypes.string.isRequired,

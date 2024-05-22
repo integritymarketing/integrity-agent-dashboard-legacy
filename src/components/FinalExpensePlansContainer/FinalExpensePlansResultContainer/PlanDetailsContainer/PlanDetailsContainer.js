@@ -77,7 +77,7 @@ export const PlanDetailsContainer = ({
         handleIsShowExcludedProductsCheck
     );
     const navigate = useNavigate();
-    const leadDetailsData = !!leadDetails ? true : false;
+    const leadDetailsData = leadDetails ? true : false;
 
     const fetchPlans = useCallback(async () => {
         setFetchPlansError(false);
@@ -352,6 +352,7 @@ export const PlanDetailsContainer = ({
                             const carrier = plan.carrier || {};
                             const product = plan.product || {};
                             const { logoUrl, naic, resource_url } = carrier;
+                            const isFeatured = plan?.isFeatured || false;
 
                             const { name, benefits, limits } = product;
 
@@ -420,6 +421,7 @@ export const PlanDetailsContainer = ({
                                     product_monthly_premium={product_monthly_premium}
                                     policyFee={policyFee}
                                     selectedCoverageType={coverageType}
+                                    isFeatured={isFeatured}
                                 />
                             );
                         })}
