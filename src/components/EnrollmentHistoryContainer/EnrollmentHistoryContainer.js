@@ -68,10 +68,10 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         });
     };
 
-    const currentYearPlansData = useMemo(() => filterPlansByRollingYear(enrollPlansListss, true), [enrollPlansListss]);
+    const currentYearPlansData = useMemo(() => filterPlansByRollingYear(enrollPlansList, true), [enrollPlansList]);
     const previousYearPlansData = useMemo(
-        () => filterPlansByRollingYear(enrollPlansListss, false),
-        [enrollPlansListss]
+        () => filterPlansByRollingYear(enrollPlansList, false),
+        [enrollPlansList]
     );
 
     useEffect(() => {
