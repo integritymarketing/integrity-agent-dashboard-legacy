@@ -204,7 +204,6 @@ export const PlanDetailsContainer = ({
         const coverageAmountValue =
             coverageAmount >= 1000 && coverageAmount <= 999999 && selectedTab === COVERAGE_AMOUNT;
         const monthlyPremiumValue = monthlyPremium >= 10 && monthlyPremium <= 999 && selectedTab === MONTHLY_PREMIUM;
-        debugger;
         if ((coverageAmountValue || monthlyPremiumValue) && !isLoadingHealthConditions && leadDetailsData) {
             fetchPlans();
         }
