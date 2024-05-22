@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import useAnalytics from "hooks/useAnalytics";
 import useToast from "hooks/useToast";
 
-import callRecordingsService from "services/callRecordingsService";
 import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./styles.module.scss";
@@ -16,7 +15,7 @@ export default function PossibleMatches({ phone, tagIds }) {
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
     const showToast = useToast();
-    const { clientsService } = useClientServiceContext();
+    const { clientsService, callRecordingsService } = useClientServiceContext();
     const callLogIdNumber = callLogId ? Number(callLogId) : null;
 
     useEffect(() => {

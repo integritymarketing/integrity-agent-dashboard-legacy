@@ -2,8 +2,13 @@ import { ClientsService } from "./clientsService";
 import useClientServiceWithToken from "auth/useClientServiceWithToken";
 export const LEADS_API_VERSION = "v2.0";
 
-class CallRecordingsService extends ClientsService {
+export class CallRecordingsService {
+    constructor(getAccessToken) {
+        this.getAccessToken = getAccessToken;
+    }
+
     getAllCallRecordingsByAgent = async () => {
+        debugger;
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_COMMUNICATION_API}/Call/Records?UnAssistedCallRecordingsOnly=true`
         );
@@ -35,10 +40,23 @@ class CallRecordingsService extends ClientsService {
         }
         throw new Error(response?.statusText);
     };
+
+    _clientAPIRequest = async (url, method = "GET", query, body) => {
+        const accessToken = await this.getAccessToken();
+        const opts = {
+            method,
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+            },
+        };
+
+        url.search = new URLSearchParams(query).toString();
+
+        if (body) {
+            opts.body = JSON.stringify(body);
+        }
+
+        return fetch(url.toString(), opts);
+    };
 }
-
-export const useCallRecordingsService = () => {
-    return useClientServiceWithToken(CallRecordingsService);
-};
-
-export default new CallRecordingsService();

@@ -28,7 +28,6 @@ import GlobalNav from "partials/global-nav-v2";
 import CountyContext from "contexts/counties";
 
 import analyticsService from "services/analyticsService";
-import callRecordingsService from "services/callRecordingsService";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import validationService from "services/validationService";
 
@@ -59,7 +58,7 @@ const NewContactForm = ({
         fetchCountyAndState,
         loading: loadingCountyAndState,
     } = useContext(CountyContext);
-    const { clientsService, enrollPlansService } = useClientServiceContext();
+    const { clientsService, enrollPlansService, callRecordingsService } = useClientServiceContext();
     const navigate = useNavigate();
     const showToast = useToast();
 

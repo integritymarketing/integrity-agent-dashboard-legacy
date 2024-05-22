@@ -2,7 +2,6 @@ import React, { useMemo, useCallback, useState } from "react";
 import * as Sentry from "@sentry/react";
 import { formatPhoneNumber } from "utils/phones";
 import { useClientServiceContext } from "services/clientServiceProvider";
-import callRecordingsService from "services/callRecordingsService";
 import styles from "./ContactsPage.module.scss";
 import useToast from "hooks/useToast";
 import { CallScriptModal } from "packages/CallScriptModal";
@@ -13,7 +12,7 @@ export default function PrimaryContactPhone({ countyFips, postalCode, phone, lea
     const showToast = useToast();
     const [modalOpen, setModalOpen] = useState(false);
     const { npn, agentId } = userProfile;
-    const { clientsService } = useClientServiceContext();
+    const { clientsService, callRecordingsService } = useClientServiceContext();
 
     const getAgentAvailability = async function () {
         try {
