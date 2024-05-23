@@ -1,4 +1,4 @@
- 
+
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
@@ -78,17 +78,15 @@ const FinalExpensePlansResultContainer = () => {
             } else {
                 if (!appointmentSession) {
                     setIsRTS(true);
-                    setIsMyAppointedProducts(true);
                 } else {
                     setIsRTS(false);
-                    setIsMyAppointedProducts(false);
                 }
             }
         };
         if (agentNPN) {
             handleFinalExpensePlanClick();
         }
-    }, []);
+    }, [agentNPN]);
 
     useEffect(() => {
         if (contactId !== sessionLead) {
@@ -185,7 +183,6 @@ const FinalExpensePlansResultContainer = () => {
             return;
         }
         setIsMyAppointedProducts(!isMyAppointedProducts);
-        setAppointmentSession(true);
     }, [isRTS, isMyAppointedProducts]);
 
     const handleIsShowExcludedProductsCheck = useCallback(() => {
