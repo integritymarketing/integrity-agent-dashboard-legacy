@@ -77,7 +77,7 @@ export const PlanDetailsContainer = ({
         handleIsShowExcludedProductsCheck
     );
     const navigate = useNavigate();
-    const leadDetailsData = !!leadDetails ? true : false;
+    const leadDetailsData = leadDetails ? true : false;
 
     const fetchPlans = useCallback(async () => {
         setFetchPlansError(false);
@@ -204,7 +204,6 @@ export const PlanDetailsContainer = ({
         const coverageAmountValue =
             coverageAmount >= 1000 && coverageAmount <= 999999 && selectedTab === COVERAGE_AMOUNT;
         const monthlyPremiumValue = monthlyPremium >= 10 && monthlyPremium <= 999 && selectedTab === MONTHLY_PREMIUM;
-        debugger;
         if ((coverageAmountValue || monthlyPremiumValue) && !isLoadingHealthConditions && leadDetailsData) {
             fetchPlans();
         }
@@ -353,6 +352,7 @@ export const PlanDetailsContainer = ({
                             const carrier = plan.carrier || {};
                             const product = plan.product || {};
                             const { logoUrl, naic, resource_url } = carrier;
+                            const isFeatured = plan?.isFeatured || false;
 
                             const { name, benefits, limits } = product;
 
@@ -421,6 +421,7 @@ export const PlanDetailsContainer = ({
                                     product_monthly_premium={product_monthly_premium}
                                     policyFee={policyFee}
                                     selectedCoverageType={coverageType}
+                                    isFeatured={isFeatured}
                                 />
                             );
                         })}
