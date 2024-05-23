@@ -193,7 +193,7 @@ const WebChatComponent = () => {
                                 language: "en-US",
                                 marketerName: fullName,
                                 marketerId: npn,
-                                authorization: `Bearer ${accessToken.access_token}`,
+                                authorization: `Bearer ${accessToken}`,
                                 host: "dev",
                                 hostUrl: process.env.REACT_APP_HOST_URL,
                                 appId: "mcweb",
@@ -229,6 +229,7 @@ const WebChatComponent = () => {
                         });
                     }
                     const accessToken = await getAccessTokenSilently();
+                    debugger;
                     if (action.payload.activity.type === "message") {
                         let message = action.payload.activity.text
                             ? action.payload.activity.text
@@ -241,12 +242,12 @@ const WebChatComponent = () => {
                         const channelData = action.payload.activity.channelData;
                         const data = [];
                         if (channelData) {
-                            channelData.authToken = `Bearer ${accessToken.access_token}`;
+                            channelData.authToken = `Bearer ${accessToken}`;
                             channelData.data = data;
                             action.payload.activity.channelData = channelData;
                         } else {
                             action.payload.activity.channelData = {
-                                authToken: `Bearer ${accessToken.access_token}`,
+                                authToken: `Bearer ${accessToken}`,
                                 data: data,
                             };
                         }
