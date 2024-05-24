@@ -78,10 +78,8 @@ const FinalExpensePlansResultContainer = () => {
             } else {
                 if (!appointmentSession) {
                     setIsRTS(true);
-                    setIsMyAppointedProducts(true);
                 } else {
                     setIsRTS(false);
-                    setIsMyAppointedProducts(false);
                 }
             }
         };
@@ -185,7 +183,6 @@ const FinalExpensePlansResultContainer = () => {
             return;
         }
         setIsMyAppointedProducts(!isMyAppointedProducts);
-        setAppointmentSession(true);
     }, [isRTS, isMyAppointedProducts]);
 
     const handleIsShowExcludedProductsCheck = useCallback(() => {
