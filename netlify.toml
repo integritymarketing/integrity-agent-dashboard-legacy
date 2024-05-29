@@ -30,10 +30,15 @@
     X-XSS-Protection = "1; mode=block"
 
 [[redirects]]
-  from = "/welcome"
+  from = "/"
   to = "https://integrity.com"
   status = 301
   
+[[redirects]]
+  from = "/welcome"
+  to = "https://integrity.com"
+  status = 301
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
