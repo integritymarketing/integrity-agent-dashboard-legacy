@@ -1,4 +1,3 @@
-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
@@ -45,7 +44,7 @@ const FinalExpensePlansResultContainer = () => {
     const { agentInformation } = useAgentInformationByID();
     const agentNPN = agentInformation?.agentNPN;
 
-    const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${agentNPN}`);
+    const { Get: getAgentNonRTS, loading: getAgentNonRTSLoading } = useFetch(`${AGENT_SERVICE_NON_RTS}${agentNPN}`);
 
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
     const { min: covMin, max: covMax, step: covStep } = STEPPER_FILTER[COVERAGE_AMOUNT];
@@ -217,7 +216,7 @@ const FinalExpensePlansResultContainer = () => {
                         onChange={handleInputChange}
                         inputErrorStyle={
                             (covAmtError && selectedTab === COVERAGE_AMOUNT) ||
-                                (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
+                            (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
                                 ? styles.inputError
                                 : ""
                         }
@@ -240,16 +239,18 @@ const FinalExpensePlansResultContainer = () => {
                         />
                         <div className={styles.checkboxesWrapper}>
                             <div
-                                className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""
-                                    } ${!isRTS ? styles.inActive : ""}`}
+                                className={`${styles.checkbox} ${
+                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                } ${!isRTS ? styles.inActive : ""}`}
                                 onClick={handleMyAppointedProductsCheck}
                             >
                                 {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
-                                className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                    }`}
+                                className={`${styles.checkbox} ${
+                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                }`}
                                 onClick={handleIsShowExcludedProductsCheck}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
@@ -258,18 +259,20 @@ const FinalExpensePlansResultContainer = () => {
                         </div>
                     </div>
                 </div>
-                {<PlanDetailsContainer
-                    coverageAmount={coverageAmount}
-                    monthlyPremium={monthlyPremiumAmount}
-                    coverageType={coverageType}
-                    selectedTab={selectedTab}
-                    isMyAppointedProducts={isMyAppointedProducts}
-                    isShowExcludedProducts={isShowExcludedProducts}
-                    handleMyAppointedProductsCheck={handleMyAppointedProductsCheck}
-                    handleIsShowExcludedProductsCheck={handleIsShowExcludedProductsCheck}
-                    isRTS={isRTS}
-                    setIsRTS={setIsRTS}
-                />}
+                {!getAgentNonRTSLoading && (
+                    <PlanDetailsContainer
+                        coverageAmount={coverageAmount}
+                        monthlyPremium={monthlyPremiumAmount}
+                        coverageType={coverageType}
+                        selectedTab={selectedTab}
+                        isMyAppointedProducts={isMyAppointedProducts}
+                        isShowExcludedProducts={isShowExcludedProducts}
+                        handleMyAppointedProductsCheck={handleMyAppointedProductsCheck}
+                        handleIsShowExcludedProductsCheck={handleIsShowExcludedProductsCheck}
+                        isRTS={isRTS}
+                        setIsRTS={setIsRTS}
+                    />
+                )}
                 <div className={styles.resultContent}></div>
             </div>
         </>

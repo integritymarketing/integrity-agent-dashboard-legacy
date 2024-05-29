@@ -107,9 +107,10 @@ export default function EnrollmentPlanCard(props) {
 
                                         {(policyStatus === "upcoming" || policyStatus === "active") && (
                                             <>
-                                                {policyEffectiveDate && (
-                                                    <PlanDate type={isFinalExpense ? "Effective" : "Submitted"} date={policyEffectiveDate} />
-                                                )}
+                                                {policyEffectiveDate &&
+                                                    isFinalExpense(
+                                                        <PlanDate type={"Effective"} date={policyEffectiveDate} />
+                                                    )}
                                                 {enrolledDate && (
                                                     <PlanDate
                                                         type={isFinalExpense ? "Issued" : "Enrolled"}
@@ -122,7 +123,10 @@ export default function EnrollmentPlanCard(props) {
                                 ) : (
                                     <>
                                         {policyEffectiveDate && (
-                                            <PlanDate type={isFinalExpense ? "Effective" : "Submitted"} date={policyEffectiveDate} />
+                                            <PlanDate
+                                                type={isFinalExpense ? "Effective" : "Submitted"}
+                                                date={policyEffectiveDate}
+                                            />
                                         )}
 
                                         {termedDate && <PlanDate type="Termed" date={termedDate} />}
