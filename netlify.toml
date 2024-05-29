@@ -30,19 +30,21 @@
     X-XSS-Protection = "1; mode=block"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
   from = "/"
   to = "https://integrity.com"
   status = 301
+  force = true
   
 [[redirects]]
   from = "/welcome"
   to = "https://integrity.com"
   status = 301
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 # Set non-sensitive env variables
 # that live across all envs for simplicity here
