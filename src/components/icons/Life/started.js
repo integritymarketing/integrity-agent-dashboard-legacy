@@ -1,13 +1,36 @@
 export const LifeStarted = () => (
-    <svg id="Health_Policy_Started" data-name="Health Policy Started" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-        <g id="Health_-_Cross" data-name="Health - Cross">
+    <svg
+        id="Life_Policy_Started"
+        data-name="Life Policy Started"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+    >
+        <g id="Life_-_Heart" data-name="Life - Heart">
             <g id="Button_-_BG" data-name="Button - BG">
                 <rect id="bg" width="24" height="24" fill="#ff1717" opacity="0" />
             </g>
-            <path id="Cross" d="M17.271,6.729V1.778A1.278,1.278,0,0,0,15.993.5H8.005A1.278,1.278,0,0,0,6.727,1.778V6.729H1.777A1.277,1.277,0,0,0,.5,8.007v7.988a1.277,1.277,0,0,0,1.277,1.278H6.727v4.951A1.277,1.277,0,0,0,8.005,23.5h7.988a1.277,1.277,0,0,0,1.278-1.276V17.273h4.951A1.278,1.278,0,0,0,23.5,15.995V8.007a1.278,1.278,0,0,0-1.278-1.278Z" fill="#fff" stroke="#4178ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+            <path
+                id="heart"
+                d="M167.258,44.543a7.46,7.46,0,0,0,0-9.962,6.243,6.243,0,0,0-8.986-.333q-.168.16-.324.333t-.286.329c-.093-.113-.188-.223-.286-.327a6.242,6.242,0,0,0-8.985-.333c-.112.107-.22.218-.324.333a7.467,7.467,0,0,0,.027,9.99l9.131,8.75a.628.628,0,0,0,.874,0l9.131-8.75C167.24,44.56,167.249,44.553,167.258,44.543Z"
+                transform="translate(-145.664 -31)"
+                fill="#fff"
+                stroke="#4178ff"
+                strokeWidth="1"
+            />
         </g>
-        <g id="arrow" transform="matrix(0, -1, 1, 0, 10.25, 16)">
-            <path id="Path_3042" data-name="Path 3042" d="M7,0,3.5,3.5,0,0" fill="none" stroke="#4178ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+        <g id="arrow" transform="matrix(0, -1, 1, 0, 11, 15)">
+            <path
+                id="Path_3042"
+                data-name="Path 3042"
+                d="M7,0,3.5,3.5,0,0"
+                fill="none"
+                stroke="#4178ff"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1"
+            />
         </g>
     </svg>
-)
+);
