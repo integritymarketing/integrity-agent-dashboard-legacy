@@ -7,7 +7,7 @@ const RedirectToAppropriateRoute = () => {
     const { isAuthenticated } = useAuth0();
 
     useEffect(() => {
-        if (process.env.REACT_APP_BUILD_ENV === "production") {
+        if (process.env.REACT_APP_BUILD_ENV !== "production") {
             navigate(isAuthenticated ? "/dashboard" : "/welcome", { replace: true });
         } else {
             if (isAuthenticated) {
