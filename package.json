@@ -57,9 +57,9 @@
   "scripts": {
     "start": "cross-env BROWSER=chrome craco start",
     "start:auth": "cross-env REACT_APP_BUILD_TARGET=auth PORT=3001 BROWSER=chrome craco start",
-    "build": "node generate-redirects.js && craco build",
+    "build": "craco build",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "build:auth": "node generate-redirects.js && cross-env REACT_APP_BUILD_TARGET=auth craco build && mv build buildAuth",
+    "build:auth": "cross-env REACT_APP_BUILD_TARGET=auth craco build && mv build buildAuth",
     "clean": "rm -rf build buildAuth node_modules && npm i",
     "test": "craco test --env=jest-environment-jsdom-sixteen",
     "eject": "craco eject",
