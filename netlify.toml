@@ -34,6 +34,11 @@
   to = "/index.html"
   status = 200
 
+[[redirects]]
+  from = "/welcome"
+  to = "https://integrity.com"
+  status = 301
+
 # Set non-sensitive env variables
 # that live across all envs for simplicity here
 # all URIs and env specif configs live in the netlify enviornment UI configs
