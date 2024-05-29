@@ -30,16 +30,14 @@
     X-XSS-Protection = "1; mode=block"
 
 [[redirects]]
+  from = "/welcome"
+  to = "https://integrity.com"
+  status = 301
+  
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-[[redirects]]
-  from = "/welcome"
-  to = "https://integrity.com"
-  status = 200
-  force = true
-  headers = {X-From = "Netlify"}
 
 # Set non-sensitive env variables
 # that live across all envs for simplicity here
