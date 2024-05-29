@@ -29,14 +29,9 @@
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
   
-[[redirects]]
-  from = "/"
-  to = "/welcome"
-  status = 301
-  force = true
 
 [[redirects]]
-  from = "/welcome"
+  from = "https://ae-qa.integritymarketinggroup.com/welcome"
   to = "https://integrity.com"
   status = 301
   force = true
