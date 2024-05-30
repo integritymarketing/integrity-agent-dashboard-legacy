@@ -14,7 +14,7 @@ const LandingPage = () => {
         try {
             await loginWithRedirect({
                 authorizationParams: {
-                    redirect_uri: `${window.location.origin}/dashboard`,
+                    redirect_uri: `${process.env.REACT_APP_PORTAL_URL}/dashboard`,
                 },
             });
         } catch (e) {
