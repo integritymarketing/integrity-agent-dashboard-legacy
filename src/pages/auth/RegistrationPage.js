@@ -68,7 +68,7 @@ const RegistrationPage = () => {
         try {
             await loginWithRedirect({
                 authorizationParams: {
-                    redirect_uri: `${process.env.REACT_APP_PORTAL_URL}/dashboard`,
+                    redirect_uri: `${window.location.origin}/dashboard`,
                 },
             });
         } catch (e) {
