@@ -30,9 +30,12 @@ const LegacySafeGuard = ({ leadDetails }) => {
     const leadState = useMemo(() => addresses?.[0]?.state || "", [addresses]);
     const leadZip = useMemo(() => addresses?.[0]?.postalCode || "", [addresses]);
     const formattedBirthdate = useMemo(() => (birthdate ? moment(birthdate).format("MM-DD-YYYY") : ""), [birthdate]);
-    const formattedGender = useMemo(() => (gender === "male" ? "M" : gender === "female" ? "F" : ""), [gender]);
     const isLSGTagPresent = useMemo(() => leadTags?.some((tag) => tag?.tag?.tagLabel === "LS USER"), [leadTags]);
 
+    const formattedDetails = useMemo(() => ({
+        birthdate: birthdate ? moment(birthdate).format("MM-DD-YYYY") : "",
+        gender: gender === "male" ? "M" : gender === "female" ? "F" : "",
+    }), [birthdate, gender]);
     /**
      * Constructs the URL for Legacy SafeGuard with query parameters based on lead details.
      * @returns {string} URL for Legacy SafeGuard
@@ -49,7 +52,7 @@ const LegacySafeGuard = ({ leadDetails }) => {
             ...(leadState && { mc_state: leadState }),
             ...(leadEmail && { mc_email: leadEmail }),
             ...(leadPhones && { mc_phone: leadPhones }),
-            ...(formattedGender && { gender: formattedGender }),
+            ...formattedDetails.gender && { mc_gender: formattedDetails.gender },
             ...(formattedBirthdate && { mc_dob: formattedBirthdate }),
             ...(agentFirstName && { agent_fname: agentFirstName }),
             ...(agentLastName && { agent_lname: agentLastName }),
