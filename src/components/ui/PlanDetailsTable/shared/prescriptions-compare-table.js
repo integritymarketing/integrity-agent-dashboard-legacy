@@ -45,7 +45,7 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
                 gap: [],
                 copay: [],
                 covered: [],
-                deductible: [],
+                retail: [],
                 restrictions: [],
                 catastrophic: [],
                 drugName: planDrugCoverage.labelName,
@@ -60,7 +60,7 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
             rowData.gap[planIndex] = costs.gap;
             rowData.copay[planIndex] = costs.beforeGap;
             rowData.catastrophic[planIndex] = costs.afterGap;
-            rowData.deductible[planIndex] = costs.deductible;
+            rowData.retail[planIndex] = costs.retail;
             rowData.restrictions[planIndex] = {
                 hasPriorAuthorization: currentDrugCoverage.hasPriorAuthorization,
                 hasQuantityLimit: currentDrugCoverage.hasQuantityLimit,

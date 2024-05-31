@@ -8,7 +8,7 @@ export const currencyFormatter = new Intl.NumberFormat("en-US", {
     currency: "USD",
 });
 
-const fields = ["deductible", "gap", "copay", "catastrophic"];
+const fields = ["retail", "gap", "copay", "catastrophic"];
 
 function Prescription({ data, prescriptions }) {
     const getDoseQuantity = (labelName) => {
@@ -105,7 +105,7 @@ Prescription.propTypes = {
         type: PropTypes.string,
         drugName: PropTypes.string,
         covered: PropTypes.arrayOf(PropTypes.bool),
-        deductible: PropTypes.arrayOf(PropTypes.number),
+        retail: PropTypes.arrayOf(PropTypes.number),
         gap: PropTypes.arrayOf(PropTypes.number),
         copay: PropTypes.arrayOf(PropTypes.number),
         catastrophic: PropTypes.arrayOf(PropTypes.number),

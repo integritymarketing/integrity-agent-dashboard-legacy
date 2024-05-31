@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./header.module.scss";
 
-const commonColumns = ["Deductible", "Copay", "Gap", "Catastrophic"];
+const commonColumns = ["Retail", "Copay", "Gap", "Catastrophic"];
 
 function Header({ isCovered, isMobile, isRow }) {
   const title = isCovered
