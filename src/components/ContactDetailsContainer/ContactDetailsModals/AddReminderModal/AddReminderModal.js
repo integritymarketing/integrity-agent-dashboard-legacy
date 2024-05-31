@@ -123,6 +123,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
                             value={values.title}
                             onChange={(e) => handleChange("title", e.target.value)}
                             fullWidth
+                            inputProps={{ maxLength: 256 }}
                             className={styles.notes}
                         />
                     </Box>
@@ -135,6 +136,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
                             value={values.notes}
                             onChange={(e) => handleChange("notes", e.target.value)}
                             fullWidth
+                            inputProps={{ maxLength: 256 }}
                             multiline
                             rows={3}
                             className={styles.notes}
