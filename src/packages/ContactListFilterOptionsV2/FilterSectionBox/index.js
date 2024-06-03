@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Icon from "components/Icon";
@@ -8,6 +8,7 @@ import ArrowDownBlue from "components/icons/version-2/ArrowDownBlue";
 import Close from "../icons/close.svg";
 import { Text } from "@integritymarketing/ui-text-components";
 import { useWindowSize } from "hooks/useWindowSize";
+import PropTypes from "prop-types";
 
 
 const IS_DROPDOWN_SELECT_OPTIONS = [
@@ -109,7 +110,7 @@ export default function FilterSectionBox({
                     </Select>
                 )}
                 {configData.options && (
-                    <Box display={"flex"} width={"100%"}>
+                    <Box display={"flex"} width={"80%"}>
                         <Select
                             IconComponent={() => <ArrowDownBlue />}
                             value={filterValue}
@@ -139,13 +140,13 @@ export default function FilterSectionBox({
                                 },
                                 color: "#434A51",
                                 width: "200px",
-                                height: "45px",
+                                minHeight: "45px",
                                 paddingRight: "5px",
                                 borderColor: "#DDDDDD",
                                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                                     borderColor: "#DDDDDD",
                                 },
-                                ".MuiSelect-outlined": { padding: "0px 7px", paddingRight: "0px !important" },
+                                ".MuiSelect-outlined": { padding: "0px 7px", paddingRight: "0px !important", whiteSpace: "break-spaces" },
                                 ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" },
                                 "&:hover": { ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" } },
                             }}
@@ -252,3 +253,20 @@ export default function FilterSectionBox({
         </>
     );
 }
+
+FilterSectionBox.propTypes = {
+    section: PropTypes.shape({
+        sectionId: PropTypes.string.isRequired,
+        selectedIsOption: PropTypes.string,
+        selectedFilterOption: PropTypes.string,
+        nextAndOrOption: PropTypes.string
+    }).isRequired,
+    shouldShowAndOr: PropTypes.bool,
+    onRemove: PropTypes.func.isRequired,
+    onChangeFilterOption: PropTypes.func.isRequired,
+    freezeAndOption: PropTypes.bool,
+    onChangeIsOption: PropTypes.func.isRequired,
+    isFilterSelectOpenForSection: PropTypes.bool,
+    onChangeNextAndOrOption: PropTypes.func.isRequired,
+    filterSectionsConfig: PropTypes.object.isRequired
+};
