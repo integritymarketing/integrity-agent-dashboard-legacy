@@ -20,7 +20,7 @@ const EnrollmentHistoryPage = lazy(() => import("pages/EnrollmentHistoryPage"));
 const EnrollmentLinkToContact = lazy(() => import("pages/EnrollmentLinkToContact"));
 const ErrorPage = lazy(() => import("pages/ErrorPage"));
 const HelpPage = lazy(() => import("pages/Help"));
-const LeadCenterRedirect = lazy(() => import("pages/LeadCenterRedirect"));
+const MedicareSSORedirect = lazy(() => import("pages/MedicareSSORedirect"));
 const LinkToContact = lazy(() => import("pages/LinkToContact"));
 const NewScopeOfAppointment = lazy(() => import("pages/contacts/contactRecordInfo/newScopeOfAppointment"));
 const NotFoundPage = lazy(() => import("pages/NotFound"));
@@ -182,7 +182,7 @@ const appProtectedRoutes = [
         path: "/contact/:contactId/soa-confirm/:linkCode",
         component: <ContactsSOAConfirmForm />,
     },
-    { path: "/leadcenter-redirect/:npn", component: <LeadCenterRedirect /> },
+    { path: "/clientsSSO", component: <MedicareSSORedirect /> },
     { path: "/client-import", component: <ClientImportPage /> },
     {
         path: "/plans/:contactId/compare/:planIds/:effectiveDate",

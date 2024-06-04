@@ -229,7 +229,6 @@ const WebChatComponent = () => {
                         });
                     }
                     const accessToken = await getAccessTokenSilently();
-                    debugger;
                     if (action.payload.activity.type === "message") {
                         let message = action.payload.activity.text
                             ? action.payload.activity.text
