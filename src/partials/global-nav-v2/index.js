@@ -432,7 +432,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                         {isMobile && <SmallFormatMenu {...mobileMenuProps} />}
                         <div className="onlyWeb">
                             {!isMobile && <LargeFormatMenu {...menuProps} />}
-                            {!isMobile && leadPreference && (
+                            {!isMobile && user?.firstName && leadPreference && (
                                 <MyButton
                                     leadPreference={leadPreference}
                                     page={page}

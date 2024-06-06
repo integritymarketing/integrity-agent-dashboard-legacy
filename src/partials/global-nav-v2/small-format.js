@@ -52,7 +52,10 @@ const SmallFormatNav = ({ navOpen, setNavOpen, primary, secondary, tertiary }) =
                     <hr className="modal-nav__hr"></hr>
                     <ul>
                         {primary
-                            .filter((link) => link.format !== "large")
+                            .filter(
+                                (link) =>
+                                    link.format !== "large" && !(link.label === "Account" && !userProfile?.firstName)
+                            )
                             .map((link, idx) => {
                                 const { className = "", ...props } = link.props || {};
 
