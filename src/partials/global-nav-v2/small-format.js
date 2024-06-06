@@ -70,7 +70,10 @@ const SmallFormatNav = ({ navOpen, setNavOpen, primary, secondary, tertiary }) =
                             })}
                         <hr className="modal-nav__hr"></hr>
                         {secondary
-                            .filter((link) => link.format !== "large")
+                            .filter(
+                                (link) =>
+                                    link.format !== "large" && !(link.label === "Account" && !userProfile?.firstName)
+                            )
                             .map((link, idx) => {
                                 let { className = "", ...props } = link.props || {};
                                 if (isNonRTS_User && nonRTS_DisableLinks.includes(link.label)) {
