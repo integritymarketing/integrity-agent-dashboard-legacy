@@ -91,6 +91,7 @@ const appRoutes = [
     { path: "/maintenance", component: <Navigate to="/" /> },
     { path: "/clients", component: <Navigate to="/contacts" /> },
     { path: "/error", component: <ErrorPage /> },
+    { path: "/clientsSSO", component: <MedicareSSORedirect /> },
     { path: "*", component: <NotFoundPage /> },
 ];
 
@@ -136,7 +137,6 @@ const appProtectedRoutes = [
     { path: "/account/:section/", component: <AccountPage /> },
     { path: "/help", component: <HelpPage /> },
     { path: "/learning-center", component: <ResourcesPage /> },
-    { path: "/clientsSSO", component: <MedicareSSORedirect /> },
     {
         path: "/contacts/*",
         component: (
