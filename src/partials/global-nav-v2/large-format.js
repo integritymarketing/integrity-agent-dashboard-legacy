@@ -8,7 +8,6 @@ const nonRTS_DisableLinks = ["MedicareAPP", "MedicareLINK"];
 
 const LargeFormatNav = ({ navOpen, setNavOpen, primary, secondary }) => {
     const userProfile = useUserProfile();
-    console.log("userProfile", userProfile, userProfile?.fullName);
 
     const [activedLink, setActivedLink] = useState("");
 

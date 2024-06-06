@@ -366,8 +366,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         showBanner = true;
     }
 
-    console.log("userProfiledddd", user, user?.fullName);
-
     return (
         <WithLoader isLoading={auth.isLoading}>
             <Media
@@ -431,10 +429,10 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
           Causes console error in dev env only due to this issue
           https://github.com/ReactTraining/react-media/issues/139
         */}
-                        {isMobile && user?.fullName && <SmallFormatMenu {...mobileMenuProps} />}
+                        {isMobile && user?.firstName && <SmallFormatMenu {...mobileMenuProps} />}
                         <div className="onlyWeb">
-                            {!isMobile && user?.fullName && <LargeFormatMenu {...menuProps} />}
-                            {!isMobile && user?.fullName && leadPreference && (
+                            {!isMobile && user?.firstName && <LargeFormatMenu {...menuProps} />}
+                            {!isMobile && user?.firstName && leadPreference && (
                                 <MyButton
                                     leadPreference={leadPreference}
                                     page={page}
