@@ -366,6 +366,8 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         showBanner = true;
     }
 
+    console.log("userProfiledddd", user, user?.fullName);
+
     return (
         <WithLoader isLoading={auth.isLoading}>
             <Media
