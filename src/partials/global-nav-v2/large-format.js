@@ -57,43 +57,42 @@ const LargeFormatNav = ({ navOpen, setNavOpen, primary, secondary }) => {
                         </li>
                     );
                 })}
-            <li>
-                <div className={`dropdown-menu dropdown-menu--${navOpen ? "open" : "closed"}`}>
-                    <button className={`dropdown-menu__trigger button_color`} onClick={() => setNavOpen(!navOpen)}>
-                        <span>
-                            {capitalizeFirstLetter(userProfile?.firstName)}{" "}
-                            {capitalizeFirstLetter(userProfile?.lastName)}
-                        </span>
-                        <Arrow color={"#FFFFFF"} className={navOpen ? "icon-flip" : ""} />
-                    </button>
-                    <ul className="dropdown-menu__items">
-                        {secondary
-                            .filter(
-                                (link) =>
-                                    link.format !== "small" && !(link.label === "Account" && !userProfile?.firstName)
-                            )
-                            .map((link, idx) => {
-                                let { className = "", ...props } = link.props || {};
-                                if (isNonRTS_User && nonRTS_DisableLinks.includes(link.label)) {
-                                    props = { ...props, ...nonRTS_Props };
-                                }
+            {userProfile?.firstName && userProfile?.lastName && (
+                <li>
+                    <div className={`dropdown-menu dropdown-menu--${navOpen ? "open" : "closed"}`}>
+                        <button className={`dropdown-menu__trigger button_color`} onClick={() => setNavOpen(!navOpen)}>
+                            <span>
+                                {capitalizeFirstLetter(userProfile?.firstName)}{" "}
+                                {capitalizeFirstLetter(userProfile?.lastName)}
+                            </span>
+                            <Arrow color={"#FFFFFF"} className={navOpen ? "icon-flip" : ""} />
+                        </button>
+                        <ul className="dropdown-menu__items">
+                            {secondary
+                                .filter((link) => link.format !== "small")
+                                .map((link, idx) => {
+                                    let { className = "", ...props } = link.props || {};
+                                    if (isNonRTS_User && nonRTS_DisableLinks.includes(link.label)) {
+                                        props = { ...props, ...nonRTS_Props };
+                                    }
 
-                                return (
-                                    <li key={idx}>
-                                        <link.component
-                                            className={`link link--inherit ${className} linkAlignItems ${props.class}`}
-                                            tabIndex={navOpen ? "0" : "-1"}
-                                            {...props}
-                                        >
-                                            {link.img && <img src={link.img} alt="linkIcon" className="icon" />}
-                                            {link.label}
-                                        </link.component>
-                                    </li>
-                                );
-                            })}
-                    </ul>
-                </div>
-            </li>
+                                    return (
+                                        <li key={idx}>
+                                            <link.component
+                                                className={`link link--inherit ${className} linkAlignItems ${props.class}`}
+                                                tabIndex={navOpen ? "0" : "-1"}
+                                                {...props}
+                                            >
+                                                {link.img && <img src={link.img} alt="linkIcon" className="icon" />}
+                                                {link.label}
+                                            </link.component>
+                                        </li>
+                                    );
+                                })}
+                        </ul>
+                    </div>
+                </li>
+            )}
         </ul>
     );
 };
