@@ -7,101 +7,87 @@ import "./index.scss";
 const nonRTS_DisableLinks = ["MedicareAPP", "MedicareLINK"];
 
 const LargeFormatNav = ({ navOpen, setNavOpen, primary, secondary }) => {
-  const userProfile = useUserProfile();
+    const userProfile = useUserProfile();
 
-  const [activedLink, setActivedLink] = useState("");
+    const [activedLink, setActivedLink] = useState("");
 
-  const { isNonRTS_User } = useRoles();
+    const { isNonRTS_User } = useRoles();
 
-  const nonRTS_Props = {
-    disabled: true,
-    class: "disabledCursor",
-    title:
-      "It looks like you do not have the proper access or ready-to-sell information present. If you feel this is in error, please reach out to your Marketer or contact support.",
-  };
-
-  useEffect(() => {
-    window.location.pathname !== activedLink &&
-      setActivedLink(window.location.pathname);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [window.location.pathname]);
-
-  useEffect(() => {
-    const closeDropDown = (event) => {
-      if (
-        event.target.closest(".dropdown-menu") ||
-        event.target.closest(".modal")
-      ) {
-        return;
-      }
-      setNavOpen(false);
+    const nonRTS_Props = {
+        disabled: true,
+        class: "disabledCursor",
+        title: "It looks like you do not have the proper access or ready-to-sell information present. If you feel this is in error, please reach out to your Marketer or contact support.",
     };
 
-    document.body.addEventListener("click", closeDropDown);
+    useEffect(() => {
+        window.location.pathname !== activedLink && setActivedLink(window.location.pathname);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [window.location.pathname]);
 
-    return () => document.body.removeEventListener("click", closeDropDown);
-  }, [navOpen, setNavOpen]);
+    useEffect(() => {
+        const closeDropDown = (event) => {
+            if (event.target.closest(".dropdown-menu") || event.target.closest(".modal")) {
+                return;
+            }
+            setNavOpen(false);
+        };
 
-  return (
-    <ul className="divided-hlist text-muted-light uiStyle">
-      {primary
-        .filter((link) => link.format !== "small")
-        .map((link, idx) => {
-          const { className = "", ...props } = link.props || {};
-          return (
-            <li key={idx}>
-              <link.component
-                className={`link link--invert ${className} ${
-                  activedLink.includes(props?.to) ? "link_active" : undefined
-                }`}
-                {...props}
-              >
-                {link.label}
-              </link.component>
+        document.body.addEventListener("click", closeDropDown);
+
+        return () => document.body.removeEventListener("click", closeDropDown);
+    }, [navOpen, setNavOpen]);
+
+    return (
+        <ul className="divided-hlist text-muted-light uiStyle">
+            {primary
+                .filter((link) => link.format !== "small")
+                .map((link, idx) => {
+                    const { className = "", ...props } = link.props || {};
+                    return (
+                        <li key={idx}>
+                            <link.component
+                                className={`link link--invert ${className} ${
+                                    activedLink.includes(props?.to) ? "link_active" : undefined
+                                }`}
+                                {...props}
+                            >
+                                {link.label}
+                            </link.component>
+                        </li>
+                    );
+                })}
+            <li>
+                <div className={`dropdown-menu dropdown-menu--${navOpen ? "open" : "closed"}`}>
+                    <button className={`dropdown-menu__trigger button_color`} onClick={() => setNavOpen(!navOpen)}>
+                        <span>{userProfile?.fullName}</span>
+                        <Arrow color={"#FFFFFF"} className={navOpen ? "icon-flip" : ""} />
+                    </button>
+                    <ul className="dropdown-menu__items">
+                        {secondary
+                            .filter((link) => link.format !== "small")
+                            .map((link, idx) => {
+                                let { className = "", ...props } = link.props || {};
+                                if (isNonRTS_User && nonRTS_DisableLinks.includes(link.label)) {
+                                    props = { ...props, ...nonRTS_Props };
+                                }
+                                return (
+                                    <li key={idx}>
+                                        <link.component
+                                            className={`link link--inherit ${className} linkAlignItems ${props.class}`}
+                                            tabIndex={navOpen ? "0" : "-1"}
+                                            {...props}
+                                        >
+                                            {link.img && <img src={link.img} alt="linkIcon" className="icon" />}
+                                            {link.label}
+                                        </link.component>
+                                    </li>
+                                );
+                            })}
+                    </ul>
+                </div>
             </li>
-          );
-        })}
-      <li>
-        <div
-          className={`dropdown-menu dropdown-menu--${
-            navOpen ? "open" : "closed"
-          }`}
-        >
-          <button
-            className={`dropdown-menu__trigger button_color`}
-            onClick={() => setNavOpen(!navOpen)}
-          >
-            <span>{userProfile.fullName}</span>
-            <Arrow color={"#FFFFFF"} className={navOpen ? "icon-flip" : ""} />
-          </button>
-          <ul className="dropdown-menu__items">
-            {secondary
-              .filter((link) => link.format !== "small")
-              .map((link, idx) => {
-                let { className = "", ...props } = link.props || {};
-                if (isNonRTS_User && nonRTS_DisableLinks.includes(link.label)) {
-                  props = { ...props, ...nonRTS_Props };
-                }
-                return (
-                  <li key={idx}>
-                    <link.component
-                      className={`link link--inherit ${className} linkAlignItems ${props.class}`}
-                      tabIndex={navOpen ? "0" : "-1"}
-                      {...props}
-                    >
-                      {link.img && (
-                        <img src={link.img} alt="linkIcon" className="icon" />
-                      )}
-                      {link.label}
-                    </link.component>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
-      </li>
-    </ul>
-  );
+        </ul>
+    );
 };
 
 export default LargeFormatNav;

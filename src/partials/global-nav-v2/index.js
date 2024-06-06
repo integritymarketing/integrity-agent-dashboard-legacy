@@ -429,10 +429,10 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
           Causes console error in dev env only due to this issue
           https://github.com/ReactTraining/react-media/issues/139
         */}
-                        {isMobile && <SmallFormatMenu {...mobileMenuProps} />}
+                        {isMobile && user?.fullName && <SmallFormatMenu {...mobileMenuProps} />}
                         <div className="onlyWeb">
-                            {!isMobile && <LargeFormatMenu {...menuProps} />}
-                            {!isMobile && leadPreference && (
+                            {!isMobile && user?.fullName && <LargeFormatMenu {...menuProps} />}
+                            {!isMobile && user?.fullName && leadPreference && (
                                 <MyButton
                                     leadPreference={leadPreference}
                                     page={page}
