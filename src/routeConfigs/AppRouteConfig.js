@@ -136,6 +136,7 @@ const appProtectedRoutes = [
     { path: "/account/:section/", component: <AccountPage /> },
     { path: "/help", component: <HelpPage /> },
     { path: "/learning-center", component: <ResourcesPage /> },
+    { path: "/clientsSSO", component: <MedicareSSORedirect /> },
     {
         path: "/contacts/*",
         component: (
@@ -182,7 +183,6 @@ const appProtectedRoutes = [
         path: "/contact/:contactId/soa-confirm/:linkCode",
         component: <ContactsSOAConfirmForm />,
     },
-    { path: "/clientsSSO", component: <MedicareSSORedirect /> },
     { path: "/client-import", component: <ClientImportPage /> },
     {
         path: "/plans/:contactId/compare/:planIds/:effectiveDate",
