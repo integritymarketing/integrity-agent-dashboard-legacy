@@ -1,4 +1,3 @@
-import React from "react";
 import planTypeValueMap from "components/ui/PlanCard/plan-type-map.js";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 
@@ -11,7 +10,8 @@ const CostBreakdowns = ({ planData, effectiveDate }) => {
   const rows = [];
   const planTypeBreakdowns =
     planTypeValueMap[PLAN_TYPE_ENUMS[planData.planType]];
-  var key = 0;
+  let key = 0;
+
   for (const i in planTypeBreakdowns) {
     const breakdown = planTypeBreakdowns[i];
     let subtext = breakdown.subtext || "";
@@ -23,8 +23,10 @@ const CostBreakdowns = ({ planData, effectiveDate }) => {
         })} ${effectiveDate.getFullYear()} `
       );
     }
-    var value = planData[breakdown.field];
-    if (breakdown.function) {
+    let value = planData[breakdown.field];
+    if (breakdown.key) {
+      value = planData.estimatedCostCalculationRx?.[breakdown.key];
+    } else if (breakdown.function) {
       value = breakdown.function(planData, effectiveDate);
     }
     rows.push(

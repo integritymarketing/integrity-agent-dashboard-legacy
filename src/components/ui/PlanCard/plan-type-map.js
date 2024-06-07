@@ -18,12 +18,14 @@ const planTypeMap = {
             label: "Estimated Yearly Rx Drug Cost",
             subtext: "Based on {effectiveDate} Effective Date",
             field: "estimatedAnnualDrugCostPartialYear",
+            key: "estimatedYearlyRxDrugCost",
             function: (planData, effectiveDate) => calculatePartialYearDrugCost(planData?.estimatedAnnualDrugCostPartialYear, planData?.drugPremium, effectiveDate),
         },
         {
             label: "Estimated Yearly Total Cost",
             subtext: "Based on {effectiveDate} Effective Date",
             field: "estimatedAnnualDrugCostPartialYear",
+            key: "estimatedYearlyTotalCost",
             function: (planData, effectiveDate) =>
                 planData.estimatedAnnualDrugCostPartialYear + planData.medicalPremium * (12 - effectiveDate.getMonth()),
         },
@@ -41,6 +43,7 @@ const planTypeMap = {
             label: "Estimated Yearly Total Cost",
             field: "estimatedAnnualDrugCostPartialYear",
             subtext: "Based on {effectiveDate} Effective Date",
+            key: "estimatedYearlyTotalCost",
             function: (planData, effectiveDate) => planData.medicalPremium * (12 - effectiveDate.getMonth()),
         },
     ],
@@ -53,12 +56,14 @@ const planTypeMap = {
             label: "Estimated Yearly Rx Drug Cost",
             subtext: "Based on {effectiveDate} Effective Date",
             field: "estimatedAnnualDrugCostPartialYear",
+            key: "estimatedYearlyRxDrugCost",
             function: (planData, effectiveDate) => calculatePartialYearDrugCost(planData?.estimatedAnnualDrugCostPartialYear, planData?.drugPremium, effectiveDate),
         },
         {
             label: "Estimated Yearly Total Cost",
             subtext: "Based on {effectiveDate} Effective Date",
             field: "estimatedAnnualDrugCostPartialYear",
+            key: "estimatedYearlyTotalCost",
             function: (planData, effectiveDate) =>
                 planData.estimatedAnnualDrugCostPartialYear + planData.medicalPremium * (12 - effectiveDate.getMonth()),
         },

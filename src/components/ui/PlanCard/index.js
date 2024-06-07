@@ -1,17 +1,12 @@
-/* eslint-disable max-lines-per-function */
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-
 import Alert from "@mui/material/Alert";
-
 import { capitalizeFirstLetter, formatUnderScoreString } from "utils/shared-utils/sharedUtility";
 import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
-
 import useRoles from "hooks/useRoles";
-
 import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import Arrow from "components/icons/down";
-
 import { calculateMonthlyDrugCost, calculatePartialYearDrugCost } from "./calculatePartialDrugCost";
 import CostBreakdowns from "./cost-breakdowns";
 import "./index.scss";
@@ -21,8 +16,8 @@ import useAnalytics from "hooks/useAnalytics";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import { Button } from "../Button";
 import Rating from "../Rating";
-
 import EnrollBack from "images/enroll-btn-back.svg";
+
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -52,7 +47,6 @@ const getCoverageRecommendations = (planData) => {
 export default function PlanCard({
     contact,
     planData,
-    pharmacyMap,
     effectiveDate,
     onEnrollClick,
     onDetailsClick,
@@ -68,7 +62,7 @@ export default function PlanCard({
     const { contactId } = useParams();
     const { fireEvent } = useAnalytics();
 
-    const { logoURL } = planData;
+    const { logoURL, estimatedCostCalculationRx } = planData;
     const checkForImage = logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
 
     const planType = PLAN_TYPE_ENUMS[planData.planType];
@@ -87,6 +81,7 @@ export default function PlanCard({
         planData?.drugPremium,
         effectiveDate
     );
+
     return (
         <div className={"plan-card"}>
             <div className={`header ${isMobile ? "mobile" : ""}`}>
@@ -125,13 +120,9 @@ export default function PlanCard({
                         }}
                     >
                         <div className={"label"}>Monthly Plan Premium</div>
-                        <div className={"currency"}>{currencyFormatter.format(planData.annualPlanPremium / 12)}</div>
-                        {/* {isMobile && (
-              <div className={"label"}>
-                <span className={"mnth-mbl"}>/month </span>
-                {planType === "MA" && <ArrowDown />}
-              </div>
-            )} */}
+                        <div className={"currency"}>
+                            {currencyFormatter.format(Number(estimatedCostCalculationRx?.monthlyPlanPremium).toFixed(2))}
+                        </div>
                     </div>
 
                     {planType !== "MA" && (
@@ -146,19 +137,12 @@ export default function PlanCard({
                                 <div className={"currency"}>
                                     {validatePartialMonthlyDrugCost === "N/A"
                                         ? "N/A"
-                                        : currencyFormatter.format(validatePartialMonthlyDrugCost)}
+                                        : currencyFormatter.format(estimatedCostCalculationRx?.estMonthlyRxDrugCost)}
                                 </div>
                             </div>
                             <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
                                 {isMobile && <Arrow color={"#0052CE"} />}
                             </div>
-
-                            {/* {isMobile && (
-                <div className={"label"}>
-                  <span className={"mnth-mbl"}>/month </span>
-                  <ArrowDown />
-                </div>
-              )} */}
                         </div>
                     )}
                 </div>
@@ -233,3 +217,32 @@ export default function PlanCard({
         </div>
     );
 }
+PlanCard.propTypes = {
+    contact: PropTypes.object.isRequired,
+    planData: PropTypes.shape({
+        planName: PropTypes.string.isRequired,
+        logoURL: PropTypes.string,
+        id: PropTypes.string.isRequired,
+        planRating: PropTypes.number.isRequired,
+        marketingName: PropTypes.string,
+        planType: PropTypes.string.isRequired,
+        nonLicensedPlan: PropTypes.bool,
+        crossUpSellPlanOptions: PropTypes.object,
+        estimatedCostCalculationRx: PropTypes.shape({
+            monthlyPlanPremium: PropTypes.number.isRequired,
+            estMonthlyRxDrugCost: PropTypes.number,
+        }),
+        estimatedAnnualDrugCostPartialYear: PropTypes.number,
+        drugPremium: PropTypes.number,
+    }).isRequired,
+    pharmacyMap: PropTypes.object,
+    effectiveDate: PropTypes.string.isRequired,
+    onEnrollClick: PropTypes.func.isRequired,
+    onDetailsClick: PropTypes.func.isRequired,
+    isMobile: PropTypes.bool,
+    onChangeCompare: PropTypes.func.isRequired,
+    isChecked: PropTypes.bool.isRequired,
+    isCompareDisabled: PropTypes.bool.isRequired,
+    refresh: PropTypes.func.isRequired,
+    leadId: PropTypes.string.isRequired,
+};

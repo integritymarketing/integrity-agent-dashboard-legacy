@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 import MonthlyCostTable from "./monthly-cost-table";
 import MonthlyCostCompareTable from "./monthly-cost-comapare-table";
-import { calculatePartialYearDrugCost } from "components/ui/PlanCard/calculatePartialDrugCost";
 
 const months = [
     "January",
@@ -36,43 +35,13 @@ function PremiumLabel() {
     return <span className={"label"}>Plan Premium</span>;
 }
 
-const totalCostBasedOnPlantypes = (planData, effectiveStartDate, totalCost) => {
-    const type = PLAN_TYPE_ENUMS[planData.planType];
-    switch (type) {
-        case "PDP":
-        case "MAPD":
-            return currencyFormatter.format(planData.estimatedAnnualDrugCostPartialYear);
-        case "MA":
-            return currencyFormatter.format(planData.medicalPremium * (12 - effectiveStartDate.getMonth()));
-
-        default:
-            return currencyFormatter.format(0);
-    }
-};
-
-const RXCostBasedOnPlantypes = (planData, effectiveStartDate) => {
-    const type = PLAN_TYPE_ENUMS[planData.planType];
-    switch (type) {
-        case "PDP":
-        case "MAPD": {
-            const result = calculatePartialYearDrugCost(
-                planData.estimatedAnnualDrugCostPartialYear,
-                planData.drugPremium,
-                effectiveStartDate
-            );
-            return isNaN(result) ? currencyFormatter.format(0) : currencyFormatter.format(result);
-        }
-        default:
-            return currencyFormatter.format(0);
-    }
-};
-
 function PremiumCell({ planData }) {
+    const monthlyPremium = planData.estimatedCostCalculationRx?.monthlyPlanPremium || 0;
     return (
         <>
             <span className={"value"}>
                 <span className={"currency-value-blue"}>
-                    {currencyFormatter.format(planData.annualPlanPremium / 12)}
+                    {currencyFormatter.format(monthlyPremium)}
                 </span>
                 <span className={"value-subtext"}>/month</span>
             </span>
@@ -96,11 +65,12 @@ function TotalEstLabel({ effectiveMonth, effectiveYear }) {
     );
 }
 
-export function EstRxValue({ planData, monthNumber, effectiveStartDate }) {
+export function EstRxValue({ planData, monthNumber }) {
+    const drugCost = planData.estimatedCostCalculationRx?.estimatedYearlyRxDrugCost || 0;
     return (
         <>
             <span className={"value"}>
-                <span className={"currency-value-blue"}>{RXCostBasedOnPlantypes(planData, effectiveStartDate)}</span>
+                <span className={"currency-value-blue"}>{currencyFormatter.format(drugCost)}</span>
                 <i>
                     <span className={"value-subtext"}>{getShortFormMonthSpan(monthNumber)}</span>
                 </i>
@@ -128,12 +98,13 @@ function getShortFormMonthSpan(monthNumber) {
     }
 }
 
-export function TotalEstValue({ planData, effectiveStartDate, monthNumber, totalCost }) {
+export function TotalEstValue({ planData, monthNumber }) {
+    const totalDrugCost = planData.estimatedCostCalculationRx?.estimatedYearlyTotalCost || 0;
     return (
         <>
             <span className={"value"}>
                 <span className={"currency-value-blue"}>
-                    {totalCostBasedOnPlantypes(planData, effectiveStartDate, totalCost)}
+                    {currencyFormatter.format(totalDrugCost)}
                 </span>
                 <i>
                     <span className={"value-subtext"}>{getShortFormMonthSpan(monthNumber)}</span>
@@ -183,7 +154,7 @@ const CostTable = ({ planData }) => {
         {
             label: <PremiumLabel />,
             value: <PremiumCell planData={planData} />,
-        },
+        }
     ];
 
     if (PLAN_TYPE_ENUMS[planData.planType] === "MAPD" || PLAN_TYPE_ENUMS[planData.planType] === "PDP") {
@@ -197,7 +168,7 @@ const CostTable = ({ planData }) => {
                     effectiveMonth={getMonthShortName(parseInt(m) - 1)}
                 />
             ),
-            value: <EstRxValue planData={planData} monthNumber={parseInt(m)} effectiveStartDate={effectiveStartDate} />,
+            value: <EstRxValue planData={planData} monthNumber={parseInt(m)} />,
         });
     }
     data.push({
