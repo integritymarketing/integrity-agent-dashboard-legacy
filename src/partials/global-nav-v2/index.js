@@ -146,12 +146,16 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           label: "Contacts",
                           img: MobileContacts,
                       },
-                      {
-                          component: Link,
-                          props: { to: "/account" },
-                          label: "Account",
-                          img: MobileAccount,
-                      },
+                      ...(user?.fullName
+                          ? [
+                                {
+                                    component: Link,
+                                    props: { to: "/account" },
+                                    label: "Account",
+                                    img: MobileAccount,
+                                },
+                            ]
+                          : []),
                   ],
                   secondary: [
                       {
@@ -252,12 +256,16 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                       },
                   ],
                   secondary: [
-                      {
-                          component: Link,
-                          props: { to: "/account" },
-                          label: "Account",
-                          img: Account,
-                      },
+                      ...(user.firstName
+                          ? [
+                                {
+                                    component: Link,
+                                    props: { to: "/account" },
+                                    label: "Account",
+                                    img: Account,
+                                },
+                            ]
+                          : []),
                       {
                           component: "button",
                           props: {

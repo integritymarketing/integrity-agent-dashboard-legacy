@@ -57,7 +57,7 @@ const LargeFormatNav = ({ navOpen, setNavOpen, primary, secondary }) => {
                         </li>
                     );
                 })}
-            {userProfile?.firstName && userProfile?.lastName && (
+            {
                 <li>
                     <div className={`dropdown-menu dropdown-menu--${navOpen ? "open" : "closed"}`}>
                         <button className={`dropdown-menu__trigger button_color`} onClick={() => setNavOpen(!navOpen)}>
@@ -92,7 +92,7 @@ const LargeFormatNav = ({ navOpen, setNavOpen, primary, secondary }) => {
                         </ul>
                     </div>
                 </li>
-            )}
+            }
         </ul>
     );
 };
