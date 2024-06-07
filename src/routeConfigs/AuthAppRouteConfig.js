@@ -20,6 +20,7 @@ const EmailUpdatedPage = lazy(() => import("pages/auth/EmailUpdatedPage"));
 const ContactSupport = lazy(() => import("pages/auth/ContactSupport"));
 const ContactSupportInvalidNPN = lazy(() => import("pages/auth/ContactSupportInvalidNPN"));
 const UpdateMobileApp = lazy(() => import("pages/auth/UpdateMobileApp"));
+const MedicareSSORedirect = lazy(() => import("pages/MedicareSSORedirect"));
 
 const RedirectAndRestartLoginFlow = () => {
     const navigate = useNavigate();
@@ -63,6 +64,7 @@ const AuthAppRoutes = [
         component: <ContactSupportInvalidNPN />,
     },
     { path: "/mobile-app-update", component: <UpdateMobileApp /> },
+    { path: "/login-redirect-sso", component: <MedicareSSORedirect /> },
     {
         path: "*",
         component: RedirectAndRestartLoginFlow,

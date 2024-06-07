@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -64,13 +64,9 @@ const RegistrationPage = () => {
         });
     }, []);
 
-    async function login() {
+    function login() {
         try {
-            await loginWithRedirect({
-                authorizationParams: {
-                    redirect_uri: `${process.env.REACT_APP_AUTH0_REDIRECT_URI}/dashboard`,
-                },
-            });
+            window.location.href = `${process.env.REACT_APP_AUTH0_REDIRECT_URI}/login-redirect-sso`;
         } catch (e) {
             Sentry.captureException(e);
             showMessage("Unable to sign in at this time.", { type: "error" });
