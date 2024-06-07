@@ -51,6 +51,7 @@ const ContactsList = lazy(() => import("pages/ContactsList"));
 
 const TermsOfUsagePage = lazy(() => import("pages/TermsOfUsagePage"));
 const PrivacyPolicyPage = lazy(() => import("pages/PrivacyPolicyPage"));
+const LoginRedirectSSOPage = lazy(() => import("pages/auth/LoginRedirectSSOPage"));
 
 const appRoutes = [
     {
@@ -92,6 +93,7 @@ const appRoutes = [
     { path: "/clients", component: <Navigate to="/contacts" /> },
     { path: "/error", component: <ErrorPage /> },
     { path: "/clientsSSO", component: <MedicareSSORedirect /> },
+    { path: "/login-redirect-sso", component: <LoginRedirectSSOPage /> },
     { path: "*", component: <NotFoundPage /> },
 ];
 
