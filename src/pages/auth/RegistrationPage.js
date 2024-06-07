@@ -66,11 +66,7 @@ const RegistrationPage = () => {
 
     async function login() {
         try {
-            await loginWithRedirect({
-                authorizationParams: {
-                    redirect_uri: `${process.env.REACT_APP_AUTH0_REDIRECT_URI}/dashboard`,
-                },
-            });
+            await loginWithRedirect();
         } catch (e) {
             Sentry.captureException(e);
             showMessage("Unable to sign in at this time.", { type: "error" });
