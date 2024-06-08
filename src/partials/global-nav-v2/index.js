@@ -191,10 +191,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           props: {
                               type: "button",
                               onClick: () => {
-                                  window.open(
-                                      `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/SamlLogin/2023`,
-                                      "_blank"
-                                  );
+                                  window.open(`${process.env.REACT_APP_CONNECTURE_LINK}`, "_blank");
                               },
                           },
                           label: "MedicareAPP",
@@ -290,10 +287,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           props: {
                               type: "button",
                               onClick: () => {
-                                  window.open(
-                                      `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/SamlLogin/2023`,
-                                      "_blank"
-                                  );
+                                  window.open(`${process.env.REACT_APP_CONNECTURE_LINK}`, "_blank");
                               },
                           },
                           label: "MedicareAPP",
