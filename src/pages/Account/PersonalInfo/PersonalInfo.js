@@ -1,89 +1,95 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useFormik } from "formik";
-import { useAuth0 } from "@auth0/auth0-react";
-
 import Box from "@mui/material/Box";
-
 import * as Sentry from "@sentry/react";
-
 import useDeviceType from "hooks/useDeviceType";
-import useUserProfile from "hooks/useUserProfile";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 import useLoading from "hooks/useLoading";
 import useAgentPreferencesData from "hooks/useAgentPreferencesData";
-
 import Textfield from "components/ui/textfield";
 import EditIcon from "components/icons/icon-edit";
 import RoundButton from "components/RoundButton";
-
 import validationService from "services/validationService";
 import analyticsService from "services/analyticsService";
-
 import SectionContainer from "mobile/Components/SectionContainer";
 import AccountMobile from "mobile/AccountPage";
-
 import { formatPhoneNumber } from "../helper";
-
 import styles from "./styles.module.scss";
 
 function PersonalInfo() {
-    const { getAuthTokenSilently } = useAuth0();
     const [isEdit, setIsEdit] = useState(false);
     const showToast = useToast();
     const loading = useLoading();
     const { isMobile } = useDeviceType();
-    const { firstName, lastName, npn, email, phone } = useUserProfile();
-    const { agentAvailability, getAgentAccountData } = useAgentPreferencesData();
-    const { caLicense = "" } = agentAvailability;
+    const { agentInformation, getAgentAvailability } = useAgentInformationByID();
+    const {
+        agentFirstName: firstName,
+        agentLastName: lastName,
+        agentNPN: npn,
+        email,
+        phone,
+        caLicense,
+    } = agentInformation;
     const formattedPhoneNumber = formatPhoneNumber(phone ?? "");
-    const { Put: updateAccount } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/update`);
-    const { Put: updateCALicense } = useFetch(`${process.env.REACT_APP_ACCOUNT_API}/Licenses`);
+    const { Put: updateAccount } = useFetch(`${process.env.REACT_APP_AGENTS_URL}/api/v1.0/Account/Update`);
 
-    const onSubmitHandler = async (values, { setErrors, setSubmitting }) => {
-        try {
-            setSubmitting(true);
-            const initialValues = { firstName, lastName, phone: formattedPhoneNumber, npn, caLicense, email };
-            const accountDetailsChanged = Object.keys(values).some((key) => {
-                const isValueChanged = key !== "caLicense" && values[key] !== initialValues[key];
-                return isValueChanged;
-            });
+    const onSubmitHandler = useCallback(
+        async (values, { setErrors, setSubmitting }) => {
+            try {
+                setSubmitting(true);
+                const initialValues = { firstName, lastName, phone: formattedPhoneNumber, npn, caLicense, email };
+                const accountDetailsChanged = Object.keys(values).some((key) => values[key] !== initialValues[key]);
 
-            if (values.caLicense !== caLicense) {
-                await updateCALicense([{ stateCode: "CA", licenseNumber: values.caLicense }]);
-                showToast({ message: "California license number has been updated." });
-                await getAgentAccountData();
-            }
-
-            if (accountDetailsChanged) {
-                // eslint-disable-next-line no-unused-vars
-                const { caLicense: caLicenseValue, ...otherValues } = values;
-                const formattedValues = {
-                    ...otherValues,
-                    phone: otherValues.phone ? otherValues.phone.replace(/\D/g, "") : "",
-                };
-                const response = await updateAccount(formattedValues, true);
-                if (response.status >= 200 && response.status < 300) {
-                    analyticsService.fireEvent("event-form-submit", { formName: "update-account" });
-                    await getAuthTokenSilently();
-                    showToast({ message: "Your account info has been updated." });
-                } else {
-                    const errorsArr = await response.json();
-                    analyticsService.fireEvent("event-form-submit-invalid", { formName: "update-account" });
-                    setErrors(
-                        validationService.formikErrorsFor(validationService.standardizeValidationKeys(errorsArr))
-                    );
+                if (accountDetailsChanged) {
+                    const formattedValues = {
+                        firstName: values.firstName,
+                        lastName: values.lastName,
+                        email: values.email,
+                        phone: values.phone ? values.phone.replace(/\D/g, "") : "",
+                        agentStateLicenses: values.caLicense
+                            ? [{ stateCode: "CA", licenseNumber: values.caLicense }]
+                            : [],
+                    };
+                    const response = await updateAccount(formattedValues, true);
+                    if (response.status >= 200 && response.status < 300) {
+                        analyticsService.fireEvent("event-form-submit", { formName: "update-account" });
+                        getAgentAvailability();
+                        showToast({ message: "Your account info has been updated." });
+                    } else {
+                        const errorsArr = await response.json();
+                        analyticsService.fireEvent("event-form-submit-invalid", { formName: "update-account" });
+                        setErrors(
+                            validationService.formikErrorsFor(validationService.standardizeValidationKeys(errorsArr))
+                        );
+                    }
                 }
+            } catch (error) {
+                Sentry.captureException(error);
+                showToast({
+                    type: "error",
+                    message: "An error occurred while updating your account. Please try again.",
+                });
+            } finally {
+                setIsEdit(false);
+                setSubmitting(false);
+                loading.end();
             }
-        } catch (error) {
-            Sentry.captureException(error);
-            showToast({ type: "error", message: "An error occurred while updating your account. Please try again." });
-        } finally {
-            setIsEdit(false);
-            setSubmitting(false);
-            loading.end();
-        }
-    };
+        },
+        [
+            firstName,
+            lastName,
+            formattedPhoneNumber,
+            npn,
+            caLicense,
+            email,
+            updateAccount,
+            getAgentAvailability,
+            showToast,
+            loading,
+        ]
+    );
 
     const { values, errors, touched, isValid, dirty, handleSubmit, handleChange, handleBlur } = useFormik({
         enableReinitialize: true,
