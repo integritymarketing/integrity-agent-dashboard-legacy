@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { Formik } from "formik";
 
 import Box from "@mui/material/Box";
@@ -21,7 +20,7 @@ function ChangePassword() {
     const showToast = useToast();
 
     const { Put: updateAccountPassword } = useFetch(
-        `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v2.0/account/updatepassword`
+        `${process.env.REACT_APP_AGENTS_URL}/api/v1.0/Account/UpdatePassword`
     );
 
     return (
