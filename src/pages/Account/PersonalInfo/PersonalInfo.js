@@ -7,7 +7,6 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 import useLoading from "hooks/useLoading";
-import useAgentPreferencesData from "hooks/useAgentPreferencesData";
 import Textfield from "components/ui/textfield";
 import EditIcon from "components/icons/icon-edit";
 import RoundButton from "components/RoundButton";
@@ -50,7 +49,7 @@ function PersonalInfo() {
                         phone: values.phone ? values.phone.replace(/\D/g, "") : "",
                         agentStateLicenses: values.caLicense
                             ? [{ stateCode: "CA", licenseNumber: values.caLicense }]
-                            : [],
+                            : [{ stateCode: "", licenseNumber: "" }],
                     };
                     const response = await updateAccount(formattedValues, true);
                     if (response.status >= 200 && response.status < 300) {
