@@ -268,7 +268,10 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           props: {
                               type: "button",
                               onClick: () =>
-                                  (window.location.href = `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`),
+                                  window.open(
+                                      `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`,
+                                      "_blank"
+                                  ),
                           },
                           label: "LeadCENTER",
                       },
