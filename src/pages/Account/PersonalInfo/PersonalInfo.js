@@ -62,6 +62,10 @@ function PersonalInfo() {
                         setErrors(
                             validationService.formikErrorsFor(validationService.standardizeValidationKeys(errorsArr))
                         );
+                        showToast({
+                            type: "error",
+                            message: "An error occurred while updating your account. Please try again.",
+                        });
                     }
                 }
             } catch (error) {
