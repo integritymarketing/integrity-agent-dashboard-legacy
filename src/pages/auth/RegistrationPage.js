@@ -2,7 +2,6 @@ import * as Sentry from "@sentry/react";
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import { Box } from "@mui/material";
 import { Formik } from "formik";
 
@@ -53,7 +52,6 @@ const RegistrationPage = () => {
     const params = useQueryParams();
     const clientId = useClientId();
     const showToast = useToast();
-    const { loginWithRedirect } = useAuth0();
     const { show: showMessage } = useFlashMessage();
     const [hasNPN] = useState(params.get("npn"));
     const [hasEmail] = useState(params.get("email"));
@@ -150,7 +148,12 @@ const RegistrationPage = () => {
                                 analyticsService.fireEvent("event-form-submit", {
                                     formName: "Register Account",
                                 });
-                                navigate(`/registration-email-sent?npn=${values.NPN}`);
+                                console.log(response);
+                                const auth0UserId = await response.json().then((data) => {
+                                    const userObject = data.find((item) => item.key === "User");
+                                    return userObject ? userObject.value : null;
+                                });
+                                navigate(`/registration-email-sent?npn=${auth0UserId}`);
                             } else {
                                 const errorsArr = await response.json();
                                 const updatedErrorsArr = errorsArr.map((error) => {
