@@ -293,7 +293,10 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           props: {
                               type: "button",
                               onClick: () => {
-                                  window.open(`${process.env.REACT_APP_CONNECTURE_LINK}`, "_blank");
+                                  window.open(
+                                      `${process.env.REACT_APP_CONNECTURE_LINK}/${user.npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
+                                      "_blank"
+                                  );
                               },
                           },
                           label: "MedicareAPP",
