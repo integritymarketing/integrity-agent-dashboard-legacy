@@ -328,23 +328,28 @@ const RegistrationPage = () => {
                                             <Box mx="3rem">Submit</Box>
                                         </Button>
                                     </div>
-                                    <div className={"centered-flex-col"}>
-                                        <p>Already have an account?</p>
-                                        {clientId === "ILSClient" ? (
-                                            <TextButton href={LEADCENTER_LOGIN_URL} className="text-sm link text-bold">
-                                                Login
-                                            </TextButton>
-                                        ) : (
-                                            <TextButton
-                                                onClick={async () => {
-                                                    await login();
-                                                }}
-                                                className="text-sm link text-bold"
-                                            >
-                                                Login
-                                            </TextButton>
-                                        )}
-                                    </div>
+                                    {clientId !== "AgentMobile" && (
+                                        <div className={"centered-flex-col"}>
+                                            <p>Already have an account?</p>
+                                            {clientId === "ILSClient" ? (
+                                                <TextButton
+                                                    href={LEADCENTER_LOGIN_URL}
+                                                    className="text-sm link text-bold"
+                                                >
+                                                    Login
+                                                </TextButton>
+                                            ) : (
+                                                <TextButton
+                                                    onClick={async () => {
+                                                        await login();
+                                                    }}
+                                                    className="text-sm link text-bold"
+                                                >
+                                                    Login
+                                                </TextButton>
+                                            )}
+                                        </div>
+                                    )}
                                 </fieldset>
                             </form>
                         )}
