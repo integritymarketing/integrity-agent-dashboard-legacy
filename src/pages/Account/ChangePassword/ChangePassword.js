@@ -28,18 +28,12 @@ function ChangePassword() {
             <SectionContainer title="Change Your Password">
                 <Formik
                     initialValues={{
-                        currentPassword: "",
                         newPassword: "",
                         confirmPassword: "",
                     }}
                     validate={(values) => {
                         return validationService.validateMultiple(
                             [
-                                {
-                                    name: "currentPassword",
-                                    validator: validationService.validateRequired,
-                                    args: ["Current Password"],
-                                },
                                 {
                                     name: "newPassword",
                                     validator: validationService.validatePasswordCreation,
@@ -55,7 +49,6 @@ function ChangePassword() {
                     }}
                     onSubmit={async (values, { setErrors, setSubmitting, resetForm }) => {
                         const initialValues = {
-                            currentPassword: "",
                             newPassword: "",
                             confirmPassword: "",
                         };
@@ -85,19 +78,6 @@ function ChangePassword() {
                     {({ values, errors, touched, isValid, dirty, handleSubmit, handleChange, handleBlur }) => (
                         <form action="" className="form mt-3" onSubmit={handleSubmit}>
                             <fieldset className="form__fields form__fields--constrained">
-                                <Textfield
-                                    id="account-password-current"
-                                    type="password"
-                                    className={styles.customLabel}
-                                    placeholder="Enter your current password"
-                                    label="Current Password"
-                                    name="currentPassword"
-                                    value={values.currentPassword}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    error={errors.currentPassword}
-                                    success={touched.currentPassword && !errors.currentPassword}
-                                />
                                 <Textfield
                                     id="account-password"
                                     type="password"
