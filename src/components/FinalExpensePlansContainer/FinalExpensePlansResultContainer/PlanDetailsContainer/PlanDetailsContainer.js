@@ -63,7 +63,7 @@ export const PlanDetailsContainer = ({
     const { fireEvent } = useAnalytics();
     const healthConditionsDataRef = useRef(null);
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
-    const { getFinalExpenseQuotePlans, getCarriersInfo, carrierInfo } = useFinalExpensePlans();
+    const { getFinalExpenseQuotePlans } = useFinalExpensePlans();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(true);
     const [conditionsListState, setConditionsListState] = useState([]);
@@ -181,10 +181,6 @@ export const PlanDetailsContainer = ({
             fetchHealthConditionsListData();
         }
     }, [contactId]);
-
-    useEffect(() => {
-        getCarriersInfo();
-    }, []);
 
     const pageSize = 10;
 
@@ -324,10 +320,6 @@ export const PlanDetailsContainer = ({
         return null;
     }, [isRTS, navigate, isMyAppointedProducts, noPlanResults]);
 
-    const hasCarrierInfo = useMemo(() => {
-        return carrierInfo?.length > 0;
-    }, [carrierInfo]);
-
     return (
         <>
             <Media
@@ -407,7 +399,6 @@ export const PlanDetailsContainer = ({
                                     contactId={contactId}
                                     resource_url={resource_url}
                                     writingAgentNumber={writingAgentNumber}
-                                    isHaveCarriers={hasCarrierInfo}
                                     selectedTab={selectedTab}
                                     carrierInfo={plan.carrier}
                                     planType={type}

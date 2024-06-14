@@ -38,7 +38,6 @@ export const PlanCard = ({
     eligibility,
     conditionList,
     benefits = [],
-    isHaveCarriers,
     writingAgentNumber,
     contactId,
     selectedTab,
@@ -299,12 +298,12 @@ export const PlanCard = ({
                 <div className={styles.applyCTA}>
                     <Button
                         label={APPLY}
-                        disabled={!isHaveCarriers || isPlanExcluded}
+                        disabled={!isRTSPlan || isPlanExcluded}
                         onClick={onPreApply}
                         type="primary"
                         icon={<ButtonCircleArrow />}
                         iconPosition="right"
-                        className={`${styles.applyButton} ${!isHaveCarriers || isPlanExcluded ? styles.disabled : ""}`}
+                        className={`${styles.applyButton} ${isPlanExcluded ? styles.disabled : ""}`}
                     />
                 </div>
             </div>
@@ -326,7 +325,6 @@ PlanCard.propTypes = {
     monthlyPremium: PropTypes.number.isRequired,
     eligibility: PropTypes.string.isRequired,
     benefits: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
-    isHaveCarriers: PropTypes.bool.isRequired,
     selectedTab: PropTypes.string.isRequired,
     carrierInfo: PropTypes.object,
     isRTSPlan: PropTypes.bool,
