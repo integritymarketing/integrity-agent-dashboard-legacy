@@ -6,7 +6,6 @@ import { useSetRecoilState, useRecoilState } from "recoil";
 import { welcomeModalOpenAtom, welcomeModalTempOpenAtom } from "recoil/agent/atoms";
 
 import useAgentInformationByID from "hooks/useAgentInformationByID";
-import useLoading from "hooks/useLoading";
 import useUserProfile from "hooks/useUserProfile";
 
 import GetStarted from "packages/GetStarted";
@@ -36,11 +35,9 @@ import SmallFormatMenu from "./small-format";
 import IntegrityMobileLogo from "components/HeaderWithLogin/integrity-mobile-logo";
 import NewBackBtn from "images/new-back-btn.svg";
 
-const handleCSGSSO = async (navigate, loading, getAccessToken) => {
-    loading.begin(0);
-
+const handleCSGSSO = async (navigate, getAccessToken) => {
     const token = await getAccessToken();
-    const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/`, {
+    const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin`, {
         method: "GET",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -48,8 +45,6 @@ const handleCSGSSO = async (navigate, loading, getAccessToken) => {
         },
         credentials: "include",
     });
-
-    loading.end();
 
     if (response.status >= 200 && response.status < 300) {
         const res = await response.json();
@@ -107,7 +102,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     const auth = useAuth0();
     const { clientsService } = useClientServiceContext();
     const navigate = useNavigate();
-    const loadingHook = useLoading();
     const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
     const [welcomeModalTempOpen] = useRecoilState(welcomeModalTempOpenAtom);
 
@@ -170,7 +164,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           props: {
                               type: "button",
                               onClick: () => {
-                                  handleCSGSSO(navigate, loadingHook, auth.getAccessTokenSilently);
+                                  handleCSGSSO(navigate, auth.getAccessTokenSilently);
                               },
                           },
                           label: "CSG App",
@@ -305,7 +299,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           props: {
                               type: "button",
                               onClick: () => {
-                                  handleCSGSSO(navigate, loadingHook);
+                                  handleCSGSSO(navigate, auth.getAccessTokenSilently);
                               },
                           },
                           label: "CSG APP",
