@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import TagsInfo from "../TagsInfo/TagsInfo";
-
+ 
 import styles from "./styles.module.scss";
-
+ 
 function LifeScript({ leadId }) {
     return (
         <div>
@@ -12,13 +12,13 @@ function LifeScript({ leadId }) {
             <div className={styles.planInformationSection}>
                 This call may be recorded for quality assurance or training purposes.
             </div>
-            <TagsInfo leadId={leadId} />
+            {leadId && <TagsInfo leadId={leadId} />}
         </div>
     );
 }
-
+ 
 LifeScript.propTypes = {
     leadId: PropTypes.string,
 };
-
+ 
 export default LifeScript;
