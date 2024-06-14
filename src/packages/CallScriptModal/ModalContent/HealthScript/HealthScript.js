@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
-
+ 
 import PropTypes from "prop-types";
-
+ 
 import TagsInfo from "../TagsInfo/TagsInfo";
 import styles from "./styles.module.scss";
-
+ 
 function HealthScript({ shouldShowOptionalHealthInfo, carrierCount, productCount, leadId }) {
     return (
         <Box>
@@ -17,7 +17,7 @@ function HealthScript({ shouldShowOptionalHealthInfo, carrierCount, productCount
                 products in your area. Please contact medicare.gov, 1-800-MEDICARE, or your local State Health Insurance
                 Program (SHIP) to get information on all of your options.
             </Box>
-            <TagsInfo leadId={leadId} />
+            {leadId && <TagsInfo leadId={leadId} />}
             {shouldShowOptionalHealthInfo && (
                 <>
                     <Box className={styles.cmsComplianceSection}>Optional information</Box>
@@ -29,12 +29,12 @@ function HealthScript({ shouldShowOptionalHealthInfo, carrierCount, productCount
         </Box>
     );
 }
-
+ 
 HealthScript.propTypes = {
     shouldShowOptionalHealthInfo: PropTypes.bool.isRequired,
     productCount: PropTypes.string.isRequired,
     carrierCount: PropTypes.string.isRequired,
     leadId: PropTypes.string,
 };
-
+ 
 export default HealthScript;
