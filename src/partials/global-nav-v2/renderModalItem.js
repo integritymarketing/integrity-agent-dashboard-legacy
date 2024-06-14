@@ -240,7 +240,12 @@ const RenderModalItem = ({
                                     <Button
                                         variant="primary"
                                         size="small"
-                                        onClick={() => window.open(`/leadcenter-redirect/${npn}`, "_blank")}
+                                        onClick={() =>
+                                            window.open(
+                                                `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`,
+                                                "_blank"
+                                            )
+                                        }
                                     >
                                         setup
                                     </Button>

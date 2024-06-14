@@ -47,12 +47,11 @@ function HealthLead({ setShowAvilabilityDialog }) {
         }
         await trackAgentPreferencesEvents();
     };
-
     return (
         <SectionItem
             title="Health"
             actionTitle={!hasActiveHealthCallCampaign ? "Set Up" : "Configure"}
-            action={() => window.open(`/leadcenter-redirect/${npn}`, "_blank")}
+            action={() => window.open(`${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`, "_blank")}
             onChange={handleLeadCenter}
             disabled={shouldDisable}
             checked={hasActiveHealthCallCampaign ? leadPreference?.leadCenter : false}
