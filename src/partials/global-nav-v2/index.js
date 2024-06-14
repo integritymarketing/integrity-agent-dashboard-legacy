@@ -35,31 +35,6 @@ import SmallFormatMenu from "./small-format";
 import IntegrityMobileLogo from "components/HeaderWithLogin/integrity-mobile-logo";
 import NewBackBtn from "images/new-back-btn.svg";
 
-const handleCSGSSO = async (navigate, getAccessToken) => {
-    const token = await getAccessToken();
-    const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin`, {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-        },
-        credentials: "include",
-    });
-
-    if (response.status >= 200 && response.status < 300) {
-        const res = await response.json();
-
-        // standardize the API response into a formatted object
-        // note that formikErrorsFor is a bit of a mis-nomer, this simply formats the
-        // [{"Key":"redirect_url","Value":"url"}] api response
-        // as { redirct_url: 'url' } for simplicity
-        const formattedRes = validationService.formikErrorsFor(res);
-        window.open(formattedRes.redirect_url, "_blank");
-    } else {
-        navigate("/error?code=third_party_notauthorized", { replace: true });
-    }
-};
-
 const SiteNotification = ({ showPhoneNotification, showMaintenaceNotification }) => {
     const notificationClass = [
         "site-notification2-",
@@ -164,7 +139,10 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           props: {
                               type: "button",
                               onClick: () => {
-                                  handleCSGSSO(navigate, auth.getAccessTokenSilently);
+                                  window.open(
+                                      `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${user?.npn}/${user?.email}`,
+                                      "_blank"
+                                  );
                               },
                           },
                           label: "CSG App",
@@ -299,7 +277,10 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           props: {
                               type: "button",
                               onClick: () => {
-                                  handleCSGSSO(navigate, auth.getAccessTokenSilently);
+                                  window.open(
+                                      `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${user?.npn}/${user?.email}`,
+                                      "_blank"
+                                  );
                               },
                           },
                           label: "CSG APP",
