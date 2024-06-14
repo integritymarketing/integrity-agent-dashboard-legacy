@@ -116,7 +116,8 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
 
     const uniqueProvidersList = removeDuplicates(planData?.providers, "npi");
 
-    const doWeHaveProvidersAddressesList = uniqueProvidersList?.some((provider) => provider?.addresses?.length > 0);
+    const doWeHaveProvidersAddressesList =
+        uniqueProvidersList?.length === 0 || uniqueProvidersList?.some((provider) => provider?.addresses?.length > 0);
 
     const totalProvidersLocation = planData?.providers?.reduce((acc, provider) => {
         return acc + provider?.addresses?.length || 0;
@@ -142,7 +143,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
             ? `${coveredPrescriptionsLength} of ${prescriptionsList?.length} Prescriptions Covered`
             : "Add Prescriptions";
     const addProviderText =
-        providersList?.length > 0
+        uniqueProvidersList?.length > 0
             ? `${totalCoveredProvidersLocation || 0} of ${totalProvidersLocation || 0} Provider Locations Covered`
             : "Add Providers";
     return (
