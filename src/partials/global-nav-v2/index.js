@@ -39,12 +39,11 @@ import NewBackBtn from "images/new-back-btn.svg";
 const handleCSGSSO = async (navigate, loading, getAccessToken) => {
     loading.begin(0);
 
-    const user = await getAccessToken();
-
+    const token = await getAccessToken();
     const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/`, {
         method: "GET",
         headers: {
-            Authorization: `Bearer ${user}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
         },
         credentials: "include",
@@ -171,7 +170,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           props: {
                               type: "button",
                               onClick: () => {
-                                  handleCSGSSO(navigate, loadingHook);
+                                  handleCSGSSO(navigate, loadingHook, auth.getAccessTokenSilently);
                               },
                           },
                           label: "CSG App",
