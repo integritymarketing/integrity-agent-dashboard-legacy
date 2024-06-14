@@ -7,7 +7,11 @@ const MedicareSSORedirect = () => {
     const { loginWithRedirect } = useAuth0();
 
     useEffect(() => {
-        loginWithRedirect();
+        loginWithRedirect({
+            authorizationParams: {
+                redirect_uri: `${window.location.origin}/dashboard`,
+            },
+        });
     }, [loginWithRedirect]);
 
     return (
