@@ -129,4 +129,10 @@
       }
     }
   }
+  .notAllow {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
 }
+
+

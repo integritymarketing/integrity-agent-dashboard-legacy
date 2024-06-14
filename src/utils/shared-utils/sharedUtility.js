@@ -69,10 +69,10 @@ export const onlyAlphabets = (e) => {
  * @param {KeyboardEvent} e - Keyboard event triggered on key press
  */
 export const onlyNumbersBetween1And8 = (e) => {
-  const regex = /^[1-8]*$/;
-  if (e.key !== "Backspace" && e.key !== "Delete" && !regex.test(e.key)) {
-    e.preventDefault();
-  }
+    const regex = /^[1-8]*$/;
+    if (e.key !== "Backspace" && e.key !== "Delete" && !regex.test(e.key)) {
+        e.preventDefault();
+    }
 };
 
 /**
@@ -82,11 +82,11 @@ export const onlyNumbersBetween1And8 = (e) => {
  */
 export const onlyNumbersBetween0And11 = (e) => {
     const regex = /^(0?[0-9]|1[01])$/;
-    const value = e.target.value + e.key; 
+    const value = e.target.value + e.key;
     if (e.key !== "Backspace" && e.key !== "Delete" && !regex.test(value)) {
-      e.preventDefault();
+        e.preventDefault();
     }
-  };
+};
 
 // Scrolls the window to the top
 export const scrollTop = () => {
@@ -95,7 +95,9 @@ export const scrollTop = () => {
 
 // Capitalizes the first letter of a string
 export const capitalizeFirstLetter = (string) => {
-    if (!string) {return "";}
+    if (!string) {
+        return "";
+    }
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
@@ -117,13 +119,17 @@ export const formattedName = (string) => {
 
 // Formats a Medicare Beneficiary Identifier (MBI) by masking or formatting it
 export const formatMBID = (mbid, showMBID) => {
-    if (!mbid) {return null;}
+    if (!mbid) {
+        return null;
+    }
     return showMBID ? formatMbiNumber(mbid) : `****-***-${mbid.slice(-4)}`;
 };
 
 // Formats a string as an MBI number
 export const formatMbiNumber = (mbi) => {
-    if (!mbi) {return "";}
+    if (!mbi) {
+        return "";
+    }
     let formattedMbi = mbi.replace(/-/g, "");
     if (formattedMbi.length > 4) {
         formattedMbi = `${formattedMbi.slice(0, 4)}-${formattedMbi.slice(4)}`;
@@ -132,4 +138,15 @@ export const formatMbiNumber = (mbi) => {
         formattedMbi = `${formattedMbi.slice(0, 8)}-${formattedMbi.slice(8)}`;
     }
     return formattedMbi.toUpperCase();
+};
+
+export const removeDuplicates = (array, key) => {
+    const uniqueValues = new Set();
+    return array.reduce((acc, current) => {
+        if (!uniqueValues.has(current[key])) {
+            uniqueValues.add(current[key]);
+            acc.push(current);
+        }
+        return acc;
+    }, []);
 };

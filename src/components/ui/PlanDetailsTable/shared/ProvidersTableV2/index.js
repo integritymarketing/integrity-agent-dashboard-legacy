@@ -8,6 +8,7 @@ import RenderProviders from "components/ui/ProvidersList";
 import ProviderCoverageModal from "components/SharedModals/ProviderCoverageModal";
 import Edit from "components/Edit";
 import EditIcon from "components/icons/edit2";
+import { removeDuplicates } from "utils/shared-utils/sharedUtility";
 
 import styles from "./ProvidersTableV2.module.scss";
 
@@ -19,8 +20,9 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName, isEnroll, co
     const [providerToEdit, setProviderToEdit] = useState(null);
 
     const [coverageModal, setCoverageModal] = useState(false);
+    const uniqueProvidersList = removeDuplicates(providers, "npi");
 
-    const isEdit = providers?.length > 0 ? true : false;
+    const isEdit = uniqueProvidersList?.length > 0 ? true : false;
 
     const closeAllModalsAndRefresh = () => {
         setIsModalOpen(false);
@@ -70,7 +72,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName, isEnroll, co
                 }
             >
                 <div className={styles.container}>
-                    {providers?.map((provider) => (
+                    {uniqueProvidersList?.map((provider) => (
                         <div className={styles.providerContainer} key={provider?.NPI}>
                             <RenderProviders
                                 provider={provider}
@@ -97,7 +99,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName, isEnroll, co
                     <ProviderCoverageModal
                         open={coverageModal}
                         onClose={() => setCoverageModal(false)}
-                        providers={providers}
+                        providers={uniqueProvidersList}
                         planName={planName}
                         addNew={() => {
                             setCoverageModal(false);

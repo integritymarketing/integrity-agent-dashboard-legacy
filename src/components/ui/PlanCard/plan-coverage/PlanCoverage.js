@@ -9,7 +9,7 @@ import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import ProviderCoverageModal from "components/SharedModals/ProviderCoverageModal";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import UpdateView from "components/ui/PlanDetailsTable/shared/PharmacyTable/components/UpdateView/updateView";
-
+import { removeDuplicates } from "utils/shared-utils/sharedUtility";
 import PharmacyModal from "components/SharedModals/PharmacyModal";
 import styles from "./PlanCoverage.module.scss";
 import PharmacySvg from "./assets/pharmacySvg";
@@ -114,11 +114,15 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
           }
         : null;
 
+    const uniqueProvidersList = removeDuplicates(planData?.providers, "npi");
+
+    const doWeHaveProvidersAddressesList = uniqueProvidersList?.some((provider) => provider?.addresses?.length > 0);
+
     const totalProvidersLocation = planData?.providers?.reduce((acc, provider) => {
-        return acc + provider?.addresses?.length;
+        return acc + provider?.addresses?.length || 0;
     }, 0);
     const totalCoveredProvidersLocation = planData?.providers?.reduce((acc, provider) => {
-        return acc + provider?.addresses?.filter((address) => address?.inNetwork).length;
+        return acc + provider?.addresses?.filter((address) => address?.inNetwork).length || 0;
     }, 0);
 
     const coveredPharmacies = planData?.pharmacyCosts?.filter(
@@ -139,9 +143,9 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
             : "Add Prescriptions";
     const addProviderText =
         providersList?.length > 0
-            ? `${totalCoveredProvidersLocation} of ${totalProvidersLocation} Provider Locations Covered`
+            ? `${totalCoveredProvidersLocation || 0} of ${totalProvidersLocation || 0} Provider Locations Covered`
             : "Add Providers";
-
+    console.log("planData", doWeHaveProvidersAddressesList);
     return (
         <div>
             <div className={`${styles.heading}`}>Plan Coverage</div>
@@ -151,9 +155,11 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
                     <PharmacySvg />
                     <span onClick={handleAddEditPharmacy}>{addPharmacyText}</span>
                 </div>
-                <div className={`${styles.item}`}>
+                <div className={`${styles.item} ${!doWeHaveProvidersAddressesList ? styles.notAllow : ""}`}>
                     <ProviderSvg />
-                    <span onClick={handleAddEditProvider}>{addProviderText}</span>
+                    <span onClick={doWeHaveProvidersAddressesList ? handleAddEditProvider : null}>
+                        {doWeHaveProvidersAddressesList ? addProviderText : "Temporarily Unavailable"}
+                    </span>
                 </div>
                 <div className={`${styles.item}`}>
                     <PrescriptionSvg />
@@ -178,7 +184,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
                 <ProviderCoverageModal
                     open={isProviderCoverageModalOpen}
                     onClose={() => setIsProviderCoverageModalOpen(false)}
-                    providers={planData?.providers}
+                    providers={uniqueProvidersList}
                     planName={planName}
                     addNew={() => {
                         setIsProviderCoverageModalOpen(false);
