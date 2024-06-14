@@ -33,7 +33,7 @@ const ForgotPasswordpage = () => {
     const params = useQueryParams();
     const mobileAppLogin = Boolean(params.get("mobileAppLogin"));
     const { Post: requestPasswordReset } = useFetch(
-        `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v1/account/validateresetpasswordtoken`,
+        `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v1/account/forgotpassword`,
         true
     );
 
