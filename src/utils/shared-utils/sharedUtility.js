@@ -141,8 +141,9 @@ export const formatMbiNumber = (mbi) => {
 };
 
 export const removeDuplicates = (array, key) => {
+    if (!array) return [];
     const uniqueValues = new Set();
-    return array.reduce((acc, current) => {
+    return array?.reduce((acc, current) => {
         if (!uniqueValues.has(current[key])) {
             uniqueValues.add(current[key]);
             acc.push(current);

@@ -145,7 +145,6 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
         providersList?.length > 0
             ? `${totalCoveredProvidersLocation || 0} of ${totalProvidersLocation || 0} Provider Locations Covered`
             : "Add Providers";
-    console.log("planData", doWeHaveProvidersAddressesList);
     return (
         <div>
             <div className={`${styles.heading}`}>Plan Coverage</div>
