@@ -1,4 +1,4 @@
-export const QUOTES_API_VERSION = "v1.0";
+export const QUOTES_API_VERSION = "v.2.0";
 
 export class PlansService {
     constructor(getAccessToken) {
@@ -29,7 +29,7 @@ export class PlansService {
 
     enrollConsumerView = async (leadId, planId, data, agentNPN) => {
         const response = await this._clientPublicAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Lead/${leadId}/Enroll/${planId}`,
+            `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Enroll/${planId}`,
             "POST",
             data,
             {
