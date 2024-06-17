@@ -31,7 +31,7 @@ export class ComparePlansService {
 
     getPlan = async (leadId, planId, agentInfo, effectiveDate, agentNPN) => {
         const response = await this._clientPublicAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Plan/${planId}`,
+            `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/${planId}`,
             "GET",
             {
                 zip: agentInfo?.ZipCode,
