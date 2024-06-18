@@ -41,8 +41,8 @@ const PasswordResetPage = () => {
                 token: params.get("token"),
                 email: params.get("email"),
             });
-
-            if (response.ok) {
+            console.log(response);
+            if (response.status === 200) {
                 return true;
             } else {
                 navigate(`/password-link-expired?npn=${params.get("npn")}`);
