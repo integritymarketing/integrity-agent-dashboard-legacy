@@ -28,7 +28,11 @@ const PasswordResetPage = () => {
     const params = useQueryParams();
     const clientId = useClientId();
 
-    const { Post: resetpassword } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, true, true);
+    const { Post: resetpassword } = useFetch(
+        `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v1/account/forgotpassword`,
+        true,
+        true
+    );
 
     useEffect(() => {
         // eslint-disable-next-line consistent-return
