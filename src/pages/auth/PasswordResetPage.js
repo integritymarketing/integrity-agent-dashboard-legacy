@@ -29,8 +29,7 @@ const PasswordResetPage = () => {
     const clientId = useClientId();
 
     const { Post: resetpassword } = useFetch(
-        `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v1/account/forgotpassword`,
-        true,
+        `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v1/account/resetpassword`,
         true
     );
 
@@ -72,17 +71,11 @@ const PasswordResetPage = () => {
     const handleSubmit = async (values) => {
         loading.begin();
         const response = await resetpassword({
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                ...values,
-                Username: params.get("npn"),
-                Token: params.get("token"),
-                Email: params.get("email"),
-                ClientId: clientId,
-            }),
+            ...values,
+            Username: params.get("npn"),
+            Token: params.get("token"),
+            Email: params.get("email"),
+            ClientId: clientId,
         });
 
         loading.end();

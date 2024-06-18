@@ -78,7 +78,8 @@ export class PlansService {
         return response?.json();
     };
 
-    _clientAPIRequest = async (path, method = "GET", query, body) => {
+    _clientAPIRequest = async (path, method = "GET", query, body, version) => {
+        const versionPath = version ? version : QUOTES_API_VERSION;
         const accessToken = await this.getAccessToken();
         const opts = {
             method,
@@ -88,7 +89,7 @@ export class PlansService {
             },
         };
 
-        const url = new URL(`${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/${path}`);
+        const url = new URL(`${process.env.REACT_APP_QUOTE_URL}/api/${versionPath}/${path}`);
         url.search = new URLSearchParams(query).toString();
 
         if (body) {
