@@ -29,24 +29,35 @@ const PasswordResetPage = () => {
     const clientId = useClientId();
 
     const { Post: resetpassword } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, true, true);
-    const { Post: validatePasswordResetToken } = useFetch(
-        `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v1/account/validateresetpasswordtoken`,
-        true
-    );
 
     useEffect(() => {
+        // eslint-disable-next-line consistent-return
         const checkIfValidToken = async () => {
-            const response = await validatePasswordResetToken({
+            const url = `${process.env.REACT_APP_AUTH_AUTHORITY_URL}/api/v1/account/validateresetpasswordtoken`;
+
+            const body = {
                 username: params.get("npn"),
                 token: params.get("token"),
                 email: params.get("email"),
-            });
-            console.log(response);
-            if (response.status === 200) {
-                return true;
-            } else {
-                navigate(`/password-link-expired?npn=${params.get("npn")}`);
-                return false;
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(body),
+                });
+
+                if (response.status === 200) {
+                    return true;
+                } else {
+                    navigate(`/password-link-expired?npn=${params.get("npn")}`);
+                    return false;
+                }
+            } catch (error) {
+                console.error("An error occurred:", error);
             }
         };
 
