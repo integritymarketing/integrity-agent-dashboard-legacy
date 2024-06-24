@@ -58,15 +58,15 @@ const premAsc = (res1, res2) => {
     return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
         ? 1
         : res1.annualPlanPremium / 12 < res2.annualPlanPremium / 12
-        ? -1
-        : 0;
+            ? -1
+            : 0;
 };
 const premDsc = (res1, res2) => {
     return res1.annualPlanPremium / 12 < res2.annualPlanPremium / 12
         ? 1
         : res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
-        ? -1
-        : 0;
+            ? -1
+            : 0;
 };
 const ratings = (res1, res2) => {
     return res1.planRating < res2.planRating ? 1 : res1.planRating > res2.planRating ? -1 : 0;
@@ -75,16 +75,27 @@ const drugsPrice = (res1, res2) => {
     return res1.estimatedAnnualDrugCost / 12 > res2.estimatedAnnualDrugCost / 12
         ? 1
         : res1.estimatedAnnualDrugCost / 12 < res2.estimatedAnnualDrugCost / 12
-        ? -1
-        : 0;
+            ? -1
+            : 0;
 };
 const pocketAsc = (res1, res2) => {
     return res1.maximumOutOfPocketCost < res2.maximumOutOfPocketCost
         ? -1
         : res1.maximumOutOfPocketCost > res2.maximumOutOfPocketCost
-        ? 1
-        : 0;
+            ? 1
+            : 0;
 };
+
+const totalAsc = (plan1, plan2) => {
+    const totalCost1 = plan1.annualPlanPremium + plan1.estimatedAnnualDrugCost;
+    const totalCost2 = plan2.annualPlanPremium + plan2.estimatedAnnualDrugCost;
+    return totalCost1 < totalCost2
+        ? -1
+        : totalCost1 > totalCost2
+            ? 1
+            : 0;
+};
+
 const getSortFunction = (sort) => {
     if (sort === PLAN_SORT_OPTIONS[1].value) {
         return premDsc;
@@ -97,7 +108,11 @@ const getSortFunction = (sort) => {
     }
     if (sort === PLAN_SORT_OPTIONS[4].value) {
         return pocketAsc;
-    } else {
+    }
+    if (sort === PLAN_SORT_OPTIONS[5].value) {
+        return totalAsc;
+    }
+    else {
         return premAsc;
     }
 };
@@ -500,14 +515,14 @@ const PlansPage = () => {
 
         const rebatePlans = rebatesFilter
             ? [...specialNeedsPlans].filter((plan) => {
-                  if (plan.planDataFields && plan.planDataFields.length > 0) {
-                      return plan.planDataFields.find((detail) =>
-                          detail.name.toLowerCase().includes("part b giveback")
-                      );
-                  } else {
-                      return false;
-                  }
-              })
+                if (plan.planDataFields && plan.planDataFields.length > 0) {
+                    return plan.planDataFields.find((detail) =>
+                        detail.name.toLowerCase().includes("part b giveback")
+                    );
+                } else {
+                    return false;
+                }
+            })
             : specialNeedsPlans;
 
         const sortedResults = [...rebatePlans]?.sort(sortFunction);
@@ -715,7 +730,7 @@ const PlansPage = () => {
 
                                         <div className={`${styles["filter-section"]}`}>
                                             {effectiveDate && (
-                                                <PharmacyFilter pharmacies={pharmacies} onChange={() => {}} />
+                                                <PharmacyFilter pharmacies={pharmacies} onChange={() => { }} />
                                             )}
                                         </div>
 
@@ -723,7 +738,7 @@ const PlansPage = () => {
                                             {effectiveDate && (
                                                 <AdditionalFilters
                                                     planType={planType}
-                                                    onChange={() => {}}
+                                                    onChange={() => { }}
                                                     toggleAppointedPlans={toggleAppointedPlans}
                                                     carriers={carrierList}
                                                     policyTypes={subTypeList}
