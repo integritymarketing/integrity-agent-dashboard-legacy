@@ -41,7 +41,7 @@ export class PlansService {
     };
 
     sendPlan = async (data, leadId, planId) => {
-        const response = await this._clientAPIRequest(`Lead/${leadId}/SendPlan/${planId}`, "POST", {}, data);
+        const response = await this._clientAPIRequest(`Lead/${leadId}/SendPlan/${planId}`, "POST", {}, data, "v1.0");
         if (response?.ok) {
             return response?.text();
         }
