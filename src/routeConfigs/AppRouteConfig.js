@@ -52,6 +52,8 @@ const ContactsList = lazy(() => import("pages/ContactsList"));
 const TermsOfUsagePage = lazy(() => import("pages/TermsOfUsagePage"));
 const PrivacyPolicyPage = lazy(() => import("pages/PrivacyPolicyPage"));
 const LoginRedirectSSOPage = lazy(() => import("pages/auth/LoginRedirectSSOPage"));
+const CampaignInvitationPage = lazy(() => import("pages/Marketing/CampaignInvitation"));
+const CampaignDashboardPage = lazy(() => import("pages/Marketing/CampaignDashboard"));
 
 const appRoutes = [
     {
@@ -272,6 +274,14 @@ const appProtectedRoutes = [
                 <WebChatComponent />
             </ContactDetailsProvider>
         ),
+    },
+    {
+        path: "marketing/campaign-invitation",
+        component: <CampaignInvitationPage />,
+    },
+    {
+        path: "marketing/campaign-dashboard",
+        component: <CampaignDashboardPage />,
     },
 ];
 
