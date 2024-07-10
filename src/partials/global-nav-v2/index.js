@@ -136,8 +136,12 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                       ...(user?.fullName
                           ? [
                                 {
-                                    component: Link,
-                                    props: { to: "/account" },
+                                    component: "button",
+                                    props: {
+                                        type: "button",
+                                        onClick: () =>
+                                            (window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}`),
+                                    },
                                     label: "Account",
                                     img: MobileAccount,
                                 },
@@ -246,8 +250,12 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                       ...(user.firstName
                           ? [
                                 {
-                                    component: Link,
-                                    props: { to: "/account" },
+                                    component: "button",
+                                    props: {
+                                        type: "button",
+                                        onClick: () =>
+                                            (window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}`),
+                                    },
                                     label: "Account",
                                     img: Account,
                                 },

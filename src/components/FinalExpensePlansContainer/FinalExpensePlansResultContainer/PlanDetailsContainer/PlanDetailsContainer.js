@@ -301,6 +301,10 @@ export const PlanDetailsContainer = ({
         </Box>
     );
 
+    const redirectToSelfAttestedPermissions = () => {
+        window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}/selling-permissions`;
+    };
+
     const renderActiveSellingPermissionsSection = useCallback(() => {
         if (!noPlanResults && (!isRTS || !isMyAppointedProducts)) {
             return (
@@ -309,7 +313,7 @@ export const PlanDetailsContainer = ({
                     <Button
                         label={VIEW_SELLING_PERMISSIONS}
                         className={styles.viewSellingPermissions}
-                        onClick={() => navigate(`/account/selfAttestedPermissions`)}
+                        onClick={redirectToSelfAttestedPermissions}
                         type="primary"
                         icon={<ArrowRightIcon />}
                         iconPosition="right"

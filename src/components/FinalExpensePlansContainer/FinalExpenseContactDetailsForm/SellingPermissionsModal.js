@@ -1,6 +1,3 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-
 import { Box, Button } from "@mui/material";
 
 import PropTypes from "prop-types";
@@ -19,10 +16,8 @@ import {
 } from "../FinalExpensePlansContainer.constants";
 
 export const SellingPermissionsModal = ({ showSellingPermissionModal, handleModalClose, handleContinue }) => {
-    const navigate = useNavigate();
-
     const redirectToAccount = () => {
-        navigate(`/account/sellingPermissions`);
+        window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}/selling-permissions`;
     };
 
     return (

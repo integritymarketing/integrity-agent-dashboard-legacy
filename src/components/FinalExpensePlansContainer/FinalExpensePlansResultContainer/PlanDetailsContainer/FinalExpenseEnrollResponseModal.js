@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect } from "react";
+import PropTypes from "prop-types";
 import Modal from "components/Modal";
 import styles from "./PlanDetailsContainer.module.scss";
 import {
@@ -8,10 +8,8 @@ import {
     PRODUCER_ID_NOT_APPPOINTED,
     PRODUCER_NOT_APPOINTED_DESC,
     VIEW_SELLING_PERMISSIONS,
-    AGENT_NOT_CONTRACTED_ERROR
 } from "../FinalExpensePlansResultContainer.constants";
 import { Button } from "components/ui/Button";
-import { useNavigate } from "react-router-dom";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 
 /**
@@ -22,24 +20,22 @@ import ButtonCircleArrow from "components/icons/button-circle-arrow";
  * @param {object} enrollResponse - Response object containing the details of the enrollment.
  */
 export const FinalExpenseEnrollResponseModal = ({ isOpen, onClose, enrollResponse }) => {
-    const navigate = useNavigate();
-
     // Check if enrollResponse is defined
     const isEnrollResponseDefined = enrollResponse !== undefined && enrollResponse !== null;
 
     useEffect(() => {
         if (isOpen && isEnrollResponseDefined && enrollResponse.redirectUrl) {
-            window.open(enrollResponse.redirectUrl, '_blank');
+            window.open(enrollResponse.redirectUrl, "_blank");
             onClose(); // Close the modal after opening the link
         }
     }, [isOpen, enrollResponse, onClose, isEnrollResponseDefined]);
 
     const isProducerNotAppointed = isEnrollResponseDefined && enrollResponse.redirectUrl === null;
 
-    const isCarrierSiteUnavailable = isEnrollResponseDefined &&
+    const isCarrierSiteUnavailable =
+        isEnrollResponseDefined &&
         enrollResponse.redirectUrl === null &&
-        (enrollResponse.errorMessage === 'Carrier service request error' ||
-            enrollResponse.statusCode === 500);
+        (enrollResponse.errorMessage === "Carrier service request error" || enrollResponse.statusCode === 500);
 
     const getTitleAndDescription = () => {
         if (isProducerNotAppointed) {
@@ -47,7 +43,7 @@ export const FinalExpenseEnrollResponseModal = ({ isOpen, onClose, enrollRespons
         } else if (isCarrierSiteUnavailable) {
             return { title: CARRIER_SITE_UNAVAILABLE, description: CARRIER_SITE_UNAVAILABLE_DESC };
         }
-        return { title: '', description: '' };
+        return { title: "", description: "" };
     };
 
     const { title, description } = getTitleAndDescription();
@@ -55,6 +51,10 @@ export const FinalExpenseEnrollResponseModal = ({ isOpen, onClose, enrollRespons
     if (!title && !description) {
         return null;
     }
+
+    const redirectToSellingPermissions = () => {
+        window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}/selling-permissions`;
+    };
 
     return (
         <Modal open={isOpen} onClose={onClose} title={title} titleClassName={styles.modalTitle} hideFooter>
@@ -64,7 +64,7 @@ export const FinalExpenseEnrollResponseModal = ({ isOpen, onClose, enrollRespons
                     <Button
                         label={VIEW_SELLING_PERMISSIONS}
                         className={styles.viewSellingPermissions}
-                        onClick={() => navigate("/account/sellingPermissions")}
+                        onClick={redirectToSellingPermissions}
                         type="primary"
                         icon={<ButtonCircleArrow />}
                         iconPosition="right"
@@ -82,13 +82,13 @@ FinalExpenseEnrollResponseModal.propTypes = {
         isSuccess: PropTypes.bool,
         redirectUrl: PropTypes.string,
         errorMessage: PropTypes.string,
-        statusCode: PropTypes.number
-    })
+        statusCode: PropTypes.number,
+    }),
 };
 
 FinalExpenseEnrollResponseModal.defaultProps = {
     isOpen: false,
-    enrollResponse: null
+    enrollResponse: null,
 };
 
 export default FinalExpenseEnrollResponseModal;
