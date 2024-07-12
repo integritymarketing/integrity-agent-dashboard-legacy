@@ -1,4 +1,3 @@
- 
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -34,7 +33,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
     const showToast = useToast();
     const { agentId } = useUserProfile();
     const { agentInformation } = useAgentInformationByID();
-    const agentNPN  = agentInformation?.agentNPN;
+    const agentNPN = agentInformation?.agentNPN;
     const { fireEvent } = useAnalytics();
     const { leadPreference, updateAgentPreferences } = useAgentAccountContext();
 
@@ -146,13 +145,13 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
                         <Box className={styles.icon}>
                             <LifeIcon />
                         </Box>
-                        <Box className={styles.title}>Life</Box>
+                        <Box className={styles.title}>LifeCENTER</Box>
                     </Box>
                     <Box className={styles.plan} onClick={handleHealthPlanClick}>
                         <Box className={styles.icon}>
                             <HealthIcon />
                         </Box>
-                        <Box className={styles.title}>Health</Box>
+                        <Box className={styles.title}>HealthCENTER</Box>
                     </Box>
                 </Box>
                 <Divider />
