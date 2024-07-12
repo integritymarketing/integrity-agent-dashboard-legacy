@@ -94,6 +94,7 @@ const WebChatComponent = () => {
                 const inputElement = document.querySelector('[data-id="webchat-sendbox-input"]');
                 if (inputElement) {
                     inputElement.setAttribute("maxLength", "100");
+                    inputElement.focus();
                     clearInterval(intervalId);
                 }
             }, 500);
