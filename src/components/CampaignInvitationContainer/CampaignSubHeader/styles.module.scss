@@ -1,0 +1,28 @@
+@import "../../../scss/globalDefines.scss";
+
+.backButton {
+    color: #4178ff;
+    font-size: 16px;
+    font-weight: 600;
+    position: absolute;
+    top: 22px;
+    left: 30px;
+
+    @include small {
+        top: 22px;
+        left: 0px;
+    }
+
+    &:hover {
+        background-color: #ffffff;
+        border-radius: 20px;
+        box-shadow: inset 0px -1px 0px #00000029;
+    }
+
+    span {
+        margin-left: 5px;
+        @include small {
+            display: none;
+        }
+    }
+}

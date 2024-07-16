@@ -1,0 +1,30 @@
+.emailDetails {
+    padding: 16px;
+    background-color: #ffffff;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    flex-direction: column !important;
+    border-radius: 4px;
+}
+
+.detailItem {
+    margin-bottom: 16px;
+}
+
+.detailTitle {
+    color: #052a63;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.detailContent {
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+
+.detailText {
+    color: #717171;
+    font-size: 16px;
+}

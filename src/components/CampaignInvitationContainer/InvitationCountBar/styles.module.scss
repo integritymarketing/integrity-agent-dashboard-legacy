@@ -1,0 +1,26 @@
+@import "../../../scss/globalDefines.scss";
+
+.banner {
+    display: flex;
+    align-items: center;
+    border: 1px solid #dfe5ef;
+    background-color: #f1faff;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #434a51;
+    border-left: 6px solid #4178ff;
+}
+
+.colorBar {
+    width: 6px;
+    height: 100%;
+    background-color: #4178ff;
+}
+
+.bannerContent {
+    padding: 8px 16px;
+}
+
+.count {
+    font-weight: 700;
+}
