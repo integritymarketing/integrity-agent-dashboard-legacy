@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Box, Typography, Grid } from "@mui/material";
 import InvitationCountBar from "../InvitationCountBar";
@@ -9,8 +9,12 @@ import EmailPreview from "../EmailPreview";
 import { Button } from "components/ui/Button";
 import RoundButton from "components/RoundButton";
 import { ArrowForwardWithCircle } from "components/ContactDetailsContainer/OverviewContainer/Icons";
+import TextInputContent from "../TextInputContent";
+import { useCampaignInvitation } from "providers/CampaignInvitation";
 
 const CampaignInnerContainer = ({ title, onBackClick }) => {
+    const { invitationSendType, handleSendInvitation, handleCancel, invitationName } = useCampaignInvitation();
+
     return (
         <Box className={styles.container}>
             <Box className={styles.header}>
@@ -22,7 +26,7 @@ const CampaignInnerContainer = ({ title, onBackClick }) => {
                         lineHeight: "32px",
                     }}
                 >
-                    {title}
+                    {`Invitation to ${invitationName} Profile Sync`}
                 </Typography>
             </Box>
             <Box className={styles.content}>
@@ -30,10 +34,17 @@ const CampaignInnerContainer = ({ title, onBackClick }) => {
                 <InvitationCountBar />
 
                 <Grid container className={styles.detailsContainer}>
-                    <Box className={styles.emailContainer}>
-                        <EmailContent />
-                        <EmailPreview />
-                    </Box>
+                    {invitationSendType === "text" && (
+                        <Box className={styles.textInputContainer}>
+                            <TextInputContent />
+                        </Box>
+                    )}
+                    {invitationSendType === "email" && (
+                        <Box className={styles.emailContainer}>
+                            <EmailContent />
+                            <EmailPreview />
+                        </Box>
+                    )}
                 </Grid>
                 <Box
                     sx={{
@@ -43,10 +54,14 @@ const CampaignInnerContainer = ({ title, onBackClick }) => {
                     }}
                 >
                     <Box className={styles.backToContacts}>
-                        <Button label="Cancel" onClick={() => {}} type="tertiary" className={styles.backButton} />
+                        <Button label="Cancel" onClick={handleCancel} type="tertiary" className={styles.backButton} />
                     </Box>
                     <Box className={styles.backToContacts}>
-                        <RoundButton onClick={() => {}} endIcon={<ArrowForwardWithCircle />} label="Start Campaign" />
+                        <RoundButton
+                            onClick={handleSendInvitation}
+                            endIcon={<ArrowForwardWithCircle />}
+                            label="Start Campaign"
+                        />
                     </Box>
                 </Box>
             </Box>

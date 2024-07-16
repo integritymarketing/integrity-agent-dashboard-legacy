@@ -4,8 +4,8 @@ import { Box, Typography } from "@mui/material";
 
 import styles from "./styles.module.scss";
 
-const Option = ({ optionText, icon: Icon = null, ...props }) => (
-    <Box className={styles.optionItem} {...props}>
+const Option = ({ optionText, icon: Icon = null, onClick = () => {}, ...props }) => (
+    <Box className={styles.optionItem} {...props} onClick={onClick}>
         {Icon && <Icon />}
         <Typography
             sx={{

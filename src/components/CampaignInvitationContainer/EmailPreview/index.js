@@ -4,8 +4,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import emailPreviewStyles from "./styles.module.scss";
 import PlanEnrollCampaign from "images/Campaigns/plan-enroll-campaign.JPG";
 import PreviewIcon from "components/icons/Marketing/previewIcon";
+import { useCampaignInvitation } from "providers/CampaignInvitation";
 
 const EmailPreview = () => {
+    const { invitationTemplateImage } = useCampaignInvitation();
+
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
@@ -15,18 +18,18 @@ const EmailPreview = () => {
         <>
             <Grid item md={6} xs={12} className={emailPreviewStyles.imagePreview}>
                 <Box className={emailPreviewStyles.imageContainer}>
-                    <img src={PlanEnrollCampaign} alt="PlanEnroll Campaign" title="PlanEnroll Campaign" />
+                    <img src={invitationTemplateImage} alt="PlanEnroll Campaign" title="PlanEnroll Campaign" />
                     <Box className={emailPreviewStyles.iconContainer} onClick={handleOpen}>
                         <PreviewIcon />
                     </Box>
                 </Box>
             </Grid>
-            <Modal open={open} onClose={handleClose}>
+            <Modal open={open} onClose={handleClose} className={emailPreviewStyles.modalStyles}>
                 <Box className={emailPreviewStyles.modalContent}>
                     <IconButton className={emailPreviewStyles.closeButton} onClick={handleClose}>
                         <CloseIcon />
                     </IconButton>
-                    <img src={PlanEnrollCampaign} alt="PlanEnroll Campaign" />
+                    <img src={invitationTemplateImage} alt="PlanEnroll Campaign" />
                 </Box>
             </Modal>
         </>

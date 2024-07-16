@@ -9,6 +9,12 @@
     font-size: 16px;
     color: #434a51;
     border-left: 6px solid #4178ff;
+    padding: 8px 16px;
+
+    @include small {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 
 .colorBar {
@@ -16,11 +22,24 @@
     height: 100%;
     background-color: #4178ff;
 }
+.divider {
+    border: 1px solid #cccccc;
+    height: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
 
-.bannerContent {
-    padding: 8px 16px;
+    @include small {
+        display: none;
+    }
 }
 
 .count {
     font-weight: 700;
+}
+
+.filteredContent {
+    color: #052a63;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
 }
