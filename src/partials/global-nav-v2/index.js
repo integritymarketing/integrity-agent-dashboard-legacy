@@ -343,8 +343,9 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     }, [leadPreference, setWelcomeModalOpen, welcomeModalTempOpen]);
 
     useEffect(() => {
-        if (user?.agentId && !agentInformation?.agentVirtualPhoneNumber) {
-            setTimeout(() => clientsService.genarateAgentTwiloNumber(user?.agentId), 5000);
+        debugger;
+        if (user?.agentId && agentInformation.isLoading === false && !agentInformation?.agentVirtualPhoneNumber) {
+            setTimeout(() => clientsService.generateAgentTwiloNumber(user?.agentId), 5000);
         }
     }, [agentInformation, clientsService, user]);
 

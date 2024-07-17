@@ -50,7 +50,7 @@ const CallCenterContent = () => {
             const response = await clientsService.getAgentAvailability(agentId);
             const { agentVirtualPhoneNumber, leadPreference } = response || {};
             if (!agentVirtualPhoneNumber) {
-                await clientsService.genarateAgentTwiloNumber(agentId);
+                await clientsService.generateAgentTwiloNumber(agentId);
             }
             if (!leadPreference?.isAgentMobilePopUpDismissed) {
                 setWelcomeModalOpen(true);

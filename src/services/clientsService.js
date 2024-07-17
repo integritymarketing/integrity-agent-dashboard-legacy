@@ -955,7 +955,7 @@ export class ClientsService {
             IncludeContactPreference: true,
         };
 
-        if (typeof DateRangeFilterType === 'number') {
+        if (typeof DateRangeFilterType === "number") {
             params.DateRangeFilterType = DateRangeFilterType;
         }
 
@@ -1122,12 +1122,12 @@ export class ClientsService {
         );
         const agentData = await response?.json();
         if (!agentData?.virtualPhoneNumber) {
-            await this.genarateAgentTwiloNumber(id);
+            await this.generateAgentTwiloNumber(id);
         }
         return agentData;
     };
 
-    genarateAgentTwiloNumber = async (id) => {
+    generateAgentTwiloNumber = async (id) => {
         await this._clientAPIRequest(
             `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Call/GenerateVirtualPhoneNumber/${id}?limit=1`,
             "POST"
