@@ -1,0 +1,21 @@
+@import "../../../scss/globalDefines.scss";
+.bannerCardStack {
+    border-radius: 8px;
+    background-color: #f1faff;
+    height: auto;
+
+    @include medium  {
+        height: 140px;
+    }
+}
+
+.bannerCardImage {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    max-width: none;
+
+    @include small {
+        height: auto;
+    }
+}
