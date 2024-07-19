@@ -1,0 +1,30 @@
+.innerContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 64px 32px 16px 32px;
+}
+
+.closeButton {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.divider {
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 16px;
+    height: 1px;
+}
+
+.menuText {
+    font-size: 16px !important;
+    margin-right: 8px;
+}

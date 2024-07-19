@@ -22,6 +22,7 @@ import { CountyProvider } from "contexts/counties";
 import { DeleteLeadProvider } from "contexts/deleteLead";
 import { StageSummaryProvider } from "contexts/stageSummary";
 import { TaskListProvider } from "contexts/taskListProvider";
+import { ProfessionalProfileProvider } from "providers/ProfessionalProfileProvider";
 
 import AppRoutes from "./App";
 import "./index.scss";
@@ -59,19 +60,21 @@ root.render(
                                                         <BackNavProvider>
                                                             <StageSummaryProvider>
                                                                 <TaskListProvider>
-                                                                    <HelmetProvider>
-                                                                        <Helmet>
-                                                                            <title>Integrity</title>
-                                                                        </Helmet>
-                                                                        <Suspense fallback={<div>Loading...</div>}>
-                                                                            <AppRouter>
-                                                                                <div className="content-frame">
-                                                                                    <AppRoutes />
-                                                                                </div>
-                                                                            </AppRouter>
-                                                                        </Suspense>
-                                                                        <PortalUrl />
-                                                                    </HelmetProvider>
+                                                                    <ProfessionalProfileProvider>
+                                                                        <HelmetProvider>
+                                                                            <Helmet>
+                                                                                <title>Integrity</title>
+                                                                            </Helmet>
+                                                                            <Suspense fallback={<div>Loading...</div>}>
+                                                                                <AppRouter>
+                                                                                    <div className="content-frame">
+                                                                                        <AppRoutes />
+                                                                                    </div>
+                                                                                </AppRouter>
+                                                                            </Suspense>
+                                                                            <PortalUrl />
+                                                                        </HelmetProvider>
+                                                                    </ProfessionalProfileProvider>
                                                                 </TaskListProvider>
                                                             </StageSummaryProvider>
                                                         </BackNavProvider>
