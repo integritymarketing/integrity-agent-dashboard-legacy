@@ -34,6 +34,7 @@ import LargeFormatMenu from "./large-format";
 import SmallFormatMenu from "./small-format";
 import IntegrityMobileLogo from "components/HeaderWithLogin/integrity-mobile-logo";
 import NewBackBtn from "images/new-back-btn.svg";
+import MegaPhone from "./assets/MegaPhone.svg";
 
 const handleCSGSSO = async (navigate, npn, email) => {
     const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${npn}/${email}`, {
@@ -114,105 +115,114 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         setNavOpen,
         ...(auth.isAuthenticated && !menuHidden
             ? {
-                  primary: [
-                      {
-                          component: Link,
-                          props: {
-                              to: "/dashboard",
-                              className: analyticsService.clickClass("dashbaord-header"),
-                          },
-                          label: "Dashboard",
-                          img: MobileHome,
-                      },
-                      {
-                          component: Link,
-                          props: {
-                              to: "/contacts",
-                              className: analyticsService.clickClass("contacts-header"),
-                          },
-                          label: "Contacts",
-                          img: MobileContacts,
-                      },
-                      ...(user?.fullName
-                          ? [
-                                {
-                                    component: "button",
-                                    props: {
-                                        type: "button",
-                                        onClick: () =>
-                                            (window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}`),
-                                    },
-                                    label: "Account",
-                                    img: MobileAccount,
+                primary: [
+                    {
+                        component: Link,
+                        props: {
+                            to: "/dashboard",
+                            className: analyticsService.clickClass("dashbaord-header"),
+                        },
+                        label: "Dashboard",
+                        img: MobileHome,
+                    },
+                    {
+                        component: Link,
+                        props: {
+                            to: "/contacts",
+                            className: analyticsService.clickClass("contacts-header"),
+                        },
+                        label: "Contacts",
+                        img: MobileContacts,
+                    },
+                    {
+                        component: Link,
+                        props: {
+                            to: "/marketing/campaign-dashboard",
+                            className: analyticsService.clickClass("marketing-header"),
+                        },
+                        label: "Marketing",
+                        img: MegaPhone,
+                    },
+                    ...(user?.fullName
+                        ? [
+                            {
+                                component: "button",
+                                props: {
+                                    type: "button",
+                                    onClick: () =>
+                                        (window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}`),
                                 },
-                            ]
-                          : []),
-                  ],
-                  secondary: [
-                      {
-                          component: Link,
-                          props: {
-                              to: "/help",
-                          },
-                          label: "Need Help?",
-                          img: NeedHelp,
-                      },
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () => {
-                                  handleCSGSSO(navigate, user.npn, user.email);
-                              },
-                          },
-                          label: "CSG App",
-                      },
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () => {
-                                  window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
-                              },
-                          },
-                          label: "MedicareLINK",
-                      },
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () => {
-                                  window.open(
-                                      `${process.env.REACT_APP_CONNECTURE_LINK}/${user.npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
-                                      "_blank"
-                                  );
-                              },
-                          },
-                          label: "MedicareAPP",
-                      },
-                  ],
-                  tertiary: [
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () =>
-                                  auth.logout({
-                                      logoutParams: {
-                                          returnTo: window.location.origin,
-                                      },
-                                  }),
-                          },
-                          label: "Sign Out",
-                          img: MobileLogout,
-                      },
-                  ],
-              }
+                                label: "Account",
+                                img: MobileAccount,
+                            },
+                        ]
+                        : []),
+                ],
+                secondary: [
+                    {
+                        component: Link,
+                        props: {
+                            to: "/help",
+                        },
+                        label: "Need Help?",
+                        img: NeedHelp,
+                    },
+                    {
+                        component: "button",
+                        props: {
+                            type: "button",
+                            onClick: () => {
+                                handleCSGSSO(navigate, user.npn, user.email);
+                            },
+                        },
+                        label: "CSG App",
+                    },
+                    {
+                        component: "button",
+                        props: {
+                            type: "button",
+                            onClick: () => {
+                                window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
+                            },
+                        },
+                        label: "MedicareLINK",
+                    },
+                    {
+                        component: "button",
+                        props: {
+                            type: "button",
+                            onClick: () => {
+                                window.open(
+                                    `${process.env.REACT_APP_CONNECTURE_LINK}/${user.npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
+                                    "_blank"
+                                );
+                            },
+                        },
+                        label: "MedicareAPP",
+                    },
+                ],
+                tertiary: [
+                    {
+                        component: "button",
+                        props: {
+                            type: "button",
+                            onClick: () =>
+                                auth.logout({
+                                    logoutParams: {
+                                        returnTo: window.location.origin,
+                                    },
+                                }),
+                        },
+                        label: "Sign Out",
+                        img: MobileLogout,
+                    },
+                ],
+            }
             : {
-                  primary: [],
-                  secondary: [],
-                  tertiary: [],
-              }),
+                primary: [],
+                secondary: [],
+                tertiary: [],
+            }),
     };
 
     const menuProps = {
@@ -220,120 +230,128 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         setNavOpen,
         ...(auth.isAuthenticated && !menuHidden
             ? {
-                  primary: [
-                      {
-                          component: Link,
-                          props: {
-                              to: "/dashboard",
-                              className: analyticsService.clickClass("dashbaord-header"),
-                          },
-                          label: "Dashboard",
-                      },
-                      {
-                          component: Link,
-                          props: {
-                              to: "/contacts",
-                              className: analyticsService.clickClass("contacts-header"),
-                          },
-                          label: "Contacts",
-                      },
-                      {
-                          component: Link,
-                          props: {
-                              to: "/learning-center",
-                              className: analyticsService.clickClass("learningcenter-header"),
-                          },
-                          label: "Learning Center",
-                      },
-                  ],
-                  secondary: [
-                      ...(user.firstName
-                          ? [
-                                {
-                                    component: "button",
-                                    props: {
-                                        type: "button",
-                                        onClick: () =>
-                                            (window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}`),
-                                    },
-                                    label: "Account",
-                                    img: Account,
+                primary: [
+                    {
+                        component: Link,
+                        props: {
+                            to: "/dashboard",
+                            className: analyticsService.clickClass("dashbaord-header"),
+                        },
+                        label: "Dashboard",
+                    },
+                    {
+                        component: Link,
+                        props: {
+                            to: "/contacts",
+                            className: analyticsService.clickClass("contacts-header"),
+                        },
+                        label: "Contacts",
+                    },
+                    {
+                        component: Link,
+                        props: {
+                            to: "/marketing/campaign-dashboard",
+                            className: analyticsService.clickClass("marketing-header"),
+                        },
+                        label: "Marketing",
+                    },
+                    {
+                        component: Link,
+                        props: {
+                            to: "/learning-center",
+                            className: analyticsService.clickClass("learningcenter-header"),
+                        },
+                        label: "Learning Center",
+                    },
+                ],
+                secondary: [
+                    ...(user.firstName
+                        ? [
+                            {
+                                component: "button",
+                                props: {
+                                    type: "button",
+                                    onClick: () =>
+                                        (window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}`),
                                 },
-                            ]
-                          : []),
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () =>
-                                  window.open(
-                                      `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`,
-                                      "_blank"
-                                  ),
-                          },
-                          label: "LeadCENTER",
-                      },
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () => {
-                                  window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
-                              },
-                          },
-                          label: "MedicareLINK",
-                      },
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () => {
-                                  window.open(
-                                      `${process.env.REACT_APP_CONNECTURE_LINK}/${user.npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
-                                      "_blank"
-                                  );
-                              },
-                          },
-                          label: "MedicareAPP",
-                      },
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () => {
-                                  handleCSGSSO(navigate, user.npn, user.email);
-                              },
-                          },
-                          label: "CSG APP",
-                      },
-                      {
-                          component: Link,
-                          props: {
-                              to: "/help",
-                          },
-                          label: "Need Help?",
-                          img: NeedHelp,
-                      },
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () =>
-                                  auth.logout({
-                                      logoutParams: {
-                                          returnTo: window.location.origin,
-                                      },
-                                  }),
-                          },
-                          label: "Sign Out",
-                          img: Logout,
-                      },
-                  ],
-              }
+                                label: "Account",
+                                img: Account,
+                            },
+                        ]
+                        : []),
+                    {
+                        component: "button",
+                        props: {
+                            type: "button",
+                            onClick: () =>
+                                window.open(
+                                    `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`,
+                                    "_blank"
+                                ),
+                        },
+                        label: "LeadCENTER",
+                    },
+                    {
+                        component: "button",
+                        props: {
+                            type: "button",
+                            onClick: () => {
+                                window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
+                            },
+                        },
+                        label: "MedicareLINK",
+                    },
+                    {
+                        component: "button",
+                        props: {
+                            type: "button",
+                            onClick: () => {
+                                window.open(
+                                    `${process.env.REACT_APP_CONNECTURE_LINK}/${user.npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
+                                    "_blank"
+                                );
+                            },
+                        },
+                        label: "MedicareAPP",
+                    },
+                    {
+                        component: "button",
+                        props: {
+                            type: "button",
+                            onClick: () => {
+                                handleCSGSSO(navigate, user.npn, user.email);
+                            },
+                        },
+                        label: "CSG APP",
+                    },
+                    {
+                        component: Link,
+                        props: {
+                            to: "/help",
+                        },
+                        label: "Need Help?",
+                        img: NeedHelp,
+                    },
+                    {
+                        component: "button",
+                        props: {
+                            type: "button",
+                            onClick: () =>
+                                auth.logout({
+                                    logoutParams: {
+                                        returnTo: window.location.origin,
+                                    },
+                                }),
+                        },
+                        label: "Sign Out",
+                        img: Logout,
+                    },
+                ],
+            }
             : {
-                  primary: [],
-                  secondary: [],
-              }),
+                primary: [],
+                secondary: [],
+            }),
     };
 
     useEffect(() => {
@@ -343,8 +361,8 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     }, [leadPreference, setWelcomeModalOpen, welcomeModalTempOpen]);
 
     useEffect(() => {
-        if (user?.agentId && !agentInformation?.agentVirtualPhoneNumber && agentInformation?.isDashboardLocation) {
-            setTimeout(() => clientsService.genarateAgentTwiloNumber(user?.agentId), 5000);
+        if (user?.agentId && agentInformation.isLoading === false && !agentInformation?.agentVirtualPhoneNumber) {
+            setTimeout(() => clientsService.generateAgentTwiloNumber(user?.agentId), 5000);
         }
     }, [agentInformation, clientsService, user]);
 

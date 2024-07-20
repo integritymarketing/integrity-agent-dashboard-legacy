@@ -23,6 +23,8 @@ import { DeleteLeadProvider } from "contexts/deleteLead";
 import { StageSummaryProvider } from "contexts/stageSummary";
 import { TaskListProvider } from "contexts/taskListProvider";
 import { CampaignInvitationProvider } from "providers/CampaignInvitation";
+import { ProfessionalProfileProvider } from "providers/ProfessionalProfileProvider";
+
 
 import AppRoutes from "./App";
 import "./index.scss";
@@ -61,6 +63,7 @@ root.render(
                                                             <StageSummaryProvider>
                                                                 <TaskListProvider>
                                                                     <CampaignInvitationProvider>
+                                                                    <ProfessionalProfileProvider>
                                                                         <HelmetProvider>
                                                                             <Helmet>
                                                                                 <title>Integrity</title>
@@ -75,6 +78,7 @@ root.render(
                                                                             <PortalUrl />
                                                                         </HelmetProvider>
                                                                     </CampaignInvitationProvider>
+                                                                    </ProfessionalProfileProvider>
                                                                 </TaskListProvider>
                                                             </StageSummaryProvider>
                                                         </BackNavProvider>

@@ -5,7 +5,7 @@ import ClickAwayListener from "react-click-away-listener";
 export default function Notice({ hideModal }) {
     const location = useLocation();
     const redirectToAccount = () => {
-        window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}`;
+        window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}/agent-profile`;
     };
     return (
         <div className={Styles.wrapper}>

@@ -1,0 +1,37 @@
+@import "../../../scss/globalDefines.scss";
+
+$integrity-navy-default: #052A63;
+$background-color: #FFFFFF;
+$border-color: #CCCCCC;
+$font-family: 'Lato';
+
+
+.header {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 88px;
+    width: 100%;
+    border-bottom: 1px solid;
+    background: $background-color;
+    border-bottom: 1px solid $border-color;
+
+    .headerText {
+        width: 100%;
+        max-width: 376px;
+        height: 40px;
+        opacity: 1;
+        font-family: $font-family;
+        font-size: 32px;
+        font-weight: 400;
+        line-height: 40px;
+        text-align: center;
+        color: var(--Integrity-navy-default, $integrity-navy-default);
+
+        @include small {
+            font-size: 32px;
+            line-height: 32px;
+        }
+    }
+}

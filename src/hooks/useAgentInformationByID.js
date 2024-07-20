@@ -7,7 +7,7 @@ import { agentIdAtom, clientServiceAtom } from "recoil/agent/atoms";
 import { agentInformationSelector } from "recoil/agent/selectors";
 
 const useAgentInformationByID = () => {
-    const { agentId, fullName } = useUserProfile();
+    const { agentId } = useUserProfile();
     const { clientsService } = useClientServiceContext();
     const agentInformation = useRecoilValue(agentInformationSelector);
     const setClientService = useSetRecoilState(clientServiceAtom);
@@ -19,7 +19,9 @@ const useAgentInformationByID = () => {
     const getAgentAvailability = useRecoilRefresher_UNSTABLE(agentInformationSelector);
 
     useEffect(() => {
-        clientsService && setClientService(clientsService);
+        if (clientsService) {
+            setClientService(clientsService);
+        }
     }, [clientsService, setClientService]);
 
     useEffect(() => {
