@@ -1,0 +1,65 @@
+@import "../../../scss/globalDefines.scss";
+
+.imagePreview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    @include small {
+        padding-top: 16px;
+    }
+}
+
+.imageContainer img {
+    height: 400px;
+
+    @include small {
+        height: 200px;
+    }
+}
+
+.iconContainer {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    cursor: pointer;
+
+    @include small {
+        padding: 20px;
+    }
+}
+
+.modalContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 16px;
+    outline: none;
+
+    width: 35%;
+
+    @include small {
+        width: 80%;
+    }
+
+    img {
+        max-height: 90%;
+        max-width: 90%;
+
+        @include small {
+            max-height: 90%;
+            max-width: 100%;
+        }
+    }
+}
+
+.closeButton {
+    align-self: flex-end;
+}

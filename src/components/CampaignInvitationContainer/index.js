@@ -1,3 +1,1 @@
-export default function index() {
-    return <div>index</div>;
-}
+export * from "./CampaignInvitationContainer";

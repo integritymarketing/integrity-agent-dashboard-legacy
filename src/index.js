@@ -22,7 +22,9 @@ import { CountyProvider } from "contexts/counties";
 import { DeleteLeadProvider } from "contexts/deleteLead";
 import { StageSummaryProvider } from "contexts/stageSummary";
 import { TaskListProvider } from "contexts/taskListProvider";
+import { CampaignInvitationProvider } from "providers/CampaignInvitation";
 import { ProfessionalProfileProvider } from "providers/ProfessionalProfileProvider";
+
 
 import AppRoutes from "./App";
 import "./index.scss";
@@ -60,6 +62,7 @@ root.render(
                                                         <BackNavProvider>
                                                             <StageSummaryProvider>
                                                                 <TaskListProvider>
+                                                                    <CampaignInvitationProvider>
                                                                     <ProfessionalProfileProvider>
                                                                         <HelmetProvider>
                                                                             <Helmet>
@@ -74,7 +77,8 @@ root.render(
                                                                             </Suspense>
                                                                             <PortalUrl />
                                                                         </HelmetProvider>
-                                                                    </ProfessionalProfileProvider>
+                                                                        </ProfessionalProfileProvider>
+                                                                    </CampaignInvitationProvider>
                                                                 </TaskListProvider>
                                                             </StageSummaryProvider>
                                                         </BackNavProvider>
