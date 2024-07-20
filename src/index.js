@@ -77,8 +77,8 @@ root.render(
                                                                             </Suspense>
                                                                             <PortalUrl />
                                                                         </HelmetProvider>
+                                                                        </ProfessionalProfileProvider>
                                                                     </CampaignInvitationProvider>
-                                                                    </ProfessionalProfileProvider>
                                                                 </TaskListProvider>
                                                             </StageSummaryProvider>
                                                         </BackNavProvider>
