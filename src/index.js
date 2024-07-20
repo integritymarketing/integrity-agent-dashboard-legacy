@@ -25,11 +25,10 @@ import { TaskListProvider } from "contexts/taskListProvider";
 import { CampaignInvitationProvider } from "providers/CampaignInvitation";
 import { ProfessionalProfileProvider } from "providers/ProfessionalProfileProvider";
 
-
 import AppRoutes from "./App";
 import "./index.scss";
 import * as serviceWorker from "./serviceWorker";
-import { theme } from "./theme";
+import customTheme from "./themes/muiTheme";
 import { ClientServiceContextProvider } from "services/clientServiceProvider";
 import Auth0ProviderWithHistory from "auth/Auth0ProviderWithHistory";
 // error logging disabled for netlify deploy-preview and branch-deploy builds
@@ -50,7 +49,7 @@ root.render(
             <Router>
                 <Auth0ProviderWithHistory>
                     <ClientServiceContextProvider>
-                        <ThemeProvider theme={theme}>
+                        <ThemeProvider theme={customTheme}>
                             <CssBaseline />
                             <RecoilRoot>
                                 <ToastContextProvider>
@@ -63,20 +62,22 @@ root.render(
                                                             <StageSummaryProvider>
                                                                 <TaskListProvider>
                                                                     <CampaignInvitationProvider>
-                                                                    <ProfessionalProfileProvider>
-                                                                        <HelmetProvider>
-                                                                            <Helmet>
-                                                                                <title>Integrity</title>
-                                                                            </Helmet>
-                                                                            <Suspense fallback={<div>Loading...</div>}>
-                                                                                <AppRouter>
-                                                                                    <div className="content-frame">
-                                                                                        <AppRoutes />
-                                                                                    </div>
-                                                                                </AppRouter>
-                                                                            </Suspense>
-                                                                            <PortalUrl />
-                                                                        </HelmetProvider>
+                                                                        <ProfessionalProfileProvider>
+                                                                            <HelmetProvider>
+                                                                                <Helmet>
+                                                                                    <title>Integrity</title>
+                                                                                </Helmet>
+                                                                                <Suspense
+                                                                                    fallback={<div>Loading...</div>}
+                                                                                >
+                                                                                    <AppRouter>
+                                                                                        <div className="content-frame">
+                                                                                            <AppRoutes />
+                                                                                        </div>
+                                                                                    </AppRouter>
+                                                                                </Suspense>
+                                                                                <PortalUrl />
+                                                                            </HelmetProvider>
                                                                         </ProfessionalProfileProvider>
                                                                     </CampaignInvitationProvider>
                                                                 </TaskListProvider>

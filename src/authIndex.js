@@ -4,8 +4,6 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
-import { ThemeProvider } from "@mui/material/styles";
-
 import "focus-visible";
 
 import AuthClientId from "components/functional/auth/client-id";
@@ -16,7 +14,6 @@ import ToastContextProvider from "components/ui/Toast/ToastContextProvider";
 import AuthAppRoutes from "./AuthApp";
 import "./index.scss";
 import * as serviceWorker from "./serviceWorker";
-import { theme } from "./theme";
 import { ClientServiceContextProvider } from "services/clientServiceProvider";
 import Auth0ProviderWithHistory from "auth/Auth0ProviderWithHistory";
 
@@ -25,30 +22,28 @@ const root = createRoot(container);
 
 root.render(
     <React.StrictMode>
-        <ThemeProvider theme={theme}>
-            <HelmetProvider>
-                <Router>
-                    <Auth0ProviderWithHistory>
-                        <ClientServiceContextProvider>
-                            <ToastContextProvider>
-                                <Helmet>
-                                    <title>Integrity</title>
-                                </Helmet>
-                                <Suspense fallback={<div>Loading...</div>}>
-                                    <AppRouter>
-                                        <div className="content-frame">
-                                            <AuthAppRoutes />
-                                        </div>
-                                    </AppRouter>
-                                </Suspense>
-                                <AuthClientId />
-                                <AuthClientUrl />
-                            </ToastContextProvider>
-                        </ClientServiceContextProvider>
-                    </Auth0ProviderWithHistory>
-                </Router>
-            </HelmetProvider>
-        </ThemeProvider>
+        <HelmetProvider>
+            <Router>
+                <Auth0ProviderWithHistory>
+                    <ClientServiceContextProvider>
+                        <ToastContextProvider>
+                            <Helmet>
+                                <title>Integrity</title>
+                            </Helmet>
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <AppRouter>
+                                    <div className="content-frame">
+                                        <AuthAppRoutes />
+                                    </div>
+                                </AppRouter>
+                            </Suspense>
+                            <AuthClientId />
+                            <AuthClientUrl />
+                        </ToastContextProvider>
+                    </ClientServiceContextProvider>
+                </Auth0ProviderWithHistory>
+            </Router>
+        </HelmetProvider>
     </React.StrictMode>
 );
 
