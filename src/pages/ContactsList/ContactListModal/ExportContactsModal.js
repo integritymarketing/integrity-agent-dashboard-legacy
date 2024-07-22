@@ -19,7 +19,6 @@ import { useContactsListModalContext } from "../providers/ContactsListModalProvi
 import { useContactsListContext } from "../providers/ContactsListProvider";
 
 const headers = [
-    { label: "Contact Record Type", key: "contactRecordType" },
     { label: "First Name", key: "firstName" },
     { label: "Last Name", key: "lastName" },
     { label: "Email", key: "email" },

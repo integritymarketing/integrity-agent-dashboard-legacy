@@ -5,7 +5,6 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { Field, Form, Formik } from "formik";
 
-import ContactRecordTypes from "utils/contactRecordTypes";
 import { formatDate } from "utils/dates";
 import PhoneLabels from "utils/phoneLabels";
 import { formatPhoneNumber } from "utils/phones";
@@ -97,7 +96,7 @@ const NewContactForm = ({
                 };
             }
         },
-        [clientsService, showToast]
+        [clientsService, showToast],
     );
 
     const getContactLink = (id) => `/contact/${id}/overview`;
@@ -182,7 +181,6 @@ const NewContactForm = ({
                 partA: partA ?? "",
                 partB: partB ?? "",
                 primaryCommunication: "",
-                contactRecordType: "prospect",
             }}
             validate={async (values) => {
                 return validationService.validateMultiple(
@@ -242,7 +240,7 @@ const NewContactForm = ({
                             args: ["Medicare Beneficiary ID Number"],
                         },
                     ],
-                    values
+                    values,
                 );
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
@@ -636,7 +634,7 @@ const NewContactForm = ({
                                         handleBlur(e);
                                         setFieldValue(
                                             "medicareBeneficiaryID",
-                                            formatMbiNumber(values.medicareBeneficiaryID)
+                                            formatMbiNumber(values.medicareBeneficiaryID),
                                         );
                                     }}
                                 />
@@ -679,21 +677,6 @@ const NewContactForm = ({
 
                         <div className="mt-3 mb-3 border-bottom border-bottom--light" />
                         <div>
-                            <label className="label" htmlFor="contact--record--type">
-                                Contact Record Type
-                            </label>
-                            <Select
-                                style={{ width: 146 }}
-                                options={ContactRecordTypes}
-                                initialValue="prospect"
-                                onChange={(value) => {
-                                    analyticsService.fireEvent("event-content-load", {
-                                        selection: `record type ${value}`,
-                                    });
-                                    setFieldValue("contactRecordType", value);
-                                }}
-                                showValueAlways={true}
-                            />
 
                             {duplicateLeadIds?.length > 0 && (
                                 <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>

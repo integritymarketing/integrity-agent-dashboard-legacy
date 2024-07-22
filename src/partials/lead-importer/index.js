@@ -108,9 +108,8 @@ const LeadImporter = () => {
                         navigate("/contacts");
                     }}
                 >
-                    <ImporterField name="contactRecordType" label="Contact Record Type" optional />
                     <ImporterField name="firstName" label="First Name" />
-                    <ImporterField name="lastName" label="Last Name"/>
+                    <ImporterField name="lastName" label="Last Name" />
                     <ImporterField name="email" label="Email" optional />
                     <ImporterField name="phone" label="Phone" optional />
                     <ImporterField name="address1" label="Address 1" optional />

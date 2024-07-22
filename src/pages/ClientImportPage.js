@@ -43,7 +43,6 @@ const ClientImportPage = () => {
                     The following fields are available for import (all are optional except Email and Phone):
                 </p>
                 <ul className="list-disc">
-                    <li>Contact Record Type</li>
                     <li>First Name</li>
                     <li>Last Name</li>
                     <li>Email</li>

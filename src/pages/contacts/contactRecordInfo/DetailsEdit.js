@@ -218,7 +218,7 @@ const DetailsEditContact = (props) => {
                             args: ["Medicare Beneficiary ID Number"],
                         },
                     ],
-                    values
+                    values,
                 );
                 return await isDuplicateContact(values, setDuplicateLeadIds, errors, leadsId);
             }}
@@ -283,9 +283,8 @@ const DetailsEditContact = (props) => {
                                     type="secondary"
                                 />
                                 <Button
-                                    className={`contact-details-submit submit-btn btn ${
-                                        !dirty || !isValid ? "btn-disabled" : ""
-                                    }`}
+                                    className={`contact-details-submit submit-btn btn ${!dirty || !isValid ? "btn-disabled" : ""
+                                        }`}
                                     data-gtm="new-contact-create-button"
                                     label="Save Changes"
                                     disabled={!dirty || !isValid}
@@ -363,20 +362,6 @@ const DetailsEditContact = (props) => {
                                                 <li className="error-msg-red">{errors.birthdate}</li>
                                             </ul>
                                         )}
-                                    </div>
-                                    <div className="ml-65 responsive-w-50 custom-w-25 contact-details-col1">
-                                        <label className="custom-label-state label" htmlFor="phone-label">
-                                            Contact Record Type
-                                        </label>
-                                        <div className="record-select-input mob-res-mar-0">
-                                            <Select
-                                                placeholder="select"
-                                                options={ContactRecordTypes}
-                                                initialValue={values.contactRecordType}
-                                                onChange={(value) => setFieldValue("contactRecordType", value)}
-                                                showValueAlways={true}
-                                            />
-                                        </div>
                                     </div>
                                     <div className="custom-w-25 contact-details-col1 visibility-hidden"></div>
                                 </div>
@@ -556,7 +541,7 @@ const DetailsEditContact = (props) => {
                                                 onChange={(value) => {
                                                     setFieldValue("address.county", value);
                                                     const { key: fip, state } = allCounties.filter(
-                                                        (item) => item.value === value
+                                                        (item) => item.value === value,
                                                     )[0];
                                                     setFieldValue("address.countyFips", fip);
                                                     if (allCounties.length > 1) {
@@ -607,7 +592,7 @@ const DetailsEditContact = (props) => {
                                                 handleBlur(e);
                                                 setFieldValue(
                                                     "medicareBeneficiaryID",
-                                                    formatMbiNumber(values.medicareBeneficiaryID)
+                                                    formatMbiNumber(values.medicareBeneficiaryID),
                                                 );
                                             }}
                                         />
@@ -681,9 +666,8 @@ const DetailsEditContact = (props) => {
                                     </div>
                                 )}
                                 <div
-                                    className={` ${
-                                        props.page === "plansPage" ? "save-btn-only" : ""
-                                    } btn-responsive-display mt-3`}
+                                    className={` ${props.page === "plansPage" ? "save-btn-only" : ""
+                                        } btn-responsive-display mt-3`}
                                     style={{ display: "flex" }}
                                 >
                                     <Button
@@ -693,9 +677,8 @@ const DetailsEditContact = (props) => {
                                         onClick={() => props.setEdit(false)}
                                     />
                                     <Button
-                                        className={`contact-details-submit submit-btn btn ${
-                                            !dirty || !isValid ? "btn-disabled" : ""
-                                        }`}
+                                        className={`contact-details-submit submit-btn btn ${!dirty || !isValid ? "btn-disabled" : ""
+                                            }`}
                                         data-gtm="new-contact-create-button"
                                         label="Save Changes"
                                         disabled={!dirty || !isValid}
