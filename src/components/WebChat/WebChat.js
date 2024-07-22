@@ -13,6 +13,7 @@ import HideIcon from "./hide-icon.png";
 import openAudio from "./open.mp3";
 import closeAudio from "./close.mp3";
 import Info from "components/icons/info-blue";
+import useDeviceType from "hooks/useDeviceType";
 import AskIntegrityFeedback from "./AskIntegrityInfoContainer/AskIntegrityFeedback";
 
 const WebChatComponent = () => {
@@ -26,6 +27,7 @@ const WebChatComponent = () => {
     const audioRefClose = useRef(null);
     const chatRef = useRef(null);
     const { fireEvent } = useAnalytics();
+    const { isDesktop } = useDeviceType();
 
     const fetchDirectLineToken = useCallback(async () => {
         try {
@@ -94,14 +96,14 @@ const WebChatComponent = () => {
                 const inputElement = document.querySelector('[data-id="webchat-sendbox-input"]');
                 if (inputElement) {
                     inputElement.setAttribute("maxLength", "100");
-                    inputElement.focus();
+                    if (isDesktop) {inputElement.focus();}
                     clearInterval(intervalId);
                 }
             }, 500);
 
             return () => clearInterval(intervalId);
         }
-    }, [isChatActive]);
+    }, [isChatActive, isDesktop]);
 
     useEffect(() => {
         if (isChatActive) {
