@@ -24,14 +24,9 @@ export default function InboundCallBanner() {
   const [isModalOpen, setModalOpen] = useState(false);
   const callRecordings = useCallRecordings();
 
-    const sortedCallRecordings = useMemo(
-        () => callRecordings.sort((a, b) => new Date(b.callStartTime) - new Date(a.callStartTime)),
-        [callRecordings]
-    );
- 
     const activeCallStatus = useMemo(
-        () => sortedCallRecordings.find((record) => record.callStatus === IN_PROGRESS),
-        [sortedCallRecordings]
+        () => callRecordings.find((record) => record.callStatus === IN_PROGRESS),
+        [callRecordings]
     );
  
   const navigateToLinkToContact = () => {
