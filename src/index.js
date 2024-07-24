@@ -24,6 +24,8 @@ import { StageSummaryProvider } from "contexts/stageSummary";
 import { TaskListProvider } from "contexts/taskListProvider";
 import { CampaignInvitationProvider } from "providers/CampaignInvitation";
 import { ProfessionalProfileProvider } from "providers/ProfessionalProfileProvider";
+import { CreateNewQuoteProvider } from "providers/CreateNewQuote";
+import { ContactDetailsProvider } from "providers/ContactDetails";
 
 import AppRoutes from "./App";
 import "./index.scss";
@@ -63,21 +65,27 @@ root.render(
                                                                 <TaskListProvider>
                                                                     <CampaignInvitationProvider>
                                                                         <ProfessionalProfileProvider>
-                                                                            <HelmetProvider>
-                                                                                <Helmet>
-                                                                                    <title>Integrity</title>
-                                                                                </Helmet>
-                                                                                <Suspense
-                                                                                    fallback={<div>Loading...</div>}
-                                                                                >
-                                                                                    <AppRouter>
-                                                                                        <div className="content-frame">
-                                                                                            <AppRoutes />
-                                                                                        </div>
-                                                                                    </AppRouter>
-                                                                                </Suspense>
-                                                                                <PortalUrl />
-                                                                            </HelmetProvider>
+                                                                            <CreateNewQuoteProvider>
+                                                                                <ContactDetailsProvider>
+                                                                                    <HelmetProvider>
+                                                                                        <Helmet>
+                                                                                            <title>Integrity</title>
+                                                                                        </Helmet>
+                                                                                        <Suspense
+                                                                                            fallback={
+                                                                                                <div>Loading...</div>
+                                                                                            }
+                                                                                        >
+                                                                                            <AppRouter>
+                                                                                                <div className="content-frame">
+                                                                                                    <AppRoutes />
+                                                                                                </div>
+                                                                                            </AppRouter>
+                                                                                        </Suspense>
+                                                                                        <PortalUrl />
+                                                                                    </HelmetProvider>
+                                                                                </ContactDetailsProvider>
+                                                                            </CreateNewQuoteProvider>
                                                                         </ProfessionalProfileProvider>
                                                                     </CampaignInvitationProvider>
                                                                 </TaskListProvider>

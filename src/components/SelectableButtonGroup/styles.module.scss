@@ -1,39 +1,40 @@
 .label {
     font-size: 16px;
     letter-spacing: -0.14px;
-    color: #717171;
-    margin-bottom: 10px;
+    font-weight: 600;
+    color: #052a63;
+    margin-bottom: 4px;
     display: block;
 }
 
 .buttonContainer {
     display: flex;
-    gap: 1rem;
+    gap: 8px;
     width: 100%;
 }
 
 .expandableButton {
     transition: all 0.5s ease;
-    border: 1px solid #DDDDDD;
+    border: 1px solid #dddddd;
     border-radius: 4px;
-    padding: 1rem 2rem;
+    padding: 17px 16px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    background: #FFFFFF;
+    background: #ffffff;
     cursor: pointer;
     flex: 1;
-    color: #434A51;
+    color: #434a51;
     font-size: 16px;
     letter-spacing: -0.16px;
 }
 
 .expandableButton:hover {
     flex-grow: 3;
-    background: #F1FAFF;
+    background: #f1faff;
 }
 
 .expandableButton.selected {
-    background: #F1FAFF no-repeat padding-box;
-    border: 1px solid #DDDDDD;
+    background: #f1faff no-repeat padding-box;
+    border: 1px solid #dddddd;
 }

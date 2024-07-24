@@ -164,7 +164,7 @@ export const LeadDetailsProvider = ({ children }) => {
                 async () => {
                     await getLeadDetails(newPayload?.leadsId);
                     showToast({
-                        message: `Client notes successfully Updated.                      `,
+                        message: `Client notes successfully Updated.`,
                     });
                 },
                 (err) =>

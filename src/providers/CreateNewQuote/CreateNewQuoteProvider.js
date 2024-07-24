@@ -1,0 +1,187 @@
+import { createContext, useState, useCallback } from "react";
+import PropTypes from "prop-types";
+import { useAgentAccountContext } from "providers/AgentAccountProvider";
+import useUserProfile from "hooks/useUserProfile";
+import useToast from "hooks/useToast";
+import { useNavigate } from "react-router-dom";
+
+export const CreateNewQuoteContext = createContext();
+
+export const CreateNewQuoteProvider = ({ children }) => {
+    const { leadPreference, updateAgentPreferences } = useAgentAccountContext();
+    const { agentId } = useUserProfile();
+    const showToast = useToast();
+    const navigate = useNavigate();
+
+    const LIFE = "hideLifeQuote";
+    const HEALTH = "hideHealthQuote";
+
+    const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
+    const [createNewContactModalOpen, setCreateNewContactModalOpen] = useState(false);
+
+    const [selectedLead, setSelectedLead] = useState(null);
+    const [newLeadDetails, setNewLeadDetails] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+    });
+    const [showStartQuoteModal, setShowStartQuoteModal] = useState(false);
+
+    const [quoteModalStage, setQuoteModalStage] = useState("");
+
+    const [selectedProductType, setSelectedProductType] = useState(null);
+    const [selectedLifeProductType, setSelectedLifeProductType] = useState(null);
+    const [selectedHealthProductType, setSelectedHealthProductType] = useState(null);
+    const [selectedIulGoal, setSelectedIulGoal] = useState(null);
+    const [finalExpenseIntakeFormData, setFinalExpenseIntakeFormData] = useState({
+        fullName: "",
+        email: "",
+        phone: "",
+        dateOfBirth: "",
+    });
+    const [showZipCodeInput, setShowZipCodeInput] = useState(false);
+    const [DoNotShowAgain, setDoNotShowAgain] = useState(false);
+
+    const handleSelectedLead = (lead, type) => {
+        if (type === "new") {
+            setNewLeadDetails({
+                ...newLeadDetails,
+                firstName: lead?.split(" ")[0],
+                lastName: lead?.split(" ")[1],
+            });
+            setSelectedLead(null);
+            setCreateNewContactModalOpen(true);
+        } else {
+            setSelectedLead(lead);
+            setCreateNewContactModalOpen(false);
+            handleAgentProductPreferenceType();
+        }
+    };
+
+    const handleAgentProductPreferenceType = () => {
+        setShowStartQuoteModal(true);
+
+        if (!leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote) {
+            setQuoteModalStage("selectProductTypeCard");
+        } else {
+            setSelectedProductType(leadPreference?.hideLifeQuote ? "health" : "life");
+            if (leadPreference?.hideLifeQuote === "life") {
+                setQuoteModalStage("lifeQuestionCard");
+            } else {
+                setQuoteModalStage("healthQuestionCard");
+            }
+        }
+    };
+
+    const handleSelectedProductType = (productType) => {
+        if (DoNotShowAgain) {
+            editAgentPreferences(productType);
+        }
+        setSelectedProductType(productType);
+        if (productType === "life") {
+            setQuoteModalStage("lifeQuestionCard");
+        } else {
+            setQuoteModalStage("healthQuestionCard");
+        }
+    };
+
+    // Update agent preferences during user selected Do not show again //
+
+    const editAgentPreferences = useCallback(
+        async (type) => {
+            try {
+                const updatedType = type === LIFE ? HEALTH : LIFE;
+                const payload = {
+                    agentID: agentId,
+                    leadPreference: {
+                        ...leadPreference,
+                        [updatedType]: true,
+                    },
+                };
+                await updateAgentPreferences(payload);
+            } catch (error) {
+                showToast({
+                    type: "error",
+                    message: "Failed to save the preferences.",
+                    time: 10000,
+                });
+            }
+        },
+        [agentId, leadPreference, showToast, updateAgentPreferences]
+    );
+
+    const handleSelectLifeProductType = (productType) => {
+        setSelectedLifeProductType(productType);
+        if (productType === "Indexed Universal Life") {
+            setQuoteModalStage("IulGoalQuestionCard");
+        } else {
+            setQuoteModalStage("finalExpenseIntakeFormCard");
+        }
+    };
+
+    const handleSelectedHealthProductType = (productType) => {
+        setSelectedHealthProductType(productType);
+        // check if lead has zip code or not
+        if (selectedLead?.zipCode) {
+            navigate(`/plans/${selectedLead?.leadsId}`);
+        } else {
+            setQuoteModalStage("zipCodeInputCard");
+        }
+    };
+
+    const handleSelectIulGoal = (goal) => {
+        setSelectedIulGoal(goal);
+        setQuoteModalStage("finalExpenseIntakeFormCard");
+    };
+
+    const handleAfterZipCodeCard = () => {
+        setQuoteModalStage("");
+        setShowStartQuoteModal(false);
+        setSelectedLead(null);
+    };
+
+    return <CreateNewQuoteContext.Provider value={getContextValue()}>{children}</CreateNewQuoteContext.Provider>;
+
+    function getContextValue() {
+        return {
+            selectedLead,
+            handleSelectedLead,
+            newLeadDetails,
+            setNewLeadDetails,
+            createNewContactModalOpen,
+            setCreateNewContactModalOpen,
+            contactSearchModalOpen,
+            setContactSearchModalOpen,
+            selectedProductType,
+            setSelectedProductType,
+            selectedLifeProductType,
+            setSelectedLifeProductType,
+            selectedHealthProductType,
+            setSelectedHealthProductType,
+            selectedIulGoal,
+            setSelectedIulGoal,
+            finalExpenseIntakeFormData,
+            setFinalExpenseIntakeFormData,
+            showZipCodeInput,
+            setShowZipCodeInput,
+            DoNotShowAgain,
+            setDoNotShowAgain,
+            handleSelectedProductType,
+            handleSelectLifeProductType,
+            handleSelectedHealthProductType,
+            handleAgentProductPreferenceType,
+            editAgentPreferences,
+            showStartQuoteModal,
+            setShowStartQuoteModal,
+            quoteModalStage,
+            setQuoteModalStage,
+            handleSelectIulGoal,
+            handleAfterZipCodeCard,
+        };
+    }
+};
+
+CreateNewQuoteProvider.propTypes = {
+    children: PropTypes.node.isRequired, // Child components that this provider will wrap
+};

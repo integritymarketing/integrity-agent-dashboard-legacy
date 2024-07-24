@@ -1,0 +1,44 @@
+@import "../../../scss/globalDefines.scss";
+
+.dialogTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.closeButton {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.modalBody {
+    overflow: auto;
+    padding: 24px;
+    color: var(--Integrity-Theme-Integrity-gray-dark-4);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 16px;
+    background-color: var(--Integrity-Theme-Integrity-gray-light-1);
+
+    @include small {
+        padding: 24px 16px;
+    }
+}
+
+.content {
+    color: var(--Integrity-Theme-Integrity-gray-dark-4);
+    line-height: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-radius: 8px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--Integrity-Theme-Integrity-gray-light-1);
+    padding: 0px 24px 24px 24px !important;
+}

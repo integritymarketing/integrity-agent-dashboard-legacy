@@ -16,7 +16,7 @@ import { CopyAddress } from "./CopyAddress/CopyAddress";
 import { SelectCounty } from "./SelectCounty/SelectCounty";
 import { ZipCodeInput } from "./ZipCodeInput/ZipCodeInput";
 
-const AddZipContainer = ({ isMobile, contactId }) => {
+const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => {} }) => {
     const navigate = useNavigate();
 
     const { leadDetails, updateLeadDetails } = useLeadDetails();
@@ -46,36 +46,43 @@ const AddZipContainer = ({ isMobile, contactId }) => {
         const { countyFIPS, countyName, state } = countyObj;
         // const payload = getPayloadForUpdate(leadDetails, countyName, countyFIPS, state, zipCode);
         const {
-            modifyDate,
-            addresses,
-            contactPreferences,
-            emails,
-            phones,
-            firstName,
-            lastName,
-            middleName,
-            leadsId,
-            contactRecordType,
-            leadStatusId,
-            notes,
-            medicareBeneficiaryID,
-            partA,
-            partB,
-        } = leadDetails;
-
-        const email = emails.length > 0 ? emails[0].leadEmail : null;
+            emails = [],
+            phones = [],
+            firstName = '',
+            lastName = '',
+            middleName = '',
+            leadsId = 0,
+            contactRecordType = '',
+            leadStatusId = 0,
+            notes = '',
+            medicareBeneficiaryID = '',
+            partA = false,
+            partB = false,
+            addresses = [],
+            contactPreferences = {},
+        } = leadDetails || {};
+        
+        // Extract primary email and phone details with null checks
+        const email = emails.length > 0 ? emails[0]?.leadEmail : null;
         const phoneData = phones.length > 0 ? phones[0] : null;
-        const addressData = addresses.length > 0 ? addresses?.[0] : null;
-        const emailID = emails.length > 0 ? emails[0].emailID : 0;
-        const leadAddressId = addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
-        const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
-
-        const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
-        const phoneLabel = phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "mobile";
-        const county = addressData && addressData.county ? addressData.county : "";
-        const countyFips = addressData && addressData.countyFips ? addressData.countyFips : "";
-
-        const isPrimary = contactPreferences?.primary ? contactPreferences?.primary : "email";
+        const addressData = addresses.length > 0 ? addresses[0] : null;
+        
+        // Extract email ID and address ID with default values
+        const emailID = emails.length > 0 ? emails[0]?.emailID : 0;
+        const leadAddressId = addressData?.leadAddressId || 0;
+        const phoneId = phoneData?.phoneId || 0;
+        
+        // Extract phone details with default values
+        const phone = phoneData?.leadPhone || "";
+        const phoneLabel = phoneData?.phoneLabel || "mobile";
+        
+        // Extract address details with default values
+        const county = addressData?.county || "";
+        const countyFips = addressData?.countyFips || "";
+        
+        // Extract primary contact preference with a default value
+        const isPrimary = contactPreferences.primary || "email";
+        
 
         const payload = {
             firstName: firstName,
@@ -103,16 +110,17 @@ const AddZipContainer = ({ isMobile, contactId }) => {
             phoneId,
             leadStatusId,
             leadsId,
-            modifyDate,
             notes,
             medicareBeneficiaryID: medicareBeneficiaryID ? formatMbiNumber(medicareBeneficiaryID) : "",
             partA: partA ?? "",
             partB: partB ?? "",
         };
 
-        await updateLeadDetails(payload);
-        // getLeadDetails(contactId);
-        navigate(`/plans/${contactId}`);
+        const res = await updateLeadDetails(payload);
+        if (res) {
+        navigate(`/plans/${leadsId}`);
+        quickQuoteModalCallBack && quickQuoteModalCallBack();
+        }
     };
 
     const fetchCounties = useCallback(

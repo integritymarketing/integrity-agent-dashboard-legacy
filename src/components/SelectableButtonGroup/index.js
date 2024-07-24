@@ -1,4 +1,6 @@
-import { useMemo, useCallback } from "react";
+import { useMemo } from "react";
+import { useMediaQuery, useTheme } from "@mui/material";
+
 import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 
@@ -22,6 +24,9 @@ const SelectableButtonGroup = ({
     buttonClassNames = [],
     onSelect,
 }) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
     const getButtonStyle = useMemo(() => {
         return (buttonText, index) => {
             const isSelected =
@@ -49,7 +54,7 @@ const SelectableButtonGroup = ({
             <div className={styles.buttonContainer}>
                 {buttonOptions.map((text, index) => (
                     <button key={index} className={getButtonStyle(text, index)} onClick={(e) => handleSelect(e, text)}>
-                        {text}
+                        {isMobile && text?.length > 3 ? text[0] : text}
                     </button>
                 ))}
             </div>

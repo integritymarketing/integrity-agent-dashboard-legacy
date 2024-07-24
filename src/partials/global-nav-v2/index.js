@@ -454,7 +454,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
           https://github.com/ReactTraining/react-media/issues/139
         */}
                         {isMobile && <SmallFormatMenu {...mobileMenuProps} />}
-                        <div className="onlyWeb">
+                        <div className="onlyWeb flex">
                             {!isMobile && <LargeFormatMenu {...menuProps} />}
                             {!isMobile && user?.firstName && leadPreference && (
                                 <MyButton

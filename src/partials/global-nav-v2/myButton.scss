@@ -19,7 +19,6 @@
   width: max-content;
   color: #FFFFFF;
   margin-right: 8px;
-  margin-left: 20px;
   @media screen and (max-width: 883px) {
     margin-left: 0px;
     color: #7188A8;
@@ -29,8 +28,6 @@
 .myButtonWrapper {
   display: flex;
   color: #ffffffbf;
-  margin-right: 8px;
-  margin-left: 8px;
   z-index: 100;
   @media screen and (max-width: 883px) {
     margin-bottom: 10px;
