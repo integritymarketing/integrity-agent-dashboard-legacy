@@ -99,7 +99,7 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
                             name={"enrollModal"}
                             htmlFor={"send"}
                             id={"send"}
-                            label={`Send the enrollment link to the client`}
+                            label={`Phone/Virtual Appointment (send link to beneficiary to sign and submit)`}
                             checked={option === "send"}
                             onChange={() => setOption("send")}
                         />
@@ -107,7 +107,7 @@ const EnrollmentModal = ({ modalOpen, planData, handleCloseModal, contact, effec
                             name={"enrollModal"}
                             htmlFor={"complete"}
                             id={"complete"}
-                            label={`Agent to complete the enrollment forms themselves`}
+                            label={`Face-to-face Appointment ONLY (agent may submit)`}
                             checked={option === "complete"}
                             onChange={() => setOption("complete")}
                         />
