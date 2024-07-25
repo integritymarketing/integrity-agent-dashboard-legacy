@@ -37,5 +37,6 @@ export const LeadDetails = yup.object().shape({
             "Last name must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted."
         ),
     email: emailOrPhoneRequired.email("Email must be a valid address"),
-    phone: emailOrPhoneRequired.matches(/^\d{10}$/, "Phone number must be a valid 10-digit number"),
+    phone: emailOrPhoneRequired.matches(/^\(\d{3}\) \d{3}-\d{4}$/, 'Phone number must be a valid 10 digit number'),
+    
 });

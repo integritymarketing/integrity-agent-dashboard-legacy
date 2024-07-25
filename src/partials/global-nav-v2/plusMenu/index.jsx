@@ -1,6 +1,6 @@
-import { useState } from "react";
-
+import { useState, useCallback } from "react";
 import { Menu, MenuItem, MenuList, Typography } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 import { QuickQuoteModals } from "components/CreateNewQuoteContainer";
 
@@ -16,17 +16,26 @@ export default function PlusMenu() {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const navigate = useNavigate();
 
-    const handleCreateQuote = () => {
+    const handleClick = useCallback((event) => {
+        setAnchorEl(event.currentTarget);
+    }, []);
+
+    const handleCreateQuote = useCallback(() => {
         setContactSearchModalOpen(true);
-        handleClose();
-    };
+        setAnchorEl(null);
+    }, [setContactSearchModalOpen]);
+
+    const handleNavigateToContact = useCallback(() => {
+        setAnchorEl(null);
+        navigate("/contact/add-new");
+    }, [navigate]);
+
+    const handleNavigateToLeadCenter = useCallback(() => {
+        setAnchorEl(null);
+        window.location.href = `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/campaigns`;
+    }, []);
 
     return (
         <>
@@ -36,14 +45,14 @@ export default function PlusMenu() {
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
             >
-                <img src={PlusIcon} alt="plusIcon" />
+                <img src={PlusIcon} alt="Plus Icon" />
             </button>
             <Menu
-                id="demo-positioned-menu"
-                aria-labelledby="demo-positioned-button"
+                id="plus-menu"
+                aria-labelledby="plus-menu-button"
                 anchorEl={anchorEl}
                 open={open}
-                onClose={handleClose}
+                onClose={() => setAnchorEl(null)}
                 anchorOrigin={{
                     vertical: "bottom",
                     horizontal: "left",
@@ -55,9 +64,7 @@ export default function PlusMenu() {
                 transition
             >
                 <MenuList
-                    sx={{
-                        padding: "0px 8px",
-                    }}
+                    sx={{ padding: "0px 8px" }}
                     className={styles.menuList}
                 >
                     <Typography
@@ -70,31 +77,25 @@ export default function PlusMenu() {
                     <MenuItem
                         onClick={handleCreateQuote}
                         className={styles.menuItem}
-                        sx={{
-                            padding: "6px 8px",
-                        }}
+                        sx={{ padding: "6px 8px" }}
                     >
-                        <img src={QuoteIcon} alt="" />
+                        <img src={QuoteIcon} alt="Quote Icon" />
                         Quote
                     </MenuItem>
                     <MenuItem
-                        onClick={handleClose}
+                        onClick={handleNavigateToContact}
                         className={styles.menuItem}
-                        sx={{
-                            padding: "6px 8px",
-                        }}
+                        sx={{ padding: "6px 8px" }}
                     >
-                        <img src={ContactsIcon} alt="" />
+                        <img src={ContactsIcon} alt="Contacts Icon" />
                         Contact
                     </MenuItem>
                     <MenuItem
-                        onClick={handleClose}
+                        onClick={handleNavigateToLeadCenter}
                         className={styles.menuItem}
-                        sx={{
-                            padding: "6px 8px",
-                        }}
+                        sx={{ padding: "6px 8px" }}
                     >
-                        <img src={LeadIcon} alt="" />
+                        <img src={LeadIcon} alt="Lead Icon" />
                         Lead in LeadCENTER
                     </MenuItem>
                 </MenuList>

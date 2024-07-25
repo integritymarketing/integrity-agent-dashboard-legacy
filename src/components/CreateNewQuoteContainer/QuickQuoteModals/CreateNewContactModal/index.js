@@ -9,6 +9,7 @@ import useToast from "hooks/useToast";
 
 import { useFormik } from "formik";
 import { LeadDetails } from "schemas";
+import { formatPhoneNumber } from "utils/formatPhoneNumber";
 import styles from "./styles.module.scss";
 
 const CreateNewContactModal = () => {
@@ -84,7 +85,12 @@ const CreateNewContactModal = () => {
         onSubmit: onSubmitHandler,
     });
 
-    const { values, errors, touched, handleChange, handleBlur, handleSubmit } = formik;
+    const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
+
+    const handlePhoneChange = (e) => {
+        const formattedPhoneNumber = formatPhoneNumber(e.target.value);
+        setFieldValue("phone", formattedPhoneNumber);
+    };
 
     const onClose = () => {
         handleClose(false);
@@ -126,7 +132,7 @@ const CreateNewContactModal = () => {
                         <TextInput
                             name="lastName"
                             value={values.lastName}
-                            placeholder="Enter your first name"
+                            placeholder="Enter your last name"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             error={touched.lastName && Boolean(errors.lastName)}
@@ -157,18 +163,18 @@ const CreateNewContactModal = () => {
                         <TextInput
                             name="phone"
                             value={values.phone}
-                            onChange={handleChange}
+                            onChange={handlePhoneChange}
                             onBlur={handleBlur}
                             error={touched.phone && Boolean(errors.phone)}
                             fullWidth
-                            label="Phone*"
+                            label="Phone"
                             type="tel"
-                            placeholder="XXX-XXX-XXXX"
+                            placeholder="(___) ___-____"
                             size="small"
                             helperText={touched.phone && errors.phone}
                             InputProps={{
                                 inputProps: {
-                                    maxLength: 10,
+                                    maxLength: 14,
                                 },
                                 endAdornment: touched.phone && Boolean(errors.phone) && <ErrorInfoIcon />,
                             }}
@@ -183,7 +189,7 @@ const CreateNewContactModal = () => {
                             onBlur={handleBlur}
                             error={touched.email && Boolean(errors.email)}
                             fullWidth
-                            label="Email*"
+                            label="Email"
                             size="small"
                             helperText={touched.email && errors.email}
                             InputProps={{
