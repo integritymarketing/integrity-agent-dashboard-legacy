@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./SelectCounty.module.scss";
 import { SELECT_COUNTY } from "components/AddZipContainer/AddZipContainer.constants";
@@ -21,6 +21,7 @@ export const SelectCounty = ({ counties, isMobile, onSelectCounty }) => {
                     const checked = selectedCounty === county.value;
                     return (
                         <div
+                            key={county.value}
                             className={`${styles.radioLabel} ${isMobile ? styles.bkgLabel : ""} ${
                                 checked ? styles.selectedBkg : ""
                             }`}

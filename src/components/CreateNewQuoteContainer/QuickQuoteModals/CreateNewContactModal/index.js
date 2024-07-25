@@ -68,7 +68,7 @@ const CreateNewContactModal = () => {
                 setSubmitting(false);
             }
         },
-        [newLeadDetails, clientsService, showToast]
+        [clientsService, handleSelectedLead, showToast]
     );
 
     const ErrorInfoIcon = () => (
@@ -84,7 +84,7 @@ const CreateNewContactModal = () => {
         onSubmit: onSubmitHandler,
     });
 
-    const { values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit } = formik;
+    const { values, errors, touched, handleChange, handleBlur, handleSubmit } = formik;
 
     const onClose = () => {
         handleClose(false);
@@ -98,7 +98,6 @@ const CreateNewContactModal = () => {
             footer
             handleSave={handleSubmit}
             showCloseButton
-            // isSaveButtonDisabled={!dirty || !isValid}
             shouldShowCancelButton={true}
             maxWidth="sm"
             disableContentBackground
@@ -113,13 +112,13 @@ const CreateNewContactModal = () => {
                             placeholder="Enter your first name"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            error={touched.firstName && !!errors.firstName}
+                            error={touched.firstName && Boolean(errors.firstName)}
                             fullWidth
                             label="First Name"
                             size="small"
                             helperText={touched.firstName && errors.firstName}
                             InputProps={{
-                                endAdornment: touched.firstName && !!errors.firstName && <ErrorInfoIcon />,
+                                endAdornment: touched.firstName && Boolean(errors.firstName) && <ErrorInfoIcon />,
                             }}
                         />
                     </Grid>
@@ -130,13 +129,13 @@ const CreateNewContactModal = () => {
                             placeholder="Enter your first name"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            error={touched.lastName && !!errors.lastName}
+                            error={touched.lastName && Boolean(errors.lastName)}
                             fullWidth
                             label="Last Name"
                             size="small"
                             helperText={touched.lastName && errors.lastName}
                             InputProps={{
-                                endAdornment: touched.lastName && !!errors.lastName && <ErrorInfoIcon />,
+                                endAdornment: touched.lastName && Boolean(errors.lastName) && <ErrorInfoIcon />,
                             }}
                         />
                     </Grid>
@@ -160,7 +159,7 @@ const CreateNewContactModal = () => {
                             value={values.phone}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            error={touched.phone && !!errors.phone}
+                            error={touched.phone && Boolean(errors.phone)}
                             fullWidth
                             label="Phone*"
                             type="tel"
@@ -171,7 +170,7 @@ const CreateNewContactModal = () => {
                                 inputProps: {
                                     maxLength: 10,
                                 },
-                                endAdornment: touched.phone && !!errors.phone && <ErrorInfoIcon />,
+                                endAdornment: touched.phone && Boolean(errors.phone) && <ErrorInfoIcon />,
                             }}
                         />
                     </Grid>
@@ -182,13 +181,13 @@ const CreateNewContactModal = () => {
                             placeholder="Enter your email address"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            error={touched.email && !!errors.email}
+                            error={touched.email && Boolean(errors.email)}
                             fullWidth
                             label="Email*"
                             size="small"
                             helperText={touched.email && errors.email}
                             InputProps={{
-                                endAdornment: touched.email && !!errors.email && <ErrorInfoIcon />,
+                                endAdornment: touched.email && Boolean(errors.email) && <ErrorInfoIcon />,
                             }}
                         />
                     </Grid>
