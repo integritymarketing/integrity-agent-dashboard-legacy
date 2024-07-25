@@ -23,7 +23,8 @@
         cursor: pointer;
 
         @include small {
-             display: none;
+            left: 0.5rem;
+            top: 9px;
         }
 
         .backButton {
@@ -35,6 +36,12 @@
                 background-color: #ffffff;
                 border-radius: 20px;
                 box-shadow: inset 0px -1px 0px #00000029;
+            }
+
+            @include small {
+                &:hover {
+                    box-shadow: none;
+                }
             }
 
             span {
@@ -113,9 +120,41 @@
             &:hover {
                 background-color: #0052ce;
             }
+
             @include small {
                 width: 90%;
-             }
+            }
+        }
+    }
+
+    .contactButton {
+        position: absolute;
+        right: 2.5rem;
+        top: 24px;
+        cursor: pointer;
+
+        .quoteButton {
+            height: 40px;
+            background: #4178ff;
+            border-radius: 20px;
+            color: #ffffff;
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            padding-right: 8px;
+
+            &:hover {
+                background-color: #0052ce;
+            }
+
+            @include small {
+                width: 97%;
+            }
+        }
+
+        @include small {
+            position: static;
         }
     }
 }

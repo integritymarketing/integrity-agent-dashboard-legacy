@@ -28,7 +28,7 @@ export const ACTIONS = [
         value: "startAQuote",
     },
     {
-        label: "Connect",
+        label: "Contact",
         value: "connect",
     },
     {
