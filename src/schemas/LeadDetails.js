@@ -1,5 +1,14 @@
 import * as yup from "yup";
 
+const emailOrPhoneRequired = yup.string().test({
+    name: "emailOrPhoneRequired",
+    message: "Either email or phone number is required.",
+    test: function () {
+        const { email, phone } = this.parent;
+        return email || phone;
+    },
+});
+
 export const LeadDetails = yup.object().shape({
     firstName: yup
         .string()
@@ -27,20 +36,6 @@ export const LeadDetails = yup.object().shape({
             /^[A-Za-z]+$/,
             "Last name must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted."
         ),
-    email: yup
-        .string()
-        .email("Email must be a valid address")
-        .when("phone", {
-            is: (phone) => !phone || phone.length === 0,
-            then: yup.string().required("Email is required if Phone is not provided"),
-            otherwise: yup.string(),
-        }),
-    phone: yup
-        .string()
-        .matches(/^\d{10}$/, "Phone number must be a valid 10-digit number")
-        .when("email", {
-            is: (email) => !email || email.length === 0,
-            then: yup.string().required("Phone number is required if Email is not provided"),
-            otherwise: yup.string(),
-        }),
+    email: emailOrPhoneRequired.email("Email must be a valid address"),
+    phone: emailOrPhoneRequired.matches(/^\d{10}$/, "Phone number must be a valid 10-digit number"),
 });
