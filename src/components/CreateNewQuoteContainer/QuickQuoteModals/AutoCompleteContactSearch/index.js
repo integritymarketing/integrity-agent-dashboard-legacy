@@ -17,10 +17,10 @@ import { CustomModal } from "components/MuiComponents";
 import { styled } from "@mui/system";
 
 import { debounce } from "lodash";
-import PropTypes from "prop-types";
 import useToast from "hooks/useToast";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
+import ContactListItem from "./ContactListItem";
 
 // Styled component for the search input field
 const StyledSearchInput = styled(TextField)(() => ({
@@ -37,33 +37,6 @@ const AutocompleteWrapper = styled("div")({
     position: "relative",
     width: "100%",
 });
-
-// Component for individual contact list items
-const ContactListItem = ({ contact, handleClick }) => {
-    const fullName = `${contact.firstName} ${contact.lastName}`;
-    return (
-        <ListItem onClick={() => handleClick(contact)}>
-            <ListItemText
-                primary={
-                    <Typography color={"#0052ce"} variant="subtitle1">
-                        {fullName}
-                    </Typography>
-                }
-                sx={{
-                    cursor: "pointer",
-                }}
-            />
-        </ListItem>
-    );
-};
-
-ContactListItem.propTypes = {
-    contact: PropTypes.shape({
-        firstName: PropTypes.string,
-        lastName: PropTypes.string,
-    }).isRequired,
-    handleClick: PropTypes.func.isRequired, // Click handler for the list item
-};
 
 // Main component for the autocomplete contact search
 const AutoCompleteContactSearchModal = () => {
@@ -142,19 +115,22 @@ const AutoCompleteContactSearchModal = () => {
         if (option.isNewContact) {
             return (
                 <ListItem {...props} onClick={() => handleSelectedContact(searchQuery, "new")}>
-                    <ListItemText
-                        primary={
-                            <Typography color={"#0052ce"} variant="subtitle1">
-                                Create new contact for &quot;{searchQuery}&quot;
-                            </Typography>
-                        }
-                    />
+                    {!loading && (
+                        <ListItemText
+                            primary={
+                                <Typography color={"#0052ce"} variant="subtitle1">
+                                    Create new contact for &quot;{searchQuery}&quot;
+                                </Typography>
+                            }
+                        />
+                    )}
                 </ListItem>
             );
         }
+
         if (option.isWarning) {
             return (
-                <ListItem {...props}>
+                <ListItem {...props} onClick={(e) => e.preventDefault()}>
                     <ListItemText
                         primary={
                             <Typography color="textSecondary" variant="subtitle1">
@@ -165,6 +141,7 @@ const AutoCompleteContactSearchModal = () => {
                 </ListItem>
             );
         }
+
         return <ContactListItem {...props} contact={option} handleClick={handleSelectedContact} />;
     };
 
