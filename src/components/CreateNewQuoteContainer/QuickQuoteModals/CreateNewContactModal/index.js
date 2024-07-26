@@ -11,6 +11,7 @@ import { useFormik } from "formik";
 import { LeadDetails } from "schemas";
 import { formatPhoneNumber } from "utils/formatPhoneNumber";
 import styles from "./styles.module.scss";
+import ContinueIcon from "components/icons/Continue";
 
 const CreateNewContactModal = () => {
     const {
@@ -108,6 +109,7 @@ const CreateNewContactModal = () => {
             maxWidth="md"
             disableContentBackground
             saveLabel="Continue"
+            footerActionIcon={<ContinueIcon />}
         >
             <Box className={styles.modalSection}>
                 <Grid container spacing={2}>

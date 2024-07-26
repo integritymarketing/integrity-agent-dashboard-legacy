@@ -1,4 +1,4 @@
-import { Dialog, DialogTitle, Typography, useMediaQuery, DialogActions, Box } from "@mui/material";
+import { Dialog, DialogTitle, Typography, useMediaQuery, Box } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { CloseIcon } from "components/icons/QuickQuote";
 import PropTypes from "prop-types";
@@ -23,6 +23,8 @@ export default function CustomModal({
     disableContentBackground = false,
     className = "",
     errorMsgBar,
+    footerActionIcon = null,
+    iconPosition = "right",
 }) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -68,6 +70,8 @@ export default function CustomModal({
                         cancelLabel={cancelLabel}
                         isSaveButtonDisabled={isSaveButtonDisabled}
                         shouldShowCancelButton={shouldShowCancelButton}
+                        footerActionIcon={footerActionIcon}
+                        iconPosition={iconPosition}
                     />
                 </Box>
             )}
@@ -92,4 +96,6 @@ CustomModal.propTypes = {
     disableContentBackground: PropTypes.bool,
     className: PropTypes.string,
     errorMsgBar: PropTypes.node,
+    footerActionIcon: PropTypes.element,
+    iconPosition: PropTypes.oneOf(["left", "right"]),
 };

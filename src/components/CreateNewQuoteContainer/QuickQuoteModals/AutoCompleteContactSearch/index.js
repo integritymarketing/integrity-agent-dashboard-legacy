@@ -21,8 +21,8 @@ import useToast from "hooks/useToast";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 import ContactListItem from "./ContactListItem";
+import CreateNewContactIcon from "components/icons/CreateNewContact";
 
-// Styled component for the search input field
 const StyledSearchInput = styled(TextField)(() => ({
     background: "#FFFFFF 0% 0% no-repeat padding-box",
     borderRadius: "4px",
@@ -32,13 +32,11 @@ const StyledSearchInput = styled(TextField)(() => ({
     },
 }));
 
-// Styled container for the autocomplete component
 const AutocompleteWrapper = styled("div")({
     position: "relative",
     width: "100%",
 });
 
-// Main component for the autocomplete contact search
 const AutoCompleteContactSearchModal = () => {
     const {
         contactSearchModalOpen: open,
@@ -118,9 +116,12 @@ const AutoCompleteContactSearchModal = () => {
                     {!loading && (
                         <ListItemText
                             primary={
-                                <Typography color={"#0052ce"} variant="subtitle1">
-                                    Create new contact for &quot;{searchQuery}&quot;
-                                </Typography>
+                                <Box display="flex" alignItems="center">
+                                    <CreateNewContactIcon />
+                                    <Typography variant="subtitle1" style={{ marginLeft: 8 }}>
+                                        Create new contact for <span style={{ color: "#0052ce" }}>{searchQuery}</span>
+                                    </Typography>
+                                </Box>
                             }
                         />
                     )}
