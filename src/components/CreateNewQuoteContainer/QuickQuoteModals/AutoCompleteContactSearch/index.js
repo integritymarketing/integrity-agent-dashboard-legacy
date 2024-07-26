@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-
 import SearchIcon from "@mui/icons-material/Search";
 import {
     Autocomplete,
@@ -11,17 +10,15 @@ import {
     Typography,
     Box,
 } from "@mui/material";
-
 import { CustomModal } from "components/MuiComponents";
-
 import { styled } from "@mui/system";
-
 import { debounce } from "lodash";
 import useToast from "hooks/useToast";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 import ContactListItem from "./ContactListItem";
 import CreateNewContactIcon from "components/icons/CreateNewContact";
+import styles from "./styles.module.scss";
 
 const StyledSearchInput = styled(TextField)(() => ({
     background: "#FFFFFF 0% 0% no-repeat padding-box",
@@ -112,19 +109,21 @@ const AutoCompleteContactSearchModal = () => {
     const renderAutocompleteOption = (props, option) => {
         if (option.isNewContact) {
             return (
-                <ListItem {...props} onClick={() => handleSelectedContact(searchQuery, "new")}>
-                    {!loading && (
-                        <ListItemText
-                            primary={
-                                <Box display="flex" alignItems="center">
-                                    <CreateNewContactIcon />
-                                    <Typography variant="subtitle1" style={{ marginLeft: 8 }}>
-                                        Create new contact for <span style={{ color: "#0052ce" }}>{searchQuery}</span>
-                                    </Typography>
-                                </Box>
-                            }
-                        />
-                    )}
+                <ListItem
+                    {...props}
+                    onClick={() => handleSelectedContact(searchQuery, "new")}
+                    className={styles.listItem}
+                >
+                    <ListItemText
+                        primary={
+                            <Box display="flex" alignItems="center">
+                                <CreateNewContactIcon />
+                                <Typography variant="subtitle1" style={{ marginLeft: 8 }}>
+                                    Create new contact for <span style={{ color: "#0052ce" }}>{searchQuery}</span>
+                                </Typography>
+                            </Box>
+                        }
+                    />
                 </ListItem>
             );
         }
@@ -188,7 +187,11 @@ const AutoCompleteContactSearchModal = () => {
                                 ...params.InputProps,
                                 endAdornment: (
                                     <>
-                                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                        {loading ? (
+                                            <div className={styles.flexAlignCenter}>
+                                                <CircularProgress color="inherit" size={20} />
+                                            </div>
+                                        ) : null}
                                         {params.InputProps.endAdornment}
                                     </>
                                 ),
