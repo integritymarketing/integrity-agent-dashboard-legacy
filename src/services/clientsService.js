@@ -84,7 +84,7 @@ export class ClientsService {
         tags = [],
         returnAll,
         selectedFilterSections,
-        filterSectionsConfig
+        filterSectionsConfig,
     ) => {
         selectedFilterSections = selectedFilterSections.filter((item) => item.selectedFilterOption);
         let remindersKeys = {};
@@ -154,7 +154,7 @@ export class ClientsService {
 
         const filterTagV3Request = [];
         const tagsSections = selectedFilterSections?.filter(
-            (item) => item.sectionId !== "stage" && item.sectionId !== "reminders"
+            (item) => item.sectionId !== "stage" && item.sectionId !== "reminders",
         );
         if (tagsSections.length) {
             tagsSections.forEach((tagSection) => {
@@ -188,7 +188,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads/GetLeads`,
             "POST",
-            body
+            body,
         );
         if (response?.status >= 400) {
             throw new Error("Leads request failed.");
@@ -209,7 +209,7 @@ export class ClientsService {
         hasReminder = false,
         hasOverdueReminder = false,
         tags = [],
-        returnAll
+        returnAll,
     ) => {
         const params = {
             ReturnAll: returnAll,
@@ -260,7 +260,7 @@ export class ClientsService {
             .filter((str) => str !== null)
             .join("&");
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`,
         );
         if (response?.status >= 400) {
             throw new Error("Leads request failed.");
@@ -288,7 +288,7 @@ export class ClientsService {
 
     getClient = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
         );
 
         return response;
@@ -312,7 +312,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
             "POST",
-            reqData
+            reqData,
         );
 
         return response;
@@ -322,7 +322,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/batch`,
             "POST",
-            reqData
+            reqData,
         );
 
         return response;
@@ -332,7 +332,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/bulkexport`,
             "POST",
-            reqData
+            reqData,
         );
 
         if (response?.ok) {
@@ -346,7 +346,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${oldValues.leadsId}`,
             "PUT",
-            reqData
+            reqData,
         );
         if (response?.ok) {
             return response;
@@ -357,7 +357,7 @@ export class ClientsService {
     deleteClient = async (id) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
-            "DELETE"
+            "DELETE",
         );
 
         return response;
@@ -367,7 +367,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/reactivate`,
             "PUT",
-            data
+            data,
         );
 
         return response;
@@ -375,7 +375,7 @@ export class ClientsService {
 
     getStatuses = async () => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_STATUS_API_VERSION}/Leads/statuses`
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_STATUS_API_VERSION}/Leads/statuses`,
         );
 
         return response?.json();
@@ -383,7 +383,7 @@ export class ClientsService {
 
     getContactInfo = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
         );
 
         return response?.json();
@@ -393,7 +393,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
             "DELETE",
-            leadsId
+            leadsId,
         );
 
         return response;
@@ -403,7 +403,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders`,
             "POST",
-            data
+            data,
         );
 
         return response?.json();
@@ -413,7 +413,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders/${data.leadId}`,
             "PUT",
-            data
+            data,
         );
 
         return response?.json();
@@ -422,7 +422,7 @@ export class ClientsService {
     deleteReminder = async (id) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders/${id}`,
-            "DELETE"
+            "DELETE",
         );
 
         return response;
@@ -432,7 +432,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities`,
             "POST",
-            data
+            data,
         );
 
         return response?.json();
@@ -442,7 +442,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities/${id}`,
             "PUT",
-            data
+            data,
         );
 
         return response?.json();
@@ -451,7 +451,7 @@ export class ClientsService {
     deleteActivity = async (id) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities/${id}`,
-            "DELETE"
+            "DELETE",
         );
 
         return response;
@@ -460,7 +460,7 @@ export class ClientsService {
     deleteClient = async (id) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
-            "DELETE"
+            "DELETE",
         );
 
         return response;
@@ -517,13 +517,15 @@ export class ClientsService {
             ];
         }
 
-        reqData.phones = [
-            {
-                phoneId: phoneId,
-                ...phones,
-                leadPhone: this._getFormattedPhone(phones.leadPhone),
-            },
-        ];
+        if (phones && phones.leadPhone) {
+            reqData.phones = [
+                {
+                    phoneId: phoneId,
+                    ...phones,
+                    leadPhone: this._getFormattedPhone(phones.leadPhone),
+                },
+            ];
+        }
 
         reqData.addresses = [
             {
@@ -535,7 +537,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${reqData.leadsId}`,
             "PUT",
-            reqData
+            reqData,
         );
 
         return response;
@@ -573,7 +575,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/GetDuplicateContact`,
             "POST",
-            reqData
+            reqData,
         );
         return response;
     };
@@ -620,23 +622,28 @@ export class ClientsService {
                 },
             ];
         }
-        reqData.phones = [
-            {
-                phoneId: 0,
-                ...phones,
-                leadPhone: this._getFormattedPhone(phones.leadPhone),
-            },
-        ];
+
+        if (phones && phones.leadPhone) {
+            reqData.phones = [
+                {
+                    phoneId: 0,
+                    ...phones,
+                    leadPhone: this._getFormattedPhone(phones.leadPhone),
+                },
+            ];
+        }
+
         reqData.addresses = [
             {
                 leadAddressId: 0,
                 ...address,
             },
         ];
+
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/`,
             "POST",
-            reqData
+            reqData,
         );
 
         return response;
@@ -645,7 +652,7 @@ export class ClientsService {
     getContactPreferences = async (id) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences/${id}`,
-            "GET"
+            "GET",
         );
 
         return response?.json();
@@ -655,7 +662,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences`,
             "POST",
-            { leadsId, ...payload }
+            { leadsId, ...payload },
         );
 
         if (response?.ok) {
@@ -668,7 +675,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences/${id}`,
             "PUT",
-            payload
+            payload,
         );
 
         if (response?.ok) {
@@ -680,7 +687,7 @@ export class ClientsService {
     getCounties = async (zipcode) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
-            "GET"
+            "GET",
         );
 
         return response?.json();
@@ -689,7 +696,7 @@ export class ClientsService {
     getLeadPharmacies = async (leadId) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
-            "GET"
+            "GET",
         );
 
         return response?.json().then((res) => res || []);
@@ -698,7 +705,7 @@ export class ClientsService {
     getLeadProviders = async (leadId) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`,
-            "GET"
+            "GET",
         );
 
         return response?.json().then((res) => res || []);
@@ -707,7 +714,7 @@ export class ClientsService {
     getLeadPrescriptions = async (leadId) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
-            "GET"
+            "GET",
         );
         return response?.json().then((res) => res || []);
     };
@@ -750,7 +757,7 @@ export class ClientsService {
     getDrugNames = async (drugName) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugName?drugName=${drugName}`,
-            "GET"
+            "GET",
         );
         return response?.json();
     };
@@ -758,7 +765,7 @@ export class ClientsService {
     getDrugDetails = async (drugID) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugDetail?id=${drugID}`,
-            "GET"
+            "GET",
         );
         return response?.json();
     };
@@ -794,7 +801,7 @@ export class ClientsService {
     getLeadProviders = async (leadId) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/ProviderSearchLookup`,
-            "GET"
+            "GET",
         );
 
         return response?.json();
@@ -828,7 +835,7 @@ export class ClientsService {
     searchProviders = async (query) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Providers?${query}`,
-            "GET"
+            "GET",
         );
 
         return response?.json();
@@ -838,7 +845,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Pharmacies`,
             "POST",
-            payload
+            payload,
         );
 
         return response?.json();
@@ -855,7 +862,7 @@ export class ClientsService {
         const response = await fetch(
             `https://api.mapbox.com/geocoding/v5/mapbox.places/${address} ${zipcode}.json?limit=1&types=address&access_token=${process.env.REACT_APP_MAPBOX_GEO_TOKEN}
         `,
-            opts
+            opts,
         );
 
         return response?.json();
@@ -865,7 +872,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa`,
             "POST",
-            payload
+            payload,
         );
 
         if (response?.ok) {
@@ -877,7 +884,7 @@ export class ClientsService {
     getSoaListByLeadId = async (leadsId) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa`,
-            "GET"
+            "GET",
         );
         if (response?.ok) {
             return response?.json();
@@ -888,7 +895,7 @@ export class ClientsService {
     getSoaByLinkCode = async (leadsId, linkCode) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa/${linkCode}`,
-            "GET"
+            "GET",
         );
 
         return response?.json();
@@ -897,7 +904,7 @@ export class ClientsService {
     getSoaStatusByLinkCode = async (linkCode) => {
         const response = await this._clientPublicAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
-            "GET"
+            "GET",
         );
 
         return response?.json();
@@ -907,7 +914,7 @@ export class ClientsService {
         const response = await this._clientPublicAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
             "POST",
-            payload
+            payload,
         );
 
         if (response?.ok) {
@@ -919,7 +926,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
             "POST",
-            payload
+            payload,
         );
 
         if (response?.ok) {
@@ -941,7 +948,7 @@ export class ClientsService {
         stages = [],
         hasReminder = false,
         DateRangeFilterType,
-        LeadSource = ""
+        LeadSource = "",
     ) => {
         const params = {
             ReturnAll,
@@ -993,7 +1000,7 @@ export class ClientsService {
             .filter((str) => str !== null)
             .join("&");
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`,
         );
         if (response?.status >= 400) {
             throw new Error("Leads request failed.");
@@ -1022,7 +1029,7 @@ export class ClientsService {
     getDashbaordSummary = async () => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_STATUS_API_VERSION}/Leads/summary`,
-            "GET"
+            "GET",
         );
 
         return response?.json();
@@ -1032,7 +1039,7 @@ export class ClientsService {
         const [startDate, endDate] = getSortByRangeDates(sortByRange);
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/appCount?startdate=${startDate}&enddate=${endDate}`,
-            "GET"
+            "GET",
         );
 
         return response?.json();
@@ -1041,7 +1048,7 @@ export class ClientsService {
     getAgents = async (npn) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/rts/${npn}`,
-            "GET"
+            "GET",
         );
 
         if (!response?.ok) {
@@ -1058,7 +1065,7 @@ export class ClientsService {
     getAgentPurlCodeByNPN = async (agentnpn) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl/npn/${agentnpn}`,
-            "GET"
+            "GET",
         );
         return response?.json();
     };
@@ -1067,7 +1074,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl`,
             "POST",
-            payload
+            payload,
         );
         if (response?.ok) {
             return response?.json();
@@ -1086,7 +1093,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Preference`,
             "POST",
-            payload
+            payload,
         );
         if (response?.ok) {
             return response?.json();
@@ -1096,7 +1103,7 @@ export class ClientsService {
     getAgentAvailability = async (id) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Available/${id}`,
-            "GET"
+            "GET",
         );
         if (response?.ok) {
             return response?.json();
@@ -1107,7 +1114,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/CallForwardNumber`,
             "POST",
-            payload
+            payload,
         );
         if (response?.ok) {
             return response;
@@ -1118,7 +1125,7 @@ export class ClientsService {
     getAgentByAgentId = async (id) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/${id}`,
-            "GET"
+            "GET",
         );
         const agentData = await response?.json();
         if (!agentData?.virtualPhoneNumber) {
@@ -1130,14 +1137,14 @@ export class ClientsService {
     generateAgentTwiloNumber = async (id) => {
         await this._clientAPIRequest(
             `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Call/GenerateVirtualPhoneNumber/${id}?limit=1`,
-            "POST"
+            "POST",
         );
     };
 
     getAllTagsByGroups = async () => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory?mappedLeadTagsOnly=true`,
-            "GET"
+            "GET",
         );
         return response?.json();
     };
@@ -1145,7 +1152,7 @@ export class ClientsService {
     getTagsGroupByCategory = async () => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory`,
-            "GET"
+            "GET",
         );
         return response?.json();
     };
@@ -1154,7 +1161,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/LeadTags/Update`,
             "POST",
-            { leadId, tagIds }
+            { leadId, tagIds },
         );
         return response?.json();
     };
@@ -1191,7 +1198,7 @@ export class ClientsService {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
             "PUT",
-            requestData
+            requestData,
         );
         if (!response?.ok) {
             throw new Error("Cannot update contact");
@@ -1228,7 +1235,7 @@ export class ClientsService {
                         modifyDate: contact?.addresses?.[0]?.modifyDate,
                     },
                 ],
-            }
+            },
         );
         if (!response?.ok) {
             throw new Error("Cannot update contact");
@@ -1265,7 +1272,7 @@ export class ClientsService {
                         modifyDate: contact?.addresses?.[0]?.modifyDate,
                     },
                 ],
-            }
+            },
         );
         if (!response?.ok) {
             throw new Error("Cannot update contact");
@@ -1338,7 +1345,7 @@ export class ClientsService {
                         modifyDate: addresses?.[0]?.modifyDate,
                     },
                 ],
-            }
+            },
         );
         if (!response?.ok) {
             throw new Error("Cannot update contact");
@@ -1355,7 +1362,7 @@ export class ClientsService {
                 tagLabel,
                 tagCategoryId,
                 leadsId,
-            }
+            },
         );
         return response?.json();
     };
@@ -1363,7 +1370,7 @@ export class ClientsService {
     deleteTag = async ({ tagId }) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Tag/${tagId || ""}`,
-            "DELETE"
+            "DELETE",
         );
         return response?.ok;
     };
@@ -1371,7 +1378,7 @@ export class ClientsService {
     getTaskList = async (npn, dateRange, status) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/tasks/${npn}/${dateRange}/${status}`,
-            "GET"
+            "GET",
         );
 
         return response?.json();
@@ -1380,7 +1387,7 @@ export class ClientsService {
     getTaskListCount = async (npn, dateRange) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/v3.0/Leads/taskcount/${npn}/${dateRange}`,
-            "GET"
+            "GET",
         );
 
         return response?.json();
