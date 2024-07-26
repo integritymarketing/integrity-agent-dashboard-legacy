@@ -595,7 +595,7 @@ export class ClientsService {
             partA,
             partB,
         } = contact;
-        const reqData = {
+        let reqData = {
             leadsId: 0,
             firstName,
             lastName,
@@ -623,7 +623,7 @@ export class ClientsService {
             ];
         }
 
-        if (phones && phones.leadPhone) {
+        if (phones?.leadPhone) {
             reqData.phones = [
                 {
                     phoneId: 0,
@@ -640,15 +640,32 @@ export class ClientsService {
             },
         ];
 
+        // Remove null, empty, or zero values from reqData
+        const removeEmptyValues = (obj) => {
+            return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== null && v !== "" && v !== 0));
+        };
+
+        reqData = removeEmptyValues(reqData);
+
+        // Also clean nested objects
+        if (reqData.emails) {
+            reqData.emails = reqData.emails.map(removeEmptyValues);
+        }
+        if (reqData.phones) {
+            reqData.phones = reqData.phones.map(removeEmptyValues);
+        }
+        if (reqData.addresses) {
+            reqData.addresses = reqData.addresses.map(removeEmptyValues);
+        }
+
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/`,
+            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
             "POST",
             reqData,
         );
 
         return response;
     };
-
     getContactPreferences = async (id) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences/${id}`,
