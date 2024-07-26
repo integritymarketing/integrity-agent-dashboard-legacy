@@ -30,13 +30,6 @@ function FilterResultBanner() {
         setTimeout(() => resetData([]), 100);
     };
 
-    function capitalizeFirstLetter(sectionId, string) {
-        if (sectionId === "product_type") {
-            return string;
-        }
-        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-    }
-
     const filterLabel = useMemo(() => {
         return selectedFilterSections
             .map((item, index) => {
@@ -59,15 +52,15 @@ function FilterResultBanner() {
               </span>`;
                 } else if (section.option) {
                     thisItemLabel = `<span>
-                ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"
-                        } <span style="font-weight:bold">${section.option.label || ""}</span>
+                ${section.heading} ${
+                    item.selectedIsOption === "is_not" ? "is not" : "is"
+                } <span style="font-weight:bold">${section.option.label || ""}</span>
               </span>`;
                 }
                 return thisItemLabel + andOrLabel;
             })
             .join("");
     }, [selectedFilterSections, filterSectionsConfig]);
-
 
     if (!selectedFilterSections?.length) {
         return null;
