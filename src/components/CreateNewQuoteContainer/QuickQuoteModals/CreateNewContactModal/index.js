@@ -105,7 +105,7 @@ const CreateNewContactModal = () => {
             handleSave={handleSubmit}
             showCloseButton
             shouldShowCancelButton={true}
-            maxWidth="sm"
+            maxWidth="md"
             disableContentBackground
             saveLabel="Continue"
         >

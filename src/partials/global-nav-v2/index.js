@@ -177,29 +177,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                         },
                         label: "CSG App",
                     },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
-                            },
-                        },
-                        label: "MedicareLINK",
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                window.open(
-                                    `${process.env.REACT_APP_CONNECTURE_LINK}/${user.npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
-                                    "_blank"
-                                );
-                            },
-                        },
-                        label: "MedicareAPP",
-                    },
                 ],
                 tertiary: [
                     {
@@ -290,29 +267,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                                 ),
                         },
                         label: "LeadCENTER",
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
-                            },
-                        },
-                        label: "MedicareLINK",
-                    },
-                    {
-                        component: "button",
-                        props: {
-                            type: "button",
-                            onClick: () => {
-                                window.open(
-                                    `${process.env.REACT_APP_CONNECTURE_LINK}/${user.npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
-                                    "_blank"
-                                );
-                            },
-                        },
-                        label: "MedicareAPP",
                     },
                     {
                         component: "button",
