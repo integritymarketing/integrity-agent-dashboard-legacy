@@ -23,10 +23,11 @@ const FinalExpenseIntakeFormCard = () => {
     const leadId = selectedLead?.leadsId;
 
     useEffect(() => {
-        if (leadId && !leadDetails) {
+        if (leadId) {
             getLeadDetails(leadId);
         }
-    }, [leadId, leadDetails, getLeadDetails]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [leadId]);
 
     const [initialValues, setInitialValues] = useState({
         stateCode: null,
@@ -48,9 +49,9 @@ const FinalExpenseIntakeFormCard = () => {
                 stateCode,
                 feet,
                 inches,
-                weight: leadDetails?.weight,
-                dateOfBirth: leadDetails?.birthdate,
-                isTobaccoUser: leadDetails?.isTobaccoUser ? "Yes" : "No",
+                weight: leadDetails?.weight ? leadDetails?.weight : "",
+                dateOfBirth: leadDetails?.birthdate ? leadDetails?.birthdate : null,
+                isTobaccoUser: leadDetails?.isTobaccoUser === true ? "Yes" : leadDetails?.isTobaccoUser === false ? "No" : null,
                 gender: leadDetails?.gender,
             });
         }
@@ -61,7 +62,7 @@ const FinalExpenseIntakeFormCard = () => {
             const formData = {
                 birthdate: values?.dateOfBirth ? formatDate(values.dateOfBirth) : "",
                 height: values.feet ? Number(values.feet * 12) + Number(values.inches) : null,
-                weight: values.weight,
+                weight: values.weight ? values.weight: null,
                 isTobaccoUser: values.isTobaccoUser === "Yes",
                 gender: values.gender,
             };
@@ -103,7 +104,7 @@ const FinalExpenseIntakeFormCard = () => {
         onSubmit: onSubmitHandler,
     });
 
-    const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
+    const { values, errors,isValid, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
 
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
@@ -228,7 +229,7 @@ const FinalExpenseIntakeFormCard = () => {
             </Box>
             <Typography className={styles.requiredFieldsNote}>*Required fields</Typography>
             <Box className={styles.submitButtonContainer}>
-                <Button onClick={handleSubmit} size="medium" variant="contained" color="primary">
+                <Button onClick={handleSubmit} size="medium" variant="contained" color="primary" disabled={!isValid}>
                     Continue
                 </Button>
             </Box>

@@ -4,9 +4,9 @@ import TextField from "@mui/material/TextField";
 import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 
-const TextInput = ({ label = "", ...props }) => {
+const TextInput = ({ label = "", marginTop=()=>{}, ...props }) => {
     return (
-        <Box>
+        <Box sx={{ marginTop: marginTop ? marginTop : "0px" }}>
             <Box className={styles.labelContainer}>
                 <Typography
                     sx={{
@@ -29,6 +29,7 @@ TextInput.propTypes = {
     label: PropTypes.string.isRequired,
     /** Additional props to be passed to the TextField component */
     props: PropTypes.object,
+    marginTop:PropTypes.string
 };
 
 export default TextInput;

@@ -42,8 +42,9 @@ const CreateNewContactModal = () => {
 
                     const response = await clientsService.addNewContact(newData);
 
-                    if (response.status >= 200 && response.status < 300) {
-                        handleSelectedLead(response.data);
+                    if (response.ok) {
+                        const resData = await response.json();
+                        handleSelectedLead(resData);
                         showToast({
                             type: "success",
                             message: "Lead Created successfully",

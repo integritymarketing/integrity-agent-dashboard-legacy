@@ -1,3 +1,4 @@
+@import "../../../../scss/globalDefines.scss";
 .formContainer {
     display: flex;
     flex-direction: column;
@@ -60,12 +61,17 @@
 .stateSelect,
 .datepicker {
     width: 100%;
-}
-
+} 
 .selectInputBox {
-    height: 54px;
+    height: 56px;
+    @include small {
+        height: 56px;
+    }
 }
-
+ 
 .inputBoxClassName {
-    height: 54px !important;
+    height: 56px !important;
+    @include small {
+        height: 56px !important;
+    }
 }
