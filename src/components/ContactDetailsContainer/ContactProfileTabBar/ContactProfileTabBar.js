@@ -20,14 +20,19 @@ import { ConnectModal } from "../ConnectModal";
 
 import NewBackBtn from "images/new-back-btn.svg";
 
+import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCirlce";
+import { useMediaQuery, useTheme } from "@mui/material";
+
 const tabs = [
     { name: "Overview", section: "overview", icon: <Overview /> },
     { name: "Health Profile", section: "health", icon: <Health /> },
     { name: "Policies", section: "policies", icon: <Policies /> },
-    { name: "Connect", section: "scope-of-appointment", icon: <Connect />, modalTrigger: true },
+    { name: "Connect", section: "communications", icon: <Connect />, modalTrigger: false },
 ];
 
 export const ContactProfileTabBar = ({ contactId }) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { leadId: leadIdParam } = useParams();
     const leadId = contactId || leadIdParam;
     const navigate = useNavigate();
@@ -49,7 +54,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
             setSelectedTab(section);
             navigate(`/contact/${leadId}/${section}`);
         },
-        [leadId, navigate, setSelectedTab]
+        [leadId, navigate, setSelectedTab],
     );
 
     const handleBackPage = useBackPage("/contacts", false);
@@ -79,7 +84,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
                 <Box className={styles.backToContacts}>
                     <Button
                         icon={<img src={NewBackBtn} alt="Back" />}
-                        label="Back"
+                        label={!isMobile && "Back"}
                         onClick={handleBackPage}
                         type="tertiary"
                         className={styles.backButton}
@@ -97,6 +102,18 @@ export const ContactProfileTabBar = ({ contactId }) => {
                         />
                     )}
                 </Box>
+
+                <Box className={styles.contactButton}>
+                    <Button
+                        onClick={() => setConnectModalVisible(true)}
+                        label="Contact"
+                        icon={<ArrowForwardWithCircle />}
+                        iconPosition="right"
+                        type="primary"
+                        className={styles.quoteButton}
+                    />
+                </Box>
+
                 {connectModalVisible && (
                     <ConnectModal
                         isOpen={connectModalVisible}

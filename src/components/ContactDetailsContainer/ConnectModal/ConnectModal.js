@@ -29,7 +29,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
 
     const formattedPhoneNumber = agentVirtualPhoneNumber?.replace(/^\+1/, "");
     const { Post: outboundCallFromMedicareCenter } = useFetch(
-        `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`
+        `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`,
     );
     const {
         firstName = "",
@@ -101,7 +101,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
     return (
         <>
             {!isScriptModalOpen && isOpen && (
-                <Modal maxWidth="xs" open={isOpen} onClose={onClose} hideFooter title="Connect">
+                <Modal maxWidth="xs" open={isOpen} onClose={onClose} hideFooter title="Contact">
                     <Box className={styles.connectModalBody}>
                         <div className={styles.leadName}>{fullName}</div>
                         <Box className={styles.connectList}>
@@ -180,7 +180,7 @@ ConnectModal.propTypes = {
         phones: PropTypes.arrayOf(
             PropTypes.shape({
                 leadPhone: PropTypes.string,
-            })
+            }),
         ),
         addresses: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,

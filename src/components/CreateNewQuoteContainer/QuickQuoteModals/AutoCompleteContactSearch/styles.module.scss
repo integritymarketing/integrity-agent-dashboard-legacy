@@ -5,10 +5,17 @@
     width: 22px;
 }
 
+.listItem {
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.08);
+    }
+}
+
 .outerContainer {
     display: flex;
     justify-content: center;
     background-color: #f4f8fb;
+
     .innerContainer {
         min-width: 328px;
         height: 100%;
@@ -41,6 +48,7 @@
         overflow-y: auto;
         max-height: 350px;
         width: 100%;
+
         .contactItem {
             background-color: #ffffff;
         }
@@ -70,22 +78,27 @@
         background-color: #f1faff;
     }
 }
+
 .possibleMatch {
     width: 100%;
+
     .title {
         color: #002d72;
         font-size: 20px;
     }
+
     .matchList {
         background-color: #ffffff;
         border-radius: 4px;
         margin-top: 10px;
+
         .matchItem {
             color: #051d43;
             font-size: 16px;
             padding: 10px;
             box-shadow: inset 0px -1px 0px #00000029;
             cursor: pointer;
+
             &:last-child {
                 box-shadow: unset;
             }
@@ -97,11 +110,18 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+
     .content {
         color: #051d43;
         font-size: 16px;
     }
+
     .mt10 {
         margin-top: 10px;
     }
+}
+
+.flexAlignCenter {
+    display: flex;
+    align-items: center;
 }

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-
 import SearchIcon from "@mui/icons-material/Search";
 import {
     Autocomplete,
@@ -11,18 +10,16 @@ import {
     Typography,
     Box,
 } from "@mui/material";
-
 import { CustomModal } from "components/MuiComponents";
-
 import { styled } from "@mui/system";
-
 import { debounce } from "lodash";
-import PropTypes from "prop-types";
 import useToast from "hooks/useToast";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
+import ContactListItem from "./ContactListItem";
+import CreateNewContactIcon from "components/icons/CreateNewContact";
+import styles from "./styles.module.scss";
 
-// Styled component for the search input field
 const StyledSearchInput = styled(TextField)(() => ({
     background: "#FFFFFF 0% 0% no-repeat padding-box",
     borderRadius: "4px",
@@ -32,40 +29,11 @@ const StyledSearchInput = styled(TextField)(() => ({
     },
 }));
 
-// Styled container for the autocomplete component
 const AutocompleteWrapper = styled("div")({
     position: "relative",
     width: "100%",
 });
 
-// Component for individual contact list items
-const ContactListItem = ({ contact, handleClick }) => {
-    const fullName = `${contact.firstName} ${contact.lastName}`;
-    return (
-        <ListItem onClick={() => handleClick(contact)}>
-            <ListItemText
-                primary={
-                    <Typography color={"#0052ce"} variant="subtitle1">
-                        {fullName}
-                    </Typography>
-                }
-                sx={{
-                    cursor: "pointer",
-                }}
-            />
-        </ListItem>
-    );
-};
-
-ContactListItem.propTypes = {
-    contact: PropTypes.shape({
-        firstName: PropTypes.string,
-        lastName: PropTypes.string,
-    }).isRequired,
-    handleClick: PropTypes.func.isRequired, // Click handler for the list item
-};
-
-// Main component for the autocomplete contact search
 const AutoCompleteContactSearchModal = () => {
     const {
         contactSearchModalOpen: open,
@@ -141,20 +109,28 @@ const AutoCompleteContactSearchModal = () => {
     const renderAutocompleteOption = (props, option) => {
         if (option.isNewContact) {
             return (
-                <ListItem {...props} onClick={() => handleSelectedContact(searchQuery, "new")}>
+                <ListItem
+                    {...props}
+                    onClick={() => handleSelectedContact(searchQuery, "new")}
+                    className={styles.listItem}
+                >
                     <ListItemText
                         primary={
-                            <Typography color={"#0052ce"} variant="subtitle1">
-                                Create new contact for &quot;{searchQuery}&quot;
-                            </Typography>
+                            <Box display="flex" alignItems="center">
+                                <CreateNewContactIcon />
+                                <Typography variant="subtitle1" style={{ marginLeft: 8 }}>
+                                    Create new contact for <span style={{ color: "#0052ce" }}>{searchQuery}</span>
+                                </Typography>
+                            </Box>
                         }
                     />
                 </ListItem>
             );
         }
+
         if (option.isWarning) {
             return (
-                <ListItem {...props}>
+                <ListItem {...props} onClick={(e) => e.preventDefault()}>
                     <ListItemText
                         primary={
                             <Typography color="textSecondary" variant="subtitle1">
@@ -165,6 +141,7 @@ const AutoCompleteContactSearchModal = () => {
                 </ListItem>
             );
         }
+
         return <ContactListItem {...props} contact={option} handleClick={handleSelectedContact} />;
     };
 
@@ -210,7 +187,11 @@ const AutoCompleteContactSearchModal = () => {
                                 ...params.InputProps,
                                 endAdornment: (
                                     <>
-                                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                        {loading ? (
+                                            <div className={styles.flexAlignCenter}>
+                                                <CircularProgress color="inherit" size={20} />
+                                            </div>
+                                        ) : null}
                                         {params.InputProps.endAdornment}
                                     </>
                                 ),

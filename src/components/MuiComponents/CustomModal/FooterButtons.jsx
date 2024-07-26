@@ -8,6 +8,8 @@ const FooterButtons = ({
     cancelLabel = "Cancel",
     isSaveButtonDisabled = false,
     shouldShowCancelButton = true,
+    footerActionIcon = null,
+    iconPosition = "right",
 }) => (
     <>
         {shouldShowCancelButton && (
@@ -23,7 +25,15 @@ const FooterButtons = ({
                 {cancelLabel}
             </Button>
         )}
-        <Button size="medium" variant="contained" color="primary" onClick={handleSave} disabled={isSaveButtonDisabled}>
+        <Button
+            size="medium"
+            variant="contained"
+            color="primary"
+            onClick={handleSave}
+            disabled={isSaveButtonDisabled}
+            startIcon={iconPosition === "left" ? footerActionIcon : null}
+            endIcon={iconPosition === "right" ? footerActionIcon : null}
+        >
             {saveLabel}
         </Button>
     </>
@@ -36,6 +46,8 @@ FooterButtons.propTypes = {
     cancelLabel: PropTypes.string,
     isSaveButtonDisabled: PropTypes.bool,
     shouldShowCancelButton: PropTypes.bool,
+    footerActionIcon: PropTypes.element,
+    iconPosition: PropTypes.oneOf(["left", "right"]),
 };
 
 export default FooterButtons;

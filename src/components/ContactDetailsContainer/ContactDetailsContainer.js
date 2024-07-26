@@ -14,6 +14,7 @@ import { ScopeOfAppointmentContainer } from "./ScopeOfAppointmentContainer";
 import { SOAConfirmationForm } from "./ScopeOfAppointmentContainer/SOAConfirmationForm/SOAConfirmationForm";
 import { SOAViewForm } from "./ScopeOfAppointmentContainer/SOAViewForm/SOAViewForm";
 import {
+    COMMUNICATIONS_CONTAINER,
     COMPLETE_SCOPE_OF_APPOINTMENT,
     HEALTH,
     OVERVIEW,
@@ -22,6 +23,7 @@ import {
     VIEW_SCOPE_OF_APPOINTMENT,
 } from "./tabNames";
 import { ContactBodyContainer } from "./ContactBodyContainer/ContactBodyContainer";
+import CommunicationsContainer from "./CommunicationsContainer";
 
 export const ContactDetailsContainer = () => {
     const { leadId, sectionId } = useParams();
@@ -50,6 +52,8 @@ export const ContactDetailsContainer = () => {
                 return <SOAViewForm isMobile={isMobile} />;
             case COMPLETE_SCOPE_OF_APPOINTMENT:
                 return <SOAConfirmationForm isMobile={isMobile} />;
+            case COMMUNICATIONS_CONTAINER:
+                return <CommunicationsContainer isMobile={isMobile} />;
             default:
                 return <OverviewContainer isMobile={isMobile} />;
         }
@@ -59,7 +63,7 @@ export const ContactDetailsContainer = () => {
         <>
             <Media
                 query={"(max-width: 500px)"}
-                onChange={(isMobile) => {
+                onChange={() => {
                     setIsMobile(isMobile);
                 }}
             />

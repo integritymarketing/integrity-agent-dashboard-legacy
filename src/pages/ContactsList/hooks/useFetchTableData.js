@@ -62,12 +62,12 @@ function useFetchTableData() {
                 applyFilters?.hasReminder,
                 applyFilters.hasOverdueReminder,
                 applyFilters.tags,
-                returnAll
+                returnAll,
             );
             const total = response.pageResult.total;
             return total;
         },
-        [applyFilters]
+        [applyFilters],
     );
 
     const fetchTableData = useCallback(
@@ -90,6 +90,7 @@ function useFetchTableData() {
                 const leadIds = filterLeadIds ? filterLeadIds : duplicateIds ? duplicateIds : null;
                 let response;
                 if (!selectedFilterSections?.length) {
+                    setIsLoading(true);
                     response = await clientsService.getList(
                         pageIndex,
                         pageSize,
@@ -101,9 +102,10 @@ function useFetchTableData() {
                         applyFilters?.hasReminder,
                         applyFilters.hasOverdueReminder,
                         applyFilters.tags,
-                        returnAll
+                        returnAll,
                     );
                 } else {
+                    setIsLoading(true);
                     response = await clientsService.getContactListPost(
                         pageIndex,
                         pageSize,
@@ -117,7 +119,7 @@ function useFetchTableData() {
                         applyFilters.tags,
                         returnAll,
                         selectedFilterSections,
-                        filterSectionsConfig
+                        filterSectionsConfig,
                     );
                 }
                 const listData = response?.result.map((res) => ({
@@ -141,7 +143,7 @@ function useFetchTableData() {
                 });
             }
         },
-        [showToast, applyFilters]
+        [showToast, applyFilters],
     );
 
     return { tableData, isLoading: isLoading, fetchTableData, fetchTableDataWithoutFilters, allLeads, pageResult };

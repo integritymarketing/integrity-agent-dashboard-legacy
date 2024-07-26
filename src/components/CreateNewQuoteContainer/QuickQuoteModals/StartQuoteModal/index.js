@@ -28,7 +28,7 @@ const StartQuoteModal = () => {
                 open={open}
                 handleClose={onClose}
                 showCloseButton
-                maxWidth="sm"
+                maxWidth="md"
                 disableContentBackground
             >
                 {quoteModalStage === "selectProductTypeCard" && (
