@@ -105,7 +105,6 @@ function useFetchTableData() {
                         returnAll,
                     );
                 } else {
-                    setIsLoading(true);
                     response = await clientsService.getContactListPost(
                         pageIndex,
                         pageSize,
