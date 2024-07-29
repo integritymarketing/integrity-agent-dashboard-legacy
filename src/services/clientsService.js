@@ -579,7 +579,6 @@ export class ClientsService {
         );
         return response;
     };
-
     addNewContact = async (contact) => {
         const {
             firstName,
@@ -595,7 +594,8 @@ export class ClientsService {
             partA,
             partB,
         } = contact;
-        let reqData = {
+
+        let requestData = {
             leadsId: 0,
             firstName,
             lastName,
@@ -608,14 +608,10 @@ export class ClientsService {
             partB: partB ? formatServerDate(partB) : null,
         };
 
-        if (primaryCommunication === "") {
-            reqData.primaryCommunication = email !== "" ? "email" : "phone";
-        } else {
-            reqData.primaryCommunication = primaryCommunication;
-        }
+        requestData.primaryCommunication = primaryCommunication || (email ? "email" : "phone");
 
         if (email) {
-            reqData.emails = [
+            requestData.emails = [
                 {
                     emailID: 0,
                     leadEmail: email,
@@ -624,7 +620,7 @@ export class ClientsService {
         }
 
         if (phones?.leadPhone) {
-            reqData.phones = [
+            requestData.phones = [
                 {
                     phoneId: 0,
                     ...phones,
@@ -633,39 +629,59 @@ export class ClientsService {
             ];
         }
 
-        reqData.addresses = [
+        requestData.addresses = [
             {
                 leadAddressId: 0,
                 ...address,
             },
         ];
 
-        // Remove null, empty, or zero values from reqData
+        // Function to remove null, empty, or zero values from an object
         const removeEmptyValues = (obj) => {
-            return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== null && v !== "" && v !== 0));
+            return Object.fromEntries(
+                Object.entries(obj).filter(([_, value]) => value !== null && value !== "" && value !== 0),
+            );
         };
 
-        reqData = removeEmptyValues(reqData);
+        requestData = removeEmptyValues(requestData);
 
-        // Also clean nested objects
-        if (reqData.emails) {
-            reqData.emails = reqData.emails.map(removeEmptyValues);
+        // Clean nested objects
+        if (requestData.emails) {
+            requestData.emails = requestData.emails
+                .map(removeEmptyValues)
+                .filter((email) => Object.keys(email).length > 0);
         }
-        if (reqData.phones) {
-            reqData.phones = reqData.phones.map(removeEmptyValues);
+        if (requestData.phones) {
+            requestData.phones = requestData.phones
+                .map(removeEmptyValues)
+                .filter((phone) => Object.keys(phone).length > 0);
         }
-        if (reqData.addresses) {
-            reqData.addresses = reqData.addresses.map(removeEmptyValues);
+        if (requestData.addresses) {
+            requestData.addresses = requestData.addresses
+                .map(removeEmptyValues)
+                .filter((address) => Object.keys(address).length > 0);
+        }
+
+        // Remove empty arrays
+        if (requestData.emails && requestData.emails.length === 0) {
+            delete requestData.emails;
+        }
+        if (requestData.phones && requestData.phones.length === 0) {
+            delete requestData.phones;
+        }
+        if (requestData.addresses && requestData.addresses.length === 0) {
+            delete requestData.addresses;
         }
 
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
             "POST",
-            reqData,
+            requestData,
         );
 
         return response;
     };
+
     getContactPreferences = async (id) => {
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences/${id}`,
