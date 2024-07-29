@@ -1,40 +1,22 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Avatar, Typography, Divider, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { Box, Divider, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { handleCSGSSO } from "auth/handleCSGSSO";
-import WithLoader from "components/ui/WithLoader";
-import { useProfessionalProfileContext } from "providers/ProfessionalProfileProvider";
 import useUserProfile from "hooks/useUserProfile";
 import { useOnClickOutside } from "hooks/useOnClickOutside";
 import { Contacts, Account, Dashboard, SignOut, MenuOpen, IntegrityHeader, Marketing, LearningCenter } from "./icons";
-
+import ProfileNameAndProfile from "../ProfileMenu/ProfileNameAndProfile";
 import PropTypes from "prop-types";
 
 import styles from "./styles.module.scss";
 
 const MobileMenu = ({ onClose }) => {
-    const { profileInfo, fetchAgentProfileDataLoading, getAgentProfileData } = useProfessionalProfileContext();
     const { logout, getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
-    const { npn, email } = useUserProfile();
+    const { npn, email, firstName, lastName } = useUserProfile();
     const menuRef = useRef(null);
-
-    const [image, setImage] = useState(null);
-    const [profileImageApprovalStatus, setProfileImageApprovalStatus] = useState("");
-
-    useEffect(() => {
-        getAgentProfileData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    useEffect(() => {
-        if (profileInfo) {
-            setImage(profileInfo?.profileImageUrl);
-            setProfileImageApprovalStatus(profileInfo?.profileImageApprovalStatus);
-        }
-    }, [profileInfo]);
 
     useOnClickOutside(menuRef, onClose);
 
@@ -123,89 +105,63 @@ const MobileMenu = ({ onClose }) => {
     ];
 
     return (
-        <WithLoader isLoading={fetchAgentProfileDataLoading}>
-            <Box className={styles.innerContainer}>
-                <Box className={styles.closeButton}>
-                    <Box onClick={onClose}>
-                        <MenuOpen />
-                    </Box>
-                </Box>
-                <Box className={styles.header}>
-                    <Avatar
-                        src={profileImageApprovalStatus === "Approved" ? image : null}
-                        sx={{ width: "50px", height: "50px" }}
-                    />
-                    <Box marginLeft="8px">
-                        <Box>
-                            <Typography
-                                variant="h4"
-                                sx={{
-                                    fontSize: "20px",
-                                    fontWeight: 500,
-                                }}
-                            >
-                                {profileInfo?.agentFirstName} {profileInfo?.agentLastName}{" "}
-                            </Typography>
-                        </Box>
-                        <Box sx={{ display: "flex" }}>
-                            <Box>
-                                <Typography className={styles.npnLabel}>NPN: </Typography>
-                            </Box>
-                            <Box marginLeft="2px">
-                                <Typography variant="body1"> {npn}</Typography>
-                            </Box>
-                        </Box>
-                    </Box>
-                </Box>
-                <Divider className={styles.divider} />
-                <Box>
-                    <List>
-                        {menuOptionsWithIcon?.map((option, index) => (
-                            <ListItem key={index} onClick={option.action} sx={{ minWidth: "unset" }}>
-                                {option.icon && (
-                                    <ListItemIcon sx={{ minWidth: "unset", marginRight: "8px" }}>
-                                        {option.icon}
-                                    </ListItemIcon>
-                                )}
-                                <ListItemText primary={option.label} className={styles.menuText} />
-                            </ListItem>
-                        ))}
-                    </List>
-                    <Divider className={styles.divider} />
-                    <List>
-                        {menuOptionsWithOutIcon.map((option, index) => (
-                            <ListItem key={index} onClick={option.action} className={styles.menuItem}>
-                                <ListItemText primary={option.label} className={styles.menuText} />
-                            </ListItem>
-                        ))}
-                    </List>
-                    <Divider className={styles.divider} />
-                    <List>
-                        {signOutOption.map((option, index) => (
-                            <ListItem key={index} onClick={option.action} className={styles.menuItem}>
-                                {option.icon && (
-                                    <ListItemIcon sx={{ minWidth: "unset", marginRight: "8px" }}>
-                                        {option.icon}
-                                    </ListItemIcon>
-                                )}
-                                <ListItemText primary={option.label} className={styles.menuText} />
-                            </ListItem>
-                        ))}
-                    </List>
-                    <Divider className={styles.divider} />
-                    <Box
-                        sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            marginTop: "16px",
-                            alignItems: "center",
-                        }}
-                    >
-                        <IntegrityHeader />
-                    </Box>
+        <Box className={styles.innerContainer}>
+            <Box className={styles.closeButton}>
+                <Box onClick={onClose}>
+                    <MenuOpen />
                 </Box>
             </Box>
-        </WithLoader>
+            <Box className={styles.header}>
+                <ProfileNameAndProfile />
+            </Box>
+            <Divider className={styles.divider} />
+            <Box>
+                <List>
+                    {menuOptionsWithIcon?.map((option, index) => (
+                        <ListItem key={index} onClick={option.action} sx={{ minWidth: "unset" }}>
+                            {option.icon && (
+                                <ListItemIcon sx={{ minWidth: "unset", marginRight: "8px" }}>
+                                    {option.icon}
+                                </ListItemIcon>
+                            )}
+                            <ListItemText primary={option.label} className={styles.menuText} />
+                        </ListItem>
+                    ))}
+                </List>
+                <Divider className={styles.divider} />
+                <List>
+                    {menuOptionsWithOutIcon.map((option, index) => (
+                        <ListItem key={index} onClick={option.action} className={styles.menuItem}>
+                            <ListItemText primary={option.label} className={styles.menuText} />
+                        </ListItem>
+                    ))}
+                </List>
+                <Divider className={styles.divider} />
+                <List>
+                    {signOutOption.map((option, index) => (
+                        <ListItem key={index} onClick={option.action} className={styles.menuItem}>
+                            {option.icon && (
+                                <ListItemIcon sx={{ minWidth: "unset", marginRight: "8px" }}>
+                                    {option.icon}
+                                </ListItemIcon>
+                            )}
+                            <ListItemText primary={option.label} className={styles.menuText} />
+                        </ListItem>
+                    ))}
+                </List>
+                <Divider className={styles.divider} />
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginTop: "16px",
+                        alignItems: "center",
+                    }}
+                >
+                    <IntegrityHeader />
+                </Box>
+            </Box>
+        </Box>
     );
 };
 

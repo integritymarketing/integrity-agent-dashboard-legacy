@@ -1,0 +1,31 @@
+.menuList {
+    outline: none;
+    min-width: 204px;
+}
+
+.createNewTypography {
+    padding: 8px;
+}
+
+.menuItem {
+    color: #434a51;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.menuItemBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 6px 0px;
+}
+
+.menuLabel {
+    margin-left: 10px;
+}
+
+.plusIcon {
+    width: 18px;
+    height: 18px;
+}

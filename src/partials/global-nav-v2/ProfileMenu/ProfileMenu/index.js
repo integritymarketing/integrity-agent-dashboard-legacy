@@ -1,0 +1,125 @@
+import React, { useState, useCallback } from "react";
+import PropTypes from "prop-types";
+import { Box, Menu, MenuItem, MenuList } from "@mui/material";
+import ProfilePicture from "../ProfilePicture";
+import ProfileNameAndProfile from "../ProfileNameAndProfile";
+import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { handleCSGSSO } from "auth/handleCSGSSO";
+import useUserProfile from "hooks/useUserProfile";
+import { Account, SignOut, LeadCenter, CSG, NeedHelp } from "../icons";
+import styles from "./styles.module.scss";
+
+const ProfileMenu = () => {
+    const { logout, getAccessTokenSilently } = useAuth0();
+    const navigate = useNavigate();
+    const { npn, email, firstName, lastName } = useUserProfile();
+
+    const [anchorElement, setAnchorElement] = useState(null);
+    const isMenuOpen = Boolean(anchorElement);
+
+    const handleMenuOpen = useCallback((event) => {
+        setAnchorElement(event.currentTarget);
+    }, []);
+
+    const handleMenuClose = useCallback(() => {
+        setAnchorElement(null);
+    }, []);
+
+    const handleNavigation = useCallback(
+        async (path) => {
+            switch (path) {
+                case "account":
+                    window.location.href = process.env.REACT_APP_AUTH_PAW_REDIRECT_URI;
+                    break;
+                case "lead_center":
+                    window.open(`${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`, "_blank");
+                    break;
+                case "csg_app":
+                    getAccessTokenSilently().then((token) => {
+                        handleCSGSSO(navigate, token, npn, email);
+                    });
+                    break;
+                case "need_help":
+                    navigate("/help");
+                    break;
+                case "sign_out":
+                    logout({
+                        logoutParams: {
+                            returnTo: window.location.origin,
+                        },
+                    });
+                    break;
+                default:
+                    console.log("Default");
+            }
+            handleMenuClose();
+        },
+        [navigate, npn, email, logout, handleMenuClose]
+    );
+
+    const menuItems = [
+        { path: "account", label: "Account", icon: <Account /> },
+        { path: "lead_center", label: "Lead Center", icon: <LeadCenter /> },
+        { path: "csg_app", label: "CSG App", icon: <CSG /> },
+        { path: "need_help", label: "Need Help?", icon: <NeedHelp /> },
+        { path: "sign_out", label: "Sign Out", icon: <SignOut /> },
+    ];
+
+    return (
+        <>
+            <Box
+                sx={{ marginLeft: "20px", cursor: "pointer" }}
+                onClick={handleMenuOpen}
+                aria-haspopup="true"
+                aria-expanded={isMenuOpen ? "true" : undefined}
+            >
+                <ProfilePicture bordered />
+            </Box>
+
+            <Menu
+                id="profile-menu"
+                aria-labelledby="profile-menu-button"
+                anchorEl={anchorElement}
+                open={isMenuOpen}
+                onClose={handleMenuClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
+                transition
+            >
+                <MenuList sx={{ padding: "0px 8px" }} className={styles.menuList}>
+                    <ProfileNameAndProfile withBackGround />
+                    {menuItems.map((item) => (
+                        <MenuItem
+                            key={item.path}
+                            onClick={() => handleNavigation(item.path)}
+                            className={styles.menuItem}
+                            sx={{ padding: "6px 8px" }}
+                        >
+                            <Box className={styles.menuItemBox}>
+                                {item.icon}
+                                <Box className={styles.menuLabel}>{item.label}</Box>
+                            </Box>
+                        </MenuItem>
+                    ))}
+                </MenuList>
+            </Menu>
+        </>
+    );
+};
+
+ProfileMenu.propTypes = {
+    /** Auth0 logout function */
+    logout: PropTypes.func,
+    /** Auth0 get access token function */
+    getAccessTokenSilently: PropTypes.func,
+    /** React Router navigation function */
+    navigate: PropTypes.func,
+    /** User profile data */
+    npn: PropTypes.string,
+    email: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+};
+
+export default ProfileMenu;

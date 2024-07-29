@@ -6,3 +6,4 @@ export { default as SignOut } from "./SignOut";
 export { default as MenuOpen } from "./MenuOpen";
 export { default as Marketing } from "./Marketing";
 export { default as LearningCenter } from "./LearningCenter";
+export { default as AddIcon } from "./AddIcon";

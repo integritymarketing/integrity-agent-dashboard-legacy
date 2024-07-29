@@ -1,19 +1,19 @@
 .divided-vlist {
-  > li {
-    border-bottom: 1px solid;
-  }
+    > li {
+        border-bottom: 1px solid;
+    }
 
-  &--light > li {
-    border-color: var(--border-light);
-  }
+    &--light > li {
+        border-color: var(--border-light);
+    }
 }
 
 .divided-hlist {
-  display: flex;
+    display: flex;
 
-  > li + li {
-    margin-left: 1.5rem;
-    border-left: 1px solid;
-    padding-left: 1.5rem;
-  }
+    > li {
+        margin-right: 1.5rem;
+        border-right: 1px solid;
+        padding-right: 1.5rem;
+    }
 }

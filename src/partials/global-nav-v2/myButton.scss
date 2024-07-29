@@ -1,35 +1,37 @@
 .hidden {
-  opacity: 0;
+    opacity: 0;
 }
 
 .show {
-  opacity: 1;
+    opacity: 1;
 }
 
 .ml-2 {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 
 .onButton {
-  margin-left: 32px;
+    margin-left: 32px;
 }
 
 .myButtonText {
-  font-size: 16px;
-  width: max-content;
-  color: #FFFFFF;
-  margin-right: 8px;
-  @media screen and (max-width: 883px) {
-    margin-left: 0px;
-    color: #7188A8;
-  }
+    font-size: 16px;
+    width: max-content;
+    color: #ffffff;
+    margin-right: 8px;
+    @media screen and (max-width: 883px) {
+        margin-left: 0px;
+        color: #7188a8;
+    }
 }
 
 .myButtonWrapper {
-  display: flex;
-  color: #ffffffbf;
-  z-index: 100;
-  @media screen and (max-width: 883px) {
-    margin-bottom: 10px;
-  }
+    display: flex;
+    align-items: center;
+    color: #ffffffbf;
+    margin-right: 20px;
+    z-index: 100;
+    @media screen and (max-width: 883px) {
+        margin-bottom: 10px;
+    }
 }
