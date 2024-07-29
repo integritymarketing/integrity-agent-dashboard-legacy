@@ -10,7 +10,7 @@ const CommunicationsContainer = () => {
     };
 
     return (
-        <Container sx={{ mx: "5rem" }}>
+        <Container sx={{ mx: { xs: "1rem", sm: "2rem", md: "5rem" } }}>
             <Grid container>
                 <Grid item xs={12}>
                     <Tabs
@@ -25,7 +25,7 @@ const CommunicationsContainer = () => {
                 </Grid>
                 <Grid item xs={12}>
                     {selectedTab === 0 && (
-                        <Box sx={{ p: 2 }}>
+                        <Box sx={{ p: { xs: 1, sm: 2 } }}>
                             <p>This is the sample content for the Texts tab.</p>
                         </Box>
                     )}
