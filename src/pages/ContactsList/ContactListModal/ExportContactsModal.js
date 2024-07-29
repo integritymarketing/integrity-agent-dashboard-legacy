@@ -18,22 +18,24 @@ import styles from "./styles.module.scss";
 import { useContactsListModalContext } from "../providers/ContactsListModalProvider";
 import { useContactsListContext } from "../providers/ContactsListProvider";
 
-const headers = [
+const csvHeaders = [
     { label: "First Name", key: "firstName" },
     { label: "Last Name", key: "lastName" },
     { label: "Email", key: "email" },
     { label: "Phone", key: "phone" },
     { label: "Address", key: "address" },
+    { label: "City", key: "city" },
+    { label: "State", key: "state" },
     { label: "Postal Code", key: "postalCode" },
     { label: "County", key: "county" },
     { label: "Stage", key: "stage" },
     { label: "Client Notes", key: "notes" },
 ];
 
-const ExportsContactsModal = () => {
+const ExportContactsModal = () => {
     const showToast = useToast();
     const csvLinkRef = useRef();
-    const [selectedOption, setSelectOption] = useState("selectedContacts");
+    const [selectedOption, setSelectedOption] = useState("selectedContacts");
     const [exportData, setExportData] = useState([]);
     const { isExportModalOpen, setIsExportModalOpen } = useContactsListModalContext();
     const { selectedContacts, allLeads } = useContactsListContext();
@@ -52,7 +54,7 @@ const ExportsContactsModal = () => {
             setExportData(result);
             showToast({
                 type: "success",
-                message: `Download successfully `,
+                message: "Download successfully",
             });
             setTimeout(() => {
                 if (result.length && csvLinkRef?.current?.link) {
@@ -77,7 +79,7 @@ const ExportsContactsModal = () => {
                 style={{ height: "0" }}
                 ref={csvLinkRef}
                 data={exportData}
-                headers={headers}
+                headers={csvHeaders}
                 filename="contacts-list.csv"
             />
             <Typography variant="h4">Export Contacts</Typography>
@@ -89,7 +91,7 @@ const ExportsContactsModal = () => {
                     name="export-contacts"
                     value="selectedContacts"
                     checked={selectedOption === "selectedContacts"}
-                    onChange={(event) => setSelectOption(event.currentTarget.value)}
+                    onChange={(event) => setSelectedOption(event.currentTarget.value)}
                 />
                 <Radio
                     id="allContacts"
@@ -98,7 +100,7 @@ const ExportsContactsModal = () => {
                     name="export-contacts"
                     value="allContacts"
                     checked={selectedOption === "allContacts"}
-                    onChange={(event) => setSelectOption(event.currentTarget.value)}
+                    onChange={(event) => setSelectedOption(event.currentTarget.value)}
                 />
             </Box>
             <Box className={styles.footerButtons}>
@@ -109,4 +111,4 @@ const ExportsContactsModal = () => {
     );
 };
 
-export default ExportsContactsModal;
+export default ExportContactsModal;
