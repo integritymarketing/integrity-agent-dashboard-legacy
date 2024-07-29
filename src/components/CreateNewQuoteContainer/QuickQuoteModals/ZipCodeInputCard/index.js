@@ -6,7 +6,7 @@ import { Box, useMediaQuery, useTheme } from "@mui/material";
 import WithLoader from "components/ui/WithLoader";
 
 const ZipCodeInputCard = () => {
-    const { handleAfterZipCodeCard, selectedLead } = useCreateNewQuote();
+    const { handleClose, selectedLead } = useCreateNewQuote();
     const leadId = selectedLead?.leadsId;
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -21,12 +21,20 @@ const ZipCodeInputCard = () => {
     }, [leadId]);
 
     return (
-        <Box>
+        <Box
+            sx={{
+                backgroundColor: "#ffffff",
+                width: "80%",
+                borderRadius: "8px",
+                margin: "auto",
+            }}
+        >
             <WithLoader isLoading={isLoadingLeadDetails}>
                 <AddZipContainer
                     isMobile={isMobile}
                     contactId={leadId}
-                    quickQuoteModalCallBack={handleAfterZipCodeCard}
+                    quickQuoteModalCallBack={handleClose}
+                    pageName="Quick Quote"
                 />
             </WithLoader>
         </Box>

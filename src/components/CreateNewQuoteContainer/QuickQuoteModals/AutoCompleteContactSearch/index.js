@@ -18,6 +18,8 @@ import { useClientServiceContext } from "services/clientServiceProvider";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 import ContactListItem from "./ContactListItem";
 import CreateNewContactIcon from "components/icons/CreateNewContact";
+import { useLeadDetails } from "providers/ContactDetails";
+
 import styles from "./styles.module.scss";
 
 const StyledSearchInput = styled(TextField)(() => ({
@@ -41,6 +43,8 @@ const AutoCompleteContactSearchModal = () => {
         handleSelectedLead,
     } = useCreateNewQuote();
 
+    const { getLeadDetails } = useLeadDetails();
+
     const [searchQuery, setSearchQuery] = useState("");
     const [contactList, setContactList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -57,9 +61,20 @@ const AutoCompleteContactSearchModal = () => {
         }
     };
 
-    const handleSelectedContact = (contact, type) => {
-        handleSelectedLead(contact, type);
+    const handleSelectNewContact = (contact) => {
+        handleSelectedLead(contact, "new");
         handleClose(false);
+    };
+
+    const handleSelectOldContact = async (contact) => {
+        const leadId = contact?.leadsId;
+
+        const response = await getLeadDetails(leadId);
+
+        if (response) {
+            handleSelectedLead(response, "old");
+            handleClose(false);
+        }
     };
 
     const onClose = () => {
@@ -96,7 +111,7 @@ const AutoCompleteContactSearchModal = () => {
             if (query.length >= 3) {
                 fetchContacts(query);
             }
-        }, 300),
+        }, 1000),
         [fetchContacts]
     );
 
@@ -109,14 +124,10 @@ const AutoCompleteContactSearchModal = () => {
     const renderAutocompleteOption = (props, option) => {
         if (option.isNewContact) {
             return (
-                <ListItem
-                    {...props}
-                    onClick={() => handleSelectedContact(searchQuery, "new")}
-                    className={styles.listItem}
-                >
+                <ListItem {...props} onClick={() => handleSelectNewContact(searchQuery)} className={styles.listItem}>
                     <ListItemText
                         primary={
-                            <Box display="flex" alignItems="center">
+                            <Box display="flex" alignItems="center" sx={{cursor : "pointer"}}>
                                 <CreateNewContactIcon />
                                 <Typography variant="subtitle1" style={{ marginLeft: 8 }}>
                                     Create new contact for <span style={{ color: "#0052ce" }}>{searchQuery}</span>
@@ -142,7 +153,7 @@ const AutoCompleteContactSearchModal = () => {
             );
         }
 
-        return <ContactListItem {...props} contact={option} handleClick={handleSelectedContact} />;
+        return <ContactListItem {...props} contact={option} handleClick={handleSelectOldContact} />;
     };
 
     return (

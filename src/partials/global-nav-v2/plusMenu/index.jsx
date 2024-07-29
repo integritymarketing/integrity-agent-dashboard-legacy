@@ -32,9 +32,9 @@ export default function PlusMenu() {
         navigate("/contact/add-new");
     }, [navigate]);
 
-    const handleNavigateToLeadCenter = useCallback(() => {
+const handleNavigateToLeadCenter = useCallback(() => {
         setAnchorEl(null);
-        window.location.href = `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/campaigns`;
+        window.open(`${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/campaigns`, "_blank");
     }, []);
 
     return (

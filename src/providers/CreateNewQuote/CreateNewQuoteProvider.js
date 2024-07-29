@@ -9,6 +9,7 @@ export const CreateNewQuoteContext = createContext();
 
 export const CreateNewQuoteProvider = ({ children }) => {
     const { leadPreference, updateAgentPreferences } = useAgentAccountContext();
+
     const { agentId } = useUserProfile();
     const showToast = useToast();
     const navigate = useNavigate();
@@ -43,6 +44,8 @@ export const CreateNewQuoteProvider = ({ children }) => {
     const [showZipCodeInput, setShowZipCodeInput] = useState(false);
     const [DoNotShowAgain, setDoNotShowAgain] = useState(false);
 
+    const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
+
     const handleSelectedLead = (lead, type) => {
         if (type === "new") {
             setNewLeadDetails({
@@ -67,9 +70,14 @@ export const CreateNewQuoteProvider = ({ children }) => {
         } else {
             setSelectedProductType(leadPreference?.hideLifeQuote ? "health" : "life");
             if (leadPreference?.hideLifeQuote === "life") {
-                setQuoteModalStage("lifeQuestionCard");
+                setQuoteModalStage("finalExpenseIntakeFormCard");
             } else {
-                setQuoteModalStage("healthQuestionCard");
+                if (postalCode) {
+                    navigate(`/plans/${selectedLead?.leadsId}`);
+                    handleClose();
+                } else {
+                    setQuoteModalStage("zipCodeInputCard");
+                }
             }
         }
     };
@@ -80,9 +88,14 @@ export const CreateNewQuoteProvider = ({ children }) => {
         }
         setSelectedProductType(productType);
         if (productType === "life") {
-            setQuoteModalStage("lifeQuestionCard");
+            setQuoteModalStage("finalExpenseIntakeFormCard");
         } else {
-            setQuoteModalStage("healthQuestionCard");
+            if (postalCode) {
+                navigate(`/plans/${selectedLead?.leadsId}`);
+                handleClose();
+            } else {
+                setQuoteModalStage("zipCodeInputCard");
+            }
         }
     };
 
@@ -123,8 +136,9 @@ export const CreateNewQuoteProvider = ({ children }) => {
     const handleSelectedHealthProductType = (productType) => {
         setSelectedHealthProductType(productType);
         // check if lead has zip code or not
-        if (selectedLead?.zipCode) {
+        if (postalCode) {
             navigate(`/plans/${selectedLead?.leadsId}`);
+            handleClose();
         } else {
             setQuoteModalStage("zipCodeInputCard");
         }
@@ -135,7 +149,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
         setQuoteModalStage("finalExpenseIntakeFormCard");
     };
 
-    const handleAfterZipCodeCard = () => {
+    const handleClose = () => {
         setQuoteModalStage("");
         setShowStartQuoteModal(false);
         setSelectedLead(null);
@@ -177,7 +191,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             quoteModalStage,
             setQuoteModalStage,
             handleSelectIulGoal,
-            handleAfterZipCodeCard,
+            handleClose,
         };
     }
 };

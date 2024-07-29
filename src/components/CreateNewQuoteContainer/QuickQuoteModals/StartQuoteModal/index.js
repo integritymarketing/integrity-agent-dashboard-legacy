@@ -3,9 +3,7 @@ import { useCreateNewQuote } from "providers/CreateNewQuote";
 
 import SelectProductCard from "../SelectProductCard";
 import QuoteModalCard from "../../Common/QuoteModalCard";
-import LifeQuestionCard from "../LifeQuestionCard";
-import HealthQuestionCard from "../HealthQuestionCard";
-import IulGoalQuestionCard from "../IulGoalQuestionCard";
+
 import FinalExpenseIntakeFormCard from "../FinalExpenseIntakeFormCard";
 import ZipCodeInputCard from "../ZipCodeInputCard";
 
@@ -28,7 +26,7 @@ const StartQuoteModal = () => {
                 open={open}
                 handleClose={onClose}
                 showCloseButton
-                maxWidth="md"
+                maxWidth="sm"
                 disableContentBackground
             >
                 {quoteModalStage === "selectProductTypeCard" && (
@@ -36,29 +34,15 @@ const StartQuoteModal = () => {
                         <SelectProductCard />
                     </QuoteModalCard>
                 )}
-                {quoteModalStage === "lifeQuestionCard" && (
-                    <QuoteModalCard action={() => setQuoteModalStage("selectProductTypeCard")}>
-                        <LifeQuestionCard />
-                    </QuoteModalCard>
-                )}
-                {quoteModalStage === "healthQuestionCard" && (
-                    <QuoteModalCard action={() => setQuoteModalStage("selectProductTypeCard")}>
-                        <HealthQuestionCard />
-                    </QuoteModalCard>
-                )}
-                {quoteModalStage === "IulGoalQuestionCard" && (
-                    <QuoteModalCard action={() => setQuoteModalStage("lifeQuestionCard")}>
-                        <IulGoalQuestionCard />
-                    </QuoteModalCard>
-                )}
+
                 {quoteModalStage === "finalExpenseIntakeFormCard" && (
-                    <QuoteModalCard action={() => setQuoteModalStage("lifeQuestionCard")}>
+                    <QuoteModalCard action={() => setQuoteModalStage("selectProductTypeCard")}>
                         <FinalExpenseIntakeFormCard />
                     </QuoteModalCard>
                 )}
 
                 {quoteModalStage === "zipCodeInputCard" && (
-                    <QuoteModalCard action={() => setQuoteModalStage("healthQuestionCard")}>
+                    <QuoteModalCard action={() => setQuoteModalStage("selectProductTypeCard")}>
                         <ZipCodeInputCard />
                     </QuoteModalCard>
                 )}

@@ -18,16 +18,9 @@ import { formatPayload } from "utils/leadDataUtil";
 
 const FinalExpenseIntakeFormCard = () => {
     const navigate = useNavigate();
-    const { setShowStartQuoteModal, setQuoteModalStage, selectedLead } = useCreateNewQuote();
-    const { leadDetails, updateLeadDetails, isLoadingLeadDetails, getLeadDetails } = useLeadDetails();
+    const { handleClose, selectedLead } = useCreateNewQuote();
+    const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
     const leadId = selectedLead?.leadsId;
-
-    useEffect(() => {
-        if (leadId) {
-            getLeadDetails(leadId);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [leadId]);
 
     const [initialValues, setInitialValues] = useState({
         stateCode: null,
@@ -51,7 +44,8 @@ const FinalExpenseIntakeFormCard = () => {
                 inches,
                 weight: leadDetails?.weight ? leadDetails?.weight : "",
                 dateOfBirth: leadDetails?.birthdate ? leadDetails?.birthdate : null,
-                isTobaccoUser: leadDetails?.isTobaccoUser === true ? "Yes" : leadDetails?.isTobaccoUser === false ? "No" : null,
+                isTobaccoUser:
+                    leadDetails?.isTobaccoUser === true ? "Yes" : leadDetails?.isTobaccoUser === false ? "No" : null,
                 gender: leadDetails?.gender,
             });
         }
@@ -62,7 +56,7 @@ const FinalExpenseIntakeFormCard = () => {
             const formData = {
                 birthdate: values?.dateOfBirth ? formatDate(values.dateOfBirth) : "",
                 height: values.feet ? Number(values.feet * 12) + Number(values.inches) : null,
-                weight: values.weight ? values.weight: null,
+                weight: values.weight ? values.weight : null,
                 isTobaccoUser: values.isTobaccoUser === "Yes",
                 gender: values.gender,
             };
@@ -72,8 +66,7 @@ const FinalExpenseIntakeFormCard = () => {
             try {
                 const response = await updateLeadDetails(payload);
                 if (response) {
-                    setShowStartQuoteModal(false);
-                    setQuoteModalStage("");
+                    handleClose();
                     navigate(`/finalexpenses/plans/${leadId}`);
                 }
             } catch (error) {
@@ -82,7 +75,7 @@ const FinalExpenseIntakeFormCard = () => {
                 setSubmitting(false);
             }
         },
-        [leadDetails, setShowStartQuoteModal, setQuoteModalStage, navigate, updateLeadDetails, leadId]
+        [leadDetails, navigate, updateLeadDetails, leadId]
     );
 
     const ErrorInfoIcon = () => (
@@ -104,7 +97,7 @@ const FinalExpenseIntakeFormCard = () => {
         onSubmit: onSubmitHandler,
     });
 
-    const { values, errors,isValid, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
+    const { values, errors, isValid, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
 
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
@@ -155,7 +148,11 @@ const FinalExpenseIntakeFormCard = () => {
                                             maxLength: 1,
                                         },
                                         endAdornment:
-                                            touched.feet && Boolean(errors.feet) ? <ErrorInfoIcon /> : <HelpText text="ft" />,
+                                            touched.feet && Boolean(errors.feet) ? (
+                                                <ErrorInfoIcon />
+                                            ) : (
+                                                <HelpText text="ft" />
+                                            ),
                                     }}
                                 />
                                 <TextInput
@@ -200,7 +197,11 @@ const FinalExpenseIntakeFormCard = () => {
                                         maxLength: 3,
                                     },
                                     endAdornment:
-                                        touched.weight && Boolean(errors.weight) ? <ErrorInfoIcon /> : <HelpText text="lbs" />,
+                                        touched.weight && Boolean(errors.weight) ? (
+                                            <ErrorInfoIcon />
+                                        ) : (
+                                            <HelpText text="lbs" />
+                                        ),
                                 }}
                             />
                         </Grid>
@@ -237,8 +238,7 @@ const FinalExpenseIntakeFormCard = () => {
     );
 };
 
-FinalExpenseIntakeFormCard
-.propTypes = {
-    text: PropTypes.string.isRequired, 
+FinalExpenseIntakeFormCard.propTypes = {
+    text: PropTypes.string.isRequired,
 };
 export default FinalExpenseIntakeFormCard;

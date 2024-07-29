@@ -48,6 +48,7 @@ export const LeadDetailsProvider = ({ children }) => {
                 const response = await fetchLeadDetails(null, false, leadId);
                 const plan_enroll_profile_created = response?.consumerId === null ? "No" : "Yes";
                 setLeadDetails({ ...response, plan_enroll_profile_created });
+                return response;
             } catch (error) {
                 showToast({
                     type: "error",

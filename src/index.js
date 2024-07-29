@@ -65,8 +65,8 @@ root.render(
                                                                 <TaskListProvider>
                                                                     <CampaignInvitationProvider>
                                                                         <ProfessionalProfileProvider>
-                                                                            <CreateNewQuoteProvider>
-                                                                                <ContactDetailsProvider>
+                                                                            <ContactDetailsProvider>
+                                                                                <CreateNewQuoteProvider>
                                                                                     <HelmetProvider>
                                                                                         <Helmet>
                                                                                             <title>Integrity</title>
@@ -84,8 +84,8 @@ root.render(
                                                                                         </Suspense>
                                                                                         <PortalUrl />
                                                                                     </HelmetProvider>
-                                                                                </ContactDetailsProvider>
-                                                                            </CreateNewQuoteProvider>
+                                                                                </CreateNewQuoteProvider>
+                                                                            </ContactDetailsProvider>
                                                                         </ProfessionalProfileProvider>
                                                                     </CampaignInvitationProvider>
                                                                 </TaskListProvider>

@@ -16,7 +16,7 @@ import { CopyAddress } from "./CopyAddress/CopyAddress";
 import { SelectCounty } from "./SelectCounty/SelectCounty";
 import { ZipCodeInput } from "./ZipCodeInput/ZipCodeInput";
 
-const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => {} }) => {
+const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => {}, pageName = "" }) => {
     const navigate = useNavigate();
 
     const { leadDetails, updateLeadDetails } = useLeadDetails();
@@ -48,41 +48,40 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
         const {
             emails = [],
             phones = [],
-            firstName = '',
-            lastName = '',
-            middleName = '',
+            firstName = "",
+            lastName = "",
+            middleName = "",
             leadsId = 0,
-            contactRecordType = '',
+            contactRecordType = "",
             leadStatusId = 0,
-            notes = '',
-            medicareBeneficiaryID = '',
+            notes = "",
+            medicareBeneficiaryID = "",
             partA = false,
             partB = false,
             addresses = [],
             contactPreferences = {},
         } = leadDetails || {};
-        
+
         // Extract primary email and phone details with null checks
         const email = emails.length > 0 ? emails[0]?.leadEmail : null;
         const phoneData = phones.length > 0 ? phones[0] : null;
         const addressData = addresses.length > 0 ? addresses[0] : null;
-        
+
         // Extract email ID and address ID with default values
         const emailID = emails.length > 0 ? emails[0]?.emailID : 0;
         const leadAddressId = addressData?.leadAddressId || 0;
         const phoneId = phoneData?.phoneId || 0;
-        
+
         // Extract phone details with default values
         const phone = phoneData?.leadPhone || "";
         const phoneLabel = phoneData?.phoneLabel || "mobile";
-        
+
         // Extract address details with default values
         const county = addressData?.county || "";
         const countyFips = addressData?.countyFips || "";
-        
+
         // Extract primary contact preference with a default value
         const isPrimary = contactPreferences.primary || "email";
-        
 
         const payload = {
             firstName: firstName,
@@ -118,8 +117,8 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
 
         const res = await updateLeadDetails(payload);
         if (res) {
-        navigate(`/plans/${leadsId}`);
-        quickQuoteModalCallBack && quickQuoteModalCallBack();
+            navigate(`/plans/${leadsId}`);
+            quickQuoteModalCallBack && quickQuoteModalCallBack();
         }
     };
 
@@ -171,7 +170,15 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
     }, [fetchCounties, zipCode]);
 
     return (
-        <div className={isMobile ? styles.detailsMContainer : styles.detailsDContainer}>
+        <div
+            className={
+                isMobile
+                    ? styles.detailsMContainer
+                    : pageName === "Quick Quote"
+                    ? styles.quickQuote
+                    : styles.detailsDContainer
+            }
+        >
             <div className={styles.detailsTitle}>{CONFIRM_DETAILS_TEXT}</div>
             <div className={styles.detailsSubTitle}>{CONFIRM_DETAILS_SUBTEXT}</div>
             <ZipCodeInput handleZipCode={handleZipCode} zipError={zipError} />

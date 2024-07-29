@@ -107,7 +107,7 @@ const CreateNewContactModal = () => {
             handleSave={handleSubmit}
             showCloseButton
             shouldShowCancelButton={true}
-            maxWidth="md"
+            maxWidth="sm"
             disableContentBackground
             saveLabel="Continue"
             footerActionIcon={<ContinueIcon />}
@@ -170,7 +170,7 @@ const CreateNewContactModal = () => {
                             onBlur={handleBlur}
                             error={touched.phone && Boolean(errors.phone)}
                             fullWidth
-                            label="Phone"
+                            label="Phone*"
                             type="tel"
                             placeholder="(___) ___-____"
                             size="small"
@@ -192,7 +192,7 @@ const CreateNewContactModal = () => {
                             onBlur={handleBlur}
                             error={touched.email && Boolean(errors.email)}
                             fullWidth
-                            label="Email"
+                            label="Email*"
                             size="small"
                             helperText={touched.email && errors.email}
                             InputProps={{
