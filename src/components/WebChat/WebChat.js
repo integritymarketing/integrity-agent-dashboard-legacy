@@ -260,13 +260,12 @@ const WebChatComponent = () => {
                             activityValue != null &&
                             (activityValue.name === "mc_View_Call_Summary" ||
                                 activityValue.name === "mc_View_Transcript" ||
-                                activityValue.name === "mc_View_Contact")
+                                activityValue.name === "mc_View_Contact" || activityValue.name === "mc_Ask_Something_Else")
                         ) {
-                            console.log("inside text ", action);
                             action.payload.activity.channelData.postBack = true;
                         }
 
-                        if (activityValue != null && activityValue.name === "mc_Contact_Selected") {
+                        if (activityValue != null && (activityValue.name === "mc_Contact_Selected" || activityValue.name === "mc_Call_Selected"|| activityValue.name === "mc_Search_Contact")) {
                             return dispatch({
                                 type: "WEB_CHAT/SEND_EVENT",
                                 payload: {
