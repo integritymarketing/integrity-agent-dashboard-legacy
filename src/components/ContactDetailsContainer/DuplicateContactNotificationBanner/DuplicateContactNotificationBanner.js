@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 import PropTypes from "prop-types";
 import { useDuplicateContacts, useLeadDetails } from "providers/ContactDetails";
+import { toTitleCase } from "utils/toTitleCase";
 
 import Warning from "components/icons/warning";
 
@@ -43,7 +44,7 @@ export const DuplicateContactNotificationBanner = () => {
         if (duplicateLeadIds.length === 1) {
             return (
                 <a href={`/contact/${duplicateLeadIds[0]}/overview`} target="_blank" rel="noopener noreferrer">
-                    {duplicateLeadIdName || "this contact link."}
+                    {duplicateLeadIdName ? toTitleCase(duplicateLeadIdName) : "this contact link."}
                 </a>
             );
         } else if (duplicateLeadIds.length > 1) {

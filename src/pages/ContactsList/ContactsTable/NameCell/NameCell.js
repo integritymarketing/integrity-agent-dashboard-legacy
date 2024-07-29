@@ -5,6 +5,8 @@ import Box from "@mui/material/Box";
 
 import PropTypes from "prop-types";
 
+import { toTitleCase } from "utils/toTitleCase";
+
 import styles from "./styles.module.scss";
 
 function NameCell({ row }) {
@@ -12,7 +14,7 @@ function NameCell({ row }) {
         const name = [_row.original.firstName || "", _row.original.middleName || "", _row.original.lastName || ""]
             .join(" ")
             .trim();
-        return name || "--";
+        return name ? toTitleCase(name) : "--";
     };
 
     const name = getName(row);
