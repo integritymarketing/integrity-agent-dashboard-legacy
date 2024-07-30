@@ -32,11 +32,6 @@ export default function PlusMenu() {
         navigate("/contact/add-new");
     }, [navigate]);
 
-const handleNavigateToLeadCenter = useCallback(() => {
-        setAnchorEl(null);
-        window.open(`${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/campaigns`, "_blank");
-    }, []);
-
     return (
         <>
             <button
@@ -91,7 +86,9 @@ const handleNavigateToLeadCenter = useCallback(() => {
                         Contact
                     </MenuItem>
                     <MenuItem
-                        onClick={handleNavigateToLeadCenter}
+                        onClick={() => {
+                            window.open(`${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`, "_blank");
+                        }}
                         className={styles.menuItem}
                         sx={{ padding: "6px 8px" }}
                     >
