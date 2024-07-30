@@ -1,26 +1,26 @@
 @import "../../scss/globalDefines.scss";
 
 .wrapper {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
 .navbar {
-  display: flex;
-  align-items: center;
-  padding-left: 2rem;
-  background: $primary-anchor 0% 0% no-repeat padding-box;
-  height: 4.5rem;
+    display: flex;
+    align-items: center;
+    padding-left: 2rem;
+    background: $primary-anchor 0% 0% no-repeat padding-box;
+    height: 4.5rem;
 }
 
 .backButton {
-  border: none;
-  border-radius: 4px;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: left;
-  letter-spacing: 0.16px;
-  color: $white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    letter-spacing: 0.16px;
+    color: $white;
 }

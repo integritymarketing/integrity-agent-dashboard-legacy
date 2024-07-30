@@ -7,9 +7,8 @@ import { useLeadDetails } from "providers/ContactDetails";
 
 import { toTitleCase } from "utils/toTitleCase";
 
-import useBackPage from "hooks/useBackPage";
-
 import PlansTypeModal from "components/PlansTypeModal";
+import BackButton from "components/BackButton";
 import { Button } from "components/ui/Button";
 import Container from "components/ui/container";
 
@@ -17,8 +16,6 @@ import styles from "./ContactProfileTabBar.module.scss";
 import { Connect, Health, Overview, Policies } from "./Icons";
 
 import { ConnectModal } from "../ConnectModal";
-
-import NewBackBtn from "images/new-back-btn.svg";
 
 import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCirlce";
 import { useMediaQuery, useTheme } from "@mui/material";
@@ -57,8 +54,6 @@ export const ContactProfileTabBar = ({ contactId }) => {
         [leadId, navigate, setSelectedTab],
     );
 
-    const handleBackPage = useBackPage("/contacts", false);
-
     const handleCloseShowPlanTypeModal = useCallback(() => {
         setShowPlanTypeModal(false);
     }, []);
@@ -82,13 +77,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
         <Box className={styles.navWrapper}>
             <Container className={styles.contactProfileTabBar}>
                 <Box className={styles.backToContacts}>
-                    <Button
-                        icon={<img src={NewBackBtn} alt="Back" />}
-                        label={!isMobile && "Back"}
-                        onClick={handleBackPage}
-                        type="tertiary"
-                        className={styles.backButton}
-                    />
+                    <BackButton />
                 </Box>
                 <Box className={styles.profileMenu}>
                     <Box className={styles.userName}>{toTitleCase(leadName)}</Box>

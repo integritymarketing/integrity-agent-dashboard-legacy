@@ -1,36 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
-
+import BackButton from "components/BackButton";
 import styles from "./styles.module.scss";
-import Back from "components/icons/back";
 
-function GoBackNavbar(props) {
-  const navigate = useNavigate();
-
-  const handleGoBack = () => {
-    if (props.handleBackToRoute) {
-      props.handleBackToRoute();
-    } else {
-      navigate(-1);
-    }
-  };
-
-  return (
-    <div className={styles.navbar}>
-      <div className={styles.wrapper} onClick={handleGoBack}>
-        <Back />
-        <button className={styles.backButton}>
-          {props.title ? props.title : "Back"}
-        </button>
-      </div>
-    </div>
-  );
+function GoBackNavbar() {
+    return (
+        <div className={styles.navbar}>
+            <BackButton />
+        </div>
+    );
 }
-
-GoBackNavbar.propTypes = {
-  handleBackToRoute: PropTypes.func, // optional function prop
-  title: PropTypes.string, // optional string prop
-};
 
 export default GoBackNavbar;
