@@ -28,7 +28,7 @@
             display: flex;
             flex-direction: column;
 
-            & > img {
+            &>img {
                 position: absolute;
                 top: 0;
                 width: 100%;
@@ -46,6 +46,10 @@
 
                 @media screen and (min-width: 320px) and (max-width: 480px) {
                     padding-top: 25px;
+                }
+
+                .greet-session {
+                    margin-bottom: 35px;
                 }
             }
 
@@ -203,11 +207,11 @@
     font-size: 14px !important;
 }
 
-.unlink-card-download-btn > svg {
+.unlink-card-download-btn>svg {
     stroke: none;
 }
 
-.unlink-card-link-btn > svg {
+.unlink-card-link-btn>svg {
     stroke: none;
 
     @media screen and (max-width: 480px) {
@@ -229,7 +233,7 @@
     }
 }
 
-.unlink-card-download-btn > .label {
+.unlink-card-download-btn>.label {
     font-size: 14px !important;
 }
 
@@ -243,7 +247,7 @@
     }
 }
 
-.unlink-card-link-btn > .label {
+.unlink-card-link-btn>.label {
     font-size: 14px !important;
     color: #434a51;
 }
@@ -267,7 +271,7 @@
     }
 }
 
-.show-more-btn > span {
+.show-more-btn>span {
     color: #0052ce;
     font-weight: 600;
 }
