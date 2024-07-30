@@ -255,6 +255,10 @@ const WebChatComponent = () => {
                         }
                         if (activityValue != null) {
                             action.payload.activity.channelData.postBack = false;
+                            if (activityValue.name === "mc_View_Contact") {
+                                const leadId = activityValue.leadId;
+                                goToContactDetailPage(leadId);
+                            }
                         }
                         if (
                             activityValue != null &&

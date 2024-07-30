@@ -157,7 +157,7 @@
 
   #mcContactSummaryButtonsCard,
   #mcWelcomeCard,
-  #mcContactListCard, #mcCallSummaryButtonsCard, #mcCallListCard, #mcCallListExpansionCard {
+  #mcContactListCard, #mcCallSummaryButtonsCard, #mcAskSomethingElseButtonCard, #mcTranscriptButtonsCard, #mcCallListCard, #mcCallListExpansionCard {
     padding: 0 !important;
   }
 
@@ -180,7 +180,7 @@
 
   .webchat__bubble:has(#mcContactSummaryButtonsCard,
     #mcCallSummaryButtonsCard,
-    #mcViewContactButtonsCard) {
+    #mcViewContactButtonsCard, #mcAskSomethingElseButtonCard, #mcTranscriptButtonsCard) {
     border: none;
     margin-right: 0 !important;
 
@@ -190,7 +190,7 @@
 
     #mcContactSummaryButtonsCard,
     #mcCallSummaryButtonsCard,
-    #mcViewContactButtonsCard, #mcTranscriptButtonsCard, #mcAskSomethingElseButtonCard, #mcCallSummaryButtonsCard {
+    #mcViewContactButtonsCard, #mcTranscriptButtonsCard, #mcAskSomethingElseButtonCard {
       button {
         .primary{
           background-color: #4178ff !important;
@@ -216,7 +216,8 @@
       }
     }
 
-    #mcContactSummaryButtonsCard, #mcCallSummaryCard, #mcTranscriptCard, #mcCallSummaryButtonsCard {
+    #mcContactSummaryButtonsCard, #mcCallSummaryCard, #mcTranscriptCard, #mcCallSummaryButtonsCard, #mcTranscriptButtonsCard,
+    #mcAskSomethingElseButtonCard, #mcViewContactButtonsCard {
       .ac-actionSet {    
         button {
           &.primary{
@@ -277,15 +278,15 @@
     font-family: "Lato", sans-serif !important;
   }
 
-  #mcContactSummaryCard {
+  #mcContactSummaryCard, #mcCallSummaryCard, #mcTranscriptCard {
 
     p {
-      font-size: 17px;
+      font-size: 16px;
     }
 
     div:nth-child(3) {
       p {
-        font-size: 26px;
+        font-size: 24px;
       }
     }
   }
