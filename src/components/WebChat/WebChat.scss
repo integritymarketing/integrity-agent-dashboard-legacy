@@ -219,7 +219,7 @@
     #mcContactSummaryButtonsCard, #mcCallSummaryCard, #mcTranscriptCard, #mcCallSummaryButtonsCard {
       .ac-actionSet {    
         button {
-          .primary{
+          &.primary{
           background-color: #4178ff;
           }
           border-radius: 50px;
