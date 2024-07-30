@@ -15,12 +15,15 @@ import { FinalExpenseIntakeForm } from "schemas";
 import WithLoader from "components/ui/WithLoader";
 import styles from "./styles.module.scss";
 import { formatPayload } from "utils/leadDataUtil";
+import useAnalytics from "hooks/useAnalytics";
 
 const FinalExpenseIntakeFormCard = () => {
     const navigate = useNavigate();
-    const { handleClose, selectedLead } = useCreateNewQuote();
+    const { fireEvent } = useAnalytics();
+    const { handleClose, selectedLead, newLeadDetails } = useCreateNewQuote();
     const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
     const leadId = selectedLead?.leadsId;
+    const isContactType = newLeadDetails?.firstName ? "New Contact" : "Existing Contact";
 
     const [initialValues, setInitialValues] = useState({
         stateCode: null,
@@ -67,6 +70,11 @@ const FinalExpenseIntakeFormCard = () => {
                 const response = await updateLeadDetails(payload);
                 if (response) {
                     handleClose();
+                    fireEvent("New Quote Created With Instant Quote", {
+                        leadId: selectedLead?.leadsId,
+                        Life: true,
+                        contactType: isContactType,
+                    });
                     navigate(`/finalexpenses/plans/${leadId}`);
                 }
             } catch (error) {
@@ -75,7 +83,7 @@ const FinalExpenseIntakeFormCard = () => {
                 setSubmitting(false);
             }
         },
-        [leadDetails, navigate, updateLeadDetails, leadId]
+        [leadDetails, updateLeadDetails, handleClose, fireEvent, selectedLead?.leadsId, isContactType, navigate, leadId]
     );
 
     const ErrorInfoIcon = () => (

@@ -1,12 +1,11 @@
 import { useCallback } from "react";
 import { Box, Typography, InputAdornment, Grid } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/Error";
-
 import { TextInput, CustomModal } from "components/MuiComponents";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import useToast from "hooks/useToast";
-
+import useAnalytics from "hooks/useAnalytics";
 import { useFormik } from "formik";
 import { LeadDetails } from "schemas";
 import { formatPhoneNumber } from "utils/formatPhoneNumber";
@@ -20,7 +19,7 @@ const CreateNewContactModal = () => {
         newLeadDetails,
         handleSelectedLead,
     } = useCreateNewQuote();
-
+    const { fireEvent } = useAnalytics();
     const { clientsService } = useClientServiceContext();
     const showToast = useToast();
 
@@ -45,6 +44,7 @@ const CreateNewContactModal = () => {
                     if (response.ok) {
                         const resData = await response.json();
                         handleSelectedLead(resData);
+                        fireEvent("New Contact Created With Quote Quote");
                         showToast({
                             type: "success",
                             message: "Lead Created successfully",
@@ -71,7 +71,7 @@ const CreateNewContactModal = () => {
                 setSubmitting(false);
             }
         },
-        [clientsService, handleSelectedLead, showToast]
+        [clientsService, fireEvent, handleSelectedLead, showToast]
     );
 
     const ErrorInfoIcon = () => (

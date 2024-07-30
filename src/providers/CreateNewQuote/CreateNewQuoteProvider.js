@@ -4,22 +4,21 @@ import { useAgentAccountContext } from "providers/AgentAccountProvider";
 import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
 import { useNavigate } from "react-router-dom";
+import useAnalytics from "hooks/useAnalytics";
 
 export const CreateNewQuoteContext = createContext();
 
+const LIFE = "hideLifeQuote";
+const HEALTH = "hideHealthQuote";
+
 export const CreateNewQuoteProvider = ({ children }) => {
     const { leadPreference, updateAgentPreferences } = useAgentAccountContext();
-
+    const { fireEvent } = useAnalytics();
     const { agentId } = useUserProfile();
     const showToast = useToast();
     const navigate = useNavigate();
-
-    const LIFE = "hideLifeQuote";
-    const HEALTH = "hideHealthQuote";
-
     const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
     const [createNewContactModalOpen, setCreateNewContactModalOpen] = useState(false);
-
     const [selectedLead, setSelectedLead] = useState(null);
     const [newLeadDetails, setNewLeadDetails] = useState({
         firstName: "",
@@ -28,9 +27,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
         phone: "",
     });
     const [showStartQuoteModal, setShowStartQuoteModal] = useState(false);
-
     const [quoteModalStage, setQuoteModalStage] = useState("");
-
     const [selectedProductType, setSelectedProductType] = useState(null);
     const [selectedLifeProductType, setSelectedLifeProductType] = useState(null);
     const [selectedHealthProductType, setSelectedHealthProductType] = useState(null);
@@ -73,6 +70,11 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 setQuoteModalStage("finalExpenseIntakeFormCard");
             } else {
                 if (postalCode) {
+                    fireEvent("New Quote Created With Instant Quote", {
+                        leadId: selectedLead?.leadsId,
+                        Health: true,
+                        contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
+                    });
                     navigate(`/plans/${selectedLead?.leadsId}`);
                     handleClose();
                 } else {
@@ -91,6 +93,11 @@ export const CreateNewQuoteProvider = ({ children }) => {
             setQuoteModalStage("finalExpenseIntakeFormCard");
         } else {
             if (postalCode) {
+                fireEvent("New Quote Created With Instant Quote", {
+                    leadId: selectedLead?.leadsId,
+                    Health: true,
+                    contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
+                });
                 navigate(`/plans/${selectedLead?.leadsId}`);
                 handleClose();
             } else {
@@ -137,6 +144,11 @@ export const CreateNewQuoteProvider = ({ children }) => {
         setSelectedHealthProductType(productType);
         // check if lead has zip code or not
         if (postalCode) {
+            fireEvent("New Quote Created With Instant Quote", {
+                leadId: selectedLead?.leadsId,
+                Health: true,
+                contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
+            });
             navigate(`/plans/${selectedLead?.leadsId}`);
             handleClose();
         } else {
