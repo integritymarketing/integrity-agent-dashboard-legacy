@@ -1,6 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { Box, Typography, InputAdornment, Grid } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/Error";
+
 import { TextInput, CustomModal } from "components/MuiComponents";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 import { useClientServiceContext } from "services/clientServiceProvider";
@@ -25,12 +26,10 @@ const CreateNewContactModal = () => {
  
     const isDuplicateContact = useCallback(
         async (values) => {
-            // if no phone or email, return false else check for duplicate contact
             const response = await clientsService.getDuplicateContact(values);
             if (response?.ok) {
                 const resMessage = await response.json();
  
-                // if duplicate contact, show error and return
                 if (resMessage?.isExactDuplicate) {
                     return {
                         firstName: "Duplicate Contact",
@@ -48,7 +47,6 @@ const CreateNewContactModal = () => {
                     type: "error",
                 });
  
-                // if error, return false to indicate not duplicate contact
                 return {
                     isExactDuplicate: false,
                 };
@@ -75,7 +73,6 @@ const CreateNewContactModal = () => {
  
                     const duplicateCheckResult = await isDuplicateContact(newData);
  
-                    // if duplicate contact, show error and return and don't submit form
                     if (duplicateCheckResult?.isExactDuplicate) {
                         setErrors({
                             firstName: "Duplicate Contact",
@@ -154,7 +151,7 @@ const CreateNewContactModal = () => {
             handleSave={handleSubmit}
             showCloseButton
             shouldShowCancelButton={true}
-            maxWidth="md"
+            maxWidth="sm"
             disableContentBackground
             saveLabel="Continue"
             footerActionIcon={<ContinueIcon />}
@@ -217,7 +214,7 @@ const CreateNewContactModal = () => {
                             onBlur={handleBlur}
                             error={touched.phone && Boolean(errors.phone)}
                             fullWidth
-                            label="Phone"
+                            label="Phone*"
                             type="tel"
                             placeholder="(___) ___-____"
                             size="small"
@@ -239,7 +236,7 @@ const CreateNewContactModal = () => {
                             onBlur={handleBlur}
                             error={touched.email && Boolean(errors.email)}
                             fullWidth
-                            label="Email"
+                            label="Email*"
                             size="small"
                             helperText={touched.email && errors.email}
                             InputProps={{
