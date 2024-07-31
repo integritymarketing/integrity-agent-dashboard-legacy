@@ -157,9 +157,25 @@
 
   #mcContactSummaryButtonsCard,
   #mcWelcomeCard,
-  #mcContactListCard, #mcCallSummaryButtonsCard, #mcAskSomethingElseButtonCard, #mcTranscriptButtonsCard, #mcCallListCard, #mcCallListExpansionCard {
+  #mcContactListCard, #mcCallSummaryButtonsCard, #mcAskSomethingElseButtonCard, #mcTranscriptButtonsCard, #mcCallListCard, #mcCallListExpansionCard, #mcSearchContactButtonsCard {
     padding: 0 !important;
   }
+
+  #mcCallListExpansionCard{
+    margin: 0px !important;
+    padding: 0 !important;
+    background-color: #375582 !important;
+    }
+
+  #mcCallListCard .ac-actionSet {
+      button {
+        &.primary{
+        background-color: #375582 !important;
+        }
+        background-color: #375582 !important;
+      }
+        flex-direction: column !important;
+    }
 
   /* width */
   ::-webkit-scrollbar {
@@ -180,7 +196,7 @@
 
   .webchat__bubble:has(#mcContactSummaryButtonsCard,
     #mcCallSummaryButtonsCard,
-    #mcViewContactButtonsCard, #mcAskSomethingElseButtonCard, #mcTranscriptButtonsCard) {
+    #mcViewContactButtonsCard, #mcAskSomethingElseButtonCard, #mcTranscriptButtonsCard, #mcSearchContactButtonsCard) {
     border: none;
     margin-right: 0 !important;
 
@@ -190,7 +206,7 @@
 
     #mcContactSummaryButtonsCard,
     #mcCallSummaryButtonsCard,
-    #mcViewContactButtonsCard, #mcTranscriptButtonsCard, #mcAskSomethingElseButtonCard {
+    #mcViewContactButtonsCard, #mcTranscriptButtonsCard, #mcAskSomethingElseButtonCard, #mcSearchContactButtonsCard {
       button {
         .primary{
           background-color: #4178ff !important;
@@ -217,7 +233,7 @@
     }
 
     #mcContactSummaryButtonsCard, #mcCallSummaryCard, #mcTranscriptCard, #mcCallSummaryButtonsCard, #mcTranscriptButtonsCard,
-    #mcAskSomethingElseButtonCard, #mcViewContactButtonsCard {
+    #mcAskSomethingElseButtonCard, #mcViewContactButtonsCard, #mcSearchContactButtonsCard {
       .ac-actionSet {    
         button {
           &.primary{
