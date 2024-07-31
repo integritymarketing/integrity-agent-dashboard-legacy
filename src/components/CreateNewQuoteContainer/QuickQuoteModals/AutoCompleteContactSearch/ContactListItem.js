@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 const ContactListItem = ({ contact, handleClick }) => {
     const fullName = `${contact.firstName} ${contact.lastName}`;
     return (
-        <ListItem onClick={() => handleClick(contact)} className={styles.listItem}>
+        <ListItem onClick={() => handleClick(contact, fullName)} className={styles.listItem}>
             <ListItemText
                 primary={
                     <Typography color={"#434A51"} variant="subtitle1">

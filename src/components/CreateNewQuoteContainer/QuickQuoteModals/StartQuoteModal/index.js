@@ -13,6 +13,7 @@ const StartQuoteModal = () => {
         setShowStartQuoteModal: handleClose,
         quoteModalStage,
         setQuoteModalStage,
+        showUpArrow,
     } = useCreateNewQuote();
 
     const onClose = () => {
@@ -36,13 +37,13 @@ const StartQuoteModal = () => {
                 )}
 
                 {quoteModalStage === "finalExpenseIntakeFormCard" && (
-                    <QuoteModalCard action={() => setQuoteModalStage("selectProductTypeCard")}>
+                    <QuoteModalCard action={showUpArrow ? () => setQuoteModalStage("selectProductTypeCard") : null}>
                         <FinalExpenseIntakeFormCard />
                     </QuoteModalCard>
                 )}
 
                 {quoteModalStage === "zipCodeInputCard" && (
-                    <QuoteModalCard action={() => setQuoteModalStage("selectProductTypeCard")}>
+                    <QuoteModalCard action={showUpArrow ? () => setQuoteModalStage("selectProductTypeCard") : null}>
                         <ZipCodeInputCard />
                     </QuoteModalCard>
                 )}

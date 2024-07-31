@@ -24,9 +24,7 @@ const ZipCodeInputCard = () => {
         <Box
             sx={{
                 backgroundColor: "#ffffff",
-                width: "80%",
                 borderRadius: "8px",
-                margin: "auto",
             }}
         >
             <WithLoader isLoading={isLoadingLeadDetails}>

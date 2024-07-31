@@ -19,6 +19,7 @@ import { useCreateNewQuote } from "providers/CreateNewQuote";
 import ContactListItem from "./ContactListItem";
 import CreateNewContactIcon from "components/icons/CreateNewContact";
 import { useLeadDetails } from "providers/ContactDetails";
+import ContinueIcon from "components/icons/Continue";
 
 import styles from "./styles.module.scss";
 
@@ -48,6 +49,7 @@ const AutoCompleteContactSearchModal = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [contactList, setContactList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [tempLead, setTempLead] = useState(null);
 
     const { clientsService } = useClientServiceContext();
     const showToast = useToast();
@@ -55,6 +57,9 @@ const AutoCompleteContactSearchModal = () => {
     const handleSearchInputChange = (event, value) => {
         setSearchQuery(value);
         if (value.length >= 3) {
+            if (tempLead) {
+                setTempLead(null);
+            }
             debouncedContactSearch(value);
         } else {
             setContactList([]);
@@ -67,14 +72,9 @@ const AutoCompleteContactSearchModal = () => {
     };
 
     const handleSelectOldContact = async (contact) => {
-        const leadId = contact?.leadsId;
-
-        const response = await getLeadDetails(leadId);
-
-        if (response) {
-            handleSelectedLead(response, "old");
-            handleClose(false);
-        }
+         // setContactList([{ ...contact, isNewContact: false }]);
+          setTempLead(contact);
+          setSearchQuery(`${contact.firstName} ${contact.lastName}`);
     };
 
     const onClose = () => {
@@ -88,8 +88,18 @@ const AutoCompleteContactSearchModal = () => {
                 const response = await clientsService.getList(
                     undefined,
                     undefined,
-                    ["Activities.CreateDate:desc"],
-                    query
+                    ["CreateDate:desc"],
+                    query,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined,
+                    false,
+                    false,
+                    false
                 );
                 if (response && response.result) {
                     setContactList(response.result);
@@ -122,12 +132,13 @@ const AutoCompleteContactSearchModal = () => {
     }, [debouncedContactSearch]);
 
     const renderAutocompleteOption = (props, option) => {
+        if (tempLead) {return null;}
         if (option.isNewContact) {
             return (
                 <ListItem {...props} onClick={() => handleSelectNewContact(searchQuery)} className={styles.listItem}>
                     <ListItemText
                         primary={
-                            <Box display="flex" alignItems="center" sx={{cursor : "pointer"}}>
+                            <Box display="flex" alignItems="center" sx={{ cursor : "pointer" }}>
                                 <CreateNewContactIcon />
                                 <Typography variant="subtitle1" style={{ marginLeft: 8 }}>
                                     Create new contact for <span style={{ color: "#0052ce" }}>{searchQuery}</span>
@@ -156,6 +167,17 @@ const AutoCompleteContactSearchModal = () => {
         return <ContactListItem {...props} contact={option} handleClick={handleSelectOldContact} />;
     };
 
+    const handleSubmit = async () => {
+        const leadId = tempLead?.leadsId;
+
+        const response = await getLeadDetails(leadId);
+
+        if (response) {
+            handleSelectedLead(response, "old");
+            handleClose(false);
+        }
+    };
+
     return (
         <CustomModal
             title={"Start a Quote"}
@@ -164,6 +186,12 @@ const AutoCompleteContactSearchModal = () => {
             showCloseButton
             maxWidth="sm"
             disableContentBackground
+            footer
+            handleSave={handleSubmit}
+            shouldShowCancelButton={true}
+            isSaveButtonDisabled={!tempLead}
+            saveLabel="Continue"
+            footerActionIcon={<ContinueIcon />}
         >
             <Box marginBottom={"20px"}>
                 <Typography
@@ -179,6 +207,9 @@ const AutoCompleteContactSearchModal = () => {
 
             <AutocompleteWrapper>
                 <Autocomplete
+                    blurOnSelect={true}
+                    clearOnBlur={false}
+                    openOnFocus={true}
                     options={
                         searchQuery.length >= 3
                             ? [...contactList, { firstName: "", lastName: "", isNewContact: true }]
@@ -189,7 +220,7 @@ const AutoCompleteContactSearchModal = () => {
                     renderOption={renderAutocompleteOption}
                     inputValue={searchQuery}
                     onInputChange={handleSearchInputChange}
-                    ListboxProps={{ style: { maxHeight: 200, overflow: "auto" } }}
+                    ListboxProps={{ style: { maxHeight: 200, overflow: "auto", display: tempLead ? "none" : "block" } }}
                     renderInput={(params) => (
                         <StyledSearchInput
                             {...params}

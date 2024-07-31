@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback } from "react";
+import { createContext, useState, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useAgentAccountContext } from "providers/AgentAccountProvider";
 import useUserProfile from "hooks/useUserProfile";
@@ -8,17 +8,19 @@ import useAnalytics from "hooks/useAnalytics";
 
 export const CreateNewQuoteContext = createContext();
 
-const LIFE = "hideLifeQuote";
-const HEALTH = "hideHealthQuote";
-
 export const CreateNewQuoteProvider = ({ children }) => {
     const { leadPreference, updateAgentPreferences } = useAgentAccountContext();
     const { fireEvent } = useAnalytics();
     const { agentId } = useUserProfile();
     const showToast = useToast();
     const navigate = useNavigate();
+
+    const LIFE = "hideLifeQuote";
+    const HEALTH = "hideHealthQuote";
+
     const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
     const [createNewContactModalOpen, setCreateNewContactModalOpen] = useState(false);
+
     const [selectedLead, setSelectedLead] = useState(null);
     const [newLeadDetails, setNewLeadDetails] = useState({
         firstName: "",
@@ -41,8 +43,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
     const [showZipCodeInput, setShowZipCodeInput] = useState(false);
     const [DoNotShowAgain, setDoNotShowAgain] = useState(false);
 
-    const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
-
     const handleSelectedLead = (lead, type) => {
         if (type === "new") {
             setNewLeadDetails({
@@ -55,12 +55,13 @@ export const CreateNewQuoteProvider = ({ children }) => {
         } else {
             setSelectedLead(lead);
             setCreateNewContactModalOpen(false);
-            handleAgentProductPreferenceType();
+            handleAgentProductPreferenceType(lead);
         }
     };
 
-    const handleAgentProductPreferenceType = () => {
+    const handleAgentProductPreferenceType = (lead) => {
         setShowStartQuoteModal(true);
+        const postalCode = lead?.addresses?.length > 0 ? lead?.addresses[0]?.postalCode : null;
 
         if (!leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote) {
             setQuoteModalStage("selectProductTypeCard");
@@ -71,11 +72,11 @@ export const CreateNewQuoteProvider = ({ children }) => {
             } else {
                 if (postalCode) {
                     fireEvent("New Quote Created With Instant Quote", {
-                        leadId: selectedLead?.leadsId,
+                        leadId: lead?.leadsId,
                         Health: true,
                         contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
                     });
-                    navigate(`/plans/${selectedLead?.leadsId}`);
+                    navigate(`/plans/${lead?.leadsId}`);
                     handleClose();
                 } else {
                     setQuoteModalStage("zipCodeInputCard");
@@ -83,6 +84,10 @@ export const CreateNewQuoteProvider = ({ children }) => {
             }
         }
     };
+
+    const showUpArrow = useMemo(() => {
+        return !leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote;
+    }, [leadPreference]);
 
     const handleSelectedProductType = (productType) => {
         if (DoNotShowAgain) {
@@ -92,6 +97,8 @@ export const CreateNewQuoteProvider = ({ children }) => {
         if (productType === "life") {
             setQuoteModalStage("finalExpenseIntakeFormCard");
         } else {
+            const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
+            
             if (postalCode) {
                 fireEvent("New Quote Created With Instant Quote", {
                     leadId: selectedLead?.leadsId,
@@ -204,6 +211,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             setQuoteModalStage,
             handleSelectIulGoal,
             handleClose,
+            showUpArrow,
         };
     }
 };
