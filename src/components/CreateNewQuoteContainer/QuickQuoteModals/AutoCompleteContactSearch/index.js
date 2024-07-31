@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import SearchIcon from "@mui/icons-material/Search";
 import {
     Autocomplete,
@@ -71,8 +72,7 @@ const AutoCompleteContactSearchModal = () => {
         handleClose(false);
     };
 
-    const handleSelectOldContact = async (contact) => {
-         // setContactList([{ ...contact, isNewContact: false }]);
+    const handleSelectOldContact =  (contact) => {
           setTempLead(contact);
           setSearchQuery(`${contact.firstName} ${contact.lastName}`);
     };
@@ -220,10 +220,12 @@ const AutoCompleteContactSearchModal = () => {
                     renderOption={renderAutocompleteOption}
                     inputValue={searchQuery}
                     onInputChange={handleSearchInputChange}
-                    ListboxProps={{ style: { maxHeight: 200, overflow: "auto", display: tempLead ? "none" : "block" } }}
+                    ListboxProps={{ style: { maxHeight: 200, overflow: "auto", padding : "20px", display: tempLead ? "none" : "block" } }}
                     renderInput={(params) => (
                         <StyledSearchInput
                             {...params}
+                            onKeyDown={onlyAlphabets}
+                            type = "text"
                             placeholder="Start by typing a contact’s name"
                             InputProps={{
                                 ...params.InputProps,

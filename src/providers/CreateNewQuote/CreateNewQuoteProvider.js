@@ -149,7 +149,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
 
     const handleSelectedHealthProductType = (productType) => {
         setSelectedHealthProductType(productType);
-        // check if lead has zip code or not
+        const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
         if (postalCode) {
             fireEvent("New Quote Created With Instant Quote", {
                 leadId: selectedLead?.leadsId,
