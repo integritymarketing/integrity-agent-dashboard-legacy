@@ -24,9 +24,7 @@ const LifeHealthProducts = ({ handleLifePlanClick, handleHealthPlanClick }) => {
 };
 
 LifeHealthProducts.propTypes = {
-    /** Function to handle click event for Life Plan */
     handleLifePlanClick: PropTypes.func.isRequired,
-    /** Function to handle click event for Health Plan */
     handleHealthPlanClick: PropTypes.func.isRequired,
 };
 

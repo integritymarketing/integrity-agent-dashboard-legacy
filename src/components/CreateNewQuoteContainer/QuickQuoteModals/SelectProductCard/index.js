@@ -14,7 +14,7 @@ import { AGENT_SERVICE_NON_RTS } from "components/FinalExpensePlansContainer/Fin
 import Checkbox from "components/ui/Checkbox";
 import { LifeHealthProducts } from "../../Common";
 
-const SelectProductCard = ({}) => {
+const SelectProductCard = () => {
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
 
     const { handleSelectedProductType, setDoNotShowAgain, DoNotShowAgain } = useCreateNewQuote();

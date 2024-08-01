@@ -1,3 +1,5 @@
+@import "src/scss/globalDefines.scss";
+
 .detailsMContainer {
     margin: 40px 24px;
 }
@@ -22,6 +24,14 @@
     color: #052a63;
     font-size: 32px;
     padding-bottom: 8px;
+
+    @include small {
+        font-size: 24px;
+        padding: 0px;
+        margin-bottom: 24px;
+        line-height: 28px;
+        letter-spacing: 0em;
+   }
 }
 
 .detailsSubTitle {

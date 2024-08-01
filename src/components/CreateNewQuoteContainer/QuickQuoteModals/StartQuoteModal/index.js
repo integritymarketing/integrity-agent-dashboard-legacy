@@ -23,7 +23,7 @@ const StartQuoteModal = () => {
     return (
         <>
             <CustomModal
-                title={"Start a Quote"}
+                title={"Select a Product"}
                 open={open}
                 handleClose={onClose}
                 showCloseButton

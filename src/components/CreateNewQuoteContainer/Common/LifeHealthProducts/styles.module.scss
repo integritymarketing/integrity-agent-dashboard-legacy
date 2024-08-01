@@ -9,7 +9,8 @@
     height: 300px;
 
     @include small {
-        flex-direction: column; /* Stack items vertically */
+        flex-direction: column;
+        height: auto;
     }
 }
 
