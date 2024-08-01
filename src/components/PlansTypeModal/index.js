@@ -151,7 +151,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
                         <Box className={styles.icon}>
                             <HealthIcon />
                         </Box>
-                        <Box className={styles.title}>HealthCENTER</Box>
+                        <Box className={styles.title}>MedicareCENTER</Box>
                     </Box>
                 </Box>
                 <Divider />
