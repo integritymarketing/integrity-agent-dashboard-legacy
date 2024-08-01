@@ -220,7 +220,7 @@ const AutoCompleteContactSearchModal = () => {
                     renderOption={renderAutocompleteOption}
                     inputValue={searchQuery}
                     onInputChange={handleSearchInputChange}
-                    ListboxProps={{ style: { maxHeight: 200, overflow: "auto", padding : "20px", display: tempLead ? "none" : "block" } }}
+                    ListboxProps={{ style: { maxHeight: 200, overflow: "auto", padding : "20px", marginTop : "4px", display: tempLead ? "none" : "block" } }}
                     renderInput={(params) => (
                         <StyledSearchInput
                             {...params}
