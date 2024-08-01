@@ -4,9 +4,10 @@ import Close from "./close.svg";
 import Icon from "components/Icon";
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 import styles from "./filterResultBannerStyles.module.scss";
-import { useMemo } from "react";
+import { useMemo, useContext } from "react";
 import { useWindowSize } from "hooks/useWindowSize";
 import useAnalytics from "hooks/useAnalytics";
+import stageStatusContext from "contexts/stageStatus";
 
 function FilterResultBanner() {
     const {
@@ -18,6 +19,8 @@ function FilterResultBanner() {
         pageResult,
     } = useContactsListContext();
     const { fireEvent } = useAnalytics();
+
+    const { statusOptions } = useContext(stageStatusContext);
 
     const selectedFilterSections = selectedFilterSectionsOriginal.filter((item) => item.selectedFilterOption);
 
@@ -44,23 +47,26 @@ function FilterResultBanner() {
                     }
                 }
                 if (section.options) {
-                    const label =
-                        section.options.find((item1) => item1.value === item.selectedFilterOption)?.label || "";
+                    let label = "";
+                    if (!section.options.length && section.heading.toLowerCase() === "stage") {
+                        label = statusOptions.find(opt => opt.statusId === item.selectedFilterOption)?.label || "";
+                    } else {
+                        label = section.options.find(item1 => item1.value === item.selectedFilterOption)?.label || "";
+                    }
                     thisItemLabel = `<span>
                 ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"}
                 <span style="font-weight:bold">${label}</span>
               </span>`;
                 } else if (section.option) {
                     thisItemLabel = `<span>
-                ${section.heading} ${
-                    item.selectedIsOption === "is_not" ? "is not" : "is"
-                } <span style="font-weight:bold">${section.option.label || ""}</span>
+                ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"
+                        } <span style="font-weight:bold">${section.option.label || ""}</span>
               </span>`;
                 }
                 return thisItemLabel + andOrLabel;
             })
             .join("");
-    }, [selectedFilterSections, filterSectionsConfig]);
+    }, [selectedFilterSections, filterSectionsConfig, statusOptions]);
 
     if (!selectedFilterSections?.length) {
         return null;

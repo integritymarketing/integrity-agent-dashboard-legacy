@@ -129,7 +129,14 @@ export default function Dashbaord() {
     };
 
     const navigateToContactListPage = (id) => {
-        navigate(`/contacts/list?Stage=${id}`);
+        const filters = [{
+            sectionId: "stage",
+            selectedFilterOption: id,
+            isFilterSelectOpen: false
+        }];
+        localStorage.setItem("contactList_selectedFilterSections", JSON.stringify(filters));
+
+        navigate(`/contacts/list`);
     };
 
     const handleConfirm = async () => {
