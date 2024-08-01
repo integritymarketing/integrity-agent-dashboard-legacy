@@ -43,7 +43,6 @@
     }
 
     .characterCount {
-        flex-shrink: 0;
         margin-left: 16px;
         align-self: flex-end;
     }
@@ -55,9 +54,7 @@
         }
 
         .characterCount {
-            margin-left: 0;
             margin-top: 4px;
-
         }
     }
 
