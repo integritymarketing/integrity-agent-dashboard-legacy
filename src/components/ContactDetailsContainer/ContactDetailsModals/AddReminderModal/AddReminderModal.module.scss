@@ -1,4 +1,6 @@
- .connectModalBody {
+@import "../../../../scss/globalDefines.scss";
+
+.connectModalBody {
     padding: 20px;
     background-color: #ffffff;
     margin-top: 5px;
@@ -18,23 +20,51 @@
 
         .dateTimePickersItem {
             width: 100%;
-        
+
             @media (min-width: 480px) {
                 width: 50%;
-             }
+            }
         }
     }
 
     .reminderField {
-        margin-bottom: 20px;
+        position: relative;
+    }
 
-        .notes {
-            textarea { 
-                padding: 0 !important;
-            }
+    .characterCountContainer {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        margin-top: 8px;
+    }
+
+    .errorText {
+        flex: 1;
+    }
+
+    .characterCount {
+        margin-left: 16px;
+        align-self: flex-end;
+    }
+
+    @include small {
+        .characterCountContainer {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .characterCount {
+            margin-top: 4px;
+        }
+    }
+
+    .notes {
+        textarea {
+            padding: 0 !important;
         }
     }
 }
+
 
 .label {
     color: #052a63;

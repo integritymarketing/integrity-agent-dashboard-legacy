@@ -19,6 +19,7 @@ import { getLocalDateTime } from "utils/dates";
 import { ArrowForwardWithCircle } from "components/ContactDetailsContainer/OverviewContainer/Icons";
 
 import styles from "./AddReminderModal.module.scss";
+import { Typography, useMediaQuery, useTheme } from "@mui/material";
 
 const initialReminderValues = {
     date: null,
@@ -31,6 +32,9 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
     const [values, setValues] = useState(initialReminderValues);
     const navigate = useNavigate();
     const { isMobile } = useDeviceType();
+
+    const theme = useTheme();
+    const isMobileView = useMediaQuery(theme.breakpoints.down("sm"));
 
     const reminderTitle = selectedReminder ? "Edit Reminder" : "Add a Reminder";
     const reminderActionButton = selectedReminder ? "Save Reminder" : "Add Reminder";
@@ -63,7 +67,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
 
     const onViewContactHandle = useCallback(() => {
         navigate(`/contact/${leadData.leadsId}/overview`);
-    }, [leadData.leadsId, navigate]);
+    }, [leadData?.leadsId, navigate]);
 
     useEffect(() => {
         if (selectedReminder) {
@@ -126,6 +130,32 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
                             inputProps={{ maxLength: 256 }}
                             className={styles.notes}
                         />
+                        <Box className={styles.characterCountContainer}>
+                            {!isMobileView && values.title.length >= 256 && (
+                                <Typography variant="body2" color="error" className={styles.errorText}>
+                                    Maximum character length has been reached
+                                </Typography>
+                            )}
+
+                            <Typography
+                                variant="body2"
+                                color={values.title.length >= 256}
+                                className={styles.characterCount}
+                            >
+                                {256 - values.title.length} characters remaining
+                            </Typography>
+
+                            {isMobileView && values.title.length >= 256 && (
+                                <Typography
+                                    variant="body2"
+                                    color="error"
+                                    className={styles.errorText}
+                                    sx={{ marginTop: "2px" }}
+                                >
+                                    Maximum character length has been reached
+                                </Typography>
+                            )}
+                        </Box>
                     </Box>
                     <Box className={styles.reminderField}>
                         <h4 className={styles.label}>Notes*</h4>
@@ -141,6 +171,32 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
                             rows={3}
                             className={styles.notes}
                         />
+                        <Box className={styles.characterCountContainer}>
+                            {!isMobileView && values.notes.length >= 256 && (
+                                <Typography variant="body2" color="error" className={styles.errorText}>
+                                    Maximum character length has been reached
+                                </Typography>
+                            )}
+
+                            <Typography
+                                variant="body2"
+                                color={values.notes.length >= 256}
+                                className={styles.characterCount}
+                            >
+                                {256 - values.notes.length} characters remaining
+                            </Typography>
+
+                            {isMobileView && values.notes.length >= 256 && (
+                                <Typography
+                                    variant="body2"
+                                    color="error"
+                                    className={styles.errorText}
+                                    sx={{ marginTop: "2px" }}
+                                >
+                                    Maximum character length has been reached
+                                </Typography>
+                            )}
+                        </Box>
                     </Box>
                 </Box>
             </>
