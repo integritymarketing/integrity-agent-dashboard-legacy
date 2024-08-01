@@ -131,7 +131,7 @@ const CreateNewContactModal = () => {
         onSubmit: onSubmitHandler,
     });
  
-    const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
+    const { values, errors, isValid, dirty, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
  
     const handlePhoneChange = (e) => {
         const formattedPhoneNumber = formatPhoneNumber(e.target.value);
@@ -151,6 +151,7 @@ const CreateNewContactModal = () => {
             handleSave={handleSubmit}
             showCloseButton
             shouldShowCancelButton={true}
+            isSaveButtonDisabled={!isValid || !dirty}
             maxWidth="sm"
             disableContentBackground
             saveLabel="Continue"

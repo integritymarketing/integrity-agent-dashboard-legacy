@@ -16,15 +16,15 @@ import WithLoader from "components/ui/WithLoader";
 import styles from "./styles.module.scss";
 import { formatPayload } from "utils/leadDataUtil";
 import useAnalytics from "hooks/useAnalytics";
-
+ 
 const FinalExpenseIntakeFormCard = () => {
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
-    const { handleClose, selectedLead, newLeadDetails } = useCreateNewQuote();
-    const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
-    const leadId = selectedLead?.leadsId;
+    const { handleClose, selectedLead: leadDetails, newLeadDetails } = useCreateNewQuote();
+    const { updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
+    const leadId = leadDetails?.leadsId;
     const isContactType = newLeadDetails?.firstName ? "New Contact" : "Existing Contact";
-
+ 
     const [initialValues, setInitialValues] = useState({
         stateCode: null,
         gender: null,
@@ -34,13 +34,13 @@ const FinalExpenseIntakeFormCard = () => {
         dateOfBirth: null,
         isTobaccoUser: null,
     });
-
+ 
     useEffect(() => {
         if (leadDetails) {
             const stateCode = leadDetails?.addresses?.[0]?.stateCode;
             const feet = leadDetails?.height ? Math.floor(leadDetails.height / 12) : "";
             const inches = leadDetails?.height ? leadDetails.height % 12 : "";
-
+ 
             setInitialValues({
                 stateCode,
                 feet,
@@ -53,7 +53,7 @@ const FinalExpenseIntakeFormCard = () => {
             });
         }
     }, [leadDetails]);
-
+ 
     const onSubmitHandler = useCallback(
         async (values, { setSubmitting }) => {
             const formData = {
@@ -63,15 +63,15 @@ const FinalExpenseIntakeFormCard = () => {
                 isTobaccoUser: values.isTobaccoUser === "Yes",
                 gender: values.gender,
             };
-
+ 
             const payload = formatPayload(leadDetails, formData, values.stateCode);
-
+ 
             try {
                 const response = await updateLeadDetails(payload);
                 if (response) {
                     handleClose();
                     fireEvent("New Quote Created With Instant Quote", {
-                        leadId: selectedLead?.leadsId,
+                        leadId: leadDetails?.leadsId,
                         Life: true,
                         contactType: isContactType,
                     });
@@ -83,30 +83,30 @@ const FinalExpenseIntakeFormCard = () => {
                 setSubmitting(false);
             }
         },
-        [leadDetails, updateLeadDetails, handleClose, fireEvent, selectedLead?.leadsId, isContactType, navigate, leadId]
+        [leadDetails, updateLeadDetails, handleClose, fireEvent, leadDetails?.leadsId, isContactType, navigate, leadId]
     );
-
+ 
     const ErrorInfoIcon = () => (
         <InputAdornment position="end">
             <ErrorIcon style={{ color: "red" }} />
         </InputAdornment>
     );
-
+ 
     const HelpText = ({ text }) => (
         <Typography variant="body2" className={styles.helpText}>
             {text}
         </Typography>
     );
-
+ 
     const formik = useFormik({
         initialValues,
         validationSchema: FinalExpenseIntakeForm,
         enableReinitialize: true,
         onSubmit: onSubmitHandler,
     });
-
+ 
     const { values, errors, isValid, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
-
+ 
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
             <Box className={styles.formContainer}>
@@ -245,7 +245,7 @@ const FinalExpenseIntakeFormCard = () => {
         </WithLoader>
     );
 };
-
+ 
 FinalExpenseIntakeFormCard.propTypes = {
     text: PropTypes.string.isRequired,
 };
