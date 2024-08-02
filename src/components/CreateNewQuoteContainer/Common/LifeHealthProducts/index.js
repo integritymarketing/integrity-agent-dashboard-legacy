@@ -9,15 +9,15 @@ import styles from "./styles.module.scss";
 const LifeHealthProducts = ({ handleLifePlanClick, handleHealthPlanClick }) => {
     return (
         <Box className={styles.container}>
-            <ProductOption 
-                label="LifeCENTER" 
-                icon={<LifeIcon />} 
-                onClick={handleLifePlanClick} 
+            <ProductOption
+                label="Life"
+                icon={<LifeIcon />}
+                onClick={handleLifePlanClick}
             />
-            <ProductOption 
-                label="MedicareCENTER" 
-                icon={<HealthIcon />} 
-                onClick={handleHealthPlanClick} 
+            <ProductOption
+                label="Health"
+                icon={<HealthIcon />}
+                onClick={handleHealthPlanClick}
             />
         </Box>
     );
