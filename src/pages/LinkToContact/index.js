@@ -44,6 +44,7 @@ export default function LinkToContact() {
             return null;
         }
     });
+    const callIsAssigned = !callRecordings.some(callRecording => callRecording?.callLogId === parseInt(callLogId));
 
     const getContacts = async (searchStr) => {
         setIsLoading(true);
@@ -138,18 +139,26 @@ export default function LinkToContact() {
                             <Tags words={flattenedTags} flexDirection={"column"} />
                         </div>
                     ) : null}
-                    <PossibleMatches phone={callFrom} tagIds={tagIds} />
-                    <div className={styles.medContent}>
-                        <CreateNewContact goToAddNewContactsPage={goToAddNewContactsPage} />
-                    </div>
-                    <div className={styles.medContent}>
-                        <ContactSearch
-                            isLoading={isLoading}
-                            onChange={getContacts}
-                            contacts={contacts}
-                            tagIds={tagIds}
-                        />
-                    </div>
+                    {callIsAssigned ? (
+                        <div className={styles.medContent}>
+                            <div className={styles.content}>This call is already assigned to a lead.</div>
+                        </div>
+                    ) : (
+                        <>
+                            <PossibleMatches phone={callFrom} tagIds={tagIds} />
+                            <div className={styles.medContent}>
+                                <CreateNewContact goToAddNewContactsPage={goToAddNewContactsPage} />
+                            </div>
+                            <div className={styles.medContent}>
+                                <ContactSearch
+                                    isLoading={isLoading}
+                                    onChange={getContacts}
+                                    contacts={contacts}
+                                    tagIds={tagIds}
+                                />
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
 
