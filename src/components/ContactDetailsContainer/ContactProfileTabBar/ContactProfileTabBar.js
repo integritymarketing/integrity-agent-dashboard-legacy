@@ -74,10 +74,10 @@ export const ContactProfileTabBar = ({ contactId }) => {
     );
 
     return (
-        <Box className={styles.navWrapper}>
+        <Box className={styles.navWrapper} style={{ backgroundColor: "white" }}>
             <Container className={styles.contactProfileTabBar}>
                 <Box className={styles.backToContacts}>
-                    <BackButton />
+                    <BackButton label="Back to Contacts" route="/contacts" />
                 </Box>
                 <Box className={styles.profileMenu}>
                     <Box className={styles.userName}>{toTitleCase(leadName)}</Box>

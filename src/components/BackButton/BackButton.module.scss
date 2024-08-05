@@ -1,6 +1,8 @@
 @import "../../scss/globalDefines.scss";
 
 .backContainer {
+    display: grid;
+    align-items: center;
     @include small {
         display: none;
     }
@@ -17,6 +19,21 @@
         box-shadow: inset 0px -1px 0px #00000029;
     }
 
+    span {
+        margin-left: 10px;
+    }
+}
+
+.buttonLink {
+    display: flex;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 500;
+    padding-right: 8px;
+    box-shadow: inset 0px -1px 0px #00000029;
+    text-decoration: none;
+    background: white;
+    width: fit-content;
     span {
         margin-left: 10px;
     }

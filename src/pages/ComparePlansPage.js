@@ -8,6 +8,7 @@ import useRoles from "hooks/useRoles";
 
 import NonRTSBanner from "components/Non-RTS-Banner";
 import { Button } from "components/ui/Button";
+import BackButton from "components/BackButton";
 import ComparePlanModal from "components/ui/ComparePlanModal";
 import ComparePlansByPlanName from "components/ui/ComparePlansByPlanName";
 import { CostCompareTable } from "components/ui/PlanDetailsTable/shared/cost-table";
@@ -67,8 +68,8 @@ const ComparePlansPage = (props) => {
                 .map((planId) =>
                     !isComingFromEmail
                         ? plansService.getPlan(contactId, planId, contactData, effectiveDate)
-                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN)
-                )
+                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN),
+                ),
         );
     }
 
@@ -196,19 +197,9 @@ const ComparePlansPage = (props) => {
                     </Helmet>
                     {!isComingFromEmail && <GlobalNav />}
                     {!isComingFromEmail && (
-                        <div className={`${styles["header"]}`} style={{ height: "auto" }}>
+                        <div className={`${styles["header"]}`} style={{ height: "100%" }}>
                             <Container>
-                                <div className={styles["back-btn"]}>
-                                    <Button
-                                        icon={<img src={NewBackBtn} alt="Back" />}
-                                        label="Back to Plans List"
-                                        onClick={() => {
-                                            window.location = `/plans/${id}?preserveSelected=true`;
-                                        }}
-                                        type="tertiary"
-                                        className={`${styles["back-button"]}`}
-                                    />
-                                </div>
+                                <BackButton label="Back to Plans List" route={`/plans/${id}?preserveSelected=true`} />
                             </Container>
                         </div>
                     )}

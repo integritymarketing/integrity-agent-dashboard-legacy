@@ -13,12 +13,10 @@ import BackButton from "components/BackButton";
 
 function ContactsListHeader() {
     const navigate = useNavigate();
-    const shouldShowBackButton = history.length !== 1; // history.length === 1 meaning a new tab
-
     return (
         <Box className={styles.wrapper}>
             <Container className={styles.header}>
-                {shouldShowBackButton ? <BackButton /> : <Box></Box>}
+                <BackButton label="Back to Dashboard" route="/dashboard" />
                 <Box className={styles.title}>Contacts</Box>
                 <Box display="flex" gap="10px" alignItems="center">
                     <Box className={styles.linkWhite} onClick={() => navigate("/client-import")}>
