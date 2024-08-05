@@ -31,12 +31,7 @@ const ZipCodeInputCard = () => {
     };
  
     return (
-        <Box
-            sx={{
-                backgroundColor: "#ffffff",
-                borderRadius: "8px",
-            }}
-        >
+        <Box>
             <WithLoader isLoading={isLoadingLeadDetails}>
                 <AddZipContainer
                     isMobile={isMobile}

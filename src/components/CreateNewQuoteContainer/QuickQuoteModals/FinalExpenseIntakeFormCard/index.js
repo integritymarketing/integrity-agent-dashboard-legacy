@@ -16,7 +16,8 @@ import WithLoader from "components/ui/WithLoader";
 import styles from "./styles.module.scss";
 import { formatPayload } from "utils/leadDataUtil";
 import useAnalytics from "hooks/useAnalytics";
- 
+import ButtonCircleArrow from "components/icons/button-circle-arrow";
+
 const FinalExpenseIntakeFormCard = () => {
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
@@ -24,7 +25,7 @@ const FinalExpenseIntakeFormCard = () => {
     const { updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
     const leadId = leadDetails?.leadsId;
     const isContactType = newLeadDetails?.firstName ? "New Contact" : "Existing Contact";
- 
+
     const [initialValues, setInitialValues] = useState({
         stateCode: null,
         gender: null,
@@ -34,13 +35,13 @@ const FinalExpenseIntakeFormCard = () => {
         dateOfBirth: null,
         isTobaccoUser: null,
     });
- 
+
     useEffect(() => {
         if (leadDetails) {
             const stateCode = leadDetails?.addresses?.[0]?.stateCode;
             const feet = leadDetails?.height ? Math.floor(leadDetails.height / 12) : "";
             const inches = leadDetails?.height ? leadDetails.height % 12 : "";
- 
+
             setInitialValues({
                 stateCode,
                 feet,
@@ -53,7 +54,7 @@ const FinalExpenseIntakeFormCard = () => {
             });
         }
     }, [leadDetails]);
- 
+
     const onSubmitHandler = useCallback(
         async (values, { setSubmitting }) => {
             const formData = {
@@ -63,9 +64,9 @@ const FinalExpenseIntakeFormCard = () => {
                 isTobaccoUser: values.isTobaccoUser === "Yes",
                 gender: values.gender,
             };
- 
+
             const payload = formatPayload(leadDetails, formData, values.stateCode);
- 
+
             try {
                 const response = await updateLeadDetails(payload);
                 if (response) {
@@ -85,28 +86,28 @@ const FinalExpenseIntakeFormCard = () => {
         },
         [leadDetails, updateLeadDetails, handleClose, fireEvent, leadDetails?.leadsId, isContactType, navigate, leadId]
     );
- 
+
     const ErrorInfoIcon = () => (
         <InputAdornment position="end">
             <ErrorIcon style={{ color: "red" }} />
         </InputAdornment>
     );
- 
+
     const HelpText = ({ text }) => (
         <Typography variant="body2" className={styles.helpText}>
             {text}
         </Typography>
     );
- 
+
     const formik = useFormik({
         initialValues,
         validationSchema: FinalExpenseIntakeForm,
         enableReinitialize: true,
         onSubmit: onSubmitHandler,
     });
- 
-    const { values, errors, isValid, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
- 
+
+    const { values, errors, dirty, isValid, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
+
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
             <Box className={styles.formContainer}>
@@ -238,14 +239,21 @@ const FinalExpenseIntakeFormCard = () => {
             </Box>
             <Typography className={styles.requiredFieldsNote}>*Required fields</Typography>
             <Box className={styles.submitButtonContainer}>
-                <Button onClick={handleSubmit} size="medium" variant="contained" color="primary" disabled={!isValid}>
+                <Button
+                    onClick={handleSubmit}
+                    size="medium"
+                    variant="contained"
+                    color="primary"
+                    disabled={!isValid || !dirty}
+                    endIcon={<ButtonCircleArrow />}
+                >
                     Continue
                 </Button>
             </Box>
         </WithLoader>
     );
 };
- 
+
 FinalExpenseIntakeFormCard.propTypes = {
     text: PropTypes.string.isRequired,
 };
