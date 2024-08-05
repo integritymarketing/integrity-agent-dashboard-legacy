@@ -4,7 +4,7 @@ import * as yup from "yup";
 export const FinalExpenseIntakeForm = yup.object().shape({
     stateCode: yup.string().required("State is required"),
     gender: yup.string().required("Gender is required"),
-    dateOfBirth: yup.date().required("Date of Birth is required").nullable(),
+    dateOfBirth: yup.date().required("Date of Birth is required"),
     isTobaccoUser: yup.string().required("Tobacco use information is required"),
     feet: yup
         .number()

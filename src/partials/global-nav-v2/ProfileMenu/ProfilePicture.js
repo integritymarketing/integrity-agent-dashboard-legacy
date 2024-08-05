@@ -43,6 +43,7 @@ const ProfilePicture = ({ bordered = false }) => {
                 ...(bordered && {
                     "&:hover": {
                         backgroundColor: "#375582",
+                        opacity: 0.5,
                     },
                 }),
             }}

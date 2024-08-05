@@ -15,6 +15,8 @@ import { ContinueCTA } from "./ContinueCTA/ContinueCTA";
 import { CopyAddress } from "./CopyAddress/CopyAddress";
 import { SelectCounty } from "./SelectCounty/SelectCounty";
 import { ZipCodeInput } from "./ZipCodeInput/ZipCodeInput";
+import { Box, Button } from "@mui/material";
+import ButtonCircleArrow from "components/icons/button-circle-arrow";
 
 const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => {}, pageName = "" }) => {
     const navigate = useNavigate();
@@ -170,26 +172,49 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
     }, [fetchCounties, zipCode]);
 
     return (
-        <div
-            className={
-                isMobile
-                    ? styles.detailsMContainer
-                    : pageName === "Quick Quote"
-                    ? styles.quickQuote
-                    : styles.detailsDContainer
-            }
-        >
-            <div className={styles.detailsTitle}>{CONFIRM_DETAILS_TEXT}</div>
-            <div className={styles.detailsSubTitle}>{CONFIRM_DETAILS_SUBTEXT}</div>
-            <ZipCodeInput handleZipCode={handleZipCode} zipError={zipError} />
-            <WithLoader isLoading={isLoading}>
-                {zipCode && allCounties.length > 0 && (
-                    <SelectCounty counties={allCounties} isMobile={isMobile} onSelectCounty={onSelectCounty} />
-                )}
-                {address && <CopyAddress isMobile={isMobile} address={address} />}
-                <ContinueCTA isMobile={isMobile} isDisabled={isSubmitDisabled} handleContinue={handleContinue} />
-            </WithLoader>
-        </div>
+        <>
+            <div
+                className={
+                    pageName === "Quick Quote"
+                        ? styles.quickQuote
+                        : isMobile
+                        ? styles.detailsMContainer
+                        : styles.detailsDContainer
+                }
+            >
+                <div className={styles.detailsTitle}>{CONFIRM_DETAILS_TEXT}</div>
+                <div className={styles.detailsSubTitle}>{CONFIRM_DETAILS_SUBTEXT}</div>
+                <ZipCodeInput handleZipCode={handleZipCode} zipError={zipError} />
+                <WithLoader isLoading={isLoading}>
+                    {zipCode && allCounties.length > 0 && (
+                        <SelectCounty counties={allCounties} isMobile={isMobile} onSelectCounty={onSelectCounty} />
+                    )}
+                    {address && <CopyAddress isMobile={isMobile} address={address} />}
+                    {}
+                    {pageName !== "Quick Quote" && (
+                        <ContinueCTA
+                            isMobile={isMobile}
+                            isDisabled={isSubmitDisabled}
+                            handleContinue={handleContinue}
+                        />
+                    )}
+                </WithLoader>
+            </div>
+            {pageName === "Quick Quote" && (
+                <Box className={styles.submitButtonContainer}>
+                    <Button
+                        onClick={handleContinue}
+                        size="medium"
+                        variant="contained"
+                        color="primary"
+                        disabled={isSubmitDisabled}
+                        endIcon={<ButtonCircleArrow />}
+                    >
+                        Continue
+                    </Button>
+                </Box>
+            )}
+        </>
     );
 };
 

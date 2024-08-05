@@ -10,6 +10,11 @@
     margin: 56px auto;
     padding: 40px 30px;
     border-radius: 8px;
+    @include small {
+        padding: 24px;
+        margin: 0px;
+        width: 100%;
+    }
 }
 
 .detailsDContainer {
@@ -31,7 +36,7 @@
         margin-bottom: 24px;
         line-height: 28px;
         letter-spacing: 0em;
-   }
+    }
 }
 
 .detailsSubTitle {
@@ -44,4 +49,11 @@
     color: #052a63;
     font-size: 16px;
     font-weight: bold;
+}
+
+.submitButtonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px;
 }
