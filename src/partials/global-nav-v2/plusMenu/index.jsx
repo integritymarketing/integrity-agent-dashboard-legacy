@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Menu, MenuItem, MenuList, Typography } from "@mui/material";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 import { QuickQuoteModals } from "components/CreateNewQuoteContainer";
 
@@ -58,10 +58,7 @@ export default function PlusMenu() {
                 }}
                 transition
             >
-                <MenuList
-                    sx={{ padding: "0px 8px" }}
-                    className={styles.menuList}
-                >
+                <MenuList sx={{ padding: "0px 8px" }} className={styles.menuList}>
                     <Typography
                         fontWeight={600}
                         letterSpacing="normal"
@@ -69,19 +66,11 @@ export default function PlusMenu() {
                     >
                         Create New
                     </Typography>
-                    <MenuItem
-                        onClick={handleCreateQuote}
-                        className={styles.menuItem}
-                        sx={{ padding: "6px 8px" }}
-                    >
+                    <MenuItem onClick={handleCreateQuote} className={styles.menuItem} sx={{ padding: "6px 8px" }}>
                         <img src={QuoteIcon} alt="Quote Icon" />
-                        Quote
+                        Quick Quote
                     </MenuItem>
-                    <MenuItem
-                        onClick={handleNavigateToContact}
-                        className={styles.menuItem}
-                        sx={{ padding: "6px 8px" }}
-                    >
+                    <MenuItem onClick={handleNavigateToContact} className={styles.menuItem} sx={{ padding: "6px 8px" }}>
                         <img src={ContactsIcon} alt="Contacts Icon" />
                         Contact
                     </MenuItem>
