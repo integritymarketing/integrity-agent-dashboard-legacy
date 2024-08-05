@@ -247,8 +247,10 @@ const CreateNewContactModal = () => {
                     </Grid>
                 </Grid>
             </Box>
- 
-            <Typography className={styles.requiredFieldNote}>*At least one field required</Typography>
+
+            <Typography className={styles.requiredFieldNote} sx={{ marginTop: "14px" }}>
+                *At least one field required
+            </Typography>
         </CustomModal>
     );
 };

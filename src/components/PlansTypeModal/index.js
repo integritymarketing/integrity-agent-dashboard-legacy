@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Divider } from "@mui/material";
+import { Divider, Checkbox, FormControlLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 
@@ -18,7 +18,6 @@ import { AGENT_SERVICE_NON_RTS } from "components/FinalExpensePlansContainer/Fin
 import Modal from "components/Modal";
 import HealthIcon from "components/icons/healthIcon";
 import LifeIcon from "components/icons/lifeIcon";
-import Checkbox from "components/ui/Checkbox";
 
 import styles from "./styles.module.scss";
 
@@ -156,7 +155,10 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
                 </Box>
                 <Divider />
                 <Box display="flex" gap="0px" alignItems="center" justifyContent="center" marginTop="30px">
-                    <Checkbox label="Don't show this again" checked={checked} onChange={() => setChecked(!checked)} />
+                    <FormControlLabel
+                        control={<Checkbox checked={checked} onChange={() => setChecked(!checked)} />}
+                        label="Don't show this again"
+                    />
                 </Box>
             </Modal>
             <SellingPermissionsModal

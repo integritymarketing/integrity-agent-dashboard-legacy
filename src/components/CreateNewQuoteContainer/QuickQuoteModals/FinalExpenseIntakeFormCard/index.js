@@ -72,7 +72,7 @@ const FinalExpenseIntakeFormCard = () => {
                     handleClose();
                     fireEvent("New Quote Created With Instant Quote", {
                         leadId: leadDetails?.leadsId,
-                        Life: true,
+                        line_of_business: "Life",
                         contactType: isContactType,
                     });
                     navigate(`/finalexpenses/plans/${leadId}`);

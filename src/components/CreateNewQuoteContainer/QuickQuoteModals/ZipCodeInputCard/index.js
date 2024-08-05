@@ -4,13 +4,14 @@ import AddZipContainer from "components/AddZipContainer/AddZipContainer";
 import { useLeadDetails } from "providers/ContactDetails";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import WithLoader from "components/ui/WithLoader";
-
+import useAnalytics from "hooks/useAnalytics";
+ 
 const ZipCodeInputCard = () => {
-    const { handleClose, selectedLead } = useCreateNewQuote();
+    const { handleClose, selectedLead, newLeadDetails } = useCreateNewQuote();
     const leadId = selectedLead?.leadsId;
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+    const { fireEvent } = useAnalytics();
     const { isLoadingLeadDetails, getLeadDetails } = useLeadDetails();
 
     useEffect(() => {
@@ -19,7 +20,16 @@ const ZipCodeInputCard = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [leadId]);
-
+ 
+    const handleCloseWithEvent = () => {
+        fireEvent("New Quote Created With Instant Quote", {
+            leadId,
+            Health: true,
+            contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
+        });
+        handleClose();
+    };
+ 
     return (
         <Box
             sx={{
@@ -31,7 +41,7 @@ const ZipCodeInputCard = () => {
                 <AddZipContainer
                     isMobile={isMobile}
                     contactId={leadId}
-                    quickQuoteModalCallBack={handleClose}
+                    quickQuoteModalCallBack={handleCloseWithEvent}
                     pageName="Quick Quote"
                 />
             </WithLoader>

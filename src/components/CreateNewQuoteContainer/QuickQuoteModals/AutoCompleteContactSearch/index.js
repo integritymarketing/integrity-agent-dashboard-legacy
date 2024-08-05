@@ -64,6 +64,7 @@ const AutoCompleteContactSearchModal = () => {
             debouncedContactSearch(value);
         } else {
             setContactList([]);
+            setTempLead(null);
         }
     };
 
@@ -244,6 +245,9 @@ const AutoCompleteContactSearchModal = () => {
                                         <SearchIcon style={{ color: "#0052CE" }} />
                                     </InputAdornment>
                                 ),
+                                style: {
+                                    height: "48px",
+                                },
                             }}
                         />
                     )}
