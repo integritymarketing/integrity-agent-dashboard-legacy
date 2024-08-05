@@ -73,7 +73,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 if (postalCode) {
                     fireEvent("New Quote Created With Instant Quote", {
                         leadId: lead?.leadsId,
-                        Health: true,
+                        line_of_business: "Health",
                         contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
                     });
                     navigate(`/plans/${lead?.leadsId}`);
@@ -102,7 +102,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             if (postalCode) {
                 fireEvent("New Quote Created With Instant Quote", {
                     leadId: selectedLead?.leadsId,
-                    Health: true,
+                    line_of_business: "Health",
                     contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
                 });
                 navigate(`/plans/${selectedLead?.leadsId}`);
@@ -153,7 +153,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
         if (postalCode) {
             fireEvent("New Quote Created With Instant Quote", {
                 leadId: selectedLead?.leadsId,
-                Health: true,
+                line_of_business: "Health",
                 contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
             });
             navigate(`/plans/${selectedLead?.leadsId}`);
@@ -174,6 +174,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
         setSelectedLead(null);
     };
 
+    
     return <CreateNewQuoteContext.Provider value={getContextValue()}>{children}</CreateNewQuoteContext.Provider>;
 
     function getContextValue() {

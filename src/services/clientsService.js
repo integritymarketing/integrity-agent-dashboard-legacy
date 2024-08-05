@@ -210,6 +210,7 @@ export class ClientsService {
         hasOverdueReminder = false,
         tags = [],
         returnAll,
+        IncludePolicyCounts=true,
         IncludeReminder = true,
         IncludeTags = true,
         IncludeContactPreference = true
@@ -221,6 +222,7 @@ export class ClientsService {
             Search: searchText,
             leadIds,
             IncludeReminder: IncludeReminder,
+            IncludePolicyCounts: IncludePolicyCounts,
             IncludeTags: IncludeTags,
             IncludeContactPreference: IncludeContactPreference,
         };

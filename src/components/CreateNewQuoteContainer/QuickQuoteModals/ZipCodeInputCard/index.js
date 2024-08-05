@@ -24,7 +24,7 @@ const ZipCodeInputCard = () => {
     const handleCloseWithEvent = () => {
         fireEvent("New Quote Created With Instant Quote", {
             leadId,
-            Health: true,
+            line_of_business: "Health",
             contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
         });
         handleClose();
