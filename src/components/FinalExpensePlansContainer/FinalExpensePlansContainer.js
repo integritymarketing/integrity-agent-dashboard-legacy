@@ -76,10 +76,6 @@ export const FinalExpensePlansContainer = () => {
             middleName: middleName,
             email: email,
             birthdate: leadDetails?.birthdate ? formatDate(leadDetails?.birthdate) : "",
-            phones: {
-                leadPhone: phone,
-                phoneLabel: phoneLabel?.toLowerCase(),
-            },
             address: {
                 address1: address1,
                 address2: address2,
@@ -103,10 +99,19 @@ export const FinalExpensePlansContainer = () => {
             partB: partB ?? "",
             ...formData,
         };
+
+        if (phone) {
+            initialValues.phones = {
+                leadPhone: phone,
+                phoneLabel: phoneLabel?.toLowerCase(),
+            };
+        }
+
         const payload = {
             ...leadDetails,
             ...initialValues,
         };
+
         const response = await updateLeadDetails(payload);
 
         contactFormDataRef.current = { ...formData };

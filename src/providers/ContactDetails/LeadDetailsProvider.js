@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { createContext, useCallback, useMemo, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -124,13 +123,15 @@ export const LeadDetailsProvider = ({ children }) => {
             ];
         }
 
-        reqData.phones = [
-            {
-                phoneId: phoneId,
-                ...phones,
-                leadPhone: getFormattedPhone(phones.leadPhone),
-            },
-        ];
+        if (phones && phones.leadPhone) {
+            reqData.phones = [
+                {
+                    phoneId: phoneId,
+                    ...phones,
+                    leadPhone: getFormattedPhone(phones.leadPhone),
+                },
+            ];
+        }
 
         reqData.addresses = [
             {
