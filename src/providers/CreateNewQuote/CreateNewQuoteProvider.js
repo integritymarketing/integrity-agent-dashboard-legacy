@@ -76,7 +76,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                         line_of_business: "Health",
                         contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
                     });
-                    navigate(`/plans/${lead?.leadsId}`);
+                    navigate(`/finalexpenses/healthconditions/${lead?.leadsId}`);
                     handleClose();
                 } else {
                     setQuoteModalStage("zipCodeInputCard");
@@ -98,14 +98,14 @@ export const CreateNewQuoteProvider = ({ children }) => {
             setQuoteModalStage("finalExpenseIntakeFormCard");
         } else {
             const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
-            
+
             if (postalCode) {
                 fireEvent("New Quote Created With Instant Quote", {
                     leadId: selectedLead?.leadsId,
                     line_of_business: "Health",
                     contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
                 });
-                navigate(`/plans/${selectedLead?.leadsId}`);
+                navigate(`/finalexpenses/healthconditions/${lead?.leadsId}`);
                 handleClose();
             } else {
                 setQuoteModalStage("zipCodeInputCard");
@@ -156,7 +156,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 line_of_business: "Health",
                 contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
             });
-            navigate(`/plans/${selectedLead?.leadsId}`);
+            navigate(`/finalexpenses/healthconditions/${lead?.leadsId}`);
             handleClose();
         } else {
             setQuoteModalStage("zipCodeInputCard");

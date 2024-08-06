@@ -39,7 +39,7 @@ const ProfilePicture = ({ bordered = false }) => {
                 width: "50px",
                 height: "50px",
                 backgroundColor: "#052a63",
-                border: bordered ? "1px solid #FFFFFF" : "none",
+                border: "1px solid #FFFFFF",
                 ...(bordered && {
                     "&:hover": {
                         backgroundColor: "#375582",

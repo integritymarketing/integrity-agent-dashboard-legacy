@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Menu, MenuItem, MenuList, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 import { QuickQuoteModals } from "components/CreateNewQuoteContainer";
 
@@ -17,6 +17,16 @@ export default function PlusMenu() {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const createQuote = searchParams.get("create-quote");
+
+    useEffect(() => {
+        if (createQuote) {
+            setContactSearchModalOpen(true);
+        }
+    }, [createQuote, setContactSearchModalOpen]);
 
     const handleClick = useCallback((event) => {
         setAnchorEl(event.currentTarget);

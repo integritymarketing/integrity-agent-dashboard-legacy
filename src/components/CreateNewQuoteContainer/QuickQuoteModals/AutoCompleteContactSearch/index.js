@@ -11,6 +11,7 @@ import {
     Typography,
     Box,
 } from "@mui/material";
+import { useNavigate, useLocation } from "react-router-dom";
 import { CustomModal } from "components/MuiComponents";
 import { styled } from "@mui/system";
 import { debounce } from "lodash";
@@ -47,6 +48,11 @@ const AutoCompleteContactSearchModal = () => {
 
     const { getLeadDetails } = useLeadDetails();
 
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const createQuote = searchParams.get("create-quote");
+    const navigate = useNavigate();
+
     const [searchQuery, setSearchQuery] = useState("");
     const [contactList, setContactList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -54,6 +60,13 @@ const AutoCompleteContactSearchModal = () => {
 
     const { clientsService } = useClientServiceContext();
     const showToast = useToast();
+
+    const handleCloseModal = () => {
+        if (createQuote) {
+            navigate("/contacts/list");
+        }
+        handleClose(false);
+    };
 
     const handleSearchInputChange = (event, value) => {
         setSearchQuery(value);
@@ -70,16 +83,16 @@ const AutoCompleteContactSearchModal = () => {
 
     const handleSelectNewContact = (contact) => {
         handleSelectedLead(contact, "new");
-        handleClose(false);
+        handleCloseModal();
     };
 
-    const handleSelectOldContact =  (contact) => {
-          setTempLead(contact);
-          setSearchQuery(`${contact.firstName} ${contact.lastName}`);
+    const handleSelectOldContact = (contact) => {
+        setTempLead(contact);
+        setSearchQuery(`${contact.firstName} ${contact.lastName}`);
     };
 
     const onClose = () => {
-        handleClose(false);
+        handleCloseModal();
     };
 
     const fetchContacts = useCallback(
@@ -133,13 +146,15 @@ const AutoCompleteContactSearchModal = () => {
     }, [debouncedContactSearch]);
 
     const renderAutocompleteOption = (props, option) => {
-        if (tempLead) {return null;}
+        if (tempLead) {
+            return null;
+        }
         if (option.isNewContact) {
             return (
                 <ListItem {...props} onClick={() => handleSelectNewContact(searchQuery)} className={styles.listItem}>
                     <ListItemText
                         primary={
-                            <Box display="flex" alignItems="center" sx={{ cursor : "pointer" }}>
+                            <Box display="flex" alignItems="center" sx={{ cursor: "pointer" }}>
                                 <CreateNewContactIcon />
                                 <Typography variant="subtitle1" style={{ marginLeft: 8 }}>
                                     Create new contact for <span style={{ color: "#0052ce" }}>{searchQuery}</span>
@@ -175,7 +190,7 @@ const AutoCompleteContactSearchModal = () => {
 
         if (response) {
             handleSelectedLead(response, "old");
-            handleClose(false);
+            handleCloseModal();
         }
     };
 
@@ -221,12 +236,20 @@ const AutoCompleteContactSearchModal = () => {
                     renderOption={renderAutocompleteOption}
                     inputValue={searchQuery}
                     onInputChange={handleSearchInputChange}
-                    ListboxProps={{ style: { maxHeight: 200, overflow: "auto", padding : "20px", marginTop : "4px", display: tempLead ? "none" : "block" } }}
+                    ListboxProps={{
+                        style: {
+                            maxHeight: 200,
+                            overflow: "auto",
+                            padding: "20px",
+                            marginTop: "4px",
+                            display: tempLead ? "none" : "block",
+                        },
+                    }}
                     renderInput={(params) => (
                         <StyledSearchInput
                             {...params}
                             onKeyDown={onlyAlphabets}
-                            type = "text"
+                            type="text"
                             placeholder="Start by typing a contact’s name"
                             InputProps={{
                                 ...params.InputProps,
