@@ -180,7 +180,14 @@ const AutoCompleteContactSearchModal = () => {
             );
         }
 
-        return <ContactListItem {...props} contact={option} handleClick={handleSelectOldContact} />;
+        return (
+            <ContactListItem
+                {...props}
+                key={`${option.createDate}-${option.leadStatusId}`}
+                contact={option}
+                handleClick={handleSelectOldContact}
+            />
+        );
     };
 
     const handleSubmit = async () => {
