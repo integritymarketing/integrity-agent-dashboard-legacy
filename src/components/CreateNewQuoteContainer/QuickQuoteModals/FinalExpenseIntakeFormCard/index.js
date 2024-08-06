@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Typography, Box, Grid, Button, InputAdornment } from "@mui/material";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
@@ -38,7 +38,8 @@ const FinalExpenseIntakeFormCard = () => {
 
     useEffect(() => {
         if (leadDetails) {
-            const stateCode = leadDetails?.addresses?.[0]?.stateCode;
+            const sessionStateCode = JSON.parse(sessionStorage.getItem(`quickQuote_${leadId}`))?.stateCode ?? null;
+            const stateCode = sessionStateCode || leadDetails?.addresses?.[0]?.stateCode;
             const feet = leadDetails?.height ? Math.floor(leadDetails.height / 12) : "";
             const inches = leadDetails?.height ? leadDetails.height % 12 : "";
 
@@ -53,7 +54,7 @@ const FinalExpenseIntakeFormCard = () => {
                 gender: leadDetails?.gender,
             });
         }
-    }, [leadDetails]);
+    }, [leadDetails, leadId]);
 
     const onSubmitHandler = useCallback(
         async (values, { setSubmitting }) => {
@@ -65,7 +66,7 @@ const FinalExpenseIntakeFormCard = () => {
                 gender: values.gender,
             };
 
-            const payload = formatPayload(leadDetails, formData, values.stateCode);
+            const payload = formatPayload(leadDetails, formData);
 
             try {
                 const response = await updateLeadDetails(payload);
@@ -84,7 +85,7 @@ const FinalExpenseIntakeFormCard = () => {
                 setSubmitting(false);
             }
         },
-        [leadDetails, updateLeadDetails, handleClose, fireEvent, leadDetails?.leadsId, isContactType, navigate, leadId]
+        [leadDetails, updateLeadDetails, handleClose, fireEvent, isContactType, navigate, leadId]
     );
 
     const ErrorInfoIcon = () => (
@@ -123,7 +124,11 @@ const FinalExpenseIntakeFormCard = () => {
                             <Box className={styles.inputLabel}>State*</Box>
                             <SelectStateField
                                 value={values.stateCode}
-                                onChange={(value) => setFieldValue("stateCode", value)}
+                                onChange={(value) => {
+                                    setFieldValue("stateCode", value);
+                                    const storageKey = `quickQuote_${leadId}`;
+                                    sessionStorage.setItem(storageKey, JSON.stringify({ stateCode: value }));
+                                }}
                                 selectContainerClassName={styles.selectInputBox}
                                 inputBoxClassName={styles.inputBoxClassName}
                                 className={styles.stateSelect}
@@ -244,7 +249,7 @@ const FinalExpenseIntakeFormCard = () => {
                     size="medium"
                     variant="contained"
                     color="primary"
-                    disabled={!isValid || !dirty}
+                    disabled={!isValid}
                     endIcon={<ButtonCircleArrow />}
                 >
                     Continue
@@ -257,4 +262,5 @@ const FinalExpenseIntakeFormCard = () => {
 FinalExpenseIntakeFormCard.propTypes = {
     text: PropTypes.string.isRequired,
 };
+
 export default FinalExpenseIntakeFormCard;
