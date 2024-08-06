@@ -183,7 +183,7 @@ const AutoCompleteContactSearchModal = () => {
         return (
             <ContactListItem
                 {...props}
-                key={`${option.createDate}-${option.leadStatusId}`}
+                key={`${option.leadsId}-${option.createDate}-${option.leadStatusId}`}
                 contact={option}
                 handleClick={handleSelectOldContact}
             />
