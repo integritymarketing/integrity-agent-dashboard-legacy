@@ -123,15 +123,13 @@ export const LeadDetailsProvider = ({ children }) => {
             ];
         }
 
-        if (phones && phones.leadPhone) {
-            reqData.phones = [
-                {
-                    phoneId: phoneId,
-                    ...phones,
-                    leadPhone: getFormattedPhone(phones.leadPhone),
-                },
-            ];
-        }
+        reqData.phones = [
+            {
+                phoneId: phoneId,
+                ...phones,
+                leadPhone: getFormattedPhone(phones.leadPhone),
+            },
+        ];
 
         reqData.addresses = [
             {

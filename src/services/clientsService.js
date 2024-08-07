@@ -1215,19 +1215,15 @@ export class ClientsService {
             contactRecordType: contact.contactRecordType,
             notes: contact.notes,
             emails: contact.emails,
-            addresses: contact.addresses,
-        };
-
-        if (leadPhone) {
-            requestData.phones = [
+            phones: [
                 {
                     phoneId: 0,
-                    leadPhone: leadPhone.replace("+1", ""),
+                    leadPhone: leadPhone?.replace("+1", ""),
                     phoneLabel: "mobile",
                 },
-            ];
-        }
-
+            ],
+            addresses: contact.addresses,
+        };
         if (contact.medicareBeneficiaryID) {
             requestData.medicareBeneficiaryID = contact.medicareBeneficiaryID;
         }
@@ -1237,17 +1233,14 @@ export class ClientsService {
         if (contact.partB) {
             requestData.partB = contact.partB;
         }
-
         const response = await this._clientAPIRequest(
             `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
             "PUT",
             requestData
         );
-
         if (!response?.ok) {
             throw new Error("Cannot update contact");
         }
-
         return response?.json();
     };
 
