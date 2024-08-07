@@ -76,7 +76,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                         line_of_business: "Health",
                         contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
                     });
-                    navigate(`/finalexpenses/healthconditions/${lead?.leadsId}`);
+                    navigate(`/plans/${lead?.leadsId}`);
                     handleClose();
                 } else {
                     setQuoteModalStage("zipCodeInputCard");
@@ -105,7 +105,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                     line_of_business: "Health",
                     contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
                 });
-                navigate(`/finalexpenses/healthconditions/${lead?.leadsId}`);
+                navigate(`/plans/${selectedLead?.leadsId}`);
                 handleClose();
             } else {
                 setQuoteModalStage("zipCodeInputCard");
@@ -156,7 +156,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 line_of_business: "Health",
                 contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
             });
-            navigate(`/finalexpenses/healthconditions/${lead?.leadsId}`);
+            navigate(`/plans/${selectedLead?.leadsId}`);
             handleClose();
         } else {
             setQuoteModalStage("zipCodeInputCard");
