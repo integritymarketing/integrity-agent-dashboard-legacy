@@ -12,7 +12,7 @@ import { LeadDetails } from "schemas";
 import { formatPhoneNumber } from "utils/formatPhoneNumber";
 import styles from "./styles.module.scss";
 import ContinueIcon from "components/icons/Continue";
- 
+
 const CreateNewContactModal = () => {
     const {
         createNewContactModalOpen: open,
@@ -23,13 +23,13 @@ const CreateNewContactModal = () => {
     const { fireEvent } = useAnalytics();
     const { clientsService } = useClientServiceContext();
     const showToast = useToast();
- 
+
     const isDuplicateContact = useCallback(
         async (values) => {
             const response = await clientsService.getDuplicateContact(values);
             if (response?.ok) {
                 const resMessage = await response.json();
- 
+
                 if (resMessage?.isExactDuplicate) {
                     return {
                         firstName: "Duplicate Contact",
@@ -46,7 +46,7 @@ const CreateNewContactModal = () => {
                     message: "Issue while checking for duplicate contact",
                     type: "error",
                 });
- 
+
                 return {
                     isExactDuplicate: false,
                 };
@@ -54,12 +54,12 @@ const CreateNewContactModal = () => {
         },
         [clientsService, showToast]
     );
- 
+
     const onSubmitHandler = useCallback(
         async (values, { setErrors, setSubmitting }) => {
             try {
                 setSubmitting(true);
- 
+
                 if (values?.phone || values?.email) {
                     const newData = {
                         firstName: values.firstName,
@@ -70,21 +70,21 @@ const CreateNewContactModal = () => {
                             phoneLabel: "mobile",
                         },
                     };
- 
+
                     const duplicateCheckResult = await isDuplicateContact(newData);
- 
+
                     if (duplicateCheckResult?.isExactDuplicate) {
                         setErrors({
                             firstName: "Duplicate Contact",
                             lastName: "Duplicate Contact",
                         });
- 
+
                         setSubmitting(false);
                         return;
                     }
- 
+
                     const response = await clientsService.addNewContact(newData);
- 
+
                     if (response.ok) {
                         const resData = await response.json();
                         handleSelectedLead(resData);
@@ -117,31 +117,42 @@ const CreateNewContactModal = () => {
         },
         [clientsService, fireEvent, handleSelectedLead, showToast]
     );
- 
+
     const ErrorInfoIcon = () => (
         <InputAdornment position="end">
             <ErrorIcon style={{ color: "red" }} />
         </InputAdornment>
     );
- 
+
     const formik = useFormik({
         initialValues: newLeadDetails,
         validationSchema: LeadDetails,
         enableReinitialize: true,
         onSubmit: onSubmitHandler,
     });
- 
-    const { values, errors, isValid, dirty, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
- 
+
+    const {
+        values,
+        errors,
+        isValid,
+        dirty,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        setFieldValue,
+        isSubmitting,
+    } = formik;
+
     const handlePhoneChange = (e) => {
         const formattedPhoneNumber = formatPhoneNumber(e.target.value);
         setFieldValue("phone", formattedPhoneNumber);
     };
- 
+
     const onClose = () => {
         handleClose(false);
     };
- 
+
     return (
         <CustomModal
             title={"Start a Quote"}
@@ -151,7 +162,7 @@ const CreateNewContactModal = () => {
             handleSave={handleSubmit}
             showCloseButton
             shouldShowCancelButton={true}
-            isSaveButtonDisabled={!isValid || !dirty}
+            isSaveButtonDisabled={!isValid || !dirty || isSubmitting}
             maxWidth="sm"
             disableContentBackground
             saveLabel="Continue"
@@ -195,7 +206,7 @@ const CreateNewContactModal = () => {
                     </Grid>
                 </Grid>
             </Box>
- 
+
             <Box className={styles.modalSection} marginTop={"16px"}>
                 <Box>
                     <Typography variant="h3" className={styles.sectionTitle}>
@@ -205,7 +216,7 @@ const CreateNewContactModal = () => {
                         Please add one of the following in order to create your contact.
                     </Typography>
                 </Box>
- 
+
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
                         <TextInput
@@ -254,5 +265,5 @@ const CreateNewContactModal = () => {
         </CustomModal>
     );
 };
- 
+
 export default CreateNewContactModal;
