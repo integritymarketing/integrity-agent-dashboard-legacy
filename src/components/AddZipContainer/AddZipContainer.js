@@ -115,8 +115,11 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
             medicareBeneficiaryID: medicareBeneficiaryID ? formatMbiNumber(medicareBeneficiaryID) : "",
             partA: partA ?? "",
             partB: partB ?? "",
+            height: leadDetails?.height,
+            weight: leadDetails?.weight,
+            isTobaccoUser: leadDetails?.isTobaccoUser,
+            gender: leadDetails?.gender,
         };
-
         const res = await updateLeadDetails(payload);
         if (res) {
             navigate(`/plans/${leadsId}`);
