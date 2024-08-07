@@ -38,8 +38,9 @@ const FinalExpenseIntakeFormCard = () => {
 
     useEffect(() => {
         if (leadDetails) {
-            const sessionStateCode = JSON.parse(sessionStorage.getItem(`quickQuote_${leadId}`))?.stateCode ?? null;
+            const sessionStateCode = JSON.parse(sessionStorage.getItem(leadId))?.stateCode ?? null;
             const stateCode = sessionStateCode || leadDetails?.addresses?.[0]?.stateCode;
+
             const feet = leadDetails?.height ? Math.floor(leadDetails.height / 12) : "";
             const inches = leadDetails?.height ? leadDetails.height % 12 : "";
 
@@ -66,7 +67,11 @@ const FinalExpenseIntakeFormCard = () => {
                 gender: values.gender,
             };
 
-            const payload = formatPayload(leadDetails, formData);
+            const code = leadDetails?.addresses?.[0]?.stateCode
+                ? leadDetails?.addresses?.[0]?.stateCode
+                : values?.stateCode;
+
+            const payload = formatPayload(leadDetails, formData, code);
 
             try {
                 const response = await updateLeadDetails(payload);
@@ -107,7 +112,15 @@ const FinalExpenseIntakeFormCard = () => {
         onSubmit: onSubmitHandler,
     });
 
-    const { values, errors, dirty, isValid, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
+    const { values, errors, isValid, touched, handleChange, handleBlur, handleSubmit, setFieldValue } = formik;
+
+    const fullInitialValues = useMemo(() => {
+        if (values?.dateOfBirth && values?.isTobaccoUser && values?.stateCode && values?.gender) {
+            return true;
+        } else {
+            return false;
+        }
+    }, [values]);
 
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
@@ -126,8 +139,7 @@ const FinalExpenseIntakeFormCard = () => {
                                 value={values.stateCode}
                                 onChange={(value) => {
                                     setFieldValue("stateCode", value);
-                                    const storageKey = `quickQuote_${leadId}`;
-                                    sessionStorage.setItem(storageKey, JSON.stringify({ stateCode: value }));
+                                    sessionStorage.setItem(leadId, JSON.stringify({ stateCode: value }));
                                 }}
                                 selectContainerClassName={styles.selectInputBox}
                                 inputBoxClassName={styles.inputBoxClassName}
@@ -249,7 +261,7 @@ const FinalExpenseIntakeFormCard = () => {
                     size="medium"
                     variant="contained"
                     color="primary"
-                    disabled={!isValid}
+                    disabled={!isValid || !fullInitialValues}
                     endIcon={<ButtonCircleArrow />}
                 >
                     Continue
