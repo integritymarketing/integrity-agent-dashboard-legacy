@@ -237,12 +237,15 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           },
                           label: "Marketing",
                       },
-
                       {
-                          component: "button",
+                          component: Link,
                           props: {
-                              type: "button",
-                              onClick: () => setContactSearchModalOpen(true),
+                              to: "#",
+                              onClick: (e) => {
+                                  e.preventDefault();
+                                  setContactSearchModalOpen(true);
+                              },
+                              className: analyticsService.clickClass("quick-quote-header"),
                           },
                           label: "Quick Quote",
                       },
