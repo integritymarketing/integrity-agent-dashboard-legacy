@@ -55,7 +55,7 @@ export default function Filter({
     filtered,
     filterOverrideClass,
     countToDisplay,
-    selectedFilterSections
+    selectedFilterSections,
 }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [filterToggle, setFilterToggle] = useState(false);
@@ -80,13 +80,12 @@ export default function Filter({
                     separator += " " + (section.nextAndOrOption || "and") + " ";
                 }
                 conditions += section.sectionId + separator;
-            })
+            });
             fireEvent("Tag Filter Selected", {
-                tag_filter: conditions
+                tag_filter: conditions,
             });
         }
     };
-
 
     const id = open ? "simple-popover" : undefined;
     return (

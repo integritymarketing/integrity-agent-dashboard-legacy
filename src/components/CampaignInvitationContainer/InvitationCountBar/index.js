@@ -4,7 +4,13 @@ import styles from "./styles.module.scss";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 
 const InvitationCountBar = ({}) => {
-    const { filteredContactsType, filteredContentStatus, filteredCount, totalContactsCount } = useCampaignInvitation();
+    const {
+        filteredContactsType,
+        filteredContentStatus,
+        filteredCount = 0,
+        totalContactsCount = 0,
+    } = useCampaignInvitation();
+
     return (
         <Box className={styles.banner}>
             <Box className={styles.colorBar}></Box>
@@ -14,8 +20,12 @@ const InvitationCountBar = ({}) => {
             </Box>
             <Box className={styles.divider} />
 
-            <Box className={styles.filteredContent}>
-                {filteredContactsType === "all my contacts" ? "All Contacts" : filteredContentStatus}
+            <Box>
+                {filteredContactsType === "all my contacts" || (!filteredContentStatus && !filteredCount) ? (
+                    "All Contacts"
+                ) : (
+                    <span dangerouslySetInnerHTML={{ __html: filteredContentStatus }}></span>
+                )}
             </Box>
         </Box>
     );

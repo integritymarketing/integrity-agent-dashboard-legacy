@@ -181,7 +181,7 @@ export class ClientsService {
             includeReminder: true,
             includeTags: true,
             ...remindersKeys,
-            returnAll: false,
+            returnAll: returnAll,
             filterTagV3Request,
         };
 

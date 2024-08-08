@@ -63,13 +63,13 @@ export const ContactsListProvider = ({ children }) => {
 
     const fetchAllListCount = useCallback(async () => {
         if (!withoutFilterResponseSize) {
-            const total = await fetchTableDataWithoutFilters({
+            const response = await fetchTableDataWithoutFilters({
                 pageIndex: 1,
                 pageSize: DEFAULT_PAGE_ITEM,
                 searchString,
                 sort: DEFAULT_SORT,
             });
-            setWithoutFilterResponseSize(total);
+            setWithoutFilterResponseSize(response?.total);
         }
     }, [searchString, withoutFilterResponseSize, fetchTableDataWithoutFilters]);
 

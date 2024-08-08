@@ -7,12 +7,11 @@ import { useEffect } from "react";
 import PlanEnrollCampaign from "images/Campaigns/plan-enroll-campaign.JPG";
 
 export default function CampaignInvitation() {
-    const { handleTotalContactsCount, handleInvitationName, handleInvitationTemplateImage } = useCampaignInvitation();
+    const { handleInvitationName, handleInvitationTemplateImage } = useCampaignInvitation();
 
     useEffect(() => {
         handleInvitationName("PlanEnroll");
         handleInvitationTemplateImage(PlanEnrollCampaign);
-        handleTotalContactsCount(1302);
     }, []);
 
     return (

@@ -3,6 +3,8 @@ import { Navigate } from "react-router-dom";
 
 import { ContactDetailsProvider } from "providers/ContactDetails";
 import { FinalExpensePlansProvider } from "providers/FinalExpense";
+import { ContactsListProvider } from "pages/ContactsList/providers/ContactsListProvider";
+import { StageStatusProvider } from "contexts/stageStatus";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
 const AccountPage = lazy(() => import("pages/Account/AccountPage"));
@@ -277,7 +279,13 @@ const appProtectedRoutes = [
     },
     {
         path: "marketing/campaign-invitation",
-        component: <CampaignInvitationPage />,
+        component: (
+            <StageStatusProvider>
+                <ContactsListProvider>
+                    <CampaignInvitationPage />
+                </ContactsListProvider>
+            </StageStatusProvider>
+        ),
     },
     {
         path: "marketing/campaign-dashboard",
