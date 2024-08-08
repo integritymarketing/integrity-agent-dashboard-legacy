@@ -32,7 +32,7 @@ const ProfileMenu = () => {
                 case "account":
                     window.location.href = process.env.REACT_APP_AUTH_PAW_REDIRECT_URI;
                     break;
-                case "lead_center":
+                case "learning_center":
                     navigate("/learning-center");
                     break;
                 case "lead_center":
