@@ -32,6 +32,9 @@ const StyledSearchInput = styled(TextField)(() => ({
         color: "#434A51",
         fontSize: "16px",
     },
+    "& .MuiAutocomplete-input": {
+        height: "10px",
+    },
 }));
 
 const AutocompleteWrapper = styled("div")({
