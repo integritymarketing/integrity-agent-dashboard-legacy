@@ -16,7 +16,7 @@ import { Select } from "components/ui/Select";
 import Spinner from "components/ui/Spinner";
 
 import { useClientServiceContext } from "services/clientServiceProvider";
-import "./style.scss";
+import "./styles.module.scss";
 
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";

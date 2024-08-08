@@ -23,7 +23,7 @@ import Spinner from "components/ui/Spinner";
 
 import { useClientServiceContext } from "services/clientServiceProvider";
 import ProviderList from "./ProviderList";
-import "./style.scss";
+import "./styles.module.scss";
 
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";
@@ -42,7 +42,7 @@ const DISTANCE_OPTIONS = [
     { value: 70, label: "70 miles" },
     { value: 80, label: "80 miles" },
     { value: 90, label: "90 miles" },
-    { value: 100, label: "100 miles" }
+    { value: 100, label: "100 miles" },
 ];
 
 function encodeQueryData(data) {

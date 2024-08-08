@@ -12,7 +12,7 @@ import PrescriptionList from "./PrescriptionList";
 import PrescriptionForm from "./PrescriptionForm";
 import { useClientServiceContext } from "services/clientServiceProvider";
 
-import "./style.scss";
+import "./styles.module.scss";
 
 const transformPrescriptionOptions = (option) => {
     const { drugName, drugType, drugID, referenceNDC, genericDrugID, genericDrugType, genericDrugName } = option;
