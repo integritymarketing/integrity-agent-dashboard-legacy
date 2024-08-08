@@ -61,25 +61,27 @@ export const CreateNewQuoteProvider = ({ children }) => {
 
     const handleAgentProductPreferenceType = (lead) => {
         setShowStartQuoteModal(true);
-        const postalCode = lead?.addresses?.[0]?.postalCode || null;
+        const postalCode = lead?.addresses?.length > 0 ? lead?.addresses[0]?.postalCode : null;
+
         if (!leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote) {
             setQuoteModalStage("selectProductTypeCard");
-            return;
-        }
-        const productType = leadPreference?.hideLifeQuote ? "health" : "life";
-        setSelectedProductType(productType);
-        if (productType === "life") {
-            setQuoteModalStage("finalExpenseIntakeFormCard");
-        } else if (postalCode) {
-            fireEvent("New Quote Created With Instant Quote", {
-                leadId: lead?.leadsId,
-                line_of_business: "Health",
-                contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
-            });
-            navigate(`/plans/${lead?.leadsId}`);
-            handleClose();
         } else {
-            setQuoteModalStage("zipCodeInputCard");
+            setSelectedProductType(leadPreference?.hideLifeQuote ? "health" : "life");
+            if (!leadPreference?.hideLifeQuote) {
+                setQuoteModalStage("finalExpenseIntakeFormCard");
+            } else {
+                if (postalCode) {
+                    fireEvent("New Quote Created With Instant Quote", {
+                        leadId: lead?.leadsId,
+                        line_of_business: "Health",
+                        contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
+                    });
+                    navigate(`/plans/${lead?.leadsId}`);
+                    handleClose();
+                } else {
+                    setQuoteModalStage("zipCodeInputCard");
+                }
+            }
         }
     };
 

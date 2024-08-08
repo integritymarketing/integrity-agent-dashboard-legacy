@@ -72,6 +72,23 @@ const MobileMenu = ({ onClose }) => {
             },
         },
         {
+            label: "MedicareAPP",
+            action: () => {
+                window.open(
+                    `${process.env.REACT_APP_CONNECTURE_LINK}/${npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
+                    "_blank"
+                );
+                onClose();
+            },
+        },
+        {
+            label: "MedicareLINK",
+            action: () => {
+                window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
+                onClose();
+            },
+        },
+        {
             label: "CSG App",
             action: () => {
                 getAccessTokenSilently().then((token) => {

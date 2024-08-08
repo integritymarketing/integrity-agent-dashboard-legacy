@@ -22,6 +22,7 @@ import { useClientServiceContext } from "services/clientServiceProvider";
 import validationService from "services/validationService";
 import { Box } from "@mui/material";
 import ProfileMenu from "./ProfileMenu/ProfileMenu";
+import { useCreateNewQuote } from "providers/CreateNewQuote";
 
 import Account from "./Account.svg";
 import Logout from "./Logout.svg";
@@ -102,6 +103,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     const navigate = useNavigate();
     const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
     const [welcomeModalTempOpen] = useRecoilState(welcomeModalTempOpenAtom);
+    const { setContactSearchModalOpen } = useCreateNewQuote();
 
     const [navOpen, setNavOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -235,13 +237,14 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                           },
                           label: "Marketing",
                       },
+
                       {
-                          component: Link,
+                          component: "button",
                           props: {
-                              to: "/learning-center",
-                              className: analyticsService.clickClass("learningcenter-header"),
+                              type: "button",
+                              onClick: () => setContactSearchModalOpen(true),
                           },
-                          label: "Learning Center",
+                          label: "Quick Quote",
                       },
                   ],
                   secondary: [

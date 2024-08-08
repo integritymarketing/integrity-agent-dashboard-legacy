@@ -12,10 +12,12 @@ import analyticsService from "services/analyticsService";
 import "./index.scss";
 
 import integrityLogo from "../logo/integrity.svg";
+import useUserProfile from "hooks/useUserProfile";
 
 const GlobalFooter = ({ className = "", hideMedicareIcon = false, ...props }) => {
     const portalUrl = usePortalUrl();
     const [isMobile, setIsMobile] = useState(false);
+    const { npn } = useUserProfile();
 
     return (
         <>
@@ -73,7 +75,7 @@ const GlobalFooter = ({ className = "", hideMedicareIcon = false, ...props }) =>
                                 </Media>
                                 <li>
                                     <a
-                                        href={`${process.env.REACT_APP_AUTH_AUTHORITY_URL  }/external/SamlLogin/2023`}
+                                        href={`${process.env.REACT_APP_CONNECTURE_LINK}/${npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`}
                                         rel="noopener noreferrer"
                                         target="_blank"
                                         className="link link--inherit"

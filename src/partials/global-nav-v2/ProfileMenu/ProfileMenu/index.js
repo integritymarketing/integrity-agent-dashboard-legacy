@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { handleCSGSSO } from "auth/handleCSGSSO";
 import useUserProfile from "hooks/useUserProfile";
-import { Account, SignOut, LeadCenter, CSG, NeedHelp } from "../icons";
+import { Account, SignOut, LeadCenter, CSG, NeedHelp, MedicareLink, MedicareApp, LearningCenter } from "../icons";
 import styles from "./styles.module.scss";
 
 const ProfileMenu = () => {
@@ -33,7 +33,19 @@ const ProfileMenu = () => {
                     window.location.href = process.env.REACT_APP_AUTH_PAW_REDIRECT_URI;
                     break;
                 case "lead_center":
+                    navigate("/learning-center");
+                    break;
+                case "lead_center":
                     window.open(`${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`, "_blank");
+                    break;
+                case "medicareApp":
+                    window.open(
+                        `${process.env.REACT_APP_CONNECTURE_LINK}/${npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
+                        "_blank"
+                    );
+                    break;
+                case "medicareLink":
+                    window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
                     break;
                 case "csg_app":
                     getAccessTokenSilently().then((token) => {
@@ -60,8 +72,15 @@ const ProfileMenu = () => {
 
     const menuItems = [
         { path: "account", label: "Account", icon: <Account /> },
+        {
+            path: "learning_center",
+            label: "LearningCENTER",
+            icon: <LearningCenter />,
+        },
         { path: "lead_center", label: "Lead Center", icon: <LeadCenter /> },
         { path: "csg_app", label: "CSG App", icon: <CSG /> },
+        { path: "medicareApp", label: "MedicareAPP", icon: <MedicareApp /> },
+        { path: "medicareLink", label: "MedicareLINK", icon: <MedicareLink /> },
         { path: "need_help", label: "Need Help?", icon: <NeedHelp /> },
         { path: "sign_out", label: "Sign Out", icon: <SignOut /> },
     ];
