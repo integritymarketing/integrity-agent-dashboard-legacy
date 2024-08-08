@@ -62,7 +62,7 @@ export class PlansService {
     };
 
     sendPlanCompare = async (data) => {
-        const response = await this._clientAPIRequest(`Plan/PlanCompare`, "POST", {}, data);
+        const response = await this._clientAPIRequest(`Plan/PlanCompare`, "POST", {}, data, "v1.0");
 
         if (response?.ok) {
             return response;
