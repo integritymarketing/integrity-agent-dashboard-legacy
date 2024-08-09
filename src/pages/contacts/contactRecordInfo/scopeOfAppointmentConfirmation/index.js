@@ -549,7 +549,7 @@ const ScopeOfAppointmentConfirmation = () => {
                                                         type="tel"
                                                         placeholder="(XXX) XXX-XXXX"
                                                         name="phone"
-                                                        value={formatPhoneNumber(values.phone)}
+                                                        value={formatPhoneNumber(values.phone, true)}
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
                                                         error={errors.phone ? true : false}
@@ -890,7 +890,8 @@ const ScopeOfAppointmentConfirmation = () => {
                                                             placeholder="(XXX) XXX-XXXX"
                                                             name="authorizedRepresentative.phone"
                                                             value={formatPhoneNumber(
-                                                                values?.authorizedRepresentative?.phone
+                                                                values?.authorizedRepresentative?.phone,
+                                                                true
                                                             )}
                                                             onChange={handleChange}
                                                             onBlur={handleBlur}
