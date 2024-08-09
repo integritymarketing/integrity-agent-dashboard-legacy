@@ -22,6 +22,7 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import dateFnsFormat from "date-fns/format";
+import { formatPhoneNumber } from "utils/phones";
 
 const SubmitButton = styled(Button)(() => ({
     color: "#4178ff",
@@ -40,7 +41,7 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
             initialValues={{
                 firstName: agentSection?.firstName,
                 lastName: agentSection?.lastName,
-                phoneNumber: agentSection?.phoneNumber,
+                phoneNumber: formatPhoneNumber(agentSection?.phoneNumber, true),
                 methodOfContact: "",
                 acceptedSOA: false,
                 soaSignedDuringAppointment: "",
