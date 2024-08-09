@@ -1,21 +1,27 @@
 @import "../../../scss/globalDefines.scss";
-.bannerCardStack {
+
+.marketingBanner {
     border-radius: 8px;
     background-color: #f1faff;
-    height: auto;
-
-    @include medium  {
-        height: 140px;
-    }
+    padding: 8px;
+    border: 8px solid #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .bannerCardImage {
-    width: 100%;
     height: 140px;
-    object-fit: cover;
-    max-width: none;
+    width: 160px;
 
     @include small {
-        height: auto;
+        height: 108px;
+        width: 120px;
     }
+}
+
+.bannerGridItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

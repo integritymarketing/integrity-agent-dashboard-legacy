@@ -43,7 +43,7 @@ const InfoBox = () => (
                 Nulla vitae elit libero, a pharetra augue. Cras mattis consectetur purus sit amet fermentum.
             </Typography>
         </Grid>
-        <Grid item sx={{ marginTop: "24px" }}>
+        <Grid item sx={{ marginTop: "24px", width: "100%" }}>
             <MarketingBanner />
         </Grid>
     </Grid>

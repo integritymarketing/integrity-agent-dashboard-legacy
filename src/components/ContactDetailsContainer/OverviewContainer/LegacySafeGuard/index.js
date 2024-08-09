@@ -1,11 +1,10 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-import Box from "@mui/material/Box";
-import { Button } from "components/ui/Button";
+import { Grid, Stack, Typography, Button, useMediaQuery, useTheme, Box } from "@mui/material";
 import styles from "./styles.module.scss";
-import LegacySafeGuardCardImage from "images/LegacySafeGuardCard.png";
-import { Arrow } from "../Icons";
+import LegacySafeGuardCardImage from "images/Campaigns/legacy-safeguard.png";
+import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCirlce";
 import useUserProfile from "hooks/useUserProfile";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 
@@ -32,10 +31,13 @@ const LegacySafeGuard = ({ leadDetails }) => {
     const formattedBirthdate = useMemo(() => (birthdate ? moment(birthdate).format("MM-DD-YYYY") : ""), [birthdate]);
     const isLSGTagPresent = useMemo(() => leadTags?.some((tag) => tag?.tag?.tagLabel === "LS USER"), [leadTags]);
 
-    const formattedDetails = useMemo(() => ({
-        birthdate: birthdate ? moment(birthdate).format("MM-DD-YYYY") : "",
-        gender: gender === "male" ? "M" : gender === "female" ? "F" : "",
-    }), [birthdate, gender]);
+    const formattedDetails = useMemo(
+        () => ({
+            birthdate: birthdate ? moment(birthdate).format("MM-DD-YYYY") : "",
+            gender: gender === "male" ? "M" : gender === "female" ? "F" : "",
+        }),
+        [birthdate, gender]
+    );
     /**
      * Constructs the URL for Legacy SafeGuard with query parameters based on lead details.
      * @returns {string} URL for Legacy SafeGuard
@@ -52,7 +54,7 @@ const LegacySafeGuard = ({ leadDetails }) => {
             ...(leadState && { mc_state: leadState }),
             ...(leadEmail && { mc_email: leadEmail }),
             ...(leadPhones && { mc_phone: leadPhones }),
-            ...formattedDetails.gender && { mc_gender: formattedDetails.gender },
+            ...(formattedDetails.gender && { mc_gender: formattedDetails.gender }),
             ...(formattedBirthdate && { mc_dob: formattedBirthdate }),
             ...(agentFirstName && { agent_fname: agentFirstName }),
             ...(agentLastName && { agent_lname: agentLastName }),
@@ -81,29 +83,40 @@ const LegacySafeGuard = ({ leadDetails }) => {
     }
 
     return (
-        <Box className={styles.legacySafeGuardCardContainer}>
-            <Box className={styles.legacySafeGuardCard}>
-                <Box className={styles.legacySafeGuardCardImage}>
-                    <img alt="Legacy Safe Guard Card" src={LegacySafeGuardCardImage} />
-                </Box>
-                <Box className={styles.legacySafeGuardCardContent}>
-                    <div className={styles.legacySafeGuardCardTitle}>
-                        <strong>Eligible for a</strong> <br />
-                        <strong>FREE MEMBERSHIP</strong>
-                    </div>
-                    <div>
-                        <Button
-                            icon={<Arrow />}
-                            label="Sign Up"
-                            className={styles.buttonWithIcon}
-                            onClick={handleCardClick}
-                            type="tertiary"
-                            iconPosition="right"
-                        />
-                    </div>
-                </Box>
-            </Box>
-        </Box>
+        <Grid container className={styles.marketingBanner}>
+            <Grid item md={5} xs={5}>
+                <img alt="Legacy Safe Guard Card" className={styles.bannerCardImage} src={LegacySafeGuardCardImage} />
+            </Grid>
+            <Grid item md={7} xs={7} className={styles.bannerGridItem}>
+                <Stack direction="column" spacing={1} alignItems={"center"}>
+                    <Typography variant="h4" sx={{ color: "#052A63", fontSize: "20px", fontWeight: "700" }}>
+                        Eligible for a FREE
+                    </Typography>
+                    <Typography
+                        variant="body2"
+                        sx={{
+                            color: "#052A63",
+                            fontSize: "20px",
+                            fontWeight: "700",
+                        }}
+                    >
+                        {" "}
+                        Membership
+                    </Typography>
+                    <Button
+                        onClick={handleCardClick}
+                        variant="contained"
+                        color="secondary"
+                        size="medium"
+                        endIcon={<ArrowForwardWithCircle color="#4178ff" />}
+                        className={styles.buttonstyles}
+                    >
+                        {" "}
+                        Sign Up
+                    </Button>
+                </Stack>
+            </Grid>
+        </Grid>
     );
 };
 

@@ -1,78 +1,27 @@
 @import "../../../../scss/globalDefines.scss";
 
-.legacySafeGuardCardContainer {
-  background-color: white;
-  width: 50%;
-  margin: auto;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 50px;
-  margin-bottom: 50px;
-
-  @include small {
-    width: 100%;
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
+.marketingBanner {
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    padding: 8px;
+    border: 8px solid #ffffff;
 }
-
-.legacySafeGuardCardImage {
-  @include small {
-    width: 60%;
-  }
-}
-
-.legacySafeGuardCard {
-  border-radius: 4px;
-  background: #F1F1F1 0% 0% no-repeat padding-box;
-  display: flex;
-  align-items: center;
-}
-
-
-
-.legacySafeGuardCardContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  width: 40%;
-}
-
-.legacySafeGuardCardTitle {
-  color: #052A63;
-  font-size: 18px;
-
-  @include small {
-    font-size: 15px;
-    transform: translateX(-30px);
-  }
-}
-
-
-.buttonWithIcon {
-  margin-top: 8px !important;
-  border-radius: 25px !important;
-  padding: 4px 6px 4px 14px !important;
-  background: #ffffff 0% 0% no-repeat padding-box;
-
-
-  @include small {
-    transform: translateX(-30%);
-  }
-
-  svg {
-    width: 24px;
-  }
-
-  span {
-    font-size: 14px !important;
-    color: #4178ff !important;
+.buttonstyles {
+    font-size: 14px;
     font-weight: 500;
-  }
+}
 
-  &:hover {
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
-    color: #1357ff !important;
-  }
+.bannerCardImage {
+    height: 140px;
+    width: 160px;
+    @include small {
+        height: 108px;
+        width: 120px;
+    }
+}
+
+.bannerGridItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
