@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Popover from "@mui/material/Popover";
 import { styled } from "@mui/system";
 import useAnalytics from "hooks/useAnalytics";
+import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 
 import styles from "./styles.module.scss";
 import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
@@ -57,6 +58,7 @@ export default function Filter({
     countToDisplay,
     selectedFilterSections,
 }) {
+    const { setWithoutFilterResponseSize } = useContactsListContext();
     const [anchorEl, setAnchorEl] = useState(null);
     const [filterToggle, setFilterToggle] = useState(false);
     const { fireEvent } = useAnalytics();
@@ -64,6 +66,7 @@ export default function Filter({
     const handleClick = (event) => {
         if (filteredInfo?.status) {
             removeFilteredLeadIds();
+            setWithoutFilterResponseSize(0);
         }
         setAnchorEl(event.currentTarget);
         onToggle(true);

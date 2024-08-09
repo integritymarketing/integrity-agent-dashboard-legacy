@@ -122,6 +122,7 @@ export const ContactsListProvider = ({ children }) => {
             tableData: mergedData,
             fetchTableData,
             withoutFilterResponseSize,
+            setWithoutFilterResponseSize,
             setIsLoading,
             searchString,
             setSearchString,
