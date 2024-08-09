@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import styles from "./styles.module.scss";
 
-const SelectionList = ({ title, selectionList, handleSelectItem }) => {
+const SelectionList = ({ title, selectionList, handleSelectItem, disableOption }) => {
     return (
         <Box>
             <Typography
@@ -16,7 +16,11 @@ const SelectionList = ({ title, selectionList, handleSelectItem }) => {
             </Typography>
             <Box className={styles.selectionListContainer}>
                 {selectionList?.map((item, index) => (
-                    <Box className={styles.selectItemLabel} key={index} onClick={() => handleSelectItem(item)}>
+                    <Box
+                        className={`${styles.selectItemLabel} ${disableOption(item) ? styles.disableOption : ""}`}
+                        key={index}
+                        onClick={() => handleSelectItem(item)}
+                    >
                         {item}
                     </Box>
                 ))}

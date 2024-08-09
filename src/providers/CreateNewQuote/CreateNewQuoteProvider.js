@@ -18,6 +18,8 @@ export const CreateNewQuoteProvider = ({ children }) => {
     const LIFE = "hideLifeQuote";
     const HEALTH = "hideHealthQuote";
 
+    const IUL_FEATURE_FLAG = process.env.REACT_APP_IUL_FEATURE_FLAG === "show";
+
     const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
     const [createNewContactModalOpen, setCreateNewContactModalOpen] = useState(false);
 
@@ -68,7 +70,11 @@ export const CreateNewQuoteProvider = ({ children }) => {
         } else {
             setSelectedProductType(leadPreference?.hideLifeQuote ? "health" : "life");
             if (!leadPreference?.hideLifeQuote) {
-                setQuoteModalStage("finalExpenseIntakeFormCard");
+                if (IUL_FEATURE_FLAG) {
+                    setQuoteModalStage("lifeQuestionCard");
+                } else {
+                    setQuoteModalStage("finalExpenseIntakeFormCard");
+                }
             } else {
                 if (postalCode) {
                     fireEvent("New Quote Created With Instant Quote", {
@@ -95,7 +101,11 @@ export const CreateNewQuoteProvider = ({ children }) => {
         }
         setSelectedProductType(productType);
         if (productType === "life") {
-            setQuoteModalStage("finalExpenseIntakeFormCard");
+            if (IUL_FEATURE_FLAG) {
+                setQuoteModalStage("lifeQuestionCard");
+            } else {
+                setQuoteModalStage("finalExpenseIntakeFormCard");
+            }
         } else {
             const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
 
@@ -135,15 +145,22 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 });
             }
         },
-        [agentId, leadPreference, showToast, updateAgentPreferences]
+        [agentId, leadPreference, showToast, updateAgentPreferences],
     );
 
     const handleSelectLifeProductType = (productType) => {
         setSelectedLifeProductType(productType);
-        if (productType === "Indexed Universal Life") {
-            setQuoteModalStage("IulGoalQuestionCard");
-        } else {
-            setQuoteModalStage("finalExpenseIntakeFormCard");
+
+        switch (productType) {
+            case "Final Expense":
+                setQuoteModalStage("finalExpenseIntakeFormCard");
+                break;
+            case "Indexed Universal Life":
+                break;
+            case "Term":
+                break;
+            default:
+                break;
         }
     };
 
@@ -212,6 +229,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             handleSelectIulGoal,
             handleClose,
             showUpArrow,
+            IUL_FEATURE_FLAG,
         };
     }
 };

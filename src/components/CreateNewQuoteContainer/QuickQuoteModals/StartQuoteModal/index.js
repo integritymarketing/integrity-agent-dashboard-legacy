@@ -6,6 +6,7 @@ import QuoteModalCard from "../../Common/QuoteModalCard";
 
 import FinalExpenseIntakeFormCard from "../FinalExpenseIntakeFormCard";
 import ZipCodeInputCard from "../ZipCodeInputCard";
+import LifeQuestionCard from "../LifeQuestionCard";
 
 const StartQuoteModal = () => {
     const {
@@ -14,6 +15,7 @@ const StartQuoteModal = () => {
         quoteModalStage,
         setQuoteModalStage,
         showUpArrow,
+        IUL_FEATURE_FLAG,
     } = useCreateNewQuote();
 
     const onClose = () => {
@@ -36,8 +38,23 @@ const StartQuoteModal = () => {
                     </QuoteModalCard>
                 )}
 
-                {quoteModalStage === "finalExpenseIntakeFormCard" && (
+                {quoteModalStage === "lifeQuestionCard" && (
                     <QuoteModalCard action={showUpArrow ? () => setQuoteModalStage("selectProductTypeCard") : null}>
+                        <LifeQuestionCard />
+                    </QuoteModalCard>
+                )}
+
+                {quoteModalStage === "finalExpenseIntakeFormCard" && (
+                    <QuoteModalCard
+                        action={
+                            showUpArrow
+                                ? () =>
+                                      setQuoteModalStage(
+                                          IUL_FEATURE_FLAG ? "lifeQuestionCard" : "selectProductTypeCard"
+                                      )
+                                : null
+                        }
+                    >
                         <FinalExpenseIntakeFormCard />
                     </QuoteModalCard>
                 )}
