@@ -7,7 +7,7 @@ export class CallRecordingsService {
 
     getAllCallRecordingsByAgent = async () => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_COMMUNICATION_API}/Call/Records?UnAssistedCallRecordingsOnly=true&Sort=callStartTime%3Adesc`
+            `${process.env.REACT_APP_COMMUNICATION_API}/Call/Records?UnAssistedCallRecordingsOnly=true&CallStatus=in-progress`
         );
         const data = await response.json();
         return data;
