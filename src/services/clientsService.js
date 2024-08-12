@@ -211,6 +211,7 @@ export class ClientsService {
         tags = [],
         returnAll,
         IncludePolicyCounts = true,
+        IncludeAddress = true,
         IncludeReminder = true,
         IncludeTags = true,
         IncludeContactPreference = true
@@ -223,6 +224,7 @@ export class ClientsService {
             leadIds,
             IncludeReminder: IncludeReminder,
             IncludePolicyCounts: IncludePolicyCounts,
+            IncludeAddress: IncludeAddress,
             IncludeTags: IncludeTags,
             IncludeContactPreference: IncludeContactPreference,
         };
