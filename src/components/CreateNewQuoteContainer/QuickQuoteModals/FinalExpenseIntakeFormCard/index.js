@@ -78,7 +78,7 @@ const FinalExpenseIntakeFormCard = () => {
                         line_of_business: "Life",
                         contactType: isContactType,
                     });
-                    navigate(`/finalexpenses/healthconditions/${leadId}`);
+                    navigate(`/finalexpenses/plans/${leadId}`);
                 }
             } catch (error) {
                 console.error("Error while submitting the form", error);
