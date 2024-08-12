@@ -39,7 +39,7 @@ export const RemindersList = () => {
             leadsId: leadId,
         };
 
-        addReminder(addPayload, leadId);
+        addReminder(addPayload);
         setIsAddNewModalOpen(false);
         setSelectedReminder(null);
     };
