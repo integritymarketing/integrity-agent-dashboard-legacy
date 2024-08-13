@@ -66,7 +66,7 @@ export default function Filter({
     const handleClick = (event) => {
         if (filteredInfo?.status) {
             removeFilteredLeadIds();
-            setWithoutFilterResponseSize(0);
+            setWithoutFilterResponseSize(null);
         }
         setAnchorEl(event.currentTarget);
         onToggle(true);
