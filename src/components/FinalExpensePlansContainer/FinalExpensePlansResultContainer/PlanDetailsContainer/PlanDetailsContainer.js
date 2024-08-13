@@ -123,7 +123,7 @@ export const PlanDetailsContainer = ({
         };
 
         try {
-            const result = await getFinalExpenseQuotePlans(quotePlansPostBody);
+            const result = await getFinalExpenseQuotePlans(quotePlansPostBody, contactId);
 
             // Update error message based on business logic
             updateErrorMesssage(result, isMyAppointedProducts, isShowExcludedProducts);

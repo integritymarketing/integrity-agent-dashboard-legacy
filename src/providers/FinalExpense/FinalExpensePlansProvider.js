@@ -17,10 +17,9 @@ import useToast from "hooks/useToast";
 export const FinalExpensePlansContext = createContext();
 
 export const FinalExpensePlansProvider = ({ children }) => {
-    const { contactId } = useParams();
     const showToast = useToast();
     const URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/plans`;
-    const QUOTE_URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/quotes/Lead/${contactId}`;
+    const QUOTE_URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/quotes/Lead`;
     const CARRIERS_URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/selfattest/carriers`;
 
     const {
@@ -58,8 +57,9 @@ export const FinalExpensePlansProvider = ({ children }) => {
     );
 
     const getFinalExpenseQuotePlans = useCallback(
-        async (body) => {
-            const data = await fetchFinalExpenseQuotePlans(body, false);
+        async (body, leadsId) => {
+            const path = `${leadsId}`;
+            const data = await fetchFinalExpenseQuotePlans(body, false, path);
             return data;
         },
         [fetchFinalExpensePlans]

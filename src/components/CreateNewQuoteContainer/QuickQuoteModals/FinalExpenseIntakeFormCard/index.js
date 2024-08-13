@@ -72,13 +72,13 @@ const FinalExpenseIntakeFormCard = () => {
             try {
                 const response = await updateLeadDetails(payload);
                 if (response) {
-                    handleClose();
                     fireEvent("New Quote Created With Instant Quote", {
                         leadId: leadDetails?.leadsId,
                         line_of_business: "Life",
                         contactType: isContactType,
                     });
-                    navigate(`/finalexpenses/healthconditions/${leadId}`);
+                    navigate(`/finalexpenses/plans/${leadId}`, { replace: true });
+                    handleClose();
                 }
             } catch (error) {
                 console.error("Error while submitting the form", error);
