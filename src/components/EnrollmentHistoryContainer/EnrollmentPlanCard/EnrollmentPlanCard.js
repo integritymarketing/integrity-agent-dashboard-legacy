@@ -33,7 +33,6 @@ export default function EnrollmentPlanCard(props) {
         carrier = "N/A",
         planId = "N/A",
         hasPlanDetails,
-        policyStatusColor,
         productCategory = "N/A",
     } = props;
     const navigate = useNavigate();

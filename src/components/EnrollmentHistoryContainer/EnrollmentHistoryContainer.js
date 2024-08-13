@@ -30,10 +30,9 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         getEnrollPlansList(leadId);
     }, [getEnrollPlansList, leadId]);
 
-    const currentYear = useMemo(() => new Date().getFullYear(), []);
-
     const isDeclinedStatus = (status) => {
-        return status === "declined" || status === "inactive";
+        const formattedStatus = status?.toLowerCase(); // Ensure the status is in lowercase
+        return formattedStatus === "declined" || formattedStatus === "inactive";
     };
 
     const filterPlansByRollingYear = (plansList, isCurrentPeriod) => {
@@ -69,10 +68,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
     };
 
     const currentYearPlansData = useMemo(() => filterPlansByRollingYear(enrollPlansList, true), [enrollPlansList]);
-    const previousYearPlansData = useMemo(
-        () => filterPlansByRollingYear(enrollPlansList, false),
-        [enrollPlansList]
-    );
+    const previousYearPlansData = useMemo(() => filterPlansByRollingYear(enrollPlansList, false), [enrollPlansList]);
 
     useEffect(() => {
         const active_product_types = currentYearPlansData.map((plan) => convertCategoryName(plan.productCategory));
@@ -105,7 +101,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                     carrier={plan.carrier}
                     consumerSource={plan.consumerSource}
                     hasPlanDetails={plan.hasPlanDetails}
-                    policyStatus={plan.policyStatus}
+                    policyStatus={plan.policyStatus ? plan.policyStatus?.toLowerCase() : ""}
                     confirmationNumber={plan.confirmationNumber}
                     page="Contacts Details"
                     planName={plan.planName}
