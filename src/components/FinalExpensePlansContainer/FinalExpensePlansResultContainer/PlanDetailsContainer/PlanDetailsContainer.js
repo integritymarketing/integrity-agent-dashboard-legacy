@@ -83,7 +83,7 @@ export const PlanDetailsContainer = ({
         setFetchPlansError(false);
         setIsLoadingFinalExpensePlans(true);
 
-        const { addresses, birthdate, gender, weight, height, isTobaccoUser, leadsId } = leadDetails;
+        const { addresses, birthdate, gender, weight, height, isTobaccoUser } = leadDetails;
         const code = sessionStorage.getItem(contactId)
             ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
             : addresses[0]?.stateCode;
@@ -123,7 +123,7 @@ export const PlanDetailsContainer = ({
         };
 
         try {
-            const result = await getFinalExpenseQuotePlans(quotePlansPostBody, leadsId);
+            const result = await getFinalExpenseQuotePlans(quotePlansPostBody, contactId);
 
             // Update error message based on business logic
             updateErrorMesssage(result, isMyAppointedProducts, isShowExcludedProducts);
