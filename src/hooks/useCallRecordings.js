@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import { getSignalRConnection } from "hooks/signalRConnection";
@@ -9,10 +10,16 @@ export default function useCallRecordings() {
     const [callRecordings, setCallRecordings] = useState([]);
     const { agentId } = useUserProfile();
     const [fetchTimeoutId, setFetchTimeoutId] = useState(null);
+    const location = useLocation();
+
+    const isLinkToContactPath = () => {
+        return location.pathname.includes("/link-to-contact/");
+    };
 
     async function fetchCallRecordings() {
         try {
-            const recordings = await callRecordingsService.getAllCallRecordingsByAgent();
+            const isLinkToContact = isLinkToContactPath();
+            const recordings = await callRecordingsService.getAllCallRecordingsByAgent(isLinkToContact);
 
             if (recordings.length > 0) {
                 const sortedRecordings = recordings.sort(

@@ -5,10 +5,11 @@ export class CallRecordingsService {
         this.getAccessToken = getAccessToken;
     }
 
-    getAllCallRecordingsByAgent = async () => {
-        const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_COMMUNICATION_API}/Call/Records?UnAssistedCallRecordingsOnly=true&CallStatus=in-progress`
-        );
+    getAllCallRecordingsByAgent = async (isLinkToContact = false) => {
+        const baseUrl = `${process.env.REACT_APP_COMMUNICATION_API}/Call/Records?UnAssistedCallRecordingsOnly=true`;
+        const url = isLinkToContact ? `${baseUrl}&Sort=callStartTime:desc` : `${baseUrl}&CallStatus=in-progress`;
+
+        const response = await this._clientAPIRequest(url);
         const data = await response.json();
         return data;
     };
