@@ -16,7 +16,7 @@ import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
 import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
 
-import FooterBanners from "packages/FooterBanners";
+import SupportLinksCard from "components/SupportLinksCard";
 
 import PlanSnapShot from "components/PolicySnapShot";
 import TaskList from "components/TaskList";
@@ -129,11 +129,13 @@ export default function Dashbaord() {
     };
 
     const navigateToContactListPage = (id) => {
-        const filters = [{
-            sectionId: "stage",
-            selectedFilterOption: id,
-            isFilterSelectOpen: false
-        }];
+        const filters = [
+            {
+                sectionId: "stage",
+                selectedFilterOption: id,
+                isFilterSelectOpen: false,
+            },
+        ];
         localStorage.setItem("contactList_selectedFilterSections", JSON.stringify(filters));
 
         navigate(`/contacts/list`);
@@ -182,8 +184,8 @@ export default function Dashbaord() {
                                     greetings() === "Evening"
                                         ? Evening
                                         : greetings() === "Morning"
-                                            ? Morning
-                                            : Afternoon
+                                        ? Morning
+                                        : Afternoon
                                 }
                                 alt="Greeting"
                             />
@@ -243,7 +245,17 @@ export default function Dashbaord() {
                             </div>
                         </div>
 
-                        {!isMobile && <FooterBanners className="banners mt-400" type="column" />}
+                        {!isMobile && (
+                            <Box
+                                sx={{
+                                    marginTop: "304px",
+                                    width: "85%",
+                                    marginLeft: "8%",
+                                }}
+                            >
+                                <SupportLinksCard position="column" />
+                            </Box>
+                        )}
                     </section>
 
                     <section className={`recent-activity-section ${isClientSnapshotOpen ? "mt-400" : ""}`}>
@@ -265,7 +277,11 @@ export default function Dashbaord() {
                             }}
                             sort={sort}
                         />
-                        {isMobile && <FooterBanners className="banners" type="column" />}
+                        {isMobile && (
+                            <Box>
+                                <SupportLinksCard />
+                            </Box>
+                        )}
                     </section>
                 </div>
 

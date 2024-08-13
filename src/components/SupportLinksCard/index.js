@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
-import ContactSupportImage from "./contact-support.png";
-import LearningCenterImage from "./learning-center.png";
+import ContactSupportImage from "./contact-support.svg";
+import LearningCenterImage from "./learning-center.svg";
 import styles from "./styles.module.scss";
 import RightArrow from "./vector.png";
 
@@ -37,16 +37,16 @@ const SupportLinksCard = ({ position }) => {
             <div className={`${styles.supportLinks} ${layoutClass}`}>
                 {renderCard(
                     LearningCenterImage,
-                    "Learning Center",
+                    "LearningCENTER",
                     "For the latest resources and news from Integrity visit the",
-                    "Learning Center",
+                    "LearningCENTER",
                     "/learning-center"
                 )}
                 {renderCard(
                     ContactSupportImage,
                     "Contact Support",
                     "Need Help? Visit the help center for professional",
-                    "Professional Assistance",
+                    "Contact Support",
                     "/help"
                 )}
             </div>
