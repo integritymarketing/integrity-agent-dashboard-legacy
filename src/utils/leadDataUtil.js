@@ -18,6 +18,7 @@ export const formatPayload = (leadDetails, formData, stateCode) => {
         medicareBeneficiaryID,
         partA,
         partB,
+        primaryCommunication,
     } = leadDetails;
 
     const email = emails.length > 0 ? emails[0].leadEmail : null;
@@ -37,7 +38,12 @@ export const formatPayload = (leadDetails, formData, stateCode) => {
     const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
     const phoneLabel = phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "mobile";
 
-    const isPrimary = contactPreferences?.primary ? contactPreferences?.primary : "email";
+    let isPrimary;
+    if (primaryCommunication) {
+        isPrimary = primaryCommunication;
+    } else {
+        isPrimary = contactPreferences?.primary ? contactPreferences?.primary : "email";
+    }
 
     return {
         ...leadDetails,
