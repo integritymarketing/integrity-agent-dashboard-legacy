@@ -9,7 +9,7 @@ import useUserProfile from "hooks/useUserProfile";
 import Heading2 from "packages/Heading2";
 
 import Container from "components/ui/container";
-import ResourceSection from "components/ui/resourcesCard";
+import SupportLinksCard from "components/SupportLinksCard";
 
 import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
@@ -101,7 +101,7 @@ const AccountPage = () => {
                         <SelfAttestedPermissions />
                     </div>
                     <div>
-                        <ResourceSection />
+                        <SupportLinksCard position="column" />
                     </div>
                 </div>
             </div>
