@@ -1,12 +1,10 @@
 import Box from "@mui/material/Box";
 
-import ResourceSection from "components/ui/resourcesCard";
-
 import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
 import SubHeaderMobile from "mobile/Components/subHeader";
-
+import SupportLinksCard from "components/SupportLinksCard";
 import AgentPhone from "pages/Account/AgentPhone";
 import { PersonalInfo } from "pages/Account/PersonalInfo";
 import AgentWebsite from "pages/Account/AgentWebsite";
@@ -33,7 +31,7 @@ function AccountPageMobile() {
                 <ActivePermissions />
                 <SelfAttestedPermissions />
             </Box>
-            <ResourceSection />
+            <SupportLinksCard />
             <GlobalFooter />
         </Box>
     );
