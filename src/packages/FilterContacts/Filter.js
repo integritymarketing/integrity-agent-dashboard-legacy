@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import CloseIcon from "@mui/icons-material/CloseOutlined";
 import { Typography } from "@mui/material";
@@ -10,7 +11,7 @@ import { useContactsListContext } from "pages/ContactsList/providers/ContactsLis
 
 import styles from "./styles.module.scss";
 
-const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
+const StyledIconButton = styled(CloseIcon)(() => ({
     cursor: "pointer",
     display: "flex",
     width: "25px",
@@ -45,7 +46,7 @@ const LightTooltip = styled(({ className, ...props }) => <Tooltip {...props} cla
     })
 );
 
-export default function Filter({
+function Filter({
     heading,
     content,
     open,
@@ -61,6 +62,7 @@ export default function Filter({
     const [anchorEl, setAnchorEl] = useState(null);
     const [filterToggle, setFilterToggle] = useState(false);
     const { fireEvent } = useAnalytics();
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
         onToggle(true);
@@ -70,14 +72,6 @@ export default function Filter({
         setAnchorEl(null);
         onToggle(false);
         if (selectedFilterSections.length > 0) {
-            let conditions = "";
-            selectedFilterSections.forEach((section, index) => {
-                let separator = "";
-                if (selectedFilterSections.length - 1 !== index) {
-                    separator += " " + (section.nextAndOrOption || "and") + " ";
-                }
-                conditions += section.sectionId + separator;
-            });
             fireEvent("Tag Filter Selected", {
                 tag_filter: filterConditions,
             });
@@ -85,6 +79,7 @@ export default function Filter({
     };
 
     const id = open ? "simple-popover" : undefined;
+
     return (
         <Box sx={{ mr: 2 }}>
             <LightTooltip title={heading} placement="top">
@@ -102,22 +97,10 @@ export default function Filter({
                 open={open}
                 anchorEl={anchorEl}
                 onClose={handleClose}
-                style={{
-                    maxWidth: "50px",
-                }}
-                slotProps={{
-                    paper: {
-                        border: "solid 1px red",
-                    },
-                }}
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                }}
-                transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                }}
+                style={{ maxWidth: "50px" }}
+                slotProps={{ paper: { border: "solid 1px red" } }}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
             >
                 <Box className={styles.modalContentWrapper}>
                     <Box>
@@ -134,3 +117,24 @@ export default function Filter({
         </Box>
     );
 }
+
+Filter.propTypes = {
+    heading: PropTypes.string.isRequired,
+    content: PropTypes.node.isRequired,
+    open: PropTypes.bool.isRequired,
+    onToggle: PropTypes.func.isRequired,
+    Icon: PropTypes.elementType.isRequired,
+    ActiveIcon: PropTypes.elementType.isRequired,
+    filtered: PropTypes.bool,
+    filterOverrideClass: PropTypes.string,
+    countToDisplay: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    selectedFilterSections: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+Filter.defaultProps = {
+    filtered: false,
+    filterOverrideClass: "",
+    countToDisplay: null,
+};
+
+export default Filter;

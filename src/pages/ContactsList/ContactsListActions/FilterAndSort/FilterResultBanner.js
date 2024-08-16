@@ -4,11 +4,10 @@ import Close from "./close.svg";
 import Icon from "components/Icon";
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 import styles from "./filterResultBannerStyles.module.scss";
-import { useMemo, useContext } from "react";
+import { useMemo, useContext, useEffect } from "react";
 import { useWindowSize } from "hooks/useWindowSize";
 import useAnalytics from "hooks/useAnalytics";
 import stageStatusContext from "contexts/stageStatus";
-import { useEffect } from "react";
 
 function FilterResultBanner() {
     const {
@@ -18,7 +17,7 @@ function FilterResultBanner() {
         resetData,
         filterSectionsConfig,
         pageResult,
-        setFilterConditions
+        setFilterConditions,
     } = useContactsListContext();
     const { fireEvent } = useAnalytics();
 
@@ -51,9 +50,9 @@ function FilterResultBanner() {
                 if (section.options) {
                     let label = "";
                     if (!section.options.length && section.heading.toLowerCase() === "stage") {
-                        label = statusOptions.find(opt => opt.statusId === item.selectedFilterOption)?.label || "";
+                        label = statusOptions.find((opt) => opt.statusId === item.selectedFilterOption)?.label || "";
                     } else {
-                        label = section.options.find(item1 => item1.value === item.selectedFilterOption)?.label || "";
+                        label = section.options.find((item1) => item1.value === item.selectedFilterOption)?.label || "";
                     }
                     thisItemLabel = `<span>
                 ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"}
@@ -61,8 +60,9 @@ function FilterResultBanner() {
               </span>`;
                 } else if (section.option) {
                     thisItemLabel = `<span>
-                ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"
-                        } <span style="font-weight:bold">${section.option.label || ""}</span>
+                ${section.heading} ${
+                        item.selectedIsOption === "is_not" ? "is not" : "is"
+                    } <span style="font-weight:bold">${section.option.label || ""}</span>
               </span>`;
                 }
                 return thisItemLabel + andOrLabel;
@@ -71,9 +71,12 @@ function FilterResultBanner() {
     }, [selectedFilterSections, filterSectionsConfig, statusOptions]);
 
     useEffect(() => {
-        const cleanedFilterLabel = filterLabel?.replace(/<\/?[^>]+(>|$)/g, "");
+        const cleanedFilterLabel = filterLabel
+            ?.replace(/<\/?[^>]+(>|$)/g, "")
+            .replace(/\s+/g, " ")
+            .trim();
         setFilterConditions(cleanedFilterLabel);
-    }, [filterLabel]);
+    }, [filterLabel, setFilterConditions]);
 
     if (!selectedFilterSections?.length) {
         return null;
