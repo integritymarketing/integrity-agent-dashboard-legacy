@@ -29,6 +29,7 @@ export const ContactsListProvider = ({ children }) => {
     );
     const [pageIndex, setPageIndex] = useState(1);
     const [selectedContacts, setSelectedContacts] = useState([]);
+    const [filterConditions, setFilterConditions] = useState();
     const [fetchedFiltersSectionConfigFromApi, setFetchedFiltersSectionConfigFromApi] = useState(false);
     const [selectedFilterSections, setSelectedFilterSectionsState] = useState(
         JSON.parse(localStorage.getItem("contactList_selectedFilterSections") || JSON.stringify([]))
@@ -154,6 +155,8 @@ export const ContactsListProvider = ({ children }) => {
             setFilterSectionsConfig,
             fetchedFiltersSectionConfigFromApi,
             setFetchedFiltersSectionConfigFromApi,
+            filterConditions,
+            setFilterConditions
         }),
         [
             mergedData,

@@ -57,7 +57,7 @@ export default function Filter({
     countToDisplay,
     selectedFilterSections,
 }) {
-    const { setWithoutFilterResponseSize } = useContactsListContext();
+    const { filterConditions } = useContactsListContext();
     const [anchorEl, setAnchorEl] = useState(null);
     const [filterToggle, setFilterToggle] = useState(false);
     const { fireEvent } = useAnalytics();
@@ -79,7 +79,7 @@ export default function Filter({
                 conditions += section.sectionId + separator;
             });
             fireEvent("Tag Filter Selected", {
-                tag_filter: conditions,
+                tag_filter: filterConditions,
             });
         }
     };

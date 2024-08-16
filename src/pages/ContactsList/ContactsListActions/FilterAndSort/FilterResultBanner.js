@@ -8,6 +8,7 @@ import { useMemo, useContext } from "react";
 import { useWindowSize } from "hooks/useWindowSize";
 import useAnalytics from "hooks/useAnalytics";
 import stageStatusContext from "contexts/stageStatus";
+import { useEffect } from "react";
 
 function FilterResultBanner() {
     const {
@@ -17,6 +18,7 @@ function FilterResultBanner() {
         resetData,
         filterSectionsConfig,
         pageResult,
+        setFilterConditions
     } = useContactsListContext();
     const { fireEvent } = useAnalytics();
 
@@ -67,6 +69,11 @@ function FilterResultBanner() {
             })
             .join("");
     }, [selectedFilterSections, filterSectionsConfig, statusOptions]);
+
+    useEffect(() => {
+        const cleanedFilterLabel = filterLabel?.replace(/<\/?[^>]+(>|$)/g, "");
+        setFilterConditions(cleanedFilterLabel);
+    }, [filterLabel]);
 
     if (!selectedFilterSections?.length) {
         return null;
