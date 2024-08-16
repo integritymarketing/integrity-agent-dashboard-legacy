@@ -54,68 +54,19 @@ import styles from "./PlansPage.module.scss";
 
 import { PLAN_SORT_OPTIONS, PLAN_TYPE_ENUMS } from "../constants";
 
-const premAsc = (res1, res2) => {
-    return res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
-        ? 1
-        : res1.annualPlanPremium / 12 < res2.annualPlanPremium / 12
-            ? -1
-            : 0;
-};
-const premDsc = (res1, res2) => {
-    return res1.annualPlanPremium / 12 < res2.annualPlanPremium / 12
-        ? 1
-        : res1.annualPlanPremium / 12 > res2.annualPlanPremium / 12
-            ? -1
-            : 0;
-};
-const ratings = (res1, res2) => {
-    return res1.planRating < res2.planRating ? 1 : res1.planRating > res2.planRating ? -1 : 0;
-};
-const drugsPrice = (res1, res2) => {
-    return res1.estimatedAnnualDrugCost / 12 > res2.estimatedAnnualDrugCost / 12
-        ? 1
-        : res1.estimatedAnnualDrugCost / 12 < res2.estimatedAnnualDrugCost / 12
-            ? -1
-            : 0;
-};
-const pocketAsc = (res1, res2) => {
-    return res1.maximumOutOfPocketCost < res2.maximumOutOfPocketCost
-        ? -1
-        : res1.maximumOutOfPocketCost > res2.maximumOutOfPocketCost
-            ? 1
-            : 0;
+const buildSortOptions = (dictionary) => {
+    const labels = Object.values(dictionary);
+    const keys = Object.keys(dictionary);
+
+    return labels.map((item, index) => {
+        return {
+            ...item,
+            value: keys[index],
+        };
+    });
 };
 
-const totalAsc = (plan1, plan2) => {
-    const totalCost1 = plan1.annualPlanPremium + plan1.estimatedAnnualDrugCost;
-    const totalCost2 = plan2.annualPlanPremium + plan2.estimatedAnnualDrugCost;
-    return totalCost1 < totalCost2
-        ? -1
-        : totalCost1 > totalCost2
-            ? 1
-            : 0;
-};
-
-const getSortFunction = (sort) => {
-    if (sort === PLAN_SORT_OPTIONS[1].value) {
-        return premDsc;
-    }
-    if (sort === PLAN_SORT_OPTIONS[2].value) {
-        return ratings;
-    }
-    if (sort === PLAN_SORT_OPTIONS[3].value) {
-        return drugsPrice;
-    }
-    if (sort === PLAN_SORT_OPTIONS[4].value) {
-        return pocketAsc;
-    }
-    if (sort === PLAN_SORT_OPTIONS[5].value) {
-        return totalAsc;
-    }
-    else {
-        return premAsc;
-    }
-};
+const getSortFunction = (sort) => PLAN_SORT_OPTIONS[sort]?.sort;
 
 function getPlansAvailableSection(planCount, totalPlanCount, plansLoading, planType, isMobile) {
     const planTypeString = convertPlanTypeToValue(planType, planTypesMap);
@@ -185,7 +136,7 @@ const PlansPage = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [myAppointedPlans, setMyAppointedPlans] = useState(false);
     const [section, setSection] = useState("details");
-    const [sort, setSort] = useState(showSelected ? s_options?.s_sort : PLAN_SORT_OPTIONS[0].value);
+    const [sort, setSort] = useState(showSelected ? s_options?.s_sort : PLAN_SORT_OPTIONS["premium-asc"]);
     const [isEdit, setIsEdit] = useState(false);
     const [effectiveDate, setEffectiveDate] = useState(initialeffDate);
     const [results, setResults] = useState([]);
@@ -196,7 +147,7 @@ const PlansPage = () => {
         initialSelectedPlans.reduce((acc, p) => {
             acc[p.id] = true;
             return acc;
-        }, {})
+        }, {}),
     );
     const [showViewAvailablePlans, setShowViewAvailablePlans] = useRecoilState(showViewAvailablePlansAtom);
     const showViewAvailablePlansRef = useRef(showViewAvailablePlans);
@@ -204,7 +155,7 @@ const PlansPage = () => {
     const isAddProviderModalOpen = useRecoilValue(addProviderModalAtom);
     const setModalOpen = useSetRecoilState(addProviderModalAtom);
     const { Post: postSpecialists } = useFetch(
-        `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`
+        `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`,
     );
     const [rXToSpecialists, setRXToSpecialists] = useState([]);
     const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);
@@ -292,16 +243,16 @@ const PlansPage = () => {
     const [subTypeList, setSubTypeList] = useState([]);
     const [pagedResults, setPagedResults] = useState([]);
     const [carrierFilters, setCarrierFilters] = useState(
-        showSelected && s_options?.s_carrierFilters ? s_options?.s_carrierFilters : []
+        showSelected && s_options?.s_carrierFilters ? s_options?.s_carrierFilters : [],
     );
     const [policyFilters, setPolicyFilters] = useState(
-        showSelected && s_options?.s_policyFilters ? s_options?.s_policyFilters : []
+        showSelected && s_options?.s_policyFilters ? s_options?.s_policyFilters : [],
     );
     const [rebatesFilter, setRebatesFilter] = useState(
-        showSelected && s_options?.s_rebatesFilter ? s_options?.s_rebatesFilter : false
+        showSelected && s_options?.s_rebatesFilter ? s_options?.s_rebatesFilter : false,
     );
     const [specialNeedsFilter, setSpecialNeedsFilter] = useState(
-        showSelected && s_options?.s_specialNeedsFilter ? s_options?.s_specialNeedsFilter : false
+        showSelected && s_options?.s_specialNeedsFilter ? s_options?.s_specialNeedsFilter : false,
     );
     const [filtersOpen, setfiltersOpen] = useState(false);
     const [sort_mobile, setSort_mobile] = useState(sort);
@@ -500,6 +451,7 @@ const PlansPage = () => {
         const pagedStart = (currentPage - 1) * pageSize;
         const pageLimit = pageSize * currentPage;
         const sortFunction = getSortFunction(sort);
+
         const resultsList = results || [];
         const carrierGroup =
             carrierFilters?.length > 0
@@ -515,14 +467,14 @@ const PlansPage = () => {
 
         const rebatePlans = rebatesFilter
             ? [...specialNeedsPlans].filter((plan) => {
-                if (plan.planDataFields && plan.planDataFields.length > 0) {
-                    return plan.planDataFields.find((detail) =>
-                        detail.name.toLowerCase().includes("part b giveback")
-                    );
-                } else {
-                    return false;
-                }
-            })
+                  if (plan.planDataFields && plan.planDataFields.length > 0) {
+                      return plan.planDataFields.find((detail) =>
+                          detail.name.toLowerCase().includes("part b giveback"),
+                      );
+                  } else {
+                      return false;
+                  }
+              })
             : specialNeedsPlans;
 
         const sortedResults = [...rebatePlans]?.sort(sortFunction);
@@ -561,7 +513,7 @@ const PlansPage = () => {
         setRebatesFilter_mobile(false);
         setSpecialNeedsFilter_mobile(false);
         setPlanType_mobile(2);
-        setSort_mobile(PLAN_SORT_OPTIONS[0].value);
+        setSort_mobile(PLAN_SORT_OPTIONS["premium-asc"].sort);
     };
 
     const applyFilters = () => {
@@ -593,7 +545,7 @@ const PlansPage = () => {
                 effectiveDate: effectiveDate,
                 planType,
                 s_options: selectedOptions,
-            })
+            }),
         );
     };
     const isLoading = loading;
@@ -686,7 +638,7 @@ const PlansPage = () => {
                                                         plansAvailableCount,
                                                         plansLoading,
                                                         planType,
-                                                        isMobile
+                                                        isMobile,
                                                     )}
                                                 </div>
 
@@ -694,19 +646,23 @@ const PlansPage = () => {
                                                     <div className="header">Sort By</div>
 
                                                     {effectiveDate &&
-                                                        PLAN_SORT_OPTIONS.map((sortOption, sortIndex) => {
-                                                            return (
-                                                                <Radio
-                                                                    id={sortOption.label}
-                                                                    key={`${sortOption.label} - ${sortIndex}`}
-                                                                    name="sortBy"
-                                                                    value={sortOption.value}
-                                                                    label={sortOption.label}
-                                                                    checked={sort_mobile === sortOption.value}
-                                                                    onChange={() => setSort_mobile(sortOption.value)}
-                                                                />
-                                                            );
-                                                        })}
+                                                        buildSortOptions(PLAN_SORT_OPTIONS).map(
+                                                            (sortOption, sortIndex) => {
+                                                                return (
+                                                                    <Radio
+                                                                        id={sortOption.label}
+                                                                        key={`${sortOption.label} - ${sortIndex}`}
+                                                                        name="sortBy"
+                                                                        value={sortOption.value}
+                                                                        label={sortOption.label}
+                                                                        checked={sort_mobile === sortOption.value}
+                                                                        onChange={() =>
+                                                                            setSort_mobile(sortOption.value)
+                                                                        }
+                                                                    />
+                                                                );
+                                                            },
+                                                        )}
                                                 </div>
                                             </>
                                         )}
@@ -730,7 +686,7 @@ const PlansPage = () => {
 
                                         <div className={`${styles["filter-section"]}`}>
                                             {effectiveDate && (
-                                                <PharmacyFilter pharmacies={pharmacies} onChange={() => { }} />
+                                                <PharmacyFilter pharmacies={pharmacies} onChange={() => {}} />
                                             )}
                                         </div>
 
@@ -738,7 +694,7 @@ const PlansPage = () => {
                                             {effectiveDate && (
                                                 <AdditionalFilters
                                                     planType={planType}
-                                                    onChange={() => { }}
+                                                    onChange={() => {}}
                                                     toggleAppointedPlans={toggleAppointedPlans}
                                                     carriers={carrierList}
                                                     policyTypes={subTypeList}
@@ -792,15 +748,15 @@ const PlansPage = () => {
                                                 plansAvailableCount,
                                                 plansLoading,
                                                 planType,
-                                                isMobile
+                                                isMobile,
                                             )}
                                             {!isMobile && (
                                                 <div className={`${styles["sort-select"]}`}>
                                                     <Select
                                                         mobileLabel={<SortIcon />}
-                                                        initialValue={sort}
+                                                        initialValue={"premium-asc"}
                                                         onChange={(value) => setSort(value)}
-                                                        options={PLAN_SORT_OPTIONS}
+                                                        options={buildSortOptions(PLAN_SORT_OPTIONS)}
                                                         prefix="Sort by: "
                                                     />
                                                 </div>

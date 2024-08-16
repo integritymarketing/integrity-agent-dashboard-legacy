@@ -9,14 +9,38 @@ export const SORT_OPTIONS = [
     { value: "lastName:desc", label: "Last Name: Z to A" },
 ];
 
-export const PLAN_SORT_OPTIONS = [
-    { label: "Premium Lowest to Highest", value: "premium-asc" },
-    { label: "Premium Highest to Lowest", value: "premium-desc" },
-    { label: "Highest Star Rating", value: "rating-desc" },
-    { label: " Lowest Total Estimated Cost", value: "total-asc" },
-    { label: "Lowest Estimated Drug Cost", value: "drugs-asc" },
-    { label: "Lowest Out of Pocket Max", value: "pocket-asc" },
-];
+export const PLAN_SORT_OPTIONS = {
+    "premium-asc": {
+        label: "Premium Lowest to Highest",
+        sort: (res1, res2) => res1.annualPlanPremium - res2.annualPlanPremium,
+    },
+    "premium-desc": {
+        label: "Premium Highest to Lowest",
+        sort: (res1, res2) => res2.annualPlanPremium - res1.annualPlanPremium,
+    },
+    "rating-desc": {
+        label: "Highest Star Rating",
+        sort: (res1, res2) => res2.planRating - res1.planRating,
+    },
+    "total-asc": {
+        label: " Lowest Total Estimated Cost",
+        sort: (plan1, plan2) => {
+            const totalCost1 = plan1.annualPlanPremium + plan1.estimatedAnnualDrugCost;
+            const totalCost2 = plan2.annualPlanPremium + plan2.estimatedAnnualDrugCost;
+            return totalCost1 - totalCost2;
+        },
+    },
+    "drugs-asc": {
+        label: "Lowest Estimated Drug Cost",
+        sort: (res1, res2) =>
+            res1.estimatedCostCalculationRx.estimatedYearlyRxDrugCost -
+            res2.estimatedCostCalculationRx.estimatedYearlyRxDrugCost,
+    },
+    "pocket-asc": {
+        label: "Lowest Out of Pocket Max",
+        sort: (res1, res2) => res1.maximumOutOfPocketCost - res2.maximumOutOfPocketCost,
+    },
+};
 
 export const DASHBOARD_SORT_OPTIONS = [
     { label: "Current Year to Date", value: 0 },
