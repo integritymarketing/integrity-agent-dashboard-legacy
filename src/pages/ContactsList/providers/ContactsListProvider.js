@@ -9,6 +9,7 @@ import useArrayMerger from "../hooks/useArrayMerger";
 
 import Spinner from "components/ui/Spinner/index";
 import { filterSectionsConfig as filterSectionsConfigOriginal } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
+import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
 
 const DEFAULT_PAGE_ITEM = 12;
 const DEFAULT_SORT = ["createDate:desc"];
@@ -32,6 +33,7 @@ export const ContactsListProvider = ({ children }) => {
     const [selectedFilterSections, setSelectedFilterSectionsState] = useState(
         JSON.parse(localStorage.getItem("contactList_selectedFilterSections") || JSON.stringify([]))
     );
+    const { removeFilteredLeadIds, filteredInfo } = useFilteredLeadIds();
 
     const setFilterSectionsConfig = useCallback(
         (newValue) => {
@@ -102,6 +104,10 @@ export const ContactsListProvider = ({ children }) => {
 
     const resetData = useCallback(
         (newSelectedFilterSections) => {
+            if (filteredInfo?.status) {
+                removeFilteredLeadIds();
+                setWithoutFilterResponseSize(null);
+            }
             fetchAllListCount();
             setSelectedContacts([]);
             fetchTableData({

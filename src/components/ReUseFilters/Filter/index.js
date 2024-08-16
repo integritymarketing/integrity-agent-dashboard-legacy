@@ -90,9 +90,8 @@ export default function CustomContactListFilter({ handleSummaryBarInfo }) {
               </span>`;
                 } else if (section.option) {
                     thisItemLabel = `<span>
-                ${section.heading} ${
-                    item.selectedIsOption === "is_not" ? "is not" : "is"
-                } <span style="font-weight:bold">${section.option.label || ""}</span>
+                ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"
+                        } <span style="font-weight:bold">${section.option.label || ""}</span>
               </span>`;
                 }
                 return thisItemLabel + andOrLabel;

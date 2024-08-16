@@ -9,7 +9,6 @@ import useAnalytics from "hooks/useAnalytics";
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 
 import styles from "./styles.module.scss";
-import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
 
 const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
     cursor: "pointer",
@@ -62,12 +61,7 @@ export default function Filter({
     const [anchorEl, setAnchorEl] = useState(null);
     const [filterToggle, setFilterToggle] = useState(false);
     const { fireEvent } = useAnalytics();
-    const { removeFilteredLeadIds, filteredInfo } = useFilteredLeadIds();
     const handleClick = (event) => {
-        if (filteredInfo?.status) {
-            removeFilteredLeadIds();
-            setWithoutFilterResponseSize(null);
-        }
         setAnchorEl(event.currentTarget);
         onToggle(true);
     };
