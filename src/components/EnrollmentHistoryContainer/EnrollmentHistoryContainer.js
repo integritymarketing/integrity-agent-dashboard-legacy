@@ -46,7 +46,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
     );
 
     const pendingPoliciesPlansData = useMemo(
-        () => filterPlansByPolicyStatus(enrollPlansList, ["Pending", "Applied", "Started", "Upcoming"]),
+        () => filterPlansByPolicyStatus(enrollPlansList, ["Pending", "Applied", "Started", "Upcoming", "Submitted"]),
         [enrollPlansList, filterPlansByPolicyStatus]
     );
 
