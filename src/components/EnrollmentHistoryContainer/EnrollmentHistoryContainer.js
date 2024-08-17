@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import ContactSectionCard from "../../packages/ContactSectionCard";
 import EnrollmentPlanCard from "./EnrollmentPlanCard/EnrollmentPlanCard";
@@ -7,6 +7,7 @@ import styles from "./EnrollmentHistoryContainer.module.scss";
 import { FINAL_EXPENSE_GUIDE_LINK, MEDICARE_GUIDE_LINK } from "./EnrollmentHistoryContainer.constants";
 import { useLeadDetails } from "providers/ContactDetails";
 import useAnalytics from "hooks/useAnalytics";
+import NoPlansAvailable from "./NoPlansAvailable";
 
 const convertCategoryName = (categoryName) => {
     const categoryMap = {
@@ -30,49 +31,30 @@ export default function EnrollmentHistoryContainer({ leadId }) {
         getEnrollPlansList(leadId);
     }, [getEnrollPlansList, leadId]);
 
-    const isDeclinedStatus = (status) => {
-        const formattedStatus = status?.toLowerCase(); // Ensure the status is in lowercase
-        return formattedStatus === "declined" || formattedStatus === "inactive";
-    };
+    const filterPlansByPolicyStatus = useCallback((plans, statuses) => {
+        return plans.filter((plan) => statuses.includes(plan.policyStatus));
+    }, []);
 
-    const filterPlansByRollingYear = (plansList, isCurrentPeriod) => {
-        const currentDate = new Date();
-        const oneYearAgo = new Date();
-        oneYearAgo.setDate(currentDate.getDate() - 365);
+    const currentPoliciesPlansData = useMemo(
+        () => filterPlansByPolicyStatus(enrollPlansList, ["Active"]),
+        [enrollPlansList, filterPlansByPolicyStatus]
+    );
 
-        return plansList.filter((plan) => {
-            // For Final Expense plans, inclusion is based solely on the policyStatus.
-            if (plan.productCategory === "Final Expense") {
-                const isInCurrentPeriodBasedOnStatus = !isDeclinedStatus(plan.policyStatus);
-                return isCurrentPeriod ? isInCurrentPeriodBasedOnStatus : !isInCurrentPeriodBasedOnStatus;
-            }
+    const previousPoliciesPlansData = useMemo(
+        () => filterPlansByPolicyStatus(enrollPlansList, ["Terminated", "Declined"]),
+        [enrollPlansList, filterPlansByPolicyStatus]
+    );
 
-            // For non-Final Expense plans, use the policyEffectiveDate to determine the date.
-            const effectiveDate = plan.policyEffectiveDate ? new Date(plan.policyEffectiveDate) : null;
-
-            if (effectiveDate) {
-                if (isCurrentPeriod) {
-                    // Include if the policyEffectiveDate is within the last 365 days and not declined/inactive.
-                    return (
-                        effectiveDate >= oneYearAgo &&
-                        effectiveDate <= currentDate &&
-                        !isDeclinedStatus(plan.policyStatus)
-                    );
-                } else {
-                    // Include if the policyEffectiveDate is more than 365 days ago.
-                    return effectiveDate < oneYearAgo;
-                }
-            }
-            return false;
-        });
-    };
-
-    const currentYearPlansData = useMemo(() => filterPlansByRollingYear(enrollPlansList, true), [enrollPlansList]);
-    const previousYearPlansData = useMemo(() => filterPlansByRollingYear(enrollPlansList, false), [enrollPlansList]);
+    const pendingPoliciesPlansData = useMemo(
+        () => filterPlansByPolicyStatus(enrollPlansList, ["Pending", "Applied", "Started", "Upcoming"]),
+        [enrollPlansList, filterPlansByPolicyStatus]
+    );
 
     useEffect(() => {
-        const active_product_types = currentYearPlansData.map((plan) => convertCategoryName(plan.productCategory));
-        const inactive_product_types = previousYearPlansData.map((plan) => convertCategoryName(plan.productCategory));
+        const active_product_types = currentPoliciesPlansData.map((plan) => convertCategoryName(plan.productCategory));
+        const inactive_product_types = previousPoliciesPlansData.map((plan) =>
+            convertCategoryName(plan.productCategory)
+        );
 
         fireEvent("Contact Policies Page Viewed", {
             leadid: leadId,
@@ -82,7 +64,7 @@ export default function EnrollmentHistoryContainer({ leadId }) {
             active_product_types,
             inactive_product_types,
         });
-    }, [enrollPlansList, leadDetails, leadId, fireEvent]);
+    }, [currentPoliciesPlansData, previousPoliciesPlansData, leadDetails, leadId, fireEvent]);
 
     const renderPlans = (plansData, isCurrentYear) =>
         plansData.length > 0 ? (
@@ -122,27 +104,41 @@ export default function EnrollmentHistoryContainer({ leadId }) {
                 customStyle={styles.width}
                 title={
                     <p>
-                        Current Policies <span className={styles.plansCount}>({currentYearPlansData.length})</span>
+                        Pending Policies <span className={styles.plansCount}>({pendingPoliciesPlansData.length})</span>
                     </p>
                 }
                 className={styles.layout}
                 isDashboard
                 contentClassName={styles.content}
             >
-                {renderPlans(currentYearPlansData, true)}
+                {renderPlans(pendingPoliciesPlansData, true)}
             </ContactSectionCard>
             <ContactSectionCard
                 customStyle={styles.width}
                 title={
                     <p>
-                        Previous Policies <span className={styles.plansCount}>({previousYearPlansData.length})</span>
+                        Current Policies <span className={styles.plansCount}>({currentPoliciesPlansData.length})</span>
                     </p>
                 }
                 className={styles.layout}
                 isDashboard
                 contentClassName={styles.content}
             >
-                {renderPlans(previousYearPlansData, false)}
+                {renderPlans(currentPoliciesPlansData, true)}
+            </ContactSectionCard>
+            <ContactSectionCard
+                customStyle={styles.width}
+                title={
+                    <p>
+                        Previous Policies{" "}
+                        <span className={styles.plansCount}>({previousPoliciesPlansData.length})</span>
+                    </p>
+                }
+                className={styles.layout}
+                isDashboard
+                contentClassName={styles.content}
+            >
+                {renderPlans(previousPoliciesPlansData, false)}
             </ContactSectionCard>
         </>
     );
@@ -150,20 +146,4 @@ export default function EnrollmentHistoryContainer({ leadId }) {
 
 EnrollmentHistoryContainer.propTypes = {
     leadId: PropTypes.string.isRequired,
-};
-
-const NoPlansAvailable = ({ guideLink }) => (
-    <div className={styles.noPlansAvailable}>
-        <div>
-            There is no policy information available for this contact at this time. For more information about policy
-            data, please view our guides.
-        </div>
-        <a href={guideLink} target="_blank" rel="noopener noreferrer">
-            Policy Data Guide
-        </a>
-    </div>
-);
-
-NoPlansAvailable.propTypes = {
-    guideLink: PropTypes.string.isRequired,
 };
