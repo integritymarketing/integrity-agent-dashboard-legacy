@@ -30,13 +30,23 @@
     align-items: flex-start;
 }
 
-.card {
+.cardRow {
     display: flex;
     align-items: center;
     text-decoration: none;
-    margin: 8px 0;
+    margin: 8px 0px;
     background-color: #ffffff;
     border-radius: 8px;
+    width:400px;
+}
+.cardColumn {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin: 8px 40px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    width:400px;
 }
 
 .cardContent {

@@ -12,16 +12,17 @@ const SupportLinksCard = ({ position }) => {
     const navigate = useNavigate();
 
     const layoutClass = position === "row" ? styles.row : styles.column;
+    const cardLayoutClass = position === "row" ? styles.cardRow : styles.cardColumn;
 
     const navigateTo = useCallback(
         (path) => {
             navigate(path);
         },
-        [navigate]
+        [navigate],
     );
 
     const renderCard = (imageSrc, altText, cardContent, linkText, navigatePath) => (
-        <div className={styles.card}>
+        <div className={`${cardLayoutClass}`}>
             <img className={styles.images} src={imageSrc} alt={altText} />
             <span className={styles.cardContent}>
                 {cardContent}
@@ -40,14 +41,17 @@ const SupportLinksCard = ({ position }) => {
                     "LearningCENTER",
                     "For the latest resources and news from Integrity visit the",
                     "LearningCENTER",
-                    "/learning-center"
+                    "/learning-center",
                 )}
                 {renderCard(
                     ContactSupportImage,
                     "Contact Support",
-                    "Need Help? Visit the help center for professional",
+                    <>
+                        Need Help? <br />
+                        For professional assistance
+                    </>,
                     "Contact Support",
-                    "/help"
+                    "/help",
                 )}
             </div>
         </div>
