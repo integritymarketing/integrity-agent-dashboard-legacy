@@ -4,11 +4,16 @@ import ArrowForwardWithCircle from "../../icons/version-2/ArrowForwardWithCirlce
 import styles from "./styles.module.scss";
 import bannerImage from "images/PlanEnrollBanner.svg";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const MarketingBanner = () => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+    const navigateToCreateCampaignInvitation = () => {
+        navigate("/marketing/campaign-invitation");
+    };
     return (
         <Grid container className={styles.marketingBanner}>
             <Grid item md={6} xs={5}>
@@ -37,7 +42,13 @@ const MarketingBanner = () => {
                     >
                         Enable two-way client record updating
                     </Typography>
-                    <Button variant="contained" color="primary" size="medium" endIcon={<ArrowForwardWithCircle />}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="medium"
+                        endIcon={<ArrowForwardWithCircle />}
+                        onClick={navigateToCreateCampaignInvitation}
+                    >
                         Send an Invite
                     </Button>
                 </Stack>

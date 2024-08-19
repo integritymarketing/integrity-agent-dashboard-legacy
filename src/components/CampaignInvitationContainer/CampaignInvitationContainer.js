@@ -1,19 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import CampaignSubHeader from "./CampaignSubHeader";
 import CampaignInnerContainer from "./CampaignInnerContainer";
+import { useCampaignInvitation } from "providers/CampaignInvitation";
+import WithLoader from "components/ui/WithLoader";
 
 export const CampaignInvitationContainer = () => {
+    const { getCampaignDetailsByEmail, isGetCampaignDetailsByEmailLoading } = useCampaignInvitation();
+
+    useEffect(() => {
+        getCampaignDetailsByEmail();
+    }, []);
+
     return (
-        <Box
-            sx={{
-                backgroundColor: "#F1F1F1",
-            }}
-        >
-            <CampaignSubHeader title={`Invitation To PlanEnroll`} />
-            <CampaignInnerContainer title={`Invitation to PlanEnroll Profile Sync`} />
-        </Box>
+        <WithLoader isLoading={isGetCampaignDetailsByEmailLoading}>
+            <Box
+                sx={{
+                    backgroundColor: "#F1F1F1",
+                }}
+            >
+                <CampaignSubHeader />
+                <CampaignInnerContainer />
+            </Box>
+        </WithLoader>
     );
 };
 
