@@ -19,14 +19,20 @@ import Modal from "components/Modal";
 import HealthIcon from "components/icons/healthIcon";
 import LifeIcon from "components/icons/lifeIcon";
 
+import QuoteModalCard from "components/CreateNewQuoteContainer/Common/QuoteModalCard";
+
+import LifeQuestionCard from "components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard";
+
 import styles from "./styles.module.scss";
 
 const LIFE = "hideLifeQuote";
 const HEALTH = "hideHealthQuote";
+const IUL_FEATURE_FLAG = process.env.REACT_APP_IUL_FEATURE_FLAG === "show";
 
 const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }) => {
     const [checked, setChecked] = useState(false);
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
+    const [showLifeQuestionCard, setShowLifeQuestionCard] = useState(false);
 
     const navigate = useNavigate();
     const showToast = useToast();
@@ -88,7 +94,11 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
                 leadid: leadId,
                 line_of_business: "Life",
             });
-            navigate(`/finalexpenses/create/${leadId}`);
+            if (IUL_FEATURE_FLAG) {
+                setShowLifeQuestionCard(true);
+            } else {
+                navigate(`/finalexpenses/create/${leadId}`);
+            }
         }
     }, [fireEvent, getAgentNonRTS, leadId, navigate, onSelectHandle]);
 
@@ -97,8 +107,19 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
             leadid: leadId,
             line_of_business: "Life",
         });
-        navigate(`/finalexpenses/create/${leadId}`);
+        if (IUL_FEATURE_FLAG) {
+            setShowSellingPermissionModal(false);
+            setShowLifeQuestionCard(true);
+        } else {
+            setShowSellingPermissionModal(false);
+            handleModalClose();
+            navigate(`/finalexpenses/create/${leadId}`);
+        }
     };
+
+    const navigateToFinalExpensesPlans = useCallback(() => {
+        navigate(`/finalexpenses/create/${leadId}`);
+    }, [leadId, navigate]);
 
     /**
      * If the modal is shown and both health and life quotes are not hidden,
@@ -123,43 +144,42 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
         handleFinalExpensePlanClick,
     ]);
 
-    if (!shouldShowPlanTypeModal) {
-        return (
-            <SellingPermissionsModal
-                showSellingPermissionModal={showSellingPermissionModal}
-                handleModalClose={() => {
-                    setShowSellingPermissionModal(false);
-                    handleModalClose();
-                }}
-                handleContinue={handleContinue}
-            />
-        );
-    }
-
     return (
         <>
             <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Choose Quote Type">
-                <Box className={styles.container}>
-                    <Box className={styles.plan} onClick={handleFinalExpensePlanClick}>
-                        <Box className={styles.icon}>
-                            <LifeIcon />
+                {!showLifeQuestionCard && (
+                    <>
+                        <Box className={styles.container}>
+                            <Box className={styles.plan} onClick={handleFinalExpensePlanClick}>
+                                <Box className={styles.icon}>
+                                    <LifeIcon />
+                                </Box>
+                                <Box className={styles.title}>Life</Box>
+                            </Box>
+                            <Box className={styles.plan} onClick={handleHealthPlanClick}>
+                                <Box className={styles.icon}>
+                                    <HealthIcon />
+                                </Box>
+                                <Box className={styles.title}>Health</Box>
+                            </Box>
                         </Box>
-                        <Box className={styles.title}>Life</Box>
-                    </Box>
-                    <Box className={styles.plan} onClick={handleHealthPlanClick}>
-                        <Box className={styles.icon}>
-                            <HealthIcon />
+                        <Divider />
+                        <Box display="flex" gap="0px" alignItems="center" justifyContent="center" marginTop="30px">
+                            <FormControlLabel
+                                control={<Checkbox checked={checked} onChange={() => setChecked(!checked)} />}
+                                label="Don't show this again"
+                            />
                         </Box>
-                        <Box className={styles.title}>Health</Box>
-                    </Box>
-                </Box>
-                <Divider />
-                <Box display="flex" gap="0px" alignItems="center" justifyContent="center" marginTop="30px">
-                    <FormControlLabel
-                        control={<Checkbox checked={checked} onChange={() => setChecked(!checked)} />}
-                        label="Don't show this again"
-                    />
-                </Box>
+                    </>
+                )}
+                {showLifeQuestionCard && (
+                    <QuoteModalCard action={() => setShowLifeQuestionCard(false)}>
+                        <LifeQuestionCard
+                            IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
+                            handleSelectLifeProductType={navigateToFinalExpensesPlans}
+                        />
+                    </QuoteModalCard>
+                )}
             </Modal>
             <SellingPermissionsModal
                 showSellingPermissionModal={showSellingPermissionModal}

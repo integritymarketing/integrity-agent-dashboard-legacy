@@ -1,9 +1,6 @@
-import { useCreateNewQuote } from "providers/CreateNewQuote";
 import SelectionList from "../../Common/SelectionList";
 
-const LifeQuestionCard = () => {
-    const { handleSelectLifeProductType, IUL_FEATURE_FLAG } = useCreateNewQuote();
-
+const LifeQuestionCard = ({ handleSelectLifeProductType, IUL_FEATURE_FLAG }) => {
     const disableOption = (option) => {
         if (["Indexed Universal Life", "Term"].includes(option) && IUL_FEATURE_FLAG) {
             return true;

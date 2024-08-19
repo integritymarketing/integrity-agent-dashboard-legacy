@@ -16,6 +16,7 @@ const StartQuoteModal = () => {
         setQuoteModalStage,
         showUpArrow,
         IUL_FEATURE_FLAG,
+        handleSelectLifeProductType,
     } = useCreateNewQuote();
 
     const onClose = () => {
@@ -40,7 +41,10 @@ const StartQuoteModal = () => {
 
                 {quoteModalStage === "lifeQuestionCard" && (
                     <QuoteModalCard action={showUpArrow ? () => setQuoteModalStage("selectProductTypeCard") : null}>
-                        <LifeQuestionCard />
+                        <LifeQuestionCard
+                            IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
+                            handleSelectLifeProductType={handleSelectLifeProductType}
+                        />
                     </QuoteModalCard>
                 )}
 
