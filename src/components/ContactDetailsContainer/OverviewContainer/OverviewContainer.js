@@ -7,7 +7,7 @@ import { useLeadDetails } from "providers/ContactDetails";
 import ContactSectionCard from "packages/ContactSectionCard";
 
 import useAnalytics from "hooks/useAnalytics";
-import MarketingBanner from "components/CampaignInvitationContainer/MarketingBanner/index";
+import MarketingBanner from "components/Marketing/MarketingBanner";
 
 import { DeleteContactModal } from "components/ContactDetailsContainer/ContactDetailsModals/DeleteContactModal/DeleteContactModal";
 import Container from "components/ui/container";

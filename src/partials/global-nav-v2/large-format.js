@@ -23,17 +23,12 @@ const LargeFormatNav = ({ navOpen, setNavOpen, primary }) => {
         return () => document.body.removeEventListener("click", closeDropDown);
     }, [navOpen, setNavOpen]);
 
-    const shouldHideLink = process.env.REACT_APP_MARKETING_TOGGLE !== "show";
-
     return (
         <div className="flex">
             <ul className="divided-hlist text-muted-light uiStyle">
                 {primary
                     .filter((link) => link.format !== "small")
                     .map((link, idx) => {
-                        if (shouldHideLink && link.label === "Marketing") {
-                            return null;
-                        }
                         const { className = "", ...props } = link.props || {};
                         return (
                             <li key={idx}>

@@ -26,6 +26,7 @@ import { CampaignInvitationProvider } from "providers/CampaignInvitation";
 import { ProfessionalProfileProvider } from "providers/ProfessionalProfileProvider";
 import { CreateNewQuoteProvider } from "providers/CreateNewQuote";
 import { ContactDetailsProvider } from "providers/ContactDetails";
+import { MarketingProvider } from "providers/Marketing";
 
 import AppRoutes from "./App";
 import "./index.scss";
@@ -67,23 +68,27 @@ root.render(
                                                                         <ProfessionalProfileProvider>
                                                                             <ContactDetailsProvider>
                                                                                 <CreateNewQuoteProvider>
-                                                                                    <HelmetProvider>
-                                                                                        <Helmet>
-                                                                                            <title>Integrity</title>
-                                                                                        </Helmet>
-                                                                                        <Suspense
-                                                                                            fallback={
-                                                                                                <div>Loading...</div>
-                                                                                            }
-                                                                                        >
-                                                                                            <AppRouter>
-                                                                                                <div className="content-frame">
-                                                                                                    <AppRoutes />
-                                                                                                </div>
-                                                                                            </AppRouter>
-                                                                                        </Suspense>
-                                                                                        <PortalUrl />
-                                                                                    </HelmetProvider>
+                                                                                    <MarketingProvider>
+                                                                                        <HelmetProvider>
+                                                                                            <Helmet>
+                                                                                                <title>Integrity</title>
+                                                                                            </Helmet>
+                                                                                            <Suspense
+                                                                                                fallback={
+                                                                                                    <div>
+                                                                                                        Loading...
+                                                                                                    </div>
+                                                                                                }
+                                                                                            >
+                                                                                                <AppRouter>
+                                                                                                    <div className="content-frame">
+                                                                                                        <AppRoutes />
+                                                                                                    </div>
+                                                                                                </AppRouter>
+                                                                                            </Suspense>
+                                                                                            <PortalUrl />
+                                                                                        </HelmetProvider>
+                                                                                    </MarketingProvider>
                                                                                 </CreateNewQuoteProvider>
                                                                             </ContactDetailsProvider>
                                                                         </ProfessionalProfileProvider>

@@ -1,0 +1,31 @@
+.campaignCard {
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.cardDivider {
+    border-top: 1px solid #e0e0e0;
+}
+
+.cardHeader {
+    display: flex;
+    padding: 16px;
+    align-items: center;
+}
+
+.cardValue {
+    color: #717171;
+    font-weight: 400;
+    margin-left: 4px;
+}
+
+.cardLabel {
+    font-size: 16px;
+    color: #052a63;
+    font-weight: 600;
+}
+
+.cardDetails {
+    color: #757575;
+    padding: 16px;
+}
