@@ -1,6 +1,6 @@
 import { formatDate } from "utils/dates";
 
-export const getPlanEnrollBody = (agentNumber, agentFirstName, agentLastName, leadDetails, coverageAmount, planName, resource_url, contactId, planType) => {
+export const getPlanEnrollBody = (agentNumber, agentFirstName, agentLastName, leadDetails, coverageAmount, planName, resource_url, contactId, planType, uwType) => {
     const { firstName, lastName, middleName,
         gender, addresses, emails, birthdate: dateOfBirth, phones, height, weight, isTobaccoUser: smoker, medicareBeneficiaryID, partA, partB } = leadDetails;
     const { city = null, postalCode: zipCode = null, stateCode: state = null, address1 = "", address2 = "" } = addresses?.[0] || {};
@@ -42,6 +42,7 @@ export const getPlanEnrollBody = (agentNumber, agentFirstName, agentLastName, le
         "faceAmount": faceAmount,
         "productName": planName,
         "carrierUrl": resource_url,
-        planType
+        planType,
+        uwType
     };
 }
