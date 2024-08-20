@@ -100,7 +100,7 @@ export const CampaignInvitationProvider = ({ children }) => {
         try {
             const resData = await fetchCampaignDetailsByEmail(null, false);
             if (resData?.length) {
-                const data = resData[1];
+                const data = resData[0];
                 setCampaignInvitationData(data);
                 setInvitationName(data?.campaignName);
                 setInvitationTemplateImage(data?.templateImageUrl);
