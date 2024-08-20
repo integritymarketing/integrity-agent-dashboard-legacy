@@ -11,10 +11,10 @@ const CompletedCampaignsList = () => {
             {completedCampaignsList?.map((campaign, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                     <CampaignDetailsCard
-                        title={campaign.title}
-                        status={campaign.status}
-                        detail={campaign.detail}
-                        type={campaign?.type}
+                        title={"PlanEnroll Invite"}
+                        status={campaign?.leads?.length}
+                        date={campaign?.campaignRunDate}
+                        type={campaign?.campaignChannel}
                     />
                 </Grid>
             ))}

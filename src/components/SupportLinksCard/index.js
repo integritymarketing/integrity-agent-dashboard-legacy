@@ -6,8 +6,7 @@ import PropTypes from "prop-types";
 import ContactSupportImage from "./contact-support.svg";
 import LearningCenterImage from "./learning-center.svg";
 import styles from "./styles.module.scss";
-import RightArrow from "./vector.png";
-
+import RightArrow from "./rightArrow.svg";
 const SupportLinksCard = ({ position }) => {
     const navigate = useNavigate();
 

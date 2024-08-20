@@ -3,13 +3,15 @@ import PropTypes from "prop-types";
 import { Box, Typography } from "@mui/material";
 import EmailIcon from "components/icons/Marketing/emailIcon";
 import TextMessageIcon from "components/icons/Marketing/textMessageIcon";
+import moment from "moment";
 import styles from "./styles.module.scss";
 
-const CampaignDetailsCard = ({ type, title, status, detail }) => {
+const CampaignDetailsCard = ({ type, title, status, date }) => {
+    const formattedDate = moment(date).format("MMM D");
     return (
         <Box className={styles.campaignCard}>
             <Box className={styles.cardHeader}>
-                {type === "email" ? <EmailIcon /> : <TextMessageIcon />}
+                {type === "Email" ? <EmailIcon /> : <TextMessageIcon />}
 
                 <Typography
                     sx={{
@@ -25,11 +27,11 @@ const CampaignDetailsCard = ({ type, title, status, detail }) => {
             <Box className={styles.cardDetails}>
                 <Box className={styles.cardLabel} marginBottom="4px">
                     Sent to:
-                    <span className={styles.cardValue}>{status}</span>
+                    <span className={styles.cardValue}>{`${status} Contacts`}</span>
                 </Box>
                 <Box className={styles.cardLabel}>
                     On:
-                    <span className={styles.cardValue}>{detail}</span>
+                    <span className={styles.cardValue}>{formattedDate}</span>
                 </Box>
             </Box>
         </Box>

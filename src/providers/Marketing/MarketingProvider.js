@@ -29,7 +29,8 @@ export const MarketingProvider = ({ children }) => {
         try {
             const resData = await fetchCompletedCampaigns();
             if (resData?.length) {
-                setCompletedCampaignsList(resData);
+                const filteredData = resData.filter((item) => item.campaignStatus === "Completed");
+                setCompletedCampaignsList(filteredData);
             }
             return resData;
         } catch (error) {
