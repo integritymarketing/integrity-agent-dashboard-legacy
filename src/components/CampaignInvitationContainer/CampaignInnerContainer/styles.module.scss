@@ -30,15 +30,13 @@
 .detailsContainer {
     padding: 16px;
     background-color: #f1f1f1;
-    display: flex;
-    justify-content: space-between;
     border-radius: 8px;
-    flex-direction: column;
 }
 
 .emailContainer {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 
     @include small {
         flex-direction: column;

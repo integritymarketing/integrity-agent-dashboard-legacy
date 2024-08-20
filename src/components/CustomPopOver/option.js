@@ -6,15 +6,14 @@ import styles from "./styles.module.scss";
 
 const Option = ({ optionText, icon: Icon = null, onClick = () => {}, ...props }) => (
     <Box className={styles.optionItem} {...props} onClick={onClick}>
-        {Icon && <Icon />}
+        {Icon && Icon}
         <Typography
             sx={{
                 fontSize: "16px",
                 color: "#434a51",
                 marginLeft: "10px",
-                fontWeight: "400",
+                fontWeight: "600",
             }}
-            className={styles.optionLinkText}
         >
             {optionText}
         </Typography>

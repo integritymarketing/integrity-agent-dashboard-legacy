@@ -36,6 +36,20 @@
     align-items: center;
     padding: 12px 8px;
     cursor: pointer;
+
+    &:hover {
+        background-color: #f1faff;
+        .optionLinkText {
+            font-weight: 700 !important;
+        }
+    }
+}
+
+.optionLinkText {
+    color: #052a63;
+    font-size: 16px !important;
+    margin-left: 20px;
+    font-weight: 400 !important;
 }
 
 .popper {
@@ -45,7 +59,7 @@
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
-    width: 200px;
+    width: 250px;
     margin-top: 10px;
 }
 

@@ -3,27 +3,47 @@ import { Box } from "@mui/material";
 import styles from "./styles.module.scss";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 
-const InvitationCountBar = ({}) => {
+const InvitationCountBar = () => {
     const {
         filteredContactsType,
         filteredContentStatus,
-        filteredCount = 0,
-        totalContactsCount = 0,
+        filteredCount,
+        totalContactsCount,
+        invitationSendType,
+        contactName,
     } = useCampaignInvitation();
 
     return (
         <Box className={styles.banner}>
             <Box className={styles.colorBar}></Box>
             <Box className={styles.bannerContent}>
-                Sending to <span className={styles.count}>{filteredCount ? filteredCount : totalContactsCount}</span> of{" "}
-                <span className={styles.count}>{totalContactsCount}</span> contacts
+                {filteredContactsType === "a contact" && (
+                    <>
+                        Sending to <span className={styles.count}> 1</span> contact
+                    </>
+                )}
+                {filteredContactsType === "all contacts" && (
+                    <>
+                        Sending to <span className={styles.count}>{totalContactsCount}</span> of{" "}
+                        <span className={styles.count}>{totalContactsCount}</span> contacts
+                    </>
+                )}
+
+                {filteredContactsType === "contacts filtered by .." && (
+                    <>
+                        Sending to <span className={styles.count}>{filteredCount}</span> of{" "}
+                        <span className={styles.count}>{totalContactsCount}</span> contacts
+                    </>
+                )}
             </Box>
             <Box className={styles.divider} />
 
-            <Box>
-                {filteredContactsType === "all my contacts" || (!filteredContentStatus && !filteredCount) ? (
-                    "All Contacts"
-                ) : (
+            <Box className={styles.filteredContent}>
+                {filteredContactsType === "a contact" && (contactName ? contactName : "Choose a contact")}
+
+                {filteredContactsType === "all contacts" && "All Contacts"}
+
+                {filteredContactsType === "contacts filtered by .." && (
                     <span dangerouslySetInnerHTML={{ __html: filteredContentStatus }}></span>
                 )}
             </Box>

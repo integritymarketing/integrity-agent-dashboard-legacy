@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Box, Typography, Grid } from "@mui/material";
 import InvitationCountBar from "../InvitationCountBar";
@@ -12,8 +12,27 @@ import { ArrowForwardWithCircle } from "components/ContactDetailsContainer/Overv
 import TextInputContent from "../TextInputContent";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 
-const CampaignInnerContainer = ({ title, onBackClick }) => {
-    const { invitationSendType, handleSendInvitation, handleCancel, invitationName } = useCampaignInvitation();
+const CampaignInnerContainer = () => {
+    const {
+        invitationSendType,
+        handleCancel,
+        campaignDescription,
+        handleStartCampaign,
+        selectedContact,
+        filteredContactsList,
+        allContactsList,
+        filteredContactsType,
+        getAgentPurlURL
+    } = useCampaignInvitation();
+
+    useEffect(() => {
+        getAgentPurlURL()
+    },[getAgentPurlURL])
+ 
+    const disabled =
+        (filteredContactsType === "all contacts" && allContactsList?.length === 0) ||
+        (filteredContactsType === "contacts filtered by .." && filteredContactsList?.length === 0) ||
+        (filteredContactsType === "a contact" && !selectedContact);
 
     return (
         <Box className={styles.container}>
@@ -26,7 +45,7 @@ const CampaignInnerContainer = ({ title, onBackClick }) => {
                         lineHeight: "32px",
                     }}
                 >
-                    {`Invitation to ${invitationName} Profile Sync`}
+                    {campaignDescription}
                 </Typography>
             </Box>
             <Box className={styles.content}>
@@ -34,16 +53,12 @@ const CampaignInnerContainer = ({ title, onBackClick }) => {
                 <InvitationCountBar />
 
                 <Grid container className={styles.detailsContainer}>
-                    {invitationSendType === "text" && (
-                        <Box className={styles.textInputContainer}>
-                            <TextInputContent />
-                        </Box>
-                    )}
-                    {invitationSendType === "email" && (
-                        <Box className={styles.emailContainer}>
+                    {invitationSendType === "Text" && <TextInputContent />}
+                    {invitationSendType === "Email" && (
+                        <>
                             <EmailContent />
                             <EmailPreview />
-                        </Box>
+                        </>
                     )}
                 </Grid>
                 <Box
@@ -58,9 +73,10 @@ const CampaignInnerContainer = ({ title, onBackClick }) => {
                     </Box>
                     <Box className={styles.backToContacts}>
                         <RoundButton
-                            onClick={handleSendInvitation}
+                            onClick={handleStartCampaign}
                             endIcon={<ArrowForwardWithCircle />}
                             label="Start Campaign"
+                            disabled={disabled}
                         />
                     </Box>
                 </Box>

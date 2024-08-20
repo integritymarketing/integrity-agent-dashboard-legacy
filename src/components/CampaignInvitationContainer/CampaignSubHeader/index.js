@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Typography, Box } from "@mui/material";
 import { Button } from "components/ui/Button";
@@ -6,12 +6,8 @@ import NewBackBtn from "images/new-back-btn.svg";
 import styles from "./styles.module.scss";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 
-const CampaignSubHeader = ({ title, onBackClick }) => {
-    // Using useCallback to memoize the onBackClick handler to avoid unnecessary re-renders
-    const handleBackClick = useCallback(() => {
-        onBackClick();
-    }, [onBackClick]);
-    const { invitationName } = useCampaignInvitation();
+const CampaignSubHeader = () => {
+    const { invitationName, handleCancel } = useCampaignInvitation();
 
     return (
         <Box
@@ -29,7 +25,7 @@ const CampaignSubHeader = ({ title, onBackClick }) => {
                 <Button
                     icon={<img src={NewBackBtn} alt="Back" />}
                     label="Back"
-                    onClick={handleBackClick}
+                    onClick={handleCancel}
                     type="tertiary"
                     className={styles.backButton}
                 />

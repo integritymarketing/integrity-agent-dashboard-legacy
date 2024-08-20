@@ -1,5 +1,4 @@
-import React from "react";
-import { Grid, Stack, Typography, Button, useMediaQuery, useTheme, Box } from "@mui/material";
+import { Grid, Stack, Typography, Button, useMediaQuery, useTheme } from "@mui/material";
 import ArrowForwardWithCircle from "../../icons/version-2/ArrowForwardWithCirlce";
 import styles from "./styles.module.scss";
 import bannerImage from "images/PlanEnrollBanner.svg";
@@ -36,7 +35,6 @@ const MarketingBanner = () => {
                         sx={{
                             fontSize: isMobile ? "12px" : "14px",
                             color: "#434A51",
-                            fontSize: "14px",
                             textAlign: "center",
                         }}
                     >

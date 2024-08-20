@@ -1,34 +1,52 @@
 import React, { useState } from "react";
-import { Box, Typography, Popper, Paper } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ArrowDownBig from "components/icons/version-2/ArrowDownBig";
 import styles from "./styles.module.scss";
-import EmailIcon from "components/icons/Marketing/emailIcon";
-import CircleAdd from "components/icons/Marketing/circleAdd";
-import TextMessageIcon from "components/icons/Marketing/textMessageIcon";
-import Option from "./option";
+import AllContacts from "components/icons/Marketing/allContacts";
+import FilterContacts from "components/icons/Marketing/filterContacts";
+import ChooseContact from "components/icons/Marketing/chooseContact";
+
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 import ReUseFilters from "components/ReUseFilters";
+import AutoCompleteContactSearchModal from "components/ChooseContactModal";
+import CustomPopover from "components/CustomPopOver";
+
+const contactOptions = [
+    { optionText: "all contacts", value: "all contacts", icon: <AllContacts /> },
+    { optionText: "a contact", value: "a contact", icon: <ChooseContact /> },
+    { optionText: "contacts filtered by ..", icon: <FilterContacts />, value: "contacts filtered by .." },
+];
 
 const InvitationBar = () => {
     const {
         invitationSendType,
         filteredContactsType,
+        setFilteredContactsType,
         filteredCount,
         totalContactsCount,
         handleInvitationSendType,
-        handleFilteredContactsTypeChange,
         invitationName,
         handleSummaryBarInfo,
+        setSelectedContact: handleContactSelect,
+        contactName,
     } = useCampaignInvitation();
 
-    const [emailOrTextOptionsOpen, setEmailOrTextOptionsOpen] = useState(null);
     const [contactOptionOpen, setContactOptionOpen] = useState(null);
+
+    const [chooseContactModalOpen, setChooseContactModalOpen] = useState(false);
 
     const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleClickFilterDropdown = () => {
-        handleFilteredContactsTypeChange("Filter my contacts");
-        setAnchorEl(contactOptionOpen);
+    const handeContactOptionsChange = (value) => {
+        setFilteredContactsType(value);
+        if (value === "a contact") {
+            setChooseContactModalOpen(true);
+        } else if (value === "all contacts") {
+            handleContactSelect(null);
+        } else {
+            setAnchorEl(contactOptionOpen);
+        }
+
         setContactOptionOpen(null);
     };
 
@@ -36,84 +54,47 @@ const InvitationBar = () => {
         setAnchorEl(null);
     };
 
-    const handleEmailOrTextOptions = (event) => {
-        setEmailOrTextOptionsOpen(emailOrTextOptionsOpen ? null : event.currentTarget);
-    };
-
     const handleContactOptions = (event) => {
         setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
     };
 
-    const isEmailOrTextOpen = Boolean(emailOrTextOptionsOpen);
-    const isContactOpen = Boolean(contactOptionOpen);
-
     return (
         <Box className={styles.emailOptions}>
             <Box>
-                <Typography className={styles.optionText}>I want to send an</Typography>
-            </Box>
-            <Box className={styles.option} onClick={handleEmailOrTextOptions}>
-                <Typography className={styles.optionLink}>{invitationSendType}</Typography>
-                <ArrowDownBig width="40px" height="40px" />
-
-                <Popper
-                    id={isEmailOrTextOpen ? "simple-popper" : undefined}
-                    open={isEmailOrTextOpen}
-                    anchorEl={emailOrTextOptionsOpen}
-                    placement="bottom"
-                >
-                    <Paper className={styles.popper}>
-                        <Option optionText="Email" icon={EmailIcon} onClick={() => handleInvitationSendType("email")} />
-                        <Box className={styles.divider} />
-                        <Option
-                            optionText="Text Message"
-                            icon={TextMessageIcon}
-                            onClick={() => handleInvitationSendType("text")}
-                        />
-                    </Paper>
-                </Popper>
+                <Typography className={styles.optionText}>
+                    I want to send an email to have clients create a Plan Enroll Account to
+                </Typography>
             </Box>
 
-            <Box>
-                <Typography className={styles.optionText}>to</Typography>
-            </Box>
             <Box className={styles.option} onClick={handleContactOptions}>
                 <Typography className={styles.optionLink}>
-                    {filteredContactsType === "Filter my contacts"
-                        ? `${filteredCount ? filteredCount : totalContactsCount} Contacts`
-                        : filteredContactsType}
+                    {filteredContactsType === "all contacts" && `all contacts`}
+                    {filteredContactsType === "contacts filtered by .." && `${filteredCount} Contacts`}
+                    {filteredContactsType === "a contact" && (contactName ? contactName : "")}
                 </Typography>
                 <ArrowDownBig width="40px" height="40px" />
 
-                <Popper
-                    id={isContactOpen ? "simple-popper" : undefined}
-                    open={isContactOpen}
+                <CustomPopover
+                    options={contactOptions}
                     anchorEl={contactOptionOpen}
-                    placement="bottom"
-                >
-                    <Paper className={styles.popper}>
-                        <Option
-                            optionText="all my contacts"
-                            onClick={() => handleFilteredContactsTypeChange("all my contacts")}
-                        />
-                        <Box className={styles.divider} />
-                        <Option optionText="Filter my contacts" icon={CircleAdd} onClick={handleClickFilterDropdown} />
-                    </Paper>
-                </Popper>
+                    handleAction={handeContactOptionsChange}
+                />
             </Box>
-            <Box>
-                <Typography className={styles.optionText}>if</Typography>
-            </Box>
-            <Box>
-                <Typography
-                    className={styles.optionTextGrey}
-                >{`they don’t have a ${invitationName} account.`}</Typography>
-            </Box>
+
             <ReUseFilters
                 anchorEl={anchorEl}
                 handleClose={handleCloseFilterDropdown}
                 handleSummaryBarInfo={handleSummaryBarInfo}
             />
+            {chooseContactModalOpen && (
+                <AutoCompleteContactSearchModal
+                    open={chooseContactModalOpen}
+                    handleClose={() => setChooseContactModalOpen(false)}
+                    handleContactSelect={handleContactSelect}
+                    title="Search for Contact"
+                    subTitle="Search for a contact by name"
+                />
+            )}
         </Box>
     );
 };

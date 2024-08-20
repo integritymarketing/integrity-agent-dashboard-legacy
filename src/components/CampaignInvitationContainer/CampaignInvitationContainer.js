@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect} from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import CampaignSubHeader from "./CampaignSubHeader";
