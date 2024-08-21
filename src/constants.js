@@ -24,11 +24,10 @@ export const PLAN_SORT_OPTIONS = {
     },
     "total-asc": {
         label: " Lowest Total Estimated Cost",
-        sort: (plan1, plan2) => {
-            const totalCost1 = plan1.annualPlanPremium + plan1.estimatedAnnualDrugCost;
-            const totalCost2 = plan2.annualPlanPremium + plan2.estimatedAnnualDrugCost;
-            return totalCost1 - totalCost2;
-        },
+        sort: (res1, res2) =>
+            res1.annualPlanPremium +
+            res1.estimatedCostCalculationRx.estimatedYearlyRxDrugCost -
+            (res2.annualPlanPremium + res2.estimatedCostCalculationRx.estimatedYearlyRxDrugCost),
     },
     "drugs-asc": {
         label: "Lowest Estimated Drug Cost",
