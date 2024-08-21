@@ -56,8 +56,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
     // Update agent preferences during user selected Do not show again //
     const editAgentPreferences = useCallback(
         async (type) => {
-            debugger;
-
             try {
                 const updatedType = type === LIFE ? HEALTH : LIFE;
                 const payload = {
@@ -137,7 +135,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
 
     const handleSelectedProductType = useCallback(
         (productType) => {
-            console.log(doNotShowAgain);
             if (doNotShowAgain) {
                 editAgentPreferences(productType);
             }
