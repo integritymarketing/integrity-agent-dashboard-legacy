@@ -1,18 +1,16 @@
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
+import PropTypes from "prop-types";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Avatar, Box, Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 
-import Box from "@mui/material/Box";
+import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCirlce";
+import BackButton from "components/BackButton";
+import PlansTypeModal from "components/PlansTypeModal";
+import { ConnectModal } from "../ConnectModal";
+import { Health, Overview, Policies } from "./Icons";
 import { useLeadDetails } from "providers/ContactDetails";
 import { toTitleCase } from "utils/toTitleCase";
-import PlansTypeModal from "components/PlansTypeModal";
-import BackButton from "components/BackButton";
-import { Button } from "components/ui/Button";
-import { Avatar, Typography } from "@mui/material";
 import styles from "./ContactProfileTabBar.module.scss";
-import { Connect, Health, Overview, Policies } from "./Icons";
-import { ConnectModal } from "../ConnectModal";
-import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCirlce";
-import { useMediaQuery, useTheme } from "@mui/material";
 
 const TABS = [
     { name: "Overview", section: "overview", icon: <Overview /> },
@@ -34,10 +32,12 @@ export const ContactProfileTabBar = ({ contactId }) => {
 
     const isContactDetailsPage = useMemo(() => currentPath?.toLowerCase().includes("contact"), [currentPath]);
 
-    const leadName =
-        leadDetails?.firstName && leadDetails?.lastName && leadId == leadDetails?.leadsId
-            ? [leadDetails?.firstName, leadDetails?.middleName, leadDetails?.lastName].filter(Boolean).join(" ")
-            : "";
+    const leadName = useMemo(() => {
+        if (leadDetails?.firstName && leadDetails?.lastName && leadId === leadDetails?.leadsId) {
+            return [leadDetails?.firstName, leadDetails?.middleName, leadDetails?.lastName].filter(Boolean).join(" ");
+        }
+        return "";
+    }, [leadDetails, leadId]);
 
     const zipcode = leadDetails?.addresses?.[0]?.postalCode;
     const stateCode = leadDetails?.addresses?.[0]?.stateCode;
@@ -47,7 +47,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
             setSelectedTab(section);
             navigate(`/contact/${leadId}/${section}`);
         },
-        [leadId, navigate, setSelectedTab]
+        [leadId, navigate, setSelectedTab],
     );
 
     const handleClosePlanTypeModal = useCallback(() => {
@@ -58,19 +58,17 @@ export const ContactProfileTabBar = ({ contactId }) => {
         setIsPlanTypeModalVisible(true);
     }, []);
 
-    const renderTab = ({ name, section, icon, modalTrigger }) => (
-        <Box
-            key={section}
-            className={styles.profileTab}
-            onClick={() => (modalTrigger ? setConnectModalVisible(true) : handleSectionChange(section))}
-        >
+    const renderTab = ({ name, section, icon }) => (
+        <Box key={section} className={styles.profileTab} onClick={() => handleSectionChange(section)}>
             <Box className={`${styles.tabIcon} ${selectedTab === section ? styles.selected : ""}`}>{icon}</Box>
             <Box className={styles.tabName}>{name}</Box>
         </Box>
     );
 
     const initialAvatarValue = useMemo(() => {
-        if (!leadDetails?.firstName && !leadDetails?.lastName) return "";
+        if (!leadDetails?.firstName && !leadDetails?.lastName) {
+            return "";
+        }
         return (leadDetails?.firstName[0] + leadDetails?.lastName[0]).toUpperCase();
     }, [leadDetails]);
 
@@ -111,7 +109,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
                                         <span className={styles.detailValue}>{stateCode}</span>
                                     </Box>
                                 )}
-                                {!!leadDetails?.age && leadDetails?.age !== 0 && (
+                                {Boolean(leadDetails?.age) && leadDetails?.age !== 0 && (
                                     <Box className={styles.detail}>
                                         <span className={styles.detailLabel}>Age :</span>
                                         <span className={styles.detailValue}>{leadDetails.age}</span>
@@ -165,4 +163,8 @@ export const ContactProfileTabBar = ({ contactId }) => {
             </Box>
         </Box>
     );
+};
+
+ContactProfileTabBar.propTypes = {
+    contactId: PropTypes.string,
 };
