@@ -17,7 +17,7 @@ import { LifeHealthProducts } from "../../Common";
 const SelectProductCard = () => {
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
 
-    const { handleSelectedProductType, setDoNotShowAgain, DoNotShowAgain } = useCreateNewQuote();
+    const { handleSelectedProductType, setDoNotShowAgain, doNotShowAgain } = useCreateNewQuote();
 
     const { npn } = useUserProfile();
 
@@ -34,7 +34,7 @@ const SelectProductCard = () => {
         } else {
             handleSelectedProductType("life");
         }
-    }, [getAgentNonRTS]);
+    }, [getAgentNonRTS, handleSelectedProductType]);
 
     const handleContinue = () => {
         handleSelectedProductType("life");
@@ -50,8 +50,8 @@ const SelectProductCard = () => {
             <Box display="flex" gap="0px" alignItems="center" justifyContent="center" marginTop="30px">
                 <Checkbox
                     label="Don't show this again"
-                    checked={DoNotShowAgain}
-                    onChange={() => setDoNotShowAgain(!DoNotShowAgain)}
+                    checked={doNotShowAgain}
+                    onChange={() => setDoNotShowAgain(!doNotShowAgain)}
                 />
             </Box>
 
