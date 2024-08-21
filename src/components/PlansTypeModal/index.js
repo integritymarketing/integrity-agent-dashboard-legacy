@@ -29,7 +29,7 @@ const LIFE = "hideLifeQuote";
 const HEALTH = "hideHealthQuote";
 const IUL_FEATURE_FLAG = process.env.REACT_APP_IUL_FEATURE_FLAG === "show";
 
-const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }) => {
+const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClose, leadId, zipcode }) => {
     const [checked, setChecked] = useState(false);
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
     const [showLifeQuestionCard, setShowLifeQuestionCard] = useState(false);
@@ -73,7 +73,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
 
     const handleHealthPlanClick = useCallback(() => {
         onSelectHandle(HEALTH);
-        if (zipcode) {
+        if (zipcode && !isMultipleCounties) {
             fireEvent("Quote Type Selected", {
                 leadid: leadId,
                 line_of_business: "Health",
@@ -82,7 +82,7 @@ const PlansTypeModal = ({ showPlanTypeModal, handleModalClose, leadId, zipcode }
         } else {
             navigate(`/contact/${leadId}/addZip`);
         }
-    }, [fireEvent, leadId, navigate, onSelectHandle, zipcode]);
+    }, [fireEvent, isMultipleCounties, leadId, navigate, onSelectHandle, zipcode]);
 
     const handleFinalExpensePlanClick = useCallback(async () => {
         const isAgentNonRTS = await getAgentNonRTS();

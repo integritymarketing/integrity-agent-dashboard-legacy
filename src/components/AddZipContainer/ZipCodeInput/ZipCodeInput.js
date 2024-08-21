@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import styles from "./ZipCodeInput.module.scss";
 import { ZIP_CODE, ZIP_ERROR } from "components/AddZipContainer/AddZipContainer.constants";
 
-export const ZipCodeInput = ({ handleZipCode, zipError }) => {
-
+export const ZipCodeInput = ({ handleZipCode, zipError, defaultValue = "" }) => {
     return (
         <>
             <div className={styles.title}>{ZIP_CODE}</div>
             <input
                 type="text"
                 className={styles.input}
+                defaultValue={defaultValue}
                 required
                 minLength={5}
                 maxLength={5}
@@ -23,8 +23,9 @@ export const ZipCodeInput = ({ handleZipCode, zipError }) => {
                 }}
             />
             {zipError && <div className={styles.error}>{ZIP_ERROR}</div>}
-        </>)
-}
+        </>
+    );
+};
 
 ZipCodeInput.propTypes = {
     handleZipCode: PropTypes.func.isRequired,

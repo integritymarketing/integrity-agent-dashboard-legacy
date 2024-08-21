@@ -1,8 +1,9 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Avatar, Box, Button, Typography, useMediaQuery, useTheme } from "@mui/material";
-
+import { Avatar, Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import useFetch from "hooks/useFetch";
+import { GET_COUNTIES } from "components/AddZipContainer/AddZipContainer.constants";
 import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCirlce";
 import BackButton from "components/BackButton";
 import PlansTypeModal from "components/PlansTypeModal";
@@ -11,6 +12,7 @@ import { Health, Overview, Policies } from "./Icons";
 import { useLeadDetails } from "providers/ContactDetails";
 import { toTitleCase } from "utils/toTitleCase";
 import styles from "./ContactProfileTabBar.module.scss";
+import { Button } from "components/ui/Button";
 
 const TABS = [
     { name: "Overview", section: "overview", icon: <Overview /> },
@@ -22,6 +24,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { leadId: leadIdParam } = useParams();
+    const [isMultipleCounties, setIsMultipleCounties] = useState(false);
     const leadId = contactId || leadIdParam;
     const navigate = useNavigate();
     const { leadDetails, selectedTab, setSelectedTab } = useLeadDetails();
@@ -41,13 +44,31 @@ export const ContactProfileTabBar = ({ contactId }) => {
 
     const zipcode = leadDetails?.addresses?.[0]?.postalCode;
     const stateCode = leadDetails?.addresses?.[0]?.stateCode;
+    const county = leadDetails?.addresses?.[0]?.county;
+
+    const URL = `${GET_COUNTIES}${zipcode}`;
+    const { Get: getCounties } = useFetch(URL);
+
+    useEffect(() => {
+        async function getCountiesData() {
+            const counties = await getCounties();
+            if (counties?.length > 1 && !county) {
+                setIsMultipleCounties(true);
+            } else {
+                setIsMultipleCounties(false);
+            }
+        }
+        if (!county) {
+            getCountiesData();
+        }
+    }, [URL, county, getCounties]);
 
     const handleSectionChange = useCallback(
         (section) => {
             setSelectedTab(section);
             navigate(`/contact/${leadId}/${section}`);
         },
-        [leadId, navigate, setSelectedTab],
+        [leadId, navigate, setSelectedTab]
     );
 
     const handleClosePlanTypeModal = useCallback(() => {
@@ -157,6 +178,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
                 <PlansTypeModal
                     zipcode={zipcode}
                     showPlanTypeModal={isPlanTypeModalVisible}
+                    isMultipleCounties={isMultipleCounties}
                     handleModalClose={handleClosePlanTypeModal}
                     leadId={leadId}
                 />

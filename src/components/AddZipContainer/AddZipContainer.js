@@ -187,7 +187,7 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
             >
                 <div className={styles.detailsTitle}>{CONFIRM_DETAILS_TEXT}</div>
                 <div className={styles.detailsSubTitle}>{CONFIRM_DETAILS_SUBTEXT}</div>
-                <ZipCodeInput handleZipCode={handleZipCode} zipError={zipError} />
+                <ZipCodeInput defaultValue={zipCode} handleZipCode={handleZipCode} zipError={zipError} />
                 <WithLoader isLoading={isLoading}>
                     {zipCode && allCounties.length > 0 && (
                         <SelectCounty counties={allCounties} isMobile={isMobile} onSelectCounty={onSelectCounty} />
