@@ -5,12 +5,11 @@ import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
 import { useNavigate } from "react-router-dom";
 import useAnalytics from "hooks/useAnalytics";
-import useAgentPreferencesData from "hooks/useAgentPreferencesData";
 
 export const CreateNewQuoteContext = createContext();
 
 export const CreateNewQuoteProvider = ({ children }) => {
-    const { updateAgentPreferences, leadPreference } = useAgentPreferencesData();
+    const { updateAgentPreferences, leadPreference } = useAgentAccountContext();
     const { fireEvent } = useAnalytics();
     const { agentId } = useUserProfile();
     const showToast = useToast();
