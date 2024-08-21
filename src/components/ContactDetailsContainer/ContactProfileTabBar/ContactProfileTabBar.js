@@ -50,15 +50,16 @@ export const ContactProfileTabBar = ({ contactId }) => {
     const { Get: getCounties } = useFetch(URL);
 
     useEffect(() => {
-        if (isPlanTypeModalVisible) {
-            async function getCountiesData() {
-                const counties = await getCounties();
-                if (counties?.length > 1 && !county) {
-                    setIsMultipleCounties(true);
-                } else {
-                    setIsMultipleCounties(false);
-                }
+        async function getCountiesData() {
+            const counties = await getCounties();
+            if (counties?.length > 1 && !county) {
+                setIsMultipleCounties(true);
+            } else {
+                setIsMultipleCounties(false);
             }
+        }
+
+        if (isPlanTypeModalVisible && !county) {
             getCountiesData();
         }
     }, [URL, county, getCounties, isPlanTypeModalVisible]);
@@ -68,7 +69,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
             setSelectedTab(section);
             navigate(`/contact/${leadId}/${section}`);
         },
-        [leadId, navigate, setSelectedTab]
+        [leadId, navigate, setSelectedTab],
     );
 
     const handleClosePlanTypeModal = useCallback(() => {
@@ -79,12 +80,15 @@ export const ContactProfileTabBar = ({ contactId }) => {
         setIsPlanTypeModalVisible(true);
     }, []);
 
-    const renderTab = ({ name, section, icon }) => (
-        <Box key={section} className={styles.profileTab} onClick={() => handleSectionChange(section)}>
-            <Box className={`${styles.tabIcon} ${selectedTab === section ? styles.selected : ""}`}>{icon}</Box>
-            <Box className={styles.tabName}>{name}</Box>
-        </Box>
-    );
+    const renderTab = ({ name, section, icon }) => {
+        const handleClick = () => handleSectionChange(section);
+        return (
+            <Box key={section} className={styles.profileTab} onClick={handleClick}>
+                <Box className={`${styles.tabIcon} ${selectedTab === section ? styles.selected : ""}`}>{icon}</Box>
+                <Box className={styles.tabName}>{name}</Box>
+            </Box>
+        );
+    };
 
     const initialAvatarValue = useMemo(() => {
         if (!leadDetails?.firstName && !leadDetails?.lastName) {

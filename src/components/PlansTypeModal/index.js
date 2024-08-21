@@ -68,7 +68,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                 });
             }
         },
-        [agentId, checked, leadPreference, showToast, updateAgentPreferences]
+        [agentId, checked, leadPreference, showToast, updateAgentPreferences],
     );
 
     const handleHealthPlanClick = useCallback(() => {
@@ -198,6 +198,7 @@ PlansTypeModal.propTypes = {
     handleModalClose: PropTypes.func.isRequired, // Function to call when closing the modal
     leadId: PropTypes.number.isRequired, // Lead ID for navigation
     zipcode: PropTypes.string.isRequired, // zip code value
+    isMultipleCounties: PropTypes.bool.isRequired, // Determines if there are multiple counties
 };
 
 export default PlansTypeModal;
