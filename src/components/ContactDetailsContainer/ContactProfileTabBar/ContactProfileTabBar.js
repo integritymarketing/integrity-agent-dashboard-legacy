@@ -1,30 +1,23 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
-
 import { useLeadDetails } from "providers/ContactDetails";
-
 import { toTitleCase } from "utils/toTitleCase";
-
 import PlansTypeModal from "components/PlansTypeModal";
 import BackButton from "components/BackButton";
 import { Button } from "components/ui/Button";
-import Container from "components/ui/container";
-
+import { Avatar, Typography } from "@mui/material";
 import styles from "./ContactProfileTabBar.module.scss";
 import { Connect, Health, Overview, Policies } from "./Icons";
-
 import { ConnectModal } from "../ConnectModal";
-
 import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCirlce";
 import { useMediaQuery, useTheme } from "@mui/material";
 
-const tabs = [
+const TABS = [
     { name: "Overview", section: "overview", icon: <Overview /> },
     { name: "Health Profile", section: "health", icon: <Health /> },
     { name: "Policies", section: "policies", icon: <Policies /> },
-    { name: "Connect", section: "communications", icon: <Connect />, modalTrigger: false },
 ];
 
 export const ContactProfileTabBar = ({ contactId }) => {
@@ -36,30 +29,33 @@ export const ContactProfileTabBar = ({ contactId }) => {
     const { leadDetails, selectedTab, setSelectedTab } = useLeadDetails();
     const location = useLocation();
     const currentPath = location.pathname;
-    const [connectModalVisible, setConnectModalVisible] = useState(false);
-    const [showPlanTypeModal, setShowPlanTypeModal] = useState(false);
+    const [isConnectModalVisible, setIsConnectModalVisible] = useState(false);
+    const [isPlanTypeModalVisible, setIsPlanTypeModalVisible] = useState(false);
 
-    const isContactDetailsPage = currentPath?.toLowerCase().includes("contact");
+    const isContactDetailsPage = useMemo(() => currentPath?.toLowerCase().includes("contact"), [currentPath]);
+
     const leadName =
         leadDetails?.firstName && leadDetails?.lastName && leadId == leadDetails?.leadsId
             ? [leadDetails?.firstName, leadDetails?.middleName, leadDetails?.lastName].filter(Boolean).join(" ")
             : "";
-    const zipcode = leadDetails?.addresses && leadDetails?.addresses[0]?.postalCode;
+
+    const zipcode = leadDetails?.addresses?.[0]?.postalCode;
+    const stateCode = leadDetails?.addresses?.[0]?.stateCode;
 
     const handleSectionChange = useCallback(
         (section) => {
             setSelectedTab(section);
             navigate(`/contact/${leadId}/${section}`);
         },
-        [leadId, navigate, setSelectedTab],
+        [leadId, navigate, setSelectedTab]
     );
 
-    const handleCloseShowPlanTypeModal = useCallback(() => {
-        setShowPlanTypeModal(false);
+    const handleClosePlanTypeModal = useCallback(() => {
+        setIsPlanTypeModalVisible(false);
     }, []);
 
     const handleStartQuote = useCallback(() => {
-        setShowPlanTypeModal(true);
+        setIsPlanTypeModalVisible(true);
     }, []);
 
     const renderTab = ({ name, section, icon, modalTrigger }) => (
@@ -73,15 +69,64 @@ export const ContactProfileTabBar = ({ contactId }) => {
         </Box>
     );
 
+    const initialAvatarValue = useMemo(() => {
+        if (!leadDetails?.firstName && !leadDetails?.lastName) return "";
+        return (leadDetails?.firstName[0] + leadDetails?.lastName[0]).toUpperCase();
+    }, [leadDetails]);
+
     return (
-        <Box className={styles.navWrapper} style={{ backgroundColor: "white" }}>
-            <Container className={styles.contactProfileTabBar}>
+        <Box className={styles.navWrapper}>
+            <Box className={styles.contactProfileTabBar}>
                 <Box className={styles.backToContacts}>
-                    <BackButton label="Back to Contacts" route="/contacts" />
+                    <BackButton label="Back to Contacts" route="/contacts" showInMobile={true} />
                 </Box>
+
                 <Box className={styles.profileMenu}>
-                    <Box className={styles.userName}>{toTitleCase(leadName)}</Box>
-                    <Box className={styles.profileTabs}>{tabs.map(renderTab)}</Box>
+                    <Box className={styles.profileDetails}>
+                        {!isMobile && (
+                            <Box className={styles.profileImage}>
+                                <Avatar
+                                    sx={{
+                                        width: "60px",
+                                        height: "60px",
+                                        backgroundColor: "#052a63",
+                                        border: "1px solid #FFFFFF",
+                                        marginRight: "16px",
+                                    }}
+                                >
+                                    {initialAvatarValue}
+                                </Avatar>
+                            </Box>
+                        )}
+
+                        <Box className={styles.profileInfo}>
+                            <Typography variant="h2" className={styles.userName}>
+                                {toTitleCase(leadName)}
+                            </Typography>
+
+                            <Box className={styles.userDetails}>
+                                {stateCode && (
+                                    <Box className={styles.detail}>
+                                        <span className={styles.detailLabel}>Location :</span>
+                                        <span className={styles.detailValue}>{stateCode}</span>
+                                    </Box>
+                                )}
+                                {!!leadDetails?.age && leadDetails?.age !== 0 && (
+                                    <Box className={styles.detail}>
+                                        <span className={styles.detailLabel}>Age :</span>
+                                        <span className={styles.detailValue}>{leadDetails.age}</span>
+                                    </Box>
+                                )}
+                                {leadDetails?.gender && (
+                                    <Box className={styles.detail}>
+                                        <span className={styles.detailLabel}>Gender :</span>
+                                        <span className={styles.detailValue}>{leadDetails?.gender?.toUpperCase()}</span>
+                                    </Box>
+                                )}
+                            </Box>
+                        </Box>
+                    </Box>
+                    <Box className={styles.profileTabs}>{TABS.map(renderTab)}</Box>
                     {isContactDetailsPage && (
                         <Button
                             onClick={handleStartQuote}
@@ -92,32 +137,32 @@ export const ContactProfileTabBar = ({ contactId }) => {
                     )}
                 </Box>
 
-                <Box className={styles.contactButton}>
+                <Box className={styles.contactButtonContainer}>
                     <Button
-                        onClick={() => setConnectModalVisible(true)}
+                        onClick={() => setIsConnectModalVisible(true)}
                         label="Contact"
                         icon={<ArrowForwardWithCircle />}
                         iconPosition="right"
                         type="primary"
-                        className={styles.quoteButton}
+                        className={styles.contactButton}
                     />
                 </Box>
 
-                {connectModalVisible && (
+                {isConnectModalVisible && (
                     <ConnectModal
-                        isOpen={connectModalVisible}
-                        onClose={() => setConnectModalVisible(false)}
+                        isOpen={isConnectModalVisible}
+                        onClose={() => setIsConnectModalVisible(false)}
                         leadId={leadId}
                         leadDetails={leadDetails}
                     />
                 )}
                 <PlansTypeModal
                     zipcode={zipcode}
-                    showPlanTypeModal={showPlanTypeModal}
-                    handleModalClose={handleCloseShowPlanTypeModal}
+                    showPlanTypeModal={isPlanTypeModalVisible}
+                    handleModalClose={handleClosePlanTypeModal}
                     leadId={leadId}
                 />
-            </Container>
+            </Box>
         </Box>
     );
 };

@@ -2,28 +2,29 @@
 
 .navWrapper {
     box-shadow: inset 0px -1px 0px #dddddd;
+    background-color: white;
 }
 
 .contactProfileTabBar {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 80%;
+    margin: auto;
     padding: 24px;
     position: relative;
 
     @include small {
         flex-direction: column;
+        align-items: center;
+        width: 100%;
     }
 
     .backToContacts {
-        position: absolute;
-        left: 2.5rem;
-        top: 24px;
-        cursor: pointer;
-
         @include small {
-            display: none;
+            position: absolute;
+            left: 15px;
+            top: 12px;
         }
     }
 
@@ -32,7 +33,6 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 40%;
 
         @include small {
             width: 90%;
@@ -48,7 +48,7 @@
             width: 100%;
             justify-content: space-between;
             align-items: center;
-            margin-top: 10px;
+            padding: 24px 0px;
 
             @include small {
                 overflow-x: auto;
@@ -89,7 +89,6 @@
             background: #4178ff;
             border-radius: 20px;
             color: #ffffff;
-            margin-top: 15px;
             font-size: 14px;
             font-weight: 500;
             border: none;
@@ -104,13 +103,9 @@
         }
     }
 
-    .contactButton {
-        position: absolute;
-        right: 2.5rem;
-        top: 24px;
+    .contactButtonContainer {
         cursor: pointer;
-
-        .quoteButton {
+        .contactButton {
             height: 40px;
             background: #4178ff;
             border-radius: 20px;
@@ -134,4 +129,53 @@
             position: static;
         }
     }
+}
+
+.profileDetails {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+
+    @include small {
+        align-items: center;
+        margin: auto;
+    }
+}
+
+.userDetails {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.detail {
+    padding: 0px 8px;
+    border-left: 1px solid #717171;
+
+    &:first-child {
+        border-left: none;
+    }
+}
+
+.detailLabel {
+    color: #052a63;
+}
+
+.detailValue {
+    color: #717171;
+    margin-left: 4px;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    background-color: #052a63;
+    border: 1px solid #ffffff;
+    margin-right: 16px;
 }

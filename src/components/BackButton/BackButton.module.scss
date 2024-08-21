@@ -3,9 +3,6 @@
 .backContainer {
     display: grid;
     align-items: center;
-    @include small {
-        display: none;
-    }
 }
 
 .backButton {

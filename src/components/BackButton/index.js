@@ -1,29 +1,33 @@
 import { Button } from "components/ui/Button";
-
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import BackIcon from "images/new-back-btn.svg";
+import { useMediaQuery, useTheme } from "@mui/material";
 import styles from "./BackButton.module.scss";
 
-function BackButton({ label = "Back", route = null }) {
-    // Mimics native back button
-    const handleBackNavigation = () => window.history.back();
+function BackButton({ label = "Back", route = null, showInMobile = false }) {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-    return route ? (
-        <div className={styles.backContainer}>
-            <a
-                href={route}
-                className={`button button--tertiary icon-left ${styles.buttonLink}`}
-                style={{ borderRadius: "20px" }}
-            >
-                <img src={BackIcon} alt="" aria-hidden="true" />
-                <span>{label}</span>
-            </a>
-        </div>
-    ) : (
+    const navigate = useNavigate();
+    // Mimics native back button
+    const handleBackNavigation = () => {
+        if (route) {
+            navigate(route);
+        } else {
+            window.history.back();
+        }
+    };
+
+    if (!showInMobile && isMobile) {
+        return null;
+    }
+
+    return (
         <div className={styles.backContainer}>
             <Button
                 icon={<img src={BackIcon} alt="Back" />}
-                label={label}
+                label={isMobile ? "" : label}
                 onClick={() => handleBackNavigation()}
                 type="tertiary"
                 className={styles.backButton}

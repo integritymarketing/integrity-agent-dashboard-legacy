@@ -103,84 +103,82 @@ export default function Modal({
     const { isMobile } = useDeviceType();
 
     return (
-        <div>
-            <Dialog
-                open={open}
-                onClose={onClose}
-                maxWidth={maxWidth}
-                fullWidth
-                style={{
-                    borderRadius: 8,
-                }}
-                PaperProps={{
-                    style: {
-                        height: "auto",
-                        overflowY: "visible",
-                    },
+        <Dialog
+            open={open}
+            onClose={onClose}
+            maxWidth={maxWidth}
+            fullWidth
+            style={{
+                borderRadius: 8,
+            }}
+            PaperProps={{
+                style: {
+                    height: "auto",
+                    overflowY: "visible",
+                },
+            }}
+        >
+            <DialogTitle
+                disableTypography
+                className={classes.title}
+                sx={{
+                    fontSize: isMobile ? "24px !important" : "32px !important",
                 }}
             >
-                <DialogTitle
-                    disableTypography
-                    className={classes.title}
-                    sx={{
-                        fontSize: isMobile ? "24px !important" : "32px !important",
-                    }}
-                >
-                    <div
-                        style={{
-                            alignItems: "center",
-                            display: "flex",
-                            justifyContent: "space-between",
-                        }}
-                    >
-                        <span>{title}</span>
-                        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-                            <CloseIcon />
-                        </IconButton>
-                    </div>
-                </DialogTitle>
-                <DialogContent
+                <div
                     style={{
-                        backgroundColor: "#F1F1F1",
-                        padding: "24px",
-                        borderRadius: hideFooter ? "8px" : "",
-                        ...(contentStyle || {}),
+                        alignItems: "center",
+                        display: "flex",
+                        justifyContent: "space-between",
                     }}
                 >
-                    {children}
-                </DialogContent>
-                {!hideFooter && (
-                    <DialogActions className={classes.footer}>
-                        <Box className={classes.footerButtons}>
-                            {onCancel ? (
-                                <Button onClick={onCancel ? onCancel : onClose} className={classes.cancelButton}>
-                                    {cancelButtonName ? cancelButtonName : "Cancel"}
-                                </Button>
-                            ) : (
-                                <Box> </Box>
-                            )}
-                            {actionButtonName && (
-                                <RoundButton
-                                    onClick={onSave}
-                                    endIcon={endIcon}
-                                    disabled={actionButtonDisabled}
-                                    label={actionButtonName}
-                                />
-                            )}
-                        </Box>
-                    </DialogActions>
-                )}
-                {isDelete && (
-                    <DialogActions className={classes.footer}>
-                        <Box className={classes.deleteContainer}>
-                            <Button onClick={onDelete} className={classes.cancelButton}>
-                                Delete {modalName}
+                    <span>{title}</span>
+                    <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+                        <CloseIcon />
+                    </IconButton>
+                </div>
+            </DialogTitle>
+            <DialogContent
+                style={{
+                    backgroundColor: "#F1F1F1",
+                    padding: "24px",
+                    borderRadius: hideFooter ? "8px" : "",
+                    ...(contentStyle || {}),
+                }}
+            >
+                {children}
+            </DialogContent>
+            {!hideFooter && (
+                <DialogActions className={classes.footer}>
+                    <Box className={classes.footerButtons}>
+                        {onCancel ? (
+                            <Button onClick={onCancel ? onCancel : onClose} className={classes.cancelButton}>
+                                {cancelButtonName ? cancelButtonName : "Cancel"}
                             </Button>
-                        </Box>
-                    </DialogActions>
-                )}
-                {customFooter && customFooter}
-            </Dialog>
-        </div>
+                        ) : (
+                            <Box> </Box>
+                        )}
+                        {actionButtonName && (
+                            <RoundButton
+                                onClick={onSave}
+                                endIcon={endIcon}
+                                disabled={actionButtonDisabled}
+                                label={actionButtonName}
+                            />
+                        )}
+                    </Box>
+                </DialogActions>
+            )}
+            {isDelete && (
+                <DialogActions className={classes.footer}>
+                    <Box className={classes.deleteContainer}>
+                        <Button onClick={onDelete} className={classes.cancelButton}>
+                            Delete {modalName}
+                        </Button>
+                    </Box>
+                </DialogActions>
+            )}
+            {customFooter && customFooter}
+        </Dialog>
     );
 }
