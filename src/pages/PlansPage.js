@@ -136,7 +136,7 @@ const PlansPage = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [myAppointedPlans, setMyAppointedPlans] = useState(false);
     const [section, setSection] = useState("details");
-    const [sort, setSort] = useState(showSelected ? s_options?.s_sort : PLAN_SORT_OPTIONS["premium-asc"]);
+    const [sort, setSort] = useState(showSelected ? s_options?.s_sort : "premium-asc");
     const [isEdit, setIsEdit] = useState(false);
     const [effectiveDate, setEffectiveDate] = useState(initialeffDate);
     const [results, setResults] = useState([]);
@@ -513,7 +513,7 @@ const PlansPage = () => {
         setRebatesFilter_mobile(false);
         setSpecialNeedsFilter_mobile(false);
         setPlanType_mobile(2);
-        setSort_mobile(PLAN_SORT_OPTIONS["premium-asc"].sort);
+        setSort_mobile("premium-asc");
     };
 
     const applyFilters = () => {
