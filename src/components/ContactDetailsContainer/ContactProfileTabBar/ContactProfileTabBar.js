@@ -50,18 +50,18 @@ export const ContactProfileTabBar = ({ contactId }) => {
     const { Get: getCounties } = useFetch(URL);
 
     useEffect(() => {
-        async function getCountiesData() {
-            const counties = await getCounties();
-            if (counties?.length > 1 && !county) {
-                setIsMultipleCounties(true);
-            } else {
-                setIsMultipleCounties(false);
+        if (isPlanTypeModalVisible) {
+            async function getCountiesData() {
+                const counties = await getCounties();
+                if (counties?.length > 1 && !county) {
+                    setIsMultipleCounties(true);
+                } else {
+                    setIsMultipleCounties(false);
+                }
             }
-        }
-        if (!county) {
             getCountiesData();
         }
-    }, [URL, county, getCounties]);
+    }, [URL, county, getCounties, isPlanTypeModalVisible]);
 
     const handleSectionChange = useCallback(
         (section) => {
