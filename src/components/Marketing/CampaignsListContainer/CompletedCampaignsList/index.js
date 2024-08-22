@@ -12,7 +12,7 @@ const CompletedCampaignsList = () => {
                 <Grid item xs={12} sm={6} md={4} key={index}>
                     <CampaignDetailsCard
                         title={"PlanEnroll Invite"}
-                        status={campaign?.leads?.length}
+                        status={campaign?.requestPayload?.leads?.length}
                         date={campaign?.campaignRunDate}
                         type={campaign?.campaignChannel}
                     />

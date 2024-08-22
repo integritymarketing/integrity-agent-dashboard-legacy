@@ -1,10 +1,14 @@
+@import "../../../scss/globalDefines.scss";
+
 .infoBox {
-    width: 600px;
-    max-width: 600px;
+    width: 30%;
     height: auto;
     padding-bottom: 24px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: auto;
+    @include small {
+        width: 100%;
+    }
 }
