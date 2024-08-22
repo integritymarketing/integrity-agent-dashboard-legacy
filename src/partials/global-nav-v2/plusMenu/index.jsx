@@ -92,7 +92,7 @@ export default function PlusMenu() {
                         sx={{ padding: "6px 8px" }}
                     >
                         <img src={LeadIcon} alt="Lead Icon" />
-                        Lead in LeadCENTER
+                        LeadCENTER Order
                     </MenuItem>
                 </MenuList>
             </Menu>
