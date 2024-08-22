@@ -27,7 +27,7 @@ const CampaignDetailsCard = ({ type, title, status, date }) => {
             <Box className={styles.cardDetails}>
                 <Box className={styles.cardLabel} marginBottom="4px">
                     Sent to:
-                    <span className={styles.cardValue}>{`${status} Contacts`}</span>
+                    <span className={styles.cardValue}>{`${status}`}</span>
                 </Box>
                 <Box className={styles.cardLabel}>
                     On:
