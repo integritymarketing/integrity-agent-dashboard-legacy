@@ -12,7 +12,7 @@ const CompletedCampaignsList = () => {
                 const leads = campaign?.requestPayload?.leads;
                 const status =
                     leads?.length === 1
-                        ? `${leads[0]?.firstName} ${leads[0]?.lasName}`
+                        ? `${leads[0]?.firstName} ${leads[0]?.lastName}`
                         : `${leads?.length} Contacts` || `0 Contacts`;
                 return (
                     <Grid item xs={12} sm={6} md={4} key={index}>
