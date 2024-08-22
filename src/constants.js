@@ -25,9 +25,8 @@ export const PLAN_SORT_OPTIONS = {
     "total-asc": {
         label: " Lowest Total Estimated Cost",
         sort: (res1, res2) =>
-            res1.annualPlanPremium +
-            res1.estimatedCostCalculationRx.estimatedYearlyRxDrugCost -
-            (res2.annualPlanPremium + res2.estimatedCostCalculationRx.estimatedYearlyRxDrugCost),
+            res1.estimatedCostCalculationRx.estimatedYearlyTotalCost -
+            res2.estimatedCostCalculationRx.estimatedYearlyTotalCost,
     },
     "drugs-asc": {
         label: "Lowest Estimated Drug Cost",
