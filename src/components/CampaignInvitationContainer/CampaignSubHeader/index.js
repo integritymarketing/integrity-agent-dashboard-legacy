@@ -39,7 +39,7 @@ const CampaignSubHeader = () => {
                     flexGrow: 1,
                 }}
             >
-                {`Invitation To ${invitationName}`}
+                {invitationName}
             </Typography>
         </Box>
     );

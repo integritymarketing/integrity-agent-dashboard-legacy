@@ -9,7 +9,6 @@ const InvitationCountBar = () => {
         filteredContentStatus,
         filteredCount,
         totalContactsCount,
-        invitationSendType,
         contactName,
     } = useCampaignInvitation();
 
