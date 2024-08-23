@@ -57,7 +57,7 @@ const InvitationBar = () => {
     return (
         <Box className={styles.emailOptions}>
             <Box>
-                <Typography className={styles.optionText}>
+                <Typography variant="h3" className={styles.optionText}>
                     I want to send an email to have clients create a Plan Enroll Account to
                 </Typography>
             </Box>
