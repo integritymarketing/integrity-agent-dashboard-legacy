@@ -59,7 +59,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
     const editAgentPreferences = useCallback(
         async (type) => {
             try {
-                const updatedType = type === LIFE ? HEALTH : LIFE;
+                const updatedType = type === "life" ? HEALTH : LIFE;
                 const payload = {
                     agentID: agentId,
                     leadPreference: {
@@ -77,27 +77,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
             }
         },
         [agentId, leadPreference, showToast, updateAgentPreferences]
-    );
-
-    const handleSelectedLead = useCallback(
-        (lead, type) => {
-            if (type === "new") {
-                setNewLeadDetails({
-                    ...newLeadDetails,
-                    firstName: lead?.split(" ")[0],
-                    lastName: lead?.split(" ")[1],
-                });
-                setSelectedLead(null);
-                setContactSearchModalOpen(false);
-                setCreateNewContactModalOpen(true);
-            } else {
-                setSelectedLead(lead);
-                setContactSearchModalOpen(false);
-                setCreateNewContactModalOpen(false);
-                handleAgentProductPreferenceType(lead);
-            }
-        },
-        [newLeadDetails]
     );
 
     const handleAgentProductPreferenceType = useCallback(
@@ -131,6 +110,27 @@ export const CreateNewQuoteProvider = ({ children }) => {
             }
         },
         [leadPreference, IUL_FEATURE_FLAG, fireEvent, navigate, newLeadDetails, handleClose]
+    );
+
+    const handleSelectedLead = useCallback(
+        (lead, type) => {
+            if (type === "new") {
+                setNewLeadDetails({
+                    ...newLeadDetails,
+                    firstName: lead?.split(" ")[0],
+                    lastName: lead?.split(" ")[1],
+                });
+                setSelectedLead(null);
+                setContactSearchModalOpen(false);
+                setCreateNewContactModalOpen(true);
+            } else {
+                setSelectedLead(lead);
+                setContactSearchModalOpen(false);
+                setCreateNewContactModalOpen(false);
+                handleAgentProductPreferenceType(lead);
+            }
+        },
+        [newLeadDetails, handleAgentProductPreferenceType]
     );
 
     const showUpArrow = useMemo(() => {
