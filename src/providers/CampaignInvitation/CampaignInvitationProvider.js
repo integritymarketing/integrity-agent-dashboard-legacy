@@ -18,7 +18,7 @@ export const CampaignInvitationProvider = ({ children }) => {
     const [allContactsList, setAllContactsList] = useState([]);
     const [filteredContactsList, setFilteredContactsList] = useState([]);
     const [campaignInvitationData, setCampaignInvitationData] = useState(null);
-    const [invitationName, setInvitationName] = useState("");
+    const [invitationName, setInvitationName] = useState("Campaign Details");
     const [invitationTemplateImage, setInvitationTemplateImage] = useState(null);
     const [campaignDescription, setCampaignDescription] = useState("");
     const [selectedContact, setSelectedContact] = useState(null);
@@ -102,7 +102,6 @@ export const CampaignInvitationProvider = ({ children }) => {
             if (resData?.length) {
                 const data = resData[0];
                 setCampaignInvitationData(data);
-                setInvitationName(data?.campaignName);
                 setInvitationTemplateImage(data?.templateImageUrl);
                 setCampaignDescription(data?.campaignDescription);
                 handleInvitationSendType(data?.campaignChannel);
@@ -152,7 +151,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 agentEmail: email,
                 agentPhone: phone,
                 templateId,
-                custom1: `${process.env.REACT_APP_MEDICARE_ENROLL}/?purl=${agentPurlURL?.agentPurlId}`,
+                custom1: `${process.env.REACT_APP_MEDICARE_ENROLL}/quick-profile?purl=${agentPurlURL?.agentPurlCode}`,
                 custom2: "",
                 custom3: "",
                 custom4: "",

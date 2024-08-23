@@ -19,13 +19,9 @@ const contactOptions = [
 
 const InvitationBar = () => {
     const {
-        invitationSendType,
         filteredContactsType,
         setFilteredContactsType,
         filteredCount,
-        totalContactsCount,
-        handleInvitationSendType,
-        invitationName,
         handleSummaryBarInfo,
         setSelectedContact: handleContactSelect,
         contactName,
@@ -37,7 +33,7 @@ const InvitationBar = () => {
 
     const [anchorEl, setAnchorEl] = useState(null);
 
-    const handeContactOptionsChange = (value) => {
+    const handleContactOptionsChange = (value) => {
         setFilteredContactsType(value);
         if (value === "a contact") {
             setChooseContactModalOpen(true);
@@ -77,7 +73,7 @@ const InvitationBar = () => {
                 <CustomPopover
                     options={contactOptions}
                     anchorEl={contactOptionOpen}
-                    handleAction={handeContactOptionsChange}
+                    handleAction={handleContactOptionsChange}
                 />
             </Box>
 

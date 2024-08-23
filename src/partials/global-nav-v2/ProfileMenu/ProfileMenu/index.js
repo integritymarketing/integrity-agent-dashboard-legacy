@@ -77,7 +77,7 @@ const ProfileMenu = () => {
             label: "LearningCENTER",
             icon: <LearningCenter />,
         },
-        { path: "lead_center", label: "Lead Center", icon: <LeadCenter /> },
+        { path: "lead_center", label: "LeadCENTER", icon: <LeadCenter /> },
         { path: "csg_app", label: "CSG App", icon: <CSG /> },
         { path: "medicareApp", label: "MedicareAPP", icon: <MedicareApp /> },
         { path: "medicareLink", label: "MedicareLINK", icon: <MedicareLink /> },

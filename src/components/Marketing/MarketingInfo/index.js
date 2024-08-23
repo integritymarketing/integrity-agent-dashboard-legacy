@@ -3,8 +3,8 @@ import MarketingBanner from "../MarketingBanner";
 import styles from "./styles.module.scss";
 
 const MarketingInfo = () => (
-    <Grid container direction="column" className={styles.infoBox}>
-        <Grid item container direction="column" alignItems="center" spacing={1}>
+    <Grid direction="column" className={styles.infoBox}>
+        <Grid item direction="column" alignItems="center" spacing={1}>
             <Grid item>
                 <Typography
                     variant="h2"

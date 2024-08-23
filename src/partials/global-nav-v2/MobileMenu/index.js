@@ -65,7 +65,7 @@ const MobileMenu = ({ onClose }) => {
 
     const menuOptionsWithOutIcon = [
         {
-            label: "Lead Center",
+            label: "LeadCENTER",
             action: () => {
                 window.open(`${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`, "_blank");
                 onClose();
