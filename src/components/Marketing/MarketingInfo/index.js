@@ -33,7 +33,7 @@ const MarketingInfo = () => (
             </Typography>
         </Grid>
         <Grid item sx={{ marginTop: "24px", width: "100%" }}>
-            <MarketingBanner />
+            <MarketingBanner page="Marketing" />
         </Grid>
     </Grid>
 );

@@ -50,6 +50,9 @@ export const CreateNewQuoteProvider = ({ children }) => {
         setQuoteModalStage("");
         setShowStartQuoteModal(false);
         setSelectedLead(null);
+        setCreateNewContactModalOpen(false);
+        setContactSearchModalOpen(false);
+        setDoNotShowAgain(false);
     }, []);
 
     // Update agent preferences during user selected Do not show again //
@@ -73,7 +76,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 });
             }
         },
-        [agentId, leadPreference, showToast, updateAgentPreferences],
+        [agentId, leadPreference, showToast, updateAgentPreferences]
     );
 
     const handleSelectedLead = useCallback(
@@ -85,14 +88,16 @@ export const CreateNewQuoteProvider = ({ children }) => {
                     lastName: lead?.split(" ")[1],
                 });
                 setSelectedLead(null);
+                setContactSearchModalOpen(false);
                 setCreateNewContactModalOpen(true);
             } else {
                 setSelectedLead(lead);
+                setContactSearchModalOpen(false);
                 setCreateNewContactModalOpen(false);
                 handleAgentProductPreferenceType(lead);
             }
         },
-        [newLeadDetails],
+        [newLeadDetails]
     );
 
     const handleAgentProductPreferenceType = useCallback(
@@ -125,7 +130,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 }
             }
         },
-        [leadPreference, IUL_FEATURE_FLAG, fireEvent, navigate, newLeadDetails, handleClose],
+        [leadPreference, IUL_FEATURE_FLAG, fireEvent, navigate, newLeadDetails, handleClose]
     );
 
     const showUpArrow = useMemo(() => {
@@ -171,7 +176,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             selectedLead,
             IUL_FEATURE_FLAG,
             newLeadDetails,
-        ],
+        ]
     );
 
     const handleSelectLifeProductType = useCallback((productType) => {
@@ -206,7 +211,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 setQuoteModalStage("zipCodeInputCard");
             }
         },
-        [selectedLead, fireEvent, navigate, newLeadDetails, handleClose],
+        [selectedLead, fireEvent, navigate, newLeadDetails, handleClose]
     );
 
     const handleSelectIulGoal = useCallback((goal) => {

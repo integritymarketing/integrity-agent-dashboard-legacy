@@ -33,14 +33,11 @@ export const ContactProfileTabBar = ({ contactId }) => {
     const [isConnectModalVisible, setIsConnectModalVisible] = useState(false);
     const [isPlanTypeModalVisible, setIsPlanTypeModalVisible] = useState(false);
 
-    const isContactDetailsPage = useMemo(() => currentPath?.toLowerCase().includes("contact"), [currentPath]);
-
-    const leadName = useMemo(() => {
-        if (leadDetails?.firstName && leadDetails?.lastName && leadId === leadDetails?.leadsId) {
-            return [leadDetails?.firstName, leadDetails?.middleName, leadDetails?.lastName].filter(Boolean).join(" ");
-        }
-        return "";
-    }, [leadDetails, leadId]);
+    const isContactDetailsPage = currentPath?.toLowerCase().includes("contact");
+    const leadName =
+        leadDetails?.firstName && leadDetails?.lastName && leadId == leadDetails?.leadsId
+            ? [leadDetails?.firstName, leadDetails?.middleName, leadDetails?.lastName].filter(Boolean).join(" ")
+            : "";
 
     const zipcode = leadDetails?.addresses?.[0]?.postalCode;
     const stateCode = leadDetails?.addresses?.[0]?.stateCode;

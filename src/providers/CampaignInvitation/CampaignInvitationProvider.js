@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/react";
 import useUserProfile from "hooks/useUserProfile";
 import { useNavigate } from "react-router-dom";
 import useFetch from "hooks/useFetch";
+import useAnalytics from "hooks/useAnalytics";
 
 export const CampaignInvitationContext = createContext();
 
@@ -23,11 +24,13 @@ export const CampaignInvitationProvider = ({ children }) => {
     const [campaignDescription, setCampaignDescription] = useState("");
     const [selectedContact, setSelectedContact] = useState(null);
     const [agentPurlURL, setAgentPurlURL] = useState("");
+    const [currentPage, setCurrentPage] = useState("");
 
     const contactName = selectedContact ? `${selectedContact?.firstName} ${selectedContact?.lastName}` : null;
     const { agentId, npn, firstName, lastName, email, phone } = useUserProfile();
     const navigate = useNavigate();
     const showToast = useToast();
+    const { fireEvent } = useAnalytics();
 
     const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Campaign/Email`;
     const AGENT_PURL_URL = `${process.env.REACT_APP_AGENTS_URL}/api/v1.0/Purl/npn/${npn}`;
@@ -105,6 +108,11 @@ export const CampaignInvitationProvider = ({ children }) => {
                 setInvitationTemplateImage(data?.templateImageUrl);
                 setCampaignDescription(data?.campaignDescription);
                 handleInvitationSendType(data?.campaignChannel);
+                fireEvent("New Quote Created With Instant Quote", {
+                    page: currentPage,
+                    campaignName: "Plan Enroll",
+                    campaignDescription: data?.campaignDescription,
+                });
             }
             return resData;
         } catch (error) {
@@ -184,7 +192,10 @@ export const CampaignInvitationProvider = ({ children }) => {
                             leadsId: selectedContact.leadsId,
                             firstName: selectedContact.firstName,
                             lastName: selectedContact.lastName,
-                            destination: invitationSendType === "Email" ? selectedContact?.emails[0]?.leadEmail : selectedContact?.phones[0]?.leadPhone,
+                            destination:
+                                invitationSendType === "Email"
+                                    ? selectedContact?.emails[0]?.leadEmail
+                                    : selectedContact?.phones[0]?.leadPhone,
                         },
                     ],
                 },
@@ -193,6 +204,16 @@ export const CampaignInvitationProvider = ({ children }) => {
         try {
             const resData = await startCampaign(payload, false);
             if (resData?.length) {
+                fireEvent("New Quote Created With Instant Quote", {
+                    campaignName: "Plan Enroll",
+                    campaignDescription: campaignDescription,
+                    scope:
+                        filteredContactsType === "contacts filtered by .."
+                            ? "filter contacts"
+                            : filteredContactsType === "all contacts"
+                            ? "all contacts"
+                            : "search for a contact",
+                });
                 navigate("/marketing/campaign-dashboard");
             }
             return resData;
@@ -257,6 +278,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             filteredContactsList,
             allContactsList,
             getAgentPurlURL,
+            setCurrentPage,
         };
     }
 };

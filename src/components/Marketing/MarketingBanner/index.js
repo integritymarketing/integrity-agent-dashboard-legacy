@@ -5,12 +5,13 @@ import bannerImage from "images/PlanEnrollBanner.svg";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-const MarketingBanner = () => {
+const MarketingBanner = ({ page }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const navigateToCreateCampaignInvitation = () => {
+        setCurrentPage(page);
         navigate("/marketing/campaign-invitation");
     };
     return (
