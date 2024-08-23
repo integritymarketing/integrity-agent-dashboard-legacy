@@ -9,7 +9,7 @@ import useAnalytics from "hooks/useAnalytics";
 export const CreateNewQuoteContext = createContext();
 
 export const CreateNewQuoteProvider = ({ children }) => {
-    const { leadPreference, updateAgentPreferences } = useAgentAccountContext();
+    const { updateAgentPreferences, leadPreference } = useAgentAccountContext();
     const { fireEvent } = useAnalytics();
     const { agentId } = useUserProfile();
     const showToast = useToast();
@@ -43,88 +43,19 @@ export const CreateNewQuoteProvider = ({ children }) => {
         dateOfBirth: "",
     });
     const [showZipCodeInput, setShowZipCodeInput] = useState(false);
-    const [DoNotShowAgain, setDoNotShowAgain] = useState(false);
+    const [doNotShowAgain, setDoNotShowAgain] = useState(false);
 
-    const handleSelectedLead = (lead, type) => {
-        if (type === "new") {
-            setNewLeadDetails({
-                ...newLeadDetails,
-                firstName: lead?.split(" ")[0],
-                lastName: lead?.split(" ")[1],
-            });
-            setSelectedLead(null);
-            setCreateNewContactModalOpen(true);
-        } else {
-            setSelectedLead(lead);
-            setCreateNewContactModalOpen(false);
-            handleAgentProductPreferenceType(lead);
-        }
-    };
-
-    const handleAgentProductPreferenceType = (lead) => {
-        setShowStartQuoteModal(true);
-        const postalCode = lead?.addresses?.length > 0 ? lead?.addresses[0]?.postalCode : null;
-
-        if (!leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote) {
-            setQuoteModalStage("selectProductTypeCard");
-        } else {
-            setSelectedProductType(leadPreference?.hideLifeQuote ? "health" : "life");
-            if (!leadPreference?.hideLifeQuote) {
-                if (IUL_FEATURE_FLAG) {
-                    setQuoteModalStage("lifeQuestionCard");
-                } else {
-                    setQuoteModalStage("finalExpenseIntakeFormCard");
-                }
-            } else {
-                if (postalCode) {
-                    fireEvent("New Quote Created With Instant Quote", {
-                        leadId: lead?.leadsId,
-                        line_of_business: "Health",
-                        contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
-                    });
-                    navigate(`/plans/${lead?.leadsId}`);
-                    handleClose();
-                } else {
-                    setQuoteModalStage("zipCodeInputCard");
-                }
-            }
-        }
-    };
-
-    const showUpArrow = useMemo(() => {
-        return !leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote;
-    }, [leadPreference]);
-
-    const handleSelectedProductType = (productType) => {
-        if (DoNotShowAgain) {
-            editAgentPreferences(productType);
-        }
-        setSelectedProductType(productType);
-        if (productType === "life") {
-            if (IUL_FEATURE_FLAG) {
-                setQuoteModalStage("lifeQuestionCard");
-            } else {
-                setQuoteModalStage("finalExpenseIntakeFormCard");
-            }
-        } else {
-            const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
-
-            if (postalCode) {
-                fireEvent("New Quote Created With Instant Quote", {
-                    leadId: selectedLead?.leadsId,
-                    line_of_business: "Health",
-                    contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
-                });
-                navigate(`/plans/${selectedLead?.leadsId}`);
-                handleClose();
-            } else {
-                setQuoteModalStage("zipCodeInputCard");
-            }
-        }
-    };
+    // Define handleClose before any function that references it
+    const handleClose = useCallback(() => {
+        setQuoteModalStage("");
+        setShowStartQuoteModal(false);
+        setSelectedLead(null);
+        setCreateNewContactModalOpen(false);
+        setContactSearchModalOpen(false);
+        setDoNotShowAgain(false);
+    }, []);
 
     // Update agent preferences during user selected Do not show again //
-
     const editAgentPreferences = useCallback(
         async (type) => {
             try {
@@ -145,10 +76,110 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 });
             }
         },
-        [agentId, leadPreference, showToast, updateAgentPreferences],
+        [agentId, leadPreference, showToast, updateAgentPreferences]
     );
 
-    const handleSelectLifeProductType = (productType) => {
+    const handleSelectedLead = useCallback(
+        (lead, type) => {
+            if (type === "new") {
+                setNewLeadDetails({
+                    ...newLeadDetails,
+                    firstName: lead?.split(" ")[0],
+                    lastName: lead?.split(" ")[1],
+                });
+                setSelectedLead(null);
+                setContactSearchModalOpen(false);
+                setCreateNewContactModalOpen(true);
+            } else {
+                setSelectedLead(lead);
+                setContactSearchModalOpen(false);
+                setCreateNewContactModalOpen(false);
+                handleAgentProductPreferenceType(lead);
+            }
+        },
+        [newLeadDetails]
+    );
+
+    const handleAgentProductPreferenceType = useCallback(
+        (lead) => {
+            setShowStartQuoteModal(true);
+            const postalCode = lead?.addresses?.length > 0 ? lead?.addresses[0]?.postalCode : null;
+
+            if (!leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote) {
+                setQuoteModalStage("selectProductTypeCard");
+            } else {
+                setSelectedProductType(leadPreference?.hideLifeQuote ? "health" : "life");
+                if (!leadPreference?.hideLifeQuote) {
+                    if (IUL_FEATURE_FLAG) {
+                        setQuoteModalStage("lifeQuestionCard");
+                    } else {
+                        setQuoteModalStage("finalExpenseIntakeFormCard");
+                    }
+                } else {
+                    if (postalCode) {
+                        fireEvent("New Quote Created With Instant Quote", {
+                            leadId: lead?.leadsId,
+                            line_of_business: "Health",
+                            contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
+                        });
+                        navigate(`/plans/${lead?.leadsId}`);
+                        handleClose();
+                    } else {
+                        setQuoteModalStage("zipCodeInputCard");
+                    }
+                }
+            }
+        },
+        [leadPreference, IUL_FEATURE_FLAG, fireEvent, navigate, newLeadDetails, handleClose]
+    );
+
+    const showUpArrow = useMemo(() => {
+        return !leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote;
+    }, [leadPreference]);
+
+    const handleSelectedProductType = useCallback(
+        (productType) => {
+            if (doNotShowAgain) {
+                editAgentPreferences(productType);
+            }
+            setSelectedProductType(productType);
+            if (productType === "life") {
+                if (IUL_FEATURE_FLAG) {
+                    setQuoteModalStage("lifeQuestionCard");
+                } else {
+                    setQuoteModalStage("finalExpenseIntakeFormCard");
+                }
+            } else {
+                const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
+
+                if (postalCode) {
+                    fireEvent("New Quote Created With Instant Quote", {
+                        leadId: selectedLead?.leadsId,
+                        line_of_business: "Health",
+                        contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
+                    });
+                    navigate(`/plans/${selectedLead?.leadsId}`);
+                    handleClose();
+                } else {
+                    setQuoteModalStage("zipCodeInputCard");
+                }
+            }
+        },
+        [
+            doNotShowAgain,
+            editAgentPreferences,
+            setSelectedProductType,
+            setQuoteModalStage,
+            fireEvent,
+            navigate,
+            handleClose,
+            selectedLead,
+            IUL_FEATURE_FLAG,
+            newLeadDetails,
+        ]
+    );
+
+    const handleSelectLifeProductType = useCallback((productType) => {
         setSelectedLifeProductType(productType);
 
         switch (productType) {
@@ -162,34 +193,31 @@ export const CreateNewQuoteProvider = ({ children }) => {
             default:
                 break;
         }
-    };
+    }, []);
 
-    const handleSelectedHealthProductType = (productType) => {
-        setSelectedHealthProductType(productType);
-        const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
-        if (postalCode) {
-            fireEvent("New Quote Created With Instant Quote", {
-                leadId: selectedLead?.leadsId,
-                line_of_business: "Health",
-                contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
-            });
-            navigate(`/plans/${selectedLead?.leadsId}`);
-            handleClose();
-        } else {
-            setQuoteModalStage("zipCodeInputCard");
-        }
-    };
+    const handleSelectedHealthProductType = useCallback(
+        (productType) => {
+            setSelectedHealthProductType(productType);
+            const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
+            if (postalCode) {
+                fireEvent("New Quote Created With Instant Quote", {
+                    leadId: selectedLead?.leadsId,
+                    line_of_business: "Health",
+                    contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
+                });
+                navigate(`/plans/${selectedLead?.leadsId}`);
+                handleClose();
+            } else {
+                setQuoteModalStage("zipCodeInputCard");
+            }
+        },
+        [selectedLead, fireEvent, navigate, newLeadDetails, handleClose]
+    );
 
-    const handleSelectIulGoal = (goal) => {
+    const handleSelectIulGoal = useCallback((goal) => {
         setSelectedIulGoal(goal);
         setQuoteModalStage("finalExpenseIntakeFormCard");
-    };
-
-    const handleClose = () => {
-        setQuoteModalStage("");
-        setShowStartQuoteModal(false);
-        setSelectedLead(null);
-    };
+    }, []);
 
     return <CreateNewQuoteContext.Provider value={getContextValue()}>{children}</CreateNewQuoteContext.Provider>;
 
@@ -215,7 +243,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             setFinalExpenseIntakeFormData,
             showZipCodeInput,
             setShowZipCodeInput,
-            DoNotShowAgain,
+            doNotShowAgain,
             setDoNotShowAgain,
             handleSelectedProductType,
             handleSelectLifeProductType,

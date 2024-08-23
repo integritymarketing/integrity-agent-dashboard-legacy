@@ -86,7 +86,6 @@ const AutoCompleteContactSearchModal = () => {
 
     const handleSelectNewContact = (contact) => {
         handleSelectedLead(contact, "new");
-        handleCloseModal();
     };
 
     const handleSelectOldContact = (contact) => {
@@ -200,7 +199,6 @@ const AutoCompleteContactSearchModal = () => {
 
         if (response) {
             handleSelectedLead(response, "old");
-            handleCloseModal();
         }
     };
 
