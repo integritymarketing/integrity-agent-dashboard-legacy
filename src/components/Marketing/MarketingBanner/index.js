@@ -6,15 +6,18 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 
-const MarketingBanner = ({ page }) => {
+const MarketingBanner = ({ page, leadDetails = null }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const { setCurrentPage } = useCampaignInvitation();
+    const { setCurrentPage, handleSelectedContact } = useCampaignInvitation();
 
     const navigateToCreateCampaignInvitation = () => {
         setCurrentPage(page);
+        if (leadDetails && page === "Contact_Overview") {
+            handleSelectedContact(leadDetails);
+        }
         navigate("/marketing/campaign-invitation");
     };
     return (

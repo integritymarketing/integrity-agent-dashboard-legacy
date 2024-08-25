@@ -24,6 +24,7 @@ import QuoteModalCard from "components/CreateNewQuoteContainer/Common/QuoteModal
 import LifeQuestionCard from "components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard";
 
 import styles from "./styles.module.scss";
+import WithLoader from "components/ui/WithLoader";
 
 const LIFE = "hideLifeQuote";
 const HEALTH = "hideHealthQuote";
@@ -33,6 +34,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
     const [checked, setChecked] = useState(false);
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
     const [showLifeQuestionCard, setShowLifeQuestionCard] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
     const showToast = useToast();
@@ -68,8 +70,14 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                 });
             }
         },
-        [agentId, checked, leadPreference, showToast, updateAgentPreferences],
+        [agentId, checked, leadPreference, showToast, updateAgentPreferences]
     );
+
+    const handleSellingPermissionModalContinue = () => {
+        onSelectHandle(LIFE);
+        setShowSellingPermissionModal(false);
+        handleContinue();
+    };
 
     const handleHealthPlanClick = useCallback(() => {
         onSelectHandle(HEALTH);
@@ -82,9 +90,11 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
         } else {
             navigate(`/contact/${leadId}/addZip`);
         }
+        setIsLoading(false);
     }, [fireEvent, isMultipleCounties, leadId, navigate, onSelectHandle, zipcode]);
 
     const handleFinalExpensePlanClick = useCallback(async () => {
+        setIsLoading(true);
         const isAgentNonRTS = await getAgentNonRTS();
         if (isAgentNonRTS === "True") {
             setShowSellingPermissionModal(true);
@@ -100,6 +110,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                 navigate(`/finalexpenses/create/${leadId}`);
             }
         }
+        setIsLoading(false);
     }, [fireEvent, getAgentNonRTS, leadId, navigate, onSelectHandle]);
 
     const handleContinue = () => {
@@ -108,10 +119,8 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
             line_of_business: "Life",
         });
         if (IUL_FEATURE_FLAG) {
-            setShowSellingPermissionModal(false);
             setShowLifeQuestionCard(true);
         } else {
-            setShowSellingPermissionModal(false);
             handleModalClose();
             navigate(`/finalexpenses/create/${leadId}`);
         }
@@ -135,6 +144,8 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
             } else {
                 handleFinalExpensePlanClick();
             }
+        } else {
+            setIsLoading(false);
         }
     }, [
         shouldShowPlanTypeModal,
@@ -147,39 +158,41 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
     return (
         <>
             <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Choose Quote Type">
-                {!showLifeQuestionCard && (
-                    <>
-                        <Box className={styles.container}>
-                            <Box className={styles.plan} onClick={handleFinalExpensePlanClick}>
-                                <Box className={styles.icon}>
-                                    <LifeIcon />
+                <WithLoader isLoading={isLoading}>
+                    {!showLifeQuestionCard && (
+                        <>
+                            <Box className={styles.container}>
+                                <Box className={styles.plan} onClick={handleFinalExpensePlanClick}>
+                                    <Box className={styles.icon}>
+                                        <LifeIcon />
+                                    </Box>
+                                    <Box className={styles.title}>Life</Box>
                                 </Box>
-                                <Box className={styles.title}>Life</Box>
-                            </Box>
-                            <Box className={styles.plan} onClick={handleHealthPlanClick}>
-                                <Box className={styles.icon}>
-                                    <HealthIcon />
+                                <Box className={styles.plan} onClick={handleHealthPlanClick}>
+                                    <Box className={styles.icon}>
+                                        <HealthIcon />
+                                    </Box>
+                                    <Box className={styles.title}>Health</Box>
                                 </Box>
-                                <Box className={styles.title}>Health</Box>
                             </Box>
-                        </Box>
-                        <Divider />
-                        <Box display="flex" gap="0px" alignItems="center" justifyContent="center" marginTop="30px">
-                            <FormControlLabel
-                                control={<Checkbox checked={checked} onChange={() => setChecked(!checked)} />}
-                                label="Don't show this again"
+                            <Divider />
+                            <Box display="flex" gap="0px" alignItems="center" justifyContent="center" marginTop="30px">
+                                <FormControlLabel
+                                    control={<Checkbox checked={checked} onChange={() => setChecked(!checked)} />}
+                                    label="Don't show this again"
+                                />
+                            </Box>
+                        </>
+                    )}
+                    {showLifeQuestionCard && (
+                        <QuoteModalCard action={shouldShowPlanTypeModal ? () => setShowLifeQuestionCard(false) : null}>
+                            <LifeQuestionCard
+                                IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
+                                handleSelectLifeProductType={navigateToFinalExpensesPlans}
                             />
-                        </Box>
-                    </>
-                )}
-                {showLifeQuestionCard && (
-                    <QuoteModalCard action={() => setShowLifeQuestionCard(false)}>
-                        <LifeQuestionCard
-                            IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
-                            handleSelectLifeProductType={navigateToFinalExpensesPlans}
-                        />
-                    </QuoteModalCard>
-                )}
+                        </QuoteModalCard>
+                    )}
+                </WithLoader>
             </Modal>
             <SellingPermissionsModal
                 showSellingPermissionModal={showSellingPermissionModal}
@@ -187,7 +200,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                     setShowSellingPermissionModal(false);
                     handleModalClose();
                 }}
-                handleContinue={handleContinue}
+                handleContinue={handleSellingPermissionModalContinue}
             />
         </>
     );

@@ -76,7 +76,7 @@ export const OverviewContainer = ({ isMobile }) => {
                             <Box>
                                 <Grid container className={styles.membershipContainer}>
                                     <Grid item xs={12} md={5.9}>
-                                        <MarketingBanner page="Contact_Overview" />
+                                        <MarketingBanner leadDetails={leadDetails} page="Contact_Overview" />
                                     </Grid>
                                     <Grid
                                         item

@@ -66,7 +66,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
             setSelectedTab(section);
             navigate(`/contact/${leadId}/${section}`);
         },
-        [leadId, navigate, setSelectedTab],
+        [leadId, navigate, setSelectedTab]
     );
 
     const handleClosePlanTypeModal = useCallback(() => {
@@ -131,7 +131,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
                                         <span className={styles.detailValue}>{stateCode}</span>
                                     </Box>
                                 )}
-                                {Boolean(leadDetails?.age) && leadDetails?.age !== 0 && (
+                                {Boolean(leadDetails?.age) && (
                                     <Box className={styles.detail}>
                                         <span className={styles.detailLabel}>Age :</span>
                                         <span className={styles.detailValue}>{leadDetails.age}</span>
@@ -140,7 +140,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
                                 {leadDetails?.gender && (
                                     <Box className={styles.detail}>
                                         <span className={styles.detailLabel}>Gender :</span>
-                                        <span className={styles.detailValue}>{leadDetails?.gender?.toUpperCase()}</span>
+                                        <span className={styles.detailValue}>{toTitleCase(leadDetails?.gender)}</span>
                                     </Box>
                                 )}
                             </Box>
@@ -176,13 +176,15 @@ export const ContactProfileTabBar = ({ contactId }) => {
                         leadDetails={leadDetails}
                     />
                 )}
-                <PlansTypeModal
-                    zipcode={zipcode}
-                    showPlanTypeModal={isPlanTypeModalVisible}
-                    isMultipleCounties={isMultipleCounties}
-                    handleModalClose={handleClosePlanTypeModal}
-                    leadId={leadId}
-                />
+                {isPlanTypeModalVisible && (
+                    <PlansTypeModal
+                        zipcode={zipcode}
+                        showPlanTypeModal={isPlanTypeModalVisible}
+                        isMultipleCounties={isMultipleCounties}
+                        handleModalClose={handleClosePlanTypeModal}
+                        leadId={leadId}
+                    />
+                )}
             </Box>
         </Box>
     );

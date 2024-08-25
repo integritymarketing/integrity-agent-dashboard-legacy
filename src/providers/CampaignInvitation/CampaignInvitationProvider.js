@@ -61,6 +61,11 @@ export const CampaignInvitationProvider = ({ children }) => {
         setInvitationName(name);
     };
 
+    const handleSelectedContact = (contact) => {
+        setSelectedContact(contact);
+        setFilteredContactsType("a contact");
+    };
+
     const handleInvitationTemplateImage = (image) => {
         setInvitationTemplateImage(image);
     };
@@ -108,7 +113,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 setInvitationTemplateImage(data?.templateImageUrl);
                 setCampaignDescription(data?.campaignDescription);
                 handleInvitationSendType(data?.campaignChannel);
-                fireEvent("New Quote Created With Instant Quote", {
+                fireEvent("Campaign Initiated", {
                     page: currentPage,
                     campaignName: "Plan Enroll",
                     campaignDescription: data?.campaignDescription,
@@ -123,7 +128,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 time: 5000,
             });
         }
-    }, [fetchCampaignDetailsByEmail, showToast]);
+    }, [fetchCampaignDetailsByEmail, showToast, currentPage]);
 
     const getAgentPurlURL = useCallback(async () => {
         try {
@@ -204,7 +209,7 @@ export const CampaignInvitationProvider = ({ children }) => {
         try {
             const resData = await startCampaign(payload, false);
             if (resData?.length) {
-                fireEvent("New Quote Created With Instant Quote", {
+                fireEvent("Campaign Started", {
                     campaignName: "Plan Enroll",
                     campaignDescription: campaignDescription,
                     scope:
@@ -279,6 +284,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             allContactsList,
             getAgentPurlURL,
             setCurrentPage,
+            handleSelectedContact,
         };
     }
 };
