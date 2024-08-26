@@ -28,7 +28,7 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
     },
 }));
 
-function ReUseFilters({ anchorEl, handleClose, handleSummaryBarInfo }) {
+function ReUseFilters({ anchorEl, handleClose, handleSummaryBarInfo, campaignId }) {
     const open = Boolean(anchorEl);
     const id = anchorEl ? "simple-popover-filters" : undefined;
 
@@ -55,7 +55,7 @@ function ReUseFilters({ anchorEl, handleClose, handleSummaryBarInfo }) {
                         </Typography>
                         <StyledIconButton onClick={handleClose} />
                     </Box>
-                    <Filter handleSummaryBarInfo={handleSummaryBarInfo} />
+                    <Filter handleSummaryBarInfo={handleSummaryBarInfo} campaignId={campaignId} />
                 </Box>
             </Box>
         </StyledPopover>

@@ -15,7 +15,7 @@ import { styled } from "@mui/system";
 import { filterSectionsConfig as filterSectionsConfigOriginal } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
 import useFetch from "hooks/useFetch";
 import stylesFilterSectionBox from "./FilterSectionBox/styles.module.scss";
-import useFetchTableData from "pages/ContactsList/hooks/useFetchTableData";
+import useFetchCampaignLeads from "pages/ContactsList/hooks/useFetchCampaignLeads";
 import Askintegrity from "components/icons/version-2/AskIntegrity";
 import Spinner from "components/ui/Spinner/index";
 import StageStatusContext from "contexts/stageStatus";
@@ -35,7 +35,7 @@ const StyledPopover = styled(Popover)(() => ({
     },
 }));
 
-export default function CustomContactListFilter({ handleSummaryBarInfo }) {
+export default function CustomContactListFilter({ handleSummaryBarInfo, campaignId }) {
     const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`;
     const { Get: fetchLeadTags } = useFetch(URL);
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
@@ -61,12 +61,9 @@ export default function CustomContactListFilter({ handleSummaryBarInfo }) {
     const {
         isLoading: isFetchingTableData,
         fetchTableData,
-        allLeads,
         tableData,
         fetchTableDataWithoutFilters,
-    } = useFetchTableData();
-
-    console.log("allLeads", tableData);
+    } = useFetchCampaignLeads();
 
     const filterLabel = useMemo(() => {
         if (!selectedFilterSections?.length) {
@@ -129,6 +126,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo }) {
                 filterSectionsConfig,
                 isSilent: true,
                 returnAll: true,
+                campaignId,
             });
         },
         [fetchAllListCount, fetchTableData, filterSectionsConfig]

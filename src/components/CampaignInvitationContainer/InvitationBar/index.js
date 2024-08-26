@@ -25,6 +25,7 @@ const InvitationBar = () => {
         handleSummaryBarInfo,
         setSelectedContact: handleContactSelect,
         contactName,
+        campaignInvitationData,
     } = useCampaignInvitation();
 
     const [contactOptionOpen, setContactOptionOpen] = useState(null);
@@ -81,6 +82,7 @@ const InvitationBar = () => {
                 anchorEl={anchorEl}
                 handleClose={handleCloseFilterDropdown}
                 handleSummaryBarInfo={handleSummaryBarInfo}
+                campaignId={campaignInvitationData?.id}
             />
             {chooseContactModalOpen && (
                 <AutoCompleteContactSearchModal
