@@ -20,6 +20,8 @@ const TABS = [
     { name: "Policies", section: "policies", icon: <Policies /> },
 ];
 
+const isTruthyOrZero = (value) => value || value === 0;
+
 export const ContactProfileTabBar = ({ contactId }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -131,7 +133,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
                                         <span className={styles.detailValue}>{stateCode}</span>
                                     </Box>
                                 )}
-                                {leadDetails?.age !== undefined && (
+                                {isTruthyOrZero(leadDetails?.age) && (
                                     <Box className={styles.detail}>
                                         <span className={styles.detailLabel}>Age :</span>
                                         <span className={styles.detailValue}>{leadDetails.age}</span>
