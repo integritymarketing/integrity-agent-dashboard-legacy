@@ -131,7 +131,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
                                         <span className={styles.detailValue}>{stateCode}</span>
                                     </Box>
                                 )}
-                                {Boolean(leadDetails?.age) && (
+                                {leadDetails?.age !== undefined && (
                                     <Box className={styles.detail}>
                                         <span className={styles.detailLabel}>Age :</span>
                                         <span className={styles.detailValue}>{leadDetails.age}</span>
