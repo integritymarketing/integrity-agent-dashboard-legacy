@@ -107,8 +107,8 @@ export const ContactProfileTabBar = ({ contactId }) => {
                             <Box className={styles.profileImage}>
                                 <Avatar
                                     sx={{
-                                        width: "60px",
-                                        height: "60px",
+                                        width: "64px",
+                                        height: "64px",
                                         backgroundColor: "#052a63",
                                         border: "1px solid #FFFFFF",
                                         marginRight: "16px",
