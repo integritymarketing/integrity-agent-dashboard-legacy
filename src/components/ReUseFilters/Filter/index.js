@@ -116,6 +116,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
 
     const resetData = useCallback(
         (newSelectedFilterSections) => {
+            if(campaignId) {
             fetchAllListCount();
             fetchTableData({
                 pageIndex: 1,
@@ -128,8 +129,9 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
                 returnAll: true,
                 campaignId,
             });
+            }
         },
-        [fetchAllListCount, fetchTableData, filterSectionsConfig]
+        [fetchAllListCount, fetchTableData, filterSectionsConfig, campaignId]
     );
 
     const setFilterSectionsConfig = useCallback(

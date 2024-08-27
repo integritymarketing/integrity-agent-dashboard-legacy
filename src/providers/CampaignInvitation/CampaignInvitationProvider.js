@@ -36,7 +36,6 @@ export const CampaignInvitationProvider = ({ children }) => {
     const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Campaign/Email`;
     const AGENT_PURL_URL = `${process.env.REACT_APP_AGENTS_URL}/api/v1.0/Purl/npn/${npn}`;
     const POST_URL = `${process.env.REACT_APP_COMMUNICATION_API}/CampaignLog/Create`;
-    const CREATE_EMAIL_LOG_POST_URL = `${process.env.REACT_APP_COMMUNICATION_API}/EmailLog/CreateEmailLog`;
 
     const {
         Get: fetchCampaignDetailsByEmail,
@@ -45,11 +44,6 @@ export const CampaignInvitationProvider = ({ children }) => {
     } = useFetch(URL);
 
     const { Post: startCampaign, loading: isStartCampaignLoading, error: startCampaignError } = useFetch(POST_URL);
-    const {
-        Post: createEmailLogRequest,
-        loading: isCreatingEmailLog,
-        error: createEmailLogRequestError,
-    } = useFetch(CREATE_EMAIL_LOG_POST_URL);
     const { Get: fetchAgentPurl } = useFetch(AGENT_PURL_URL);
 
     const handleSummaryBarInfo = (result, label) => {
@@ -62,6 +56,17 @@ export const CampaignInvitationProvider = ({ children }) => {
         setFilteredContactsList(leadsList);
         setFilteredCount(result ? result?.length : 0);
         setFilteredContentStatus(label);
+    };
+
+    useEffect(() => {
+        handleSetDefaultSelection();
+    }, []);
+
+    const handleSetDefaultSelection = () => {
+        setFilteredContactsType("all contacts");
+        setFilteredContactsList([]);
+        setFilteredCount(null);
+        setSelectedContact(null);
     };
 
     const handleSelectedContact = (contact) => {
@@ -84,24 +89,26 @@ export const CampaignInvitationProvider = ({ children }) => {
     const { fetchTableDataWithoutFilters } = useFetchCampaignLeads();
 
     const fetchAllListCount = useCallback(async () => {
-        if (!totalContactsCount) {
+        const campaignId = campaignInvitationData?.id;
+        if (!totalContactsCount && campaignId) {
             const response = await fetchTableDataWithoutFilters({
                 pageIndex: 1,
                 pageSize: 12,
                 searchString: null,
                 sort: ["createDate:desc"],
                 returnAll: true,
+                campaignId: campaignInvitationData?.id,
             });
             setTotalContactsCount(response?.total);
             const leadsList = response?.leadsList?.map((lead) => ({
                 leadsId: lead?.leadsId,
                 firstName: lead?.firstName,
                 lastName: lead?.lastName,
-                destination: invitationSendType === "Email" ? lead?.emails[0]?.leadEmail : lead?.phones[0]?.leadPhone,
+                destination: invitationSendType === "Email" ? lead?.email || undefined : lead?.phone || undefined,
             }));
             setAllContactsList(leadsList);
         }
-    }, [totalContactsCount, fetchTableDataWithoutFilters, invitationSendType]);
+    }, [totalContactsCount, fetchTableDataWithoutFilters, invitationSendType, campaignInvitationData]);
 
     useEffect(() => {
         fetchAllListCount();
@@ -120,7 +127,8 @@ export const CampaignInvitationProvider = ({ children }) => {
                 setInvitationTemplateImage(data?.templateImageUrl);
                 setCampaignDescription(data?.campaignDescription);
                 handleInvitationSendType(data?.campaignChannel);
-                fireEvent("Campaign Initiated", {
+
+                fireEvent("New Quote Created With Instant Quote", {
                     page: currentPage,
                     campaignName: "Plan Enroll",
                     campaignDescription: data?.campaignDescription,
@@ -205,10 +213,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                             leadsId: selectedContact.leadsId,
                             firstName: selectedContact.firstName,
                             lastName: selectedContact.lastName,
-                            destination:
-                                invitationSendType === "Email"
-                                    ? selectedContact?.emails[0]?.leadEmail
-                                    : selectedContact?.phones[0]?.leadPhone,
+                            destination: invitationSendType === "Email" ? selectedContact?.email || undefined : selectedContact?.phone || undefined,
                         },
                     ],
                 },
@@ -217,20 +222,21 @@ export const CampaignInvitationProvider = ({ children }) => {
         try {
             const resData = await startCampaign(payload, false);
             if (resData) {
-                await createEmailLogRequest(payload);
                 showToast({
                     message: "Campaign sent successfully",
                     time: 5000,
                 });
-                fireEvent("Campaign Started", {
+                handleSetDefaultSelection();
+
+                fireEvent("New Quote Created With Instant Quote", {
                     campaignName: "Plan Enroll",
                     campaignDescription: campaignDescription,
                     scope:
                         filteredContactsType === "contacts filtered by .."
                             ? "filter contacts"
                             : filteredContactsType === "all contacts"
-                                ? "all contacts"
-                                : "search for a contact",
+                            ? "all contacts"
+                            : "search for a contact",
                 });
                 navigate("/marketing/campaign-dashboard");
             }
@@ -263,7 +269,6 @@ export const CampaignInvitationProvider = ({ children }) => {
         phone,
         agentPurlURL,
         navigate,
-        createEmailLogRequest,
     ]);
 
     return (
@@ -300,10 +305,9 @@ export const CampaignInvitationProvider = ({ children }) => {
             allContactsList,
             getAgentPurlURL,
             setCurrentPage,
+            currentPage,
             handleSelectedContact,
-            isCreatingEmailLog,
-            createEmailLogRequest,
-            createEmailLogRequestError,
+            handleSetDefaultSelection,
         };
     }
 };

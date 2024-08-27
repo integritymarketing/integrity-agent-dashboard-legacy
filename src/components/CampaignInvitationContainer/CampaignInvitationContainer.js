@@ -7,12 +7,16 @@ import { useCampaignInvitation } from "providers/CampaignInvitation";
 import WithLoader from "components/ui/WithLoader";
 
 export const CampaignInvitationContainer = () => {
-    const { getCampaignDetailsByEmail, isGetCampaignDetailsByEmailLoading } = useCampaignInvitation();
+    const { getCampaignDetailsByEmail, isGetCampaignDetailsByEmailLoading,handleSetDefaultSelection, currentPage } = useCampaignInvitation();
 
     useEffect(() => {
         getCampaignDetailsByEmail();
     }, []);
-
+    useEffect(() => {
+        if(currentPage !== 'Contact_Overview'){
+        handleSetDefaultSelection();
+        }
+    }, []);
     return (
         <WithLoader isLoading={isGetCampaignDetailsByEmailLoading}>
             <Box

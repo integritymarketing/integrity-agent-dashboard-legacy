@@ -6,18 +6,6 @@ import useToast from "hooks/useToast";
 
 import { useClientServiceContext } from "services/clientServiceProvider";
 
-const getAndResetItemFromLocalStorage = (key, initialValue) => {
-    try {
-        const item = window.localStorage.getItem(key);
-        const val = item ? JSON.parse(item) : initialValue;
-        return val;
-    } catch (error) {
-        Sentry.captureException(error);
-        window.localStorage.removeItem(key);
-        return initialValue;
-    }
-};
-
 function useFetchCampaignLeads() {
     const [isLoading, setIsLoading] = useState(false);
     const [tableData, setTableData] = useState([]);
@@ -47,26 +35,20 @@ function useFetchCampaignLeads() {
     }, [queryParams]);
 
     const fetchTableDataWithoutFilters = useCallback(
-        async ({ pageIndex, pageSize, sort, searchString, returnAll }) => {
-            const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
-            const filterLeadIds = getAndResetItemFromLocalStorage("filterLeadIds");
-            const leadIds = filterLeadIds ? filterLeadIds : duplicateIds ? duplicateIds : null;
-            const response = await clientsService.getList(
+        async ({ pageIndex, pageSize, sort, searchString, returnAll, campaignId }) => {
+            const response = await clientsService.getCampaignLeads(
                 pageIndex,
                 pageSize,
                 sort,
                 searchString,
-                leadIds,
-                applyFilters?.contactRecordType,
-                applyFilters?.stages,
-                applyFilters?.hasReminder,
-                applyFilters.hasOverdueReminder,
-                applyFilters.tags,
-                returnAll
+                returnAll,
+                null,
+                null,
+                campaignId
             );
-            const total = response.pageResult.total || 0;
-            const leadsList = response?.result || [];
-            const leadIdsList = response?.result?.map((contact) => contact.leadsId) || [];
+            const total = response.length;
+            const leadsList = response || [];
+            const leadIdsList = response?.map((contact) => contact.leadsId) || [];
             return {
                 total,
                 leadsList,
@@ -87,56 +69,27 @@ function useFetchCampaignLeads() {
             selectedFilterSections,
             filterSectionsConfig,
             campaignId,
+            filterId,
         }) => {
             try {
                 if (!isSilent && !selectedFilterSections?.length) {
                     setIsLoading(true);
                 }
-                const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
-                const filterLeadIds = getAndResetItemFromLocalStorage("filterLeadIds");
-                const leadIds = filterLeadIds ? filterLeadIds : duplicateIds ? duplicateIds : null;
 
-                if (!selectedFilterSections?.length) {
-                    setIsLoading(true);
-                    const response = await clientsService.getList(
-                        pageIndex,
-                        pageSize,
-                        sort,
-                        searchString,
-                        leadIds,
-                        applyFilters?.contactRecordType,
-                        applyFilters?.stages,
-                        applyFilters?.hasReminder,
-                        applyFilters.hasOverdueReminder,
-                        applyFilters.tags,
-                        returnAll
-                    );
+                const response = await clientsService.getCampaignLeads(
+                    pageIndex,
+                    pageSize,
+                    sort,
+                    searchString,
+                    returnAll,
+                    selectedFilterSections,
+                    filterSectionsConfig,
+                    campaignId,
+                    filterId
+                );
 
-                    const listData = response?.result.map((res) => ({
-                        ...res,
-                        contactRecordType:
-                            (res.contactRecordType === "Client" || res.contactRecordType === "client") &&
-                            !res.statusName
-                                ? "Enrolled"
-                                : res.contactRecordType,
-                    }));
-                    setTableData(listData);
-                    setAllLeads(listData?.map((contact) => contact.leadsId));
-                } else {
-                    const response = await clientsService.getCampaignLeads(
-                        pageIndex,
-                        pageSize,
-                        sort,
-                        searchString,
-                        returnAll,
-                        selectedFilterSections,
-                        filterSectionsConfig,
-                        campaignId
-                    );
-
-                    setTableData(response);
-                    setAllLeads(response?.map((contact) => contact.leadsId));
-                }
+                setTableData(response);
+                setAllLeads(response?.map((contact) => contact.leadsId));
 
                 setIsLoading(false);
             } catch (error) {

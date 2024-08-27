@@ -18,7 +18,6 @@ import useToast from "hooks/useToast";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import ContactListItem from "./ContactListItem";
 import CreateNewContactIcon from "components/icons/CreateNewContact";
-import { useLeadDetails } from "providers/ContactDetails";
 import ContinueIcon from "components/icons/Continue";
 
 import styles from "./styles.module.scss";
@@ -44,9 +43,10 @@ const AutoCompleteContactSearchModal = ({
     subTitle,
     handleContactSelect,
     isCreateNewAvailable = false,
+    handleCancel,
+    campaignId,
+    handleSetDefaultSelection,
 }) => {
-    const { getLeadDetails } = useLeadDetails();
-
     const [searchQuery, setSearchQuery] = useState("");
     const [contactList, setContactList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -78,15 +78,11 @@ const AutoCompleteContactSearchModal = ({
         setSearchQuery(`${contact.firstName} ${contact.lastName}`);
     };
 
-    const onClose = () => {
-        handleClose(false);
-    };
-
     const fetchContacts = useCallback(
         async (query) => {
             setLoading(true);
             try {
-                const response = await clientsService.getList(
+                const response = await clientsService.getCampaignLeads(
                     undefined,
                     undefined,
                     ["CreateDate:desc"],
@@ -94,16 +90,10 @@ const AutoCompleteContactSearchModal = ({
                     undefined,
                     undefined,
                     undefined,
-                    undefined,
-                    undefined,
-                    undefined,
-                    undefined,
-                    false,
-                    false,
-                    false
+                    campaignId
                 );
-                if (response && response.result) {
-                    setContactList(response.result);
+                if (response) {
+                    setContactList(response);
                 }
             } catch (error) {
                 showToast({
@@ -114,7 +104,7 @@ const AutoCompleteContactSearchModal = ({
                 setLoading(false);
             }
         },
-        [clientsService, showToast]
+        [clientsService, showToast, campaignId]
     );
 
     const debouncedContactSearch = useCallback(
@@ -171,12 +161,16 @@ const AutoCompleteContactSearchModal = ({
     };
 
     const handleSubmit = async () => {
-        const leadId = tempLead?.leadsId;
-
-        const response = await getLeadDetails(leadId);
-
-        if (response) {
-            handleContactSelect(response, "old");
+        if (!tempLead?.email) {
+            handleClose(false);
+            showToast({
+                type: "error",
+                message: "Cannot send campaign: This contact does not have an email address.",
+                time: 5000,
+            });
+            handleSetDefaultSelection();
+        } else {
+            handleContactSelect(tempLead, "old");
             handleClose(false);
         }
     };
@@ -191,7 +185,7 @@ const AutoCompleteContactSearchModal = ({
         <CustomModal
             title={title}
             open={open}
-            handleClose={onClose}
+            handleClose={handleCancel}
             showCloseButton
             maxWidth="sm"
             disableContentBackground

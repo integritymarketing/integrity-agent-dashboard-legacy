@@ -204,15 +204,17 @@ export class ClientsService {
         sort,
         searchText,
         returnAll,
-        selectedFilterSections,
-        filterSectionsConfig,
-        campaignId
+        selectedFilterSections = [],
+        filterSectionsConfig = {},
+        campaignId,
+        filterId
     ) => {
-        selectedFilterSections = selectedFilterSections.filter((item) => item.selectedFilterOption);
+        if(!campaignId) {return;}
+        selectedFilterSections = selectedFilterSections?.filter((item) => item.selectedFilterOption);
         let remindersKeys = {};
         const reminderSection = selectedFilterSections?.find((item) => item.sectionId === "reminders");
         if (reminderSection) {
-            if (reminderSection.selectedIsOption === "is_not") {
+            if (reminderSection?.selectedIsOption === "is_not") {
                 if (reminderSection.selectedFilterOption === "active_reminder") {
                     remindersKeys = {
                         hasReminder: true,
@@ -254,21 +256,21 @@ export class ClientsService {
         }
         const stageSections = selectedFilterSections?.filter((item) => item.sectionId === "stage");
         let stageArray = [];
-        if (stageSections.length) {
-            stageSections.forEach((stage) => {
-                if (stage.selectedIsOption === "is_not") {
-                    if (stageArray.length) {
-                        const restOfStageIds = stageArray.filter((item) => item !== stage.selectedFilterOption);
+        if (stageSections?.length) {
+            stageSections?.forEach((stage) => {
+                if (stage?.selectedIsOption === "is_not") {
+                    if (stageArray?.length) {
+                        const restOfStageIds = stageArray?.filter((item) => item !== stage.selectedFilterOption);
                         stageArray = restOfStageIds;
                     } else {
-                        const restOfStageIds = filterSectionsConfig.stage.options
+                        const restOfStageIds = filterSectionsConfig?.stage.options
                             .filter((item) => item.value !== stage.selectedFilterOption)
                             .map((item) => item.value);
                         stageArray = restOfStageIds;
                     }
                 } else {
-                    if (!stageArray.includes(stage.selectedFilterOption)) {
-                        stageArray.push(stage.selectedFilterOption);
+                    if (!stageArray?.includes(stage.selectedFilterOption)) {
+                        stageArray?.push(stage.selectedFilterOption);
                     }
                 }
             });
@@ -278,9 +280,9 @@ export class ClientsService {
         const tagsSections = selectedFilterSections?.filter(
             (item) => item.sectionId !== "stage" && item.sectionId !== "reminders"
         );
-        if (tagsSections.length) {
-            tagsSections.forEach((tagSection) => {
-                const tagSectionIndex = selectedFilterSections.findIndex((item) => item.id === tagSection.id);
+        if (tagsSections?.length) {
+            tagsSections?.forEach((tagSection) => {
+                const tagSectionIndex = selectedFilterSections?.findIndex((item) => item.id === tagSection.id);
                 const previousSection = tagSectionIndex === 0 ? null : selectedFilterSections[tagSectionIndex - 1];
                 const andOrValue = previousSection?.nextAndOrOption === "or" ? "OR" : "AND";
                 const selectedIsOption = tagSection.selectedIsOption === "is_not" ? "ISNOT" : "IS";
@@ -295,7 +297,9 @@ export class ClientsService {
         const body = {
             pageSize: 12,
             currentPage: 1,
+            filterId: filterId,
             sort: sort,
+            searchText: searchText,
             stage: stageArray.length ? stageArray : null,
             tags: null,
             includeReminder: true,
