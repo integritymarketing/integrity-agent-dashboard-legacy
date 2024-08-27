@@ -196,8 +196,7 @@ export const ContactsListProvider = ({ children }) => {
                 isSilent: true,
             });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchTableData, fetchAllListCount, searchString, location.search, pageIndex, sort]);
+    }, [fetchTableData, searchString, location.search, pageIndex, sort]);
 
     useEffect(() => {
         setLayout(location.pathname === CARD_PATH ? "card" : "list");
