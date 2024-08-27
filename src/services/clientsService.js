@@ -299,7 +299,7 @@ export class ClientsService {
             currentPage: 1,
             filterId: filterId,
             sort: sort,
-            searchText: searchText,
+            search: searchText,
             stage: stageArray.length ? stageArray : null,
             tags: null,
             includeReminder: true,
