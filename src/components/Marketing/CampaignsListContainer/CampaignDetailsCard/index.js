@@ -8,6 +8,7 @@ import styles from "./styles.module.scss";
 
 const CampaignDetailsCard = ({ type, title, status, date }) => {
     const formattedDate = moment(date).format("MMM D");
+    const isValidDate = moment(date).isValid();
     return (
         <Box className={styles.campaignCard}>
             <Box className={styles.cardHeader}>
@@ -29,10 +30,12 @@ const CampaignDetailsCard = ({ type, title, status, date }) => {
                     Sent to:
                     <span className={styles.cardValue}>{`${status}`}</span>
                 </Box>
-                <Box className={styles.cardLabel}>
-                    On:
-                    <span className={styles.cardValue}>{formattedDate}</span>
-                </Box>
+                {isValidDate && (
+                    <Box className={styles.cardLabel}>
+                        On:
+                        <span className={styles.cardValue}>{formattedDate}</span>
+                    </Box>
+                )}
             </Box>
         </Box>
     );
