@@ -60,6 +60,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
         height,
         isTobaccoUser,
         modifyDate,
+        consumerId,
     } = leadDetails;
 
     const phonesData = phones?.filter((phone) => {
@@ -180,6 +181,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
             isTobaccoUser,
             modifyDate,
             hasMedicAid: data.hasMedicAid === "Yes" ? 1 : 0,
+            consumerId,
         };
         updateLeadDetails(payload);
         setIsEditMode(false);

@@ -56,7 +56,7 @@ export const LeadDetailsProvider = ({ children }) => {
                 });
             }
         },
-        [fetchLeadDetails, showToast]
+        [fetchLeadDetails, showToast],
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,6 +86,7 @@ export const LeadDetailsProvider = ({ children }) => {
             height,
             isTobaccoUser,
             modifyDate,
+            consumerId,
         } = newPayload;
         const reqData = {
             leadsId,
@@ -112,6 +113,9 @@ export const LeadDetailsProvider = ({ children }) => {
         }
         if (partB) {
             reqData.partB = formatServerDate(partB);
+        }
+        if (consumerId) {
+            reqData.consumerId = consumerId;
         }
         reqData.emails = [];
         if (email !== null && email !== undefined) {
@@ -151,7 +155,7 @@ export const LeadDetailsProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to update lead`,
-                })
+                }),
         );
     };
 
@@ -171,10 +175,10 @@ export const LeadDetailsProvider = ({ children }) => {
                     showToast({
                         type: "error",
                         message: `Failed to update lead`,
-                    })
+                    }),
             );
         },
-        [editLeadDetails, getLeadDetails, showToast]
+        [editLeadDetails, getLeadDetails, showToast],
     );
 
     const removeContact = useCallback(
@@ -189,10 +193,10 @@ export const LeadDetailsProvider = ({ children }) => {
                     showToast({
                         type: "error",
                         message: `Failed to delete lead`,
-                    })
+                    }),
             );
         },
-        [deleteContact, showToast]
+        [deleteContact, showToast],
     );
 
     const contextValue = useMemo(
@@ -217,7 +221,7 @@ export const LeadDetailsProvider = ({ children }) => {
             removeContact,
             updateLeadDetails,
             updateClientNotes,
-        ]
+        ],
     );
 
     useEffect(() => {
