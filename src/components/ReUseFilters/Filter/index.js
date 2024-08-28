@@ -63,6 +63,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
         fetchTableData,
         tableData,
         fetchTableDataWithoutFilters,
+        filteredEligibleCount,
     } = useFetchCampaignLeads();
 
     const filterLabel = useMemo(() => {
@@ -355,8 +356,8 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
     }, [filterSectionsConfig]);
 
     useEffect(() => {
-        handleSummaryBarInfo(tableData, filterLabel);
-    }, [tableData, handleSummaryBarInfo, filterLabel]);
+        handleSummaryBarInfo(tableData, filterLabel, filteredEligibleCount);
+    }, [tableData, handleSummaryBarInfo, filterLabel, filteredEligibleCount]);
 
     useEffect(() => {
         const getTags = async () => {

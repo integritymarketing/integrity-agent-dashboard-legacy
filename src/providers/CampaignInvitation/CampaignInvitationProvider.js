@@ -27,6 +27,8 @@ export const CampaignInvitationProvider = ({ children }) => {
     const [agentAccountDetails, setAgentAccountDetails] = useState("");
     const [currentPage, setCurrentPage] = useState("");
     const [agentPurlURL, setAgentPurlURL] = useState("");
+    const [eligibleContactsLength, setEligibleContactsLength] = useState(0);
+    const [filteredEligibleCount, setFilteredEligibleCount] = useState(0);
  
     const contactName = selectedContact ? `${selectedContact?.firstName} ${selectedContact?.lastName}` : null;
     const { agentId, npn, firstName, lastName, email, phone } = useUserProfile();
@@ -49,7 +51,7 @@ export const CampaignInvitationProvider = ({ children }) => {
     const { Get: fetchAgentPurl } = useFetch(AGENT_PURL_URL);
     const { Get: fetchAgentAccountDetails } = useFetch(AGENT_ACCOUNT_DETAILS_URL);
  
-    const handleSummaryBarInfo = (result, label) => {
+    const handleSummaryBarInfo = (result, label, total) => {
         const leadsList = result?.map((lead) => ({
             leadsId: lead?.leadsId,
             firstName: lead?.firstName,
@@ -59,6 +61,7 @@ export const CampaignInvitationProvider = ({ children }) => {
         setFilteredContactsList(leadsList);
         setFilteredCount(result ? result?.length : 0);
         setFilteredContentStatus(label);
+        setFilteredEligibleCount(total);
     };
  
     useEffect(() => {
@@ -103,6 +106,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 campaignId: campaignInvitationData?.id,
             });
             setTotalContactsCount(response?.total);
+            setEligibleContactsLength(response?.eligibleContactsLength);
             const leadsList = response?.leadsList?.map((lead) => ({
                 leadsId: lead?.leadsId,
                 firstName: lead?.firstName,
@@ -330,6 +334,8 @@ export const CampaignInvitationProvider = ({ children }) => {
             currentPage,
             handleSelectedContact,
             handleSetDefaultSelection,
+            eligibleContactsLength,
+            filteredEligibleCount,
         };
     }
 };

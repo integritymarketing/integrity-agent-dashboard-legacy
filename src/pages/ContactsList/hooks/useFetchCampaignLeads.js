@@ -14,6 +14,7 @@ function useFetchCampaignLeads() {
     const showToast = useToast();
     const location = useLocation();
     const { clientsService } = useClientServiceContext();
+    const [filteredEligibleCount, setFilteredEligibleCount] = useState(0);
 
     const queryParams = useMemo(() => {
         return new URLSearchParams(location.search);
@@ -46,13 +47,15 @@ function useFetchCampaignLeads() {
                 null,
                 campaignId
             );
-            const total = response.length;
-            const leadsList = response || [];
-            const leadIdsList = response?.map((contact) => contact.leadsId) || [];
+            const total = response.totalContactCount;
+            const eligibleContactsLength= response?.eligibleContacts?.length;
+            const leadsList = response?.eligibleContacts || [];
+            const leadIdsList = response?.eligibleContacts?.map((contact) => contact.leadsId) || [];
             return {
                 total,
                 leadsList,
                 leadIdsList,
+                eligibleContactsLength
             };
         },
         [applyFilters]
@@ -88,9 +91,9 @@ function useFetchCampaignLeads() {
                     filterId
                 );
 
-                setTableData(response);
-                setAllLeads(response?.map((contact) => contact.leadsId));
-
+                setTableData(response?.eligibleContacts);
+                setAllLeads(response?.eligibleContacts?.map((contact) => contact.leadsId));
+                setFilteredEligibleCount(response?.totalContactCount);
                 setIsLoading(false);
             } catch (error) {
                 setIsLoading(false);
@@ -105,7 +108,7 @@ function useFetchCampaignLeads() {
         [showToast, applyFilters]
     );
 
-    return { tableData, isLoading: isLoading, fetchTableData, fetchTableDataWithoutFilters, allLeads, pageResult };
+    return { tableData, isLoading: isLoading, fetchTableData, fetchTableDataWithoutFilters, allLeads, pageResult, filteredEligibleCount };
 }
 
 export default useFetchCampaignLeads;

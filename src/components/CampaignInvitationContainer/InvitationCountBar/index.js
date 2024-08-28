@@ -9,7 +9,9 @@ const InvitationCountBar = () => {
         filteredContentStatus,
         filteredCount,
         totalContactsCount,
+        eligibleContactsLength,
         contactName,
+        filteredEligibleCount,
     } = useCampaignInvitation();
 
     return (
@@ -23,7 +25,7 @@ const InvitationCountBar = () => {
                 )}
                 {filteredContactsType === "all contacts" && (
                     <>
-                        Sending to <span className={styles.count}>{totalContactsCount}</span> of{" "}
+                        Sending to <span className={styles.count}>{eligibleContactsLength}</span> of{" "}
                         <span className={styles.count}>{totalContactsCount}</span> contacts
                     </>
                 )}
@@ -31,7 +33,7 @@ const InvitationCountBar = () => {
                 {filteredContactsType === "contacts filtered by .." && (
                     <>
                         Sending to <span className={styles.count}>{filteredCount}</span> of{" "}
-                        <span className={styles.count}>{totalContactsCount}</span> contacts
+                        <span className={styles.count}>{filteredEligibleCount}</span> contacts
                     </>
                 )}
             </Box>

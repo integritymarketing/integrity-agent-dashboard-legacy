@@ -94,7 +94,7 @@ const AutoCompleteContactSearchModal = ({
                     campaignId
                 );
                 if (response) {
-                    setContactList(response);
+                    setContactList(response?.eligibleContacts);
                 }
             } catch (error) {
                 showToast({
