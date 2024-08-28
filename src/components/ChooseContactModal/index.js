@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import SearchIcon from "@mui/icons-material/Search";
 import {
@@ -262,6 +263,18 @@ const AutoCompleteContactSearchModal = ({
             </AutocompleteWrapper>
         </CustomModal>
     );
+};
+
+AutoCompleteContactSearchModal.propTypes = {
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    subTitle: PropTypes.string.isRequired,
+    handleContactSelect: PropTypes.func.isRequired,
+    isCreateNewAvailable: PropTypes.bool,
+    handleCancel: PropTypes.func.isRequired,
+    campaignId: PropTypes.string.isRequired,
+    handleSetDefaultSelection: PropTypes.func.isRequired,
 };
 
 export default AutoCompleteContactSearchModal;

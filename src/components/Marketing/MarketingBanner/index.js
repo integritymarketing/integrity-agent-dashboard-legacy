@@ -31,6 +31,7 @@ const MarketingBanner = ({ page, leadDetails = null }) => {
         }
         navigate("/marketing/campaign-invitation");
     };
+
     return (
         <Grid container className={styles.marketingBanner}>
             <Grid item md={6} xs={5}>
@@ -72,10 +73,16 @@ const MarketingBanner = ({ page, leadDetails = null }) => {
         </Grid>
     );
 };
+
 MarketingBanner.propTypes = {
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    buttonLabel: PropTypes.string.isRequired,
+    page: PropTypes.string.isRequired,
+    leadDetails: PropTypes.shape({
+        emails: PropTypes.arrayOf(
+            PropTypes.shape({
+                leadEmail: PropTypes.string,
+            })
+        ),
+    }),
 };
 
 export default MarketingBanner;
