@@ -91,7 +91,7 @@ const AutoCompleteContactSearchModal = ({
                     undefined,
                     undefined,
                     undefined,
-                    campaignId
+                    campaignId,
                 );
                 if (response) {
                     setContactList(response?.eligibleContacts);
@@ -105,7 +105,7 @@ const AutoCompleteContactSearchModal = ({
                 setLoading(false);
             }
         },
-        [clientsService, showToast, campaignId]
+        [clientsService, showToast, campaignId],
     );
 
     const debouncedContactSearch = useCallback(
@@ -114,7 +114,7 @@ const AutoCompleteContactSearchModal = ({
                 fetchContacts(query);
             }
         }, 1000),
-        [fetchContacts]
+        [fetchContacts],
     );
 
     useEffect(() => {
@@ -180,7 +180,7 @@ const AutoCompleteContactSearchModal = ({
         if (isCreateNewAvailable) {
             setContactList([...contactList, { firstName: "", lastName: "", isNewContact: true }]);
         }
-    }, [isCreateNewAvailable]);
+    }, [contactList, isCreateNewAvailable]);
 
     return (
         <CustomModal

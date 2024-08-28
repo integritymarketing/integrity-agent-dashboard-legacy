@@ -26,7 +26,14 @@ const MarketingBanner = ({ page, leadDetails = null }) => {
                 });
                 return;
             } else {
-                handleSelectedContact(leadDetails);
+                const leadInformation = {
+                    email: leadDetails?.emails[0]?.leadEmail,
+                    firstName: leadDetails?.firstName,
+                    lastName: leadDetails?.lastName,
+                    phone: leadDetails?.phones[0]?.leadPhone,
+                    leadsId: leadDetails?.leadsId,
+                };
+                handleSelectedContact(leadInformation);
             }
         }
         navigate("/marketing/campaign-invitation");
@@ -80,7 +87,7 @@ MarketingBanner.propTypes = {
         emails: PropTypes.arrayOf(
             PropTypes.shape({
                 leadEmail: PropTypes.string,
-            })
+            }),
         ),
     }),
 };
