@@ -8,9 +8,9 @@ import useUserProfile from "hooks/useUserProfile";
 import { useNavigate } from "react-router-dom";
 import useFetch from "hooks/useFetch";
 import useAnalytics from "hooks/useAnalytics";
- 
+
 export const CampaignInvitationContext = createContext();
- 
+
 export const CampaignInvitationProvider = ({ children }) => {
     const [invitationSendType, setInvitationSendType] = useState("Email");
     const [filteredContactsType, setFilteredContactsType] = useState("all contacts");
@@ -29,28 +29,28 @@ export const CampaignInvitationProvider = ({ children }) => {
     const [agentPurlURL, setAgentPurlURL] = useState("");
     const [eligibleContactsLength, setEligibleContactsLength] = useState(0);
     const [filteredEligibleCount, setFilteredEligibleCount] = useState(0);
- 
+
     const contactName = selectedContact ? `${selectedContact?.firstName} ${selectedContact?.lastName}` : null;
     const { agentId, npn, firstName, lastName, email, phone } = useUserProfile();
     const navigate = useNavigate();
     const showToast = useToast();
     const { fireEvent } = useAnalytics();
- 
+
     const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Campaign/Email`;
     const AGENT_PURL_URL = `${process.env.REACT_APP_AGENTS_URL}/api/v1.0/Purl/npn/${npn}`;
     const AGENT_ACCOUNT_DETAILS_URL = `${process.env.REACT_APP_AGENTS_URL}/api/v1.0/AgentMobile/Available/${agentId}`;
     const POST_URL = `${process.env.REACT_APP_COMMUNICATION_API}/CampaignLog/Create`;
- 
+
     const {
         Get: fetchCampaignDetailsByEmail,
         loading: isFetchCampaignDetailsByEmailLoading,
         error: fetchCampaignDetailsByEmailError,
     } = useFetch(URL);
- 
+
     const { Post: startCampaign, loading: isStartCampaignLoading, error: startCampaignError } = useFetch(POST_URL);
     const { Get: fetchAgentPurl } = useFetch(AGENT_PURL_URL);
     const { Get: fetchAgentAccountDetails } = useFetch(AGENT_ACCOUNT_DETAILS_URL);
- 
+
     const handleSummaryBarInfo = (result, label, total) => {
         const leadsList = result?.map((lead) => ({
             leadsId: lead?.leadsId,
@@ -63,37 +63,37 @@ export const CampaignInvitationProvider = ({ children }) => {
         setFilteredContentStatus(label);
         setFilteredEligibleCount(total);
     };
- 
+
     useEffect(() => {
         handleSetDefaultSelection();
     }, []);
- 
+
     const handleSetDefaultSelection = () => {
         setFilteredContactsType("all contacts");
         setFilteredContactsList([]);
         setFilteredCount(null);
         setSelectedContact(null);
     };
- 
+
     const handleSelectedContact = (contact) => {
         setSelectedContact(contact);
         setFilteredContactsType("a contact");
     };
- 
+
     const handleInvitationName = (name) => {
         setInvitationName(name);
     };
- 
+
     const handleInvitationTemplateImage = (image) => {
         setInvitationTemplateImage(image);
     };
- 
+
     const handleInvitationSendType = (type) => {
         setInvitationSendType(type);
     };
- 
+
     const { fetchTableDataWithoutFilters } = useFetchCampaignLeads();
- 
+
     const fetchAllListCount = useCallback(async () => {
         const campaignId = campaignInvitationData?.id;
         if (!totalContactsCount && campaignId) {
@@ -116,15 +116,15 @@ export const CampaignInvitationProvider = ({ children }) => {
             setAllContactsList(leadsList);
         }
     }, [totalContactsCount, fetchTableDataWithoutFilters, invitationSendType, campaignInvitationData]);
- 
+
     useEffect(() => {
         fetchAllListCount();
     }, [fetchAllListCount]);
- 
+
     const handleCancel = () => {
         window.history.back();
     };
- 
+
     const getCampaignDetailsByEmail = useCallback(async () => {
         try {
             const resData = await fetchCampaignDetailsByEmail(null, false);
@@ -134,8 +134,8 @@ export const CampaignInvitationProvider = ({ children }) => {
                 setInvitationTemplateImage(data?.templateImageUrl);
                 setCampaignDescription(data?.campaignDescription);
                 handleInvitationSendType(data?.campaignChannel);
- 
-                fireEvent("New Quote Created With Instant Quote", {
+
+                fireEvent("Campaign Initiated", {
                     page: currentPage,
                     campaignName: "Plan Enroll",
                     campaignDescription: data?.campaignDescription,
@@ -152,14 +152,14 @@ export const CampaignInvitationProvider = ({ children }) => {
         }
         return null;
     }, [currentPage, fetchCampaignDetailsByEmail, fireEvent, showToast]);
- 
+
     const getAgentAccountInformation = useCallback(async () => {
         try {
             const [agentAccountDetailsData, agentPurlURLData] = await Promise.all([
                 fetchAgentAccountDetails(),
                 fetchAgentPurl(),
             ]);
- 
+
             setAgentAccountDetails(agentAccountDetailsData);
             setAgentPurlURL(agentPurlURLData);
         } catch (error) {
@@ -171,10 +171,10 @@ export const CampaignInvitationProvider = ({ children }) => {
             });
         }
     }, [fetchAgentAccountDetails, fetchAgentPurl, showToast]);
- 
+
     const handleStartCampaign = useCallback(async () => {
         const templateId = campaignInvitationData?.templateId;
- 
+
         let payload = {
             id: 0,
             agentId: agentId,
@@ -208,7 +208,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 }
             },
         };
- 
+
         if (filteredContactsType === "all contacts") {
             payload = {
                 ...payload,
@@ -252,16 +252,16 @@ export const CampaignInvitationProvider = ({ children }) => {
                     time: 5000,
                 });
                 handleSetDefaultSelection();
- 
-                fireEvent("New Quote Created With Instant Quote", {
+
+                fireEvent("Campaign Started", {
                     campaignName: "Plan Enroll",
                     campaignDescription: campaignDescription,
                     scope:
                         filteredContactsType === "contacts filtered by .."
                             ? "filter contacts"
                             : filteredContactsType === "all contacts"
-                              ? "all contacts"
-                              : "search for a contact",
+                                ? "all contacts"
+                                : "search for a contact",
                 });
                 navigate("/marketing/campaign-dashboard");
             }
@@ -296,11 +296,11 @@ export const CampaignInvitationProvider = ({ children }) => {
         agentPurlURL,
         navigate,
     ]);
- 
+
     return (
         <CampaignInvitationContext.Provider value={getContextValue()}>{children}</CampaignInvitationContext.Provider>
     );
- 
+
     function getContextValue() {
         return {
             invitationSendType,
@@ -339,8 +339,7 @@ export const CampaignInvitationProvider = ({ children }) => {
         };
     }
 };
- 
+
 CampaignInvitationProvider.propTypes = {
     children: PropTypes.node.isRequired, // Child components that this provider will wrap
 };
- 
