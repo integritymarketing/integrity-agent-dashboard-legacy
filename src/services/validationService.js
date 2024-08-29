@@ -17,6 +17,7 @@ function setProp(object, keys, val) {
         return setProp(object[keys[0]], keys.slice(1), val);
     }
     object[keys[0]] = val;
+    return val;
 }
 
 class ValidationService {
