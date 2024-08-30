@@ -89,7 +89,7 @@ export const ScopeOfAppointmentContainer = ({ isSOATab = false }) => {
                     {isSOATab && <div className={styles.soasLengthTitle}>{soaList?.length} SOAs</div>}
                     {!isSOATab && <div className={styles.soaTitle}>{SCOPES_OF_APPOINTMENT}</div>}
                 </div>
-                {isSOATab && soaList?.length > 0 && (
+                {isSOATab && (
                     <div className={styles.sendSOAButton}>
                         <Button
                             label={"Send a new SOA"}
@@ -145,3 +145,4 @@ export const ScopeOfAppointmentContainer = ({ isSOATab = false }) => {
         </WithLoader>
     );
 };
+
