@@ -13,7 +13,7 @@ function Checkbox({
     disabled = false,
     defaultChecked = false,
 }) {
-    const theClassName = `${styles.checkboxLabel} ${className} ${disabled ? "disabled" : ""}`;
+    const theClassName = `${styles.checkboxLabel} ${className} ${disabled ? styles.disabled : ""}`;
 
     return (
         <label htmlFor={htmlFor} className={theClassName}>
