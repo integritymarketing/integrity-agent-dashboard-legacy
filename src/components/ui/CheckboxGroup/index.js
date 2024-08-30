@@ -20,12 +20,7 @@ function CheckboxGroup({ checkboxes }) {
     return (
         <div className="checkbox-group">
             {checkboxes.map((box) => (
-                <Checkbox
-                    key={box.id} // Use a unique key, preferably `id`
-                    disabled={box.disabled}
-                    onChange={(event) => box.onChange(event)} // Pass the event directly
-                    {...box}
-                />
+                <Checkbox key={box.id} disabled={box.disabled} onChange={(event) => box.onChange(event)} {...box} />
             ))}
         </div>
     );

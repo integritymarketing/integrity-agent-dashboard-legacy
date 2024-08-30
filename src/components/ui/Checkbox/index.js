@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import "./styles.module.scss";
+import styles from "./styles.module.scss";
 
 function Checkbox({
     htmlFor = "",
@@ -13,7 +13,7 @@ function Checkbox({
     disabled = false,
     defaultChecked = false,
 }) {
-    const theClassName = `checkbox-label ${className} ${disabled ? "disabled" : ""}`;
+    const theClassName = `${styles.checkboxLabel} ${className} ${disabled ? "disabled" : ""}`;
 
     return (
         <label htmlFor={htmlFor} className={theClassName}>
