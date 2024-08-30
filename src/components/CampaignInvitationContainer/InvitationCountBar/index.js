@@ -42,10 +42,10 @@ const InvitationCountBar = () => {
             <Box className={styles.filteredContent}>
                 {filteredContactsType === "a contact" && (contactName ? contactName : "Choose a contact")}
 
-                {filteredContactsType === "all contacts" && "All Contacts"}
+                {filteredContactsType === "all contacts" && "All Contacts who have an email address and have not created a PlanEnroll account"}
 
-                {filteredContactsType === "contacts filtered by .." && (
-                    <span dangerouslySetInnerHTML={{ __html: filteredContentStatus }}></span>
+                {filteredContactsType === "contacts filtered by .." && filteredContentStatus && (
+                    <span dangerouslySetInnerHTML={{ __html: `${filteredContentStatus} who have an email address and have not created a PlanEnroll account` }}></span>
                 )}
             </Box>
         </Box>

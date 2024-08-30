@@ -15,7 +15,7 @@ export default function MarketingContainer() {
 
     return (
         <div className={styles.container}>
-            <SubHeader title="Client Marketing" showBackButton={true} />
+            <SubHeader title="Client Connect Marketing" showBackButton={true} />
             <div className={styles.innerContainer}>
                 <MarketingInfo />
                 <WithLoader isLoading={isFetchCompletedCampaignsLoading}>
