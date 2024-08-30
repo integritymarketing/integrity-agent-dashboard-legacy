@@ -24,13 +24,23 @@ import {
 } from "./tabNames";
 import { ContactBodyContainer } from "./ContactBodyContainer/ContactBodyContainer";
 import CommunicationsContainer from "./CommunicationsContainer";
+import useQueryParams from "hooks/useQueryParams";
 
 export const ContactDetailsContainer = () => {
     const { leadId, sectionId } = useParams();
+    const params = useQueryParams();
+    const tabSelectedInitial = params.get("tab");
+    const [tabSelectedInitialState, setTabSelectedInitial] = useState(tabSelectedInitial);
     const { selectedTab, setSelectedTab, isLoadingLeadDetails, leadDetails } = useLeadDetails();
     const navigate = useNavigate();
 
     const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        if (tabSelectedInitial) {
+            setTabSelectedInitial(tabSelectedInitial);
+        }
+    }, [tabSelectedInitial, setTabSelectedInitial]);
 
     useEffect(() => {
         const targetTab = sectionId || "overview";
@@ -53,7 +63,13 @@ export const ContactDetailsContainer = () => {
             case COMPLETE_SCOPE_OF_APPOINTMENT:
                 return <SOAConfirmationForm isMobile={isMobile} />;
             case COMMUNICATIONS_CONTAINER:
-                return <CommunicationsContainer isMobile={isMobile} />;
+                return (
+                    <CommunicationsContainer
+                        setTabSelectedInitial={setTabSelectedInitial}
+                        tabSelectedInitialParam={tabSelectedInitialState}
+                        isMobile={isMobile}
+                    />
+                );
             default:
                 return <OverviewContainer isMobile={isMobile} />;
         }

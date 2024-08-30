@@ -17,11 +17,13 @@ import { SOASent } from "./SOASent/SOASent";
 import { SOASignedComplete } from "./SOASignedComplete/SOASignedComplete";
 import { SOASignedView } from "./SOASignedView/SOASignedView";
 import { SCOPES_OF_APPOINTMENT, SEND_NEW } from "./ScopeOfAppointmentContainer.constants";
-import styles from "./ScopeOfAppointmentContainer.module.scss";
 
 import { COMPLETE_SCOPE_OF_APPOINTMENT, VIEW_SCOPE_OF_APPOINTMENT } from "../tabNames";
+import { Button } from "components/ui/Button";
+import PlusIcon from "components/icons/plus";
+import styles from "./ScopeOfAppointmentContainer.module.scss";
 
-export const ScopeOfAppointmentContainer = () => {
+export const ScopeOfAppointmentContainer = ({ isSOATab = false }) => {
     const { leadId } = useParams();
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
@@ -80,16 +82,30 @@ export const ScopeOfAppointmentContainer = () => {
         }
     };
 
-    const renderScopeOfAppointments = () => (
+    const renderScopeOfAppointments = ({ isSOATab }) => (
         <>
             <div className={`${isMobile ? styles.columnView : ""} ${styles.soaTitleHeader}`}>
                 <div className={styles.titleWrapper}>
-                    <div className={styles.soaTitle}>{SCOPES_OF_APPOINTMENT}</div>
+                    {isSOATab && <div className={styles.soasLengthTitle}>{soaList?.length} SOAs</div>}
+                    {!isSOATab && <div className={styles.soaTitle}>{SCOPES_OF_APPOINTMENT}</div>}
                 </div>
-                <div className={styles.sendNewWrapper} onClick={() => setOpenSOAModal(true)}>
-                    <div className={styles.sendStyle}>{SEND_NEW}</div>
-                    <Share className={styles.infoStyle} />
-                </div>
+                {isSOATab && soaList?.length > 0 && (
+                    <div className={styles.sendSOAButton}>
+                        <Button
+                            label={"Send a new SOA"}
+                            onClick={() => setOpenSOAModal(true)}
+                            type="primary"
+                            icon={<PlusIcon strokeColor="#fff" />}
+                            iconPosition="right"
+                        />
+                    </div>
+                )}
+                {!isSOATab && (
+                    <div className={styles.sendNewWrapper} onClick={() => setOpenSOAModal(true)}>
+                        <div className={styles.sendStyle}>{SEND_NEW}</div>
+                        <Share className={styles.infoStyle} />
+                    </div>
+                )}
             </div>
             {soaList && soaList?.length > 0 ? (
                 soaList?.map((soa, index) => {
@@ -97,11 +113,14 @@ export const ScopeOfAppointmentContainer = () => {
                 })
             ) : (
                 <div className={styles.noSOA}>
-                    <div className={styles.noSOAText}>This contact has no Scope Of Appointments.</div>
-                    <div className={styles.titleWrapper} onClick={() => setOpenSOAModal(true)}>
-                        <div className={styles.sendStyle}>{SEND_NEW}</div>
-                        <Share className={styles.infoStyle} />
-                    </div>
+                    {!isSOATab && <div className={styles.noSOAText}>This contact has no Scope Of Appointments.</div>}
+                    {isSOATab && <div className={styles.noSOATextTab}>There are no SOA's for you at this time.</div>}
+                    {!isSOATab && (
+                        <div className={styles.titleWrapper} onClick={() => setOpenSOAModal(true)}>
+                            <div className={styles.sendStyle}>{SEND_NEW}</div>
+                            <Share className={styles.infoStyle} />
+                        </div>
+                    )}
                 </div>
             )}
         </>
@@ -115,7 +134,7 @@ export const ScopeOfAppointmentContainer = () => {
                     setIsMobile(isMobile);
                 }}
             />
-            <SOAContainer>{renderScopeOfAppointments()} </SOAContainer>
+            <SOAContainer isSOATab={isSOATab}>{renderScopeOfAppointments({ isSOATab })} </SOAContainer>
 
             <SOAModal
                 id={leadId}

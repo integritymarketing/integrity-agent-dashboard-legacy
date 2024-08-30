@@ -6,6 +6,7 @@ import styles from "./SOASignedComplete.module.scss";
 import { Button } from "components/ui/Button";
 import Media from "react-media";
 import { getLocalDateTime, getHoursDiffBetweenTwoDays, getSoaDatesFromSummary } from "utils/dates";
+import ArrowRight from "components/icons/version-2/ArrowRight";
 
 export const SOASignedComplete = ({ onComplete, soa }) => {
     const { contactAfterDate, isTracking48HourRule, soaSummary, signedDate } = soa;
@@ -45,7 +46,7 @@ export const SOASignedComplete = ({ onComplete, soa }) => {
                     <div className={`${styles.boxColumn} ${styles.width25}`}>
                         {isTracking48HourRule && (
                             <>
-                                <div className={styles.columnLabel}>Contact After</div>
+                                <div className={`${styles.columnLabel} ${styles.contactAfterLabel}`}>Contact After</div>
                                 <div className={styles.contactWrapper}>
                                     <div className={styles.contactBox}>{getLocalDateTime(contactAfterDate)?.date}</div>
                                     <div className={styles.spacing}>at</div>
@@ -60,8 +61,8 @@ export const SOASignedComplete = ({ onComplete, soa }) => {
                                 disabled={isTracking48HourRule && isEarlierThanCurrentDate(contactAfterDate)}
                                 type="primary"
                                 icon={
-                                    <OpenIcon
-                                        color={
+                                    <ArrowRight
+                                        strokeColor={
                                             isTracking48HourRule && isEarlierThanCurrentDate(contactAfterDate)
                                                 ? "#aba7a7"
                                                 : null

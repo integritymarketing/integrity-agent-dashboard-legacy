@@ -1,4 +1,4 @@
-const ArrowRight = () => {
+const ArrowRight = ({ strokeColor = "#4178ff" }) => {
     return (
         <svg
             id="Arrow_Point"
@@ -19,7 +19,7 @@ const ArrowRight = () => {
                     y2="4.5"
                     transform="translate(312 649) rotate(180)"
                     fill="none"
-                    stroke="#4178ff"
+                    stroke={strokeColor}
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="1"
@@ -31,7 +31,7 @@ const ArrowRight = () => {
                     y1="4.5"
                     transform="translate(312 644.5) rotate(180)"
                     fill="none"
-                    stroke="#4178ff"
+                    stroke={strokeColor}
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="1"
@@ -42,7 +42,7 @@ const ArrowRight = () => {
                     x2="12"
                     transform="translate(312 644.5) rotate(180)"
                     fill="none"
-                    stroke="#4178ff"
+                    stroke={strokeColor}
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="1"

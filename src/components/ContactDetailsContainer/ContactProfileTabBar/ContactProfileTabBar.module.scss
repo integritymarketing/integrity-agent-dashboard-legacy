@@ -49,9 +49,11 @@
             justify-content: space-between;
             align-items: center;
             padding: 24px 0px;
+            gap: 15px;
 
             @include small {
                 overflow-x: auto;
+                gap: 5px;
             }
 
             .profileTab {

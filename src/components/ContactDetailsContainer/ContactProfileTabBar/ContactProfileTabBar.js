@@ -8,7 +8,7 @@ import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithC
 import BackButton from "components/BackButton";
 import PlansTypeModal from "components/PlansTypeModal";
 import { ConnectModal } from "../ConnectModal";
-import { Health, Overview, Policies } from "./Icons";
+import { Connect, Health, Overview, Policies } from "./Icons";
 import { useLeadDetails } from "providers/ContactDetails";
 import { toTitleCase } from "utils/toTitleCase";
 import styles from "./ContactProfileTabBar.module.scss";
@@ -18,6 +18,7 @@ const TABS = [
     { name: "Overview", section: "overview", icon: <Overview /> },
     { name: "Health Profile", section: "health", icon: <Health /> },
     { name: "Policies", section: "policies", icon: <Policies /> },
+    { name: "Connect", section: "communications", icon: <Connect />, modalTrigger: false },
 ];
 
 const isTruthyOrZero = (value) => value || value === 0;

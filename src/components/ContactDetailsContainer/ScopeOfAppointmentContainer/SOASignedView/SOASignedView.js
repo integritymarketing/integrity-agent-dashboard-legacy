@@ -11,10 +11,19 @@ export const SOASignedView = ({ onView, soa }) => {
     const { signedDate, linkCode, soaSummary } = soa;
     const [isMobile, setIsMobile] = useState(false);
     const { sentDate } = getSoaDatesFromSummary(soaSummary);
+    const productsToDiscuss = soa?.soa?.leadSection?.products ?? [];
+    console.log("productsToDiscuss", { productsToDiscuss, soa });
 
-    const Column = ({ style, label, data, subdata, dataStyle }) => (
+    const Column = ({ style, label, data, products, subdata, dataStyle }) => (
         <div className={`${styles.boxColumn} ${style}`}>
             <div className={styles.columnLabel}>{label}</div>
+            {products ? (
+                <ul className={styles.productsContainer}>
+                    {products.map((product, index) => (
+                        <li key={index}>{product}</li>
+                    ))}
+                </ul>
+            ) : null}
             <div className={`${dataStyle ? dataStyle : styles.columnText}`}> {data}</div>
             {subdata && <div className={styles.columnText}>{subdata}</div>}
         </div>
@@ -49,15 +58,14 @@ export const SOASignedView = ({ onView, soa }) => {
                             />
                         }
                     </div>
-                    {
+                    <Column label="Products to Discuss" products={productsToDiscuss} style={styles.width45} />
+                    <div className={`${styles.boxColumn} ${styles.width20}`}>
                         <Column
-                            style={styles.width50}
+                            style={styles.width25}
                             label="Confirmation number"
                             data={linkCode}
                             dataStyle={styles.confirmNo}
                         />
-                    }
-                    <div className={`${styles.boxColumn} ${styles.width20}`}>
                         <div className={styles.ViewCTAWrapper}>
                             <Button
                                 label={SOACTAOPTS.VIEW}

@@ -26,7 +26,7 @@ export const SOASent = ({ soa }) => {
                         <div className={styles.columnText}>{getLocalDateTime(statusDate)?.time}</div>
                     </div>
                     <div className={`${styles.boxColumn} ${styles.width70} ${isMobile ? styles.mobileView : ""}`}>
-                        <div className={styles.columnLabel}>Products to Discuss</div>
+                        {/* <div className={styles.columnLabel}>Products to Discuss</div> */}
                         <div className={styles.productsContainer}>
                             {SOA_SENT_TO}
                             {!isMobile && <span className={styles.email}>{soaDestination}</span>}

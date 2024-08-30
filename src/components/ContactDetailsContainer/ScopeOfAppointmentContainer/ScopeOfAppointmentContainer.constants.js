@@ -2,9 +2,9 @@ export const SCOPES_OF_APPOINTMENT = "Scope of Appointment";
 export const SEND_NEW = "Send New";
 export const SOA_SIGNED = "SOA Signed";
 export const SOA_SENT = "SOA Sent";
-export const SOA_COMPLETED = "Completed";
+export const SOA_COMPLETED = "SOA Completed";
 export const SOA_SENT_TO = "The SOA has been sent to ";
-export const SOACTAOPTS = { COMPLETE: "Complete", VIEW: "View SOA" };
+export const SOACTAOPTS = { COMPLETE: "Complete", VIEW: "View" };
 export const SOA_FORM = "Scopes of Appointment Form";
 export const SOA_FORM_DETAILS =
     "Scope of Appointment form needs to be completed and submitted for all scheduled appointments (even for no-shows, cancelled appointments, or those that do not result in a sale)";

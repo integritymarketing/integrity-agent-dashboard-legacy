@@ -1,11 +1,13 @@
+@import "../../../../scss/globalDefines.scss";
+
 .soaSignedContainer {
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 8px;
     margin-bottom: 24px;
 
     .titleWrapper {
         font-size: 20px;
-        color: #052A63;
+        color: #052a63;
         padding: 16px 24px;
         border-bottom: 1px solid #cccccc;
     }
@@ -13,6 +15,7 @@
     .contentWrapper {
         padding: 16px 24px 24px 24px;
         display: flex;
+        justify-content: space-between;
 
         .boxColumn {
             display: flex;
@@ -23,22 +26,33 @@
                 display: flex;
                 justify-content: flex-end;
                 margin-top: 32px;
+                align-self: flex-end;
 
                 button {
                     border-radius: 25px;
                     border: none;
-                    background: #4178FF;
-                    padding: 5px 9px;
-                    width: 125px;
+                    background: #4178ff;
+                    padding: 5px 15px;
+                    padding-right: 5px;
                     display: flex;
                     justify-content: flex-start;
                     cursor: pointer;
+
+                    svg {
+                        margin-left: 0;
+                    }
+                }
+
+                @include small() {
+                    justify-content: center;
+                    align-self: center;
                 }
             }
 
             .columnLabel {
-                color: #052A63;
+                color: #052a63;
                 font-weight: bold;
+                margin-bottom: 10px;
             }
 
             .columnText {
@@ -46,7 +60,7 @@
             }
 
             .confirmNo {
-                background: #F1F1F1;
+                background: #f1f1f1;
                 border-radius: 8px;
                 color: #434a51;
                 padding: 16px 16px 13px 16px;
@@ -65,9 +79,9 @@
 
         .width20 {
             flex-basis: 20%;
+            display: flex;
+            justify-content: flex-end;
         }
-
-
     }
 
     .columnView {
@@ -75,9 +89,22 @@
     }
 }
 
-.mobileStyles{
+.productsContainer {
+    background: #f1f1f1;
+    border-radius: 8px;
+    color: #434a51;
+    padding: 16px 16px 23px 29px;
+    list-style: disc;
+}
+
+.width45 {
+    flex-basis: 45%;
+    padding-right: 24px;
+}
+
+.mobileStyles {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
- }
+}

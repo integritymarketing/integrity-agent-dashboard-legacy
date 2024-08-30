@@ -22,6 +22,7 @@
     justify-content: center;
     padding: 20px;
     margin-top: 10px;
+    border-radius: 8px;
 }
 
 .noSOAText {
@@ -52,7 +53,7 @@
 }
 
 .soaTitle {
-    color: #052A63;
+    color: #052a63;
     font-size: 24px;
     padding-right: 5px;
 }
@@ -65,6 +66,38 @@
 
 .sendStyle {
     font-size: 14px;
-    color: #4178FF;
+    color: #4178ff;
     cursor: pointer;
+}
+
+.soasLengthTitle {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.sendSOAButton {
+    button[type="button"] {
+        border-radius: 25px;
+        border: none;
+        background: #4178ff;
+        padding: 5px 15px;
+        display: flex;
+        justify-content: flex-start;
+        cursor: pointer;
+        margin-bottom: 15px;
+
+        svg {
+            margin-left: 10px;
+        }
+
+        @include small() {
+            width: 170px;
+        }
+    }
+}
+
+.noSOATextTab {
+    font-size: 20px;
+    color: #052a63;
+    text-align: center;
 }

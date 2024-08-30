@@ -29,7 +29,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
 
     const formattedPhoneNumber = agentVirtualPhoneNumber?.replace(/^\+1/, "");
     const { Post: outboundCallFromMedicareCenter } = useFetch(
-        `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`,
+        `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`
     );
     const {
         firstName = "",
@@ -47,7 +47,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
     const phone = validPhones.length > 0 ? validPhones?.[0]?.leadPhone : NOT_AVAILABLE;
 
     const handleSoaNavigation = useCallback(() => {
-        navigate(`/contact/${leadId}/scope-of-appointment`);
+        navigate(`/contact/${leadId}/communications?tab=scope-of-appointment`);
         onClose();
     }, [leadId, navigate, onClose]);
 
@@ -180,7 +180,7 @@ ConnectModal.propTypes = {
         phones: PropTypes.arrayOf(
             PropTypes.shape({
                 leadPhone: PropTypes.string,
-            }),
+            })
         ),
         addresses: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,

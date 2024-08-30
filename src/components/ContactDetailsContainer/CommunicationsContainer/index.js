@@ -1,26 +1,72 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Tabs, Tab, Grid, Box } from "@mui/material";
 import TextIcon from "components/icons/version-2/TextIcon";
+import styles from "./CommunicationsContainer.module.scss";
+import CallIcon from "components/icons/callicon";
+import EditBoxIcon from "components/icons/version-2/EditBox";
+import SOAsContainerTab from "./SOAsContainerTab";
+import useQueryParams from "hooks/useQueryParams";
 
-const CommunicationsContainer = () => {
+const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitial }) => {
+    const params = useQueryParams();
+    const tabSelectedInitial = tabSelectedInitialParam;
     const [selectedTab, setSelectedTab] = useState(0);
+
+    useEffect(() => {
+        if (tabSelectedInitial) {
+            if (tabSelectedInitial === "texts") {
+                setSelectedTab(0);
+                params.set("tab", "texts");
+            } else if (tabSelectedInitial === "calls") {
+                setSelectedTab(1);
+                params.set("tab", "calls");
+            } else if (tabSelectedInitial === "scope-of-appointment") {
+                setSelectedTab(2);
+                params.set("tab", "scope-of-appointment");
+            }
+        }
+    }, [tabSelectedInitial]);
 
     const handleTabChange = (newValue) => {
         setSelectedTab(newValue);
+        if (newValue === 0) {
+            params.set("tab", "texts");
+            setTabSelectedInitial("texts");
+        } else if (newValue === 1) {
+            params.set("tab", "calls");
+            setTabSelectedInitial("calls");
+        } else if (newValue === 2) {
+            params.set("tab", "scope-of-appointment");
+            setTabSelectedInitial("scope-of-appointment");
+        }
     };
 
     return (
         <Container sx={{ mx: { xs: "1rem", sm: "2rem", md: "5rem" } }}>
             <Grid container>
                 <Grid item xs={12}>
-                    <Tabs
-                        value={selectedTab}
-                        onChange={handleTabChange}
-                        aria-label="texts"
-                        centered
-                        TabIndicatorProps={{ style: { width: "100%", left: "0px" } }}
-                    >
-                        <Tab icon={<TextIcon />} iconPosition="end" label="Texts" />
+                    <Tabs value={selectedTab} aria-label="texts" variant="fullWidth">
+                        <Tab
+                            className={`${styles.tab} ${styles.tab1}`}
+                            icon={<TextIcon />}
+                            onClick={() => handleTabChange(0)}
+                            iconPosition="end"
+                            label="Texts"
+                        />
+                        <Tab
+                            className={styles.tab}
+                            icon={<CallIcon />}
+                            onClick={() => handleTabChange(1)}
+                            iconPosition="end"
+                            label="Calls"
+                        />
+                        <Tab
+                            className={styles.tab}
+                            icon={<EditBoxIcon />}
+                            onClick={() => handleTabChange(2)}
+                            iconPosition="end"
+                            label="SOAs"
+                        />
                     </Tabs>
                 </Grid>
                 <Grid item xs={12}>
@@ -29,6 +75,12 @@ const CommunicationsContainer = () => {
                             <p>This is the sample content for the Texts tab.</p>
                         </Box>
                     )}
+                    {selectedTab === 1 && (
+                        <Box sx={{ p: { xs: 1, sm: 2 } }}>
+                            <p>This is the sample content for the Calls tab.</p>
+                        </Box>
+                    )}
+                    {selectedTab === 2 && <SOAsContainerTab />}
                 </Grid>
             </Grid>
         </Container>

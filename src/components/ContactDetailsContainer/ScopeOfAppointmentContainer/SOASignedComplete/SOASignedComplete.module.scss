@@ -1,11 +1,13 @@
+@import "../../../../scss/globalDefines.scss";
+
 .soaSignedContainer {
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 8px;
     margin-bottom: 24px;
 
     .titleWrapper {
         font-size: 20px;
-        color: #052A63;
+        color: #052a63;
         padding: 16px 24px;
         border-bottom: 1px solid #cccccc;
     }
@@ -13,44 +15,60 @@
     .contentWrapper {
         padding: 16px 24px 24px 24px;
         display: flex;
+        justify-content: space-between;
 
         .boxColumn {
             display: flex;
             flex-direction: column;
+            justify-content: flex-start;
             font-size: 16px;
 
             .completeCTAWrapper {
                 display: flex;
                 justify-content: flex-end;
+                align-items: flex-end;
                 margin-top: 38px;
 
                 button {
                     border-radius: 25px;
                     border: none;
-                    background: #4178FF;
-                    padding: 5px 9px;
-                    width: 125px;
+                    background: #4178ff;
+                    padding: 5px 15px;
+                    padding-right: 5px;
                     display: flex;
                     justify-content: flex-start;
                     cursor: pointer;
+
+                    svg {
+                        margin-left: 0;
+                    }
 
                     &:disabled {
                         cursor: not-allowed;
                     }
                 }
+
+                @include small() {
+                    justify-content: center;
+                }
             }
 
             .columnLabel {
-                color: #052A63;
+                color: #052a63;
                 font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .contactAfterLabel {
+                margin-top: 10px;
             }
 
             .columnText {
-                color: #434a51;
+                color: #717171;
             }
 
             .productsContainer {
-                background: #F1F1F1;
+                background: #f1f1f1;
                 border-radius: 8px;
                 color: #434a51;
                 padding: 16px 16px 23px 29px;
@@ -62,18 +80,18 @@
                 align-items: center;
 
                 .contactBox {
-                    background: #F1F1F1;
+                    background: #f1f1f1;
                     border-radius: 4px;
                     color: #434a51;
                     padding: 7px 19px;
+                    min-width: 100px;
+                    white-space: nowrap;
                 }
 
                 .spacing {
                     margin: 0 16px;
                 }
             }
-
-
         }
 
         .width15 {
@@ -89,8 +107,6 @@
         .width25 {
             flex-basis: 25%;
         }
-
-
     }
 
     .columnView {
@@ -98,9 +114,9 @@
     }
 }
 
-.mobileStyles{
+.mobileStyles {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 10px;
- }
+}
