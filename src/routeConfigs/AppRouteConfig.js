@@ -56,6 +56,7 @@ const PrivacyPolicyPage = lazy(() => import("pages/PrivacyPolicyPage"));
 const LoginRedirectSSOPage = lazy(() => import("pages/auth/LoginRedirectSSOPage"));
 const CampaignInvitationPage = lazy(() => import("pages/Marketing/CampaignInvitation"));
 const CampaignDashboardPage = lazy(() => import("pages/Marketing/CampaignDashboard"));
+const ClientConnectMarketingContainer = lazy(() => import("pages/Marketing/ClientConnectMarketing"));
 
 const appRoutes = [
     {
@@ -290,6 +291,10 @@ const appProtectedRoutes = [
     {
         path: "marketing/campaign-dashboard",
         component: <CampaignDashboardPage />,
+    },
+    {
+        path: "marketing/client-connect-marketing",
+        component: <ClientConnectMarketingContainer />,
     },
 ];
 

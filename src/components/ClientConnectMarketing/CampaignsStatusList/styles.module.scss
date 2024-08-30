@@ -1,0 +1,16 @@
+@import "../../../scss/globalDefines.scss";
+
+.campaignInnerContainer {
+    width: 85%;
+    margin: auto;
+    padding: 56px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 48px;
+    @include small {
+        width: 100%;
+        padding: 56px 16px;
+    }
+}
