@@ -155,9 +155,17 @@
     }
   }
 
+  .ac-actionSet {
+    button.primary:only-child {
+      min-width: 70%;
+      padding: 12px 18px;
+      justify-content: left !important;
+    }
+  }
+
   #mcContactSummaryButtonsCard,
   #mcWelcomeCard,
-  #mcContactListCard, #mcCallSummaryButtonsCard, #mcAskSomethingElseButtonCard, #mcTranscriptButtonsCard, #mcCallListCard, #mcCallListExpansionCard, #mcSearchContactButtonsCard {
+  #mcContactListCard, #mcCallSummaryButtonsCard, #mcAskSomethingElseButtonCard, #mcTranscriptButtonsCard, #mcCallListCard, #mcCallListExpansionCard, #mcSearchContactButtonsCard, #mcViewContactButtonsCard {
     padding: 0 !important;
   }
 
@@ -202,6 +210,7 @@
 
     .webchat__bubble__content {
       background: transparent;
+      padding: 0px;
     }
 
     #mcContactSummaryButtonsCard,
