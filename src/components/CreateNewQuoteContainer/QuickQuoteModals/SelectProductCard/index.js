@@ -22,21 +22,17 @@ const SelectProductCard = ({ isMultipleCounties }) => {
     const handleHealthPlanClick = () => {
         try {
             handleSelectedProductType("health");
-
             if (!isMultipleCounties) {
                 return;
             }
-
             if (!selectedLead?.leadsId) {
                 return;
             }
-
             navigate(`/contact/${selectedLead.leadsId}/addZip`);
         } catch (error) {
             console.error("Error while handling health plan click", error);
         }
     };
-
 
     const handleLifePlanClick = useCallback(async () => {
         const isAgentNonRTS = await getAgentNonRTS();
