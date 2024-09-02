@@ -155,13 +155,24 @@
     }
   }
 
-  .ac-actionSet {
-    button.primary:only-child {
-      min-width: 70%;
-      padding: 12px 18px;
-      justify-content: left !important;
-    }
+.ac-actionSet {
+  button.primary:only-child {
+    min-width: 75%;
+    padding: 12px 18px;
+    justify-content: left !important;
+    position: relative;
   }
+
+  button.primary:only-child::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    width: 28px;
+    height: 30px;
+    background-image: url("./continue-icon.svg");
+    background-size: contain;
+  }
+}
 
   #mcContactSummaryButtonsCard,
   #mcWelcomeCard,
