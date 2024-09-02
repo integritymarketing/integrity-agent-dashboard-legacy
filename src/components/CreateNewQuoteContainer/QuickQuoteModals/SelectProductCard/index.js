@@ -23,13 +23,15 @@ const SelectProductCard = ({ isMultipleCounties }) => {
         handleSelectedProductType("health");
 
         if (!isMultipleCounties) {
-            console.warn("Multiple counties not found, navigation skipped.");
+            // No navigation is needed if multiple counties do not exist
             return;
         }
 
         if (selectedLead?.leadsId) {
+            // Navigate to the addZip page if multiple counties exist and lead ID is defined
             navigate(`/contact/${selectedLead.leadsId}/addZip`);
         } else {
+            // Log an error if the lead ID is undefined
             console.error("Lead ID is undefined. Cannot navigate.");
         }
     };
