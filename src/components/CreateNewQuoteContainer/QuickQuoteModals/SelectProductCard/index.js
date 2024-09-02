@@ -20,19 +20,20 @@ const SelectProductCard = ({ isMultipleCounties }) => {
     const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${npn}`);
 
     const handleHealthPlanClick = () => {
-        handleSelectedProductType("health");
+        try {
+            handleSelectedProductType("health");
 
-        if (!isMultipleCounties) {
-            // No navigation is needed if multiple counties do not exist
-            return;
-        }
+            if (!isMultipleCounties) {
+                return;
+            }
 
-        if (selectedLead?.leadsId) {
-            // Navigate to the addZip page if multiple counties exist and lead ID is defined
+            if (!selectedLead?.leadsId) {
+                return;
+            }
+
             navigate(`/contact/${selectedLead.leadsId}/addZip`);
-        } else {
-            // Log an error if the lead ID is undefined
-            console.error("Lead ID is undefined. Cannot navigate.");
+        } catch (error) {
+            console.error("Error while handling health plan click", error);
         }
     };
 
