@@ -13,18 +13,24 @@ import { AGENT_SERVICE_NON_RTS } from "components/FinalExpensePlansContainer/Fin
 
 import Checkbox from "components/ui/Checkbox";
 import { LifeHealthProducts } from "../../Common";
+import { useNavigate } from "react-router-dom";
 
-const SelectProductCard = () => {
+const SelectProductCard = ({ isMultipleCounties }) => {
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
-
-    const { handleSelectedProductType, setDoNotShowAgain, doNotShowAgain } = useCreateNewQuote();
+    const navigate = useNavigate();
+    const { handleSelectedProductType, setDoNotShowAgain, doNotShowAgain, selectedLead } = useCreateNewQuote();
 
     const { npn } = useUserProfile();
 
     const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${npn}`);
 
     const handleHealthPlanClick = () => {
-        handleSelectedProductType("health");
+        if (isMultipleCounties) {
+            handleSelectedProductType("health");
+            navigate(`/contact/${selectedLead?.leadId}/addZip`);
+        } else {
+            handleSelectedProductType("health");
+        }
     };
 
     const handleLifePlanClick = useCallback(async () => {
