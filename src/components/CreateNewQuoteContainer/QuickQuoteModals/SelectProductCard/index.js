@@ -1,30 +1,37 @@
 import { useCreateNewQuote } from "providers/CreateNewQuote";
-
 import { useState, useCallback } from "react";
-
 import { Divider } from "@mui/material";
 import Box from "@mui/material/Box";
-
 import useFetch from "hooks/useFetch";
 import useUserProfile from "hooks/useUserProfile";
-
 import { SellingPermissionsModal } from "components/FinalExpensePlansContainer/FinalExpenseContactDetailsForm/SellingPermissionsModal";
 import { AGENT_SERVICE_NON_RTS } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
-
 import Checkbox from "components/ui/Checkbox";
 import { LifeHealthProducts } from "../../Common";
+import { useNavigate } from "react-router-dom";
 
-const SelectProductCard = () => {
+const SelectProductCard = ({ isMultipleCounties }) => {
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
-
-    const { handleSelectedProductType, setDoNotShowAgain, doNotShowAgain } = useCreateNewQuote();
+    const navigate = useNavigate();
+    const { handleSelectedProductType, setDoNotShowAgain, doNotShowAgain, selectedLead } = useCreateNewQuote();
 
     const { npn } = useUserProfile();
 
     const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${npn}`);
 
     const handleHealthPlanClick = () => {
-        handleSelectedProductType("health");
+        try {
+            handleSelectedProductType("health");
+            if (!isMultipleCounties) {
+                return;
+            }
+            if (!selectedLead?.leadsId) {
+                return;
+            }
+            navigate(`/contact/${selectedLead.leadsId}/addZip`);
+        } catch (error) {
+            console.error("Error while handling health plan click", error);
+        }
     };
 
     const handleLifePlanClick = useCallback(async () => {
