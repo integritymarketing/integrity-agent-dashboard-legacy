@@ -496,6 +496,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                     setFieldValue("address.postalCode", e.target.value);
                                                     setFieldValue("address.county", "");
                                                     setFieldValue("address.stateCode", "");
+                                                    setFieldValue("address.countyFips", "");
                                                     fetchCountyAndState(e.target.value);
                                                     if (e.target.value.length < 5) {
                                                         setZipLengthValid(false);
