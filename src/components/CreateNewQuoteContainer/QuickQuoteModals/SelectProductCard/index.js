@@ -1,16 +1,11 @@
 import { useCreateNewQuote } from "providers/CreateNewQuote";
-
 import { useState, useCallback } from "react";
-
 import { Divider } from "@mui/material";
 import Box from "@mui/material/Box";
-
 import useFetch from "hooks/useFetch";
 import useUserProfile from "hooks/useUserProfile";
-
 import { SellingPermissionsModal } from "components/FinalExpensePlansContainer/FinalExpenseContactDetailsForm/SellingPermissionsModal";
 import { AGENT_SERVICE_NON_RTS } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
-
 import Checkbox from "components/ui/Checkbox";
 import { LifeHealthProducts } from "../../Common";
 import { useNavigate } from "react-router-dom";
@@ -25,13 +20,20 @@ const SelectProductCard = ({ isMultipleCounties }) => {
     const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${npn}`);
 
     const handleHealthPlanClick = () => {
-        if (isMultipleCounties) {
-            handleSelectedProductType("health");
-            navigate(`/contact/${selectedLead?.leadId}/addZip`);
+        handleSelectedProductType("health");
+
+        if (!isMultipleCounties) {
+            console.warn("Multiple counties not found, navigation skipped.");
+            return;
+        }
+
+        if (selectedLead?.leadsId) {
+            navigate(`/contact/${selectedLead.leadsId}/addZip`);
         } else {
-            handleSelectedProductType("health");
+            console.error("Lead ID is undefined. Cannot navigate.");
         }
     };
+
 
     const handleLifePlanClick = useCallback(async () => {
         const isAgentNonRTS = await getAgentNonRTS();
