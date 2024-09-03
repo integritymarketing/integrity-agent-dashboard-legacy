@@ -1,45 +1,42 @@
-import { useCreateNewQuote } from "providers/CreateNewQuote";
 import { useState, useCallback } from "react";
-import { Divider } from "@mui/material";
-import Box from "@mui/material/Box";
+import * as Sentry from "@sentry/react";
+import PropTypes from "prop-types";
+import { Divider, Box } from "@mui/material";
 import useFetch from "hooks/useFetch";
 import useUserProfile from "hooks/useUserProfile";
 import { SellingPermissionsModal } from "components/FinalExpensePlansContainer/FinalExpenseContactDetailsForm/SellingPermissionsModal";
 import { AGENT_SERVICE_NON_RTS } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 import Checkbox from "components/ui/Checkbox";
 import { LifeHealthProducts } from "../../Common";
-import { useNavigate } from "react-router-dom";
+import { useCreateNewQuote } from "providers/CreateNewQuote";
 
-const SelectProductCard = ({ isMultipleCounties }) => {
+const SelectProductCard = ({ isMultipleCounties, setQuoteModalStage }) => {
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
-    const navigate = useNavigate();
     const { handleSelectedProductType, setDoNotShowAgain, doNotShowAgain, selectedLead } = useCreateNewQuote();
-
     const { npn } = useUserProfile();
-
     const { Get: getAgentNonRTS } = useFetch(`${AGENT_SERVICE_NON_RTS}${npn}`);
 
     const handleHealthPlanClick = () => {
         try {
-            handleSelectedProductType("health");
-            if (!isMultipleCounties) {
-                return;
+            if (!isMultipleCounties || !selectedLead?.leadsId) {
+                handleSelectedProductType("health");
             }
-            if (!selectedLead?.leadsId) {
-                return;
-            }
-            navigate(`/contact/${selectedLead.leadsId}/addZip`);
+            setQuoteModalStage("zipCodeInputCard");
         } catch (error) {
-            console.error("Error while handling health plan click", error);
+            Sentry.captureException(error);
         }
     };
 
     const handleLifePlanClick = useCallback(async () => {
-        const isAgentNonRTS = await getAgentNonRTS();
-        if (isAgentNonRTS === "True") {
-            setShowSellingPermissionModal(true);
-        } else {
-            handleSelectedProductType("life");
+        try {
+            const isAgentNonRTS = await getAgentNonRTS();
+            if (isAgentNonRTS === "True") {
+                setShowSellingPermissionModal(true);
+            } else {
+                handleSelectedProductType("life");
+            }
+        } catch (error) {
+            Sentry.captureException(error);
         }
     }, [getAgentNonRTS, handleSelectedProductType]);
 
@@ -64,13 +61,16 @@ const SelectProductCard = ({ isMultipleCounties }) => {
 
             <SellingPermissionsModal
                 showSellingPermissionModal={showSellingPermissionModal}
-                handleModalClose={() => {
-                    setShowSellingPermissionModal(false);
-                }}
+                handleModalClose={() => setShowSellingPermissionModal(false)}
                 handleContinue={handleContinue}
             />
         </>
     );
+};
+
+SelectProductCard.propTypes = {
+    isMultipleCounties: PropTypes.bool.isRequired,
+    setQuoteModalStage: PropTypes.func.isRequired,
 };
 
 export default SelectProductCard;

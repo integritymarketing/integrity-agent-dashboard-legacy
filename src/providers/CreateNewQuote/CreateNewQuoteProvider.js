@@ -5,6 +5,7 @@ import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
 import { useNavigate } from "react-router-dom";
 import useAnalytics from "hooks/useAnalytics";
+import useFetch from "hooks/useFetch";
 
 export const CreateNewQuoteContext = createContext();
 
@@ -22,7 +23,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
 
     const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
     const [createNewContactModalOpen, setCreateNewContactModalOpen] = useState(false);
-
     const [selectedLead, setSelectedLead] = useState(null);
     const [newLeadDetails, setNewLeadDetails] = useState({
         firstName: "",
@@ -44,6 +44,17 @@ export const CreateNewQuoteProvider = ({ children }) => {
     });
     const [showZipCodeInput, setShowZipCodeInput] = useState(false);
     const [doNotShowAgain, setDoNotShowAgain] = useState(false);
+    const [isMultipleCounties, setIsMultipleCounties] = useState(false);
+
+    const zipCode = selectedLead?.addresses?.[0]?.postalCode;
+    const URL = `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=${zipCode}`;
+    const { Get: getCounties } = useFetch(URL);
+    const county = selectedLead?.addresses?.[0]?.county;
+
+    const fetchCountiesData = useCallback(async () => {
+        const counties = await getCounties();
+        setIsMultipleCounties(counties?.length > 1 && !county);
+    }, [county, getCounties]);
 
     // Define handleClose before any function that references it
     const handleClose = useCallback(() => {
@@ -76,7 +87,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 });
             }
         },
-        [agentId, leadPreference, showToast, updateAgentPreferences]
+        [agentId, leadPreference, showToast, updateAgentPreferences],
     );
 
     const handleAgentProductPreferenceType = useCallback(
@@ -109,7 +120,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 }
             }
         },
-        [leadPreference, IUL_FEATURE_FLAG, fireEvent, navigate, newLeadDetails, handleClose]
+        [leadPreference, IUL_FEATURE_FLAG, fireEvent, navigate, newLeadDetails, handleClose],
     );
 
     const handleSelectedLead = useCallback(
@@ -130,7 +141,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 handleAgentProductPreferenceType(lead);
             }
         },
-        [newLeadDetails, handleAgentProductPreferenceType]
+        [newLeadDetails, handleAgentProductPreferenceType],
     );
 
     const showUpArrow = useMemo(() => {
@@ -176,7 +187,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             selectedLead,
             IUL_FEATURE_FLAG,
             newLeadDetails,
-        ]
+        ],
     );
 
     const handleSelectLifeProductType = useCallback((productType) => {
@@ -211,7 +222,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 setQuoteModalStage("zipCodeInputCard");
             }
         },
-        [selectedLead, fireEvent, navigate, newLeadDetails, handleClose]
+        [selectedLead, fireEvent, navigate, newLeadDetails, handleClose],
     );
 
     const handleSelectIulGoal = useCallback((goal) => {
@@ -258,6 +269,8 @@ export const CreateNewQuoteProvider = ({ children }) => {
             handleClose,
             showUpArrow,
             IUL_FEATURE_FLAG,
+            isMultipleCounties,
+            fetchCountiesData,
         };
     }
 };
