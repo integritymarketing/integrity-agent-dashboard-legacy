@@ -1,0 +1,42 @@
+.messageBox {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    width: 93%;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.chatIconBoxBroadcast {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+    max-width: 20%;
+}
+
+.messageTextBoxBroadcast {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.dateTimeBox {
+    display: inline-block;
+}
+
+.timeText {
+    font-weight: bold;
+    color: #052a63;
+    display: inline-block;
+}
+
+.messageBoxSystem {
+    margin-right: auto;
+    margin-left: 0;
+    border-left: solid 3px #4178ff;
+    font-weight: bold;
+}

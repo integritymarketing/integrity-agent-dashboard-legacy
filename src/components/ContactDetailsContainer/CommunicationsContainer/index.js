@@ -6,11 +6,15 @@ import CallIcon from "components/icons/callicon";
 import EditBoxIcon from "components/icons/version-2/EditBox";
 import SOAsContainerTab from "./SOAsContainerTab";
 import useQueryParams from "hooks/useQueryParams";
+import TextsTab from "./TextsTab";
+import { useWindowSize } from "hooks/useWindowSize";
 
 const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitial }) => {
     const params = useQueryParams();
     const tabSelectedInitial = tabSelectedInitialParam;
     const [selectedTab, setSelectedTab] = useState(0);
+    const { width: windowWidth } = useWindowSize();
+    const isMobile = windowWidth <= 784;
 
     useEffect(() => {
         if (tabSelectedInitial) {
@@ -47,34 +51,34 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                 <Grid item xs={12}>
                     <Tabs value={selectedTab} aria-label="texts" variant="fullWidth">
                         <Tab
-                            className={`${styles.tab} ${styles.tab1}`}
+                            className={`${styles.tab} ${styles.tab1} ${selectedTab === 0 ? styles.selectedTab : ""}`}
                             icon={<TextIcon />}
                             onClick={() => handleTabChange(0)}
                             iconPosition="end"
-                            label="Texts"
+                            label={
+                                <div className={styles.tabTexts}>
+                                    {!isMobile && "Texts"} <span className={styles.tabTextsCount}>11</span>
+                                </div>
+                            }
                         />
                         <Tab
-                            className={styles.tab}
+                            className={`${styles.tab} ${selectedTab === 1 ? styles.selectedTab : ""}`}
                             icon={<CallIcon />}
                             onClick={() => handleTabChange(1)}
                             iconPosition="end"
-                            label="Calls"
+                            label={isMobile ? "" : "Calls"}
                         />
                         <Tab
-                            className={styles.tab}
+                            className={`${styles.tab} ${selectedTab === 2 ? styles.selectedTab : ""}`}
                             icon={<EditBoxIcon />}
                             onClick={() => handleTabChange(2)}
                             iconPosition="end"
-                            label="SOAs"
+                            label={isMobile ? "" : "SOAs"}
                         />
                     </Tabs>
                 </Grid>
                 <Grid item xs={12}>
-                    {selectedTab === 0 && (
-                        <Box sx={{ p: { xs: 1, sm: 2 } }}>
-                            <p>This is the sample content for the Texts tab.</p>
-                        </Box>
-                    )}
+                    {selectedTab === 0 && <TextsTab />}
                     {selectedTab === 1 && (
                         <Box sx={{ p: { xs: 1, sm: 2 } }}>
                             <p>This is the sample content for the Calls tab.</p>

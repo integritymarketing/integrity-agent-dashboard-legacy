@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Container, Tabs, Tab, Grid, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import { ScopeOfAppointmentContainer } from "components/ContactDetailsContainer/ScopeOfAppointmentContainer";
 
 const SOAsContainerTab = () => {
