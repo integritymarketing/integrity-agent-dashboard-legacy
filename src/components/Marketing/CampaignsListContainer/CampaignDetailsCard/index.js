@@ -6,8 +6,8 @@ import moment from "moment";
 import styles from "./styles.module.scss";
 
 const CampaignDetailsCard = ({ type, title, status, date }) => {
-    const formattedDate = moment(date).format("MMM D");
     const isValidDate = moment(date).isValid();
+    const formattedDate = isValidDate ? moment.utc(date).local().format("MMM D") : "";
     return (
         <Box className={styles.campaignCard}>
             <Box className={styles.cardHeader}>
