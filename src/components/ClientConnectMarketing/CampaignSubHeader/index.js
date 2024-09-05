@@ -6,8 +6,8 @@ import PlusIcon from "images/Campaigns/icons-Plus.svg";
 const CampaignSubHeader = () => {
     return (
         <Box className={styles.campaignSubHeader}>
-            <Box>
-                <Typography variant="h2">Client Marketing</Typography>
+            <Box className={styles.campaignHeader}>
+                <Typography variant="h2">Client Connect Marketing</Typography>
             </Box>
 
             <Box className={styles.newCampaignButton}>

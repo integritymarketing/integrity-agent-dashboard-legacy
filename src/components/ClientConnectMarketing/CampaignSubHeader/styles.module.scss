@@ -4,9 +4,18 @@
     position: absolute;
     top: 25px;
     right: 60px;
+
     @include small {
         position: static;
         margin-top: 10px;
+    }
+}
+
+.campaignHeader {
+    text-align: center;
+
+    @include medium {
+        margin-right: 50px;
     }
 }
 
@@ -18,6 +27,7 @@
     border-bottom: 1px solid #cccccc;
     background-color: #ffffff;
     position: relative;
+
     @include small {
         flex-direction: column;
     }

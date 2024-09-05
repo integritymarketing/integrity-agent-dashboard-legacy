@@ -22,7 +22,7 @@ const CampaignsStatusList = () => {
         completed: {
             title: "Completed",
             body: "Client Marketing Campaigns that have finished running.",
-            message: "There are no completed campaigns",
+            message: "There are no completed campaigns to show.",
         },
     };
     return (
