@@ -95,31 +95,30 @@ export const CampaignInvitationProvider = ({ children }) => {
     const { fetchTableDataWithoutFilters } = useFetchCampaignLeads();
 
     const fetchAllListCount = useCallback(async () => {
-        const campaignId = campaignInvitationData?.id;
-        if (!totalContactsCount && campaignId) {
-            const response = await fetchTableDataWithoutFilters({
-                pageIndex: 1,
-                pageSize: 12,
-                searchString: null,
-                sort: ["createDate:desc"],
-                returnAll: true,
-                campaignId: campaignInvitationData?.id,
-            });
-            setTotalContactsCount(response?.total);
-            setEligibleContactsLength(response?.eligibleContactsLength);
-            const leadsList = response?.leadsList?.map((lead) => ({
-                leadsId: lead?.leadsId,
-                firstName: lead?.firstName,
-                lastName: lead?.lastName,
-                destination: invitationSendType === "Email" ? lead?.email || undefined : lead?.phone || undefined,
-            }));
-            setAllContactsList(leadsList);
-        }
-    }, [totalContactsCount, fetchTableDataWithoutFilters, invitationSendType, campaignInvitationData]);
+        const response = await fetchTableDataWithoutFilters({
+            pageIndex: 1,
+            pageSize: 12,
+            searchString: null,
+            sort: ["createDate:desc"],
+            returnAll: true,
+            campaignId: campaignInvitationData?.id,
+        });
+        setTotalContactsCount(response?.total);
+        setEligibleContactsLength(response?.eligibleContactsLength);
+        const leadsList = response?.leadsList?.map((lead) => ({
+            leadsId: lead?.leadsId,
+            firstName: lead?.firstName,
+            lastName: lead?.lastName,
+            destination: invitationSendType === "Email" ? lead?.email || undefined : lead?.phone || undefined,
+        }));
+        setAllContactsList(leadsList);
+    }, [fetchTableDataWithoutFilters, invitationSendType, campaignInvitationData]);
 
     useEffect(() => {
-        fetchAllListCount();
-    }, [fetchAllListCount]);
+        if (filteredContactsType === "all contacts") {
+            fetchAllListCount();
+        }
+    }, [fetchAllListCount, filteredContactsType]);
 
     const handleCancel = () => {
         window.history.back();
@@ -202,10 +201,10 @@ export const CampaignInvitationProvider = ({ children }) => {
                     stage: {
                         logicalOperator: "",
                         value: "",
-                        condition: ""
+                        condition: "",
                     },
-                    trigger: {}
-                }
+                    trigger: {},
+                },
             },
         };
 
@@ -260,8 +259,8 @@ export const CampaignInvitationProvider = ({ children }) => {
                         filteredContactsType === "contacts filtered by .."
                             ? "filter contacts"
                             : filteredContactsType === "all contacts"
-                                ? "all contacts"
-                                : "search for a contact",
+                              ? "all contacts"
+                              : "search for a contact",
                 });
                 navigate("/marketing/campaign-dashboard");
             }
