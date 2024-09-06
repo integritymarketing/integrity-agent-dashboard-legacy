@@ -1,0 +1,127 @@
+.callCardWrapper {
+    display: flex;
+    max-width: var(--modal-max, 560px);
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    width: min(100%, 560px);
+    margin-inline: auto;
+
+    .callCard {
+        display: flex;
+        padding: var(--none-0, 0px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: var(--padding-gap-md-16, 16px);
+        align-self: stretch;
+        border-radius: 8px;
+        background: var(--background-paper-elevation-0, #FFF);
+
+        .cardContentWrapper {
+            display: flex;
+            padding: var(--padding-gap-md-16, 16px);
+            flex-direction: column;
+            align-items: flex-end;
+            gap: var(--padding-gap-sm-8, 8px);
+            align-self: stretch;
+            border-radius: var(--border-radius-x-sm-4, 4px);
+
+            .callContent {
+                display: flex;
+                align-items: flex-start;
+                gap: var(--padding-gap-md-16, 16px);
+                align-self: stretch;
+                width: min(100%, 528px);
+
+                .callIcon {
+                    display: flex;
+                    padding: var(--padding-gap-x-sm-4, 4px);
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 100px;
+
+                    &.callIconMissed {
+                        background: var(--error-light, #FBDEDE);
+                    }
+
+                    &.callIconAnswered {
+                        background: var(--action-selected, #F1FAFF);
+                    }
+
+                    .callIconSize {
+                        display: flex;
+                        width: var(--sizing-432-px, 32px);
+                        height: var(--sizing-432-px, 32px);
+                        min-width: var(--sizing-432-px, 32px);
+                        max-width: var(--sizing-432-px, 32px);
+                        min-height: var(--sizing-432-px, 32px);
+                        max-height: var(--sizing-432-px, 32px);
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+
+                .callDetailsWrapper {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 8px;
+                    flex: 1 0 0;
+
+                    .callDetails {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        align-content: center;
+                        row-gap: var(--padding-gap-x-sm-4, 4px);
+                        align-self: stretch;
+                        flex-wrap: wrap;
+
+                        .callMetadata {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: flex-start;
+                            gap: var(--none-0, 0px);
+                        }
+
+                        .callDuration {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-end;
+                        }
+                    }
+                }
+            }
+
+            .callCtasWrapper {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                align-content: center;
+                gap: 8px var(--padding-gap-sm-8, 8px);
+                align-self: stretch;
+                flex-wrap: wrap;
+                width: min(100%, 528px);
+
+                .callCta {
+                    display: flex;
+                    padding: var(--padding-gap-x-sm-4, 4px) var(--none-0, 0px);
+                    box-shadow: none;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: var(--border-radius-lg-24, 24px);
+                    background: var(--secondary-main, #FFF);
+
+                    .callCtaIcon {
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
+            }
+
+        }
+    }
+}
