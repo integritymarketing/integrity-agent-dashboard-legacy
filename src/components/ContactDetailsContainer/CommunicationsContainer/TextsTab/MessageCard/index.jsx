@@ -1,6 +1,8 @@
+import React from "react";
+import PropTypes from "prop-types";
 import ChatMessage from "components/icons/version-2/ChatMessage";
 import BroadCast from "components/icons/version-2/Broadcast";
-import { Button } from "components/ui/Button";
+import { Button } from "@mui/material";
 import ArrowRightCircle from "components/icons/version-2/ArrowRightCircle";
 
 import styles from "./MessageCard.module.scss";
@@ -37,13 +39,9 @@ const MessageCard = ({ type }) => {
                 <div className={styles.chatIconBoxBroadcast}>
                     <BroadCast />
                     <div className={styles.sendNewTextButton}>
-                        <Button
-                            label={"View campaign"}
-                            onClick={() => {}}
-                            type="primary"
-                            icon={<ArrowRightCircle />}
-                            iconPosition="right"
-                        />
+                        <Button variant="contained" color="primary" endIcon={<ArrowRightCircle />} onClick={() => {}}>
+                            View campaign
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -66,6 +64,11 @@ const MessageCard = ({ type }) => {
             </div>
         );
     }
+    return null;
+};
+
+MessageCard.propTypes = {
+    type: PropTypes.string.isRequired,
 };
 
 export default MessageCard;
