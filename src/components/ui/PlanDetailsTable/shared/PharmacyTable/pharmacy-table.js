@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-
+import PropTypes from "prop-types";
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import UpdateView from "./components/UpdateView/updateView";
 import Edit from "components/Edit";
@@ -14,169 +14,131 @@ import OutNetworkIcon from "../../Icons/outNetwork";
 import PlanDetailsTableWithCollapse from "../../planDetailsTableWithCollapse";
 import APIFail from "../APIFail/index";
 
-function getInNetwork(pharmacyCost) {
-    return pharmacyCost.isNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
-}
+const getNetworkIcon = (pharmacyCost) => {
+    return pharmacyCost?.isNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
+};
 
 const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
-    const { pharmacies: pharmaciesList, deletePharmacy, fetchPharmacies } = useHealth();
-    const [open, setOpen] = useState(false);
-    const [openAddModal, setOpenAddModal] = useState(false);
+    const { pharmacies: pharmacyList, deletePharmacy, fetchPharmacies } = useHealth();
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const leadId = contact?.leadsId;
 
     useEffect(() => {
         if (leadId) {
-            fetchHealthDetails();
+            fetchPharmacyDetails();
         }
     }, [leadId]);
 
-    const fetchHealthDetails = useCallback(async () => {
+    const fetchPharmacyDetails = useCallback(async () => {
         await fetchPharmacies(leadId);
     }, [leadId, fetchPharmacies]);
 
-    const isApiFailed =
-        (pharmaciesList?.filter((pharmacy) => pharmacy.name)?.length > 0 ? false : true) &&
-        pharmaciesList !== null &&
-        pharmaciesList?.length > 0;
+    const hasApiFailed =
+        pharmacyList?.length === 0 && planData?.pharmacyCosts?.length > 0;
 
-    const columns = useMemo(
-        () => [
-            {
-                Header: "Pharmacy",
-                columns: [
-                    ...(isMobile
-                        ? [
-                              {
-                                  hideHeader: true,
-                                  accessor: "name_address",
-                              },
-                          ]
-                        : [
-                              {
-                                  hideHeader: true,
-                                  accessor: "name",
-                              },
-                              {
-                                  hideHeader: true,
-                                  accessor: "address",
-                              },
-                          ]),
-                ],
-            },
-        ],
-        [isMobile]
-    );
-    const data = [];
-
-    if (pharmaciesList && planData?.pharmacyCosts && Array.isArray(planData?.pharmacyCosts)) {
-        pharmaciesList?.forEach((_, index) => {
-            const pharmacy = pharmaciesList[0];
-            const matchedPharmacyCost = planData?.pharmacyCosts[index];
-
-            if (pharmacy) {
-                const row = {
-                    name: <span className={"label"}>{pharmacy?.name}</span>,
-                    address: (
-                        <>
-                            <div className={"address"}>
-                                <span className="networkIcon">{getInNetwork(matchedPharmacyCost)}</span>
-                                {`${pharmacy?.address1 
-                                    }\n${ 
-                                    pharmacy?.address2 
-                                    }\n${ 
-                                    pharmacy?.city 
-                                    } ${ 
-                                    pharmacy?.state 
-                                    } ${ 
-                                    pharmacy?.zip}`}
-                            </div>
-                        </>
-                    ),
-                };
-                data.push({
-                    ...row,
-                    name_address: (
-                        <>
-                            <div>{row?.name}</div>
-                            <div>{row?.address}</div>
-                        </>
-                    ),
-                });
-            }
-        });
-    }
-    const columnsData = [
+    const columns = useMemo(() => [
         {
             Header: "Pharmacy",
-            columns: [
-                {
-                    hideHeader: true,
-                    accessor: "unAvailable",
-                },
-            ],
+            columns: isMobile
+                ? [
+                    {
+                        hideHeader: true,
+                        accessor: "name_address"
+                    },
+                  ]
+                : [
+                      { hideHeader: true, accessor: "name" },
+                    {
+                        hideHeader: true,
+                        accessor: "address"
+                    },
+                  ],
         },
-    ];
+    ], [isMobile]);
 
-    const rowData = [
-        {
-            unAvailable: <APIFail title={"Pharmacy"} />,
-        },
-    ];
+    const tableData = useMemo(() => {
+        if (!pharmacyList || !Array.isArray(planData?.pharmacyCosts)) {return [];}
+        
+        return pharmacyList.map((pharmacy, index) => {
+            const pharmacyCost = planData?.pharmacyCosts[index];
+            return {
+                name: <span className="label">{pharmacy?.name}</span>,
+                address: (
+                    <div className="address">
+                        <span className="networkIcon">{getNetworkIcon(pharmacyCost)}</span>
+                        {`${pharmacy?.address1}\n${pharmacy?.address2}\n${pharmacy?.city} ${pharmacy?.state} ${pharmacy?.zip}`}
+                    </div>
+                ),
+                name_address: (
+                    <>
+                        <div>{pharmacy?.name}</div>
+                        <div>{`${pharmacy?.address1}, ${pharmacy?.city}, ${pharmacy?.state} ${pharmacy?.zip}`}</div>
+                    </>
+                ),
+            };
+        });
+    }, [pharmacyList, planData]);
 
-    const isEdit = pharmaciesList?.length > 0;
+    const handleEditClick = () => {
+        if (pharmacyList?.length) {
+            setIsEditModalOpen(true);
+        } else {
+            setIsAddModalOpen(true);
+        }
+    };
 
     return (
         <>
             <PlanDetailsTableWithCollapse
-                columns={isApiFailed ? columnsData : columns}
-                data={isApiFailed ? rowData : data}
+                columns={hasApiFailed ? [{ Header: "Pharmacy", columns: [{ accessor: "unAvailable" }] }] : columns}
+                data={hasApiFailed ? [{ unAvailable: <APIFail title="Pharmacy" /> }] : tableData}
                 className="quotes"
                 header="Pharmacy"
                 actions={
-                    !isEnroll ? (
+                    !isEnroll && (
                         <Edit
-                            label={data.length ? "Edit" : "Add"}
-                            onClick={() => {
-                                if (isEdit) {
-                                    setOpen(true);
-                                } else {
-                                    setOpenAddModal(true);
-                                }
-                            }}
-                            icon={data.length ? <EditIcon /> : <PlusIcon />}
+                            label={tableData.length ? "Edit" : "Add"}
+                            onClick={handleEditClick}
+                            icon={tableData.length ? <EditIcon /> : <PlusIcon />}
                         />
-                    ) : null
+                    )
                 }
             />
-            {isEdit && (
+            {pharmacyList?.length > 0 && (
                 <Modal
-                    open={open}
-                    onClose={() => {
-                        setOpen(!open);
-                    }}
+                    open={isEditModalOpen}
+                    onClose={() => setIsEditModalOpen(false)}
                     hideFooter
-                    title={"Update Pharmacy"}
-                    isDelete={isEdit}
-                    modalName={"Pharmacy"}
+                    title="Update Pharmacy"
+                    isDelete
+                    modalName="Pharmacy"
                     onDelete={() => {
-                        deletePharmacy(pharmaciesList?.[0], null, leadId);
-                        setOpen(!open);
-                        setOpenAddModal(true);
+                        deletePharmacy(pharmacyList?.[0], null, leadId);
+                        setIsEditModalOpen(false);
+                        setIsAddModalOpen(true);
                     }}
                 >
-                    <UpdateView data={pharmaciesList?.[0]} />
+                    <UpdateView data={pharmacyList[0]} />
                 </Modal>
             )}
-            {!isEdit && (
+            {pharmacyList?.length === 0 && (
                 <PharmacyModal
-                    open={openAddModal}
-                    onClose={() => setOpenAddModal(false)}
+                    open={isAddModalOpen}
+                    onClose={() => setIsAddModalOpen(false)}
                     userZipCode={contact?.addresses?.[0]?.postalCode}
                     leadId={leadId}
                 />
             )}
         </>
     );
+};
+
+PharmacyTable.propTypes = {
+    contact: PropTypes.object,
+    planData: PropTypes.object,
+    isMobile: PropTypes.bool.isRequired,
+    isEnroll: PropTypes.bool.isRequired,
 };
 
 export default PharmacyTable;
