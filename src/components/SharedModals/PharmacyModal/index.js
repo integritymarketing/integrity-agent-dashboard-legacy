@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/react";
 import React, { useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -19,7 +20,8 @@ import { useClientServiceContext } from "services/clientServiceProvider";
 import "./styles.module.scss";
 
 import AddCircleOutline from "../Icons/AddCircleOutline";
-import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";
+import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCircle";
+import InfoBlue from "components/icons/version-2/InfoBlue";
 import ErrorState from "../SharedComponents/ErrorState";
 import SearchInput from "../SharedComponents/SearchInput";
 import SearchLabel from "../SharedComponents/SearchLabel";
@@ -52,21 +54,21 @@ const useStyles = makeStyles(() => ({
         display: "flex",
         justifyContent: "center",
     },
-    maxAddresses: {
+    maxPharmacies: {
         position: "sticky",
         top: 0,
         zIndex: 10,
         display: "flex",
         backgroundColor: "#F1FAFF",
         alignItems: "center",
-        padding: "10px",
-        marginTop: "10px",
+        padding: "14px",
+        marginTop: "5px",
         borderRadius: "8px",
-        border: "solid 1px #f44236",
     },
-    maxAddressesMessage: {
-        color: "#052A63",
-        fontSize: "20px",
+    maxPharmaciesMessage: {
+        color: "#434A51",
+        fontSize: "14px",
+        marginBottom: "3px",
         marginLeft: "10px",
     },
     boldMessage: {
@@ -75,7 +77,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
-    const { addPharmacy } = useHealth();
+    const { addPharmacy, pharmacies } = useHealth();
     const { clientsService } = useClientServiceContext();
     const classes = useStyles();
     const { fireEvent } = useAnalytics();
@@ -84,13 +86,11 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
     const [searchString, setSearchString] = useState("");
     const [radius, setRadius] = useState(5);
     const [isLoading, setIsLoading] = useState(false);
-    const [results, setResults] = useState();
+    const [results, setResults] = useState([]);
     const [total, setTotal] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [perPage] = useState(10);
-
-    const [selectedPharmacy, setSelectedPharmacy] = useState(null);
-
+    const [selectedPharmacies, setSelectedPharmacies] = useState([]);
     const [pharmacyAddress, setPharmacyAddress] = useState("");
     const [latLng, setLatLng] = useState("");
 
@@ -105,10 +105,10 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
     }, [fireEvent, open]);
 
     useEffect(() => {
-        if (!zipCode || zipCode?.length !== 5) {
+        if (!zipCode || zipCode.length !== 5) {
             setIsLoading(false);
             setLatLng("");
-            setResults();
+            setResults([]);
             setTotal(0);
             return;
         }
@@ -118,8 +118,8 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                 if (data?.features?.length > 0 && data?.features[0]?.center) {
                     // mapbox returns longitude/latitude, so need to reverse order for
                     // the pharmacy search API.
-                    const latlan_value = data?.features[0]?.center.reverse().toString();
-                    setLatLng(latlan_value);
+                    const latLngValue = data?.features[0]?.center.reverse().toString();
+                    setLatLng(latLngValue);
                 } else {
                     setLatLng("");
                 }
@@ -141,11 +141,11 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
             take: perPage,
             skip: perPage * (currentPage - 1),
             fields: "",
-            radius: radius,
+            radius,
             zip: zipCode,
-            latLng: latLng,
+            latLng,
             pharmacyName: searchString,
-            pharmacyAddress: pharmacyAddress,
+            pharmacyAddress,
             planPharmacyType: "",
             pharmacyIDType: 0,
         };
@@ -156,7 +156,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
             .then((data) => {
                 setIsLoading(false);
                 if (data?.pharmacyList?.length > 0) {
-                    setResults(data?.pharmacyList);
+                    setResults(data.pharmacyList);
                     setTotal(data.totalCount);
                 } else {
                     setResults([]);
@@ -165,6 +165,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
             })
             .catch((e) => {
                 setIsLoading(false);
+                Sentry.captureException(e);
             });
     }, [perPage, currentPage, searchString, pharmacyAddress, latLng, zipCode, radius, clientsService]);
 
@@ -179,16 +180,23 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
 
     const handleAddPharmacy = async () => {
         await addPharmacy(
-            {
-                pharmacyID: selectedPharmacy.pharmacyID,
-                name: selectedPharmacy.name,
-                address1: selectedPharmacy.address1,
-                address2: selectedPharmacy.address2,
-                city: selectedPharmacy.city,
-                zip: selectedPharmacy.zip,
-                state: selectedPharmacy.state,
-                pharmacyPhone: selectedPharmacy.pharmacyPhone,
-            },
+            [
+                ...pharmacies,
+                ...selectedPharmacies.map((pharmacy) => ({
+                    address1: pharmacy.address1,
+                    address2: pharmacy.address2,
+                    city: pharmacy.city,
+                    isDigital: pharmacy.isDigital,
+                    isMailOrder: pharmacy.isMailOrder,
+                    isPrimary: pharmacy.isPrimary,
+                    name: pharmacy.name,
+                    pharmacyID: pharmacy.pharmacyID,
+                    pharmacyIDType: pharmacy.pharmacyIDType,
+                    pharmacyPhone: pharmacy.pharmacyPhone,
+                    state: pharmacy.state,
+                    zip: pharmacy.zip,
+                })),
+            ],
             refresh,
             leadId
         );
@@ -197,10 +205,11 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
     };
 
     const isFormValid = useMemo(() => {
-        return Boolean(zipCode?.length === 5 && radius && selectedPharmacy);
-    }, [selectedPharmacy, zipCode, radius]);
+        return Boolean(zipCode?.length === 5 && radius && selectedPharmacies.length);
+    }, [selectedPharmacies, zipCode, radius]);
 
-    const ERROR_STATE = zipCode?.length !== 5 ? true : false;
+    const ERROR_STATE = zipCode?.length !== 5;
+    const pharmacyCountExceeded = selectedPharmacies.length >= 3;
 
     return (
         <Modal
@@ -211,8 +220,16 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
             onSave={handleAddPharmacy}
             actionButtonName={"Add Pharmacy"}
             actionButtonDisabled={!isFormValid}
-            endIcon={selectedPharmacy ? <AddCircleOutline /> : <ArrowForwardWithCirlce />}
+            endIcon={selectedPharmacies.length > 0 ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
         >
+            {pharmacyCountExceeded && (
+                <Box className={classes.maxPharmacies}>
+                    <InfoBlue />
+                    <div className={classes.maxPharmaciesMessage}>
+                        You may select up to 3 pharmacies, including physical and online options
+                    </div>
+                </Box>
+            )}
             <SearchLabel label={"Search for a Pharmacy"} />
 
             <Grid container spacing={2}>
@@ -220,6 +237,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                     <Box>
                         <Typography className={classes.customTypography}>Zip Code</Typography>
                         <TextField
+                            sx={{ backgroundColor: "#FFFFFF" }}
                             id="Zip Code"
                             type="text"
                             fullWidth
@@ -239,7 +257,6 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                             placeholder="select"
                             onChange={(value) => {
                                 setRadius(value);
-                                setSelectedPharmacy(null);
                                 setCurrentPage(1);
                             }}
                         />
@@ -257,7 +274,6 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                             onChange={(e) => {
                                 setPharmacyAddress(e.target.value);
                                 setCurrentPage(1);
-                                setSelectedPharmacy(null);
                             }}
                         />
                     </Box>
@@ -271,7 +287,6 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                     handleSearch={(e) => {
                         setSearchString(e.target.value);
                         setCurrentPage(1);
-                        setSelectedPharmacy(null);
                     }}
                     label={"Pharmacies"}
                 />
@@ -294,8 +309,8 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                         <>
                             <PharmacyList
                                 list={results}
-                                setSelectedPharmacy={setSelectedPharmacy}
-                                selectedPharmacy={selectedPharmacy}
+                                selectedPharmacies={selectedPharmacies}
+                                setSelectedPharmacies={setSelectedPharmacies}
                             />
                             {zipCode && totalPages >= 1 && (
                                 <Box className={classes.pagination}>
@@ -303,7 +318,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                                         providerPagination
                                         currentPage={currentPage}
                                         totalPages={totalPages}
-                                        totalResults={results?.total}
+                                        totalResults={total}
                                         pageSize={perPage}
                                         onPageChange={(pageIndex) => setCurrentPage(pageIndex)}
                                     />
@@ -315,6 +330,14 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
             )}
         </Modal>
     );
+};
+
+PharmacyModal.propTypes = {
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    userZipCode: PropTypes.string.isRequired,
+    refresh: PropTypes.func.isRequired,
+    leadId: PropTypes.string.isRequired,
 };
 
 export default PharmacyModal;

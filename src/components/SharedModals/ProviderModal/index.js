@@ -26,7 +26,7 @@ import ProviderList from "./ProviderList";
 import "./styles.module.scss";
 
 import AddCircleOutline from "../Icons/AddCircleOutline";
-import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCirlce";
+import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCircle";
 import Warning from "../Icons/warning";
 import ErrorState from "../SharedComponents/ErrorState";
 import SearchInput from "../SharedComponents/SearchInput";

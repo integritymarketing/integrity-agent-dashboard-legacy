@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
-import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCirlce";
+import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCircle";
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import Typography from "@mui/material/Typography";
 import ErrorState from "../SharedComponents/ErrorState";
@@ -174,7 +174,7 @@ const PrescriptionModal = ({ onClose: onCloseHandler, open, item, isEdit, refres
                     selectedPackage: null,
                 },
                 refresh,
-                leadId
+                leadId,
             );
             onClose();
         } finally {
@@ -197,7 +197,7 @@ const PrescriptionModal = ({ onClose: onCloseHandler, open, item, isEdit, refres
                     quantity: quantity,
                 },
                 refresh,
-                leadId
+                leadId,
             );
             onClose();
         } finally {
@@ -212,7 +212,7 @@ const PrescriptionModal = ({ onClose: onCloseHandler, open, item, isEdit, refres
 
     const isFormValid = useMemo(() => {
         return Boolean(
-            selectedDrug && quantity && frequency && dosage && (packageOptions.length > 0 ? dosagePackage : true)
+            selectedDrug && quantity && frequency && dosage && (packageOptions.length > 0 ? dosagePackage : true),
         );
     }, [selectedDrug, quantity, frequency, dosage, dosagePackage, packageOptions]);
 
@@ -251,10 +251,10 @@ const PrescriptionModal = ({ onClose: onCloseHandler, open, item, isEdit, refres
     const disabled = isEdit
         ? !validUpdate || !isFormValid || isSaving
         : selectedDrug
-        ? !isFormValid || isSaving
-        : !searchselected
-        ? true
-        : false;
+          ? !isFormValid || isSaving
+          : !searchselected
+            ? true
+            : false;
 
     return (
         <Modal

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
-import UpdateView from "./components/UpdateView/updateView";
 import Edit from "components/Edit";
 import Modal from "components/Modal";
 import EditIcon from "components/icons/edit2";
@@ -81,15 +80,15 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                         <>
                             <div className={"address"}>
                                 <span className="networkIcon">{getInNetwork(matchedPharmacyCost)}</span>
-                                {pharmacy?.address1 +
-                                    "\n" +
-                                    pharmacy?.address2 +
-                                    "\n" +
-                                    pharmacy?.city +
-                                    " " +
-                                    pharmacy?.state +
-                                    " " +
-                                    pharmacy?.zip}
+                                {`${pharmacy?.address1 
+                                    }\n${ 
+                                    pharmacy?.address2 
+                                    }\n${ 
+                                    pharmacy?.city 
+                                    } ${ 
+                                    pharmacy?.state 
+                                    } ${ 
+                                    pharmacy?.zip}`}
                             </div>
                         </>
                     ),

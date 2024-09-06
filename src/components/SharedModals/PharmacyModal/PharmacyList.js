@@ -81,51 +81,79 @@ const usePharmacyListStyles = makeStyles((theme) => ({
         },
     },
 }));
-const PharmacyList = ({ setSelectedPharmacy, list, selectedPharmacy }) => {
+const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
     const classes = usePharmacyListStyles();
-
     const handleSelectionChange = useCallback(
         (pharmacy) => {
-            if (pharmacy.pharmacyID === selectedPharmacy?.pharmacyID) {
-                setSelectedPharmacy(null);
-            } else {
-                setSelectedPharmacy(pharmacy);
+            const isSelected = selectedPharmacies.some((selectedPharmacy) => selectedPharmacy.pharmacyID === pharmacy.pharmacyID);
+            if (isSelected) {
+                setSelectedPharmacies(selectedPharmacies.filter((selectedPharmacy) => selectedPharmacy.pharmacyID !== pharmacy.pharmacyID));
+            } else if (selectedPharmacies.length <= 2) {
+                setSelectedPharmacies([...selectedPharmacies, pharmacy]);
             }
         },
-        [setSelectedPharmacy, selectedPharmacy]
+        [setSelectedPharmacies, selectedPharmacies]
     );
 
     const renderedPharmacyList = useMemo(
         () =>
             list?.map((pharmacy) => {
                 const { name, address1 = "", address2 = "", city = "", state = "", pharmacyID } = pharmacy;
+                const isChecked = selectedPharmacies.some((selectedPharmacy) => selectedPharmacy.pharmacyID === pharmacyID);
+                const disableCheckbox = selectedPharmacies.length >= 3 && !isChecked;
+
                 return (
                     <ListItemButton
-                        key={pharmacy.label}
-                        selected={pharmacyID === selectedPharmacy?.pharmacyID}
+                        key={pharmacy.pharmacyID}
+                        selected={isChecked}
                         classes={{ root: classes.listItem }}
+                        onClick={() => handleSelectionChange(pharmacy)}
                     >
                         <Checkbox
                             className={classes.checkbox}
-                            onClick={() => handleSelectionChange(pharmacy)}
-                            checked={pharmacyID === selectedPharmacy?.pharmacyID}
+                            checked={isChecked}
+                            disabled={disableCheckbox}
                         />
                         <ListItemText
                             primary={<span className={classes.primaryText}>{name}</span>}
                             secondary={
                                 <span className={classes.secondaryText}>
                                     {address1}
-                                    {address2 ? " " + address2 : ""}, {city}, {state}
+                                    {address2 ? ` ${  address2}` : ""}, {city}, {state}
                                 </span>
                             }
                         />
                     </ListItemButton>
                 );
             }),
-        [list, classes, setSelectedPharmacy, selectedPharmacy]
+        [list, classes, handleSelectionChange, selectedPharmacies]
     );
 
     return <List className={classes.listRoot}>{renderedPharmacyList}</List>;
+};
+
+PharmacyList.propTypes = {
+    selectedPharmacies: PropTypes.arrayOf(
+        PropTypes.shape({
+            pharmacyID: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            address1: PropTypes.string,
+            address2: PropTypes.string,
+            city: PropTypes.string,
+            state: PropTypes.string,
+        })
+    ).isRequired,
+    setSelectedPharmacies: PropTypes.func.isRequired,
+    list: PropTypes.arrayOf(
+        PropTypes.shape({
+            pharmacyID: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            address1: PropTypes.string,
+            address2: PropTypes.string,
+            city: PropTypes.string,
+            state: PropTypes.string,
+        })
+    ).isRequired,
 };
 
 export default PharmacyList;

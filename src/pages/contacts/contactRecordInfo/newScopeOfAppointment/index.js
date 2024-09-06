@@ -17,7 +17,7 @@ import useUserProfile from "hooks/useUserProfile";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import "./index.scss";
 import Track from "./Track";
-import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCirlce";
+import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCircle";
 import SMSNotification from "components/SMSNotification";
 import { disableTextMessage, getCommunicationOptions } from "utilities/appConfig";
 
@@ -278,7 +278,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
                                                 } text-input`}
                                                 onChange={(e) => {
                                                     setFormattedMobile(
-                                                        formatPhoneNumber(e.currentTarget.value.replace(/\D/g, ""))
+                                                        formatPhoneNumber(e.currentTarget.value.replace(/\D/g, "")),
                                                     );
                                                 }}
                                             />

@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 
 import useDeviceType from "hooks/useDeviceType";
 
-import EditIcon from "components/icons/icon-edit";
+import DeleteIcon from "components/icons/version-2/Delete";
 
 import { Button } from "components/ui/Button";
 
@@ -12,7 +12,7 @@ import { formatPhoneNumber } from "utils/phones";
 
 import styles from "./styles.module.scss";
 
-const PharmacyItem = ({ pharmacy, onEditPharmacy }) => {
+const PharmacyItem = ({ pharmacy, onDeletePharmacy }) => {
     const { isMobile } = useDeviceType();
     const address = `${pharmacy.address1} ${pharmacy.address2 ?? ""}, ${pharmacy.city},
     ${pharmacy.state}, ${pharmacy.zip}`;
@@ -25,11 +25,11 @@ const PharmacyItem = ({ pharmacy, onEditPharmacy }) => {
             </Box>
             {!isMobile && <Box className={styles.address}>{address}</Box>}
             <Button
-                icon={<EditIcon />}
-                label="Edit"
+                icon={<DeleteIcon />}
+                label="Delete"
                 className={styles.editButton}
                 onClick={() => {
-                    onEditPharmacy(pharmacy);
+                    onDeletePharmacy(pharmacy);
                 }}
                 type="tertiary"
                 iconPosition="right"
@@ -43,5 +43,5 @@ export default PharmacyItem;
 
 PharmacyItem.propTypes = {
     pharmacy: PropTypes.object.isRequired,
-    onEditPharmacy: PropTypes.func.isRequired,
+    onDeletePharmacy: PropTypes.func.isRequired,
 };

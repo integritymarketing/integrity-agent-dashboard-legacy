@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { useCallback, useEffect, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
@@ -12,19 +11,15 @@ import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
 // Constants
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
-// Utils
-import { formatPhoneNumber } from "utils/phones";
-
+ 
 import useAnalytics from "hooks/useAnalytics";
 
 import FinalExpenseHealthTableSection from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthTableSection";
-import Modal from "components/Modal";
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import DetailsCard from "components/ui/DetailsCard";
 // UI Components
 import CellData from "components/ui/DetailsTable/CellData";
-import EditPharmacy from "components/ui/PlanDetailsTable/shared/PharmacyTable/components/UpdateView/updateView";
 import RenderProviders from "components/ui/ProvidersList";
 
 // Local Components
@@ -43,9 +38,7 @@ const HealthDetailsSection = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenPrescription, setIsOpenPrescription] = useState(false);
     const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
-    const [isOpenEditPharmacy, setIsOpenEditPharmacy] = useState(false);
     const [prescriptionToEdit, setPrescriptionToEdit] = useState([]);
-    const [pharmacyToEdit, setPharmacyToEdit] = useState(null);
     const [isOpenPharmacy, setIsOpenPharmacy] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [providerEditFlag, setProviderEditFlag] = useState(false);
@@ -89,10 +82,6 @@ const HealthDetailsSection = () => {
         setIsOpenEditPrescription(true);
         setPrescriptionToEdit(item);
     };
-    const onEditPharmacy = (item) => {
-        setIsOpenEditPharmacy(true);
-        setPharmacyToEdit(item);
-    };
     const onCloseEditPrescription = () => setIsOpenEditPrescription(false);
     const onAddNewPharmacy = () => setIsOpenPharmacy(true);
     const onCloseNewPharmacy = () => setIsOpenPharmacy(false);
@@ -120,19 +109,7 @@ const HealthDetailsSection = () => {
             </div>
         );
     };
-
-    const PharamaciesRow = ({ item, className }) => {
-        const address = `${item.address1} ${item.address2 ?? ""}, ${item.city},
-    ${item.state}, ${item.zip}`;
-        const phone = formatPhoneNumber(item.pharmacyPhone);
-        return (
-            <div className={className}>
-                <CellData header={item.name} secondarySubText={phone} useFor="pharmacy" />
-                <CellData subText={address} useFor="pharmacy" />
-            </div>
-        );
-    };
-
+ 
     const handleEditProvider = (provider) => {
         setIsOpen(true);
         setProviderEditFlag(true);
@@ -186,14 +163,15 @@ const HealthDetailsSection = () => {
                 <DetailsCard
                     dataGtm="section-pharmacies"
                     headerTitle="Pharmacies"
-                    onAddClick={pharmacies?.length > 0 ? null : onAddNewPharmacy}
+                    onAddClick={pharmacies?.length > 3 ? null : onAddNewPharmacy}
+                    disabled={pharmacies?.length >= 3}
                     items={pharmacies}
                     provider={true}
                     isLoading={pharmacyLoading}
                     itemRender={(item) => {
                         return (
                             <div key={item?.pharmacyRecordID} className={styles.providerContainer}>
-                                <PharmacyItem pharmacy={item} onEditPharmacy={onEditPharmacy} />
+                                <PharmacyItem pharmacy={item} onDeletePharmacy={onDeletePharmacy} />
                             </div>
                         );
                     }}
@@ -232,25 +210,6 @@ const HealthDetailsSection = () => {
                     />
                 )}
 
-                {isOpenEditPharmacy && (
-                    <Modal
-                        open={isOpenEditPharmacy}
-                        onClose={() => {
-                            setIsOpenEditPharmacy(false);
-                        }}
-                        hideFooter
-                        title={"Update Pharmacy"}
-                        isDelete={true}
-                        modalName={"Pharmacy"}
-                        onDelete={() => {
-                            onDeletePharmacy(pharmacyToEdit);
-                            setIsOpenEditPharmacy(false);
-                        }}
-                    >
-                        <EditPharmacy data={pharmacyToEdit} />
-                    </Modal>
-                )}
-
                 {isOpenPharmacy && (
                     <PharmacyModal
                         open={isOpenPharmacy}
@@ -263,10 +222,59 @@ const HealthDetailsSection = () => {
         </>
     );
 };
-
 HealthDetailsSection.propTypes = {
-    leadDetails: PropTypes.object,
-    leadId: PropTypes.string,
+    leadDetails: PropTypes.object.isRequired,
+    leadId: PropTypes.string.isRequired,
+    pharmacies: PropTypes.arrayOf(
+        PropTypes.shape({
+            pharmacyRecordID: PropTypes.string,
+        })
+    ),
+    providers: PropTypes.arrayOf(
+        PropTypes.shape({
+            NPI: PropTypes.string,
+        })
+    ),
+    prescriptions: PropTypes.arrayOf(
+        PropTypes.shape({
+            dosage: PropTypes.shape({
+                labelName: PropTypes.string.isRequired,
+                daysOfSupply: PropTypes.number.isRequired,
+                drugType: PropTypes.string.isRequired,
+                selectedPackage: PropTypes.object,
+                userQuantity: PropTypes.number.isRequired,
+            }),
+            dosageDetails: PropTypes.shape({
+                dosageFormName: PropTypes.string,
+            }),
+        })
+    ),
+    prescriptionToEdit: PropTypes.array,
+    providerEditFlag: PropTypes.bool,
+    providerToEdit: PropTypes.object,
+    pharmacyLoading: PropTypes.bool,
+    providerLoading: PropTypes.bool,
+    prescriptionLoading: PropTypes.bool,
+    isMobile: PropTypes.bool,
+    isOpen: PropTypes.bool,
+    isOpenPrescription: PropTypes.bool,
+    isOpenEditPrescription: PropTypes.bool,
+    isOpenPharmacy: PropTypes.bool,
+    item: PropTypes.shape({
+        dosage: PropTypes.shape({
+            labelName: PropTypes.string.isRequired,
+            daysOfSupply: PropTypes.number.isRequired,
+            drugType: PropTypes.string.isRequired,
+            selectedPackage: PropTypes.shape({
+                packageDisplayText: PropTypes.string,
+            }),
+            userQuantity: PropTypes.number.isRequired,
+        }).isRequired,
+        dosageDetails: PropTypes.shape({
+            dosageFormName: PropTypes.string,
+        }),
+    }).isRequired,
+    className: PropTypes.string,
 };
 
 export default HealthDetailsSection;

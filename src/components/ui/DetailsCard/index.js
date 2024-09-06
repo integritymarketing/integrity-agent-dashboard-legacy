@@ -18,82 +18,82 @@ function DetailsCard({
   isLoading = false,
   itemRender = () => null,
   provider,
-  dataGtm,
+  disabled = false,
 }) {
-  const isPharmacy = headerTitle.toLowerCase() === 'pharmacies';
-  const title = isPharmacy ? 'Pharmacy' : headerTitle;
-  const itemsLength = items.length;
-  const displayTitle = (
-    <span>
-      {title}
-      <span className="count"> {itemsLength > 0 ? `(${itemsLength})` : '(0)'} </span>
-    </span>
-  );
-
-  return (
-    <ContactSectionCard
-      title={displayTitle}
-      className='enrollmentPlanContainer_detailsPage'
-      isDashboard
-      contentClassName='enrollmentPlanContainer_detailsPage_content'
-      actions={
-        onAddClick && (
-          <div className='actions'>
-            <Button
-              icon={<Plus />}
-              disabled={isPharmacy && itemsLength > 0}
-              iconPosition='right'
-              label={buttonLabel}
-              onClick={onAddClick}
-              type='tertiary'
-              className='buttonWithIcon'
-            />
-          </div>
-        )
-      }
-    >
-      <div className='card-body'>
-        <WithLoader isLoading={isLoading}>
-          {itemsLength === 0 && (
-            <div className='no-items'>
-              <span>This contact has no {title.toLowerCase()}.</span>
-              <button
-                className='link'
-                data-gtm={`button-add-${title.toLowerCase()}`}
-                onClick={onAddClick}
-              >
-                Add {title}
-              </button>
+    const isPharmacy = headerTitle.toLowerCase() === "pharmacies";
+    const title = isPharmacy ? "Pharmacy" : headerTitle;
+    const itemsLength = items.length;
+    const displayTitle = (
+        <span>
+            {title}
+            <span className="count"> {itemsLength > 0 ? `(${itemsLength})` : "(0)"} </span>
+        </span>
+    );
+ 
+    return (
+        <ContactSectionCard
+            title={displayTitle}
+            className="enrollmentPlanContainer_detailsPage"
+            isDashboard
+            contentClassName="enrollmentPlanContainer_detailsPage_content"
+            actions={
+                onAddClick && (
+                    <div className="actions">
+                        <Button
+                            icon={<Plus />}
+                            disabled={disabled}
+                            iconPosition="right"
+                            label={buttonLabel}
+                            onClick={onAddClick}
+                            type="tertiary"
+                            className="buttonWithIcon"
+                        />
+                    </div>
+                )
+            }
+        >
+            <div className="card-body">
+                <WithLoader isLoading={isLoading}>
+                    {itemsLength === 0 && (
+                        <div className="no-items">
+                            <span>This contact has no {title.toLowerCase()}.</span>
+                            <button
+                                className="link"
+                                data-gtm={`button-add-${title.toLowerCase()}`}
+                                onClick={onAddClick}
+                            >
+                                Add {title}
+                            </button>
+                        </div>
+                    )}
+                    {itemsLength > 0 && !provider && (
+                        <DetailsTable
+                            items={items}
+                            Row={Row}
+                            onDelete={onDelete}
+                            onEdit={onEdit}
+                            headerTitle={headerTitle}
+                        />
+                    )}
+                    {items.map(itemRender)}
+                </WithLoader>
             </div>
-          )}
-          {itemsLength > 0 && !provider && (
-            <DetailsTable
-              items={items}
-              Row={Row}
-              onDelete={onDelete}
-              onEdit={onEdit}
-              headerTitle={headerTitle}
-            />
-          )}
-          {items.map(itemRender)}
-        </WithLoader>
-      </div>
-    </ContactSectionCard>
-  );
+        </ContactSectionCard>
+    );
 }
-
+ 
 DetailsCard.propTypes = {
   headerTitle: PropTypes.string.isRequired,
   onAddClick: PropTypes.func,
   buttonLabel: PropTypes.string,
-  items: PropTypes.array,
+  items: PropTypes.arrayOf(PropTypes.object),
   Row: PropTypes.func.isRequired,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
   isLoading: PropTypes.bool,
   itemRender: PropTypes.func,
   provider: PropTypes.bool,
-  dataGtm: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default DetailsCard;

@@ -10,7 +10,7 @@ import analyticsService from "services/analyticsService";
 import Spinner from "components/ui/Spinner";
 import * as Sentry from "@sentry/react";
 import Styles from "./AddPharmacy.module.scss";
-import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCirlce";
+import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCircle";
 import Pagination from "components/ui/Pagination/pagination";
 import { Checkbox } from "@mui/material";
 import SearchIcon from "components/icons/search2";
@@ -130,7 +130,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, refresh, le
                 pharmacyPhone: selectedPharmacy.pharmacyPhone,
             },
             refresh,
-            leadId
+            leadId,
         );
         onClose();
     };
@@ -387,7 +387,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, refresh, le
                                                             <Checkbox
                                                                 onClick={() => {
                                                                     setSelectedPharmacy(
-                                                                        item === selectedPharmacy ? null : item
+                                                                        item === selectedPharmacy ? null : item,
                                                                     );
                                                                 }}
                                                                 checked={selectedPharmacy === item}
@@ -725,7 +725,7 @@ export default function AddPharmacy({ isOpen, onClose, personalInfo, refresh, le
                                                             <Checkbox
                                                                 onClick={() => {
                                                                     setSelectedPharmacy(
-                                                                        item === selectedPharmacy ? null : item
+                                                                        item === selectedPharmacy ? null : item,
                                                                     );
                                                                 }}
                                                                 checked={selectedPharmacy === item}
