@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
-
+import UpdateView from "./components/UpdateView/updateView";
 import Edit from "components/Edit";
 import Modal from "components/Modal";
 import EditIcon from "components/icons/edit2";

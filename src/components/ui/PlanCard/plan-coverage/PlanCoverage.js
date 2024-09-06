@@ -8,6 +8,7 @@ import PrescriptionCoverageModal from "components/SharedModals/PrescriptionCover
 import PrescriptionModal from "components/SharedModals/PrescriptionModal";
 import ProviderCoverageModal from "components/SharedModals/ProviderCoverageModal";
 import ProviderModal from "components/SharedModals/ProviderModal";
+import UpdateView from "components/ui/PlanDetailsTable/shared/PharmacyTable/components/UpdateView/updateView";
 import { removeDuplicates } from "utils/shared-utils/sharedUtility";
 import PharmacyModal from "components/SharedModals/PharmacyModal";
 import styles from "./PlanCoverage.module.scss";
