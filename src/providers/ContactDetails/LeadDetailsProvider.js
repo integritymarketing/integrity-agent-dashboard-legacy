@@ -10,6 +10,7 @@ import { formatServerDate, parseDate } from "utils/dates";
 
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
+import removeNullAndEmptyFields from "utils/removeNullAndEmptyFields";
 
 const flattenMBI = (mbi) => {
     if (!mbi) {
@@ -59,7 +60,22 @@ export const LeadDetailsProvider = ({ children }) => {
         [fetchLeadDetails, showToast],
     );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const updateLeadDetailsWithZipCode = useCallback(
+        async (reqData) => {
+            try {
+                const payload = removeNullAndEmptyFields(reqData, ["address"]);
+                await editLeadDetails(payload, false, payload.leadsId);
+                await getLeadDetails(payload?.leadsId);
+            } catch (err) {
+                showToast({
+                    type: "error",
+                    message: `Failed to update county`,
+                });
+            }
+        },
+        [editLeadDetails, getLeadDetails, showToast],
+    );
+
     const updateLeadDetails = async (newPayload) => {
         const {
             firstName,
@@ -141,8 +157,10 @@ export const LeadDetailsProvider = ({ children }) => {
                 ...address,
             },
         ];
+
+        const payload = removeNullAndEmptyFields(reqData);
         return await performAsyncOperation(
-            () => editLeadDetails(reqData, false, newPayload.leadsId),
+            () => editLeadDetails(payload, false, newPayload.leadsId),
             () => {},
             async (data) => {
                 await getLeadDetails(newPayload?.leadsId);
@@ -210,6 +228,7 @@ export const LeadDetailsProvider = ({ children }) => {
             updateLeadDetails,
             removeContact,
             updateClientNotes,
+            updateLeadDetailsWithZipCode,
         }),
         [
             getLeadDetails,
@@ -221,6 +240,7 @@ export const LeadDetailsProvider = ({ children }) => {
             removeContact,
             updateLeadDetails,
             updateClientNotes,
+            updateLeadDetailsWithZipCode,
         ],
     );
 

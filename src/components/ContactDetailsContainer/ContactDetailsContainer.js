@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Media from "react-media";
+import * as Sentry from "@sentry/react";
 
 import { useLeadDetails } from "providers/ContactDetails";
 
@@ -25,28 +26,61 @@ import {
 import { ContactBodyContainer } from "./ContactBodyContainer/ContactBodyContainer";
 import CommunicationsContainer from "./CommunicationsContainer";
 import useQueryParams from "hooks/useQueryParams";
+import useFetch from "hooks/useFetch";
 
 export const ContactDetailsContainer = () => {
     const { leadId, sectionId } = useParams();
     const params = useQueryParams();
     const tabSelectedInitial = params.get("tab");
-    const [tabSelectedInitialState, setTabSelectedInitial] = useState(tabSelectedInitial);
-    const { selectedTab, setSelectedTab, isLoadingLeadDetails, leadDetails } = useLeadDetails();
+    const { selectedTab, setSelectedTab, isLoadingLeadDetails, leadDetails, updateLeadDetailsWithZipCode } =
+        useLeadDetails();
     const navigate = useNavigate();
-
+    const [tabSelectedInitialState, setTabSelectedInitial] = useState(tabSelectedInitial);
     const [isMobile, setIsMobile] = useState(false);
+
+    const zipCode = leadDetails?.addresses?.[0]?.postalCode;
+    const URL = `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=${zipCode}`;
+    const { Get: getCounties } = useFetch(URL);
 
     useEffect(() => {
         if (tabSelectedInitial) {
             setTabSelectedInitial(tabSelectedInitial);
         }
-    }, [tabSelectedInitial, setTabSelectedInitial]);
+    }, [tabSelectedInitial]);
 
     useEffect(() => {
         const targetTab = sectionId || "overview";
         setSelectedTab(targetTab);
         navigate(`/contact/${leadId}/${targetTab}`, { replace: true });
     }, [sectionId, leadId, navigate, setSelectedTab]);
+
+    useEffect(() => {
+        const updateLeadDetails = async () => {
+            try {
+                const counties = await getCounties();
+                if (counties?.length === 1) {
+                    const payload = {
+                        ...leadDetails,
+                        addresses: [
+                            {
+                                ...leadDetails?.addresses?.[0],
+                                county: counties[0]?.countyName,
+                                countyFips: counties[0]?.countyFIPS,
+                                stateCode: counties[0]?.state,
+                            },
+                        ],
+                    };
+
+                    await updateLeadDetailsWithZipCode(payload);
+                }
+            } catch (error) {
+                Sentry.captureException(error);
+            }
+        };
+        if (zipCode && !leadDetails?.addresses?.[0]?.county) {
+            updateLeadDetails();
+        }
+    }, [getCounties, leadDetails, updateLeadDetailsWithZipCode, zipCode]);
 
     const renderSection = () => {
         switch (selectedTab) {
@@ -79,8 +113,8 @@ export const ContactDetailsContainer = () => {
         <>
             <Media
                 query={"(max-width: 500px)"}
-                onChange={() => {
-                    setIsMobile(isMobile);
+                onChange={(matches) => {
+                    setIsMobile(matches);
                 }}
             />
             <WithLoader isLoading={isLoadingLeadDetails}>
