@@ -45,6 +45,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
     const [showZipCodeInput, setShowZipCodeInput] = useState(false);
     const [doNotShowAgain, setDoNotShowAgain] = useState(false);
     const [isMultipleCounties, setIsMultipleCounties] = useState(false);
+    const [countiesData, setCountiesData] = useState([]);
 
     const zipCode = selectedLead?.addresses?.[0]?.postalCode;
     const URL = `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=${zipCode}`;
@@ -53,6 +54,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
 
     const fetchCountiesData = useCallback(async () => {
         const counties = await getCounties();
+        setCountiesData(counties);
         setIsMultipleCounties(counties?.length > 1 && !county);
     }, [county, getCounties]);
 
@@ -271,6 +273,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             IUL_FEATURE_FLAG,
             isMultipleCounties,
             fetchCountiesData,
+            countiesData,
         };
     }
 };

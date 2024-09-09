@@ -6,6 +6,8 @@ import QuoteModalCard from "../../Common/QuoteModalCard";
 import FinalExpenseIntakeFormCard from "../FinalExpenseIntakeFormCard";
 import ZipCodeInputCard from "../ZipCodeInputCard";
 import LifeQuestionCard from "../LifeQuestionCard";
+import { useLeadDetails } from "providers/ContactDetails";
+import * as Sentry from "@sentry/react";
 
 const StartQuoteModal = () => {
     const {
@@ -19,13 +21,38 @@ const StartQuoteModal = () => {
         handleSelectLifeProductType,
         fetchCountiesData,
         isMultipleCounties,
+        countiesData,
     } = useCreateNewQuote();
+    const { updateLeadDetailsWithZipCode } = useLeadDetails();
 
     useEffect(() => {
-        if (!selectedLead?.addresses?.[0]?.county) {
-            fetchCountiesData();
-        }
-    }, [selectedLead, fetchCountiesData]);
+        const updateCountyDetails = async () => {
+            if (!selectedLead?.addresses?.[0]?.county) {
+                try {
+                    await fetchCountiesData();
+                    if (countiesData?.length === 1) {
+                        const payload = {
+                            ...selectedLead,
+                            addresses: [
+                                {
+                                    ...selectedLead?.addresses?.[0],
+                                    county: countiesData[0]?.countyName,
+                                    countyFips: countiesData[0]?.countyFIPS,
+                                    stateCode: countiesData[0]?.state,
+                                },
+                            ],
+                        };
+
+                        await updateLeadDetailsWithZipCode(payload);
+                    }
+                } catch (error) {
+                    Sentry.captureException(error);
+                }
+            }
+        };
+
+        updateCountyDetails();
+    }, [selectedLead, fetchCountiesData, updateLeadDetailsWithZipCode, countiesData]);
 
     const onClose = () => {
         handleClose(false);
