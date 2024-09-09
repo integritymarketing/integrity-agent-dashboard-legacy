@@ -27,6 +27,7 @@ import { ProfessionalProfileProvider } from "providers/ProfessionalProfileProvid
 import { CreateNewQuoteProvider } from "providers/CreateNewQuote";
 import { ContactDetailsProvider } from "providers/ContactDetails";
 import { MarketingProvider } from "providers/Marketing";
+import { CountyDataProvider } from "providers/CountyDataProvider";
 
 import AppRoutes from "./App";
 import "./index.scss";
@@ -59,45 +60,49 @@ root.render(
                                     <AgentPreferencesProvider>
                                         <AgentAccountProvider>
                                             <CountyProvider>
-                                                <DeleteLeadProvider>
-                                                    <ContactsProvider>
-                                                        <BackNavProvider>
-                                                            <StageSummaryProvider>
-                                                                <TaskListProvider>
-                                                                    <CampaignInvitationProvider>
-                                                                        <ProfessionalProfileProvider>
-                                                                            <ContactDetailsProvider>
-                                                                                <CreateNewQuoteProvider>
-                                                                                    <MarketingProvider>
-                                                                                        <HelmetProvider>
-                                                                                            <Helmet>
-                                                                                                <title>Integrity</title>
-                                                                                            </Helmet>
-                                                                                            <Suspense
-                                                                                                fallback={
-                                                                                                    <div>
-                                                                                                        Loading...
-                                                                                                    </div>
-                                                                                                }
-                                                                                            >
-                                                                                                <AppRouter>
-                                                                                                    <div className="content-frame">
-                                                                                                        <AppRoutes />
-                                                                                                    </div>
-                                                                                                </AppRouter>
-                                                                                            </Suspense>
-                                                                                            <PortalUrl />
-                                                                                        </HelmetProvider>
-                                                                                    </MarketingProvider>
-                                                                                </CreateNewQuoteProvider>
-                                                                            </ContactDetailsProvider>
-                                                                        </ProfessionalProfileProvider>
-                                                                    </CampaignInvitationProvider>
-                                                                </TaskListProvider>
-                                                            </StageSummaryProvider>
-                                                        </BackNavProvider>
-                                                    </ContactsProvider>
-                                                </DeleteLeadProvider>
+                                                <CountyDataProvider>
+                                                    <DeleteLeadProvider>
+                                                        <ContactsProvider>
+                                                            <BackNavProvider>
+                                                                <StageSummaryProvider>
+                                                                    <TaskListProvider>
+                                                                        <CampaignInvitationProvider>
+                                                                            <ProfessionalProfileProvider>
+                                                                                <ContactDetailsProvider>
+                                                                                    <CreateNewQuoteProvider>
+                                                                                        <MarketingProvider>
+                                                                                            <HelmetProvider>
+                                                                                                <Helmet>
+                                                                                                    <title>
+                                                                                                        Integrity
+                                                                                                    </title>
+                                                                                                </Helmet>
+                                                                                                <Suspense
+                                                                                                    fallback={
+                                                                                                        <div>
+                                                                                                            Loading...
+                                                                                                        </div>
+                                                                                                    }
+                                                                                                >
+                                                                                                    <AppRouter>
+                                                                                                        <div className="content-frame">
+                                                                                                            <AppRoutes />
+                                                                                                        </div>
+                                                                                                    </AppRouter>
+                                                                                                </Suspense>
+                                                                                                <PortalUrl />
+                                                                                            </HelmetProvider>
+                                                                                        </MarketingProvider>
+                                                                                    </CreateNewQuoteProvider>
+                                                                                </ContactDetailsProvider>
+                                                                            </ProfessionalProfileProvider>
+                                                                        </CampaignInvitationProvider>
+                                                                    </TaskListProvider>
+                                                                </StageSummaryProvider>
+                                                            </BackNavProvider>
+                                                        </ContactsProvider>
+                                                    </DeleteLeadProvider>
+                                                </CountyDataProvider>
                                             </CountyProvider>
                                         </AgentAccountProvider>
                                     </AgentPreferencesProvider>

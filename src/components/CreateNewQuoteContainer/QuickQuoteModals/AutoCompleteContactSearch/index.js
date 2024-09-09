@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useCallback, useEffect, useState } from "react";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import SearchIcon from "@mui/icons-material/Search";
@@ -22,8 +23,9 @@ import ContactListItem from "./ContactListItem";
 import CreateNewContactIcon from "components/icons/CreateNewContact";
 import { useLeadDetails } from "providers/ContactDetails";
 import ContinueIcon from "components/icons/Continue";
-
+import * as Sentry from "@sentry/react";
 import styles from "./styles.module.scss";
+import { useCountyDataContext } from "providers/CountyDataProvider";
 
 const StyledSearchInput = styled(TextField)(() => ({
     background: "#FFFFFF 0% 0% no-repeat padding-box",
@@ -48,9 +50,7 @@ const AutoCompleteContactSearchModal = () => {
         setContactSearchModalOpen: handleClose,
         handleSelectedLead,
     } = useCreateNewQuote();
-
-    const { getLeadDetails } = useLeadDetails();
-
+    const { getLeadDetails, updateLeadDetailsWithZipCode } = useLeadDetails();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const createQuote = searchParams.get("create-quote");
@@ -63,6 +63,7 @@ const AutoCompleteContactSearchModal = () => {
 
     const { clientsService } = useClientServiceContext();
     const showToast = useToast();
+    const { fetchCountiesData, setZipCode } = useCountyDataContext();
 
     const handleCloseModal = () => {
         if (createQuote) {
@@ -88,10 +89,37 @@ const AutoCompleteContactSearchModal = () => {
         handleSelectedLead(contact, "new");
     };
 
-    const handleSelectOldContact = (contact) => {
-        setTempLead(contact);
-        setSearchQuery(`${contact.firstName} ${contact.lastName}`);
-    };
+    const handleSelectOldContact = useCallback(
+        async (contact) => {
+            const zipCode = contact?.addresses?.[0]?.postalCode;
+            setZipCode(zipCode);
+            if (!contact?.addresses?.[0]?.county && zipCode) {
+                try {
+                    const countiesData = await fetchCountiesData(zipCode);
+                    if (countiesData?.length === 1) {
+                        const payload = {
+                            ...contact,
+                            addresses: [
+                                {
+                                    ...contact?.addresses?.[0],
+                                    county: countiesData[0]?.countyName,
+                                    countyFips: countiesData[0]?.countyFIPS,
+                                    stateCode: countiesData[0]?.state,
+                                },
+                            ],
+                        };
+
+                        await updateLeadDetailsWithZipCode(payload);
+                    }
+                } catch (error) {
+                    Sentry.captureException(error);
+                }
+            }
+            setTempLead(contact);
+            setSearchQuery(`${contact.firstName} ${contact.lastName}`);
+        },
+        [setZipCode, fetchCountiesData, updateLeadDetailsWithZipCode],
+    );
 
     const onClose = () => {
         handleCloseModal();
@@ -114,8 +142,8 @@ const AutoCompleteContactSearchModal = () => {
                     undefined,
                     undefined,
                     false,
+                    true,
                     false,
-                    false
                 );
                 if (response && response.result) {
                     setContactList(response.result);
@@ -129,7 +157,7 @@ const AutoCompleteContactSearchModal = () => {
                 setLoading(false);
             }
         },
-        [clientsService, showToast]
+        [clientsService, showToast],
     );
 
     const debouncedContactSearch = useCallback(
@@ -138,7 +166,7 @@ const AutoCompleteContactSearchModal = () => {
                 fetchContacts(query);
             }
         }, 1000),
-        [fetchContacts]
+        [fetchContacts],
     );
 
     useEffect(() => {
@@ -181,7 +209,6 @@ const AutoCompleteContactSearchModal = () => {
                 </ListItem>
             );
         }
-
         return (
             <ContactListItem
                 {...props}
@@ -194,7 +221,29 @@ const AutoCompleteContactSearchModal = () => {
 
     const handleSubmit = async () => {
         const leadId = tempLead?.leadsId;
+        const zipCode = tempLead?.addresses?.[0]?.postalCode;
+        if (!tempLead?.addresses?.[0]?.county && zipCode) {
+            try {
+                const countiesData = await fetchCountiesData(zipCode);
+                if (countiesData?.length === 1) {
+                    const payload = {
+                        ...tempLead,
+                        addresses: [
+                            {
+                                ...tempLead?.addresses?.[0],
+                                county: countiesData[0]?.countyName,
+                                countyFips: countiesData[0]?.countyFIPS,
+                                stateCode: countiesData[0]?.state,
+                            },
+                        ],
+                    };
 
+                    await updateLeadDetailsWithZipCode(payload);
+                }
+            } catch (error) {
+                Sentry.captureException(error);
+            }
+        }
         const response = await getLeadDetails(leadId);
 
         if (response) {
