@@ -96,19 +96,20 @@ export const CreateNewQuoteProvider = ({ children }) => {
         (lead) => {
             setShowStartQuoteModal(true);
             const postalCode = lead?.addresses?.length > 0 ? lead?.addresses[0]?.postalCode : null;
+            const leadCounty = lead?.addresses?.length > 0 ? lead?.addresses[0]?.county : null;
 
             if (!leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote) {
                 setQuoteModalStage("selectProductTypeCard");
             } else {
                 setSelectedProductType(leadPreference?.hideLifeQuote ? "health" : "life");
-                if (!leadPreference?.hideLifeQuote) {
+                if (!leadPreference?.hideLifeQuote && leadCounty) {
                     if (IUL_FEATURE_FLAG) {
                         setQuoteModalStage("lifeQuestionCard");
                     } else {
                         setQuoteModalStage("finalExpenseIntakeFormCard");
                     }
                 } else {
-                    if (postalCode) {
+                    if (postalCode && leadCounty) {
                         fireEvent("New Quote Created With Instant Quote", {
                             leadId: lead?.leadsId,
                             line_of_business: "Health",
@@ -164,8 +165,9 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 }
             } else {
                 const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
+                const countyDetails = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.county : null;
 
-                if (postalCode) {
+                if (postalCode && countyDetails) {
                     fireEvent("New Quote Created With Instant Quote", {
                         leadId: selectedLead?.leadsId,
                         line_of_business: "Health",
@@ -212,7 +214,8 @@ export const CreateNewQuoteProvider = ({ children }) => {
         (productType) => {
             setSelectedHealthProductType(productType);
             const postalCode = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.postalCode : null;
-            if (postalCode) {
+            const countyDetails = selectedLead?.addresses?.length > 0 ? selectedLead?.addresses[0]?.county : null;
+            if (postalCode && countyDetails) {
                 fireEvent("New Quote Created With Instant Quote", {
                     leadId: selectedLead?.leadsId,
                     line_of_business: "Health",
