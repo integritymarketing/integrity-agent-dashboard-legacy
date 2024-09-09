@@ -27,32 +27,33 @@ const StartQuoteModal = () => {
 
     useEffect(() => {
         const updateCountyDetails = async () => {
-            if (!selectedLead?.addresses?.[0]?.county) {
-                try {
-                    await fetchCountiesData();
-                    if (countiesData?.length === 1) {
-                        const payload = {
-                            ...selectedLead,
-                            addresses: [
-                                {
-                                    ...selectedLead?.addresses?.[0],
-                                    county: countiesData[0]?.countyName,
-                                    countyFips: countiesData[0]?.countyFIPS,
-                                    stateCode: countiesData[0]?.state,
-                                },
-                            ],
-                        };
+            try {
+                await fetchCountiesData();
+                if (countiesData?.length === 1) {
+                    const payload = {
+                        ...selectedLead,
+                        addresses: [
+                            {
+                                ...selectedLead?.addresses?.[0],
+                                county: countiesData[0]?.countyName,
+                                countyFips: countiesData[0]?.countyFIPS,
+                                stateCode: countiesData[0]?.state,
+                            },
+                        ],
+                    };
 
-                        await updateLeadDetailsWithZipCode(payload);
-                    }
-                } catch (error) {
-                    Sentry.captureException(error);
+                    await updateLeadDetailsWithZipCode(payload);
                 }
+            } catch (error) {
+                Sentry.captureException(error);
             }
         };
 
-        updateCountyDetails();
-    }, [selectedLead, fetchCountiesData, updateLeadDetailsWithZipCode, countiesData]);
+        if (!selectedLead?.addresses?.[0]?.county) {
+            updateCountyDetails();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedLead, fetchCountiesData, updateLeadDetailsWithZipCode, countiesData?.length]);
 
     const onClose = () => {
         handleClose(false);
