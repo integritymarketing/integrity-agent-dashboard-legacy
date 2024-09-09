@@ -69,7 +69,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
             setSelectedTab(section);
             navigate(`/contact/${leadId}/${section}`);
         },
-        [leadId, navigate, setSelectedTab]
+        [leadId, navigate, setSelectedTab],
     );
 
     const handleClosePlanTypeModal = useCallback(() => {
@@ -186,6 +186,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
                         isMultipleCounties={isMultipleCounties}
                         handleModalClose={handleClosePlanTypeModal}
                         leadId={leadId}
+                        county={county}
                     />
                 )}
             </Box>

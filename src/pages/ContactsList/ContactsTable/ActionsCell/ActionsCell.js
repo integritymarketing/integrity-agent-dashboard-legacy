@@ -53,6 +53,7 @@ function ActionsCell({ row, isCard, item, refreshData }) {
     const open = Boolean(anchorEl);
     const id = open ? leadId : undefined;
     const zipcode = leadDetails?.addresses && leadDetails?.addresses[0]?.postalCode;
+    const county = leadDetails?.addresses && leadDetails?.addresses[0]?.county;
 
     const handleOptionClick = (value) => {
         setAnchorEl(null);
@@ -173,6 +174,7 @@ function ActionsCell({ row, isCard, item, refreshData }) {
                     showPlanTypeModal={showPlanTypeModal}
                     handleModalClose={() => setShowPlanTypeModal(false)}
                     leadId={leadId}
+                    county={county}
                 />
             )}
         </>

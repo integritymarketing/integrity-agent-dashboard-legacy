@@ -30,7 +30,7 @@ const LIFE = "hideLifeQuote";
 const HEALTH = "hideHealthQuote";
 const IUL_FEATURE_FLAG = process.env.REACT_APP_IUL_FEATURE_FLAG === "show";
 
-const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClose, leadId, zipcode }) => {
+const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClose, leadId, zipcode, county }) => {
     const [checked, setChecked] = useState(false);
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
     const [showLifeQuestionCard, setShowLifeQuestionCard] = useState(false);
@@ -70,7 +70,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                 });
             }
         },
-        [agentId, checked, leadPreference, showToast, updateAgentPreferences]
+        [agentId, checked, leadPreference, showToast, updateAgentPreferences],
     );
 
     const handleSellingPermissionModalContinue = () => {
@@ -81,7 +81,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
 
     const handleHealthPlanClick = useCallback(() => {
         onSelectHandle(HEALTH);
-        if (zipcode && !isMultipleCounties) {
+        if (zipcode && !isMultipleCounties && county) {
             fireEvent("Quote Type Selected", {
                 leadid: leadId,
                 line_of_business: "Health",
@@ -91,7 +91,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
             navigate(`/contact/${leadId}/addZip`);
         }
         setIsLoading(false);
-    }, [fireEvent, isMultipleCounties, leadId, navigate, onSelectHandle, zipcode]);
+    }, [county, fireEvent, isMultipleCounties, leadId, navigate, onSelectHandle, zipcode]);
 
     const handleFinalExpensePlanClick = useCallback(async () => {
         setIsLoading(true);
@@ -212,6 +212,7 @@ PlansTypeModal.propTypes = {
     leadId: PropTypes.number.isRequired, // Lead ID for navigation
     zipcode: PropTypes.string.isRequired, // zip code value
     isMultipleCounties: PropTypes.bool.isRequired, // Determines if there are multiple counties
+    county: PropTypes.string, // County value
 };
 
 export default PlansTypeModal;
