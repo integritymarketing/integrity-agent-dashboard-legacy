@@ -79,11 +79,10 @@ function ActionsCell({ row, isCard, item, refreshData }) {
                         ],
                     };
                     await updateLeadDetailsWithZipCode(payload);
+                    navigate(`/plans/${leadId}`);
                 }
             } catch (error) {
                 Sentry.captureException(error);
-            } finally {
-                navigate(`/plans/${leadId}`);
             }
         }
     }, [zipCode, county, fetchCountiesData, leadDetails, updateLeadDetailsWithZipCode, navigate, leadId]);
