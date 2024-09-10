@@ -1,24 +1,23 @@
-import React from "react";
 import PropTypes from "prop-types";
 import "./detailscard.scss";
 import Plus from "components/icons/plus";
-import { Button } from "components/ui/Button";
+import { Button as MuiButton } from "@mui/material";
 import WithLoader from "components/ui/WithLoader";
 import DetailsTable from "../DetailsTable";
 import ContactSectionCard from "packages/ContactSectionCard";
 
 function DetailsCard({
-  headerTitle,
-  onAddClick,
-  buttonLabel = "Add New",
-  items = [],
-  Row,
-  onDelete,
-  onEdit,
-  isLoading = false,
-  itemRender = () => null,
-  provider,
-  disabled = false,
+    headerTitle,
+    onAddClick,
+    buttonLabel = "Add New",
+    items = [],
+    Row,
+    onDelete,
+    onEdit,
+    isLoading = false,
+    itemRender = () => null,
+    provider,
+    disabled = false,
 }) {
     const isPharmacy = headerTitle.toLowerCase() === "pharmacies";
     const title = isPharmacy ? "Pharmacy" : headerTitle;
@@ -29,7 +28,7 @@ function DetailsCard({
             <span className="count"> {itemsLength > 0 ? `(${itemsLength})` : "(0)"} </span>
         </span>
     );
- 
+
     return (
         <ContactSectionCard
             title={displayTitle}
@@ -39,15 +38,17 @@ function DetailsCard({
             actions={
                 onAddClick && (
                     <div className="actions">
-                        <Button
-                            icon={<Plus />}
+                        <MuiButton
+                            sx={{ fontSize: "14px", fontWeight: "400" }}
                             disabled={disabled}
                             iconPosition="right"
                             label={buttonLabel}
                             onClick={onAddClick}
                             type="tertiary"
-                            className="buttonWithIcon"
-                        />
+                            endIcon={<Plus disabled={disabled} />}
+                        >
+                            {buttonLabel}
+                        </MuiButton>
                     </div>
                 )
             }
@@ -81,19 +82,19 @@ function DetailsCard({
         </ContactSectionCard>
     );
 }
- 
+
 DetailsCard.propTypes = {
-  headerTitle: PropTypes.string.isRequired,
-  onAddClick: PropTypes.func,
-  buttonLabel: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.object),
-  Row: PropTypes.func.isRequired,
-  onDelete: PropTypes.func,
-  onEdit: PropTypes.func,
-  isLoading: PropTypes.bool,
-  itemRender: PropTypes.func,
-  provider: PropTypes.bool,
-  disabled: PropTypes.bool,
+    headerTitle: PropTypes.string.isRequired,
+    onAddClick: PropTypes.func,
+    buttonLabel: PropTypes.string,
+    items: PropTypes.arrayOf(PropTypes.object),
+    Row: PropTypes.func.isRequired,
+    onDelete: PropTypes.func,
+    onEdit: PropTypes.func,
+    isLoading: PropTypes.bool,
+    itemRender: PropTypes.func,
+    provider: PropTypes.bool,
+    disabled: PropTypes.bool,
 };
 
 export default DetailsCard;

@@ -1,5 +1,3 @@
-import React from "react";
-
 const PlusIcon = ({ disabled, strokeColor = "#0052CE" }) => {
     const stroke = disabled ? "#94A3B8" : strokeColor;
     return (

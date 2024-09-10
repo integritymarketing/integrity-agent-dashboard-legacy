@@ -84,7 +84,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
 
     const [zipCode, setZipCode] = useState(userZipCode);
     const [searchString, setSearchString] = useState("");
-    const [radius, setRadius] = useState(5);
+    const [radius, setRadius] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
     const [results, setResults] = useState([]);
     const [total, setTotal] = useState(0);
