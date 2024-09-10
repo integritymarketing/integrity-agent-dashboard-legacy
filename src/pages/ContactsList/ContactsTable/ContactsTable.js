@@ -40,6 +40,7 @@ import ConnectCall from "../ConnectCall";
 import ConnectEmail from "../ConnectEmail";
 import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import AskIntegrity from "components/icons/version-2/AskIntegrity";
+import { CountyDataProvider } from "providers/CountyDataProvider";
 
 function ContactsTable() {
     const { tableData, policyCounts, refreshData } = useContactsListContext();
@@ -101,7 +102,7 @@ function ContactsTable() {
 
     const contactsListResultsEvent = () => {
         const contacts_with_health_policies_count = policyCounts.filter(
-            (contact) => contact.healthPolicyCount > 0
+            (contact) => contact.healthPolicyCount > 0,
         ).length;
         const contacts_with_life_policies_count = policyCounts.filter((contact) => contact.lifePolicyCount > 0).length;
 
@@ -223,7 +224,7 @@ function ContactsTable() {
                 Cell: ({ value, row }) => {
                     const leadDataOriginal = row?.original;
                     const campaignTags = row?.original?.leadTags?.filter((tag) =>
-                        tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign")
+                        tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign"),
                     );
                     const campaignTagDefaultImage = campaignTags?.[0]?.tag?.tagIconUrl;
                     return (
@@ -260,7 +261,7 @@ function ContactsTable() {
                     const askIntegrityTags = row?.original?.leadTags?.filter(
                         (tag) =>
                             tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations" ||
-                            tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests"
+                            tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests",
                     );
                     const askIntegrityTagDefaultImage = askIntegrityTags?.[0]?.tag?.tagIconUrl;
                     return (
@@ -358,10 +359,14 @@ function ContactsTable() {
                 Header: "",
                 disableSortBy: true,
                 accessor: "actions",
-                Cell: ({ row }) => <ActionsCell row={row} refreshData={refreshData} />,
+                Cell: ({ row }) => (
+                    <CountyDataProvider>
+                        <ActionsCell row={row} refreshData={refreshData} />
+                    </CountyDataProvider>
+                ),
             },
         ],
-        []
+        [],
     );
 
     return (

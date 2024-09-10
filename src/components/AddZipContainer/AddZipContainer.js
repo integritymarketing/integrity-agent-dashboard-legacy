@@ -20,8 +20,7 @@ import ButtonCircleArrow from "components/icons/button-circle-arrow";
 
 const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => {}, pageName = "" }) => {
     const navigate = useNavigate();
-
-    const { leadDetails, updateLeadDetails } = useLeadDetails();
+    const { leadDetails, updateLeadDetails, getLeadDetails } = useLeadDetails();
 
     const {
         address1 = "",
@@ -30,10 +29,18 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
         stateCode = "",
         postalCode = "",
     } = useMemo(() => leadDetails?.addresses?.[0] ?? {}, [leadDetails]);
+
+    useEffect(() => {
+        if (!leadDetails && contactId) {
+            getLeadDetails(contactId);
+        }
+    }, [contactId, getLeadDetails, leadDetails]);
+
     const address = useMemo(
         () => [address1, address2, city, stateCode].filter(Boolean).join(", "),
-        [address1, address2, city, stateCode]
+        [address1, address2, city, stateCode],
     );
+
     const [zipCode, setZipCode] = useState(postalCode);
     const [allCounties, setAllCounties] = useState([]);
     const [countyObj, setCountyObj] = useState({});
@@ -41,12 +48,15 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
     const [zipError, setZipError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    useEffect(() => {
+        setZipCode(postalCode);
+    }, [postalCode]);
+
     const URL = `${GET_COUNTIES}${zipCode}`;
     const { Get: getCounties } = useFetch(URL);
 
     const handleContinue = async () => {
         const { countyFIPS, countyName, state } = countyObj;
-        // const payload = getPayloadForUpdate(leadDetails, countyName, countyFIPS, state, zipCode);
         const {
             emails = [],
             phones = [],
@@ -64,41 +74,36 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
             contactPreferences = {},
         } = leadDetails || {};
 
-        // Extract primary email and phone details with null checks
         const email = emails.length > 0 ? emails[0]?.leadEmail : null;
         const phoneData = phones.length > 0 ? phones[0] : null;
         const addressData = addresses.length > 0 ? addresses[0] : null;
 
-        // Extract email ID and address ID with default values
         const emailID = emails.length > 0 ? emails[0]?.emailID : 0;
         const leadAddressId = addressData?.leadAddressId || 0;
         const phoneId = phoneData?.phoneId || 0;
 
-        // Extract phone details with default values
         const phone = phoneData?.leadPhone || "";
         const phoneLabel = phoneData?.phoneLabel || "mobile";
 
-        // Extract address details with default values
         const county = addressData?.county || "";
         const countyFips = addressData?.countyFips || "";
 
-        // Extract primary contact preference with a default value
         const isPrimary = contactPreferences.primary || "email";
 
         const payload = {
-            firstName: firstName,
-            lastName: lastName,
-            middleName: middleName,
-            email: email,
+            firstName,
+            lastName,
+            middleName,
+            email,
             birthdate: leadDetails?.birthdate ? formatDate(leadDetails?.birthdate) : "",
             phones: {
                 leadPhone: phone,
                 phoneLabel: phoneLabel?.toLowerCase(),
             },
             address: {
-                address1: address1,
-                address2: address2,
-                city: city,
+                address1,
+                address2,
+                city,
                 stateCode: state ? state : stateCode,
                 postalCode: zipCode ? zipCode : postalCode,
                 county: countyName ? countyName : county,
@@ -123,7 +128,7 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
         const res = await updateLeadDetails(payload);
         if (res) {
             navigate(`/plans/${leadsId}`);
-            quickQuoteModalCallBack && quickQuoteModalCallBack();
+            quickQuoteModalCallBack?.();
         }
     };
 
@@ -149,7 +154,7 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
                 }
             }
         },
-        [getCounties]
+        [getCounties],
     );
 
     const debounceZipFn = debounce((zipcode) => setZipCode(zipcode), 1000);
@@ -181,8 +186,8 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
                     pageName === "Quick Quote"
                         ? styles.quickQuote
                         : isMobile
-                        ? styles.detailsMContainer
-                        : styles.detailsDContainer
+                          ? styles.detailsMContainer
+                          : styles.detailsDContainer
                 }
             >
                 <div className={styles.detailsTitle}>{CONFIRM_DETAILS_TEXT}</div>
@@ -193,7 +198,6 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
                         <SelectCounty counties={allCounties} isMobile={isMobile} onSelectCounty={onSelectCounty} />
                     )}
                     {address && <CopyAddress isMobile={isMobile} address={address} />}
-                    {}
                     {pageName !== "Quick Quote" && (
                         <ContinueCTA
                             isMobile={isMobile}
@@ -224,6 +228,8 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
 AddZipContainer.propTypes = {
     isMobile: PropTypes.bool.isRequired,
     contactId: PropTypes.string.isRequired,
+    quickQuoteModalCallBack: PropTypes.func,
+    pageName: PropTypes.string,
 };
 
 export default AddZipContainer;

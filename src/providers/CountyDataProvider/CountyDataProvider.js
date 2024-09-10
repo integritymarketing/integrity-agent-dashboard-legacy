@@ -47,8 +47,9 @@ export const CountyDataProvider = ({ children }) => {
             fetchCountiesData,
             errorDetails,
             setZipCode,
+            zipCode,
         }),
-        [countiesData, isMultipleCounties, errorDetails, fetchCountiesData, setZipCode],
+        [countiesData, isMultipleCounties, fetchCountiesData, errorDetails, zipCode],
     );
 
     return <CountyDataContext.Provider value={contextValue}>{children}</CountyDataContext.Provider>;
