@@ -14,9 +14,9 @@ const CallCard = ({ call }) => {
     const [isMobile, setIsMobile] = useState(false);
 
     const callIcons = {
-        missed: <CallHistory className={styles.callIconSize} color="#C81E27" />,
-        inbound: <InboundCall className={styles.callIconSize} color="#4178FF" />,
-        outbound: <OutboundCall className={styles.callIconSize} color="#4178FF" />
+        missed: <CallHistory className={styles.callIconSize} size="md" color="#C81E27" />,
+        inbound: <InboundCall className={styles.callIconSize} size="md" color="#4178FF" />,
+        outbound: <OutboundCall className={styles.callIconSize} size="md" color="#4178FF" />
     };
 
     return (
@@ -41,7 +41,7 @@ const CallCard = ({ call }) => {
                             <div className={styles.callDetailsWrapper}>
                                 <div className={styles.callDetails}>
                                     <div className={styles.callMetadata}>
-                                        <Typography variant="h5">
+                                        <Typography variant="h5" className={styles.callDate}>
                                             {getLocalDateTime(call.callStartTime)?.date}
                                         </Typography>
                                         <Typography variant="custom">

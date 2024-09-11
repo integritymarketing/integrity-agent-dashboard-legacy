@@ -18,7 +18,7 @@ const CallsContainerTab = () => {
     const { leadId } = useParams();
     const { leadDetails } = useLeadDetails();
     const leadPhone = leadDetails.phones?.find(p => p?.leadPhone && !p?.inactive)?.leadPhone;
-    const { getCallsList, callsList = [], isCallsListLoading } = useCallsHistory();
+    const { getCallsList, callsList = [], isLoadingCallsList } = useCallsHistory();
     const { isCallScriptOpen, setIsCallScriptOpen, initiateCall } = useOutboundCall();
     const [isMobile, setIsMobile] = useState(false);
 
@@ -32,7 +32,7 @@ const CallsContainerTab = () => {
 
     return (
         <Box sx={{ p: { xs: 1, sm: 2 } }}>
-            <WithLoader isLoading={isCallsListLoading || false}>
+            <WithLoader isLoading={isLoadingCallsList}>
                 <Media
                     query={"(max-width: 540px)"}
                     onChange={() => setIsMobile(isMobile)}
@@ -57,9 +57,7 @@ const CallsContainerTab = () => {
                             </Button>
                         </div>
                     </div>
-                    {callsList?.length && callsList?.map(call => {
-                        return <CallCard key={call.callLogId} call={call} isMobile={isMobile} />
-                    })}
+                    {callsList?.length > 0 && callsList?.map(call => <CallCard key={call.callLogId} call={call} isMobile={isMobile} />)}
                 </Box>
             </WithLoader>
             {isCallScriptOpen &&
