@@ -18,7 +18,6 @@ import { Button } from "../Button";
 import Rating from "../Rating";
 import EnrollBack from "images/enroll-btn-back.svg";
 
-
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -56,13 +55,15 @@ export default function PlanCard({
     isCompareDisabled,
     refresh,
     leadId,
+    selectedPharmacy,
 }) {
     const [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
     const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
     const { contactId } = useParams();
     const { fireEvent } = useAnalytics();
 
-    const { logoURL, estimatedCostCalculationRx } = planData;
+    const { logoURL, estimatedCostCalculationRxs } = planData;
+
     const checkForImage = logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
 
     const planType = PLAN_TYPE_ENUMS[planData.planType];
@@ -74,12 +75,12 @@ export default function PlanCard({
     const validatePartialYearDrugCost = calculatePartialYearDrugCost(
         planData.estimatedAnnualDrugCostPartialYear,
         planData?.drugPremium,
-        effectiveDate
+        effectiveDate,
     );
     const validatePartialMonthlyDrugCost = calculateMonthlyDrugCost(
         planData.estimatedAnnualDrugCostPartialYear,
         planData?.drugPremium,
-        effectiveDate
+        effectiveDate,
     );
 
     return (
@@ -121,7 +122,13 @@ export default function PlanCard({
                     >
                         <div className={"label"}>Monthly Plan Premium</div>
                         <div className={"currency"}>
-                            {currencyFormatter.format(Number(estimatedCostCalculationRx?.monthlyPlanPremium).toFixed(2))}
+                            {currencyFormatter.format(
+                                Number(
+                                    estimatedCostCalculationRxs.find(
+                                        (rx) => rx?.pharmacyId === selectedPharmacy?.pharmacyId || rx.isMailOrder,
+                                    ).monthlyPlanPremium,
+                                ).toFixed(2),
+                            )}
                         </div>
                     </div>
 
@@ -137,7 +144,15 @@ export default function PlanCard({
                                 <div className={"currency"}>
                                     {validatePartialMonthlyDrugCost === "N/A"
                                         ? "N/A"
-                                        : currencyFormatter.format(estimatedCostCalculationRx?.estMonthlyRxDrugCost)}
+                                        : currencyFormatter.format(
+                                              Number(
+                                                  estimatedCostCalculationRxs.find(
+                                                      (rx) =>
+                                                          rx?.pharmacyId === selectedPharmacy?.pharmacyId ||
+                                                          rx.isMailOrder,
+                                                  ).estMonthlyRxDrugCost,
+                                              ),
+                                          )}
                                 </div>
                             </div>
                             <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
@@ -147,7 +162,11 @@ export default function PlanCard({
                     )}
                 </div>
                 <div className={`costs-breakdown ${breakdownCollapsed ? "collapsed" : ""}`}>
-                    <CostBreakdowns planData={planData} effectiveDate={effectiveDate} />
+                    <CostBreakdowns
+                        planData={planData}
+                        effectiveDate={effectiveDate}
+                        selectedPharmacy={selectedPharmacy}
+                    />
                 </div>
             </div>
 
@@ -225,13 +244,10 @@ PlanCard.propTypes = {
         id: PropTypes.string.isRequired,
         planRating: PropTypes.number.isRequired,
         marketingName: PropTypes.string,
-        planType: PropTypes.string.isRequired,
+        planType: PropTypes.number.isRequired,
         nonLicensedPlan: PropTypes.bool,
         crossUpSellPlanOptions: PropTypes.object,
-        estimatedCostCalculationRx: PropTypes.shape({
-            monthlyPlanPremium: PropTypes.number.isRequired,
-            estMonthlyRxDrugCost: PropTypes.number,
-        }),
+        estimatedCostCalculationRxs: PropTypes.object,
         estimatedAnnualDrugCostPartialYear: PropTypes.number,
         drugPremium: PropTypes.number,
     }).isRequired,
@@ -245,4 +261,5 @@ PlanCard.propTypes = {
     isCompareDisabled: PropTypes.bool.isRequired,
     refresh: PropTypes.func.isRequired,
     leadId: PropTypes.string.isRequired,
+    selectedPharmacy: PropTypes.object.isRequired,
 };

@@ -25,6 +25,7 @@ const PlanResults = ({
     selectedPlans,
     setSessionData,
     refresh,
+    selectedPharmacy,
 }) => {
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
@@ -60,9 +61,10 @@ const PlanResults = ({
                     isCompareDisabled={
                         Object.values(selectedPlans).filter(Boolean).length >= 3 && !selectedPlans[plan.id]
                     }
+                    selectedPharmacy={selectedPharmacy}
                     refresh={refresh}
                     leadId={leadId}
-                />
+                />,
             );
         }
     } else if (!loading && (!plans || plans == null || plans.length === 0)) {
@@ -70,7 +72,7 @@ const PlanResults = ({
         cards.push(
             <div key={"NoResultsCard"} className={"plan-card no-plan-results"}>
                 {`No ${planTypeString} plans available. Review the selected filters and/or contact information.`}
-            </div>
+            </div>,
         );
     } else {
         for (let i = 0; i < 10; i++) {
