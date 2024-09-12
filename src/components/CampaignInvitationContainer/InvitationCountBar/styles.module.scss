@@ -1,5 +1,9 @@
 @import "../../../scss/globalDefines.scss";
 
+.bannerFilter {
+    margin-left: auto;
+}
+
 .banner {
     display: flex;
     align-items: center;
@@ -10,6 +14,7 @@
     color: #434a51;
     border-left: 6px solid #4178ff;
     padding: 8px 16px;
+    width: 100%;
 
     @include small {
         flex-direction: column;
@@ -42,4 +47,19 @@
     font-size: 16px;
     font-weight: 600;
     line-height: 20px;
+}
+
+.disabled {
+    p {
+        color: #00000061;
+    }
+    button {
+        p {
+            color: #4178FF;
+        }
+        cursor: default;
+    }
+    box-shadow: none;
+    border-bottom: unset;
+    cursor: default;
 }

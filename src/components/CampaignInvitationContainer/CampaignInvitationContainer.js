@@ -7,18 +7,16 @@ import { useCampaignInvitation } from "providers/CampaignInvitation";
 import WithLoader from "components/ui/WithLoader";
 
 export const CampaignInvitationContainer = () => {
-    const { getCampaignDetailsByEmail, isGetCampaignDetailsByEmailLoading,handleSetDefaultSelection, currentPage } = useCampaignInvitation();
+    const {
+        handleSetDefaultSelection,
+        currentPage } = useCampaignInvitation();
 
     useEffect(() => {
-        getCampaignDetailsByEmail();
-    }, []);
-    useEffect(() => {
         if(currentPage !== 'Contact_Overview'){
-        handleSetDefaultSelection();
+            handleSetDefaultSelection();
         }
     }, []);
     return (
-        <WithLoader isLoading={isGetCampaignDetailsByEmailLoading}>
             <Box
                 sx={{
                     backgroundColor: "#F1F1F1",
@@ -27,7 +25,6 @@ export const CampaignInvitationContainer = () => {
                 <CampaignSubHeader />
                 <CampaignInnerContainer />
             </Box>
-        </WithLoader>
     );
 };
 

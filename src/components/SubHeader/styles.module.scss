@@ -35,3 +35,12 @@
         }
     }
 }
+
+.actionButton {
+    position: absolute;
+    right: 60px;
+    @include small {
+        position: static;
+        margin-top: 10px;
+    }
+}

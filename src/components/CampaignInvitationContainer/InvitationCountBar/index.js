@@ -2,17 +2,31 @@ import React from "react";
 import { Box } from "@mui/material";
 import styles from "./styles.module.scss";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
+import ClearFilterButton from "./ClearFilterButton";
 
 const InvitationCountBar = () => {
     const {
         filteredContactsType,
+        setFilteredContactsType,
         filteredContentStatus,
         filteredCount,
         totalContactsCount,
         eligibleContactsLength,
         contactName,
+        createdNewCampaign,
         filteredEligibleCount,
+        campaignStatuses
     } = useCampaignInvitation();
+
+    const readOnly = createdNewCampaign?.campaignStatus === campaignStatuses.COMPLETED;
+
+    const handleClearFilter = () => {
+        setFilteredContactsType("");
+    }
+
+    const showClearFilterButton = () => {
+        return filteredContactsType === "a contact" || filteredContactsType === "contacts filtered by ..";
+    }
 
     return (
         <Box className={styles.banner}>
@@ -48,6 +62,7 @@ const InvitationCountBar = () => {
                     <span dangerouslySetInnerHTML={{ __html: `${filteredContentStatus} who have an email address and have not created a PlanEnroll account` }}></span>
                 )}
             </Box>
+            {showClearFilterButton() && <Box className={`${styles.bannerFilter} ${readOnly ? styles.disabled : ''}`}><ClearFilterButton onClear={readOnly ? undefined : handleClearFilter} /></Box>}
         </Box>
     );
 };

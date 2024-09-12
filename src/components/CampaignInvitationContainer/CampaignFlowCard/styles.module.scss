@@ -1,11 +1,13 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .channelReasons {
     display: flex;
     align-items: center;
-    gap: 8px;
+    width: 100%;
+    gap: 24px;
     justify-content: center;
     line-height: 32px;
+
     @include small {
         flex-direction: column;
     }
@@ -79,13 +81,25 @@
     text-align: center;
 }
 
-.emailOptions {
-    width: 100%;
+.flowOptions {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
+    cursor: pointer;
+    width: 100%;
+    gap: 24px;
+}
+
+.channelReasonsText {
+
+}
+
+.channelOptions {
+
+}
+
+.reasonOptions {
+
 }
 
 .disabled {

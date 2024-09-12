@@ -15,16 +15,29 @@
 
 .header {
     margin-bottom: 16px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.campaignTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
 }
 
 .content {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 16px;
     padding: 24px;
     background-color: #ffffff;
     border-radius: 8px;
     width: 100%;
+    min-height: 374px;
 }
 
 .detailsContainer {
@@ -41,4 +54,33 @@
     @include small {
         flex-direction: column;
     }
+}
+
+.previewCampaignButton {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    @include small {
+        position: static;
+        margin-top: 10px;
+    }
+}
+
+.startCampaignButton {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    align-self: end;
+    @include small {
+        position: static;
+        margin-top: 10px;
+    }
+}
+
+.progressIcon {
+    color: #49648B !important;
+}
+
+.advancedModeToggle {
+    margin-left: auto;
 }

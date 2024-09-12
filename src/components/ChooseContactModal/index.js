@@ -234,7 +234,7 @@ const AutoCompleteContactSearchModal = ({
                             {...params}
                             onKeyDown={onlyAlphabets}
                             type="text"
-                            placeholder="Start by typing a contact’s name"
+                            placeholder="Client Name"
                             InputProps={{
                                 ...params.InputProps,
                                 endAdornment: (
