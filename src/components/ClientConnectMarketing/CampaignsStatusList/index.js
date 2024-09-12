@@ -1,8 +1,9 @@
+import PropTypes from "prop-types";
 import { Box } from "@mui/material";
-import CampaignNoDataCard from "../CampaignNoDataCard";
+import CampaignListContainer from "../CampaignListContainer";
 import styles from "./styles.module.scss";
 
-const CampaignsStatusList = () => {
+const CampaignsStatusList = ({ allCampaignsList }) => {
     const campaignsNoListData = {
         drafts: {
             title: "Drafts",
@@ -25,14 +26,28 @@ const CampaignsStatusList = () => {
             message: "There are no completed campaigns to show.",
         },
     };
+
     return (
         <Box className={styles.campaignInnerContainer}>
-            <CampaignNoDataCard data={campaignsNoListData["drafts"]} />
-            <CampaignNoDataCard data={campaignsNoListData["active"]} />
-            <CampaignNoDataCard data={campaignsNoListData["paused"]} />
-            <CampaignNoDataCard data={campaignsNoListData["completed"]} />
+            <CampaignListContainer data={campaignsNoListData["drafts"]} campaigns={allCampaignsList} status="Draft" />
+            <CampaignListContainer data={campaignsNoListData["active"]} campaigns={allCampaignsList} status="Active" />
+            <CampaignListContainer data={campaignsNoListData["paused"]} campaigns={allCampaignsList} status="Paused" />
+            <CampaignListContainer
+                data={campaignsNoListData["completed"]}
+                campaigns={allCampaignsList}
+                status="Completed"
+            />
         </Box>
     );
+};
+
+CampaignsStatusList.propTypes = {
+    allCampaignsList: PropTypes.arrayOf(
+        PropTypes.shape({
+            campaignStatus: PropTypes.string.isRequired,
+            campaignRunDate: PropTypes.string,
+        }),
+    ).isRequired,
 };
 
 export default CampaignsStatusList;

@@ -1,4 +1,3 @@
-import React from "react";
 import { Typography, Box, Button } from "@mui/material";
 import styles from "./styles.module.scss";
 import PlusIcon from "images/Campaigns/icons-Plus.svg";

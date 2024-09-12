@@ -1,4 +1,3 @@
-import React from "react";
 import { Typography, Container, Box } from "@mui/material";
 import CompletedCampaignsList from "./CompletedCampaignsList";
 import { useMarketing } from "providers/Marketing";

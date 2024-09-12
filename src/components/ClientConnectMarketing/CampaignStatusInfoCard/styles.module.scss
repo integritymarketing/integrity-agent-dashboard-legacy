@@ -1,0 +1,51 @@
+.cardDivider {
+    border-top: 1px solid #e0e0e0;
+}
+.campaignCard {
+    background-color: #ffffff;
+    height: 104px;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.sentStatusHeader {
+    min-height: 104px;
+    padding: 16px 16px 8px 16px;
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+.sentHeaderBody {
+    display: flex;
+    padding-bottom: 8px;
+    .sentDate {
+        color: #717171;
+        font-weight: 400;
+        margin-left: 4px;
+    }
+}
+
+.mIcon {
+    height: 56px;
+    margin-right: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sentMsg {
+    color: #717171;
+    margin-left: 4px;
+}
+
+.sentText {
+    color: #052a63;
+    letter-spacing: 0.17px;
+    font-weight: 600;
+}
+
+.sentStatusBody {
+    display: flex;
+    padding-top: 8px;
+    align-items: center;
+}

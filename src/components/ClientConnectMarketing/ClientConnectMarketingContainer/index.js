@@ -1,15 +1,23 @@
+import { useEffect } from "react";
 import { Box } from "@mui/material";
 import CampaignSubHeader from "../CampaignSubHeader";
 import CampaignsStatusList from "../CampaignsStatusList";
 import WithLoader from "components/ui/WithLoader";
+import { useMarketing } from "providers/Marketing";
 import styles from "./styles.module.scss";
 
 export const ClientConnectMarketingContainer = () => {
+    const { getCompletedCampaigns, isFetchCompletedCampaignsLoading, allCampaignsList } = useMarketing();
+
+    useEffect(() => {
+        getCompletedCampaigns();
+    }, [getCompletedCampaigns]);
+
     return (
-        <WithLoader isLoading={false}>
+        <WithLoader isLoading={isFetchCompletedCampaignsLoading}>
             <Box className={styles.campaignContainer}>
                 <CampaignSubHeader />
-                <CampaignsStatusList />
+                <CampaignsStatusList allCampaignsList={allCampaignsList} />
             </Box>
         </WithLoader>
     );

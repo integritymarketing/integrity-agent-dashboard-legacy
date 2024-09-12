@@ -13,6 +13,7 @@ export const MarketingProvider = ({ children }) => {
     const showToast = useToast();
 
     const [completedCampaignsList, setCompletedCampaignsList] = useState([]);
+    const [allCampaignsList, setAllCampaignsList] = useState([]);
 
     const URL = `${process.env.REACT_APP_COMMUNICATION_API}/CampaignLog/GetCampaignLog/${npn}`;
 
@@ -29,6 +30,7 @@ export const MarketingProvider = ({ children }) => {
         try {
             const resData = await fetchCompletedCampaigns();
             if (resData?.length) {
+                setAllCampaignsList(resData);
                 const filteredData = resData.filter((item) => item.campaignStatus === "Completed");
                 setCompletedCampaignsList(filteredData);
             }
@@ -51,6 +53,7 @@ export const MarketingProvider = ({ children }) => {
             isFetchCompletedCampaignsLoading,
             fetchCompletedCampaignsError,
             completedCampaignsList,
+            allCampaignsList,
         };
     }
 };

@@ -1,0 +1,123 @@
+@import "../../../scss/globalDefines.scss";
+
+.campaignCard {
+    background-color: #f1f1f1;
+    min-height: 172px;
+}
+
+.cardDivider {
+    border-top: 1px solid #e0e0e0;
+}
+.cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+}
+
+.cardValue {
+    color: #052a63;
+    font-size: 16px;
+    margin-left: 4px;
+}
+
+.cardLabel {
+    font-size: 16px;
+    color: #717171;
+}
+
+.cardDetails {
+    color: #757575;
+    padding: 16px;
+    height: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.campaignHeader {
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+    align-items: center;
+}
+
+.status_body {
+    text-align: left;
+    min-height: 60px;
+    color: #717171;
+    padding: 16px 0px;
+    font-size: 16px;
+}
+
+.campaignCardContainer {
+    min-height: 172px;
+    border-radius: 8px;
+    background-color: #f1f1f1;
+    width: 36.1%;
+    flex-shrink: 0;
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    margin-bottom: 12px;
+    @include small {
+        .campaignCardContainer {
+            width: 82%;
+        }
+    }
+    @include medium {
+        .campaignCardContainer {
+            width: 54%;
+        }
+    }
+}
+
+.mIcon {
+    height: 34px;
+    margin-right: 8px;
+    display: flex;
+    justify-content: center;
+}
+
+.statusCard {
+    padding: 16px 0px;
+    border-radius: 8px;
+}
+.campaignTitle {
+    display: flex;
+    text-transform: lowercase;
+    align-items: center;
+    white-space: nowrap;
+    color: #4178ff;
+}
+
+.campaignTitle::first-letter {
+    text-transform: uppercase;
+}
+
+.headerAction {
+    text-align: right;
+}
+
+.clicksCardsContainer {
+    gap: 8px;
+}
+.cardType {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin: right 18px;
+}
+
+@media (max-width: 480px) {
+    .campaignCardContainer {
+        width: 80%;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .campaignCardContainer {
+        width: 46%;
+    }
+}

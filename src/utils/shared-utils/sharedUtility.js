@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import moment from "moment";
 /**
  * Renders a color option with styling and click handler.
  *
@@ -141,7 +141,9 @@ export const formatMbiNumber = (mbi) => {
 };
 
 export const removeDuplicates = (array, key) => {
-    if (!array) return [];
+    if (!array) {
+        return [];
+    }
     const uniqueValues = new Set();
     return array?.reduce((acc, current) => {
         if (!uniqueValues.has(current[key])) {
@@ -150,4 +152,25 @@ export const removeDuplicates = (array, key) => {
         }
         return acc;
     }, []);
+};
+const convertAndFormatUTCDateToLocalDate = (date) => {
+    const isValidDate = moment(date).isValid();
+    return isValidDate ? moment.utc(date).local().format("MM-DD-YYYY") : "";
+};
+// Reusable function to filter campaigns by status and format date
+export const filterCampaignsByStatus = (list, status) => {
+    if (!list || !Array.isArray(list)) {
+        return [];
+    }
+
+    const filteredList = list
+        .filter((campaign) => campaign.campaignStatus === status)
+        .map((campaign) => ({
+            ...campaign,
+            formattedDate: campaign.campaignRunDate
+                ? convertAndFormatUTCDateToLocalDate(campaign.campaignRunDate)
+                : undefined,
+        }));
+
+    return filteredList.length > 0 ? filteredList : [];
 };
