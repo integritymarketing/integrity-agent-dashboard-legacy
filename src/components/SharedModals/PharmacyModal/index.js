@@ -29,6 +29,7 @@ import PharmacyList from "./PharmacyList";
 import { Tab, Tabs } from "@mui/material";
 import { PhysicalPharmacy, OnlinePharmacy } from "@integritymarketing/icons";
 
+
 const DISTANCE_OPTIONS = [
     { value: 10, label: "10 miles" },
     { value: 20, label: "20 miles" },
@@ -131,8 +132,6 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
             .getLatlongByAddress(zipCode, pharmacyAddress)
             .then((data) => {
                 if (data?.features?.length > 0 && data?.features[0]?.center) {
-                    // mapbox returns longitude/latitude, so need to reverse order for
-                    // the pharmacy search API.
                     const latLngValue = data?.features[0]?.center.reverse().toString();
                     setLatLng(latLngValue);
                 } else {
@@ -199,13 +198,13 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
                 ...selectedPharmacies.filter((item) => Boolean(item.pharmacyId)),
                 ...selectedPharmacies
                     .filter((item) => !item.pharmacyId)
-                    .map((pharmacy) => ({
+                    .map((pharmacy, index) => ({
                         address1: pharmacy.address1,
                         address2: pharmacy.address2,
                         city: pharmacy.city,
                         isDigital: pharmacy.isDigital,
                         isMailOrder: pharmacy.isMailOrder,
-                        isPrimary: pharmacy.isPrimary,
+                        isPrimary: index === 0,
                         name: pharmacy.name,
                         pharmacyID: pharmacy.pharmacyID,
                         pharmacyIDType: pharmacy.pharmacyIDType,

@@ -1,15 +1,8 @@
 import PropTypes from "prop-types";
-
 import Box from "@mui/material/Box";
-
-import useDeviceType from "hooks/useDeviceType";
-
 import DeleteIcon from "components/icons/version-2/Delete";
-
 import { Button } from "components/ui/Button";
-
 import { formatPhoneNumber } from "utils/phones";
-
 import styles from "./styles.module.scss";
 import { Chip } from "@mui/material";
 import { useWindowSize } from "hooks/useWindowSize";
@@ -17,9 +10,13 @@ import { useWindowSize } from "hooks/useWindowSize";
 const PharmacyItem = ({ pharmacy, handleSetAsPrimary, onDeletePharmacy }) => {
     const { width: windowWidth } = useWindowSize();
     const isMobile = windowWidth <= 784;
-    let address = `${pharmacy.address1} ${pharmacy.address2 ?? ""}, ${pharmacy.city},
-    ${pharmacy.state}, ${pharmacy.zip}`;
-    address = address ? address : pharmacy.isDigital ? "Digital Pharmacy" : "";
+
+    const { address1, address2, city, state, zip } = pharmacy;
+    const address = address1 || address2 || city || state || zip
+        ? [address1, address2, city, state, zip].filter(Boolean).join(", ")
+        : "Digital Pharmacy";
+
+
     const isPrimary = pharmacy.isPrimary;
 
     return (
@@ -96,6 +93,18 @@ const PharmacyItem = ({ pharmacy, handleSetAsPrimary, onDeletePharmacy }) => {
 export default PharmacyItem;
 
 PharmacyItem.propTypes = {
-    pharmacy: PropTypes.object.isRequired,
+    pharmacy: PropTypes.shape({
+        pharmacyId: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        pharmacyPhone: PropTypes.string.isRequired,
+        isDigital: PropTypes.bool.isRequired,
+        isPrimary: PropTypes.bool.isRequired,
+        address1: PropTypes.string,
+        address2: PropTypes.string,
+        city: PropTypes.string,
+        state: PropTypes.string,
+        zip: PropTypes.string,
+    }).isRequired,
+    handleSetAsPrimary: PropTypes.func.isRequired,
     onDeletePharmacy: PropTypes.func.isRequired,
 };
