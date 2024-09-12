@@ -26,6 +26,8 @@ import ErrorState from "../SharedComponents/ErrorState";
 import SearchInput from "../SharedComponents/SearchInput";
 import SearchLabel from "../SharedComponents/SearchLabel";
 import PharmacyList from "./PharmacyList";
+import { Tab, Tabs } from "@mui/material";
+import { PhysicalPharmacy, OnlinePharmacy } from "@integritymarketing/icons";
 
 const DISTANCE_OPTIONS = [
     { value: 10, label: "10 miles" },
@@ -74,9 +76,21 @@ const useStyles = makeStyles(() => ({
     boldMessage: {
         fontWeight: "bold",
     },
+    tabs: {
+        margin: "15px 0",
+    },
+    tab: {
+        display: "flex !important",
+        gap: "10px !important",
+        fontWeight: "normal !important",
+    },
+    selectedTab: {
+        backgroundColor: "#F1FAFF !important",
+        fontWeight: "bold !important",
+    },
 }));
 
-const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
+const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refresh, leadId }) => {
     const { addPharmacy, pharmacies } = useHealth();
     const { clientsService } = useClientServiceContext();
     const classes = useStyles();
@@ -84,13 +98,14 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
 
     const [zipCode, setZipCode] = useState(userZipCode);
     const [searchString, setSearchString] = useState("");
+    const [tabSelected, setTabSelected] = useState(0);
     const [radius, setRadius] = useState(10);
     const [isLoading, setIsLoading] = useState(false);
     const [results, setResults] = useState([]);
     const [total, setTotal] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [perPage] = useState(10);
-    const [selectedPharmacies, setSelectedPharmacies] = useState([]);
+    const [selectedPharmacies, setSelectedPharmacies] = useState(pharmaciesPreSelected);
     const [pharmacyAddress, setPharmacyAddress] = useState("");
     const [latLng, setLatLng] = useState("");
 
@@ -152,7 +167,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
 
         setIsLoading(true);
         clientsService
-            .searchPharmacies(payload)
+            .searchPharmacies(payload, tabSelected === 1)
             .then((data) => {
                 setIsLoading(false);
                 if (data?.pharmacyList?.length > 0) {
@@ -167,7 +182,7 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                 setIsLoading(false);
                 Sentry.captureException(e);
             });
-    }, [perPage, currentPage, searchString, pharmacyAddress, latLng, zipCode, radius, clientsService]);
+    }, [perPage, currentPage, tabSelected, searchString, pharmacyAddress, latLng, zipCode, radius, clientsService]);
 
     const handleZipCode = (e) => {
         setZipCode(e.target.value);
@@ -181,21 +196,23 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
     const handleAddPharmacy = async () => {
         await addPharmacy(
             [
-                ...pharmacies,
-                ...selectedPharmacies.map((pharmacy) => ({
-                    address1: pharmacy.address1,
-                    address2: pharmacy.address2,
-                    city: pharmacy.city,
-                    isDigital: pharmacy.isDigital,
-                    isMailOrder: pharmacy.isMailOrder,
-                    isPrimary: pharmacy.isPrimary,
-                    name: pharmacy.name,
-                    pharmacyID: pharmacy.pharmacyID,
-                    pharmacyIDType: pharmacy.pharmacyIDType,
-                    pharmacyPhone: pharmacy.pharmacyPhone,
-                    state: pharmacy.state,
-                    zip: pharmacy.zip,
-                })),
+                ...selectedPharmacies.filter((item) => Boolean(item.pharmacyId)),
+                ...selectedPharmacies
+                    .filter((item) => !item.pharmacyId)
+                    .map((pharmacy) => ({
+                        address1: pharmacy.address1,
+                        address2: pharmacy.address2,
+                        city: pharmacy.city,
+                        isDigital: pharmacy.isDigital,
+                        isMailOrder: pharmacy.isMailOrder,
+                        isPrimary: pharmacy.isPrimary,
+                        name: pharmacy.name,
+                        pharmacyID: pharmacy.pharmacyID,
+                        pharmacyIDType: pharmacy.pharmacyIDType,
+                        pharmacyPhone: pharmacy.pharmacyPhone,
+                        state: pharmacy.state,
+                        zip: pharmacy.zip,
+                    })),
             ],
             refresh,
             leadId
@@ -210,6 +227,11 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
 
     const ERROR_STATE = zipCode?.length !== 5;
     const pharmacyCountExceeded = selectedPharmacies.length >= 3;
+
+    const handleTabChange = (tabNew) => {
+        setTabSelected(tabNew);
+        setSearchString("");
+    };
 
     return (
         <Modal
@@ -307,6 +329,34 @@ const PharmacyModal = ({ open, onClose, userZipCode, refresh, leadId }) => {
                         />
                     ) : (
                         <>
+                            <Tabs
+                                TabIndicatorProps={{
+                                    sx: {
+                                        height: "2px",
+                                    },
+                                }}
+                                className={classes.tabs}
+                                value={tabSelected}
+                                aria-label="tabs"
+                                variant="fullWidth"
+                            >
+                                <Tab
+                                    className={`${classes.tab} ${classes.tab1} ${tabSelected === 0 ? classes.selectedTab : ""
+                                        }`}
+                                    icon={<PhysicalPharmacy />}
+                                    onClick={() => handleTabChange(0)}
+                                    iconPosition="start"
+                                    label={"Physical"}
+                                />
+                                <Tab
+                                    className={`${classes.tab} ${classes.tab2} ${tabSelected === 1 ? classes.selectedTab : ""
+                                        }`}
+                                    icon={<OnlinePharmacy />}
+                                    onClick={() => handleTabChange(1)}
+                                    iconPosition="start"
+                                    label={"Online"}
+                                />
+                            </Tabs>
                             <PharmacyList
                                 list={results}
                                 selectedPharmacies={selectedPharmacies}

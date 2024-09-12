@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
 
@@ -11,7 +11,7 @@ import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
 // Constants
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
- 
+
 import useAnalytics from "hooks/useAnalytics";
 
 import FinalExpenseHealthTableSection from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthTableSection";
@@ -55,6 +55,7 @@ const HealthDetailsSection = () => {
         fetchPrescriptions,
         fetchPharmacies,
         fetchProviders,
+        putLeadPharmacy,
     } = useHealth();
 
     useEffect(() => {
@@ -62,6 +63,25 @@ const HealthDetailsSection = () => {
             fetchHealthDetails();
         }
     }, [leadId]);
+
+    const modifiedPharmacies = useMemo(() => {
+        if (pharmacies?.length) {
+            const primaryPharmacy = pharmacies.find((item) => item.isPrimary === true);
+            if (!primaryPharmacy) {
+                const firstPharmacy = { ...pharmacies[0], isPrimary: true };
+                return [firstPharmacy, ...pharmacies.slice(1)];
+            } else {
+                return pharmacies;
+            }
+        }
+        return [];
+    }, [pharmacies]);
+
+    const handleSetAsPrimary = async (pharmacyId) => {
+        const pharmacyItem = { ...pharmacies.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
+        await putLeadPharmacy(leadId, pharmacyItem);
+        fetchPharmacies(leadId);
+    };
 
     useEffect(() => {
         fireEvent("Contact Health Profile Page Viewed", {
@@ -109,15 +129,25 @@ const HealthDetailsSection = () => {
             </div>
         );
     };
- 
+
     const handleEditProvider = (provider) => {
         setIsOpen(true);
         setProviderEditFlag(true);
         setProviderToEdit(provider);
     };
 
-    const onDeletePharmacy = (pharmacy) => {
-        deletePharmacy(pharmacy, null, leadId);
+    const onDeletePharmacy = async (pharmacy) => {
+        await deletePharmacy(pharmacy, null, leadId);
+        if (pharmacy.isPrimary) {
+            const pharmacyToMakePrimary = pharmacies.find((item) => {
+                if (item.pharmacyId !== pharmacy.pharmacyId) {
+                    return true;
+                }
+            });
+            if (pharmacyToMakePrimary) {
+                handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
+            }
+        }
     };
 
     return (
@@ -165,13 +195,17 @@ const HealthDetailsSection = () => {
                     headerTitle="Pharmacies"
                     onAddClick={pharmacies?.length > 3 ? null : onAddNewPharmacy}
                     disabled={pharmacies?.length >= 3}
-                    items={pharmacies}
+                    items={modifiedPharmacies}
                     provider={true}
                     isLoading={pharmacyLoading}
                     itemRender={(item) => {
                         return (
                             <div key={item?.pharmacyRecordID} className={styles.providerContainer}>
-                                <PharmacyItem pharmacy={item} onDeletePharmacy={onDeletePharmacy} />
+                                <PharmacyItem
+                                    pharmacy={item}
+                                    handleSetAsPrimary={handleSetAsPrimary}
+                                    onDeletePharmacy={onDeletePharmacy}
+                                />
                             </div>
                         );
                     }}
@@ -213,6 +247,7 @@ const HealthDetailsSection = () => {
                 {isOpenPharmacy && (
                     <PharmacyModal
                         open={isOpenPharmacy}
+                        pharmaciesPreSelected={pharmacies}
                         onClose={onCloseNewPharmacy}
                         leadId={leadId}
                         userZipCode={leadDetails?.addresses?.[0]?.postalCode}

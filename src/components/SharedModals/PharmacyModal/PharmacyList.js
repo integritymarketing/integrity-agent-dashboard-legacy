@@ -21,16 +21,24 @@ const usePharmacyListStyles = makeStyles((theme) => ({
             color: "#4178FF",
         },
     },
+    checkboxDisabled: {
+        "&:hover": {
+            cursor: "not-allowed",
+        },
+    },
 
     // Style rules for the list items
     listItem: {
         backgroundColor: "#dddddd !important",
-        height: 70,
         boxShadow: "inset 0px -1px 0px #cccccc",
         padding: "10px !important",
         "&.Mui-selected, &.Mui-selected:hover, &:hover": {
             backgroundColor: "#f1faff !important",
         },
+    },
+
+    listItemDisabled: {
+        cursor: "not-allowed !important",
     },
 
     // Style rules for the primary and secondary text of list items
@@ -83,50 +91,62 @@ const usePharmacyListStyles = makeStyles((theme) => ({
 }));
 const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
     const classes = usePharmacyListStyles();
+    const shouldDisableCheckbox = useMemo(() => {
+        if (selectedPharmacies.length >= 3) {
+            return true;
+        }
+        return false;
+    }, [selectedPharmacies]);
+
     const handleSelectionChange = useCallback(
         (pharmacy) => {
-            const isSelected = selectedPharmacies.some((selectedPharmacy) => selectedPharmacy.pharmacyID === pharmacy.pharmacyID);
+            const isSelected = selectedPharmacies.some(
+                (selectedPharmacy) => selectedPharmacy.pharmacyID === pharmacy.pharmacyID
+            );
             if (isSelected) {
-                setSelectedPharmacies(selectedPharmacies.filter((selectedPharmacy) => selectedPharmacy.pharmacyID !== pharmacy.pharmacyID));
-            } else if (selectedPharmacies.length <= 2) {
+                setSelectedPharmacies(
+                    selectedPharmacies.filter((selectedPharmacy) => selectedPharmacy.pharmacyID !== pharmacy.pharmacyID)
+                );
+            } else if (!shouldDisableCheckbox && selectedPharmacies.length <= 2) {
                 setSelectedPharmacies([...selectedPharmacies, pharmacy]);
             }
         },
-        [setSelectedPharmacies, selectedPharmacies]
+        [setSelectedPharmacies, shouldDisableCheckbox, selectedPharmacies]
     );
 
     const renderedPharmacyList = useMemo(
         () =>
             list?.map((pharmacy) => {
                 const { name, address1 = "", address2 = "", city = "", state = "", pharmacyID } = pharmacy;
-                const isChecked = selectedPharmacies.some((selectedPharmacy) => selectedPharmacy.pharmacyID === pharmacyID);
-                const disableCheckbox = selectedPharmacies.length >= 3 && !isChecked;
+                const isChecked =
+                    pharmacyID &&
+                    selectedPharmacies.some(
+                        (selectedPharmacy) =>
+                            selectedPharmacy.pharmacyId === pharmacyID || selectedPharmacy.pharmacyID === pharmacyID
+                    );
+                const disableCheckbox = shouldDisableCheckbox && !isChecked;
 
                 return (
                     <ListItemButton
                         key={pharmacy.pharmacyID}
                         selected={isChecked}
-                        classes={{ root: classes.listItem }}
+                        classes={{ root: `${classes.listItem} ${disableCheckbox ? classes.listItemDisabled : ""}` }}
                         onClick={() => handleSelectionChange(pharmacy)}
                     >
-                        <Checkbox
-                            className={classes.checkbox}
-                            checked={isChecked}
-                            disabled={disableCheckbox}
-                        />
+                        <Checkbox className={`${classes.checkbox}`} checked={isChecked} disabled={disableCheckbox} />
                         <ListItemText
                             primary={<span className={classes.primaryText}>{name}</span>}
                             secondary={
                                 <span className={classes.secondaryText}>
                                     {address1}
-                                    {address2 ? ` ${  address2}` : ""}, {city}, {state}
+                                    {address2 ? ` ${address2}` : ""} {city ? `,${city}` : ""} {state ? `,${state}` : ""}
                                 </span>
                             }
                         />
                     </ListItemButton>
                 );
             }),
-        [list, classes, handleSelectionChange, selectedPharmacies]
+        [list, classes, shouldDisableCheckbox, handleSelectionChange, selectedPharmacies]
     );
 
     return <List className={classes.listRoot}>{renderedPharmacyList}</List>;
