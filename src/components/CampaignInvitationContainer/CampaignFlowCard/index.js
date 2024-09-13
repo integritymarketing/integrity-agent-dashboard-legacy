@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useLayoutEffect} from "react";
+import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import ArrowDownBig from "components/icons/version-2/ArrowDownBig";
 import styles from "./styles.module.scss";
@@ -19,8 +19,7 @@ const channelOptions = [
     { optionText: "a text message", value: "Sms", icon: <TextIcon /> },
 ];
 
-const CampaignFlowContainer = (props) => {
-    const { showPreview, contactsTypeNotSelected } = props;
+const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
     const {
         invitationSendType,
         handleInvitationSendType,
@@ -35,8 +34,9 @@ const CampaignFlowContainer = (props) => {
         campaignStatuses,
         getCampaignDetailsByEmail,
         getCampaignDetailsByText,
-        isGetCampaignDetailsByEmailLoading,
-        isGetCampaignDetailsByTextLoading
+        isFetchCampaignDetailsByEmailLoading,
+        isFetchCampaignDetailsByTextLoading,
+        isUpdateCampaignLoading,
     } = useCampaignInvitation();
 
     const readOnly = createdNewCampaign?.campaignStatus === campaignStatuses.COMPLETED;
@@ -45,21 +45,21 @@ const CampaignFlowContainer = (props) => {
     const [emailOptionsOpen, setEmailOptionsOpen] = useState(null);
     const [chooseContactModalOpen, setChooseContactModalOpen] = useState(false);
     const [emailOptions, setEmailOptions] = useState([]);
-
     const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
-        const campaignDescs = allCampaignInvitationData.map((campaignInvitation)=> {
-            return { optionText: campaignInvitation.campaignDescription, value: campaignInvitation };
-        });
-        setEmailOptions(campaignDescs)
+        const campaignDescriptions = allCampaignInvitationData.map((campaignInvitation) => ({
+            optionText: campaignInvitation.campaignDescription,
+            value: campaignInvitation,
+        }));
+        setEmailOptions(campaignDescriptions);
     }, [allCampaignInvitationData, eligibleContactsLength]);
+
     const handleChannelOptionsChange = (value) => {
         setChannelOptionOpen(null);
-        if(value === "Email") {
+        if (value === "Email") {
             getCampaignDetailsByEmail();
-        }
-        if(value === "Sms") {
+        } else if (value === "Sms") {
             getCampaignDetailsByText();
         }
         handleInvitationSendType(value);
@@ -73,7 +73,11 @@ const CampaignFlowContainer = (props) => {
     const handleCloseFilterDropdown = () => {
         const selectedFilterSections = JSON.parse(localStorage.getItem("campaign_contactList_selectedFilterSections"));
         setAnchorEl(null);
-        if ((!selectedFilterSections || selectedFilterSections?.length === 0) || (selectedFilterSections?.length === 1 && !selectedFilterSections[0]?.selectedFilterOption)) {
+        if (
+            !selectedFilterSections ||
+            selectedFilterSections.length === 0 ||
+            (selectedFilterSections.length === 1 && !selectedFilterSections[0]?.selectedFilterOption)
+        ) {
             handleSetDefaultSelection();
         }
     };
@@ -86,30 +90,36 @@ const CampaignFlowContainer = (props) => {
         setEmailOptionsOpen(emailOptionsOpen ? null : event.currentTarget);
     };
 
-    const showEmailChannels = () => {
-        return !_.isEmpty(invitationSendType);
-    };
+    const showEmailChannels = () => !_.isEmpty(invitationSendType);
 
-    const showInvitationBar = () => {
-        return showEmailChannels() && !_.isEmpty(campaignInvitationData);
-    };
+    const showInvitationBar = () => showEmailChannels() && !_.isEmpty(campaignInvitationData);
 
     return (
-        <Box className={styles.flowOptions} style={!showPreview && campaignInvitationData && !contactsTypeNotSelected ? { marginTop: 'auto' } : {}}>
-            <Box className={`${styles.channelReasons} channelReasons`}>
-                <Box className={`channelReasonsText`}>
+        <Box
+            className={styles.flowOptions}
+            style={!showPreview && campaignInvitationData && !contactsTypeNotSelected ? { marginTop: "auto" } : {}}
+        >
+            <Box className={styles.channelReasons}>
+                <Box className={styles.channelReasonsText}>
                     <Typography variant="h3" className={styles.optionText}>
                         I want to send
                     </Typography>
                 </Box>
 
                 <Box
-                    className={`${styles.option} channelOptions ${readOnly ? styles.disabled : ''}`}
-                    onClick={!readOnly ? handleChannelOptions : undefined}
+                    className={`${styles.option} ${styles.channelOptions} ${readOnly ? styles.disabled : ""}`}
+                    onClick={
+                        readOnly ||
+                        isUpdateCampaignLoading ||
+                        isFetchCampaignDetailsByEmailLoading ||
+                        isFetchCampaignDetailsByTextLoading
+                            ? undefined
+                            : handleChannelOptions
+                    }
                 >
                     <Typography className={styles.optionLink}>
-                        {invitationSendType === "Email" && `an email`}
-                        {invitationSendType === "Sms" && `a text message`}
+                        {invitationSendType === "Email" && "an email"}
+                        {invitationSendType === "Sms" && "a text message"}
                     </Typography>
                     {!readOnly && <ArrowDownBig width="40px" height="40px" />}
 
@@ -122,8 +132,15 @@ const CampaignFlowContainer = (props) => {
 
                 {showEmailChannels() && (
                     <Box
-                        className={`${styles.option} reasonOptions ${readOnly ? styles.disabled : ''}`}
-                        onClick={readOnly || isGetCampaignDetailsByEmailLoading || isGetCampaignDetailsByTextLoading ? undefined : handleEmailChannelOptions}
+                        className={`${styles.option} ${styles.reasonOptions} ${readOnly ? styles.disabled : ""}`}
+                        onClick={
+                            readOnly ||
+                            isUpdateCampaignLoading ||
+                            isFetchCampaignDetailsByEmailLoading ||
+                            isFetchCampaignDetailsByTextLoading
+                                ? undefined
+                                : handleEmailChannelOptions
+                        }
                     >
                         <Typography className={styles.optionLink}>
                             {campaignInvitationData === "" ? "" : campaignInvitationData.campaignDescription}
@@ -169,7 +186,7 @@ const CampaignFlowContainer = (props) => {
 
 CampaignFlowContainer.propTypes = {
     showPreview: PropTypes.bool, // Determines whether to show the preview
-    contactsTypeNotSelected: PropTypes.bool // Checks if contact type is not selected
+    contactsTypeNotSelected: PropTypes.bool, // Checks if contact type is not selected
 };
 
 export default CampaignFlowContainer;

@@ -7,7 +7,7 @@ import styles from "./styles.module.scss";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 
 const CampaignSubHeader = () => {
-    const { invitationName, handleCancel } = useCampaignInvitation();
+    const { invitationName, reset } = useCampaignInvitation();
 
     return (
         <Box
@@ -25,7 +25,7 @@ const CampaignSubHeader = () => {
                 <Button
                     icon={<img src={NewBackBtn} alt="Back" />}
                     label="Back"
-                    onClick={handleCancel}
+                    onClick={()=>{window.history.back(); reset();}}
                     type="tertiary"
                     className={styles.backButton}
                 />

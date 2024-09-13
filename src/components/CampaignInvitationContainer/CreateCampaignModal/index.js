@@ -16,12 +16,14 @@ function CreateCampaignModal({
                                  cancelButtonName = "Cancel",
                                  onSave,
                                  hideFooter = false,
+                                 onTextChange
                              }) {
     const [campaignName, setCampaignName] = useState("");
     const maxLength = 96;
 
     const handleInputChange = (event) => {
         setCampaignName(event.target.value);
+        onTextChange(event.target.value);
     };
 
     const handleCloseModal = () => {
@@ -86,6 +88,7 @@ CreateCampaignModal.propTypes = {
     cancelButtonName: PropTypes.string,
     onSave: PropTypes.func,
     hideFooter: PropTypes.bool,
+    onTextChange: PropTypes.func,
 };
 
 export default CreateCampaignModal;

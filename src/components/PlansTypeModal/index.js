@@ -31,7 +31,6 @@ const HEALTH = "hideHealthQuote";
 const IUL_FEATURE_FLAG = process.env.REACT_APP_IUL_FEATURE_FLAG === "show";
 
 const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClose, leadId, zipcode, county }) => {
-    debugger;
     const [checked, setChecked] = useState(false);
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
     const [showLifeQuestionCard, setShowLifeQuestionCard] = useState(false);

@@ -29,12 +29,14 @@ const InvitationBar = () => {
         createdNewCampaign,
         campaignInvitationData,
         handleSetDefaultSelection,
-        campaignStatuses
+        campaignStatuses,
+        isFetchCampaignDetailsByEmailLoading,
+        isFetchCampaignDetailsByTextLoading,
+        isUpdateCampaignLoading,
     } = useCampaignInvitation();
 
-    const filteredContactOptions = invitationSendType === "Sms"
-        ? contactOptions.filter(option => option.value === "a contact")
-        : contactOptions;
+    const filteredContactOptions =
+        invitationSendType === "Sms" ? contactOptions.filter((option) => option.value === "a contact") : contactOptions;
 
     const readOnly = createdNewCampaign?.campaignStatus === campaignStatuses.COMPLETED;
 
@@ -56,19 +58,16 @@ const InvitationBar = () => {
             }
             setContactOptionOpen(null);
         },
-        [contactOptionOpen, setSelectedContact, setFilteredContactsType]
+        [contactOptionOpen, setSelectedContact, setFilteredContactsType],
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
-        const selectedFilterSections = JSON.parse(
-            localStorage.getItem("campaign_contactList_selectedFilterSections")
-        );
+        const selectedFilterSections = JSON.parse(localStorage.getItem("campaign_contactList_selectedFilterSections"));
         setAnchorEl(null);
         if (
             !selectedFilterSections ||
             selectedFilterSections.length === 0 ||
-            (selectedFilterSections.length === 1 &&
-                !selectedFilterSections[0]?.selectedFilterOption)
+            (selectedFilterSections.length === 1 && !selectedFilterSections[0]?.selectedFilterOption)
         ) {
             handleSetDefaultSelection();
         }
@@ -78,7 +77,7 @@ const InvitationBar = () => {
         (event) => {
             setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
         },
-        [contactOptionOpen]
+        [contactOptionOpen, filteredContactsType],
     );
 
     return (
@@ -86,7 +85,17 @@ const InvitationBar = () => {
             <Typography variant="h3" className={styles.optionText}>
                 to
             </Typography>
-            <Box className={`${styles.option} ${readOnly ? styles.disabled : ''}`} onClick={readOnly ? undefined : handleContactOptions}>
+            <Box
+                className={`${styles.option} ${readOnly ? styles.disabled : ""}`}
+                onClick={
+                    readOnly ||
+                    isUpdateCampaignLoading ||
+                    isFetchCampaignDetailsByEmailLoading ||
+                    isFetchCampaignDetailsByTextLoading
+                        ? undefined
+                        : handleContactOptions
+                }
+            >
                 <Typography className={styles.optionLink}>
                     {filteredContactsType === "" && ""}
                     {filteredContactsType === "all contacts" && `all contacts`}

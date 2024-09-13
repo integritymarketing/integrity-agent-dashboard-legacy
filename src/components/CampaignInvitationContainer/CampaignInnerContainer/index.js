@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import {Box, Button, CircularProgress, Grid, Typography} from "@mui/material";
 import EmailContent from "../EmailContent";
@@ -34,7 +34,7 @@ const CampaignInnerContainer = () => {
         isUpdateCampaignLoading,
         campaignInvitationData,
         createdNewCampaign,
-        campaignStatuses
+        campaignStatuses,
     } = useCampaignInvitation();
 
     const readOnly = createdNewCampaign?.campaignStatus === campaignStatuses.COMPLETED;
@@ -45,10 +45,13 @@ const CampaignInnerContainer = () => {
 
     useEffect(() => {
         getAgentAccountInformation();
+    }, []);
+
+    useEffect(() => {
         if (filteredContactsType === "") {
             setShowPreview(false);
         }
-    }, [getAgentAccountInformation, filteredContactsType]);
+    }, [filteredContactsType]);
 
     const contactsTypeNotSelected =
         isStartCampaignLoading || isUpdateCampaignLoading ||
@@ -58,10 +61,9 @@ const CampaignInnerContainer = () => {
             filteredContactsList?.length === 0) ||
         (filteredContactsType === "a contact" && !selectedContact);
 
-    const handlePreviewClick = useCallback(() => {
+    const handlePreviewClick = () => {
         setShowPreview(true);
-        handleCreateOrUpdateCampaign(campaignStatuses.DRAFT, false);
-    }, [setShowPreview, handleCreateOrUpdateCampaign]);
+    };
 
     const buttonStyles = {
         borderColor: readOnly ? "#49648B" : "#e0e0e0",
@@ -167,20 +169,20 @@ const CampaignInnerContainer = () => {
                             }}
                             disabled={isStartCampaignLoading || isUpdateCampaignLoading}
                         >
-                            Start Campaign
+                            Send Campaign
                         </Button>
                         <SendCampaignModal
                             isModalOpen={isSendCampaignModalOpen}
                             setIsModalOpen={setIsSendCampaignModalOpen}
                             onSend={() => {
-                                handleCreateOrUpdateCampaign(campaignStatuses.SUBMITTED, false)
+                                handleCreateOrUpdateCampaign(campaignStatuses.SUBMITTED)
                             }}
                         />
                     </Box>
                 )}
             </Box>
 
-            {!readOnly && <Box className={styles.advancedModeToggle}>
+            {false && !readOnly && <Box className={styles.advancedModeToggle}>
                 <AdvancedModeToggle/>
             </Box>}
         </Box>
