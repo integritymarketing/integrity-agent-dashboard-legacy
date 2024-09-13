@@ -70,7 +70,6 @@ const usePharmacyListStyles = makeStyles((theme) => ({
         },
     },
 
-    // Style rules for the list Root
 
     listRoot: {
         maxHeight: "35vh",
@@ -138,8 +137,9 @@ const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
                             primary={<span className={classes.primaryText}>{name}</span>}
                             secondary={
                                 <span className={classes.secondaryText}>
-                                    {address1}
-                                    {address2 ? ` ${address2}` : ""} {city ? `,${city}` : ""} {state ? `,${state}` : ""}
+                                    {[address1?.trim(), address2?.trim(), city?.trim(), state?.trim()]
+                                        .filter(Boolean)
+                                        .join(", ")}
                                 </span>
                             }
                         />

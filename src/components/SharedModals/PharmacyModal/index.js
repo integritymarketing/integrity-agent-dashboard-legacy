@@ -193,6 +193,8 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
     };
 
     const handleAddPharmacy = async () => {
+        const existingPrimary = selectedPharmacies.some(pharmacy => pharmacy.isPrimary);
+
         await addPharmacy(
             [
                 ...selectedPharmacies.filter((item) => Boolean(item.pharmacyId)),
@@ -204,7 +206,7 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
                         city: pharmacy.city,
                         isDigital: pharmacy.isDigital,
                         isMailOrder: pharmacy.isMailOrder,
-                        isPrimary: index === 0,
+                        isPrimary: !existingPrimary && index === 0,
                         name: pharmacy.name,
                         pharmacyID: pharmacy.pharmacyID,
                         pharmacyIDType: pharmacy.pharmacyIDType,
@@ -241,7 +243,7 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
             onSave={handleAddPharmacy}
             actionButtonName={"Add Pharmacy"}
             actionButtonDisabled={!isFormValid}
-            endIcon={selectedPharmacies.length > 0 ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
+            endIcon={selectedPharmacies.length > 0 ? <ArrowForwardWithCircle /> : <AddCircleOutline />}
         >
             {pharmacyCountExceeded && (
                 <Box className={classes.maxPharmacies}>
