@@ -12,7 +12,7 @@ export default function CampaignInvitation() {
 
     useEffect(() => {
         if (campaignDescription === "") {
-            navigate("/marketing/campaign-dashboard");
+            navigate("/marketing/client-connect-marketing");
         }
     }, [campaignDescription, navigate]);
 

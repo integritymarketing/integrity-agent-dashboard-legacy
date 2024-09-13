@@ -40,7 +40,7 @@ const MobileMenu = ({ onClose }) => {
         {
             label: "Marketing",
             action: () => {
-                navigate("/marketing/campaign-dashboard");
+                navigate("/marketing/client-connect-marketing");
                 onClose();
             },
             icon: <Marketing />,
@@ -76,7 +76,7 @@ const MobileMenu = ({ onClose }) => {
             action: () => {
                 window.open(
                     `${process.env.REACT_APP_CONNECTURE_LINK}/${npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
-                    "_blank"
+                    "_blank",
                 );
                 onClose();
             },

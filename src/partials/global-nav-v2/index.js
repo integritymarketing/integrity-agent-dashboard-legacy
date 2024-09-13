@@ -142,7 +142,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                       {
                           component: Link,
                           props: {
-                              to: "/marketing/campaign-dashboard",
+                              to: "/marketing/client-connect-marketing",
                               className: analyticsService.clickClass("marketing-header"),
                           },
                           label: "Marketing",
@@ -232,7 +232,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                       {
                           component: Link,
                           props: {
-                              to: "/marketing/campaign-dashboard",
+                              to: "/marketing/client-connect-marketing",
                               className: analyticsService.clickClass("marketing-header"),
                           },
                           label: "Marketing",
@@ -272,7 +272,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                               onClick: () =>
                                   window.open(
                                       `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`,
-                                      "_blank"
+                                      "_blank",
                                   ),
                           },
                           label: "LeadCENTER",
@@ -374,7 +374,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
             )}
             <header
                 className={`global-nav-v2 ${analyticsService.clickClass(
-                    "nav-wrapper"
+                    "nav-wrapper",
                 )} ${className} ${headernotificationClass}`}
                 {...props}
             >

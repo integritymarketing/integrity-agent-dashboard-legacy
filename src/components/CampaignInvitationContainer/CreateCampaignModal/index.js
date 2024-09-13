@@ -1,23 +1,22 @@
-import React, {useState} from "react";
+import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import Modal from "../../Modal";
-import {InputAdornment} from "@mui/material";
+import { InputAdornment } from "@mui/material";
 import Box from "@mui/material/Box";
 import styles from "./styles.module.scss";
 import TextInput from "../../MuiComponents/TextInput";
 import ArrowForwardCircle from "images/Campaigns/arrow-forward-circle.svg";
 
-
 function CreateCampaignModal({
-                                 isModalOpen,
-                                 setIsModalOpen,
-                                 actionButtonName = "Create",
-                                 cancelButtonName = "Cancel",
-                                 onSave,
-                                 hideFooter = false,
-                                 onTextChange
-                             }) {
+    isModalOpen,
+    setIsModalOpen,
+    actionButtonName = "Create",
+    cancelButtonName = "Cancel",
+    onSave,
+    hideFooter = false,
+    onTextChange,
+}) {
     const [campaignName, setCampaignName] = useState("");
     const maxLength = 96;
 
@@ -63,20 +62,17 @@ function CreateCampaignModal({
                     variant="outlined"
                     value={campaignName}
                     onChange={handleInputChange}
-                    inputProps={{maxLength: maxLength}}
+                    inputProps={{ maxLength: maxLength }}
                     label={""}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
-                                <Typography variant="body1">
-                                    {`${campaignName.length}/${maxLength}`}
-                                </Typography>
+                                <Typography variant="body1">{`${campaignName.length}/${maxLength}`}</Typography>
                             </InputAdornment>
                         ),
                     }}
                 />
             </Box>
-
         </Modal>
     );
 }
