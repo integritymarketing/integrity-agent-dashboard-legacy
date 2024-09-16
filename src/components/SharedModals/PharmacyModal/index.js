@@ -350,18 +350,16 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
                                 variant="fullWidth"
                             >
                                 <Tab
-                                    className={`${classes.tab} ${classes.tab1} ${
-                                        tabSelected === 0 ? classes.selectedTab : ""
-                                    }`}
+                                    className={`${classes.tab} ${classes.tab1} ${tabSelected === 0 ? classes.selectedTab : ""
+                                        }`}
                                     icon={<PhysicalPharmacy />}
                                     onClick={() => handleTabChange(0)}
                                     iconPosition="start"
                                     label={"Physical"}
                                 />
                                 <Tab
-                                    className={`${classes.tab} ${classes.tab2} ${
-                                        tabSelected === 1 ? classes.selectedTab : ""
-                                    }`}
+                                    className={`${classes.tab} ${classes.tab2} ${tabSelected === 1 ? classes.selectedTab : ""
+                                        }`}
                                     icon={<OnlinePharmacy />}
                                     onClick={() => handleTabChange(1)}
                                     iconPosition="start"

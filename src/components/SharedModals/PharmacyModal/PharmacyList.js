@@ -89,6 +89,7 @@ const usePharmacyListStyles = makeStyles((theme) => ({
         },
     },
 }));
+
 const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
     const classes = usePharmacyListStyles();
     const shouldDisableCheckbox = useMemo(() => {
@@ -117,7 +118,10 @@ const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
     const renderedPharmacyList = useMemo(
         () =>
             list?.map((pharmacy) => {
-                const { name, address1 = "", address2 = "", city = "", state = "", pharmacyID } = pharmacy;
+                const { name, address1 = "", address2 = "", city = "", state = "", zip = "", pharmacyID } = pharmacy;
+                const address = address1 || address2 || city || state || zip
+                    ? [address1, address2, city, state, zip].filter(Boolean).join(", ")
+                    : "Digital Pharmacy";
                 const isChecked =
                     pharmacyID &&
                     selectedPharmacies.some(
@@ -141,13 +145,7 @@ const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
                         />
                         <ListItemText
                             primary={<span className={classes.primaryText}>{name}</span>}
-                            secondary={
-                                <span className={classes.secondaryText}>
-                                    {[address1?.trim(), address2?.trim(), city?.trim(), state?.trim()]
-                                        .filter(Boolean)
-                                        .join(", ")}
-                                </span>
-                            }
+                            secondary={<span className={classes.secondaryText}>{address}</span>}
                         />
                     </ListItemButton>
                 );
@@ -167,6 +165,7 @@ PharmacyList.propTypes = {
             address2: PropTypes.string,
             city: PropTypes.string,
             state: PropTypes.string,
+            zip: PropTypes.string,
         })
     ).isRequired,
     setSelectedPharmacies: PropTypes.func.isRequired,
@@ -178,6 +177,7 @@ PharmacyList.propTypes = {
             address2: PropTypes.string,
             city: PropTypes.string,
             state: PropTypes.string,
+            zip: PropTypes.string,
         })
     ).isRequired,
 };
