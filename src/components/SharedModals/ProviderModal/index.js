@@ -288,6 +288,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
                             <Box>
                                 <Typography className={classes.customTypography}>Zip Code</Typography>
                                 <TextField
+                                    sx={{ backgroundColor: "#FFFFFF"}}
                                     id="Zip Code"
                                     type="text"
                                     fullWidth

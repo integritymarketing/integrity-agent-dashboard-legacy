@@ -52,6 +52,7 @@ const PrescriptionForm = ({
                 <Box>
                     <Typography className={classes.customTypography}>Quantity</Typography>
                     <TextField
+                        sx={{ backgroundColor: "#FFFFFF" }}
                         id="Quantity"
                         type="text"
                         fullWidth

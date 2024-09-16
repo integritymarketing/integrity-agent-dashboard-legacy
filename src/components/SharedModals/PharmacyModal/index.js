@@ -98,7 +98,7 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
     const classes = useStyles();
     const { fireEvent } = useAnalytics();
 
-    const [zipCode, setZipCode] = useState(userZipCode);
+    const [zipCode, setZipCode] = useState(userZipCode || "");
     const [searchString, setSearchString] = useState("");
     const [tabSelected, setTabSelected] = useState(0);
     const [radius, setRadius] = useState(10);
@@ -107,7 +107,7 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
     const [total, setTotal] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [perPage] = useState(10);
-    const [selectedPharmacies, setSelectedPharmacies] = useState(pharmaciesPreSelected);
+    const [selectedPharmacies, setSelectedPharmacies] = useState(pharmaciesPreSelected || []);
     const [pharmacyAddress, setPharmacyAddress] = useState("");
     const [latLng, setLatLng] = useState("");
 
@@ -122,7 +122,7 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
     }, [fireEvent, open]);
 
     useEffect(() => {
-        if (!zipCode || zipCode.length !== 5) {
+        if (!zipCode || zipCode?.length !== 5) {
             setIsLoading(false);
             setLatLng("");
             setResults([]);
@@ -291,6 +291,7 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
                     <Box>
                         <Typography className={classes.customTypography}>Address</Typography>
                         <TextField
+                            sx={{ backgroundColor: "#FFFFFF" }}
                             type="text"
                             fullWidth
                             variant="outlined"
