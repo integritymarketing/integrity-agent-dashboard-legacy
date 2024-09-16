@@ -120,7 +120,6 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
             });
         }
     }, [fireEvent, open]);
-
     useEffect(() => {
         if (!zipCode || zipCode?.length !== 5) {
             setIsLoading(false);
@@ -223,17 +222,17 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
         onClose();
     };
 
+    const handleTabChange = (tabNew) => {
+        setTabSelected(tabNew);
+        setSearchString("");
+    };
+
     const isFormValid = useMemo(() => {
         return Boolean(zipCode?.length === 5 && radius && selectedPharmacies.length);
     }, [selectedPharmacies, zipCode, radius]);
 
     const ERROR_STATE = zipCode?.length !== 5;
     const pharmacyCountExceeded = selectedPharmacies.length >= 3;
-
-    const handleTabChange = (tabNew) => {
-        setTabSelected(tabNew);
-        setSearchString("");
-    };
 
     return (
         <Modal
@@ -255,68 +254,73 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
                     </div>
                 </Box>
             )}
-            <SearchLabel label={"Search for a Pharmacy"} />
 
-            <Grid container spacing={2}>
-                <Grid item xs={5} md={3}>
-                    <Box>
-                        <Typography className={classes.customTypography}>Zip Code</Typography>
-                        <TextField
-                            sx={{ backgroundColor: "#FFFFFF" }}
-                            id="Zip Code"
-                            type="text"
-                            fullWidth
-                            variant="outlined"
-                            value={zipCode}
-                            onChange={handleZipCode}
-                        />
-                    </Box>
+            {tabSelected === 0 && <SearchLabel label={"Search for a Pharmacy"} />}
+
+            {tabSelected === 0 && (
+                <Grid container spacing={2}>
+                    <Grid item xs={5} md={3}>
+                        <Box>
+                            <Typography className={classes.customTypography}>Zip Code</Typography>
+                            <TextField
+                                sx={{ backgroundColor: "#FFFFFF" }}
+                                id="Zip Code"
+                                type="text"
+                                fullWidth
+                                variant="outlined"
+                                value={zipCode}
+                                onChange={handleZipCode}
+                            />
+                        </Box>
+                    </Grid>
+                    <Grid item xs={5} md={3}>
+                        <Box>
+                            <Typography className={classes.customTypography}>Distance</Typography>
+                            <Select
+                                PharmacyModal={true}
+                                initialValue={10}
+                                options={DISTANCE_OPTIONS}
+                                placeholder="select"
+                                onChange={(value) => {
+                                    setRadius(value);
+                                    setCurrentPage(1);
+                                }}
+                            />
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Box>
+                            <Typography className={classes.customTypography}>Address</Typography>
+                            <TextField
+                                sx={{ backgroundColor: "#FFFFFF" }}
+                                type="text"
+                                fullWidth
+                                variant="outlined"
+                                value={pharmacyAddress}
+                                disabled={zipCode?.length !== 5}
+                                onChange={(e) => {
+                                    setPharmacyAddress(e.target.value);
+                                    setCurrentPage(1);
+                                }}
+                            />
+                        </Box>
+                    </Grid>
                 </Grid>
-                <Grid item xs={5} md={3}>
-                    <Box>
-                        <Typography className={classes.customTypography}>Distance</Typography>
-                        <Select
-                            PharmacyModal={true}
-                            initialValue={10}
-                            options={DISTANCE_OPTIONS}
-                            placeholder="select"
-                            onChange={(value) => {
-                                setRadius(value);
-                                setCurrentPage(1);
-                            }}
-                        />
-                    </Box>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Box>
-                        <Typography className={classes.customTypography}>Address</Typography>
-                        <TextField
-                            sx={{ backgroundColor: "#FFFFFF" }}
-                            type="text"
-                            fullWidth
-                            variant="outlined"
-                            value={pharmacyAddress}
-                            disabled={zipCode?.length !== 5}
-                            onChange={(e) => {
-                                setPharmacyAddress(e.target.value);
-                                setCurrentPage(1);
-                            }}
-                        />
-                    </Box>
-                </Grid>
-            </Grid>
-            <Box marginTop={"10px"}>
-                <Typography className={classes.customTypography}>Pharmacy Name</Typography>
-                <SearchInput
-                    searchString={searchString}
-                    total={total}
-                    handleSearch={(e) => {
-                        setSearchString(e.target.value);
-                        setCurrentPage(1);
-                    }}
-                    label={"Pharmacies"}
-                />
-            </Box>
+            )}
+            {tabSelected === 0 && (
+                <Box marginTop={"10px"}>
+                    <Typography className={classes.customTypography}>Pharmacy Name</Typography>
+                    <SearchInput
+                        searchString={searchString}
+                        total={total}
+                        handleSearch={(e) => {
+                            setSearchString(e.target.value);
+                            setCurrentPage(1);
+                        }}
+                        label={"Pharmacies"}
+                    />
+                </Box>
+            )}
 
             {isLoading ? (
                 <div className={classes.spinner}>
@@ -350,16 +354,14 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
                                 variant="fullWidth"
                             >
                                 <Tab
-                                    className={`${classes.tab} ${classes.tab1} ${tabSelected === 0 ? classes.selectedTab : ""
-                                        }`}
+                                    className={`${classes.tab} ${tabSelected === 0 ? classes.selectedTab : ""}`}
                                     icon={<PhysicalPharmacy />}
                                     onClick={() => handleTabChange(0)}
                                     iconPosition="start"
                                     label={"Physical"}
                                 />
                                 <Tab
-                                    className={`${classes.tab} ${classes.tab2} ${tabSelected === 1 ? classes.selectedTab : ""
-                                        }`}
+                                    className={`${classes.tab} ${tabSelected === 1 ? classes.selectedTab : ""}`}
                                     icon={<OnlinePharmacy />}
                                     onClick={() => handleTabChange(1)}
                                     iconPosition="start"
