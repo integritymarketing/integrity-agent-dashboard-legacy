@@ -1,4 +1,5 @@
 @import "../../../scss/globalDefines.scss";
+@import "scss/components/icons";
 
 .campaignCard {
     background-color: #f1f1f1;
@@ -74,10 +75,10 @@
 }
 
 .mIcon {
-    height: 34px;
-    margin-right: 8px;
-    display: flex;
-    justify-content: center;
+    display: contents;
+    > div {
+        height: 36px;
+    }
 }
 
 .statusCard {
@@ -90,6 +91,7 @@
     align-items: center;
     white-space: nowrap;
     color: #4178ff;
+    padding-left: 8px;
 }
 
 .campaignTitle::first-letter {
@@ -107,7 +109,21 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    margin: right 18px;
+    margin-right: 8px;
+}
+
+.emailIcon {
+    width: 36px;
+    height: 36px;
+    cursor: none;
+    pointer-events: none;
+
+    &.emailIconBg {
+        background: var(--error-light, #fff);
+    }
+    &.emailIconBg:hover {
+        background: var(--error-light, #fff);
+    }
 }
 
 @media (max-width: 480px) {

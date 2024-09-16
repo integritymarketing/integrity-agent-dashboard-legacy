@@ -1,4 +1,5 @@
 @import "../../../scss/globalDefines.scss";
+@import "scss/components/icons";
 
 .statusInfo {
     background-color: #fff;
@@ -41,10 +42,37 @@
         display: none;
     }
 }
+.metricData {
+    margin-left: 8px;
+    @include small {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin-left: 0px;
+    }
+}
+.integrityIcon {
+    cursor: none;
+    pointer-events: none;
+    &.integrityIconBg:hover {
+        background-color: #f1faff;
+    }
+}
 .iconComponent {
     color: #1976d2;
-    font-size: 1.8rem;
+    margin-right: 0px;
+    height: 26px;
 }
 .statusName {
     color: #052a63;
+}
+
+.statusIcon {
+    width: 36px;
+    height: 36px;
+
+    &.statusIconBg {
+        background: var(--error-light, #f1faff);
+    }
 }

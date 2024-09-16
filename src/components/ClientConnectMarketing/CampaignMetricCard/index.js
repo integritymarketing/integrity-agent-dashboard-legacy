@@ -1,13 +1,16 @@
 import PropTypes from "prop-types";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import styles from "./styles.module.scss";
+import "../../../../src/index.scss";
 
 const CampaignMetricCard = ({ icon: IconComponent, name, value, sPercentage }) => (
     <Box className={styles.statusInfo}>
         <Box className={styles.icons}>
-            <IconComponent className={styles.iconComponent} />
+            <IconButton size="lg" className={`${styles.integrityIcon} ${styles.integrityIconBg}`}>
+                <IconComponent className={styles.iconComponent} />
+            </IconButton>
         </Box>
-        <Box textAlign="left" ml={1}>
+        <Box textAlign="left" className={styles.metricData}>
             <Typography variant="h5" className={styles.statusName}>
                 {name}
             </Typography>

@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react
 import { debounce } from "lodash";
 import ChevronRight from "components/icons/Marketing/chevronRight";
 import ChevronLeft from "components/icons/Marketing/chevronLeft";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import styles from "./styles.module.scss";
 
 export function ScrollerCard(props) {
@@ -44,7 +44,6 @@ const Scroller = ({ cards, cardRenderer }) => {
     useEffect(() => {
         const { width: scrollerCardWidth } = cardsContainerRef.current.children[0].getBoundingClientRect();
         setShowLeftScrollButton(currentIndex * scrollerCardWidth > 0);
-
         setShowRightScrollButton((cards.length - currentIndex) * (scrollerCardWidth + 10) > dimensions.width + 10);
         cardsContainerRef.current.scroll({
             top: 0,
@@ -60,7 +59,9 @@ const Scroller = ({ cards, cardRenderer }) => {
                     className={`${styles.scrollButton} ${styles.scrollButtonLeft}`}
                     onClick={() => scrollerButtonHandler(-1)}
                 >
-                    <ChevronLeft />
+                    <IconButton size="lg" className={`${styles.integrityIcon} ${styles.integrityIconBg}`}>
+                        <ChevronLeft />
+                    </IconButton>
                 </Box>
             )}
             <Box className={styles.scrollerCards} ref={cardsContainerRef}>
@@ -71,7 +72,9 @@ const Scroller = ({ cards, cardRenderer }) => {
                     className={`${styles.scrollButton} ${styles.scrollButtonRight}`}
                     onClick={() => scrollerButtonHandler(1)}
                 >
-                    <ChevronRight />
+                    <IconButton size="lg" className={`${styles.integrityIcon} ${styles.integrityIconBg}`}>
+                        <ChevronRight />
+                    </IconButton>
                 </Box>
             )}
         </Box>

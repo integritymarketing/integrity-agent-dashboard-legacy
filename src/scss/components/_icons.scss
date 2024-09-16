@@ -1,75 +1,84 @@
 .icon-fill--current {
-  fill: currentColor;
+    fill: currentColor;
 }
 
 .icon-btn {
-  border: 0;
-  background: none;
-  width: 3rem;
-  height: 2rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  color: inherit;
-  cursor: pointer;
+    border: 0;
+    background: none;
+    width: 3rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: inherit;
+    cursor: pointer;
 
-  &--bump-right {
-    margin-right: -0.5rem;
-  }
+    &--bump-right {
+        margin-right: -0.5rem;
+    }
 }
 
 .icon-flip {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 .icon-small {
-  width: 1rem;
-  height: 1rem;
+    width: 1rem;
+    height: 1rem;
 }
 
 .icon-label {
-  display: flex;
-  align-items: flex-start;
-  > img {
-    margin-top: 2px;
-  }
+    display: flex;
+    align-items: flex-start;
+    > img {
+        margin-top: 2px;
+    }
+}
+
+.integrityIcon {
+    width: 36px;
+    height: 36px;
+
+    &.integrityIconBg {
+        background: var(--error-light, #f1faff);
+    }
 }
 
 @keyframes iconspin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .icon-spin {
-  transform-origin: center center;
-  animation: 1.25s iconspin ease infinite;
+    transform-origin: center center;
+    animation: 1.25s iconspin ease infinite;
 }
 
 .tool-icon {
-  align-items: center;
-  border: 3px solid #002d72;
-  border-radius: 8px;
-  color: #002d72;
-  display: inline-flex;
-  font-size: 16px;
-  font-weight: 600;
-  height: 4rem;
-  width: 4rem;
-  justify-content: center;
-  letter-spacing: 0.03em;
-  line-height: 24px;
+    align-items: center;
+    border: 3px solid #002d72;
+    border-radius: 8px;
+    color: #002d72;
+    display: inline-flex;
+    font-size: 16px;
+    font-weight: 600;
+    height: 4rem;
+    width: 4rem;
+    justify-content: center;
+    letter-spacing: 0.03em;
+    line-height: 24px;
 }
 
 .provider-close {
-  top: -33px !important;
-  right: -71px !important;
-  @media (max-width: 480px) {
-    top: -15px !important;
-    right: -15px !important;
-  }
+    top: -33px !important;
+    right: -71px !important;
+    @media (max-width: 480px) {
+        top: -15px !important;
+        right: -15px !important;
+    }
 }

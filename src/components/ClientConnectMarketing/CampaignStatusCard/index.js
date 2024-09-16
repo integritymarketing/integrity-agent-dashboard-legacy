@@ -1,10 +1,12 @@
 import PropTypes from "prop-types";
-import { Box, Typography, Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Typography, Grid, useMediaQuery, useTheme, IconButton } from "@mui/material";
 import EmailIcon from "components/icons/Marketing/emailIcon";
 import CampaignStatusInfoCard from "../CampaignStatusInfoCard";
 import CampaignMetricCard from "../CampaignMetricCard";
 import truncateText from "utils/truncateText";
 import styles from "./styles.module.scss";
+import "../../../../src/index.scss";
+
 import {
     MetricRecipients,
     MetricOpens,
@@ -35,15 +37,21 @@ const CampaignStatusCard = ({ campaign }) => {
                 <Box className={styles.cardHeader}>
                     <Box className={styles.cardType}>
                         {campaignChannel === "Email" ? (
-                            <CampaignTypeEmail size="lg" className={styles.mIcon} />
+                            <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
+                                <CampaignTypeEmail size="lg" className={styles.mIcon} />
+                            </IconButton>
                         ) : (
-                            <CampaignTypeTextMessage size="lg" className={styles.mIcon} />
+                            <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
+                                <CampaignTypeTextMessage size="lg" className={styles.mIcon} />
+                            </IconButton>
                         )}
                         <Typography className={styles.campaignTitle} variant="h4">
-                            {truncateText(customCampaignDescription, isSmallScreen ? 18 : 45)}
+                            {truncateText(customCampaignDescription, isSmallScreen ? 15 : 45)}
                         </Typography>
                     </Box>
-                    <CampaignActionsEllipsis size="lg" className={styles.mIcon} />
+                    <IconButton size="lg" className={`${styles.integrityIcon} ${styles.integrityIconBg}`}>
+                        <CampaignActionsEllipsis size="lg" className={styles.mIcon} />
+                    </IconButton>
                 </Box>
                 <Box className={styles.cardDivider} />
                 <Box className={styles.cardDetails}>
