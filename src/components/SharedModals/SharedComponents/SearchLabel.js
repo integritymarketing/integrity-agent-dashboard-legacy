@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
         letterSpacing: "0.2px",
         marginTop: "12px !important",
         marginBottom: "12px !important",
+        fontWeight: "bold !important",
     },
 }));
 

@@ -14,24 +14,25 @@ import useDeviceType from "hooks/useDeviceType";
 import styles from "./modal.module.scss";
 
 export default function Modal({
-                                  actionButtonDisabled,
-                                  actionButtonName,
-                                  children,
-                                  contentStyle,
-                                  customFooter,
-                                  endIcon,
-                                  hideFooter = false,
-                                  isDelete,
-                                  onCancel,
-                                  cancelButtonName,
-                                  modalName,
-                                  onDelete,
-                                  onClose,
-                                  onSave,
-                                  open,
-                                  title,
-                                  maxWidth = "sm",
-                              }) {
+    actionButtonDisabled,
+    actionButtonName,
+    children,
+    closeButtonSx,
+    contentStyle,
+    customFooter,
+    endIcon,
+    hideFooter = false,
+    isDelete,
+    onCancel,
+    cancelButtonName,
+    modalName,
+    onDelete,
+    onClose,
+    onSave,
+    open,
+    title,
+    maxWidth = "sm",
+}) {
     const { isMobile } = useDeviceType();
 
     return (
@@ -43,7 +44,7 @@ export default function Modal({
             PaperProps={{
                 sx: {
                     borderRadius: 2,
-                    overflowY: 'visible',
+                    overflowY: "visible",
                 },
             }}
         >
@@ -67,7 +68,7 @@ export default function Modal({
                     }}
                 >
                     <span>{title}</span>
-                    <IconButton aria-label="close" className={styles.closeButton} onClick={onClose}>
+                    <IconButton sx={closeButtonSx} aria-label="close" className={styles.closeButton} onClick={onClose}>
                         <CloseIcon />
                     </IconButton>
                 </div>

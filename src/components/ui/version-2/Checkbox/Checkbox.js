@@ -1,12 +1,12 @@
 import Checkbox from "@mui/material/Checkbox";
 import { styled } from "@mui/material/styles";
 
-const BpIcon = styled("span")(({ theme }) => ({
+const BpIcon = styled("span")(({ bgType, theme }) => ({
     borderRadius: 3,
     width: 16,
     height: 16,
     boxShadow: "inset 0 0 0 1px #dddddd, inset 0 -1px 0 #dddddd",
-    backgroundColor: "transparent",
+    backgroundColor: bgType || "transparent",
     backgroundImage: "linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))",
     ".Mui-focusVisible &": {
         outline: "2px auto rgba(19,124,189,.6)",
@@ -46,7 +46,7 @@ export default function ColorCheckboxes(props) {
                 "&:hover": { bgcolor: "transparent" },
             }}
             disableRipple
-            icon={<BpIcon />}
+            icon={<BpIcon bgType={props.bgType} />}
             checkedIcon={<BpCheckedIcon />}
             {...props}
         />

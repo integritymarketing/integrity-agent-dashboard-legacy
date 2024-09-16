@@ -29,7 +29,6 @@ import PharmacyList from "./PharmacyList";
 import { Tab, Tabs } from "@mui/material";
 import { PhysicalPharmacy, OnlinePharmacy } from "@integritymarketing/icons";
 
-
 const DISTANCE_OPTIONS = [
     { value: 10, label: "10 miles" },
     { value: 20, label: "20 miles" },
@@ -56,6 +55,7 @@ const useStyles = makeStyles(() => ({
     pagination: {
         display: "flex",
         justifyContent: "center",
+        gap: "10px",
     },
     maxPharmacies: {
         position: "sticky",
@@ -84,6 +84,7 @@ const useStyles = makeStyles(() => ({
         display: "flex !important",
         gap: "10px !important",
         fontWeight: "normal !important",
+        height: "46px",
     },
     selectedTab: {
         backgroundColor: "#F1FAFF !important",
@@ -193,7 +194,7 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
     };
 
     const handleAddPharmacy = async () => {
-        const existingPrimary = selectedPharmacies.some(pharmacy => pharmacy.isPrimary);
+        const existingPrimary = selectedPharmacies.some((pharmacy) => pharmacy.isPrimary);
 
         await addPharmacy(
             [
@@ -238,6 +239,7 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
         <Modal
             open={open}
             onClose={onClose}
+            closeButtonSx={{ border: "solid 1px #cccccc" }}
             onCancel={onClose}
             title={"Add Pharmacy"}
             onSave={handleAddPharmacy}
@@ -336,22 +338,29 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
                                         height: "2px",
                                     },
                                 }}
+                                TabScrollButtonProps={{
+                                    sx: {
+                                        border: "solid 1px red",
+                                    },
+                                }}
                                 className={classes.tabs}
                                 value={tabSelected}
                                 aria-label="tabs"
                                 variant="fullWidth"
                             >
                                 <Tab
-                                    className={`${classes.tab} ${classes.tab1} ${tabSelected === 0 ? classes.selectedTab : ""
-                                        }`}
+                                    className={`${classes.tab} ${classes.tab1} ${
+                                        tabSelected === 0 ? classes.selectedTab : ""
+                                    }`}
                                     icon={<PhysicalPharmacy />}
                                     onClick={() => handleTabChange(0)}
                                     iconPosition="start"
                                     label={"Physical"}
                                 />
                                 <Tab
-                                    className={`${classes.tab} ${classes.tab2} ${tabSelected === 1 ? classes.selectedTab : ""
-                                        }`}
+                                    className={`${classes.tab} ${classes.tab2} ${
+                                        tabSelected === 1 ? classes.selectedTab : ""
+                                    }`}
                                     icon={<OnlinePharmacy />}
                                     onClick={() => handleTabChange(1)}
                                     iconPosition="start"
@@ -367,6 +376,7 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
                                 <Box className={classes.pagination}>
                                     <Pagination
                                         providerPagination
+                                        isSeparateBoxes
                                         currentPage={currentPage}
                                         totalPages={totalPages}
                                         totalResults={total}

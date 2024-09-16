@@ -64,7 +64,7 @@
     }
 }
 
-.setAsPrimaryButton {
+.setAsPrimaryButton:not(.button-link) {
     padding: 0px;
 }
 

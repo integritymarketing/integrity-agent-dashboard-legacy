@@ -4,7 +4,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import Checkbox from "@mui/material/Checkbox";
+import { Checkbox } from "components/ui/version-2/Checkbox";
 
 const usePharmacyListStyles = makeStyles((theme) => ({
     // Style rules for the radio buttons
@@ -70,11 +70,12 @@ const usePharmacyListStyles = makeStyles((theme) => ({
         },
     },
 
-
     listRoot: {
         maxHeight: "35vh",
         overflowY: "auto",
         marginBottom: "5px",
+        borderRadius: "8px",
+        padding: "0",
         "& li:first-of-type": {
             borderTopLeftRadius: 8,
             borderTopRightRadius: 8,
@@ -132,7 +133,12 @@ const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
                         classes={{ root: `${classes.listItem} ${disableCheckbox ? classes.listItemDisabled : ""}` }}
                         onClick={() => handleSelectionChange(pharmacy)}
                     >
-                        <Checkbox className={`${classes.checkbox}`} checked={isChecked} disabled={disableCheckbox} />
+                        <Checkbox
+                            bgType="white"
+                            className={`${classes.checkbox}`}
+                            checked={isChecked}
+                            disabled={disableCheckbox}
+                        />
                         <ListItemText
                             primary={<span className={classes.primaryText}>{name}</span>}
                             secondary={
