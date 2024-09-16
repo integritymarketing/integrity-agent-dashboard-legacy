@@ -58,7 +58,7 @@ const InvitationBar = () => {
             }
             setContactOptionOpen(null);
         },
-        [contactOptionOpen, setSelectedContact, setFilteredContactsType],
+        [contactOptionOpen, setSelectedContact, setFilteredContactsType]
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
@@ -77,7 +77,7 @@ const InvitationBar = () => {
         (event) => {
             setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
         },
-        [contactOptionOpen, filteredContactsType],
+        [contactOptionOpen, filteredContactsType]
     );
 
     return (
@@ -124,13 +124,11 @@ const InvitationBar = () => {
                     handleClose={() => setChooseContactModalOpen(false)}
                     handleCancel={() => {
                         setChooseContactModalOpen(false);
-                        handleSetDefaultSelection();
                     }}
                     handleContactSelect={setSelectedContact}
                     title="Select a Contact"
                     subTitle="Search for a contact by name"
                     campaignId={campaignInvitationData?.id}
-                    handleSetDefaultSelection={handleSetDefaultSelection}
                 />
             )}
         </Box>

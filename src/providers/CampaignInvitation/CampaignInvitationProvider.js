@@ -93,14 +93,7 @@ export const CampaignInvitationProvider = ({ children }) => {
         if (createdNewCampaign?.id) {
             handleCreateOrUpdateCampaign(campaignStatuses.DRAFT);
         }
-    }, [
-        campaignInvitationData,
-        invitationSendType,
-        filteredContactsType,
-        filteredContactsList,
-        allContactsList,
-        selectedContact,
-    ]);
+    }, [campaignInvitationData, invitationSendType, filteredContactsType]);
 
     const handleSetDefaultSelection = () => {
         setFilteredContactsType("");
@@ -353,8 +346,8 @@ export const CampaignInvitationProvider = ({ children }) => {
                             filteredContactsType === "contacts filtered by .."
                                 ? "filter contacts"
                                 : filteredContactsType === "all contacts"
-                                  ? "all contacts"
-                                  : "search for a contact",
+                                ? "all contacts"
+                                : "search for a contact",
                     });
                     if (redirectTo) {
                         navigate(redirectTo);
@@ -395,7 +388,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             agentAccountDetails,
             agentPurlURL,
             navigate,
-        ],
+        ]
     );
 
     return (

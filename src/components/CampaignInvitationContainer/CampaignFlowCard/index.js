@@ -5,8 +5,6 @@ import styles from "./styles.module.scss";
 import _ from "lodash";
 
 import { useCampaignInvitation } from "providers/CampaignInvitation";
-import ReUseFilters from "components/ReUseFilters";
-import AutoCompleteContactSearchModal from "components/ChooseContactModal";
 import CustomPopover from "components/CustomPopOver";
 import EmailIcon from "../../icons/Marketing/emailIcon";
 import TextIcon from "../../icons/version-2/TextIcon";
@@ -23,11 +21,8 @@ const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
     const {
         invitationSendType,
         handleInvitationSendType,
-        handleSummaryBarInfo,
-        setSelectedContact,
         campaignInvitationData,
         createdNewCampaign,
-        handleSetDefaultSelection,
         handleCampaignInvitationData,
         allCampaignInvitationData,
         eligibleContactsLength,
@@ -43,9 +38,7 @@ const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
 
     const [channelOptionOpen, setChannelOptionOpen] = useState(null);
     const [emailOptionsOpen, setEmailOptionsOpen] = useState(null);
-    const [chooseContactModalOpen, setChooseContactModalOpen] = useState(false);
     const [emailOptions, setEmailOptions] = useState([]);
-    const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
         const campaignDescriptions = allCampaignInvitationData.map((campaignInvitation) => ({
@@ -68,18 +61,6 @@ const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
     const handleEmailChannelOptionsChange = (value) => {
         setEmailOptionsOpen(null);
         handleCampaignInvitationData(value);
-    };
-
-    const handleCloseFilterDropdown = () => {
-        const selectedFilterSections = JSON.parse(localStorage.getItem("campaign_contactList_selectedFilterSections"));
-        setAnchorEl(null);
-        if (
-            !selectedFilterSections ||
-            selectedFilterSections.length === 0 ||
-            (selectedFilterSections.length === 1 && !selectedFilterSections[0]?.selectedFilterOption)
-        ) {
-            handleSetDefaultSelection();
-        }
     };
 
     const handleChannelOptions = (event) => {
@@ -153,29 +134,6 @@ const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
                             handleAction={handleEmailChannelOptionsChange}
                         />
                     </Box>
-                )}
-
-                <ReUseFilters
-                    anchorEl={anchorEl}
-                    handleClose={handleCloseFilterDropdown}
-                    handleSummaryBarInfo={handleSummaryBarInfo}
-                    campaignId={campaignInvitationData?.id}
-                />
-
-                {!readOnly && chooseContactModalOpen && (
-                    <AutoCompleteContactSearchModal
-                        open={chooseContactModalOpen}
-                        handleClose={() => setChooseContactModalOpen(false)}
-                        handleCancel={() => {
-                            setChooseContactModalOpen(false);
-                            handleSetDefaultSelection();
-                        }}
-                        handleContactSelect={setSelectedContact}
-                        title="Search for Contact"
-                        subTitle="Search for a contact by name"
-                        campaignId={campaignInvitationData?.id}
-                        handleSetDefaultSelection={handleSetDefaultSelection}
-                    />
                 )}
             </Box>
             {showInvitationBar() && <InvitationBar />}

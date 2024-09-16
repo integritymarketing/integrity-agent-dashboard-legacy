@@ -46,7 +46,6 @@ const AutoCompleteContactSearchModal = ({
     isCreateNewAvailable = false,
     handleCancel,
     campaignId,
-    handleSetDefaultSelection,
 }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [contactList, setContactList] = useState([]);
@@ -91,7 +90,7 @@ const AutoCompleteContactSearchModal = ({
                     undefined,
                     undefined,
                     undefined,
-                    campaignId,
+                    campaignId
                 );
                 if (response) {
                     setContactList(response?.eligibleContacts);
@@ -105,7 +104,7 @@ const AutoCompleteContactSearchModal = ({
                 setLoading(false);
             }
         },
-        [clientsService, showToast, campaignId],
+        [clientsService, showToast, campaignId]
     );
 
     const debouncedContactSearch = useCallback(
@@ -114,7 +113,7 @@ const AutoCompleteContactSearchModal = ({
                 fetchContacts(query);
             }
         }, 1000),
-        [fetchContacts],
+        [fetchContacts]
     );
 
     useEffect(() => {
@@ -169,7 +168,6 @@ const AutoCompleteContactSearchModal = ({
                 message: "Cannot send campaign: This contact does not have an email address.",
                 time: 5000,
             });
-            handleSetDefaultSelection();
         } else {
             handleContactSelect(tempLead, "old");
             handleClose(false);
@@ -274,7 +272,6 @@ AutoCompleteContactSearchModal.propTypes = {
     isCreateNewAvailable: PropTypes.bool,
     handleCancel: PropTypes.func.isRequired,
     campaignId: PropTypes.string.isRequired,
-    handleSetDefaultSelection: PropTypes.func.isRequired,
 };
 
 export default AutoCompleteContactSearchModal;
