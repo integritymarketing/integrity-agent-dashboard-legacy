@@ -64,6 +64,12 @@ export default function PlanCard({
 
     const { logoURL, estimatedCostCalculationRxs } = planData;
 
+    const selectedPharmacyCosts = estimatedCostCalculationRxs.find(
+        (rx) => rx.pharmacyId == selectedPharmacy.pharmacyId,
+    );
+
+    const mailOrder = estimatedCostCalculationRxs.find((rx) => rx.isMailOrder);
+
     const checkForImage = logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
 
     const planType = PLAN_TYPE_ENUMS[planData.planType];
@@ -122,13 +128,7 @@ export default function PlanCard({
                     >
                         <div className={"label"}>Monthly Plan Premium</div>
                         <div className={"currency"}>
-                            {currencyFormatter.format(
-                                Number(
-                                    estimatedCostCalculationRxs.find(
-                                        (rx) => rx?.pharmacyId === selectedPharmacy?.pharmacyId || rx.isMailOrder,
-                                    ).monthlyPlanPremium,
-                                ).toFixed(2),
-                            )}
+                            {currencyFormatter.format(Number(selectedPharmacyCosts.monthlyPlanPremium).toFixed(2))}
                         </div>
                     </div>
 
@@ -146,11 +146,9 @@ export default function PlanCard({
                                         ? "N/A"
                                         : currencyFormatter.format(
                                               Number(
-                                                  estimatedCostCalculationRxs.find(
-                                                      (rx) =>
-                                                          rx?.pharmacyId === selectedPharmacy?.pharmacyId ||
-                                                          rx.isMailOrder,
-                                                  ).estMonthlyRxDrugCost,
+                                                  selectedPharmacyCosts.isMailOrder
+                                                      ? mailOrder
+                                                      : selectedPharmacyCosts.estMonthlyRxDrugCost,
                                               ),
                                           )}
                                 </div>
@@ -165,7 +163,7 @@ export default function PlanCard({
                     <CostBreakdowns
                         planData={planData}
                         effectiveDate={effectiveDate}
-                        selectedPharmacy={selectedPharmacy}
+                        selectedPharmacyCosts={selectedPharmacyCosts.isMailOrder ? mailOrder : selectedPharmacyCosts}
                     />
                 </div>
             </div>

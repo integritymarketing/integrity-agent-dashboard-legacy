@@ -6,7 +6,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
     currency: "USD",
 });
 
-const CostBreakdowns = ({ planData, effectiveDate, selectedPharmacy }) => {
+const CostBreakdowns = ({ planData, effectiveDate, selectedPharmacyCosts }) => {
     const rows = [];
     const planTypeBreakdowns = planTypeValueMap[PLAN_TYPE_ENUMS[planData.planType]];
     let key = 0;
@@ -24,9 +24,7 @@ const CostBreakdowns = ({ planData, effectiveDate, selectedPharmacy }) => {
         }
         let value = planData[breakdown.field];
         if (breakdown.key) {
-            value = planData.estimatedCostCalculationRxs.find(
-                (rx) => rx?.pharmacyId === selectedPharmacy?.pharmacyId || rx.isMailOrder,
-            )?.[breakdown.key];
+            value = selectedPharmacyCosts[breakdown.key];
         } else if (breakdown.function) {
             value = breakdown.function(planData, effectiveDate);
         }
