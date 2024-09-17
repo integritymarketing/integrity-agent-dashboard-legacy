@@ -64,9 +64,9 @@ export default function PlanCard({
 
     const { logoURL, estimatedCostCalculationRxs } = planData;
 
-    const selectedPharmacyCosts = estimatedCostCalculationRxs.find(
-        (rx) => rx.pharmacyId == selectedPharmacy.pharmacyId,
-    );
+    const selectedPharmacyCosts = estimatedCostCalculationRxs?.find(
+        (rx) => rx.pharmacyId === selectedPharmacy?.pharmacyId
+    ) ?? null;
 
     const mailOrder = estimatedCostCalculationRxs.find((rx) => rx.isMailOrder);
 
@@ -145,12 +145,12 @@ export default function PlanCard({
                                     {validatePartialMonthlyDrugCost === "N/A"
                                         ? "N/A"
                                         : currencyFormatter.format(
-                                              Number(
-                                                  selectedPharmacyCosts.isMailOrder
-                                                      ? mailOrder
-                                                      : selectedPharmacyCosts.estMonthlyRxDrugCost,
-                                              ),
-                                          )}
+                                            Number(
+                                                selectedPharmacyCosts.isMailOrder
+                                                    ? mailOrder
+                                                    : selectedPharmacyCosts.estMonthlyRxDrugCost,
+                                            ),
+                                        )}
                                 </div>
                             </div>
                             <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
