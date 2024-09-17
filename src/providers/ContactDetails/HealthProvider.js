@@ -1,3 +1,4 @@
+/* eslint-disable default-param-last */
 /* eslint-disable max-lines-per-function */
 import React, { createContext, useState, useMemo, useCallback } from "react";
 import * as Sentry from "@sentry/react";
@@ -258,7 +259,7 @@ export const HealthProvider = ({ children }) => {
     );
 
     const addProvider = useCallback(
-        async (request, providerName, refresh, leadId, isUpdate = false) => {
+        async (request, providerName, refresh, isUpdate = false, leadId) => {
             if (!request || !providerName || !leadId) {
                 return;
             }
