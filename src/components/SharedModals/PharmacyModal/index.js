@@ -17,7 +17,7 @@ import { Select } from "components/ui/Select";
 import Spinner from "components/ui/Spinner";
 
 import { useClientServiceContext } from "services/clientServiceProvider";
-import "./styles.module.scss";
+import styles from "./styles.module.scss";
 
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCircle from "../Icons/ArrowForwardWithCircle";
@@ -216,7 +216,7 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
                     })),
             ],
             refresh,
-            leadId
+            leadId,
         );
 
         onClose();
@@ -279,6 +279,8 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
                             <Select
                                 PharmacyModal={true}
                                 initialValue={10}
+                                selectContainerClassName={styles.distanceSelectContainer}
+                                inputBoxClassName={styles.distanceInputBox}
                                 options={DISTANCE_OPTIONS}
                                 placeholder="select"
                                 onChange={(value) => {

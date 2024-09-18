@@ -1,18 +1,16 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-
+import { useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
-
 import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
 import { useWindowSize } from "../../../hooks/useWindowSize";
 import { useSelectFilterToScroll } from "hooks/useSelectFilter";
-
 import Arrow from "components/icons/down";
-
 import "./select.scss";
 
 export const DefaultOption = ({ label, value, prefix = "", onClick, selected = false, showValueAsLabel, ...rest }) => {
     const handleOptionClick = (ev) => {
-        onClick && onClick(ev, value);
+        if (onClick) {
+            onClick(ev, value);
+        }
     };
 
     return (
@@ -22,7 +20,7 @@ export const DefaultOption = ({ label, value, prefix = "", onClick, selected = f
             onClick={handleOptionClick}
             id={`option-${label}`}
             tabIndex="-1"
-            rules="menuitem"
+            role="menuitem"
         >
             {prefix}
             {showValueAsLabel ? value : label}
@@ -31,12 +29,12 @@ export const DefaultOption = ({ label, value, prefix = "", onClick, selected = f
 };
 
 DefaultOption.propTypes = {
-    label: PropTypes.any,
-    selected: PropTypes.bool,
-    value: PropTypes.any,
-    onClick: PropTypes.func,
-    style: PropTypes.object,
+    label: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
     prefix: PropTypes.string,
+    onClick: PropTypes.func,
+    selected: PropTypes.bool,
+    showValueAsLabel: PropTypes.bool,
 };
 
 export const Select = ({
@@ -72,7 +70,9 @@ export const Select = ({
     useOnClickOutside(ref, () => {
         setIsOpen(false);
         if (isOpen) {
-            onBlur && onBlur();
+            if (onBlur) {
+                onBlur();
+            }
         }
     });
 
@@ -82,16 +82,16 @@ export const Select = ({
 
     const scrollToOption = (label) => {
         if (label) {
-            let filtered = options.filter((state) => {
+            const filtered = options.filter((state) => {
                 return state.label.toLowerCase().startsWith(label?.toLowerCase());
             });
-            let filtered_label = filtered[0]?.label;
-            let filtered_value = filtered[0]?.value;
+            const filtered_label = filtered[0]?.label;
+            const filtered_value = filtered[0]?.value;
 
-            let selectedElement = document.getElementById(`option-${filtered_label}`);
+            const selectedElement = document.getElementById(`option-${filtered_label}`);
             selectedElement.classList.add("active-item-selected");
-            let topPos = selectedElement?.offsetTop;
-            let scrollContainer = document.getElementById("option-container-scrolling_div");
+            const topPos = selectedElement?.offsetTop;
+            const scrollContainer = document.getElementById("option-container-scrolling_div");
             scrollContainer.scrollTop = topPos - 40;
             setValue(filtered_value);
             onChange(filtered_value);
@@ -104,23 +104,27 @@ export const Select = ({
             setValue(initialValue);
             setIsOpen(isDefaultOpen);
         }
-    }, [initialValue, isDefaultOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [initialValue, isDefaultOpen]);
 
     const handleOptionChange = (ev, value) => {
         ev.preventDefault();
         setValue(value);
-        onChange && onChange(value);
+        if (onChange) {
+            onChange(value);
+        }
         toggleOptionsMenu();
     };
 
     const toggleOptionsMenu = (ev) => {
-        ev && ev.preventDefault();
+        if (ev) {
+            ev.preventDefault();
+        }
         setIsOpen((prevIsOpen) => {
             const newIsOpen = !prevIsOpen && !disabled;
             return newIsOpen;
         });
         if (isOpen) {
-            onBlur && onBlur();
+            onBlur?.();
         }
     };
 
@@ -130,13 +134,13 @@ export const Select = ({
         }
     };
 
-    const [selectedOption, selectableOptions] = useMemo(() => {
+    const [selectedOption, memoizedSelectableOptions] = useMemo(() => {
         const selectedOptions = options.filter((option) => option?.value === value);
-        const selectableOptions = options.map((option) => ({
+        const memoizedSelectableOptionsList = options.map((option) => ({
             ...option,
             selected: option?.value === value,
         }));
-        return [selectedOptions[0], selectableOptions];
+        return [selectedOptions[0], memoizedSelectableOptionsList];
     }, [options, value]);
 
     const heightStyle = useMemo(() => {
@@ -146,14 +150,14 @@ export const Select = ({
                   maxHeight:
                       containerHeight ||
                       Math.max(
-                          Math.min(windowHeight - top, (selectableOptions.length + 1) * 40),
-                          Math.min(selectableOptions.length + 1, 3) * 40
+                          Math.min(windowHeight - top, (memoizedSelectableOptions.length + 1) * 40),
+                          Math.min(memoizedSelectableOptions.length + 1, 3) * 40,
                       ) + 2,
               }
             : {
                   maxHeight: 0,
               };
-    }, [selectableOptions.length, isOpen, containerHeight, windowHeight]);
+    }, [memoizedSelectableOptions.length, isOpen, containerHeight, windowHeight]);
 
     const inputBox = (
         <div
@@ -191,7 +195,7 @@ export const Select = ({
             style={{ maxHeight: heightStyle.maxHeight - 40 }}
         >
             {selectHeader}
-            {selectableOptions.map((option, idx) => (
+            {memoizedSelectableOptions.map((option, idx) => (
                 <Option prefix={labelPrefix} key={idx} {...option} onClick={handleOptionChange} />
             ))}
         </div>
@@ -221,16 +225,33 @@ export const Select = ({
 
 Select.propTypes = {
     initialValue: PropTypes.any,
-    prefix: PropTypes.string,
-    placeholder: PropTypes.string,
-    onChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    Option: PropTypes.elementType,
-    style: PropTypes.object,
+    selectContainerClassName: PropTypes.string,
     mobileLabel: PropTypes.node,
+    inputBoxClassName: PropTypes.string,
+    options: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.any.isRequired,
+            value: PropTypes.any.isRequired,
+            selected: PropTypes.bool,
+        }),
+    ).isRequired,
+    Option: PropTypes.elementType,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    placeholder: PropTypes.string,
+    prefix: PropTypes.string,
+    labelPrefix: PropTypes.string,
+    style: PropTypes.object,
+    contactsPage: PropTypes.bool,
+    showValueAsLabel: PropTypes.bool,
     isDefaultOpen: PropTypes.bool,
     disabled: PropTypes.bool,
+    providerModal: PropTypes.bool,
+    showValueAlways: PropTypes.bool,
     error: PropTypes.bool,
+    containerHeight: PropTypes.number,
+    page: PropTypes.string,
+    selectClassName: PropTypes.string,
 };
 
 Select.defaultProps = {
@@ -245,3 +266,5 @@ Select.defaultProps = {
     onBlur: () => {},
     error: false,
 };
+
+export default Select;
