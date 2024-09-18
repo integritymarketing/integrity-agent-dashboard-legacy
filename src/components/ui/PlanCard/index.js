@@ -64,9 +64,9 @@ export default function PlanCard({
 
     const { logoURL, estimatedCostCalculationRxs } = planData;
 
-    const selectedPharmacyCosts = estimatedCostCalculationRxs?.find(
-        (rx) => rx.pharmacyId === selectedPharmacy?.pharmacyId
-    ) ?? null;
+    const selectedPharmacyCosts = estimatedCostCalculationRxs.find(
+        (rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId,
+    );
 
     const mailOrder = estimatedCostCalculationRxs.find((rx) => rx.isMailOrder);
 
@@ -128,7 +128,7 @@ export default function PlanCard({
                     >
                         <div className={"label"}>Monthly Plan Premium</div>
                         <div className={"currency"}>
-                            {currencyFormatter.format(Number(selectedPharmacyCosts.monthlyPlanPremium).toFixed(2))}
+                            {currencyFormatter.format(Number(selectedPharmacyCosts?.monthlyPlanPremium).toFixed(2))}
                         </div>
                     </div>
 
@@ -145,12 +145,12 @@ export default function PlanCard({
                                     {validatePartialMonthlyDrugCost === "N/A"
                                         ? "N/A"
                                         : currencyFormatter.format(
-                                            Number(
-                                                selectedPharmacyCosts.isMailOrder
-                                                    ? mailOrder
-                                                    : selectedPharmacyCosts.estMonthlyRxDrugCost,
-                                            ),
-                                        )}
+                                              Number(
+                                                  selectedPharmacyCosts.isMailOrder
+                                                      ? mailOrder
+                                                      : selectedPharmacyCosts?.estMonthlyRxDrugCost,
+                                              ),
+                                          )}
                                 </div>
                             </div>
                             <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
