@@ -33,10 +33,10 @@ const CallCard = ({ call }) => {
                         <div className={styles.callContent}>
                             <IconButton
                                 size="lg"
-                                color={call.callType === "missed" ? "error" : "primary"}
-                                className={`${styles.callIcon} ${call.callType === "missed" ? styles.callIconMissed : styles.callIconAnswered}`}
+                                color={call.callStatus === "absent" ? "error" : "primary"}
+                                className={`${styles.callIcon} ${call.callStatus === "absent" ? styles.callIconMissed : styles.callIconAnswered}`}
                             >
-                                {callIcons[call.callType]}
+                                {call.callStatus === "absent" ? callIcons.missed : callIcons[call.callType]}
                             </IconButton>
                             <div className={styles.callDetailsWrapper}>
                                 <div className={styles.callDetails}>
@@ -50,13 +50,13 @@ const CallCard = ({ call }) => {
                                     </div>
                                     <div className={styles.callDuration}>
                                         <Typography variant="body1">
-                                            {call.callType === "missed" ? "Missed" : calculateCallDuration(call.duration)}
+                                            {call.callStatus === "absent" ? <strong>Missed</strong> : calculateCallDuration(call.duration)}
                                         </Typography>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {call.callType != "missed" &&
+                        {call.callStatus != "absent" &&
                             <div className={styles.callCtasWrapper}>
                                 {call.url &&
                                     <Button
@@ -73,6 +73,7 @@ const CallCard = ({ call }) => {
                             </div>
                         }
                     </Stack>
+                    {!call.hasViewed && <div className={styles.isUnviewed}></div>}
                 </Paper>
             </div>
         </>

@@ -123,5 +123,14 @@
             }
 
         }
+
+        .isUnviewed {
+            width: 4px;
+            height: var(--sizing-972-px, 72px);
+            position: absolute;
+            background: var(--error-main, #C81E27);
+            border-top-left-radius: var(--border-radius-x-sm-4, 4px);
+            border-bottom-left-radius: var(--border-radius-x-sm-4, 4px);
+        }
     }
 }
