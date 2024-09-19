@@ -72,6 +72,10 @@ export const CampaignInvitationProvider = ({ children }) => {
     const { Get: fetchAgentPurl } = useFetch(AGENT_PURL_URL);
     const { Get: fetchAgentAccountDetails } = useFetch(AGENT_ACCOUNT_DETAILS_URL);
 
+    useEffect(() => {
+        sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
+    }, []);
+
     const handleSummaryBarInfo = (result, label, total) => {
         const leadsList = result?.map((lead) => ({
             leadsId: lead?.leadsId,
@@ -346,8 +350,8 @@ export const CampaignInvitationProvider = ({ children }) => {
                             filteredContactsType === "contacts filtered by .."
                                 ? "filter contacts"
                                 : filteredContactsType === "all contacts"
-                                  ? "all contacts"
-                                  : "search for a contact",
+                                ? "all contacts"
+                                : "search for a contact",
                     });
                     if (redirectTo) {
                         navigate(redirectTo);
@@ -388,7 +392,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             agentAccountDetails,
             agentPurlURL,
             navigate,
-        ],
+        ]
     );
 
     return (

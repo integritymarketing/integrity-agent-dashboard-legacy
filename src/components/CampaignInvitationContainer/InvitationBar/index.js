@@ -21,14 +21,12 @@ const InvitationBar = () => {
     const {
         filteredContactsType,
         setFilteredContactsType,
-        filteredCount,
         handleSummaryBarInfo,
         setSelectedContact,
         invitationSendType,
         contactName,
         createdNewCampaign,
         campaignInvitationData,
-        handleSetDefaultSelection,
         campaignStatuses,
         isFetchCampaignDetailsByEmailLoading,
         isFetchCampaignDetailsByTextLoading,
@@ -48,10 +46,10 @@ const InvitationBar = () => {
         (value) => {
             setFilteredContactsType(value);
             if (value === "a contact") {
-                localStorage.removeItem("campaign_contactList_selectedFilterSections");
+                sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
                 setChooseContactModalOpen(true);
             } else if (value === "all contacts") {
-                localStorage.removeItem("campaign_contactList_selectedFilterSections");
+                sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
                 setSelectedContact(null);
             } else {
                 setAnchorEl(contactOptionOpen);
@@ -62,16 +60,8 @@ const InvitationBar = () => {
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
-        const selectedFilterSections = JSON.parse(localStorage.getItem("campaign_contactList_selectedFilterSections"));
         setAnchorEl(null);
-        if (
-            !selectedFilterSections ||
-            selectedFilterSections.length === 0 ||
-            (selectedFilterSections.length === 1 && !selectedFilterSections[0]?.selectedFilterOption)
-        ) {
-            handleSetDefaultSelection();
-        }
-    }, [handleSetDefaultSelection]);
+    }, [setAnchorEl]);
 
     const handleContactOptions = useCallback(
         (event) => {
@@ -97,10 +87,10 @@ const InvitationBar = () => {
                 }
             >
                 <Typography className={styles.optionLink}>
-                    {filteredContactsType === "" && ""}
                     {filteredContactsType === "all contacts" && `all contacts`}
-                    {filteredContactsType === "contacts filtered by .." && `${filteredCount} Contacts`}
+                    {filteredContactsType === "contacts filtered by .." && `Filtered contacts`}
                     {filteredContactsType === "a contact" && (contactName ? contactName : "")}
+                    {filteredContactsType === "" ? "" : "."}
                 </Typography>
                 {!readOnly && <ArrowDownBig width="40px" height="40px" />}
 

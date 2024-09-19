@@ -43,10 +43,12 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
     const isApiCallInitiated = useRef(false);
     const [tagsList, setTagsList] = useState([]);
     const [filterSectionsConfig, setFilterSectionsConfigState] = useState(
-        JSON.parse(localStorage.getItem("campaign_contactList_filterSectionsConfig")) || filterSectionsConfigOriginal
+        JSON.parse(sessionStorage.getItem("campaign_contactList_filterSectionsConfig")) || filterSectionsConfigOriginal
     );
 
-    const [selectedFilterSections, setSelectedFilterSectionsState] = useState([]);
+    const [selectedFilterSections, setSelectedFilterSectionsState] = useState(
+        JSON.parse(sessionStorage.getItem("campaign_contactList_selectedFilterSections")) || []
+    );
 
     const { statusOptions } = useContext(StageStatusContext);
     const [isFilterSelectOpenForSection, setIsFilterSelectOpenForSection] = useState(null);
@@ -67,11 +69,11 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
     } = useFetchCampaignLeads();
 
     const filterLabel = useMemo(() => {
-        if (!selectedFilterSections?.length) {
+        if (!selectedFilterSections?.length > 0) {
             return null;
         }
         return selectedFilterSections
-            .map((item, index) => {
+            ?.map((item, index) => {
                 const section = filterSectionsConfig[item.sectionId];
                 let thisItemLabel = "";
                 let andOrLabel = "";
@@ -101,7 +103,14 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
             .join("");
     }, [selectedFilterSections, filterSectionsConfig]);
 
-    // write this out
+    useEffect(() => {
+        const selectedFilterSections = JSON.parse(
+            sessionStorage.getItem("campaign_contactList_selectedFilterSections")
+        );
+        if (selectedFilterSections?.length > 0 && tableData?.length === 0 && filteredEligibleCount === 0) {
+            resetData(selectedFilterSections);
+        }
+    }, []);
 
     const fetchAllListCount = useCallback(async () => {
         if (!withoutFilterResponseSize) {
@@ -117,28 +126,28 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
 
     const resetData = useCallback(
         (newSelectedFilterSections) => {
-            if(campaignId) {
-            fetchAllListCount();
-            fetchTableData({
-                pageIndex: 1,
-                pageSize: DEFAULT_PAGE_ITEM,
-                sort: DEFAULT_SORT,
-                searchString: undefined,
-                selectedFilterSections: newSelectedFilterSections,
-                filterSectionsConfig,
-                isSilent: true,
-                returnAll: true,
-                campaignId,
-            });
+            if (campaignId) {
+                fetchAllListCount();
+                fetchTableData({
+                    pageIndex: 1,
+                    pageSize: DEFAULT_PAGE_ITEM,
+                    sort: DEFAULT_SORT,
+                    searchString: undefined,
+                    selectedFilterSections: newSelectedFilterSections,
+                    filterSectionsConfig,
+                    isSilent: true,
+                    returnAll: true,
+                    campaignId,
+                });
             }
         },
-        [fetchAllListCount, fetchTableData, filterSectionsConfig, campaignId]
+        [filterSectionsConfig, campaignId]
     );
 
     const setFilterSectionsConfig = useCallback(
         (newValue) => {
             setFilterSectionsConfigState(newValue);
-            localStorage.setItem("campaign_contactList_filterSectionsConfig", JSON.stringify(newValue));
+            sessionStorage.setItem("campaign_contactList_filterSectionsConfig", JSON.stringify(newValue));
         },
         [setFilterSectionsConfigState]
     );
@@ -146,7 +155,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
     const setSelectedFilterSections = useCallback(
         (filters) => {
             setSelectedFilterSectionsState(filters);
-            localStorage.setItem("campaign_contactList_selectedFilterSections", JSON.stringify(filters));
+            sessionStorage.setItem("campaign_contactList_selectedFilterSections", JSON.stringify(filters));
         },
         [setSelectedFilterSectionsState]
     );
@@ -357,7 +366,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
 
     useEffect(() => {
         handleSummaryBarInfo(tableData, filterLabel, filteredEligibleCount);
-    }, [tableData, handleSummaryBarInfo, filterLabel, filteredEligibleCount]);
+    }, [tableData, filterLabel, filteredEligibleCount]);
 
     useEffect(() => {
         const getTags = async () => {
@@ -411,13 +420,13 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
     };
 
     const handleOnRemoveFilterSection = (sectionUUId) => {
-        const newSelectedFilterSections = selectedFilterSections.filter((section) => section.id !== sectionUUId);
+        const newSelectedFilterSections = selectedFilterSections?.filter((section) => section.id !== sectionUUId);
         setSelectedFilterSections([...newSelectedFilterSections]);
         setTimeout(() => resetData(newSelectedFilterSections), 100);
     };
 
     const handleOnChangeFilterOption = (sectionUUId, value) => {
-        const newSelectedFilterSections = selectedFilterSections.map((section) => {
+        const newSelectedFilterSections = selectedFilterSections?.map((section) => {
             if (section.id === sectionUUId) {
                 return {
                     ...section,
@@ -432,7 +441,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
     };
 
     const handleOnChangeIsOption = (sectionUUId, value) => {
-        const newSelectedFilterSections = selectedFilterSections.map((section) => {
+        const newSelectedFilterSections = selectedFilterSections?.map((section) => {
             if (section.id === sectionUUId) {
                 return {
                     ...section,
@@ -446,7 +455,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
     };
 
     const handleOnChangeNextAndOrOption = (sectionUUId, value) => {
-        const newSelectedFilterSections = selectedFilterSections.map((section) => {
+        const newSelectedFilterSections = selectedFilterSections?.map((section) => {
             if (section.id === sectionUUId) {
                 return {
                     ...section,
