@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import * as Sentry from "@sentry/react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -23,7 +24,7 @@ import Spinner from "components/ui/Spinner";
 
 import { useClientServiceContext } from "services/clientServiceProvider";
 import ProviderList from "./ProviderList";
-import "./styles.module.scss";
+import styles from "./styles.module.scss";
 
 import AddCircleOutline from "../Icons/AddCircleOutline";
 import ArrowForwardWithCirlce from "../Icons/ArrowForwardWithCircle";
@@ -124,15 +125,11 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
         return acc.concat(provider.addresses);
     }, []);
 
-    // Assign the length of the merged addresses array to a variable
     const addressCount = mergedAddresses?.length;
 
-    // Disable the address select if the address count is greater than or equal to 10
     const disableAddressSelect = isEdit
         ? addressCount + selectAddressIds?.length - selected?.addresses?.length >= 10
         : addressCount + selectAddressIds?.length >= 10;
-
-    // useEffects
 
     useEffect(() => {
         if (!zipCode || zipCode.length !== 5 || !debouncedSearchString || isEdit) {
@@ -184,8 +181,6 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
         }
     }, [isEdit, selected]);
 
-    // Event Handlers
-
     const handleZipCode = (e) => {
         setZipCode(e.target.value);
         setCurrentPage(1);
@@ -196,7 +191,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
 
     const handleSaveProvider = async () => {
         onClose();
-
+        
         const requestPayload = selectAddressIds?.map((addressId) => {
             return {
                 npi: selectedProvider?.NPI?.toString(),
@@ -214,26 +209,28 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
     };
 
     const handleEditProvider = async () => {
-        const requestPayload = selected?.addresses?.map((address) => {
-            return {
-                npi: selectedProvider?.NPI?.toString(),
-                isPrimary: false,
-                addressId: address?.id,
-            };
-        });
+    const requestPayload = selected?.addresses?.map((address) => ({
+        npi: selectedProvider?.NPI?.toString(),
+        isPrimary: false,
+        addressId: address?.id,
+    }));
 
-        onClose();
-        deleteProvider(requestPayload, selectedProvider?.presentationName, handleSaveProvider, false, leadId);
-    };
+    onClose();
+    await deleteProvider(
+        requestPayload,
+        selectedProvider?.presentationName,
+        handleSaveProvider,
+        false,
+        leadId
+    );
+};
 
     const handleDeleteProvider = () => {
-        const requestPayload = selected?.addresses?.map((address) => {
-            return {
-                npi: selected?.NPI?.toString(),
-                isPrimary: false,
-                addressId: address?.id,
-            };
-        });
+        const requestPayload = selected?.addresses?.map((address) => ({
+            npi: selected?.NPI?.toString(),
+            isPrimary: false,
+            addressId: address?.id,
+        }));
 
         onClose();
         deleteProvider(requestPayload, selected?.presentationName, refresh, true, leadId);
@@ -288,7 +285,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
                             <Box>
                                 <Typography className={classes.customTypography}>Zip Code</Typography>
                                 <TextField
-                                    sx={{ backgroundColor: "#FFFFFF"}}
+                                    sx={{ backgroundColor: "#FFFFFF" }}
                                     id="Zip Code"
                                     type="text"
                                     fullWidth
@@ -304,6 +301,8 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
                                 <Select
                                     providerModal={true}
                                     initialValue={10}
+                                    selectContainerClassName={styles.distanceSelectContainer}
+                                    inputBoxClassName={styles.distanceInputBox}
                                     options={DISTANCE_OPTIONS}
                                     placeholder="select"
                                     onChange={(value) => {
@@ -369,6 +368,22 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
             )}
         </Modal>
     );
+};
+
+ProviderModal.propTypes = {
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    userZipCode: PropTypes.string,
+    isEdit: PropTypes.bool,
+    selected: PropTypes.object,
+    refresh: PropTypes.func,
+    leadId: PropTypes.string,
+};
+
+ProviderModal.defaultProps = {
+    userZipCode: "",
+    isEdit: false,
+    selected: null,
 };
 
 export default ProviderModal;

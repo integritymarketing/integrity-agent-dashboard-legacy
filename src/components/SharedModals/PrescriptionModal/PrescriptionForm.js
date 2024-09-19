@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import makeStyles from "@mui/styles/makeStyles";
 import Box from "@mui/material/Box";
@@ -7,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { Select } from "components/ui/Select";
 import FREQUENCY_OPTIONS from "utils/frequencyOptions";
-import "./styles.module.scss";
+import styles from "./styles.module.scss";
 
 const useStyles = makeStyles(() => ({
     customTypography: {
@@ -41,6 +40,8 @@ const PrescriptionForm = ({
                     <Typography className={classes.customTypography}>Dosage</Typography>
                     <Select
                         initialValue={dosage}
+                        selectContainerClassName={styles.distanceSelectContainer}
+                        inputBoxClassName={styles.distanceInputBox}
                         providerModal={true}
                         options={dosageOptions}
                         placeholder="Dosage"
@@ -68,6 +69,8 @@ const PrescriptionForm = ({
                     <Select
                         providerModal={true}
                         initialValue={frequency}
+                        selectContainerClassName={styles.distanceSelectContainer}
+                        inputBoxClassName={styles.distanceInputBox}
                         options={FREQUENCY_OPTIONS}
                         placeholder="Frequency"
                         onChange={setFrequency}
@@ -94,12 +97,15 @@ const PrescriptionForm = ({
 
 PrescriptionForm.propTypes = {
     dosage: PropTypes.any,
-    dosageOptions: PropTypes.array,
+    dosageOptions: PropTypes.arrayOf(PropTypes.object),
     setDosage: PropTypes.func.isRequired,
-    quantity: PropTypes.any,
+    quantity: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     handleQuantity: PropTypes.func.isRequired,
     frequency: PropTypes.any,
     setFrequency: PropTypes.func.isRequired,
+    packageOptions: PropTypes.arrayOf(PropTypes.object),
+    dosagePackage: PropTypes.any,
+    setDosagePackage: PropTypes.func.isRequired,
 };
 
 PrescriptionForm.defaultProps = {
@@ -107,6 +113,8 @@ PrescriptionForm.defaultProps = {
     dosageOptions: [],
     quantity: null,
     frequency: null,
+    packageOptions: [],
+    dosagePackage: null,
 };
 
 export default PrescriptionForm;
