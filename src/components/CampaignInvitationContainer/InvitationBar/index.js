@@ -56,7 +56,7 @@ const InvitationBar = () => {
             }
             setContactOptionOpen(null);
         },
-        [contactOptionOpen, setSelectedContact, setFilteredContactsType]
+        [contactOptionOpen, setSelectedContact, setFilteredContactsType],
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
@@ -67,7 +67,7 @@ const InvitationBar = () => {
         (event) => {
             setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
         },
-        [contactOptionOpen, filteredContactsType]
+        [contactOptionOpen, filteredContactsType],
     );
 
     return (
@@ -98,6 +98,7 @@ const InvitationBar = () => {
                     options={filteredContactOptions}
                     anchorEl={contactOptionOpen}
                     handleAction={handleContactOptionsChange}
+                    handleClose={() => setContactOptionOpen(null)}
                 />
             </Box>
 

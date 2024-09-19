@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {Box, Button, CircularProgress, Grid, Typography} from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 import EmailContent from "../EmailContent";
 import styles from "./styles.module.scss";
 import EmailPreview from "../EmailPreview";
 import TextInputContent from "../TextInputContent";
-import {useCampaignInvitation} from "providers/CampaignInvitation";
+import { useCampaignInvitation } from "providers/CampaignInvitation";
 import CampaignFlowContainer from "../CampaignFlowCard";
 import ArrowForwardCircle from "../../../images/Campaigns/arrow-forward-circle.svg";
 import AdvancedModeToggle from "../AdvancedModeToggle";
@@ -15,9 +15,9 @@ import { CampaignActionsEllipsis } from "@integritymarketing/icons";
 
 const campaignOperations = [
     { optionText: "Rename", value: "rename" },
-    { optionText: "Start", value: "start"},
-    { optionText: "Copy", value: "copy"},
-    { optionText: "Delete", value: "delete"},
+    { optionText: "Start", value: "start" },
+    { optionText: "Copy", value: "copy" },
+    { optionText: "Delete", value: "delete" },
 ];
 
 const CampaignInnerContainer = () => {
@@ -54,11 +54,11 @@ const CampaignInnerContainer = () => {
     }, [filteredContactsType]);
 
     const contactsTypeNotSelected =
-        isStartCampaignLoading || isUpdateCampaignLoading ||
-        (filteredContactsType === "") ||
+        isStartCampaignLoading ||
+        isUpdateCampaignLoading ||
+        filteredContactsType === "" ||
         (filteredContactsType === "all contacts" && allContactsList?.length === 0) ||
-        (filteredContactsType === "contacts filtered by .." &&
-            filteredContactsList?.length === 0) ||
+        (filteredContactsType === "contacts filtered by .." && filteredContactsList?.length === 0) ||
         (filteredContactsType === "a contact" && !selectedContact);
 
     const handlePreviewClick = () => {
@@ -74,8 +74,8 @@ const CampaignInnerContainer = () => {
         boxShadow: "none",
         cursor: "none",
         "&:hover": {
-            backgroundColor: readOnly ? "#49648B" : "#e0e0e0"
-        }
+            backgroundColor: readOnly ? "#49648B" : "#e0e0e0",
+        },
     };
 
     return (
@@ -92,52 +92,57 @@ const CampaignInnerContainer = () => {
                     >
                         {campaignDescription}
                     </Typography>
-                    <Box onClick={()=>{setCampaignOperationsAnchorEl(true)}}>
-                        <CampaignActionsEllipsis color="#4178FF" size="md"/>
+                    <Box
+                        onClick={() => {
+                            setCampaignOperationsAnchorEl(true);
+                        }}
+                    >
+                        <CampaignActionsEllipsis color="#4178FF" size="md" />
                     </Box>
                     <CustomPopover
                         options={campaignOperations}
                         anchorEl={campaignOperationsAnchorEl}
-                        handleAction={()=>{setCampaignOperationsAnchorEl(null);}}
+                        handleAction={() => {
+                            setCampaignOperationsAnchorEl(null);
+                        }}
+                        handleClose={() => setCampaignOperationsAnchorEl(null)}
                     />
                 </Box>
 
-
                 <Box display="flex" gap={2}>
-                    {(isStartCampaignLoading || isUpdateCampaignLoading) && <Button
-                        variant="outlined"
-                        startIcon={
-                            <CircularProgress size={20} thickness={4} className={styles.progressIcon}/>
-                        }
-                        sx={{
-                            color: "#49648B",
-                            borderColor: "#49648B",
-                            textTransform: "none",
-                            borderRadius: "4px",
-                        }}
-                    >
-                        Saving
-                    </Button>}
+                    {(isStartCampaignLoading || isUpdateCampaignLoading) && (
+                        <Button
+                            variant="outlined"
+                            startIcon={<CircularProgress size={20} thickness={4} className={styles.progressIcon} />}
+                            sx={{
+                                color: "#49648B",
+                                borderColor: "#49648B",
+                                textTransform: "none",
+                                borderRadius: "4px",
+                            }}
+                        >
+                            Saving
+                        </Button>
+                    )}
 
-                    {createdNewCampaign && <Button variant="contained" sx={buttonStyles} disableRipple={true} disableElevation={true}>
-                        {createdNewCampaign?.campaignStatus}
-                    </Button>}
+                    {createdNewCampaign && (
+                        <Button variant="contained" sx={buttonStyles} disableRipple={true} disableElevation={true}>
+                            {createdNewCampaign?.campaignStatus}
+                        </Button>
+                    )}
                 </Box>
             </Box>
 
             <Box className={styles.content}>
-                <CampaignFlowContainer
-                    showPreview={showPreview}
-                    contactsTypeNotSelected={contactsTypeNotSelected}
-                />
+                <CampaignFlowContainer showPreview={showPreview} contactsTypeNotSelected={contactsTypeNotSelected} />
 
                 {showPreview && (
                     <Grid container className={styles.detailsContainer}>
-                        {invitationSendType === "Sms" && <TextInputContent/>}
+                        {invitationSendType === "Sms" && <TextInputContent />}
                         {invitationSendType === "Email" && (
                             <>
-                                <EmailContent/>
-                                <EmailPreview/>
+                                <EmailContent />
+                                <EmailPreview />
                             </>
                         )}
                     </Grid>
@@ -149,7 +154,7 @@ const CampaignInnerContainer = () => {
                             size="medium"
                             variant="contained"
                             color="primary"
-                            endIcon={<img src={ArrowForwardCircle} alt="Arrow forward"/>}
+                            endIcon={<img src={ArrowForwardCircle} alt="Arrow forward" />}
                             onClick={handlePreviewClick}
                         >
                             Preview Campaign
@@ -163,9 +168,9 @@ const CampaignInnerContainer = () => {
                             size="medium"
                             variant="contained"
                             color="primary"
-                            endIcon={<img src={ArrowForwardCircle} alt="Arrow forward"/>}
+                            endIcon={<img src={ArrowForwardCircle} alt="Arrow forward" />}
                             onClick={() => {
-                                setIsSendCampaignModalOpen(true)
+                                setIsSendCampaignModalOpen(true);
                             }}
                             disabled={isStartCampaignLoading || isUpdateCampaignLoading}
                         >
@@ -175,16 +180,18 @@ const CampaignInnerContainer = () => {
                             isModalOpen={isSendCampaignModalOpen}
                             setIsModalOpen={setIsSendCampaignModalOpen}
                             onSend={() => {
-                                handleCreateOrUpdateCampaign(campaignStatuses.SUBMITTED)
+                                handleCreateOrUpdateCampaign(campaignStatuses.SUBMITTED);
                             }}
                         />
                     </Box>
                 )}
             </Box>
 
-            {false && !readOnly && <Box className={styles.advancedModeToggle}>
-                <AdvancedModeToggle/>
-            </Box>}
+            {false && !readOnly && (
+                <Box className={styles.advancedModeToggle}>
+                    <AdvancedModeToggle />
+                </Box>
+            )}
         </Box>
     );
 };

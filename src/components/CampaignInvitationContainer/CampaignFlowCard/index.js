@@ -108,6 +108,7 @@ const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
                         options={channelOptions}
                         anchorEl={channelOptionOpen}
                         handleAction={handleChannelOptionsChange}
+                        handleClose={() => setChannelOptionOpen(null)}
                     />
                 </Box>
 
@@ -132,6 +133,7 @@ const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
                             options={emailOptions}
                             anchorEl={emailOptionsOpen}
                             handleAction={handleEmailChannelOptionsChange}
+                            handleClose={() => setEmailOptionsOpen(null)}
                         />
                     </Box>
                 )}
