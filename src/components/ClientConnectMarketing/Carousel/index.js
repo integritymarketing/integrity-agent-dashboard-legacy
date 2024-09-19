@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { debounce } from "lodash";
 import ChevronRight from "components/icons/Marketing/chevronRight";
 import ChevronLeft from "components/icons/Marketing/chevronLeft";
@@ -19,9 +19,12 @@ const Scroller = ({ cards, cardRenderer }) => {
         width: 0,
     });
 
-    const scrollerButtonHandler = useCallback((direction) => {
+    const scrollerButtonHandler = useCallback((direction, action) => {
         setCurrentIndex((val) => {
             const newIndex = val + direction;
+            if (cards.length - 2 == newIndex && action === "right") {
+                return Math.max(Math.max(cards.length, newIndex), 0);
+            }
             return Math.max(Math.min(cards.length - 1, newIndex), 0);
         });
     }, []);
@@ -57,7 +60,7 @@ const Scroller = ({ cards, cardRenderer }) => {
             {showLeftScrollButton && (
                 <Box
                     className={`${styles.scrollButton} ${styles.scrollButtonLeft}`}
-                    onClick={() => scrollerButtonHandler(-1)}
+                    onClick={() => scrollerButtonHandler(-1, "left")}
                 >
                     <IconButton size="lg" className={`${styles.integrityIcon} ${styles.integrityIconBg}`}>
                         <ChevronLeft />
@@ -70,7 +73,7 @@ const Scroller = ({ cards, cardRenderer }) => {
             {showRightScrollButton && (
                 <Box
                     className={`${styles.scrollButton} ${styles.scrollButtonRight}`}
-                    onClick={() => scrollerButtonHandler(1)}
+                    onClick={() => scrollerButtonHandler(1, "right")}
                 >
                     <IconButton size="lg" className={`${styles.integrityIcon} ${styles.integrityIconBg}`}>
                         <ChevronRight />

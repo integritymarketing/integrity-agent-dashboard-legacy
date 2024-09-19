@@ -36,17 +36,21 @@ const CampaignStatusCard = ({ campaign }) => {
             <Box className={styles.campaignCard}>
                 <Box className={styles.cardHeader}>
                     <Box className={styles.cardType}>
-                        <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
-                            {campaignChannel === "Email" ? (
-                                <>
+                        {campaignChannel === "Email" ? (
+                            <>
+                                <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
                                     <CampaignTypeEmail size="lg" className={styles.mIcon} />
-                                </>
-                            ) : campaignChannel === "Text" ? (
-                                <>
+                                </IconButton>
+                            </>
+                        ) : campaignChannel === "Sms" ? (
+                            <>
+                                {" "}
+                                <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
                                     <CampaignTypeTextMessage size="lg" className={styles.mIcon} />
-                                </>
-                            ) : null}
-                        </IconButton>
+                                </IconButton>
+                            </>
+                        ) : null}
+
                         <Typography className={styles.campaignTitle} variant="h4">
                             {truncateText(customCampaignDescription, isSmallScreen ? 15 : 45)}
                         </Typography>
@@ -59,7 +63,7 @@ const CampaignStatusCard = ({ campaign }) => {
                 <Box className={styles.cardDetails}>
                     {campaignChannel && (
                         <Box className={styles.cardLabel}>
-                            I want to send an {campaignChannel.toLowerCase()} to
+                            I want to send {campaignChannel === "Sms" ? "a" : "an"} {campaignChannel.toLowerCase()} to
                             <span className={styles.cardValue}>
                                 {" "}
                                 {customCampaignDescription} to {requestPayload?.leads[0]?.firstName}{" "}
