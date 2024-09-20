@@ -8,6 +8,7 @@ import calculateAgeFromBirthdate from "utils/calculateAgeFromBirthdate";
 import { formatDate, getLocalDateTime } from "utils/dates";
 import { formatFullName } from "utils/formatFullName";
 import { formatPhoneNumber } from "utils/phones";
+import { formatAddress } from "utils/addressFormatter";
 import { formatMBID } from "utils/shared-utils/sharedUtility";
 
 import WithLoader from "components/ui/WithLoader";
@@ -187,10 +188,6 @@ export const ContactInfoContainer = ({ isMobile }) => {
         setIsEditMode(false);
     };
 
-    const formatAddress = (address1, address2, city, stateCode, postalCode) => {
-        const addressParts = [address1, address2, city, stateCode, postalCode];
-        return addressParts.filter(Boolean).join(", ");
-    };
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
             <Box marginTop={"20px"}>
@@ -275,7 +272,13 @@ export const ContactInfoContainer = ({ isMobile }) => {
                         <SectionContainer>
                             <Label value="Address" color="#717171" size="14px" />
                             <Label
-                                value={formatAddress(leadAddress1, leadAddress2, leadCity, leadState, leadZip)}
+                                value={formatAddress({
+                                    address1: leadAddress1,
+                                    address2: leadAddress2,
+                                    city: leadCity,
+                                    stateCode: leadState,
+                                    postalCode: leadZip,
+                                })}
                                 color="#4178FF"
                                 size="16px"
                             />

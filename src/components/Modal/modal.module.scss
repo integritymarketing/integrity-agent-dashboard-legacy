@@ -35,6 +35,23 @@
   flex-direction: column;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+
+  .addButton {
+    color: #4178ff;
+    font-size: 16px;
+    font-weight: 500;
+    height: 40px;
+    padding: 5px 15px;
+    margin-top: -25px;
+    margin-bottom: 16px;
+    text-transform: capitalize;
+    border-radius: 20px;
+
+    &:hover {
+      background-color: #ffffff;
+      box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+    }
+  }
 }
 
 .footerButtons {

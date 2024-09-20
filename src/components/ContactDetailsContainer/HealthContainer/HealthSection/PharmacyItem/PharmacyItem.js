@@ -6,18 +6,21 @@ import { formatPhoneNumber } from "utils/phones";
 import styles from "./styles.module.scss";
 import { Chip } from "@mui/material";
 import { useWindowSize } from "hooks/useWindowSize";
+import { formatAddress } from "utils/addressFormatter";
 
 const PharmacyItem = ({ pharmacy, handleSetAsPrimary, onDeletePharmacy }) => {
     const { width: windowWidth } = useWindowSize();
     const isMobile = windowWidth <= 784;
-
     const { address1, address2, city, state, zip } = pharmacy;
-    const address = address1 || address2 || city || state || zip
-        ? [address1, address2, city, state, zip].filter(Boolean).join(", ")
-        : "Digital Pharmacy";
-
-
     const isPrimary = pharmacy.isPrimary;
+    const formattedAddress = formatAddress({
+        address1,
+        address2,
+        city,
+        stateCode: state,
+        postalCode: zip,
+        defaultValue: "Digital Pharmacy",
+    });
 
     return (
         <Box className={styles.wrapper}>
@@ -41,7 +44,7 @@ const PharmacyItem = ({ pharmacy, handleSetAsPrimary, onDeletePharmacy }) => {
             </Box>
             {!isMobile && (
                 <Box className={styles.address}>
-                    {address}
+                    {formattedAddress}
                     {isPrimary ? (
                         <Chip className={styles.primaryTag} color="primary" variant="filled" label="Primary" />
                     ) : (
@@ -71,7 +74,7 @@ const PharmacyItem = ({ pharmacy, handleSetAsPrimary, onDeletePharmacy }) => {
             )}
             {isMobile && (
                 <Box className={`${styles.address} ${styles.addressMobile}`}>
-                    {address}
+                    {formattedAddress}
                     {isPrimary ? (
                         <Chip className={styles.primaryTag} color="primary" variant="filled" label="Primary" />
                     ) : (

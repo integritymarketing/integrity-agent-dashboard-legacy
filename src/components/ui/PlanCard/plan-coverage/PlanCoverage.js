@@ -22,6 +22,8 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
         prescriptions: prescriptionsList,
         pharmacies: pharmaciesList,
         providers: providersList,
+        fetchPharmacies,
+        putLeadPharmacy,
     } = useHealth() || {};
 
     const prescriptions = planData?.planDrugCoverage;
@@ -74,7 +76,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
         setIsProviderModalOpen(false);
         setIsEditingProvider(false);
         setProviderToEdit(null);
-        if (refresh) {refresh();}
+        if (refresh) { refresh(); }
     };
 
     // provider modal handle functions //
@@ -107,11 +109,31 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
         }
     };
 
+    const handleSetAsPrimary = async (pharmacyId) => {
+        const pharmacyItem = { ...pharmaciesList.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
+        await putLeadPharmacy(contactId, pharmacyItem);
+        fetchPharmacies(contactId);
+    };
+
+    const onDeletePharmacy = async (pharmacy) => {
+        await deletePharmacy(pharmacy, null, contactId);
+        if (pharmacy.isPrimary) {
+            const pharmacyToMakePrimary = pharmaciesList.find((item) => {
+                if (item.pharmacyId !== pharmacy.pharmacyId) {
+                    return true;
+                }
+            });
+            if (pharmacyToMakePrimary) {
+                handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
+            }
+        }
+    };
+
     const selectedProvider = isEditingProvider
         ? {
-              ...providerToEdit,
-              NPI: providerToEdit?.npi,
-          }
+            ...providerToEdit,
+            NPI: providerToEdit?.npi,
+        }
         : null;
 
     const uniqueProvidersList = removeDuplicates(planData?.providers, "npi");
@@ -127,8 +149,9 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
     }, 0);
 
     const coveredPharmacies = planData?.pharmacyCosts?.filter(
-        (pharmacy) => pharmaciesList[0]?.pharmacyID === pharmacy?.pharmacyID && pharmacy?.isNetwork
-    );
+    (pharmacy) =>
+        pharmaciesList?.some((pharm) => pharm.pharmacyId === pharmacy?.pharmacyID && pharmacy?.isNetwork)
+);
 
     const coveredPrescriptions = planData?.planDrugCoverage?.filter((prescription) => prescription?.tierNumber > 0);
 
@@ -241,15 +264,18 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
                     }}
                     hideFooter
                     title={"Update Pharmacy"}
-                    isDelete={pharmaciesList?.length > 0}
                     modalName={"Pharmacy"}
-                    onDelete={() => {
-                        deletePharmacy(pharmaciesList?.[0], null, contactId);
-                        setIsOpenPharmacyCoverageModal(false);
-                        refresh();
-                    }}
+                    isAddPharmacy={pharmaciesList.length < 3}
+                    onAdd={() => setOpenAddPharmacyModal(true)}
                 >
-                    <UpdateView data={pharmaciesList?.[0]} />
+                    <UpdateView pharmaciesData={pharmaciesList}
+                        pharmacyCosts={planData?.pharmacyCosts}
+                        handleSetAsPrimary={handleSetAsPrimary}
+                        onDelete={(pharmacy) => {
+                            onDeletePharmacy(pharmacy);
+                            setIsOpenPharmacyCoverageModal(false);
+                            refresh();
+                        }} />
                 </Modal>
             )}
             {openAddPharmacyModal && (
@@ -258,6 +284,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
                     onClose={() => {
                         setOpenAddPharmacyModal(false);
                     }}
+                    pharmaciesPreSelected={pharmaciesList}
                     userZipCode={contact?.addresses?.[0]?.postalCode}
                     refresh={refresh}
                     leadId={contactId}
@@ -270,5 +297,8 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
 PlanCoverage.propTypes = {
     contactId: PropTypes.string.isRequired,
     planData: PropTypes.object.isRequired,
+    contact: PropTypes.object,
+    planName: PropTypes.string,
+    refresh: PropTypes.func,
 };
 export default PlanCoverage;

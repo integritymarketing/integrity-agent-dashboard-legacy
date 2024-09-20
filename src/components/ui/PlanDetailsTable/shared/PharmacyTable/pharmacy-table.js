@@ -19,7 +19,7 @@ const getNetworkIcon = (pharmacyCost) => {
 };
 
 const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
-    const { pharmacies: pharmacyList, deletePharmacy, fetchPharmacies } = useHealth();
+    const { pharmacies: pharmacyList, deletePharmacy, fetchPharmacies, putLeadPharmacy } = useHealth();
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const leadId = contact?.leadsId;
@@ -37,6 +37,25 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
     const hasApiFailed =
         pharmacyList?.length === 0 && planData?.pharmacyCosts?.length > 0;
 
+    const handleSetAsPrimary = async (pharmacyId) => {
+        const pharmacyItem = { ...pharmacyList.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
+        await putLeadPharmacy(leadId, pharmacyItem);
+        fetchPharmacies(leadId);
+    };
+    const onDeletePharmacy = async (pharmacy) => {
+        await deletePharmacy(pharmacy, null, leadId);
+        if (pharmacy.isPrimary) {
+            const pharmacyToMakePrimary = pharmacyList.find((item) => {
+                if (item.pharmacyId !== pharmacy.pharmacyId) {
+                    return true;
+                }
+            });
+            if (pharmacyToMakePrimary) {
+                handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
+            }
+        }
+    };
+
     const columns = useMemo(() => [
         {
             Header: "Pharmacy",
@@ -46,20 +65,20 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                         hideHeader: true,
                         accessor: "name_address"
                     },
-                  ]
+                ]
                 : [
-                      { hideHeader: true, accessor: "name" },
+                    { hideHeader: true, accessor: "name" },
                     {
                         hideHeader: true,
                         accessor: "address"
                     },
-                  ],
+                ],
         },
     ], [isMobile]);
 
     const tableData = useMemo(() => {
-        if (!pharmacyList || !Array.isArray(planData?.pharmacyCosts)) {return [];}
-        
+        if (!pharmacyList || !Array.isArray(planData?.pharmacyCosts)) { return []; }
+
         return pharmacyList.map((pharmacy, index) => {
             const pharmacyCost = planData?.pharmacyCosts[index];
             return {
@@ -111,20 +130,24 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                     onClose={() => setIsEditModalOpen(false)}
                     hideFooter
                     title="Update Pharmacy"
-                    isDelete
                     modalName="Pharmacy"
-                    onDelete={() => {
-                        deletePharmacy(pharmacyList?.[0], null, leadId);
-                        setIsEditModalOpen(false);
-                        setIsAddModalOpen(true);
-                    }}
+                    isAddPharmacy={pharmacyList.length < 3}
+                    onAdd={() => setIsAddModalOpen(true)}
                 >
-                    <UpdateView data={pharmacyList[0]} />
+                    <UpdateView pharmaciesData={pharmacyList}
+                        handleSetAsPrimary={handleSetAsPrimary}
+                        pharmacyCosts={planData?.pharmacyCosts}
+                        onDelete={(pharmacy) => {
+                            onDeletePharmacy(pharmacy);
+                            setIsEditModalOpen(false);
+                            setIsAddModalOpen(false);
+                        }} />
                 </Modal>
             )}
-            {pharmacyList?.length === 0 && (
+            {isAddModalOpen && (
                 <PharmacyModal
                     open={isAddModalOpen}
+                    pharmaciesPreSelected={pharmacyList}
                     onClose={() => setIsAddModalOpen(false)}
                     userZipCode={contact?.addresses?.[0]?.postalCode}
                     leadId={leadId}

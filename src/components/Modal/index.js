@@ -12,12 +12,12 @@ import RoundButton from "components/RoundButton";
 import useDeviceType from "hooks/useDeviceType";
 
 import styles from "./modal.module.scss";
+import PlusIcon from "components/icons/plus";
 
 export default function Modal({
     actionButtonDisabled,
     actionButtonName,
     children,
-    closeButtonSx,
     contentStyle,
     customFooter,
     endIcon,
@@ -32,6 +32,8 @@ export default function Modal({
     open,
     title,
     maxWidth = "sm",
+    isAddPharmacy,
+    onAdd
 }) {
     const { isMobile } = useDeviceType();
 
@@ -68,7 +70,7 @@ export default function Modal({
                     }}
                 >
                     <span>{title}</span>
-                    <IconButton sx={closeButtonSx} aria-label="close" className={styles.closeButton} onClick={onClose}>
+                    <IconButton aria-label="close" className={styles.closeButton} onClick={onClose}>
                         <CloseIcon />
                     </IconButton>
                 </div>
@@ -113,6 +115,17 @@ export default function Modal({
                     </Box>
                 </DialogActions>
             )}
+            {modalName === "Pharmacy" && <DialogActions className={styles.footer}>
+                <Button
+                    variant="text"
+                    className={styles.addButton}
+                    onClick={onAdd}
+                    disabled={!isAddPharmacy}
+                    endIcon={<PlusIcon disabled={!isAddPharmacy} />}
+                >
+                    Add {modalName}
+                </Button>
+            </DialogActions>}
             {customFooter && customFooter}
         </Dialog>
     );
@@ -136,6 +149,8 @@ Modal.propTypes = {
     open: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     maxWidth: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl"]),
+    isAddPharmacy: PropTypes.bool,
+    onAdd: PropTypes.func,
 };
 
 Modal.defaultProps = {
@@ -152,4 +167,6 @@ Modal.defaultProps = {
     onDelete: null,
     onSave: null,
     maxWidth: "sm",
+    isAddPharmacy: false,
+    onAdd: null,
 };

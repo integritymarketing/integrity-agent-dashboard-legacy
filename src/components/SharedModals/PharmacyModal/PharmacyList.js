@@ -1,10 +1,11 @@
-import React, { useMemo, useCallback } from "react";
+import { useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import makeStyles from "@mui/styles/makeStyles";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { Checkbox } from "components/ui/version-2/Checkbox";
+import { formatAddress } from "utils/addressFormatter";
 
 const usePharmacyListStyles = makeStyles((theme) => ({
     // Style rules for the radio buttons
@@ -102,31 +103,30 @@ const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
     const handleSelectionChange = useCallback(
         (pharmacy) => {
             const isSelected = selectedPharmacies.some(
-                (selectedPharmacy) => selectedPharmacy.pharmacyID === pharmacy.pharmacyID
+                (selectedPharmacy) => selectedPharmacy.pharmacyID === pharmacy.pharmacyID,
             );
             if (isSelected) {
                 setSelectedPharmacies(
-                    selectedPharmacies.filter((selectedPharmacy) => selectedPharmacy.pharmacyID !== pharmacy.pharmacyID)
+                    selectedPharmacies.filter(
+                        (selectedPharmacy) => selectedPharmacy.pharmacyID !== pharmacy.pharmacyID,
+                    ),
                 );
             } else if (!shouldDisableCheckbox && selectedPharmacies.length <= 2) {
                 setSelectedPharmacies([...selectedPharmacies, pharmacy]);
             }
         },
-        [setSelectedPharmacies, shouldDisableCheckbox, selectedPharmacies]
+        [setSelectedPharmacies, shouldDisableCheckbox, selectedPharmacies],
     );
 
     const renderedPharmacyList = useMemo(
         () =>
             list?.map((pharmacy) => {
                 const { name, address1 = "", address2 = "", city = "", state = "", zip = "", pharmacyID } = pharmacy;
-                const address = address1 || address2 || city || state || zip
-                    ? [address1, address2, city, state, zip].filter(Boolean).join(", ")
-                    : "Digital Pharmacy";
                 const isChecked =
                     pharmacyID &&
                     selectedPharmacies.some(
                         (selectedPharmacy) =>
-                            selectedPharmacy.pharmacyId === pharmacyID || selectedPharmacy.pharmacyID === pharmacyID
+                            selectedPharmacy.pharmacyId === pharmacyID || selectedPharmacy.pharmacyID === pharmacyID,
                     );
                 const disableCheckbox = shouldDisableCheckbox && !isChecked;
 
@@ -145,12 +145,23 @@ const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
                         />
                         <ListItemText
                             primary={<span className={classes.primaryText}>{name}</span>}
-                            secondary={<span className={classes.secondaryText}>{address}</span>}
+                            secondary={
+                                <span className={classes.secondaryText}>
+                                    {formatAddress({
+                                        address1,
+                                        address2,
+                                        city,
+                                        stateCode: state,
+                                        postalCode: zip,
+                                        defaultValue: "Digital Pharmacy",
+                                    })}
+                                </span>
+                            }
                         />
                     </ListItemButton>
                 );
             }),
-        [list, classes, shouldDisableCheckbox, handleSelectionChange, selectedPharmacies]
+        [list, classes, shouldDisableCheckbox, handleSelectionChange, selectedPharmacies],
     );
 
     return <List className={classes.listRoot}>{renderedPharmacyList}</List>;
@@ -166,7 +177,7 @@ PharmacyList.propTypes = {
             city: PropTypes.string,
             state: PropTypes.string,
             zip: PropTypes.string,
-        })
+        }),
     ).isRequired,
     setSelectedPharmacies: PropTypes.func.isRequired,
     list: PropTypes.arrayOf(
@@ -178,7 +189,7 @@ PharmacyList.propTypes = {
             city: PropTypes.string,
             state: PropTypes.string,
             zip: PropTypes.string,
-        })
+        }),
     ).isRequired,
 };
 
