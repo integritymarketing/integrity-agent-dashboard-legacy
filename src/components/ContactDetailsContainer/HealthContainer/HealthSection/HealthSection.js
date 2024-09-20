@@ -77,6 +77,12 @@ const HealthDetailsSection = () => {
         return [];
     }, [pharmacies]);
 
+
+    const sortedPharmaciesData = useMemo(() => {
+        return [...modifiedPharmacies].sort((a, b) => b.isPrimary - a.isPrimary);
+    }, [modifiedPharmacies]);
+
+
     const handleSetAsPrimary = async (pharmacyId) => {
         const pharmacyItem = { ...pharmacies.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
         await putLeadPharmacy(leadId, pharmacyItem);
@@ -119,8 +125,8 @@ const HealthDetailsSection = () => {
         const selectPackageDetails = selectedPackage
             ? `${userQuantity} X ${selectedPackage.packageDisplayText} ${getFrequencyValue(daysOfSupply)}`
             : dosageDetails
-            ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
-            : "";
+                ? `${userQuantity} ${dosageDetails.dosageFormName.toLowerCase()} ${getFrequencyValue(daysOfSupply)}`
+                : "";
 
         return (
             <div className={className}>
@@ -195,7 +201,7 @@ const HealthDetailsSection = () => {
                     headerTitle="Pharmacies"
                     onAddClick={pharmacies?.length > 3 ? null : onAddNewPharmacy}
                     disabled={pharmacies?.length >= 3}
-                    items={modifiedPharmacies}
+                    items={sortedPharmaciesData}
                     provider={true}
                     isLoading={pharmacyLoading}
                     itemRender={(item) => {
