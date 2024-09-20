@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Media from "react-media";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -98,7 +98,7 @@ const EFFECTIVE_YEARS_SUPPORTED =
 
 function useQuery() {
     const { search } = useLocation();
-    return React.useMemo(() => new URLSearchParams(search), [search]);
+    return useMemo(() => new URLSearchParams(search), [search]);
 }
 
 const PlansPage = () => {
@@ -143,7 +143,6 @@ const PlansPage = () => {
     const [providers, setProviders] = useState([]);
     const [prescriptions, setPrescriptions] = useState([]);
     const [pharmacies, setPharmacies] = useState([]);
-    const [selectedPharmacy, setSelectedPharmacy] = useState(null);
     const [selectedPlans, setSelectedPlans] = useState(
         initialSelectedPlans.reduce((acc, p) => {
             acc[p.id] = true;
@@ -201,21 +200,11 @@ const PlansPage = () => {
                 clientsService.getLeadProviders(id),
                 clientsService.getLeadPharmacies(id),
             ]);
+
             setContact(contactData);
             setProviders(providerData.providers);
             setPrescriptions(prescriptionData);
             setPharmacies(pharmacyData);
-
-            // Returns primary pharmacy
-            const primaryPharmacy = pharmacyData.find((pharmacy) => pharmacy.isPrimary);
-
-            if (primaryPharmacy) {
-                // Sets the primary pharmacy as the selectedPharmacy
-                setSelectedPharmacy(primaryPharmacy);
-            } else {
-                const mailOrder = pharmacyData.find((pharmacy) => pharmacy.isMailOrder);
-                setSelectedPharmacy(mailOrder);
-            }
 
             const { birthdate, shouldHideSpecialistPrompt } = contactData;
             const payload = {
@@ -380,10 +369,6 @@ const PlansPage = () => {
         }
         setSelectedPlans({});
         healthQuoteResultsUpdatedEvent("planType", value);
-    };
-
-    const handlePharmacyFilterChange = (payload) => {
-        setSelectedPharmacy(payload);
     };
 
     const refreshPlans = useCallback(async () => {
@@ -702,13 +687,7 @@ const PlansPage = () => {
                                         </div>
 
                                         <div className={`${styles["filter-section"]}`}>
-                                            {effectiveDate && (
-                                                <PharmacyFilter
-                                                    pharmacies={pharmacies}
-                                                    selectedPharmacy={selectedPharmacy}
-                                                    onChange={(payload) => handlePharmacyFilterChange(payload)}
-                                                />
-                                            )}
+                                            {effectiveDate && <PharmacyFilter />}
                                         </div>
 
                                         <div className={`${styles["filter-section"]}`}>
@@ -794,7 +773,6 @@ const PlansPage = () => {
                                                 pharmacies={pharmacies}
                                                 planType={planType}
                                                 selectedPlans={selectedPlans}
-                                                selectedPharmacy={selectedPharmacy}
                                                 setSelectedPlans={setSelectedPlans}
                                                 setSessionData={setSessionData}
                                                 refresh={refreshPlans}

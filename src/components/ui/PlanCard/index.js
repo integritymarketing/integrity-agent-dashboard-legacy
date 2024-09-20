@@ -17,6 +17,7 @@ import { PLAN_TYPE_ENUMS } from "../../../constants";
 import { Button } from "../Button";
 import Rating from "../Rating";
 import EnrollBack from "images/enroll-btn-back.svg";
+import { usePharmacyContext } from "providers/PharmacyProvider/usePharmacyContext";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -55,20 +56,21 @@ export default function PlanCard({
     isCompareDisabled,
     refresh,
     leadId,
-    selectedPharmacy,
 }) {
     const [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
     const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
     const { contactId } = useParams();
     const { fireEvent } = useAnalytics();
 
-    const { logoURL, estimatedCostCalculationRxs } = planData;
+    const { selectedPharmacy } = usePharmacyContext();
+
+    const { logoURL, estimatedCostCalculationRxs, estimatedMailOrderCostCalculationRx } = planData;
 
     const selectedPharmacyCosts = estimatedCostCalculationRxs.find(
         (rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId,
     );
 
-    const mailOrder = estimatedCostCalculationRxs.find((rx) => rx.isMailOrder);
+    const mailOrder = estimatedMailOrderCostCalculationRx;
 
     const checkForImage = logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
 
@@ -120,7 +122,7 @@ export default function PlanCard({
                         className={"monthly"}
                         onClick={() => {
                             if (planType === "MA" && isMobile) {
-                                setBreakdownCollapsed(isMobile && !breakdownCollapsed);
+                                return setBreakdownCollapsed(isMobile && !breakdownCollapsed);
                             } else {
                                 return false;
                             }
@@ -147,7 +149,7 @@ export default function PlanCard({
                                         : currencyFormatter.format(
                                               Number(
                                                   selectedPharmacyCosts.isMailOrder
-                                                      ? mailOrder
+                                                      ? mailOrder?.estMonthlyRxDrugCost
                                                       : selectedPharmacyCosts?.estMonthlyRxDrugCost,
                                               ),
                                           )}
@@ -246,6 +248,7 @@ PlanCard.propTypes = {
         nonLicensedPlan: PropTypes.bool,
         crossUpSellPlanOptions: PropTypes.object,
         estimatedCostCalculationRxs: PropTypes.object,
+        estimatedMailOrderCostCalculationRx: PropTypes.object,
         estimatedAnnualDrugCostPartialYear: PropTypes.number,
         drugPremium: PropTypes.number,
     }).isRequired,

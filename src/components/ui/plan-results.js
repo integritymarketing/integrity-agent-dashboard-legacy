@@ -25,7 +25,6 @@ const PlanResults = ({
     selectedPlans,
     setSessionData,
     refresh,
-    selectedPharmacy,
 }) => {
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
@@ -61,7 +60,6 @@ const PlanResults = ({
                     isCompareDisabled={
                         Object.values(selectedPlans).filter(Boolean).length >= 3 && !selectedPlans[plan.id]
                     }
-                    selectedPharmacy={selectedPharmacy}
                     refresh={refresh}
                     leadId={leadId}
                 />,

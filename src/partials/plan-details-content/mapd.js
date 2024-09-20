@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useLocation } from "react-router-dom";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import MapdCostTable from "components/ui/PlanDetailsTable/shared/cost-table";

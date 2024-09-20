@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 import MonthlyCostTable from "./monthly-cost-table";
 import MonthlyCostCompareTable from "./monthly-cost-comapare-table";
+import { usePharmacyContext } from "providers/PharmacyProvider/usePharmacyContext";
 
 const months = [
     "January",
@@ -19,6 +20,14 @@ const months = [
     "November",
     "December",
 ];
+
+const determinePharmacyCosts = (planData) => {
+    const { selectedPharmacy } = usePharmacyContext();
+
+    return selectedPharmacy?.name == "Mail Order"
+        ? planData?.estimatedMailOrderCostCalculationRx
+        : planData?.estimatedCostCalculationRxs.find((rx) => rx.pharmacyId == selectedPharmacy.pharmacyId);
+};
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -36,13 +45,13 @@ function PremiumLabel() {
 }
 
 function PremiumCell({ planData }) {
-    const monthlyPremium = planData.estimatedCostCalculationRx?.monthlyPlanPremium || 0;
+    const pharmacyCosts = determinePharmacyCosts(planData);
+    const monthlyPremium = pharmacyCosts?.monthlyPlanPremium || 0;
+
     return (
         <>
             <span className={"value"}>
-                <span className={"currency-value-blue"}>
-                    {currencyFormatter.format(monthlyPremium)}
-                </span>
+                <span className={"currency-value-blue"}>{currencyFormatter.format(monthlyPremium)}</span>
                 <span className={"value-subtext"}>/month</span>
             </span>
         </>
@@ -66,7 +75,9 @@ function TotalEstLabel({ effectiveMonth, effectiveYear }) {
 }
 
 export function EstRxValue({ planData, monthNumber }) {
-    const drugCost = planData.estimatedCostCalculationRx?.estimatedYearlyRxDrugCost || 0;
+    const pharmacyCosts = determinePharmacyCosts(planData);
+    const drugCost = pharmacyCosts?.estimatedYearlyRxDrugCost || 0;
+
     return (
         <>
             <span className={"value"}>
@@ -99,13 +110,13 @@ function getShortFormMonthSpan(monthNumber) {
 }
 
 export function TotalEstValue({ planData, monthNumber }) {
-    const totalDrugCost = planData.estimatedCostCalculationRx?.estimatedYearlyTotalCost || 0;
+    const pharmacyCosts = determinePharmacyCosts(planData);
+    const totalDrugCost = pharmacyCosts?.estimatedYearlyTotalCost || 0;
+
     return (
         <>
             <span className={"value"}>
-                <span className={"currency-value-blue"}>
-                    {currencyFormatter.format(totalDrugCost)}
-                </span>
+                <span className={"currency-value-blue"}>{currencyFormatter.format(totalDrugCost)}</span>
                 <i>
                     <span className={"value-subtext"}>{getShortFormMonthSpan(monthNumber)}</span>
                 </i>
@@ -148,13 +159,13 @@ const CostTable = ({ planData }) => {
                 ],
             },
         ],
-        []
+        [],
     );
     const data = [
         {
             label: <PremiumLabel />,
             value: <PremiumCell planData={planData} />,
-        }
+        },
     ];
 
     if (PLAN_TYPE_ENUMS[planData.planType] === "MAPD" || PLAN_TYPE_ENUMS[planData.planType] === "PDP") {
@@ -240,7 +251,7 @@ export function CostCompareTable({ plans, effectiveDate }) {
                 ],
             },
         ],
-        [clonedPlans]
+        [clonedPlans],
     );
     const data = [
         {

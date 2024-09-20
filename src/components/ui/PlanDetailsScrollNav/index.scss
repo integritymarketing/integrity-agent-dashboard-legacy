@@ -1,51 +1,69 @@
 .scroll-nav {
-  flex-grow: 1;
-  width: 262px;
-  position: sticky;
-  top: 0px;
-  z-index: 1;
+    flex-grow: 1;
+    width: 262px;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
 
-  .navigation2 {
-    .nav-header {
-      font-weight: normal;
-      font-size: 24px;
-      line-height: 130%;
-      color: #052A63;
-      margin-bottom: 16px;
-      letter-spacing: 0.18px;
+    .navigation2 {
+        .nav-header {
+            font-weight: normal;
+            font-size: 24px;
+            line-height: 130%;
+            color: #052a63;
+            margin-bottom: 16px;
+            letter-spacing: 0.18px;
+        }
+
+        li {
+            font-family: Lato;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 18px;
+            line-height: 130%;
+            cursor: pointer;
+            color: #434a51;
+            margin-bottom: 16px;
+            margin-left: 18px;
+
+            &.selected {
+                font-family: Lato;
+                font-style: normal;
+                font-size: 18px;
+                line-height: 130%;
+                padding-left: 16px;
+                border-left-width: 5px;
+                border-left-color: #4178ff;
+                border-left-style: solid;
+                color: #4178ff;
+            }
+        }
     }
 
-    li {
-      font-family: Lato;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 18px;
-      line-height: 130%;
-      cursor: pointer;
-      color: #434A51;
-      margin-bottom: 16px;
-      margin-left: 18px;
+    .plan-details-actions {
+        width: 80%;
+        padding-top: 40px;
+        opacity: 0;
+        .plan-details-effective-date-select {
+            border-radius: 4px !important;
+        }
+    }
+}
 
-      &.selected {
-        font-family: Lato;
-        font-style: normal;
-        font-size: 18px;
+#pharmacy-filter-section {
+    padding-left: 18px;
+
+    legend {
+        font-weight: normal;
+        font-size: 24px;
         line-height: 130%;
-        padding-left: 16px;
-        border-left-width: 5px;
-        border-left-color: #4178FF;
-        border-left-style: solid;
-        color: #4178FF;
-      }
+        color: #052a63;
+        margin-bottom: 16px;
+        letter-spacing: 0.18px;
     }
-  }
 
-  .plan-details-actions {
-    width: 80%;
-    padding-top: 40px;
-    opacity: 0;
-    .plan-details-effective-date-select {
-      border-radius: 4px !important;
+    label {
+        margin-bottom: 16px;
+        margin-left: 18px;
     }
-  }
 }
