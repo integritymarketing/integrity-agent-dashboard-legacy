@@ -196,7 +196,9 @@ const appProtectedRoutes = [
         path: "/plans/:contactId/compare/:planIds/:effectiveDate",
         component: (
             <ContactDetailsProvider>
-                <ComparePlansPage />
+                <PharmacyProvider>
+                    <ComparePlansPage />
+                </PharmacyProvider>
             </ContactDetailsProvider>
         ),
     },
