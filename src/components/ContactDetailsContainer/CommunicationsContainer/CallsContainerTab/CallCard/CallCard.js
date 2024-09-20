@@ -13,6 +13,8 @@ import { CallHistory, CallRecording, InboundCall, OutboundCall } from "@integrit
 const CallCard = ({ call }) => {
     const [isMobile, setIsMobile] = useState(false);
 
+    const isMissedCall = call.callStatusReason === "no-answer";
+
     const callIcons = {
         missed: <CallHistory className={styles.callIconSize} size="md" color="#C81E27" />,
         inbound: <InboundCall className={styles.callIconSize} size="md" color="#4178FF" />,
@@ -33,10 +35,10 @@ const CallCard = ({ call }) => {
                         <div className={styles.callContent}>
                             <IconButton
                                 size="lg"
-                                color={call.callStatus === "absent" ? "error" : "primary"}
-                                className={`${styles.callIcon} ${call.callStatus === "absent" ? styles.callIconMissed : styles.callIconAnswered}`}
+                                color={isMissedCall ? "error" : "primary"}
+                                className={`${styles.callIcon} ${isMissedCall ? styles.callIconMissed : styles.callIconAnswered}`}
                             >
-                                {call.callStatus === "absent" ? callIcons.missed : callIcons[call.callType]}
+                                {isMissedCall ? callIcons.missed : callIcons[call.callType]}
                             </IconButton>
                             <div className={styles.callDetailsWrapper}>
                                 <div className={styles.callDetails}>
@@ -50,13 +52,13 @@ const CallCard = ({ call }) => {
                                     </div>
                                     <div className={styles.callDuration}>
                                         <Typography variant="body1">
-                                            {call.callStatus === "absent" ? <strong>Missed</strong> : calculateCallDuration(call.duration)}
+                                            {isMissedCall ? <strong>Missed</strong> : calculateCallDuration(call.duration)}
                                         </Typography>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {call.callStatus != "absent" &&
+                        {!isMissedCall &&
                             <div className={styles.callCtasWrapper}>
                                 {call.url &&
                                     <Button
@@ -73,7 +75,7 @@ const CallCard = ({ call }) => {
                             </div>
                         }
                     </Stack>
-                    {!call.hasViewed && <div className={styles.isUnviewed}></div>}
+                    {!call.hasViewed && isMissedCall && <div className={styles.isUnviewed}></div>}
                 </Paper>
             </div>
         </>
