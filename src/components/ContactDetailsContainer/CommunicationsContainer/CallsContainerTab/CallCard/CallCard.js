@@ -75,7 +75,7 @@ const CallCard = ({ call }) => {
                             </div>
                         }
                     </Stack>
-                    {!call.hasViewed && isMissedCall && <div className={styles.isUnviewed}></div>}
+                    {!call.hasViewed && <div className={`${styles.isUnviewed} ${isMissedCall ? styles.isUnviewedMissed : ""}`}></div>}
                 </Paper>
             </div>
         </>

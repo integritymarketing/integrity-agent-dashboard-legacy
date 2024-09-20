@@ -18,13 +18,13 @@ const CallsContainerTab = () => {
     const { leadId } = useParams();
     const { leadDetails } = useLeadDetails();
     const leadPhone = leadDetails.phones?.find(p => p?.leadPhone && !p?.inactive)?.leadPhone;
-    const { getCallsList, callsList = [], isLoadingCallsList } = useCallsHistory();
+    const { getCallsList, setCallsToViewed, callsList = [], isLoadingCallsList } = useCallsHistory();
     const { isCallScriptOpen, setIsCallScriptOpen, initiateCall } = useOutboundCall();
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        if (leadId) getCallsList(leadId);
-    }, [getCallsList, leadId]);
+        if (callsList.length) setCallsToViewed();
+    }, [callsList]);
 
     const handleCall = useCallback(() => {
         initiateCall(leadId, leadPhone);
@@ -63,7 +63,10 @@ const CallsContainerTab = () => {
             {isCallScriptOpen &&
                 <CallScriptModal
                     modalOpen={isCallScriptOpen}
-                    handleClose={() => setIsCallScriptOpen(false)}
+                    handleClose={() => {
+                        setIsCallScriptOpen(false);
+                        getCallsList(leadId);
+                    }}
                     leadId={leadId}
                     countyFips={leadDetails?.addresses?.[0]?.countyFips}
                     postalCode={leadDetails?.addresses?.[0]?.postalCode}

@@ -8,11 +8,11 @@
     left: 0;
 }
 
-.tabTexts {
+.tabCountContainer {
     position: relative;
 }
 
-.tabTextsCount {
+.tabCount {
     position: absolute;
     transform: translate(112%, -50%);
     padding: 2px 2px;
@@ -20,6 +20,7 @@
     color: #fff;
     font-size: 12px;
     background-color: #4178ff;
+    min-width: 20px;
 }
 
 .selectedTab {

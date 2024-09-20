@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Container, Tabs, Tab, Grid, Box } from "@mui/material";
 import TextIcon from "components/icons/version-2/TextIcon";
 import styles from "./CommunicationsContainer.module.scss";
@@ -9,6 +10,7 @@ import SOAsContainerTab from "./SOAsContainerTab";
 import useQueryParams from "hooks/useQueryParams";
 import TextsTab from "./TextsTab";
 import { useWindowSize } from "hooks/useWindowSize";
+import { useCallsHistory } from "providers/ContactDetails/ContactDetailsContext";
 
 const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitial }) => {
     const params = useQueryParams();
@@ -16,6 +18,10 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
     const { width: windowWidth } = useWindowSize();
     const isMobile = windowWidth <= 784;
     const [selectedTab, setSelectedTab] = useState("texts");
+
+    const { leadId } = useParams();
+    const { getCallsList, callsList = [] } = useCallsHistory();
+    const unviewedCallCount = callsList.filter(c => !c.hasViewed).length;
 
     const tabs = {
         texts: {
@@ -36,6 +42,10 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
     }
 
     useEffect(() => {
+        if (leadId) getCallsList(leadId);
+    }, [getCallsList, leadId])
+
+    useEffect(() => {
         if (tabSelectedInitial) {
             setSelectedTab(tabSelectedInitial);
             params.set("tab", tabSelectedInitial);
@@ -43,6 +53,7 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
     }, [tabSelectedInitial]);
 
     const handleTabChange = (newValue) => {
+        if (selectedTab === "calls" && newValue != "calls") getCallsList(leadId);
         setSelectedTab(newValue);
         params.set("tab", newValue);
         setTabSelectedInitial(newValue);
@@ -59,8 +70,8 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                             onClick={() => handleTabChange("texts")}
                             iconPosition="end"
                             label={
-                                <div className={styles.tabTexts}>
-                                    {!isMobile && "Texts"} <span className={styles.tabTextsCount}>11</span>
+                                <div className={styles.tabCountContainer}>
+                                    {!isMobile && "Texts"} <span className={styles.tabCount}>11</span>
                                 </div>
                             }
                         />
@@ -69,7 +80,13 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                             icon={<CallIcon />}
                             onClick={() => handleTabChange("calls")}
                             iconPosition="end"
-                            label={isMobile ? "" : "Calls"}
+                            label={
+                                <div className={styles.tabCountContainer}>
+                                    {!isMobile && "Calls"} {unviewedCallCount > 0 && (
+                                        <span className={styles.tabCount}>{unviewedCallCount}</span>
+                                    )}
+                                </div>
+                            }
                         />
                         <Tab
                             className={`${styles.tab} ${selectedTab === "scope-of-appointment" ? styles.selectedTab : ""}`}

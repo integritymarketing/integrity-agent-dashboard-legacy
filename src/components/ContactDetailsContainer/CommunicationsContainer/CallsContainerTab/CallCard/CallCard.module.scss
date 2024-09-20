@@ -126,11 +126,16 @@
 
         .isUnviewed {
             width: 4px;
-            height: var(--sizing-972-px, 72px);
+            height: 120px;
             position: absolute;
-            background: var(--error-main, #C81E27);
+            background: #4178FF;
             border-top-left-radius: var(--border-radius-x-sm-4, 4px);
             border-bottom-left-radius: var(--border-radius-x-sm-4, 4px);
+        }
+
+        .isUnviewedMissed {
+            background: var(--error-main, #C81E27);
+            height: var(--sizing-972-px, 72px);
         }
     }
 }

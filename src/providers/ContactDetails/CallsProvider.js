@@ -7,6 +7,7 @@ export const CallsProvider = ({ children }) => {
     const URL = `${process.env.REACT_APP_COMMUNICATION_API}`;
 
     const { Get: fetchCallsList, loading: isLoadingCallsList, error: callsListError } = useFetch(URL);
+    const { Post: updateCallsViewed } = useFetch(`${URL}/Call/Records/Viewed`);
 
     const [callsList, setCallsList] = useState([]);
 
@@ -16,8 +17,17 @@ export const CallsProvider = ({ children }) => {
         setCallsList(data || []);
     }, [fetchCallsList]);
 
+    const setCallsToViewed = useCallback(async () => {
+        const unviewedCallIds = callsList?.filter(c => !c.hasViewed)?.map(c => c.callLogId) || [];
+        if (unviewedCallIds.length) {
+            const payload = { callLogIds: unviewedCallIds };
+            updateCallsViewed(payload);
+        }
+    }, [callsList, updateCallsViewed]);
+
     const contextValue = useMemo(() => ({
         getCallsList,
+        setCallsToViewed,
         callsList,
         callsListError,
         isLoadingCallsList
