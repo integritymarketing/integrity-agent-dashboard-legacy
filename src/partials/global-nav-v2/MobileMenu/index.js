@@ -67,7 +67,12 @@ const MobileMenu = ({ onClose }) => {
         {
             label: "LeadCENTER",
             action: () => {
-                window.open(`${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`, "_blank");
+                window.open(
+                    `${
+                        process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI
+                    }/LeadCenterSSO/?redirectTo=${encodeURIComponent("campaigns")}`,
+                    "_blank",
+                );
                 onClose();
             },
         },

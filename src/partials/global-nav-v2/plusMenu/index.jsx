@@ -86,7 +86,12 @@ export default function PlusMenu() {
                     </MenuItem>
                     <MenuItem
                         onClick={() => {
-                            window.open(`${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`, "_blank");
+                            window.open(
+                                `${
+                                    process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI
+                                }/LeadCenterSSO/?redirectTo=${encodeURIComponent("campaigns")}`,
+                                "_blank"
+                            );
                         }}
                         className={styles.menuItem}
                         sx={{ padding: "6px 8px" }}
