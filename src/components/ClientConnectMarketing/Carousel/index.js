@@ -5,6 +5,8 @@ import ChevronLeft from "components/icons/Marketing/chevronLeft";
 import { Box, IconButton } from "@mui/material";
 import styles from "./styles.module.scss";
 
+const cardGap = 24;
+
 export function ScrollerCard(props) {
     return <div className={styles.scorllerCard}>{props.children}</div>;
 }
@@ -19,15 +21,15 @@ const Scroller = ({ cards, cardRenderer }) => {
         width: 0,
     });
 
-    const scrollerButtonHandler = useCallback((direction, action) => {
-        setCurrentIndex((val) => {
-            const newIndex = val + direction;
-            if (cards.length - 2 == newIndex && action === "right") {
-                return Math.max(Math.max(cards.length, newIndex), 0);
-            }
-            return Math.max(Math.min(cards.length - 1, newIndex), 0);
-        });
-    }, []);
+    const scrollerButtonHandler = useCallback(
+        (direction) => {
+            setCurrentIndex((val) => {
+                const newIndex = val + direction;
+                return Math.max(Math.min(cards.length - 1, newIndex), 0);
+            });
+        },
+        [cards.length],
+    );
 
     useEffect(() => {
         const debouncedHandleResize = debounce(function handleResize() {
@@ -47,10 +49,12 @@ const Scroller = ({ cards, cardRenderer }) => {
     useEffect(() => {
         const { width: scrollerCardWidth } = cardsContainerRef.current.children[0].getBoundingClientRect();
         setShowLeftScrollButton(currentIndex * scrollerCardWidth > 0);
-        setShowRightScrollButton((cards.length - currentIndex) * (scrollerCardWidth + 10) > dimensions.width + 10);
+        setShowRightScrollButton(
+            (cards.length - currentIndex) * (scrollerCardWidth + cardGap) > dimensions.width + cardGap,
+        );
         cardsContainerRef.current.scroll({
             top: 0,
-            left: currentIndex * scrollerCardWidth + currentIndex * 10,
+            left: currentIndex * scrollerCardWidth + currentIndex * cardGap,
             behavior: "smooth",
         });
     }, [dimensions.height, dimensions.width, currentIndex, cards.length]);
@@ -60,7 +64,7 @@ const Scroller = ({ cards, cardRenderer }) => {
             {showLeftScrollButton && (
                 <Box
                     className={`${styles.scrollButton} ${styles.scrollButtonLeft}`}
-                    onClick={() => scrollerButtonHandler(-1, "left")}
+                    onClick={() => scrollerButtonHandler(-1)}
                 >
                     <IconButton size="lg" className={`${styles.integrityIcon} ${styles.integrityIconBg}`}>
                         <ChevronLeft />
@@ -73,7 +77,7 @@ const Scroller = ({ cards, cardRenderer }) => {
             {showRightScrollButton && (
                 <Box
                     className={`${styles.scrollButton} ${styles.scrollButtonRight}`}
-                    onClick={() => scrollerButtonHandler(1, "right")}
+                    onClick={() => scrollerButtonHandler(1)}
                 >
                     <IconButton size="lg" className={`${styles.integrityIcon} ${styles.integrityIconBg}`}>
                         <ChevronRight />
