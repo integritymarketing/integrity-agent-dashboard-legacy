@@ -15,6 +15,12 @@
     }
 }
 
+.messageBox.inbound {
+    justify-content: flex-start;
+    margin-right: auto;
+    margin-left: 0;
+}
+
 .chatIconBoxBroadcast {
     display: flex;
     justify-content: flex-end;
@@ -39,10 +45,30 @@
     color: #052a63;
     display: inline-block;
 }
-
-.messageBoxSystem {
-    margin-right: auto;
-    margin-left: 0;
-    border-left: solid 3px #4178ff;
+.isUnread {
+    border-right: solid 3px #4178ff;
     font-weight: bold;
+}
+
+.inbound.isUnread {
+    border-left: solid 3px #4178ff;
+    border-right: none;
+}
+
+.iconAndContentBox {
+    display: flex;
+    gap: 10px;
+}
+
+.sendCampaignButton button {
+    border-radius: 25px;
+    border: none;
+    background: #4178ff;
+    padding: 5px 15px;
+    font-size: 14px;
+    font-weight: normal;
+    display: flex;
+    justify-content: flex-start;
+    cursor: pointer;
+    margin-bottom: 15px;
 }

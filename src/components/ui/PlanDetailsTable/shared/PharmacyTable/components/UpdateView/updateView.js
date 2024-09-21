@@ -21,12 +21,11 @@ function UpdateView({ pharmaciesData, pharmacyCosts, onDelete, handleSetAsPrimar
     const handleDelete = useCallback((pharmacy) => onDelete(pharmacy), [onDelete]);
     const handleSetPrimary = useCallback((pharmacyId) => handleSetAsPrimary(pharmacyId), [handleSetAsPrimary]);
 
- 
-  // Sort pharmaciesData to ensure primary pharmacy is on top
-  const sortedPharmaciesData = useMemo(() => {
-    return [...pharmaciesData].sort((a, b) => b.isPrimary - a.isPrimary);
-  }, [pharmaciesData]);
- 
+    // Sort pharmaciesData to ensure primary pharmacy is on top
+    const sortedPharmaciesData = useMemo(() => {
+        return [...pharmaciesData].sort((a, b) => b.isPrimary - a.isPrimary);
+    }, [pharmaciesData]);
+
     return (
         <>
             <div className={styles.heading}>{CURRENT_PHARMACIES}</div>
@@ -52,16 +51,18 @@ function UpdateView({ pharmaciesData, pharmacyCosts, onDelete, handleSetAsPrimar
                         <div className={styles.content}>
                             <div className={styles.title}>
                                 <div className={styles.name}>{name}</div>
+                            </div>
+                            <div className={styles.pharmacyDeleteAction}>
+                                <div className={styles.phoneNo}>{formatPhoneNumber(pharmacyPhone)}</div>
                                 <Button
                                     variant="text"
                                     className={styles.ctaStyle}
                                     onClick={() => handleDelete(pharmacy)}
                                     endIcon={<DeleteIcon />}
                                 >
-                           <div className={styles.delete}>{DELETE}</div>         
+                                    <div className={styles.delete}>{DELETE}</div>
                                 </Button>
                             </div>
-                            {isDigital && <div className={styles.phoneNo}>{formatPhoneNumber(pharmacyPhone)}</div>}
                             <div className={styles.digitalContainer}>
                                 {isCovered ? <InNetworkIcon /> : <OutNetworkIcon />}
                                 <div className={styles.alignColumn}>

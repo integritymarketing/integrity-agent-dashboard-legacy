@@ -34,10 +34,16 @@
             margin-bottom: 4px;
         }
 
+        .pharmacyDeleteAction {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
         .phoneNo {
             font-size: 14px;
             color: #717171;
-            margin-bottom: 16px;
         }
 
         .address {
@@ -49,7 +55,7 @@
             border-radius: 4px;
             padding: 8px 0;
         }
-        
+
         .delete {
             font-size: 14px;
             line-height: 18px;

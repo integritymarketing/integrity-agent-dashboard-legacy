@@ -33,7 +33,7 @@ export default function Modal({
     title,
     maxWidth = "sm",
     isAddPharmacy,
-    onAdd
+    onAdd,
 }) {
     const { isMobile } = useDeviceType();
 
@@ -60,6 +60,7 @@ export default function Modal({
                     borderRadius: "8px 8px 0 0",
                     color: "#052a63",
                     fontFamily: "Lato",
+                    fontWeight: "400px",
                 }}
             >
                 <div
@@ -115,17 +116,19 @@ export default function Modal({
                     </Box>
                 </DialogActions>
             )}
-            {modalName === "Pharmacy" && <DialogActions className={styles.footer}>
-                <Button
-                    variant="text"
-                    className={styles.addButton}
-                    onClick={onAdd}
-                    disabled={!isAddPharmacy}
-                    endIcon={<PlusIcon disabled={!isAddPharmacy} />}
-                >
-                    Add {modalName}
-                </Button>
-            </DialogActions>}
+            {modalName === "Pharmacy" && (
+                <DialogActions className={styles.footer}>
+                    <Button
+                        variant="text"
+                        className={styles.addButton}
+                        onClick={onAdd}
+                        disabled={!isAddPharmacy}
+                        endIcon={<PlusIcon disabled={!isAddPharmacy} />}
+                    >
+                        Add {modalName}
+                    </Button>
+                </DialogActions>
+            )}
             {customFooter && customFooter}
         </Dialog>
     );

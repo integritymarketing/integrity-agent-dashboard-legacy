@@ -1,74 +1,33 @@
-import React from "react";
 import PropTypes from "prop-types";
-import ChatMessage from "components/icons/version-2/ChatMessage";
-import BroadCast from "components/icons/version-2/Broadcast";
-import { Button } from "@mui/material";
-import ArrowRightCircle from "components/icons/version-2/ArrowRightCircle";
+import InboundMessage from "./InboundMessage";
+import OutboundMessage from "./OutboundMessage";
+import FreeFormMessage from "./FreeFormMessage";
+import { convertAndFormatUTCDateToLocalDate } from "utils/dates";
 
-import styles from "./MessageCard.module.scss";
+const MessageCard = ({ smsType, data }) => {
+    const { formattedDate, formattedTime } = convertAndFormatUTCDateToLocalDate(data.createdDateTime);
 
-const MessageCard = ({ type }) => {
-    if (type === "MY_TEXT_MESSAGE") {
-        return (
-            <div className={styles.messageBox}>
-                <div className={styles.dateTimeBox}>
-                    <span className={styles.timeText}>5/25/24</span>
-                    <br />
-                    4:19 pm
-                </div>
-                <div className={styles.messageTextBox}>
-                    It is a long established fact that a reader will be distracted by the readable content of a page
-                    when looking at its layout.
-                </div>
-                <div className={styles.chatIconBox}>
-                    <ChatMessage />
-                </div>
-            </div>
-        );
-    } else if (type === "MY_BROADCAST_MESSAGE") {
-        return (
-            <div className={styles.messageBox}>
-                <div className={styles.messageTextBoxBroadcast}>
-                    <div className={styles.dateTimeBox}>
-                        <span className={styles.timeText}>5/25/24</span>
-                        <br />
-                        4:19 pm
-                    </div>
-                    [Campaign specific messaging goes here]
-                </div>
-                <div className={styles.chatIconBoxBroadcast}>
-                    <BroadCast />
-                    <div className={styles.sendNewTextButton}>
-                        <Button variant="contained" color="primary" endIcon={<ArrowRightCircle />} onClick={() => {}}>
-                            View campaign
-                        </Button>
-                    </div>
-                </div>
-            </div>
-        );
-    } else if (type === "SYSTEM_TEXT_MESSAGE") {
-        return (
-            <div className={`${styles.messageBox} ${styles.messageBoxSystem}`}>
-                <div className={styles.chatIconBox}>
-                    <ChatMessage />
-                </div>
-                <div className={styles.dateTimeBox}>
-                    <span className={styles.timeText}>5/25/24</span>
-                    <br />
-                    4:19 pm
-                </div>
-                <div className={styles.messageTextBox}>
-                    It is a long established fact that a reader will be distracted by the readable content of a page
-                    when looking at its layout.
-                </div>
-            </div>
-        );
+    switch (smsType) {
+        case "outbound":
+            return <OutboundMessage formattedDate={formattedDate} formattedTime={formattedTime} smsContent={data.smsContent} />;
+        case "inbound":
+            return <InboundMessage formattedDate={formattedDate} formattedTime={formattedTime} smsContent={data.smsContent} hasViewed={data.hasViewed} />;
+        default:
+            if (!data.isFreeForm) {
+                return <FreeFormMessage formattedDate={formattedDate} formattedTime={formattedTime} hasViewed={data.hasViewed} />;
+            }
+            return null;
     }
-    return null;
 };
 
 MessageCard.propTypes = {
-    type: PropTypes.string.isRequired,
+    smsType: PropTypes.string.isRequired,
+    data: PropTypes.shape({
+        createdDateTime: PropTypes.string.isRequired,
+        smsContent: PropTypes.string,
+        hasViewed: PropTypes.bool,
+        isFreeForm: PropTypes.bool,
+    }).isRequired,
 };
 
 export default MessageCard;

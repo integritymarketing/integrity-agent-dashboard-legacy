@@ -18,6 +18,16 @@ export const formatServerDate = (dateString) => {
     return format(date, "yyyy-MM-dd");
 };
 
+export const convertAndFormatUTCDateToLocalDate = (dateString, dateFormat = "MM/DD/YY", timeFormat = "h:mm A") => {
+    let date;
+    const inputFormat = "MM/DD/YYYY HH:mm:ss";
+    date = moment.utc(dateString, inputFormat).local();
+    return {
+        formattedDate: date.format(dateFormat),
+        formattedTime: date.format(timeFormat),
+    };
+};
+
 export const isLiveByDate = (goLiveDate = "2022/10/15") => {
     const now = moment();
     const result = moment(moment().year() + goLiveDate, "YYYY/MM/DD");
@@ -242,8 +252,9 @@ export const callDuration = (dateLeft, dateRight) => {
     });
     let { hours, minutes, seconds } = diffTime;
 
-    return `${hours > 9 ? hours : "0" + hours}:${minutes > 9 ? minutes : "0" + minutes}:${seconds > 9 ? seconds : "0" + seconds
-        }`;
+    return `${hours > 9 ? hours : "0" + hours}:${minutes > 9 ? minutes : "0" + minutes}:${
+        seconds > 9 ? seconds : "0" + seconds
+    }`;
 };
 
 export const formattedTime = (time) => {
@@ -319,24 +330,22 @@ export const getAgeFromBirthDate = (birthdate) => {
 
     // Calculate the difference in years
     return differenceInYears(currentDate, birthDate);
-
-}
-
+};
 
 export const getSoaDatesFromSummary = (inputString) => {
     // Regular expression to extract dates and times
     const regex = /(\d{2}\/\d{2}\/\d{4}) (\d{2}:\d{2}:\d{2})/g;
 
     // Extract all date-time strings from the input
-    const dateTimes = [...inputString.matchAll(regex)].map(match => match[0]);
+    const dateTimes = [...inputString.matchAll(regex)].map((match) => match[0]);
 
     // Assuming the first date-time is the sent date and the second is the signed date
     const [sentDateTime, signedDateTime] = dateTimes;
 
     // Convert to desired format
-    const formatString = 'YYYY-MM-DDTHH:mm:ss';
-    const sentDate = moment(sentDateTime, 'MM/DD/YYYY HH:mm:ss').format(formatString);
-    const signedDate = moment(signedDateTime, 'MM/DD/YYYY HH:mm:ss').format(formatString);
+    const formatString = "YYYY-MM-DDTHH:mm:ss";
+    const sentDate = moment(sentDateTime, "MM/DD/YYYY HH:mm:ss").format(formatString);
+    const signedDate = moment(signedDateTime, "MM/DD/YYYY HH:mm:ss").format(formatString);
 
     return { sentDate, signedDate };
 };
@@ -349,5 +358,5 @@ export const getSoaDatesFromSummary = (inputString) => {
 export function isTimeValid(timeString) {
     if (!timeString) return false;
 
-    return !isNaN(timeString.getTime())
+    return !isNaN(timeString.getTime());
 }
