@@ -101,21 +101,20 @@ const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
     }, [selectedPharmacies]);
 
     const handleSelectionChange = useCallback(
-        (pharmacy) => {
-            const isSelected = selectedPharmacies.some(
-                (selectedPharmacy) => selectedPharmacy.pharmacyID === pharmacy.pharmacyID,
-            );
-            if (isSelected) {
-                setSelectedPharmacies(
-                    selectedPharmacies.filter(
-                        (selectedPharmacy) => selectedPharmacy.pharmacyID !== pharmacy.pharmacyID,
+        (pharmacy, isCheckedAlready) => {
+            if (isCheckedAlready) {
+                setSelectedPharmacies([
+                    ...selectedPharmacies.filter(
+                        (selectedPharmacy) =>
+                            selectedPharmacy.pharmacyID !== pharmacy.pharmacyID &&
+                            selectedPharmacy.pharmacyId !== pharmacy.pharmacyID
                     ),
-                );
+                ]);
             } else if (!shouldDisableCheckbox && selectedPharmacies.length <= 2) {
                 setSelectedPharmacies([...selectedPharmacies, pharmacy]);
             }
         },
-        [setSelectedPharmacies, shouldDisableCheckbox, selectedPharmacies],
+        [setSelectedPharmacies, shouldDisableCheckbox, selectedPharmacies]
     );
 
     const renderedPharmacyList = useMemo(
@@ -126,16 +125,16 @@ const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
                     pharmacyID &&
                     selectedPharmacies.some(
                         (selectedPharmacy) =>
-                            selectedPharmacy.pharmacyId === pharmacyID || selectedPharmacy.pharmacyID === pharmacyID,
+                            selectedPharmacy.pharmacyId === pharmacyID || selectedPharmacy.pharmacyID === pharmacyID
                     );
-                const disableCheckbox = shouldDisableCheckbox && !isChecked;
+                const disableCheckbox = shouldDisableCheckbox;
 
                 return (
                     <ListItemButton
                         key={pharmacy.pharmacyID}
                         selected={isChecked}
                         classes={{ root: `${classes.listItem} ${disableCheckbox ? classes.listItemDisabled : ""}` }}
-                        onClick={() => handleSelectionChange(pharmacy)}
+                        onClick={() => handleSelectionChange(pharmacy, isChecked)}
                     >
                         <Checkbox
                             bgType="white"
@@ -161,7 +160,7 @@ const PharmacyList = ({ selectedPharmacies, list, setSelectedPharmacies }) => {
                     </ListItemButton>
                 );
             }),
-        [list, classes, shouldDisableCheckbox, handleSelectionChange, selectedPharmacies],
+        [list, classes, shouldDisableCheckbox, handleSelectionChange, selectedPharmacies]
     );
 
     return <List className={classes.listRoot}>{renderedPharmacyList}</List>;
@@ -177,7 +176,7 @@ PharmacyList.propTypes = {
             city: PropTypes.string,
             state: PropTypes.string,
             zip: PropTypes.string,
-        }),
+        })
     ).isRequired,
     setSelectedPharmacies: PropTypes.func.isRequired,
     list: PropTypes.arrayOf(
@@ -189,7 +188,7 @@ PharmacyList.propTypes = {
             city: PropTypes.string,
             state: PropTypes.string,
             zip: PropTypes.string,
-        }),
+        })
     ).isRequired,
 };
 
