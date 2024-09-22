@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /* eslint-disable max-lines-per-function */
 import { createContext, useEffect, useState, useCallback, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
@@ -123,12 +124,12 @@ export const CampaignInvitationProvider = ({ children }) => {
     useEffect(() => {
         handleCampaignAction(
             campaignActionType === "contacts filtered by…" && filteredContactsList?.length > 0 && filteredCount > 0,
-            { campaign_ActionType: "contacts filtered by…" }
+            { campaign_ActionType: "contacts filtered by…" },
         );
 
         handleCampaignAction(
             campaignActionType === "all contacts" && allContactsList?.length > 0 && totalContactsCount > 0,
-            { campaign_ActionType: "all contacts" }
+            { campaign_ActionType: "all contacts" },
         );
 
         handleCampaignAction(campaignActionType === "a contact" && selectedContact, {
@@ -142,7 +143,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 allContactsList?.length > 0,
             {
                 campaign_ActionType: campaignActionType,
-            }
+            },
         );
     }, [filteredContactsList, campaignActionType, allContactsList, totalContactsCount, filteredCount, selectedContact]);
 
@@ -253,8 +254,93 @@ export const CampaignInvitationProvider = ({ children }) => {
             }
             return null;
         },
-        [fetchCampaignDetailsByEmail, fireEvent, showToast]
+        [fetchCampaignDetailsByEmail, fireEvent, showToast],
     );
+
+    const handleCreateCampaignFromContact = async (leadInformation) => {
+        let channel = "";
+        let payload = {};
+        if (leadInformation?.contactPreferences?.primary === "Email" && leadInformation?.emails[0]?.leadEmail) {
+            channel = "Email";
+        } else if (leadInformation?.contactPreferences?.primary === "Phone" && leadInformation?.phones[0]?.leadPhone) {
+            channel = "Sms";
+        } else {
+            channel = "Email";
+        }
+
+        payload = {
+            id: 0,
+            agentId: agentId,
+            agentNpn: npn,
+            campaignType: "Blast",
+            campaignStatus: campaignStatuses.DRAFT,
+            customCampaignDescription: `${leadInformation?.firstName} ${leadInformation?.lastName} Get Sync`,
+            campaignChannel: channel,
+            campaignSelectedAction: "a contact",
+            requestPayload: {
+                agentId: 0,
+                agentNPN: "",
+                channel: "",
+                agentFirstName: "",
+                agentLastName: "",
+                agentEmail: "",
+                agentPhone: "",
+                templateId: "",
+                custom1: "",
+                custom2: null,
+                custom3: null,
+                custom4: null,
+                custom5: null,
+            },
+        };
+
+        if (channel === "Email") {
+            const emailCampaignsData = await getCampaignDetailsByEmail();
+            const templateData = emailCampaignsData?.find((item) => item?.campaignName === "PlanEnrollProfile");
+
+            payload = {
+                ...payload,
+                requestPayload: {
+                    ...payload.requestPayload,
+                    templateId: templateData?.templateId,
+                    leads: [
+                        {
+                            leadsId: leadInformation?.leadsId,
+                            firstName: leadInformation?.firstName,
+                            lastName: leadInformation?.lastName,
+                            destination: leadInformation?.emails[0]?.leadEmail,
+                        },
+                    ],
+                },
+            };
+        }
+
+        if (channel === "Sms") {
+            const textCampaignsData = await getCampaignDetailsByText();
+            const templateData = textCampaignsData?.find((item) => item?.campaignName === "PlanEnrollProfile");
+
+            payload = {
+                ...payload,
+                requestPayload: {
+                    ...payload.requestPayload,
+                    templateId: templateData?.templateId,
+                    leads: [
+                        {
+                            leadsId: leadInformation?.leadsId,
+                            firstName: leadInformation?.firstName,
+                            lastName: leadInformation?.lastName,
+                            destination: leadInformation?.phones[0]?.leadPhone,
+                        },
+                    ],
+                },
+            };
+        }
+
+        handleCreateOrUpdateCampaign({
+            redirectTo: "/marketing/campaign-details",
+            payload: payload,
+        });
+    };
 
     const handleGetCampaignDetailsById = useCallback(
         async (campaignId) => {
@@ -280,7 +366,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 const { selectedFilterSections, filteredContentStatus } = customFilterData;
                                 sessionStorage.setItem(
                                     "campaign_contactList_selectedFilterSections",
-                                    JSON.stringify(selectedFilterSections)
+                                    JSON.stringify(selectedFilterSections),
                                 );
 
                                 const filterData = await fetchTableData({
@@ -296,7 +382,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 handleSummaryBarInfo(
                                     filterData?.tableData,
                                     filteredContentStatus,
-                                    filterData?.filteredEligibleCount
+                                    filterData?.filteredEligibleCount,
                                 );
                             } else {
                                 sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
@@ -308,7 +394,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 resData?.campaignSelectedAction !== ""
                             ) {
                                 const actionData = templateData?.campaignActions?.find(
-                                    (item) => item?.actionName === resData?.campaignSelectedAction
+                                    (item) => item?.actionName === resData?.campaignSelectedAction,
                                 );
                                 if (actionData) {
                                     setActionDescription(actionData?.actionDescription);
@@ -331,11 +417,10 @@ export const CampaignInvitationProvider = ({ children }) => {
                     message: "Failed to get campaign details.",
                     time: 5000,
                 });
-                console.error("Failed to get campaign details.", error);
             }
             return null;
         },
-        [fetchCampaignDetailsById, fireEvent, showToast]
+        [fetchCampaignDetailsById, fireEvent, showToast],
     );
 
     const getAgentAccountInformation = useCallback(async () => {
@@ -388,7 +473,7 @@ export const CampaignInvitationProvider = ({ children }) => {
     const updateCampaignRequestPayload = ({ campaign_Status, template_Id, campaign_Channel, campaign_ActionType }) => {
         // Retrieve and parse the JSON string from session storage
         const selectedFilterSections = JSON.parse(
-            sessionStorage.getItem("campaign_contactList_selectedFilterSections")
+            sessionStorage.getItem("campaign_contactList_selectedFilterSections"),
         );
 
         // Construct the customFilterData object
@@ -484,7 +569,15 @@ export const CampaignInvitationProvider = ({ children }) => {
     };
 
     const handleCreateOrUpdateCampaign = useCallback(
-        async ({ campaign_Status, redirectTo, template_Id, campaign_Channel, campaign_ActionType, isUpdate =true }) => {
+        async ({
+            campaign_Status,
+            redirectTo,
+            template_Id,
+            campaign_Channel,
+            campaign_ActionType,
+            payload,
+            isUpdate = true,
+        }) => {
             try {
                 let resData = null;
                 if (isUpdate) {
@@ -495,10 +588,11 @@ export const CampaignInvitationProvider = ({ children }) => {
                             campaign_Channel,
                             campaign_ActionType,
                         }),
-                        false
+                        false,
                     );
                 } else {
-                    resData = await startCampaign(createCampaignRequestPayload(campaign_Status), false);
+                    const requestPayload = payload ?? createCampaignRequestPayload(campaign_Status);
+                    resData = await startCampaign(requestPayload, false);
                 }
                 if (resData) {
                     fireEvent("Campaign Created/Updated", {
@@ -508,8 +602,8 @@ export const CampaignInvitationProvider = ({ children }) => {
                             campaignActionType === "contacts filtered by…"
                                 ? "filter contacts"
                                 : campaignActionType === "all contacts"
-                                ? "all contacts"
-                                : "search for a contact",
+                                  ? "all contacts"
+                                  : "search for a contact",
                     });
                     if (redirectTo) {
                         navigate(`${redirectTo}/${resData?.id}`);
@@ -550,7 +644,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             agentAccountDetails,
             agentPurlURL,
             navigate,
-        ]
+        ],
     );
 
     return (
@@ -559,57 +653,57 @@ export const CampaignInvitationProvider = ({ children }) => {
 
     function getContextValue() {
         return {
-            filteredContentStatus,
-            filteredCount,
-            totalContactsCount,
-            reset,
-            handleSummaryBarInfo,
-            getCampaignDetailsByEmail,
-            isFetchCampaignDetailsByEmailLoading,
-            fetchCampaignDetailsByEmailError,
-            getCampaignDetailsByText,
-            isFetchCampaignDetailsByTextLoading,
-            fetchCampaignDetailsByTextError,
-            setSelectedContact,
-            selectedContact,
-            contactName,
-            setCampaignActionType,
-            handleCreateOrUpdateCampaign,
-            isStartCampaignLoading,
-            isUpdateCampaignLoading,
-            startCampaignError,
-            updateCampaignError,
-            filteredContactsList,
-            allContactsList,
-            getAgentAccountInformation,
-            setCurrentPage,
-            currentPage,
-            handleSelectedContact,
-            eligibleContactsLength,
-            filteredEligibleCount,
+            actionDescription,
             allCampaignInvitationData,
-            campaignStatuses,
-            isCreateCampaignModalOpen,
-            setIsCreateCampaignModalOpen,
-            handleGetCampaignDetailsById,
-            isFetchCampaignDetailsByIdLoading,
-            campaignName,
-            campaignStatus,
+            allContactsList,
+            campaignActions,
+            campaignActionType,
             campaignChannel,
             campaignDescriptionType,
-            setCampaignName,
-            setCampaignChannel,
+            campaignId,
+            campaignName,
+            campaignStatus,
+            campaignStatuses,
+            contactName,
+            contactSearchId,
+            currentPage,
+            eligibleContactsLength,
+            fetchCampaignDetailsByEmailError,
+            fetchCampaignDetailsByTextError,
+            filteredContactsList,
+            filteredContentStatus,
+            filteredCount,
+            filteredEligibleCount,
+            getAgentAccountInformation,
+            getCampaignDetailsByEmail,
+            getCampaignDetailsByText,
+            handleCreateCampaignFromContact,
+            handleCreateOrUpdateCampaign,
+            handleGetCampaignDetailsById,
+            handleSelectedContact,
+            handleSummaryBarInfo,
             handleTemplateData,
-            campaignActionType,
+            isCreateCampaignModalOpen,
+            isFetchCampaignDetailsByEmailLoading,
+            isFetchCampaignDetailsByIdLoading,
+            isFetchCampaignDetailsByTextLoading,
+            isStartCampaignLoading,
+            isUpdateCampaignLoading,
+            reset,
+            selectedContact,
+            setActionDescription,
             setCampaignActionType,
-            templateImageUrl,
+            setCampaignChannel,
+            setCampaignName,
+            setCurrentPage,
+            setIsCreateCampaignModalOpen,
+            setSelectedContact,
+            startCampaignError,
             templateDescription,
             templateDetails,
-            campaignId,
-            contactSearchId,
-            campaignActions,
-            actionDescription,
-            setActionDescription,
+            templateImageUrl,
+            totalContactsCount,
+            updateCampaignError,
         };
     }
 };

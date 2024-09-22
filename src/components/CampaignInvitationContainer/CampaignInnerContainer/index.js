@@ -40,16 +40,19 @@ const CampaignInnerContainer = () => {
     }, []);
 
     useEffect(() => {
+        if (campaignName?.includes("Get Sync") && campaignActionType === "a contact") {
+            setShowPreview(true);
+        }
         if (campaignActionType === "") {
             setShowPreview(false);
         }
-    }, [campaignActionType]);
+    }, [campaignName, campaignActionType]);
 
     const allSelected =
         !isStartCampaignLoading &&
-        !!campaignDescriptionType &&
-        !!campaignChannel &&
-        !!campaignActionType &&
+        Boolean(campaignDescriptionType) &&
+        Boolean(campaignChannel) &&
+        Boolean(campaignActionType) &&
         ((campaignActionType === "all contacts" && allContactsList?.length !== 0) ||
             (campaignActionType === "contacts filtered by…" && filteredContactsList?.length !== 0) ||
             (campaignActionType === "a contact" && selectedContact) ||

@@ -6,7 +6,6 @@ import CampaignStatusInfoCard from "../CampaignStatusInfoCard";
 import CampaignMetricCard from "../CampaignMetricCard";
 import truncateText from "utils/truncateText";
 import styles from "./styles.module.scss";
-import "../../../../src/index.scss";
 
 import {
     MetricRecipients,
@@ -49,17 +48,16 @@ const CampaignStatusCard = ({ campaign }) => {
             <Box className={styles.campaignCard}>
                 <Box className={styles.cardHeader}>
                     <Box className={styles.cardType}>
-                        <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
-                            {campaignChannel === "Email" ? (
-                                <>
-                                    <CampaignTypeEmail size="lg" className={styles.mIcon} />
-                                </>
-                            ) : campaignChannel === "Text" ? (
-                                <>
-                                    <CampaignTypeTextMessage size="lg" className={styles.mIcon} />
-                                </>
-                            ) : null}
-                        </IconButton>
+                        {campaignChannel === "Email" ? (
+                            <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
+                                <CampaignTypeEmail size="lg" className={styles.mIcon} />
+                            </IconButton>
+                        ) : campaignChannel === "Sms" ? (
+                            <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
+                                <CampaignTypeTextMessage size="lg" className={styles.mIcon} />
+                            </IconButton>
+                        ) : null}
+
                         <Typography className={styles.campaignTitle} variant="h4" onClick={handleOpenCampaign}>
                             {truncateText(customCampaignDescription, isSmallScreen ? 15 : 45)}
                         </Typography>
@@ -72,11 +70,9 @@ const CampaignStatusCard = ({ campaign }) => {
                 <Box className={styles.cardDetails}>
                     {campaignChannel && (
                         <Box className={styles.cardLabel}>
-                            I want to send an {campaignChannel.toLowerCase()} to
+                            I want to send {campaignChannel === "Sms" ? "a" : "an"} {campaignChannel.toLowerCase()} to
                             <span className={styles.cardValue}>
-                                {" "}
-                                {customCampaignDescription} to {requestPayload?.leads[0]?.firstName}{" "}
-                                {requestPayload?.leads[0]?.lastName}
+                                {` ${customCampaignDescription} to ${requestPayload?.leads[0]?.firstName} ${requestPayload?.leads[0]?.lastName}`}
                             </span>
                         </Box>
                     )}
@@ -98,7 +94,6 @@ const CampaignStatusCard = ({ campaign }) => {
                                 {statusInfo.map((item, index) => (
                                     <Grid item xs={6} md={6} key={index}>
                                         <CampaignMetricCard
-                                            key={index}
                                             name={item.name}
                                             value={item.value}
                                             sPercentage={item.sPercentage}
@@ -128,7 +123,7 @@ CampaignStatusCard.propTypes = {
                 PropTypes.shape({
                     firstName: PropTypes.string,
                     lastName: PropTypes.string,
-                })
+                }),
             ),
         }),
         sentDate: PropTypes.string,

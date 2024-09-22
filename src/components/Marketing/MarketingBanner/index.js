@@ -3,40 +3,19 @@ import ArrowForwardWithCircle from "../../icons/version-2/ArrowForwardWithCirlce
 import styles from "./styles.module.scss";
 import bannerImage from "images/PlanEnrollBanner.svg";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
-import useToast from "hooks/useToast";
 
 const MarketingBanner = ({ page, leadDetails = null }) => {
     const theme = useTheme();
-    const navigate = useNavigate();
-    const showToast = useToast();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const { setCurrentPage, handleSelectedContact } = useCampaignInvitation();
+    const { setCurrentPage, handleCreateCampaignFromContact } = useCampaignInvitation();
 
     const navigateToCreateCampaignInvitation = () => {
         setCurrentPage(page);
-        if (leadDetails && page === "Contact_Overview") {
-            if (!leadDetails?.emails[0]?.leadEmail) {
-                showToast({
-                    type: "error",
-                    message: "Cannot send campaign: This contact does not have an email address.",
-                    time: 5000,
-                });
-                return;
-            } else {
-                const leadInformation = {
-                    email: leadDetails?.emails[0]?.leadEmail,
-                    firstName: leadDetails?.firstName,
-                    lastName: leadDetails?.lastName,
-                    phone: leadDetails?.phones[0]?.leadPhone,
-                    leadsId: leadDetails?.leadsId,
-                };
-                handleSelectedContact(leadInformation);
-            }
+        if (leadDetails) {
+            handleCreateCampaignFromContact(leadDetails);
         }
-        navigate("/marketing/campaign-details");
     };
 
     return (
@@ -87,7 +66,7 @@ MarketingBanner.propTypes = {
         emails: PropTypes.arrayOf(
             PropTypes.shape({
                 leadEmail: PropTypes.string,
-            })
+            }),
         ),
     }),
 };
