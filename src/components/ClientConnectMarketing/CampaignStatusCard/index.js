@@ -6,6 +6,7 @@ import CampaignStatusInfoCard from "../CampaignStatusInfoCard";
 import CampaignMetricCard from "../CampaignMetricCard";
 import truncateText from "utils/truncateText";
 import styles from "./styles.module.scss";
+import ActionPopoverContainer from "../ActionPopover";
 
 import {
     MetricRecipients,
@@ -14,7 +15,6 @@ import {
     MetricUnsubscribes,
     CampaignTypeTextMessage,
     CampaignTypeEmail,
-    CampaignActionsEllipsis,
 } from "@integritymarketing/icons";
 
 const CampaignStatusCard = ({ campaign }) => {
@@ -62,9 +62,7 @@ const CampaignStatusCard = ({ campaign }) => {
                             {truncateText(customCampaignDescription, isSmallScreen ? 15 : 45)}
                         </Typography>
                     </Box>
-                    <IconButton size="lg" className={`${styles.integrityIcon} ${styles.integrityIconBg}`}>
-                        <CampaignActionsEllipsis size="lg" className={styles.mIcon} />
-                    </IconButton>
+                    <ActionPopoverContainer campaign={campaign} />
                 </Box>
                 <Box className={styles.cardDivider} />
                 <Box className={styles.cardDetails}>

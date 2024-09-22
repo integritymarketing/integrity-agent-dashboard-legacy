@@ -30,6 +30,7 @@ const contactOptions = [
 
 const InvitationBar = () => {
     const {
+        filteredContactsList,
         handleSummaryBarInfo,
         setSelectedContact,
         campaignChannel,
@@ -83,18 +84,21 @@ const InvitationBar = () => {
             }
             setContactOptionOpen(null);
         },
-        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription]
+        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription],
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
         setAnchorEl(null);
+        if (filteredContactsList?.length === 0) {
+            setCampaignActionType("");
+        }
     }, [setAnchorEl]);
 
     const handleContactOptions = useCallback(
         (event) => {
             setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
         },
-        [contactOptionOpen, campaignActionType]
+        [contactOptionOpen, campaignActionType],
     );
 
     return (

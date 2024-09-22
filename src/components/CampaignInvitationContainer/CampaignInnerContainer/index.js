@@ -11,9 +11,11 @@ import ArrowForwardCircle from "../../../images/Campaigns/arrow-forward-circle.s
 import AdvancedModeToggle from "../AdvancedModeToggle";
 import SendCampaignModal from "../SendCampaignModal/SendCampaignModal";
 import TemplateDescriptionCard from "../TemplateDescriptionCard";
+import ActionPopoverContainer from "components/ClientConnectMarketing/ActionPopover";
 
 const CampaignInnerContainer = () => {
     const {
+        campaign,
         campaignChannel,
         campaignDescriptionType,
         handleCreateOrUpdateCampaign,
@@ -28,6 +30,7 @@ const CampaignInnerContainer = () => {
         campaignName,
         campaignStatus,
         templateDescription,
+        handleGetCampaignDetailsById,
     } = useCampaignInvitation();
 
     const readOnly = campaignStatus === campaignStatuses.COMPLETED;
@@ -91,6 +94,7 @@ const CampaignInnerContainer = () => {
                     >
                         {campaignName}
                     </Typography>
+                    {campaign && <ActionPopoverContainer campaign={campaign} refresh={handleGetCampaignDetailsById} />}
                 </Box>
 
                 <Box display="flex" gap={2}>

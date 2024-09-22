@@ -1,0 +1,37 @@
+import { useState } from "react";
+import { Box, IconButton } from "@mui/material";
+import PropTypes from "prop-types";
+
+import styles from "./styles.module.scss";
+
+import { CampaignActionsEllipsis } from "@integritymarketing/icons";
+import ActionPopover from "./ActionPopover";
+
+const ActionPopoverContainer = ({ campaign, refresh }) => {
+    const [actionPopOver, setActionPopOver] = useState(null);
+
+    const handleClick = (event) => {
+        setActionPopOver(event.currentTarget);
+    };
+    const handleClose = () => {
+        setActionPopOver(null);
+    };
+
+    return (
+        <>
+            <Box onClick={(event) => handleClick(event)}>
+                <IconButton size="lg">
+                    <CampaignActionsEllipsis size="lg" className={styles.mIcon} />
+                </IconButton>
+            </Box>
+            <ActionPopover anchorEl={actionPopOver} onClose={handleClose} campaign={campaign} refresh={refresh} />
+        </>
+    );
+};
+
+ActionPopoverContainer.propTypes = {
+    campaign: PropTypes.object.isRequired,
+    refresh: PropTypes.func.isRequired,
+};
+
+export default ActionPopoverContainer;

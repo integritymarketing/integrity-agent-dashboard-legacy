@@ -1,0 +1,34 @@
+@import "../../../scss/globalDefines.scss";
+@import "scss/components/icons";
+.customPopover {
+    width: 600px;
+    padding: 10px;
+}
+
+.actionIcon {
+    display: contents;
+    > div {
+        height: 24px;
+    }
+}
+
+.actionIcons {
+    margin: auto 0;
+}
+
+.selections {
+    width: 100px;
+    margin: 10px;
+    border-radius: 4px;
+}
+
+.cardDivider {
+    border-top: 1px solid #e0e0e0;
+}
+
+.mIcon {
+    display: contents;
+    > div {
+        height: 36px;
+    }
+}
