@@ -9,7 +9,6 @@ const FreeFormMessage = ({ formattedDate, formattedTime, hasViewed }) => (
     <div className={`${styles.messageBox} ${!hasViewed ? styles.isUnread : ""}`}>
         <div className={styles.messageTextBoxBroadcast}>
             <DateTimeBox formattedDate={formattedDate} formattedTime={formattedTime} />
-            [Campaign specific messaging goes here]
         </div>
         <div className={styles.chatIconBoxBroadcast}>
             <BroadCast />

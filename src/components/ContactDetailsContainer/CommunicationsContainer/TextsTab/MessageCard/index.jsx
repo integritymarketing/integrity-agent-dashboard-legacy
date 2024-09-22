@@ -6,16 +6,30 @@ import { convertAndFormatUTCDateToLocalDate } from "utils/dates";
 
 const MessageCard = ({ smsType, data }) => {
     const { formattedDate, formattedTime } = convertAndFormatUTCDateToLocalDate(data.createdDateTime);
-
+    if (!data.isFreeForm) {
+        return (
+            <FreeFormMessage formattedDate={formattedDate} formattedTime={formattedTime} hasViewed={data.hasViewed} />
+        );
+    }
     switch (smsType) {
         case "outbound":
-            return <OutboundMessage formattedDate={formattedDate} formattedTime={formattedTime} smsContent={data.smsContent} />;
+            return (
+                <OutboundMessage
+                    formattedDate={formattedDate}
+                    formattedTime={formattedTime}
+                    smsContent={data.smsContent}
+                />
+            );
         case "inbound":
-            return <InboundMessage formattedDate={formattedDate} formattedTime={formattedTime} smsContent={data.smsContent} hasViewed={data.hasViewed} />;
+            return (
+                <InboundMessage
+                    formattedDate={formattedDate}
+                    formattedTime={formattedTime}
+                    smsContent={data.smsContent}
+                    hasViewed={data.hasViewed}
+                />
+            );
         default:
-            if (!data.isFreeForm) {
-                return <FreeFormMessage formattedDate={formattedDate} formattedTime={formattedTime} hasViewed={data.hasViewed} />;
-            }
             return null;
     }
 };
