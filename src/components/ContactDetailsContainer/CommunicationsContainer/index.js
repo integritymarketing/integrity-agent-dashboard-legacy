@@ -12,7 +12,7 @@ import useQueryParams from "hooks/useQueryParams";
 import TextsTab from "./TextsTab";
 import { useWindowSize } from "hooks/useWindowSize";
 import { useCallsHistory } from "providers/ContactDetails/ContactDetailsContext";
-
+import useAnalytics from "hooks/useAnalytics";
 const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitial }) => {
     const params = useQueryParams();
     const { width: windowWidth } = useWindowSize();
@@ -22,6 +22,7 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
 
     const { leadId } = useParams();
     const { getCallsList, callsList = [] } = useCallsHistory();
+    const { fireEvent } = useAnalytics();
     const unviewedCallCount = callsList.filter((c) => !c.hasViewed).length;
 
     const tabs = useMemo(
@@ -42,7 +43,7 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                 component: <SOAsContainerTab />,
             },
         }),
-        [],
+        []
     );
 
     useEffect(() => {
@@ -59,18 +60,28 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
     }, [tabSelectedInitialParam, params]);
 
     const handleTabChange = (newValue) => {
-        if (selectedTab === "calls" && newValue !== "calls") {
-            getCallsList(leadId);
+
+        if (newValue === "texts" && unReadMessagesCount > 0) {
+            fireEvent("Connect Communication Read", {
+                communicationMethod: "text messages",
+                leadId: leadId,
+            });
+            console.log("Analytics event fired for reading unread text messages");
+        }
+
+        if (newValue === "calls" && unviewedCallCount > 0) {
+            fireEvent("Connect Communication Read", {
+                communicationMethod: "call history",
+                leadId: leadId,
+            });
         }
         setSelectedTab(newValue);
         params.set("tab", newValue);
         setTabSelectedInitial(newValue);
     };
-
     const unReadMessagesCount = useMemo(() => {
         return messageList.filter((item) => !item.hasViewed && item.smsType === "inbound").length;
     }, [messageList]);
-
     return (
         <Container sx={{ mx: { xs: "1rem", sm: "2rem", md: "5rem" } }}>
             <Grid container>

@@ -8,6 +8,7 @@ import SendMessageIcon from "components/icons/version-2/SendMessage";
 import { useCallsHistory, useLeadDetails } from "providers/ContactDetails";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useToast from "hooks/useToast";
+import useAnalytics from "hooks/useAnalytics";
 
 const MAX_CHARACTERS_LENGTH = 160;
 const TextsTab = () => {
@@ -20,6 +21,7 @@ const TextsTab = () => {
     const { leadDetails } = useLeadDetails();
     const { showToast } = useToast();
     const formattedPhoneNumber = agentVirtualPhoneNumber?.replace(/^\+1/, "");
+    const { fireEvent } = useAnalytics();
 
     useEffect(() => {
         getMessageList(agentNPN, leadDetails.leadsId);
@@ -58,6 +60,10 @@ const TextsTab = () => {
             await getMessageList(agentNPN, leadDetails.leadsId);
             setNewMessageValue("");
             setIsNewTextInputOpen(false);
+            fireEvent("Connect Communication Sent", {
+                communicationMethod: "text",
+                leadId: leadDetails.leadsId,
+            });
         } catch (error) {
             Sentry.captureException(error);
             showToast({
@@ -68,7 +74,7 @@ const TextsTab = () => {
     };
 
     const sortedMessageList = [...messageList].sort(
-        (a, b) => new Date(b.createdDateTime) - new Date(a.createdDateTime),
+        (a, b) => new Date(b.createdDateTime) - new Date(a.createdDateTime)
     );
 
     return (

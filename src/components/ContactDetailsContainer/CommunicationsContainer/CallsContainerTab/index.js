@@ -5,7 +5,7 @@ import Media from "react-media";
 
 import { useLeadDetails, useCallsHistory } from "providers/ContactDetails/ContactDetailsContext";
 import useOutboundCall from "hooks/useOutboundCall";
-
+import useAnalytics from "hooks/useAnalytics";
 import WithLoader from "components/ui/WithLoader";
 import { CallScriptModal } from "packages/CallScriptModal";
 
@@ -20,6 +20,7 @@ const CallsContainerTab = () => {
     const leadPhone = leadDetails.phones?.find(p => p?.leadPhone && !p?.inactive)?.leadPhone;
     const { getCallsList, setCallsToViewed, callsList = [], isLoadingCallsList } = useCallsHistory();
     const { isCallScriptOpen, setIsCallScriptOpen, initiateCall } = useOutboundCall();
+    const { fireEvent } = useAnalytics();
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -28,7 +29,11 @@ const CallsContainerTab = () => {
 
     const handleCall = useCallback(() => {
         initiateCall(leadId, leadPhone);
-    }, [leadId, leadPhone])
+        fireEvent("Connect Communication Sent", {
+            communicationMethod: "call",
+            leadId: leadId,
+        });
+    }, [leadId, leadPhone, fireEvent]);
 
     return (
         <Box sx={{ p: { xs: 1, sm: 2 } }}>
