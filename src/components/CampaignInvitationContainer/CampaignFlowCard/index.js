@@ -17,24 +17,27 @@ const channelOptions = [
     { optionText: "a text message", value: "Sms", icon: <TextIcon /> },
 ];
 
-const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
+const CampaignFlowContainer = ({ showPreview, allSelected }) => {
     const {
-        invitationSendType,
-        handleInvitationSendType,
-        campaignInvitationData,
-        createdNewCampaign,
-        handleCampaignInvitationData,
+        campaignChannel,
+        setCampaignChannel,
         allCampaignInvitationData,
         eligibleContactsLength,
         campaignStatuses,
+        campaignStatus,
         getCampaignDetailsByEmail,
         getCampaignDetailsByText,
         isFetchCampaignDetailsByEmailLoading,
         isFetchCampaignDetailsByTextLoading,
         isUpdateCampaignLoading,
+        handleTemplateData,
+        campaignDescriptionType,
+        setCampaignActionType,
+        handleCreateOrUpdateCampaign,
+        reset,
     } = useCampaignInvitation();
 
-    const readOnly = createdNewCampaign?.campaignStatus === campaignStatuses.COMPLETED;
+    const readOnly = campaignStatus === campaignStatuses.COMPLETED;
 
     const [channelOptionOpen, setChannelOptionOpen] = useState(null);
     const [emailOptionsOpen, setEmailOptionsOpen] = useState(null);
@@ -50,17 +53,29 @@ const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
 
     const handleChannelOptionsChange = (value) => {
         setChannelOptionOpen(null);
+        reset();
+
         if (value === "Email") {
             getCampaignDetailsByEmail();
         } else if (value === "Sms") {
             getCampaignDetailsByText();
         }
-        handleInvitationSendType(value);
+
+        setCampaignChannel(value);
+        handleCreateOrUpdateCampaign({
+            campaign_Channel: value,
+            template_Id: "empty",
+            campaign_ActionType: "empty",
+        });
     };
 
     const handleEmailChannelOptionsChange = (value) => {
         setEmailOptionsOpen(null);
-        handleCampaignInvitationData(value);
+        handleTemplateData(value);
+        handleCreateOrUpdateCampaign({
+            template_Id: value?.templateId,
+            campaign_ActionType: "empty",
+        });
     };
 
     const handleChannelOptions = (event) => {
@@ -71,15 +86,12 @@ const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
         setEmailOptionsOpen(emailOptionsOpen ? null : event.currentTarget);
     };
 
-    const showEmailChannels = () => !_.isEmpty(invitationSendType);
+    const showEmailChannels = () => !_.isEmpty(campaignChannel);
 
-    const showInvitationBar = () => showEmailChannels() && !_.isEmpty(campaignInvitationData);
+    const showInvitationBar = () => showEmailChannels() && !_.isEmpty(campaignDescriptionType);
 
     return (
-        <Box
-            className={styles.flowOptions}
-            style={!showPreview && campaignInvitationData && !contactsTypeNotSelected ? { marginTop: "auto" } : {}}
-        >
+        <Box className={styles.flowOptions} style={!showPreview && allSelected ? { marginTop: "auto" } : {}}>
             <Box className={styles.channelReasons}>
                 <Box className={styles.channelReasonsText}>
                     <Typography variant="h3" className={styles.optionText}>
@@ -99,8 +111,8 @@ const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
                     }
                 >
                     <Typography className={styles.optionLink}>
-                        {invitationSendType === "Email" && "an email"}
-                        {invitationSendType === "Sms" && "a text message"}
+                        {campaignChannel === "Email" && "an email"}
+                        {campaignChannel === "Sms" && "a text message"}
                     </Typography>
                     {!readOnly && <ArrowDownBig width="40px" height="40px" />}
 
@@ -108,7 +120,6 @@ const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
                         options={channelOptions}
                         anchorEl={channelOptionOpen}
                         handleAction={handleChannelOptionsChange}
-                        handleClose={() => setChannelOptionOpen(null)}
                     />
                 </Box>
 
@@ -124,29 +135,26 @@ const CampaignFlowContainer = ({ showPreview, contactsTypeNotSelected }) => {
                                 : handleEmailChannelOptions
                         }
                     >
-                        <Typography className={styles.optionLink}>
-                            {campaignInvitationData === "" ? "" : campaignInvitationData.campaignDescription}
-                        </Typography>
+                        <Typography className={styles.optionLink}>{campaignDescriptionType}</Typography>
                         {!readOnly && <ArrowDownBig width="40px" height="40px" />}
 
                         <CustomPopover
                             options={emailOptions}
                             anchorEl={emailOptionsOpen}
                             handleAction={handleEmailChannelOptionsChange}
-                            handleClose={() => setEmailOptionsOpen(null)}
                         />
                     </Box>
                 )}
             </Box>
             {showInvitationBar() && <InvitationBar />}
-            {showPreview && <InvitationCountBar />}
+            {((showPreview && !readOnly) || readOnly) && <InvitationCountBar />}
         </Box>
     );
 };
 
 CampaignFlowContainer.propTypes = {
     showPreview: PropTypes.bool, // Determines whether to show the preview
-    contactsTypeNotSelected: PropTypes.bool, // Checks if contact type is not selected
+    allSelected: PropTypes.bool, // Checks if contact type is not selected
 };
 
 export default CampaignFlowContainer;

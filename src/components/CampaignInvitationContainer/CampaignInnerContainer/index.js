@@ -10,56 +10,50 @@ import CampaignFlowContainer from "../CampaignFlowCard";
 import ArrowForwardCircle from "../../../images/Campaigns/arrow-forward-circle.svg";
 import AdvancedModeToggle from "../AdvancedModeToggle";
 import SendCampaignModal from "../SendCampaignModal/SendCampaignModal";
-import CustomPopover from "../../CustomPopOver";
-import { CampaignActionsEllipsis } from "@integritymarketing/icons";
-
-const campaignOperations = [
-    { optionText: "Rename", value: "rename" },
-    { optionText: "Start", value: "start" },
-    { optionText: "Copy", value: "copy" },
-    { optionText: "Delete", value: "delete" },
-];
+import TemplateDescriptionCard from "../TemplateDescriptionCard";
 
 const CampaignInnerContainer = () => {
     const {
-        invitationSendType,
-        campaignDescription,
+        campaignChannel,
+        campaignDescriptionType,
         handleCreateOrUpdateCampaign,
         selectedContact,
         filteredContactsList,
         allContactsList,
-        filteredContactsType,
+        campaignActionType,
         getAgentAccountInformation,
         isStartCampaignLoading,
         isUpdateCampaignLoading,
-        campaignInvitationData,
-        createdNewCampaign,
         campaignStatuses,
+        campaignName,
+        campaignStatus,
+        templateDescription,
     } = useCampaignInvitation();
 
-    const readOnly = createdNewCampaign?.campaignStatus === campaignStatuses.COMPLETED;
+    const readOnly = campaignStatus === campaignStatuses.COMPLETED;
 
     const [showPreview, setShowPreview] = useState(false);
     const [isSendCampaignModalOpen, setIsSendCampaignModalOpen] = useState(false);
-    const [campaignOperationsAnchorEl, setCampaignOperationsAnchorEl] = useState(null);
 
     useEffect(() => {
         getAgentAccountInformation();
     }, []);
 
     useEffect(() => {
-        if (filteredContactsType === "") {
+        if (campaignActionType === "") {
             setShowPreview(false);
         }
-    }, [filteredContactsType]);
+    }, [campaignActionType]);
 
-    const contactsTypeNotSelected =
-        isStartCampaignLoading ||
-        isUpdateCampaignLoading ||
-        filteredContactsType === "" ||
-        (filteredContactsType === "all contacts" && allContactsList?.length === 0) ||
-        (filteredContactsType === "contacts filtered by .." && filteredContactsList?.length === 0) ||
-        (filteredContactsType === "a contact" && !selectedContact);
+    const allSelected =
+        !isStartCampaignLoading &&
+        !!campaignDescriptionType &&
+        !!campaignChannel &&
+        !!campaignActionType &&
+        ((campaignActionType === "all contacts" && allContactsList?.length !== 0) ||
+            (campaignActionType === "contacts filtered by…" && filteredContactsList?.length !== 0) ||
+            (campaignActionType === "a contact" && selectedContact) ||
+            (campaignActionType !== "" && allContactsList?.length !== 0));
 
     const handlePreviewClick = () => {
         setShowPreview(true);
@@ -78,6 +72,8 @@ const CampaignInnerContainer = () => {
         },
     };
 
+    const showPreviewButton = !readOnly && !showPreview && allSelected;
+
     return (
         <Box className={styles.container}>
             <Box className={styles.header}>
@@ -90,23 +86,8 @@ const CampaignInnerContainer = () => {
                             lineHeight: "32px",
                         }}
                     >
-                        {campaignDescription}
+                        {campaignName}
                     </Typography>
-                    <Box
-                        onClick={() => {
-                            setCampaignOperationsAnchorEl(true);
-                        }}
-                    >
-                        <CampaignActionsEllipsis color="#4178FF" size="md" />
-                    </Box>
-                    <CustomPopover
-                        options={campaignOperations}
-                        anchorEl={campaignOperationsAnchorEl}
-                        handleAction={() => {
-                            setCampaignOperationsAnchorEl(null);
-                        }}
-                        handleClose={() => setCampaignOperationsAnchorEl(null)}
-                    />
                 </Box>
 
                 <Box display="flex" gap={2}>
@@ -125,30 +106,17 @@ const CampaignInnerContainer = () => {
                         </Button>
                     )}
 
-                    {createdNewCampaign && (
+                    {campaignStatus && (
                         <Button variant="contained" sx={buttonStyles} disableRipple={true} disableElevation={true}>
-                            {createdNewCampaign?.campaignStatus}
+                            {campaignStatus}
                         </Button>
                     )}
                 </Box>
             </Box>
 
             <Box className={styles.content}>
-                <CampaignFlowContainer showPreview={showPreview} contactsTypeNotSelected={contactsTypeNotSelected} />
-
-                {showPreview && (
-                    <Grid container className={styles.detailsContainer}>
-                        {invitationSendType === "Sms" && <TextInputContent />}
-                        {invitationSendType === "Email" && (
-                            <>
-                                <EmailContent />
-                                <EmailPreview />
-                            </>
-                        )}
-                    </Grid>
-                )}
-
-                {!showPreview && campaignInvitationData && !contactsTypeNotSelected && (
+                <CampaignFlowContainer showPreview={showPreview} allSelected={allSelected} />
+                {showPreviewButton && (
                     <Box className={styles.previewCampaignButton}>
                         <Button
                             size="medium"
@@ -161,8 +129,24 @@ const CampaignInnerContainer = () => {
                         </Button>
                     </Box>
                 )}
+                {((showPreview && !readOnly) || readOnly) && (
+                    <>
+                        <Grid container className={styles.detailsContainer}>
+                            {templateDescription && <TemplateDescriptionCard description={templateDescription} />}
+                            <Grid container>
+                                {campaignChannel === "Sms" && <TextInputContent />}
+                                {campaignChannel === "Email" && (
+                                    <>
+                                        <EmailContent />
+                                        <EmailPreview />
+                                    </>
+                                )}
+                            </Grid>
+                        </Grid>
+                    </>
+                )}
 
-                {!readOnly && showPreview && campaignInvitationData && !contactsTypeNotSelected && (
+                {!readOnly && showPreview && allSelected && (
                     <Box className={styles.startCampaignButton}>
                         <Button
                             size="medium"
@@ -180,7 +164,9 @@ const CampaignInnerContainer = () => {
                             isModalOpen={isSendCampaignModalOpen}
                             setIsModalOpen={setIsSendCampaignModalOpen}
                             onSend={() => {
-                                handleCreateOrUpdateCampaign(campaignStatuses.SUBMITTED);
+                                handleCreateOrUpdateCampaign({
+                                    campaign_Status: campaignStatuses.SUBMITTED,
+                                });
                             }}
                         />
                     </Box>
@@ -194,14 +180,6 @@ const CampaignInnerContainer = () => {
             )}
         </Box>
     );
-};
-
-CampaignInnerContainer.propTypes = {
-    campaignDescription: PropTypes.string, // Description of the campaign
-};
-
-CampaignInnerContainer.defaultProps = {
-    campaignDescription: "Campaign", // Default campaign description
 };
 
 export default CampaignInnerContainer;

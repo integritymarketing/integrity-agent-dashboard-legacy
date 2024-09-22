@@ -36,26 +36,26 @@ function useFetchCampaignLeads() {
     }, [queryParams]);
 
     const fetchTableDataWithoutFilters = useCallback(
-        async ({ pageIndex, pageSize, sort, searchString, returnAll, campaignId }) => {
+        async ({ sort, searchString, returnAll, searchId, statusOptionsMap }) => {
             const response = await clientsService.getCampaignLeads(
-                pageIndex,
-                pageSize,
                 sort,
                 searchString,
                 returnAll,
+
                 null,
+                searchId,
                 null,
-                campaignId
+                statusOptionsMap
             );
             const total = response.totalContactCount;
-            const eligibleContactsLength= response?.eligibleContacts?.length;
+            const eligibleContactsLength = response?.eligibleContacts?.length;
             const leadsList = response?.eligibleContacts || [];
             const leadIdsList = response?.eligibleContacts?.map((contact) => contact.leadsId) || [];
             return {
                 total,
                 leadsList,
                 leadIdsList,
-                eligibleContactsLength
+                eligibleContactsLength,
             };
         },
         [applyFilters]
@@ -63,16 +63,14 @@ function useFetchCampaignLeads() {
 
     const fetchTableData = useCallback(
         async ({
-            pageIndex,
-            pageSize,
             sort,
             searchString,
             returnAll,
             isSilent,
             selectedFilterSections,
-            filterSectionsConfig,
-            campaignId,
+            searchId,
             filterId,
+            statusOptionsMap,
         }) => {
             try {
                 if (!isSilent && !selectedFilterSections?.length) {
@@ -80,21 +78,23 @@ function useFetchCampaignLeads() {
                 }
 
                 const response = await clientsService.getCampaignLeads(
-                    pageIndex,
-                    pageSize,
                     sort,
                     searchString,
                     returnAll,
                     selectedFilterSections,
-                    filterSectionsConfig,
-                    campaignId,
-                    filterId
+                    searchId,
+                    filterId,
+                    statusOptionsMap
                 );
 
                 setTableData(response?.eligibleContacts);
                 setAllLeads(response?.eligibleContacts?.map((contact) => contact.leadsId));
                 setFilteredEligibleCount(response?.totalContactCount);
                 setIsLoading(false);
+                return {
+                    tableData: response?.eligibleContacts,
+                    filteredEligibleCount: response?.totalContactCount,
+                };
             } catch (error) {
                 setIsLoading(false);
                 Sentry.captureException(error);
@@ -108,7 +108,15 @@ function useFetchCampaignLeads() {
         [showToast, applyFilters]
     );
 
-    return { tableData, isLoading: isLoading, fetchTableData, fetchTableDataWithoutFilters, allLeads, pageResult, filteredEligibleCount };
+    return {
+        tableData,
+        isLoading: isLoading,
+        fetchTableData,
+        fetchTableDataWithoutFilters,
+        allLeads,
+        pageResult,
+        filteredEligibleCount,
+    };
 }
 
 export default useFetchCampaignLeads;

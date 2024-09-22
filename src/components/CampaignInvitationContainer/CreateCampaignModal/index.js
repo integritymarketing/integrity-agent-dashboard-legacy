@@ -1,22 +1,14 @@
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
-import Modal from "../../Modal";
 import { InputAdornment } from "@mui/material";
 import Box from "@mui/material/Box";
 import styles from "./styles.module.scss";
 import TextInput from "../../MuiComponents/TextInput";
-import ArrowForwardCircle from "images/Campaigns/arrow-forward-circle.svg";
+import { CustomModal } from "components/MuiComponents";
+import ContinueIcon from "components/icons/Continue";
 
-function CreateCampaignModal({
-    isModalOpen,
-    setIsModalOpen,
-    actionButtonName = "Create",
-    cancelButtonName = "Cancel",
-    onSave,
-    hideFooter = false,
-    onTextChange,
-}) {
+function CreateCampaignModal({ isModalOpen, setIsModalOpen, actionButtonName = "Create", onSave, onTextChange }) {
     const [campaignName, setCampaignName] = useState("");
     const maxLength = 96;
 
@@ -35,17 +27,19 @@ function CreateCampaignModal({
     };
 
     return (
-        <Modal
-            open={isModalOpen}
-            onClose={handleCloseModal}
+        <CustomModal
             title="Create Campaign"
-            onSave={handleCreateCampaign}
-            actionButtonName={actionButtonName}
-            endIcon={<img src={ArrowForwardCircle} alt="Arrow Forward Circle" />}
-            actionButtonDisabled={campaignName.length === 0}
-            onCancel={handleCloseModal}
-            cancelButtonName={cancelButtonName}
-            hideFooter={hideFooter}
+            open={isModalOpen}
+            handleClose={handleCloseModal}
+            showCloseButton
+            maxWidth="sm"
+            disableContentBackground
+            footer
+            handleSave={handleCreateCampaign}
+            shouldShowCancelButton={true}
+            isSaveButtonDisabled={campaignName.length === 0}
+            saveLabel={actionButtonName}
+            footerActionIcon={<ContinueIcon />}
         >
             <Box className={styles.modalSubHeading}>
                 <Typography variant="body1" gutterBottom>
@@ -73,7 +67,7 @@ function CreateCampaignModal({
                     }}
                 />
             </Box>
-        </Modal>
+        </CustomModal>
     );
 }
 
@@ -81,9 +75,7 @@ CreateCampaignModal.propTypes = {
     isModalOpen: PropTypes.bool.isRequired,
     setIsModalOpen: PropTypes.func.isRequired,
     actionButtonName: PropTypes.string,
-    cancelButtonName: PropTypes.string,
     onSave: PropTypes.func,
-    hideFooter: PropTypes.bool,
     onTextChange: PropTypes.func,
 };
 

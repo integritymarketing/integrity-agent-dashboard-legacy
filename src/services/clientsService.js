@@ -199,20 +199,20 @@ export class ClientsService {
     };
 
     getCampaignLeads = async (
-        page,
-        pageSize,
         sort,
         searchText,
         returnAll,
         selectedFilterSections = [],
-        filterSectionsConfig = {},
         campaignId,
-        filterId
+        filterId,
+        statusOptionsMap
     ) => {
         if (!campaignId) {
             return;
         }
+
         selectedFilterSections = selectedFilterSections?.filter((item) => item.selectedFilterOption);
+
         let remindersKeys = {};
         const reminderSection = selectedFilterSections?.find((item) => item.sectionId === "reminders");
         if (reminderSection) {
@@ -265,7 +265,7 @@ export class ClientsService {
                         const restOfStageIds = stageArray?.filter((item) => item !== stage.selectedFilterOption);
                         stageArray = restOfStageIds;
                     } else {
-                        const restOfStageIds = filterSectionsConfig?.stage.options
+                        const restOfStageIds = statusOptionsMap
                             .filter((item) => item.value !== stage.selectedFilterOption)
                             .map((item) => item.value);
                         stageArray = restOfStageIds;

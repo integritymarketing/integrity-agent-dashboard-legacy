@@ -28,6 +28,7 @@ import { CreateNewQuoteProvider } from "providers/CreateNewQuote";
 import { ContactDetailsProvider } from "providers/ContactDetails";
 import { MarketingProvider } from "providers/Marketing";
 import { CountyDataProvider } from "providers/CountyDataProvider";
+import { StageStatusProvider } from "contexts/stageStatus";
 
 import AppRoutes from "./App";
 import "./index.scss";
@@ -57,55 +58,57 @@ root.render(
                             <CssBaseline />
                             <RecoilRoot>
                                 <ToastContextProvider>
-                                    <AgentPreferencesProvider>
-                                        <AgentAccountProvider>
-                                            <CountyProvider>
-                                                <CountyDataProvider>
-                                                    <DeleteLeadProvider>
-                                                        <ContactsProvider>
-                                                            <BackNavProvider>
-                                                                <StageSummaryProvider>
-                                                                    <TaskListProvider>
-                                                                        <CampaignInvitationProvider>
-                                                                            <ProfessionalProfileProvider>
-                                                                                <ContactDetailsProvider>
-                                                                                    <CreateNewQuoteProvider>
-                                                                                        <MarketingProvider>
-                                                                                            <HelmetProvider>
-                                                                                                <Helmet>
-                                                                                                    <title>
-                                                                                                        Integrity
-                                                                                                    </title>
-                                                                                                </Helmet>
-                                                                                                <Suspense
-                                                                                                    fallback={
-                                                                                                        <div>
-                                                                                                            Loading...
-                                                                                                        </div>
-                                                                                                    }
-                                                                                                >
-                                                                                                    <AppRouter>
-                                                                                                        <div className="content-frame">
-                                                                                                            <AppRoutes />
-                                                                                                        </div>
-                                                                                                    </AppRouter>
-                                                                                                </Suspense>
-                                                                                                <PortalUrl />
-                                                                                            </HelmetProvider>
-                                                                                        </MarketingProvider>
-                                                                                    </CreateNewQuoteProvider>
-                                                                                </ContactDetailsProvider>
-                                                                            </ProfessionalProfileProvider>
-                                                                        </CampaignInvitationProvider>
-                                                                    </TaskListProvider>
-                                                                </StageSummaryProvider>
-                                                            </BackNavProvider>
-                                                        </ContactsProvider>
-                                                    </DeleteLeadProvider>
-                                                </CountyDataProvider>
-                                            </CountyProvider>
-                                        </AgentAccountProvider>
-                                    </AgentPreferencesProvider>
+                                    <StageStatusProvider>
+                                        <AgentPreferencesProvider>
+                                            <AgentAccountProvider>
+                                                <CountyProvider>
+                                                    <CountyDataProvider>
+                                                        <DeleteLeadProvider>
+                                                            <ContactsProvider>
+                                                                <BackNavProvider>
+                                                                    <StageSummaryProvider>
+                                                                        <TaskListProvider>
+                                                                            <CampaignInvitationProvider>
+                                                                                <ProfessionalProfileProvider>
+                                                                                    <ContactDetailsProvider>
+                                                                                        <CreateNewQuoteProvider>
+                                                                                            <MarketingProvider>
+                                                                                                <HelmetProvider>
+                                                                                                    <Helmet>
+                                                                                                        <title>
+                                                                                                            Integrity
+                                                                                                        </title>
+                                                                                                    </Helmet>
+                                                                                                    <Suspense
+                                                                                                        fallback={
+                                                                                                            <div>
+                                                                                                                Loading...
+                                                                                                            </div>
+                                                                                                        }
+                                                                                                    >
+                                                                                                        <AppRouter>
+                                                                                                            <div className="content-frame">
+                                                                                                                <AppRoutes />
+                                                                                                            </div>
+                                                                                                        </AppRouter>
+                                                                                                    </Suspense>
+                                                                                                    <PortalUrl />
+                                                                                                </HelmetProvider>
+                                                                                            </MarketingProvider>
+                                                                                        </CreateNewQuoteProvider>
+                                                                                    </ContactDetailsProvider>
+                                                                                </ProfessionalProfileProvider>
+                                                                            </CampaignInvitationProvider>
+                                                                        </TaskListProvider>
+                                                                    </StageSummaryProvider>
+                                                                </BackNavProvider>
+                                                            </ContactsProvider>
+                                                        </DeleteLeadProvider>
+                                                    </CountyDataProvider>
+                                                </CountyProvider>
+                                            </AgentAccountProvider>
+                                        </AgentPreferencesProvider>
+                                    </StageStatusProvider>
                                 </ToastContextProvider>
                             </RecoilRoot>
                         </ThemeProvider>
@@ -113,7 +116,7 @@ root.render(
                 </Auth0ProviderWithHistory>
             </Router>
         </ParallaxProvider>
-    </React.StrictMode>,
+    </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

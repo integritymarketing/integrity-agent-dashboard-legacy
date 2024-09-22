@@ -1,14 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Typography, Box } from "@mui/material";
 import { Button } from "components/ui/Button";
 import NewBackBtn from "images/new-back-btn.svg";
 import styles from "./styles.module.scss";
-import { useCampaignInvitation } from "providers/CampaignInvitation";
 
 const CampaignSubHeader = () => {
-    const { invitationName, reset } = useCampaignInvitation();
-
     return (
         <Box
             sx={{
@@ -25,7 +21,9 @@ const CampaignSubHeader = () => {
                 <Button
                     icon={<img src={NewBackBtn} alt="Back" />}
                     label="Back"
-                    onClick={()=>{window.history.back(); reset();}}
+                    onClick={() => {
+                        window.history.back();
+                    }}
                     type="tertiary"
                     className={styles.backButton}
                 />
@@ -39,17 +37,10 @@ const CampaignSubHeader = () => {
                     flexGrow: 1,
                 }}
             >
-                {invitationName}
+                Campaign Details
             </Typography>
         </Box>
     );
-};
-
-CampaignSubHeader.propTypes = {
-    /** The title to be displayed in the center of the CampaignSubHeader */
-    title: PropTypes.string.isRequired,
-    /** Function to be called when the back button is clicked */
-    onBackClick: PropTypes.func.isRequired,
 };
 
 export default CampaignSubHeader;

@@ -5,38 +5,63 @@ import styles from "./styles.module.scss";
 import AllContacts from "components/icons/Marketing/allContacts";
 import FilterContacts from "components/icons/Marketing/filterContacts";
 import ChooseContact from "components/icons/Marketing/chooseContact";
+import CustomFilter from "components/icons/Marketing/customFilter";
 
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 import ReUseFilters from "components/ReUseFilters";
 import AutoCompleteContactSearchModal from "components/ChooseContactModal";
 import CustomPopover from "components/CustomPopOver";
 
+const actionIcons = {
+    "all contacts": <AllContacts />,
+    "a contact": <ChooseContact />,
+    "contacts filtered by…": <FilterContacts />,
+};
+
 const contactOptions = [
-    { optionText: "all contacts", value: "all contacts", icon: <AllContacts /> },
-    { optionText: "a contact", value: "a contact", icon: <ChooseContact /> },
-    { optionText: "contacts filtered by ..", icon: <FilterContacts />, value: "contacts filtered by .." },
+    { optionText: "all contacts", value: { actionName: "all contacts" }, icon: <AllContacts /> },
+    { optionText: "a contact", value: { actionName: "a contact" }, icon: <ChooseContact /> },
+    {
+        optionText: "contacts filtered by ",
+        icon: <FilterContacts />,
+        value: { actionName: "contacts filtered by .." },
+    },
 ];
 
 const InvitationBar = () => {
     const {
-        filteredContactsType,
-        setFilteredContactsType,
         handleSummaryBarInfo,
         setSelectedContact,
-        invitationSendType,
+        campaignChannel,
         contactName,
-        createdNewCampaign,
-        campaignInvitationData,
+        campaignStatus,
         campaignStatuses,
         isFetchCampaignDetailsByEmailLoading,
         isFetchCampaignDetailsByTextLoading,
         isUpdateCampaignLoading,
+        campaignActionType,
+        setCampaignActionType,
+        contactSearchId,
+        campaignActions,
+        setActionDescription,
+        selectedContact,
     } = useCampaignInvitation();
 
-    const filteredContactOptions =
-        invitationSendType === "Sms" ? contactOptions.filter((option) => option.value === "a contact") : contactOptions;
+    const emailActionsList = campaignActions.map((action) => ({
+        optionText: action.actionName,
+        value: action,
+        icon: actionIcons[action.actionName] || <CustomFilter />,
+    }));
 
-    const readOnly = createdNewCampaign?.campaignStatus === campaignStatuses.COMPLETED;
+    const smsActionsList = [
+        { optionText: "a contact", value: { actionName: "a contact", actionDescription: "" }, icon: <ChooseContact /> },
+    ];
+
+    const emailList = emailActionsList?.length > 0 ? emailActionsList : contactOptions;
+
+    const campaignActionOptions = campaignChannel === "Email" ? emailList : smsActionsList;
+
+    const readOnly = campaignStatus === campaignStatuses.COMPLETED;
 
     const [contactOptionOpen, setContactOptionOpen] = useState(null);
     const [chooseContactModalOpen, setChooseContactModalOpen] = useState(false);
@@ -44,19 +69,21 @@ const InvitationBar = () => {
 
     const handleContactOptionsChange = useCallback(
         (value) => {
-            setFilteredContactsType(value);
-            if (value === "a contact") {
+            const action = value?.actionName;
+            setCampaignActionType(action);
+            if (action === "a contact") {
                 sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
                 setChooseContactModalOpen(true);
-            } else if (value === "all contacts") {
+            } else if (action === "contacts filtered by…") {
+                setAnchorEl(contactOptionOpen);
+            } else {
                 sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
                 setSelectedContact(null);
-            } else {
-                setAnchorEl(contactOptionOpen);
+                setActionDescription(value?.actionDescription);
             }
             setContactOptionOpen(null);
         },
-        [contactOptionOpen, setSelectedContact, setFilteredContactsType],
+        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription]
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
@@ -67,7 +94,7 @@ const InvitationBar = () => {
         (event) => {
             setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
         },
-        [contactOptionOpen, filteredContactsType],
+        [contactOptionOpen, campaignActionType]
     );
 
     return (
@@ -87,18 +114,21 @@ const InvitationBar = () => {
                 }
             >
                 <Typography className={styles.optionLink}>
-                    {filteredContactsType === "all contacts" && `all contacts`}
-                    {filteredContactsType === "contacts filtered by .." && `Filtered contacts`}
-                    {filteredContactsType === "a contact" && (contactName ? contactName : "")}
-                    {filteredContactsType === "" ? "" : "."}
+                    {campaignActionType === "contacts filtered by…" && `Filtered contacts`}
+                    {campaignActionType === "a contact" && (contactName ? contactName : "")}
+                    {campaignActionType !== "contacts filtered by…" &&
+                    campaignActionType !== "a contact" &&
+                    campaignActionType !== ""
+                        ? campaignActionType
+                        : ""}
+                    {campaignActionType?.length > 2 ? "." : ""}
                 </Typography>
                 {!readOnly && <ArrowDownBig width="40px" height="40px" />}
 
                 <CustomPopover
-                    options={filteredContactOptions}
+                    options={campaignActionOptions}
                     anchorEl={contactOptionOpen}
                     handleAction={handleContactOptionsChange}
-                    handleClose={() => setContactOptionOpen(null)}
                 />
             </Box>
 
@@ -106,7 +136,7 @@ const InvitationBar = () => {
                 anchorEl={anchorEl}
                 handleClose={handleCloseFilterDropdown}
                 handleSummaryBarInfo={handleSummaryBarInfo}
-                campaignId={campaignInvitationData?.id}
+                searchId={contactSearchId}
             />
 
             {!readOnly && chooseContactModalOpen && (
@@ -115,11 +145,14 @@ const InvitationBar = () => {
                     handleClose={() => setChooseContactModalOpen(false)}
                     handleCancel={() => {
                         setChooseContactModalOpen(false);
+                        if (!selectedContact) {
+                            setCampaignActionType("");
+                        }
                     }}
                     handleContactSelect={setSelectedContact}
                     title="Select a Contact"
                     subTitle="Search for a contact by name"
-                    campaignId={campaignInvitationData?.id}
+                    searchId={contactSearchId}
                 />
             )}
         </Box>

@@ -14,9 +14,9 @@ export default function MarketingContainer() {
     const {
         reset,
         handleCreateOrUpdateCampaign,
-        setCampaignDescription,
         isCreateCampaignRequestInProgress,
         campaignStatuses,
+        setCampaignName,
     } = useCampaignInvitation();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +26,11 @@ export default function MarketingContainer() {
     }, [getCompletedCampaigns]);
 
     const handleOnSave = useCallback(() => {
-        handleCreateOrUpdateCampaign(campaignStatuses.DRAFT, "/marketing/campaign-invitation");
+        handleCreateOrUpdateCampaign({
+            campaign_Status: campaignStatuses.DRAFT,
+            redirectTo: "/marketing/campaign-details",
+            isUpdate: false,
+        });
     }, [handleCreateOrUpdateCampaign, campaignStatuses]);
 
     const initiateCampaign = () => {
@@ -58,7 +62,7 @@ export default function MarketingContainer() {
                         onSave={handleOnSave}
                         actionButtonName="Create"
                         cancelButtonName="Cancel"
-                        onTextChange={(value) => setCampaignDescription(value)}
+                        onTextChange={(value) => setCampaignName(value)}
                     />
                 )}
             </WithLoader>

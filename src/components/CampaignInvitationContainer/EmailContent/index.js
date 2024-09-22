@@ -4,8 +4,7 @@ import styles from "./styles.module.scss";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 
 const EmailContent = () => {
-    const { campaignInvitationData } = useCampaignInvitation();
-    const templateDetails = campaignInvitationData?.templateDetails || [];
+    const { templateDetails } = useCampaignInvitation();
 
     return (
         <Grid item md={6} xs={12} className={styles.emailDetails}>

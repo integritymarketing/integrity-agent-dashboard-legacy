@@ -36,7 +36,7 @@ const MarketingBanner = ({ page, leadDetails = null }) => {
                 handleSelectedContact(leadInformation);
             }
         }
-        navigate("/marketing/campaign-invitation");
+        navigate("/marketing/campaign-details");
     };
 
     return (
@@ -87,7 +87,7 @@ MarketingBanner.propTypes = {
         emails: PropTypes.arrayOf(
             PropTypes.shape({
                 leadEmail: PropTypes.string,
-            }),
+            })
         ),
     }),
 };

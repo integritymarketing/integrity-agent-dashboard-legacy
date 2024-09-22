@@ -15,8 +15,8 @@ const FooterButtons = ({
         {shouldShowCancelButton && (
             <Button
                 size="medium"
-                variant="contained"
-                color="secondary"
+                variant="text"
+                color="primary"
                 sx={{
                     marginRight: "16px",
                 }}

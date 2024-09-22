@@ -6,63 +6,111 @@ import ClearFilterButton from "./ClearFilterButton";
 
 const InvitationCountBar = () => {
     const {
-        filteredContactsType,
-        setFilteredContactsType,
+        campaignActionType,
+        setCampaignActionType,
         filteredContentStatus,
         filteredCount,
         totalContactsCount,
         eligibleContactsLength,
         contactName,
-        createdNewCampaign,
+        campaignStatus,
         filteredEligibleCount,
-        campaignStatuses
+        campaignStatuses,
+        actionDescription,
     } = useCampaignInvitation();
 
-    const readOnly = createdNewCampaign?.campaignStatus === campaignStatuses.COMPLETED;
+    const readOnly = campaignStatus === campaignStatuses.COMPLETED;
 
     const handleClearFilter = () => {
-        setFilteredContactsType("");
-    }
+        setCampaignActionType("");
+        sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
+    };
 
     const showClearFilterButton = () => {
-        return filteredContactsType === "a contact" || filteredContactsType === "contacts filtered by ..";
-    }
+        return (campaignActionType === "a contact" || campaignActionType === "contacts filtered by…") && !readOnly;
+    };
+
+    // Define the words to be styled in black
+    const blackWords = ["if", "is", "not"]; // Replace with your specific words
+
+    // Function to style the actionDescription
+    const styleActionDescription = (description) => {
+        if (!description) return description;
+        return description
+            ?.split(" ")
+            ?.map((word, index) => {
+                const cleanWord = word.replace(/[.,?!;:()]/g, ""); // Remove punctuation for accurate matching
+                if (blackWords.includes(cleanWord.toLowerCase())) {
+                    return `<span class="${styles.blackWord}">${word}</span>`;
+                } else {
+                    return `<span class="${styles.blueWord}">${word}</span>`;
+                }
+            })
+            .join(" ");
+    };
 
     return (
         <Box className={styles.banner}>
             <Box className={styles.colorBar}></Box>
             <Box className={styles.bannerContent}>
-                {filteredContactsType === "a contact" && (
+                {campaignActionType === "a contact" && (
                     <>
                         Sending to <span className={styles.count}> 1</span> contact
                     </>
                 )}
-                {filteredContactsType === "all contacts" && (
+                {campaignActionType === "all contacts" && (
                     <>
                         Sending to <span className={styles.count}>{eligibleContactsLength}</span> of{" "}
                         <span className={styles.count}>{totalContactsCount}</span> contacts
                     </>
                 )}
 
-                {filteredContactsType === "contacts filtered by .." && (
+                {campaignActionType === "contacts filtered by…" && (
                     <>
                         Sending to <span className={styles.count}>{filteredCount}</span> of{" "}
                         <span className={styles.count}>{filteredEligibleCount}</span> contacts
                     </>
                 )}
+                {campaignActionType !== "contacts filtered by…" &&
+                    campaignActionType !== "a contact" &&
+                    campaignActionType !== "" && (
+                        <>
+                            Sending to <span className={styles.count}>{eligibleContactsLength}</span> contacts
+                        </>
+                    )}
             </Box>
             <Box className={styles.divider} />
 
             <Box className={styles.filteredContent}>
-                {filteredContactsType === "a contact" && (contactName ? contactName : "Choose a contact")}
+                {campaignActionType === "a contact" && (contactName ? contactName : "Choose a contact")}
 
-                {filteredContactsType === "all contacts" && "All Contacts who have an email address and have not created a PlanEnroll account"}
+                {campaignActionType === "all contacts" &&
+                    "All Contacts who have an email address and have not created a PlanEnroll account"}
 
-                {filteredContactsType === "contacts filtered by .." && filteredContentStatus && (
-                    <span dangerouslySetInnerHTML={{ __html: `${filteredContentStatus} who have an email address and have not created a PlanEnroll account` }}></span>
+                {campaignActionType === "contacts filtered by…" && filteredContentStatus && (
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: `${filteredContentStatus} who have an email address and have not created a PlanEnroll account`,
+                        }}
+                    ></span>
                 )}
+                {campaignActionType !== "contacts filtered by…" &&
+                    campaignActionType !== "a contact" &&
+                    campaignActionType !== "" && (
+                        <>
+                            <span
+                                dangerouslySetInnerHTML={{
+                                    __html: styleActionDescription(actionDescription),
+                                }}
+                            ></span>
+                        </>
+                    )}
             </Box>
-            {showClearFilterButton() && <Box className={`${styles.bannerFilter} ${readOnly ? styles.disabled : ''}`}><ClearFilterButton onClear={readOnly ? undefined : handleClearFilter} /></Box>}
+            {showClearFilterButton() && (
+                <Box className={styles.bannerFilter}>
+                    <ClearFilterButton onClear={readOnly ? undefined : handleClearFilter} />
+                </Box>
+            )}
         </Box>
     );
 };

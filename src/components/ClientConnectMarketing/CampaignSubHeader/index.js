@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { Typography, Box, Button } from "@mui/material";
 import styles from "./styles.module.scss";
 import PlusIcon from "images/Campaigns/icons-Plus.svg";
@@ -8,22 +8,24 @@ import CreateCampaignModal from "../../CampaignInvitationContainer/CreateCampaig
 
 const CampaignSubHeader = () => {
     const {
-        reset,
         handleCreateOrUpdateCampaign,
-        setCampaignDescription,
         isCreateCampaignRequestInProgress,
         campaignStatuses,
         isCreateCampaignModalOpen,
         setIsCreateCampaignModalOpen,
+        setCampaignName,
     } = useCampaignInvitation();
 
     const initiateCampaign = () => {
-        reset();
         setIsCreateCampaignModalOpen(true);
     };
 
     const handleOnSave = useCallback(() => {
-        handleCreateOrUpdateCampaign(campaignStatuses.DRAFT, "/marketing/campaign-invitation");
+        handleCreateOrUpdateCampaign({
+            campaign_Status: campaignStatuses.DRAFT,
+            redirectTo: "/marketing/campaign-details",
+            isUpdate: false,
+        });
     }, [handleCreateOrUpdateCampaign, campaignStatuses]);
 
     return (
@@ -51,7 +53,7 @@ const CampaignSubHeader = () => {
                         onSave={handleOnSave}
                         actionButtonName="Create"
                         cancelButtonName="Cancel"
-                        onTextChange={(value) => setCampaignDescription(value)}
+                        onTextChange={(value) => setCampaignName(value)}
                     />
                 )}
             </WithLoader>

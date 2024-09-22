@@ -11,7 +11,7 @@ const MarketingBanner = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const navigateToCreateCampaignInvitation = () => {
-        navigate("/marketing/campaign-invitation");
+        navigate("/marketing/campaign-details");
     };
     return (
         <Grid container className={styles.marketingBanner}>
@@ -53,11 +53,6 @@ const MarketingBanner = () => {
             </Grid>
         </Grid>
     );
-};
-MarketingBanner.propTypes = {
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    buttonLabel: PropTypes.string.isRequired,
 };
 
 export default MarketingBanner;

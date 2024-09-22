@@ -45,7 +45,7 @@ const AutoCompleteContactSearchModal = ({
     handleContactSelect,
     isCreateNewAvailable = false,
     handleCancel,
-    campaignId,
+    searchId,
 }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [contactList, setContactList] = useState([]);
@@ -83,14 +83,11 @@ const AutoCompleteContactSearchModal = ({
             setLoading(true);
             try {
                 const response = await clientsService.getCampaignLeads(
-                    undefined,
-                    undefined,
                     ["CreateDate:desc"],
                     query,
                     undefined,
                     undefined,
-                    undefined,
-                    campaignId
+                    searchId
                 );
                 if (response) {
                     setContactList(response?.eligibleContacts);
@@ -104,7 +101,7 @@ const AutoCompleteContactSearchModal = ({
                 setLoading(false);
             }
         },
-        [clientsService, showToast, campaignId]
+        [clientsService, showToast, searchId]
     );
 
     const debouncedContactSearch = useCallback(

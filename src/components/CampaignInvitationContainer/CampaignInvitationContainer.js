@@ -1,4 +1,5 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
 import CampaignSubHeader from "./CampaignSubHeader";
@@ -7,30 +8,26 @@ import { useCampaignInvitation } from "providers/CampaignInvitation";
 import WithLoader from "components/ui/WithLoader";
 
 export const CampaignInvitationContainer = () => {
-    const {
-        handleSetDefaultSelection,
-        currentPage } = useCampaignInvitation();
+    const { campaignId } = useParams();
+
+    const { handleGetCampaignDetailsById, isFetchCampaignDetailsByIdLoading } = useCampaignInvitation();
 
     useEffect(() => {
-        if(currentPage !== 'Contact_Overview'){
-            handleSetDefaultSelection();
+        if (campaignId) {
+            handleGetCampaignDetailsById(campaignId);
         }
-    }, []);
-    return (
-            <Box
-                sx={{
-                    backgroundColor: "#F1F1F1",
-                }}
-            >
-                <CampaignSubHeader />
-                <CampaignInnerContainer />
-            </Box>
-    );
-};
+    }, [campaignId]);
 
-CampaignInvitationContainer.propTypes = {
-    /** The title to be displayed in the center of the CampaignInvitationContainer */
-    title: PropTypes.string.isRequired,
-    /** Function to be called when the back button is clicked */
-    onBackClick: PropTypes.func.isRequired,
+    return (
+        <Box
+            sx={{
+                backgroundColor: "#F1F1F1",
+            }}
+        >
+            <CampaignSubHeader />
+            <WithLoader isLoading={isFetchCampaignDetailsByIdLoading}>
+                <CampaignInnerContainer />
+            </WithLoader>
+        </Box>
+    );
 };

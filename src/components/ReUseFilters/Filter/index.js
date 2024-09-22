@@ -35,7 +35,7 @@ const StyledPopover = styled(Popover)(() => ({
     },
 }));
 
-export default function CustomContactListFilter({ handleSummaryBarInfo, campaignId }) {
+export default function CustomContactListFilter({ handleSummaryBarInfo, searchId }) {
     const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`;
     const { Get: fetchLeadTags } = useFetch(URL);
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
@@ -51,6 +51,15 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
     );
 
     const { statusOptions } = useContext(StageStatusContext);
+
+    const statusOptionsMap = useMemo(() => {
+        return statusOptions.map((item) => ({
+            value: item.statusId,
+            label: item.label,
+            color: item.color,
+        }));
+    }, [statusOptions]);
+
     const [isFilterSelectOpenForSection, setIsFilterSelectOpenForSection] = useState(null);
 
     const [fetchedFiltersSectionConfigFromApi, setFetchedFiltersSectionConfigFromApi] = useState(false);
@@ -115,10 +124,10 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
     const fetchAllListCount = useCallback(async () => {
         if (!withoutFilterResponseSize) {
             const response = await fetchTableDataWithoutFilters({
-                pageIndex: 1,
-                pageSize: DEFAULT_PAGE_ITEM,
                 searchString: null,
                 sort: DEFAULT_SORT,
+                statusOptionsMap,
+                searchId,
             });
             setWithoutFilterResponseSize(response?.total);
         }
@@ -126,22 +135,20 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, campaign
 
     const resetData = useCallback(
         (newSelectedFilterSections) => {
-            if (campaignId) {
+            if (searchId) {
                 fetchAllListCount();
                 fetchTableData({
-                    pageIndex: 1,
-                    pageSize: DEFAULT_PAGE_ITEM,
                     sort: DEFAULT_SORT,
                     searchString: undefined,
                     selectedFilterSections: newSelectedFilterSections,
-                    filterSectionsConfig,
                     isSilent: true,
                     returnAll: true,
-                    campaignId,
+                    searchId,
+                    statusOptionsMap,
                 });
             }
         },
-        [filterSectionsConfig, campaignId]
+        [searchId, , statusOptionsMap]
     );
 
     const setFilterSectionsConfig = useCallback(

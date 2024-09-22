@@ -4,8 +4,6 @@ import { Navigate } from "react-router-dom";
 import { ContactDetailsProvider } from "providers/ContactDetails";
 import { FinalExpensePlansProvider } from "providers/FinalExpense";
 import { ContactsListProvider } from "pages/ContactsList/providers/ContactsListProvider";
-import { StageStatusProvider } from "contexts/stageStatus";
-import { PharmacyProvider } from "providers/PharmacyProvider";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
 const AccountPage = lazy(() => import("pages/Account/AccountPage"));
@@ -33,15 +31,15 @@ const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
 const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
 const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
 const SOAConfirmationForm = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation"));
-const SOAConfirmationPage = lazy(
-    () => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage"),
+const SOAConfirmationPage = lazy(() =>
+    import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage")
 );
 const TermsPage = lazy(() => import("pages/TermsPage"));
 const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
 const TaskListResultsMobileLayout = lazy(() => import("pages/dashbaord/Tasklist/TaskListResultsMobileLayout"));
-const PolicySnapshotMobileLayout = lazy(
-    () => import("pages/dashbaord/PolicySnapShot/PolicySnapShotMobileContainer/PolicySnapShotMobileContainer"),
+const PolicySnapshotMobileLayout = lazy(() =>
+    import("pages/dashbaord/PolicySnapShot/PolicySnapShotMobileContainer/PolicySnapShotMobileContainer")
 );
 
 const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
@@ -196,9 +194,7 @@ const appProtectedRoutes = [
         path: "/plans/:contactId/compare/:planIds/:effectiveDate",
         component: (
             <ContactDetailsProvider>
-                <PharmacyProvider>
-                    <ComparePlansPage />
-                </PharmacyProvider>
+                <ComparePlansPage />
             </ContactDetailsProvider>
         ),
     },
@@ -206,9 +202,7 @@ const appProtectedRoutes = [
         path: "/plans/:contactId",
         component: (
             <ContactDetailsProvider>
-                <PharmacyProvider>
-                    <PlansPage />
-                </PharmacyProvider>
+                <PlansPage />
             </ContactDetailsProvider>
         ),
     },
@@ -216,9 +210,7 @@ const appProtectedRoutes = [
         path: "/:contactId/plan/:planId/:effectiveDate",
         component: (
             <ContactDetailsProvider>
-                <PharmacyProvider>
-                    <PlanDetailsPage />
-                </PharmacyProvider>
+                <PlanDetailsPage />,
             </ContactDetailsProvider>
         ),
     },
@@ -286,13 +278,11 @@ const appProtectedRoutes = [
         ),
     },
     {
-        path: "marketing/campaign-invitation",
+        path: "marketing/campaign-details/:campaignId",
         component: (
-            <StageStatusProvider>
-                <ContactsListProvider>
-                    <CampaignInvitationPage />
-                </ContactsListProvider>
-            </StageStatusProvider>
+            <ContactsListProvider>
+                <CampaignInvitationPage />
+            </ContactsListProvider>
         ),
     },
     {

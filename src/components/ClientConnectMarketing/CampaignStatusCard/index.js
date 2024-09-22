@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import { Box, Typography, Grid, useMediaQuery, useTheme, IconButton } from "@mui/material";
 import EmailIcon from "components/icons/Marketing/emailIcon";
 import CampaignStatusInfoCard from "../CampaignStatusInfoCard";
@@ -19,10 +20,18 @@ import {
 
 const CampaignStatusCard = ({ campaign }) => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const { campaignChannel, customCampaignDescription, campaignStatus, campaignType, formattedDate, requestPayload } =
-        campaign;
+    const {
+        campaignChannel,
+        customCampaignDescription,
+        campaignStatus,
+        campaignType,
+        formattedDate,
+        requestPayload,
+        id,
+    } = campaign;
 
     const statusInfo = [
         { name: "Recipients", value: "1,300", sPercentage: "", icon: MetricRecipients },
@@ -31,27 +40,27 @@ const CampaignStatusCard = ({ campaign }) => {
         { name: "Unsubscribes", value: "11", sPercentage: "0.8%", icon: MetricUnsubscribes },
     ];
 
+    const handleOpenCampaign = () => {
+        navigate(`/marketing/campaign-details/${id}`);
+    };
+
     return (
         <Box className={styles.campaignCardContainer}>
             <Box className={styles.campaignCard}>
                 <Box className={styles.cardHeader}>
                     <Box className={styles.cardType}>
-                        {campaignChannel === "Email" ? (
-                            <>
-                                <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
+                        <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
+                            {campaignChannel === "Email" ? (
+                                <>
                                     <CampaignTypeEmail size="lg" className={styles.mIcon} />
-                                </IconButton>
-                            </>
-                        ) : campaignChannel === "Sms" ? (
-                            <>
-                                {" "}
-                                <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
+                                </>
+                            ) : campaignChannel === "Text" ? (
+                                <>
                                     <CampaignTypeTextMessage size="lg" className={styles.mIcon} />
-                                </IconButton>
-                            </>
-                        ) : null}
-
-                        <Typography className={styles.campaignTitle} variant="h4">
+                                </>
+                            ) : null}
+                        </IconButton>
+                        <Typography className={styles.campaignTitle} variant="h4" onClick={handleOpenCampaign}>
                             {truncateText(customCampaignDescription, isSmallScreen ? 15 : 45)}
                         </Typography>
                     </Box>
@@ -63,7 +72,7 @@ const CampaignStatusCard = ({ campaign }) => {
                 <Box className={styles.cardDetails}>
                     {campaignChannel && (
                         <Box className={styles.cardLabel}>
-                            I want to send {campaignChannel === "Sms" ? "a" : "an"} {campaignChannel.toLowerCase()} to
+                            I want to send an {campaignChannel.toLowerCase()} to
                             <span className={styles.cardValue}>
                                 {" "}
                                 {customCampaignDescription} to {requestPayload?.leads[0]?.firstName}{" "}
@@ -119,7 +128,7 @@ CampaignStatusCard.propTypes = {
                 PropTypes.shape({
                     firstName: PropTypes.string,
                     lastName: PropTypes.string,
-                }),
+                })
             ),
         }),
         sentDate: PropTypes.string,
