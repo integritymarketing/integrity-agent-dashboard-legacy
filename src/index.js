@@ -29,13 +29,14 @@ import { ContactDetailsProvider } from "providers/ContactDetails";
 import { MarketingProvider } from "providers/Marketing";
 import { CountyDataProvider } from "providers/CountyDataProvider";
 import { StageStatusProvider } from "contexts/stageStatus";
-
+import { PharmacyProvider } from "providers/PharmacyProvider";
 import AppRoutes from "./App";
 import "./index.scss";
 import * as serviceWorker from "./serviceWorker";
 import customTheme from "./themes/muiTheme";
 import { ClientServiceContextProvider } from "services/clientServiceProvider";
 import Auth0ProviderWithHistory from "auth/Auth0ProviderWithHistory";
+
 // error logging disabled for netlify deploy-preview and branch-deploy builds
 // DSN only defined in production apps.  see netlify.toml
 if (process.env.REACT_APP_SENTRY_DSN) {
@@ -73,27 +74,29 @@ root.render(
                                                                                     <ContactDetailsProvider>
                                                                                         <CreateNewQuoteProvider>
                                                                                             <MarketingProvider>
-                                                                                                <HelmetProvider>
-                                                                                                    <Helmet>
-                                                                                                        <title>
-                                                                                                            Integrity
-                                                                                                        </title>
-                                                                                                    </Helmet>
-                                                                                                    <Suspense
-                                                                                                        fallback={
-                                                                                                            <div>
-                                                                                                                Loading...
-                                                                                                            </div>
-                                                                                                        }
-                                                                                                    >
-                                                                                                        <AppRouter>
-                                                                                                            <div className="content-frame">
-                                                                                                                <AppRoutes />
-                                                                                                            </div>
-                                                                                                        </AppRouter>
-                                                                                                    </Suspense>
-                                                                                                    <PortalUrl />
-                                                                                                </HelmetProvider>
+                                                                                                <PharmacyProvider>
+                                                                                                    <HelmetProvider>
+                                                                                                        <Helmet>
+                                                                                                            <title>
+                                                                                                                Integrity
+                                                                                                            </title>
+                                                                                                        </Helmet>
+                                                                                                        <Suspense
+                                                                                                            fallback={
+                                                                                                                <div>
+                                                                                                                    Loading...
+                                                                                                                </div>
+                                                                                                            }
+                                                                                                        >
+                                                                                                            <AppRouter>
+                                                                                                                <div className="content-frame">
+                                                                                                                    <AppRoutes />
+                                                                                                                </div>
+                                                                                                            </AppRouter>
+                                                                                                        </Suspense>
+                                                                                                        <PortalUrl />
+                                                                                                    </HelmetProvider>
+                                                                                                </PharmacyProvider>
                                                                                             </MarketingProvider>
                                                                                         </CreateNewQuoteProvider>
                                                                                     </ContactDetailsProvider>
