@@ -3,11 +3,17 @@ import PropTypes from "prop-types";
 import ArrowDown from "../../../icons/arrow-down";
 import PlanDetailsTable from "../index";
 import Media from "react-media";
+import { usePharmacyContext } from "providers/PharmacyProvider";
 
 export function MonthlyCostTable({ planData, months, monthNumber, currencyFormatter, isShowMore }) {
+    const { selectedPharmacy } = usePharmacyContext();
+    const { pharmacyCosts } = planData;
+
+    const selectedPharmacyCosts = pharmacyCosts.find((rx) => rx.pharmacyID === selectedPharmacy.pharmacyId);
+
     const effectiveMonthlyCosts =
-        planData && planData.pharmacyCosts?.length > 0
-            ? planData.pharmacyCosts[0].monthlyCosts?.filter((mc) => mc.monthID <= 12 - parseInt(monthNumber))
+        planData && pharmacyCosts?.length > 0
+            ? selectedPharmacyCosts?.monthlyCosts?.filter((mc) => mc.monthID <= 12 - parseInt(monthNumber))
             : [];
     const [expandedMonths, setExpandedMonths] = useState({});
     const [showMore, setShowMore] = useState(false);
@@ -17,7 +23,7 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
             { Header: "Prescription", accessor: "labelName" },
             { Header: "Cost", accessor: "memberCost" },
         ],
-        []
+        [],
     );
 
     const showMonthlyBars = () => {
@@ -37,7 +43,7 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
                     onClick={(e) => {
                         e.stopPropagation();
                         const newExpandedMonths = { ...expandedMonths };
-                        newExpandedMonths[mc.monthID] = !!!expandedMonths[mc.monthID];
+                        newExpandedMonths[mc.monthID] = Boolean(!expandedMonths[mc.monthID]);
                         setExpandedMonths(newExpandedMonths);
                     }}
                 >
@@ -82,11 +88,11 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
 
     const showPastMonthBar = () => {
         const start = monthNumber !== 1 ? months[0] : undefined;
-        const previous = start && months[monthNumber - 2] ? " - " + months[monthNumber - 2] : "";
+        const previous = start && months[monthNumber - 2] ? ` - ${months[monthNumber - 2]}` : "";
         return (
             <div className="cost-monthly-bar">
                 <div>
-                    {start + previous} <span className="date">{"Effective " + months[monthNumber - 1]}</span>
+                    {start + previous} <span className="date">{`Effective ${months[monthNumber - 1]}`}</span>
                 </div>
                 <div>{currencyFormatter.format(0)}</div>
             </div>
@@ -97,7 +103,7 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
         const finalTotal = (
             <div className={"total-line"}>
                 <span className={"total-label"}>Total Monthly Estimated Cost:</span>{" "}
-                <span className={"value"}>{" " + currencyFormatter.format(totalEstimatedCost)}</span>
+                <span className={"value"}>{` ${currencyFormatter.format(totalEstimatedCost)}`}</span>
             </div>
         );
 
@@ -107,13 +113,13 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
                     <div className={"total-line"}>
                         <span className={"total-label"}>Premium</span>{" "}
                         <span className={"value"}>
-                            {" " + currencyFormatter.format(planData.annualPlanPremium / 12)}
+                            {` ${currencyFormatter.format(planData.annualPlanPremium / 12)}`}
                         </span>
                     </div>
                     <span className={"operator value"}>+</span>
                     <div className={"total-line"}>
                         <span className={"total-label"}>Drug Cost</span>{" "}
-                        <span className={"value"}>{" " + currencyFormatter.format(totalDrugCost || 0)}</span>
+                        <span className={"value"}>{` ${currencyFormatter.format(totalDrugCost || 0)}`}</span>
                     </div>
                     {isMobile ? <></> : <span className={"operator value"}>=</span>}
                     {!isMobile && <div>{finalTotal}</div>}
