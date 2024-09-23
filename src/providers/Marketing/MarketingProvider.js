@@ -50,7 +50,12 @@ export const MarketingProvider = ({ children }) => {
         try {
             const resData = await fetchCompletedCampaigns();
             if (resData?.length) {
-                setAllCampaignsList(resData);
+                const sortAllCampaignsList = resData.sort((a, b) => {
+                    const dateA = new Date(a.modifiedDateTime);
+                    const dateB = new Date(b.modifiedDateTime);
+                    return dateB - dateA;
+                });
+                setAllCampaignsList(sortAllCampaignsList);
                 const filteredData = resData.filter((item) => item.campaignStatus === "Completed");
                 setCompletedCampaignsList(filteredData);
             }
@@ -116,7 +121,7 @@ export const MarketingProvider = ({ children }) => {
                 });
             }
         },
-        [deleteCampaign, updateCampaign, createCampaign, showToast, navigate]
+        [deleteCampaign, updateCampaign, createCampaign, showToast, navigate],
     );
 
     return <MarketingContext.Provider value={getContextValue()}>{children}</MarketingContext.Provider>;
