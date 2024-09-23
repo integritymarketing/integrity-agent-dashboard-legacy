@@ -63,6 +63,16 @@
         }
 
         td {
+            .naText {
+                font-family: Lato;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 16px;
+                line-height: 130%;
+                color: #2b323b;
+                margin-left: 10px;
+            }
+
             @media screen and (min-width: 320px) and (max-width: 480px) {
                 word-break: initial;
                 padding: 16px;
@@ -94,6 +104,11 @@
                     font-weight: normal;
                     display: none;
                 }
+                p {
+                    display: inline;
+                    margin-left: 10px;
+                }
+
                 @media screen and (min-width: 320px) and (max-width: 480px) {
                     display: flex;
                     flex-direction: column;

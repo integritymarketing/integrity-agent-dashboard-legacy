@@ -8,6 +8,8 @@ import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/Enrollment
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
+import MailOrderNotApplicable from "../../components/MailOrderNotApplicable";
+import { useHealth } from "../../providers/ContactDetails";
 
 const PdpDetailsContent = ({
     contact,
@@ -25,6 +27,7 @@ const PdpDetailsContent = ({
     leadId,
 }) => {
     const location = useLocation();
+    const { pharmacies: pharmaciesList } = useHealth() || {};
     const costsRef = useRef(null);
     const prescriptionsRef = useRef(null);
     const pharmacyRef = useRef(null);
@@ -34,7 +37,17 @@ const PdpDetailsContent = ({
     const preferredMailOrderPharmacyCoverageRef = useRef(null);
     const standardMailOrderPharmacyCoverageRef = useRef(null);
     const planDocumentsRef = useRef(null);
-    const { hasPreferredRetailPharmacyNetwork, hasPreferredMailPharmacyNetwork, hasMailDrugBenefits } = plan;
+
+    const {
+        hasPreferredRetailPharmacyNetwork,
+        hasPreferredMailPharmacyNetwork,
+        hasMailDrugBenefits,
+        estimatedAnnualMailOrderDrugCostPartialYear,
+    } = plan;
+
+    const mailOrderNotApplicable =
+        (hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits;
+
     return (
         <>
             <div className={`${styles["left"]}`}>
@@ -155,6 +168,13 @@ const PdpDetailsContent = ({
                 <div ref={costsRef} className={`${styles["costs"]}`}>
                     {plan && <PdpCostTable planData={plan} isMobile={isMobile} planType="PDP" />}
                 </div>
+                <MailOrderNotApplicable
+                    mailOrderNotApplicable={mailOrderNotApplicable}
+                    pharmaciesList={pharmaciesList}
+                    contact={contact}
+                    refresh={refresh}
+                    leadId={leadId}
+                />
                 <div ref={prescriptionsRef} className={`${styles["prescription-details"]}`}>
                     {plan && (
                         <PrescriptionTable

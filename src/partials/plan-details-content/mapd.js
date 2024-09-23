@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import MapdCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
@@ -10,6 +10,8 @@ import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/Enrollment
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
 import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTableV2";
+import MailOrderNotApplicable from "components/MailOrderNotApplicable";
+import { useHealth } from "providers/ContactDetails";
 
 const MapdDetailsContent = ({
     contact,
@@ -25,6 +27,7 @@ const MapdDetailsContent = ({
     leadId,
 }) => {
     const location = useLocation();
+    const { pharmacies: pharmaciesList } = useHealth() || {};
     const costsRef = useRef(null);
     const providersRef = useRef(null);
     const prescriptionsRef = useRef(null);
@@ -36,7 +39,16 @@ const MapdDetailsContent = ({
     const preferredMailOrderPharmacyCoverageRef = useRef(null);
     const standardMailOrderPharmacyCoverageRef = useRef(null);
     const planDocumentsRef = useRef(null);
-    const { hasPreferredRetailPharmacyNetwork, hasPreferredMailPharmacyNetwork, hasMailDrugBenefits } = plan;
+
+    const {
+        hasPreferredRetailPharmacyNetwork,
+        hasPreferredMailPharmacyNetwork,
+        hasMailDrugBenefits,
+        estimatedAnnualMailOrderDrugCostPartialYear,
+    } = plan;
+
+    const mailOrderNotApplicable =
+        (hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits;
 
     return (
         <>
@@ -47,47 +59,17 @@ const MapdDetailsContent = ({
                     isMobile={isMobile}
                     hidePharmacy={location.pathname.includes("/enrollmenthistory/")}
                     sections={[
-                        {
-                            header: "Overview",
-                        },
-                        {
-                            id: "costs",
-                            label: "Estimated Costs",
-                        },
-                        {
-                            id: "prescriptions",
-                            label: "Prescriptions",
-                        },
-                        {
-                            id: "providers",
-                            label: "Providers",
-                        },
-                        {
-                            id: "pharmacy",
-                            label: "Pharmacy",
-                        },
-                        {
-                            header: "Plan Details",
-                        },
-                        {
-                            id: "planBenefits",
-                            label: "Plan Benefits",
-                        },
-                        {
-                            id: "pharmacyCoverage",
-                            label: "Pharmacy Coverage",
-                        },
-                        {
-                            id: "standardRetailPharmacyCoverage",
-                            label: "Standard Retail Pharmacy Coverage",
-                        },
+                        { header: "Overview" },
+                        { id: "costs", label: "Estimated Costs" },
+                        { id: "prescriptions", label: "Prescriptions" },
+                        { id: "providers", label: "Providers" },
+                        { id: "pharmacy", label: "Pharmacy" },
+                        { header: "Plan Details" },
+                        { id: "planBenefits", label: "Plan Benefits" },
+                        { id: "pharmacyCoverage", label: "Pharmacy Coverage" },
+                        { id: "standardRetailPharmacyCoverage", label: "Standard Retail Pharmacy Coverage" },
                         ...(hasPreferredRetailPharmacyNetwork
-                            ? [
-                                  {
-                                      id: "preferredRetailPharmacyCoverage",
-                                      label: "Preferred Retail Pharmacy Coverage",
-                                  },
-                              ]
+                            ? [{ id: "preferredRetailPharmacyCoverage", label: "Preferred Retail Pharmacy Coverage" }]
                             : []),
                         ...(hasPreferredMailPharmacyNetwork
                             ? [
@@ -105,10 +87,7 @@ const MapdDetailsContent = ({
                                   },
                               ]
                             : []),
-                        {
-                            id: "planDocuments",
-                            label: "Plan Documents",
-                        },
+                        { id: "planDocuments", label: "Plan Documents" },
                     ]}
                     ref={{
                         costs: costsRef,
@@ -168,6 +147,13 @@ const MapdDetailsContent = ({
                 <div ref={costsRef} className={`${styles["costs"]}`}>
                     {plan && <MapdCostTable isMobile={isMobile} planData={plan} planType="MAPD" />}
                 </div>
+                <MailOrderNotApplicable
+                    mailOrderNotApplicable={mailOrderNotApplicable}
+                    pharmaciesList={pharmaciesList}
+                    contact={contact}
+                    refresh={refresh}
+                    leadId={leadId}
+                />
                 <div ref={prescriptionsRef} className={`${styles["prescription-details"]}`}>
                     {plan && (
                         <PrescriptionTable

@@ -2,6 +2,7 @@
     @media (max-width: 480px) {
         background-color: #f1f1f1;
     }
+
     .header {
         background-color: var(--v2-white);
         box-shadow: var(--shadow-default);
@@ -34,6 +35,7 @@
             margin-right: 15px;
             flex-grow: 1;
             flex-shrink: 1;
+
             @media (min-width: 320px) and (max-width: 767px) {
                 width: 90%;
                 margin: 35px 18px 0;
@@ -44,6 +46,7 @@
             flex-grow: 3;
             flex-shrink: 3;
             max-width: 871px;
+
             @media (max-width: 480px) {
                 margin-top: 0px;
                 width: 100%;
@@ -55,6 +58,7 @@
                 align-items: center;
                 margin-top: 15px;
                 padding-bottom: 33px;
+
                 @media (max-width: 480px) {
                     padding: 18px 0px 18px 0px;
                 }
@@ -70,6 +74,7 @@
 
                     .plans-type {
                         font-weight: 700;
+
                         @media (min-width: 320px) and (max-width: 767px) {
                             margin-left: 20px;
                         }
@@ -77,10 +82,10 @@
                 }
             }
 
-            .plans > div {
+            .plans>div {
                 margin-bottom: 24px;
 
-                > svg {
+                >svg {
                     margin-top: 15px;
                 }
             }
@@ -89,6 +94,7 @@
 
     .edit-container {
         margin-top: 46px;
+
         @media (min-width: 320px) and (max-width: 767px) {
             margin-top: 0;
         }
@@ -159,6 +165,7 @@
     align-items: center;
     bottom: 0;
     z-index: 1;
+
     @media (max-width: 480px) {
         flex-direction: column;
     }
@@ -207,6 +214,7 @@
         min-height: 90px;
         padding: 10px 20px;
         position: relative;
+
         @media (max-width: 480px) {
             width: 90%;
             min-width: unset;
@@ -227,6 +235,7 @@
             font-size: 16px;
             line-height: 130%;
             color: #202020;
+
             @media (max-width: 480px) {
                 width: 90%;
             }
@@ -256,10 +265,12 @@
     & Button {
         width: 115px;
         height: 48px;
+
         @media (max-width: 480px) {
             width: 90%;
             margin: 20px 0px;
         }
+
         .label {
             @media (max-width: 480px) {
                 font-size: 18px;
@@ -301,13 +312,15 @@
         }
     }
 }
-.comp-spinner > div {
+
+.comp-spinner>div {
     margin: 20px auto !important;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .comparePage {
     background-color: #f1f1f1;
     /* @media (min-width: 320px) and (max-width: 767px) {
@@ -319,6 +332,7 @@
 
     .back-button {
         color: #4178ff;
+
         span {
             margin-left: 10px;
         }
@@ -334,6 +348,7 @@
         display: flex;
         width: 100%;
         justify-content: space-between;
+
         div {
             width: 25%;
         }
@@ -372,24 +387,29 @@
     }
 
     margin-bottom: 36px;
+
     .plan-div:last-child {
         .plan-seperator {
             border-right: none;
         }
     }
+
     .compare-div {
         flex: 1;
         display: flex;
         padding: 16px;
         max-width: 320px;
         border-right: thin solid #e1e1e1;
+
         .vertical-stack {
             width: 100%;
             display: flex;
             flex-direction: column;
+
             .spacer {
                 flex: 1;
             }
+
             button {
                 width: 100px;
                 height: 30px;
@@ -399,15 +419,18 @@
                 padding: 0;
             }
         }
+
         .compare-text {
             font-size: 32px;
             font-weight: 400;
             color: var(--v2-dark-blue);
         }
+
         .share-plan-text {
             font-weight: 600;
         }
     }
+
     .plan-div {
         display: flex;
         flex: 1;
@@ -443,8 +466,10 @@
             margin-top: 18px;
             max-width: 200px;
         }
+
         .comp-plan-amnt {
             margin-top: 18px;
+
             .value {
                 font-weight: 600;
                 font-size: 18px;
@@ -457,13 +482,16 @@
                 }
             }
         }
+
         .comp-enrl-btn {
             margin-top: 21px;
         }
+
         .plan-seperator {
             border-right: 1.5px solid #e1e1e1;
             height: 100%;
         }
+
         .plan-img {
             object-fit: contain;
             max-width: 100%;
@@ -481,6 +509,7 @@
             padding: 16px;
             align-items: center;
             justify-content: center;
+
             a {
                 text-decoration: none;
             }
@@ -491,6 +520,7 @@
 .compare-plans-list {
     table tbody td {
         width: 25%;
+
         a {
             display: inline-block;
             max-width: 175px;
@@ -500,11 +530,13 @@
         }
     }
 }
+
 @media (min-width: 320px) and (max-width: 767px) {
     .effective-date-filter .select {
         width: 75%;
         margin-left: 0 !important;
     }
+
     .filter-btn-section {
         display: flex;
         position: fixed;
@@ -515,6 +547,7 @@
         left: 0;
         justify-content: center;
     }
+
     .filter-grey-btn {
         background: #f4f6fa;
         margin-right: 17px;
@@ -522,9 +555,11 @@
         border: 1px solid #dfe5ef;
         border-radius: 4px;
     }
+
     .filter-blue-btn {
         width: 150px;
     }
+
     .plans-count-mobile {
         font-family: Lato;
         font-style: normal;
@@ -536,6 +571,7 @@
         align-items: center;
         color: #2b323b;
     }
+
     .filter-plans-btn {
         background: #f1f5f9;
         border: 1px solid #cbd5e1;
@@ -564,6 +600,7 @@
     border: none !important;
     padding: 0;
     background-color: #f9fafb;
+
     :hover {
         background-color: #ddedff;
     }

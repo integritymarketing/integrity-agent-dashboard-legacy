@@ -91,6 +91,12 @@ export default function PlanCard({
         effectiveDate,
     );
 
+    const mailOrderNotApplicable = (selectedPharmacy?.name === "Mail Order") &&
+        (
+            (planData.hasMailDrugBenefits && !planData.estimatedAnnualMailOrderDrugCostPartialYear) ||
+            !planData.hasMailDrugBenefits
+        );
+
     return (
         <div className={"plan-card"}>
             <div className={`header ${isMobile ? "mobile" : ""}`}>
@@ -166,6 +172,7 @@ export default function PlanCard({
                         planData={planData}
                         effectiveDate={effectiveDate}
                         selectedPharmacyCosts={selectedPharmacyCosts.isMailOrder ? mailOrder : selectedPharmacyCosts}
+                        mailOrderNotApplicable={mailOrderNotApplicable}
                     />
                 </div>
             </div>

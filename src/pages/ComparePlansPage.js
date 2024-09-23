@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Media from "react-media";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import useRoles from "hooks/useRoles";
 
 import NonRTSBanner from "components/Non-RTS-Banner";
-import { Button } from "components/ui/Button";
 import BackButton from "components/BackButton";
 import ComparePlanModal from "components/ui/ComparePlanModal";
 import ComparePlansByPlanName from "components/ui/ComparePlansByPlanName";
@@ -32,8 +31,9 @@ import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./PlansPage.module.scss";
 
-import NewBackBtn from "images/new-back-btn.svg";
 import PharmacyFilter from "components/ui/PharmacyFilter";
+import MailOrderNotApplicable from "components/MailOrderNotApplicable";
+import { useLeadDetails } from "providers/ContactDetails";
 
 const ComparePlansPage = (props) => {
     const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
@@ -50,7 +50,9 @@ const ComparePlansPage = (props) => {
     const [contactData, setContactData] = useState({});
     const [hasErrorPrescriptions, setHasErrorPrescriptions] = useState(false);
     const [hasErrorPharmacies, setHasErrorPharmacies] = useState(false);
+    const [mailOrderNotApplicable, setMailOrderNotApplicable] = useState(false);
     const { clientsService, comparePlansService, plansService } = useClientServiceContext();
+    const { leadDetails } = useLeadDetails();
 
     const { isNonRTS_User } = useRoles();
 
@@ -144,6 +146,13 @@ const ComparePlansPage = (props) => {
     useEffect(() => {
         if (results && results.length) {
             setComparePlans(results?.filter((plan) => planIds.includes(plan?.id)));
+            const mailOrdrNotApplicable = results?.every((plan) => {
+                const { hasMailDrugBenefits, estimatedAnnualMailOrderDrugCostPartialYear } = plan;
+                return Boolean(
+                    (hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits,
+                );
+            });
+            setMailOrderNotApplicable(mailOrdrNotApplicable);
         }
     }, [planIds, results]);
 
@@ -228,6 +237,16 @@ const ComparePlansPage = (props) => {
                                     isFullYear={isFullYear}
                                     effectiveDate={effectiveDate}
                                 />
+                                <div style={{ height: 20 }} />
+                                {pharmacies && pharmacies?.length > 0 && (
+                                    <MailOrderNotApplicable
+                                        mailOrderNotApplicable={mailOrderNotApplicable}
+                                        pharmaciesList={pharmacies}
+                                        contact={leadDetails}
+                                        refresh={undefined}
+                                        leadId={leadDetails.leadsId}
+                                    />
+                                )}
                                 <div style={{ height: 20 }} />
                                 <ProvidersCompareTable plans={comparePlans} />
                                 <div style={{ height: 20 }} />

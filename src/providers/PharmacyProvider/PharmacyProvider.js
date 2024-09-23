@@ -13,6 +13,8 @@ export const PharmacyProvider = ({ children }) => {
 
         if (primaryPharmacy) {
             setSelectedPharmacy(primaryPharmacy);
+        }else {
+            setSelectedPharmacy({ name: "Mail Order" });
         }
     }, [pharmacies]);
 

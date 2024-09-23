@@ -6,6 +6,8 @@ import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/Enrollment
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTableV2";
+import MailOrderNotApplicable from "components/MailOrderNotApplicable";
+import { useHealth } from "providers/ContactDetails";
 
 const MaDetailsContent = ({
     plan,
@@ -19,11 +21,19 @@ const MaDetailsContent = ({
     refresh,
     contact,
 }) => {
+    const { pharmacies: pharmaciesList } = useHealth() || {};
+    const { leadId } = contact;
+
     const costsRef = useRef(null);
     const prescriptionsRef = useRef(null);
     const providersRef = useRef(null);
     const planBenefitsRef = useRef(null);
     const planDocumentsRef = useRef(null);
+
+    const { hasMailDrugBenefits, estimatedAnnualMailOrderDrugCostPartialYear } = plan;
+
+    const mailOrderNotApplicable =
+        (hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits;
 
     return (
         <>
@@ -102,7 +112,13 @@ const MaDetailsContent = ({
                 <div ref={costsRef} className={`${styles["costs"]}`}>
                     {plan && <MaCostTable isMobile={isMobile} planData={plan} planType="MA" />}
                 </div>
-
+                <MailOrderNotApplicable
+                    mailOrderNotApplicable={mailOrderNotApplicable}
+                    pharmaciesList={pharmaciesList}
+                    contact={contact}
+                    refresh={refresh}
+                    leadId={leadId}
+                />
                 <div ref={providersRef} className={`${styles["provider-details"]}`}>
                     {plan && (
                         <ProvidersTableV2
