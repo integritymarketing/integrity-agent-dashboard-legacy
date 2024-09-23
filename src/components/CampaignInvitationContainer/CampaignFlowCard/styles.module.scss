@@ -37,6 +37,35 @@
     font-size: 24px !important;
     margin-right: 16px;
 }
+.bigOption {
+    display: flex;
+    align-items: center;
+    padding: 12px 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.23);
+    cursor: pointer;
+    min-width: 15%;
+
+    svg {
+        margin-left: auto;
+    }
+
+    @include small {
+        width: 100%;
+    }
+}
+
+.bigOptionLink {
+    color: #4178ff;
+    font-size: 24px !important;
+    margin-right: 16px;
+
+    @include small {
+        width: 90%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
 
 .optionItem {
     display: flex;
@@ -91,15 +120,12 @@
 }
 
 .channelReasonsText {
-
 }
 
 .channelOptions {
-
 }
 
 .reasonOptions {
-
 }
 
 .disabled {

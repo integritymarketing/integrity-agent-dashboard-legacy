@@ -102,7 +102,7 @@ const CampaignInnerContainer = () => {
                     {campaign && <ActionPopoverContainer campaign={campaign} refresh={handleGetCampaignDetailsById} />}
                 </Box>
 
-                <Box display="flex" gap={2}>
+                <Box gap={2} className={styles.statusIcons}>
                     {(isStartCampaignLoading || isUpdateCampaignLoading) && (
                         <Button
                             variant="outlined"

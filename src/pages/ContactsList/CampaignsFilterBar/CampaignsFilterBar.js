@@ -6,7 +6,7 @@ import ClearFilterButton from "components/CampaignInvitationContainer/Invitation
 import { useContactsListContext } from "../providers/ContactsListProvider";
 import styles from "./styles.module.scss";
 
-function FilteredLeadIdsBanner() {
+function CampaignsFilterBar() {
     const { refreshData } = useContactsListContext();
     const { filteredIds, removeFilteredLeadIds, filteredInfo } = useCampaignLeadIds();
     const count = filteredIds?.length ?? 0;
@@ -50,4 +50,4 @@ function FilteredLeadIdsBanner() {
     );
 }
 
-export default FilteredLeadIdsBanner;
+export default CampaignsFilterBar;

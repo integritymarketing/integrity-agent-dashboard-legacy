@@ -126,7 +126,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
 
                 {showEmailChannels() && (
                     <Box
-                        className={`${styles.option} ${styles.reasonOptions} ${readOnly ? styles.disabled : ""}`}
+                        className={`${styles.bigOption} ${styles.reasonOptions} ${readOnly ? styles.disabled : ""}`}
                         onClick={
                             readOnly ||
                             isUpdateCampaignLoading ||
@@ -136,7 +136,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
                                 : handleEmailChannelOptions
                         }
                     >
-                        <Typography className={styles.optionLink}>{campaignDescriptionType}</Typography>
+                        <Typography className={styles.bigOptionLink}>{campaignDescriptionType}</Typography>
                         {!readOnly && <ArrowDownBig width="40px" height="40px" />}
 
                         <CustomPopover

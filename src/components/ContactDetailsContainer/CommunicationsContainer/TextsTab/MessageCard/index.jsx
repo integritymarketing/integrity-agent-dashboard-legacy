@@ -8,7 +8,12 @@ const MessageCard = ({ smsType, data }) => {
     const { formattedDate, formattedTime } = convertAndFormatUTCDateToLocalDate(data.createdDateTime);
     if (!data.isFreeForm) {
         return (
-            <FreeFormMessage formattedDate={formattedDate} formattedTime={formattedTime} hasViewed={data.hasViewed} />
+            <FreeFormMessage
+                formattedDate={formattedDate}
+                formattedTime={formattedTime}
+                hasViewed={data.hasViewed}
+                campaignLogId={data?.campaignLogId}
+            />
         );
     }
     switch (smsType) {

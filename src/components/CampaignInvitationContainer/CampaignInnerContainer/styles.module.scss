@@ -18,6 +18,10 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
+
+    @include small {
+        flex-direction: column-reverse;
+    }
 }
 
 .campaignTitle {
@@ -25,6 +29,18 @@
     flex-direction: row;
     align-items: center;
     gap: 8px;
+
+    @include small {
+        justify-content: space-between;
+    }
+}
+
+.statusIcons {
+    display: flex;
+
+    @include small {
+        margin-left: auto;
+    }
 }
 
 .content {

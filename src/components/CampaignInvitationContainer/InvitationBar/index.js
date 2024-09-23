@@ -86,7 +86,7 @@ const InvitationBar = () => {
             }
             setContactOptionOpen(null);
         },
-        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription],
+        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription]
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
@@ -102,7 +102,7 @@ const InvitationBar = () => {
         (event) => {
             setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
         },
-        [contactOptionOpen, campaignActionType],
+        [contactOptionOpen, campaignActionType]
     );
 
     return (
@@ -111,7 +111,7 @@ const InvitationBar = () => {
                 to
             </Typography>
             <Box
-                className={`${styles.option} ${readOnly ? styles.disabled : ""}`}
+                className={`${styles.bigOption} ${readOnly ? styles.disabled : ""}`}
                 onClick={
                     readOnly ||
                     isUpdateCampaignLoading ||
@@ -121,7 +121,7 @@ const InvitationBar = () => {
                         : handleContactOptions
                 }
             >
-                <Typography className={styles.optionLink}>
+                <Typography className={styles.bigOptionLink}>
                     {campaignActionType === "contacts filtered by…" && `Filtered contacts`}
                     {campaignActionType === "a contact" && (contactName ? contactName : "")}
                     {campaignActionType !== "contacts filtered by…" &&

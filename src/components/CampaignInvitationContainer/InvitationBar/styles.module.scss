@@ -18,7 +18,7 @@
     color: #052a63;
 }
 
-.option {
+.bigOption {
     display: flex;
     align-items: center;
     padding: 12px 8px;
@@ -28,14 +28,24 @@
     svg {
         margin-left: auto;
     }
+
+    @include small {
+        width: 100%;
+    }
 }
 
-.optionLink {
+.bigOptionLink {
     color: #4178ff;
     font-size: 24px !important;
     margin-right: 16px;
-}
 
+    @include small {
+        width: 90%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
 .optionItem {
     display: flex;
     align-items: center;
