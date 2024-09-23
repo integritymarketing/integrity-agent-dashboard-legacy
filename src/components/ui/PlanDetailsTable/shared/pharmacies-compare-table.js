@@ -1,5 +1,4 @@
-import React, { useMemo } from "react";
-
+import { useMemo } from "react";
 import PropTypes from "prop-types";
 import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 import OutNetworkX from "../../../icons/out-network-x";
@@ -162,14 +161,20 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
                                 return "-";
                             }
                             return plan.hasMailDrugBenefits
-                                ? (plan.estimatedAnnualMailOrderDrugCostPartialYear ?? notApplicableText)
+                                ? isEmpty
+                                    ? notApplicableText
+                                    : plan.estimatedAnnualMailOrderDrugCostPartialYear != null
+                                      ? currencyFormatter.format(
+                                            Number(plan.estimatedAnnualMailOrderDrugCostPartialYear).toFixed(2),
+                                        )
+                                      : notApplicableText
                                 : notApplicableText;
                         },
                     })),
                 ],
             },
         ],
-        [clonedPlans, notApplicableText],
+        [clonedPlans, currencyFormatter, isEmpty, notApplicableText],
     );
 
     const rowData = [
