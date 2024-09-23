@@ -14,6 +14,9 @@ const performAsyncOperation = async (operation, setLoading, onSuccess, onError) 
     setLoading(true);
     try {
         const data = await operation();
+        if (data?.status === 400) {
+            throw new Error(data);
+        }
         onSuccess(data);
     } catch (err) {
         Sentry.captureException(err);
@@ -86,7 +89,7 @@ export const HealthProvider = ({ children }) => {
             await performAsyncOperation(
                 () => putLeadPharmacies(pharmacyData, false, path),
                 setPharmacyLoading,
-                (data) => {}
+                (data) => { }
             );
         },
         [putLeadPharmacies]
@@ -357,5 +360,5 @@ export const HealthProvider = ({ children }) => {
 };
 
 HealthProvider.propTypes = {
-    children: PropTypes.node.isRequired, // Child components that this provider will wrap
+    children: PropTypes.node.isRequired,
 };
