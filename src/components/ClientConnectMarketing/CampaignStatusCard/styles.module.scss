@@ -9,6 +9,7 @@
 .cardDivider {
     border-top: 1px solid #e0e0e0;
 }
+
 .cardHeader {
     display: flex;
     align-items: center;
@@ -62,11 +63,13 @@
     text-overflow: ellipsis;
     word-wrap: break-word;
     margin-bottom: 12px;
+
     @include small {
         .campaignCardContainer {
             width: 82%;
         }
     }
+
     @include medium {
         .campaignCardContainer {
             width: 54%;
@@ -76,7 +79,8 @@
 
 .mIcon {
     display: contents;
-    > div {
+
+    >div {
         height: 36px;
     }
 }
@@ -85,6 +89,7 @@
     padding: 16px 0px;
     border-radius: 8px;
 }
+
 .campaignTitle {
     display: flex;
     text-transform: lowercase;
@@ -95,10 +100,6 @@
     cursor: pointer;
 }
 
-.campaignTitle::first-letter {
-    text-transform: uppercase;
-}
-
 .headerAction {
     text-align: right;
 }
@@ -106,6 +107,7 @@
 .clicksCardsContainer {
     gap: 8px;
 }
+
 .cardType {
     display: flex;
     align-items: center;
@@ -122,6 +124,7 @@
     &.emailIconBg {
         background: var(--error-light, #fff);
     }
+
     &.emailIconBg:hover {
         background: var(--error-light, #fff);
     }
