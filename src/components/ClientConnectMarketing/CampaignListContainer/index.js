@@ -17,18 +17,16 @@ const CampaignListContainer = ({ data, campaigns, status }) => {
     ];
 
     const calPercentage = (statusCount, list) => {
-        const deliveredCount = statusCount.find(({ statusName }) => statusName === "Delivered")?.count || 0;
+        const count = statusCount.find((item) => item.statusName === "Delivered")?.count || 0;
 
         if (list.statusName === "Delivered") {
             return null;
+        } else if (["open", "clicked", "UnSubscribed"].includes(list.statusName)) {
+            const per = count === 0 ? 0 : (list.count / count) * 100;
+            return `${Math.round(per)}%`;
         }
 
-        if (["open", "clicked", "UnSubscribed"].includes(list.statusName)) {
-            const percentage = deliveredCount === 0 ? 0 : (list.count / deliveredCount) * 100;
-            return `${Math.round(percentage)}%`;
-        }
-
-        return "0%";
+        return "0";
     };
 
     if (status === "Completed") {
