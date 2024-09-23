@@ -29,7 +29,7 @@ const TextsTab = () => {
 
     useEffect(() => {
         const smsLogIds = messageList
-            .filter((item) => !item.hasViewed && item.smsType === "inbound")
+            .filter((item) => !item.hasViewed && (item.smsType === "inbound" || !item.isFreeForm))
             .map((item) => item.id);
         if (smsLogIds.length) {
             postUpdateMessageRead({ smsLogIds });

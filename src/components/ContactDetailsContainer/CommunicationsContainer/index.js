@@ -60,7 +60,6 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
     }, [tabSelectedInitialParam, params]);
 
     const handleTabChange = (newValue) => {
-
         if (newValue === "texts" && unReadMessagesCount > 0) {
             fireEvent("Connect Communication Read", {
                 communicationMethod: "text messages",
@@ -80,7 +79,7 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
         setTabSelectedInitial(newValue);
     };
     const unReadMessagesCount = useMemo(() => {
-        return messageList.filter((item) => !item.hasViewed && item.smsType === "inbound").length;
+        return messageList.filter((item) => !item.hasViewed && (item.smsType === "inbound" || !item.isFreeForm)).length;
     }, [messageList]);
     return (
         <Container sx={{ mx: { xs: "1rem", sm: "2rem", md: "5rem" } }}>
@@ -88,7 +87,9 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                 <Grid item xs={12}>
                     <Tabs value={tabs[selectedTab].position} aria-label="communications-tabs" variant="fullWidth">
                         <Tab
-                            className={`${styles.tab} ${styles.tab1} ${selectedTab === "texts" ? styles.selectedTab : ""}`}
+                            className={`${styles.tab} ${styles.tab1} ${
+                                selectedTab === "texts" ? styles.selectedTab : ""
+                            }`}
                             icon={<TextIcon />}
                             onClick={() => handleTabChange("texts")}
                             iconPosition="end"
@@ -118,7 +119,9 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                             }
                         />
                         <Tab
-                            className={`${styles.tab} ${selectedTab === "scope-of-appointment" ? styles.selectedTab : ""}`}
+                            className={`${styles.tab} ${
+                                selectedTab === "scope-of-appointment" ? styles.selectedTab : ""
+                            }`}
                             icon={<EditBoxIcon />}
                             onClick={() => handleTabChange("scope-of-appointment")}
                             iconPosition="end"
