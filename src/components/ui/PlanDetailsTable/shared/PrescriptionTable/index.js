@@ -10,10 +10,15 @@ import PrescriptionCoverageModal from "components/SharedModals/PrescriptionCover
 import Plus from "components/icons/plus";
 import Edit from "components/Edit";
 import EditIcon from "components/icons/edit2";
+import { usePharmacyContext } from "providers/PharmacyProvider";
 
-const PrescriptionTable = ({ isMobile, planDrugCoverage, drugCosts, planData, refresh, isEnroll, leadId }) => {
+const PrescriptionTable = ({ isMobile, planDrugCoverage, planData, refresh, isEnroll, leadId }) => {
     const { prescriptions, fetchPrescriptions } = useHealth();
 
+    const { selectedPharmacy } = usePharmacyContext();
+    const { pharmacyCosts } = planData;
+
+    const drugCosts = pharmacyCosts.find((rx) => rx.pharmacyID === selectedPharmacy.pharmacyId)?.drugCosts;
 
     useEffect(() => {
         if (leadId) {
@@ -22,8 +27,8 @@ const PrescriptionTable = ({ isMobile, planDrugCoverage, drugCosts, planData, re
     }, [leadId]);
 
     const fetchHealthDetails = useCallback(async () => {
-        await fetchPrescriptions(leadId)
-    }, [leadId, fetchPrescriptions,]);
+        await fetchPrescriptions(leadId);
+    }, [leadId, fetchPrescriptions]);
 
     const [isOpenPrescription, setIsOpenPrescription] = useState(false);
     const [isOpenEditPrescription, setIsOpenEditPrescription] = useState(false);
@@ -150,8 +155,10 @@ PrescriptionTable.propTypes = {
     prescriptions: PropTypes.array,
     isMobile: PropTypes.bool,
     planDrugCoverage: PropTypes.array,
-    drugCosts: PropTypes.array,
     planData: PropTypes.object,
+    refresh: PropTypes.func,
+    isEnroll: PropTypes.bool,
+    leadId: PropTypes.string,
 };
 
 export default PrescriptionTable;

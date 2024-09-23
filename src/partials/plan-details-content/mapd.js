@@ -160,7 +160,6 @@ const MapdDetailsContent = ({
                             planData={plan}
                             isMobile={isMobile}
                             planDrugCoverage={plan?.planDrugCoverage}
-                            drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
                             refresh={refresh}
                             isEnroll={isEnroll}
                             leadId={leadId}
