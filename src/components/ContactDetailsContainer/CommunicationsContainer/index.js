@@ -72,6 +72,10 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                 leadId: leadId,
             });
         }
+
+        if (selectedTab === "calls" && newValue !== "calls") {
+            getCallsList(leadId);
+        }
         setSelectedTab(newValue);
         params.set("tab", newValue);
         setTabSelectedInitial(newValue);
