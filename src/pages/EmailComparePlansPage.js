@@ -26,6 +26,7 @@ import analyticsService from "services/analyticsService";
 import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./PlansPage.module.scss";
+import Heading1 from "packages/Heading1";
 
 export default (props) => {
     const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
@@ -57,8 +58,8 @@ export default (props) => {
                 .map((planId) =>
                     !isComingFromEmail
                         ? plansService.getPlan(contactId, planId, contactData, effectiveDate)
-                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN)
-                )
+                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN),
+                ),
         );
     }
     const getContactRecordInfo = useCallback(async () => {
@@ -172,6 +173,7 @@ export default (props) => {
                             <Spinner />
                         ) : (
                             <div className={styles["compare-plans-list"]}>
+                                <h1>Test!!!</h1>
                                 <CostCompareTable
                                     plans={comparePlans}
                                     isFullYear={isFullYear}

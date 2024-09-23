@@ -33,6 +33,7 @@ import { useClientServiceContext } from "services/clientServiceProvider";
 import styles from "./PlansPage.module.scss";
 
 import NewBackBtn from "images/new-back-btn.svg";
+import PharmacyFilter from "components/ui/PharmacyFilter";
 
 const ComparePlansPage = (props) => {
     const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
@@ -221,6 +222,7 @@ const ComparePlansPage = (props) => {
                             <Spinner />
                         ) : (
                             <div className={styles["compare-plans-list"]}>
+                                <PharmacyFilter type="select" />
                                 <CostCompareTable
                                     plans={comparePlans}
                                     isFullYear={isFullYear}

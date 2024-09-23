@@ -1,40 +1,59 @@
 .pharmacy-filter {
-  color: #2b323b;
-  font-family: Lato;
-  font-size: 14px;
-
-  .header {
-    margin-bottom: 16px;
-    font-weight: 600;
-  }
-
-  .radio-label {
-    font-size: 14px;
-  }
-
-  .pharmacy-label {
-    font-weight: normal;
-  }
-
-  .pharmacy-address {
+    color: #2b323b;
     font-family: Lato;
-    font-style: normal;
-    font-weight: normal;
     font-size: 14px;
-    line-height: 150%;
-    display: flex;
-    align-items: center;
-    color: #64748b;
-  }
 
-  .option {
-    width: 100%;
+    .header {
+        margin-bottom: 16px;
+        font-weight: 600;
+    }
+
+    .radio-label {
+        font-size: 14px;
+    }
+
+    .pharmacy-label {
+        font-weight: normal;
+    }
+
+    .pharmacy-address {
+        font-family: Lato;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 150%;
+        display: flex;
+        align-items: center;
+        color: #64748b;
+    }
+
+    .option {
+        width: 100%;
+        font-weight: normal;
+        display: block;
+        color: var(--v2-dark-gray);
+    }
+
+    .subSection {
+        margin-top: 0;
+    }
+}
+
+.select-label {
     font-weight: normal;
-    display: block;
-    color: var(--v2-dark-gray);
-  }
+    line-height: 130%;
+    color: #052a63;
+    letter-spacing: 0.18px;
 
-  .subSection {
-    margin-top: 0;
-  }
+    font-size: 24px !important;
+}
+
+#pharmacy-select-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    select {
+        display: block;
+    }
+    margin-block-end: 20px;
 }

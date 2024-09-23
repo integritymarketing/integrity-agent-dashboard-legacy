@@ -93,13 +93,13 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
                     {
                         accessor: "data",
                         Cell({ value, row, rows }) {
-                            return renderCell(value, row.index, rows.length, prescriptions,);
+                            return renderCell(value, row.index, rows.length, prescriptions);
                         },
                     },
                 ],
             },
         ],
-        [prescriptions]
+        [prescriptions],
     );
 
     const data = useMemo(() => getTableData(plans, prescriptions, startMonth), [plans, prescriptions, startMonth]);
