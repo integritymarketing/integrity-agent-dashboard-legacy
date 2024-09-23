@@ -8,6 +8,8 @@ import "./index.scss";
 export default function PharmacyFilter({ type = "radio" }) {
     const { pharmacies, pharmacyLoading, selectedPharmacy, setSelectedPharmacy } = usePharmacyContext();
 
+    const featureFlag = process.env.REACT_APP_PHARMACY_FILTER_SHOW_MAILORDER === "true";
+
     const handleFilterChange = useCallback(
         (payload) => {
             const newPharmacy =
@@ -41,7 +43,7 @@ export default function PharmacyFilter({ type = "radio" }) {
                             Estimates Based On:
                         </legend>
 
-                        {!pharmacyLoading && (
+                        {!pharmacyLoading && pharmacies.length > 0 ? (
                             <>
                                 {/* Dynamic Options */}
                                 {pharmacies.map((pharmacy) => (
@@ -61,6 +63,15 @@ export default function PharmacyFilter({ type = "radio" }) {
                                     </label>
                                 ))}
 
+                                {featureFlag && (
+                                    <label htmlFor="option-mail-order" style={{ display: "flex", gap: "1ch" }}>
+                                        <Field id="option-mail-order" type="radio" name="picked" value="Mail Order" />
+                                        Mail Order
+                                    </label>
+                                )}
+                            </>
+                        ) : (
+                            <>
                                 {/* Static Option */}
                                 <label htmlFor="option-mail-order" style={{ display: "flex", gap: "1ch" }}>
                                     <Field id="option-mail-order" type="radio" name="picked" value="Mail Order" />
@@ -75,12 +86,27 @@ export default function PharmacyFilter({ type = "radio" }) {
     }
 
     if (type == "select") {
-        const selectOptions = [
-            ...pharmacies.map((pharmacy) => {
-                return { value: pharmacy.pharmacyId, label: pharmacy.name };
-            }),
-            { value: "Mail Order", label: "Mail Order" },
-        ];
+        const selectOptions = () => {
+            if (!pharmacyLoading && pharmacies.length > 0) {
+                const options = pharmacies.map((pharmacy) => ({ value: pharmacy.pharmacyId, label: pharmacy.name }));
+
+                if (featureFlag) {
+                    options.push({
+                        value: "Mail Order",
+                        label: "Mail Order",
+                    });
+                }
+
+                return options;
+            }
+
+            return [
+                {
+                    value: "Mail Order",
+                    label: "Mail Order",
+                },
+            ];
+        };
 
         let selectInitial;
 
@@ -98,7 +124,7 @@ export default function PharmacyFilter({ type = "radio" }) {
                 <span className="select-label">Estimates Based On</span>
                 <Select
                     initialValue={selectInitial.value}
-                    options={selectOptions}
+                    options={selectOptions()}
                     id="pharmacy-filter-select"
                     onChange={(event) => handleFilterChange(event)}
                     showValueAlways={true}
