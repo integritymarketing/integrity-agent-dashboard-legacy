@@ -78,7 +78,7 @@ const TextsTab = () => {
     );
 
     return (
-        <Box sx={{ p: { xs: 1, sm: 2 } }}>
+        <Box sx={{ p: { xs: 1, sm: 2 } }} className={styles.textsContainer}>
             <div className={styles.headerContainer}>
                 <div className={styles.messagesLengthTitle}>{messageList.length} messages</div>
                 <div className={styles.sendNewTextButton}>

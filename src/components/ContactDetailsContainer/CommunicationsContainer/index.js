@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import { Container, Tabs, Tab, Grid } from "@mui/material";
-import TextIcon from "components/icons/version-2/TextIcon";
+import { Container, Tabs, Tab, Grid, Badge } from "@mui/material";
+import { CallHistory, CampaignTypeTextMessage, EditBox } from "@integritymarketing/icons";
 import styles from "./CommunicationsContainer.module.scss";
-import CallIcon from "components/icons/callicon";
-import EditBoxIcon from "components/icons/version-2/EditBox";
 import CallsContainerTab from "./CallsContainerTab";
 import SOAsContainerTab from "./SOAsContainerTab";
 import useQueryParams from "hooks/useQueryParams";
@@ -85,47 +83,54 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
         <Container sx={{ mx: { xs: "1rem", sm: "2rem", md: "5rem" } }}>
             <Grid container>
                 <Grid item xs={12}>
-                    <Tabs value={tabs[selectedTab].position} aria-label="communications-tabs" variant="fullWidth">
+                    <Tabs value={tabs[selectedTab].position} aria-label="communications-tabs" variant="fullWidth" className={styles.tabs}>
                         <Tab
-                            className={`${styles.tab} ${styles.tab1} ${
-                                selectedTab === "texts" ? styles.selectedTab : ""
-                            }`}
-                            icon={<TextIcon />}
+                            active={selectedTab === "texts"}
+                            activeColor="primary"
                             onClick={() => handleTabChange("texts")}
-                            iconPosition="end"
                             label={
-                                <div className={styles.tabCountContainer}>
-                                    {!isMobile && "Texts"}{" "}
-                                    {unReadMessagesCount ? (
-                                        <span className={styles.tabCount}>{unReadMessagesCount}</span>
-                                    ) : (
-                                        ""
-                                    )}
+                                <div className={`${styles.tabTextContainer} ${selectedTab != "texts" ? styles.inactiveTab : ""}`}>
+                                    {!isMobile && "Texts"}
+                                    <Badge>
+                                        <div className={styles.tabIconContainer}>
+                                            <CampaignTypeTextMessage className={styles.tabIcon} />
+                                        </div>
+                                        {unReadMessagesCount > 0 && <Badge color={selectedTab === "texts" ? "primary" : "info"} badgeContent={unReadMessagesCount} className={styles.tabCountBadge} />}
+                                    </Badge>
                                 </div>
                             }
                         />
                         <Tab
-                            className={`${styles.tab} ${selectedTab === "calls" ? styles.selectedTab : ""}`}
-                            icon={<CallIcon />}
+                            active={selectedTab === "calls"}
+                            activeColor="primary"
                             onClick={() => handleTabChange("calls")}
-                            iconPosition="end"
                             label={
-                                <div className={styles.tabCountContainer}>
-                                    {!isMobile && "Calls"}{" "}
-                                    {unviewedCallCount > 0 && (
-                                        <span className={styles.tabCount}>{unviewedCallCount}</span>
-                                    )}
+                                <div className={`${styles.tabTextContainer} ${selectedTab != "calls" ? styles.inactiveTab : ""}`}>
+                                    {!isMobile && "Calls"}
+                                    <Badge>
+                                        <div className={styles.tabIconContainer}>
+                                            <CallHistory size="md" className={styles.tabIcon} />
+                                        </div>
+                                        {unviewedCallCount > 0 && <Badge color="primary" badgeContent={unviewedCallCount} className={styles.tabCountBadge} />}
+                                    </Badge>
                                 </div>
                             }
                         />
                         <Tab
-                            className={`${styles.tab} ${
-                                selectedTab === "scope-of-appointment" ? styles.selectedTab : ""
-                            }`}
-                            icon={<EditBoxIcon />}
+                            active={selectedTab === "scope-of-appointment"}
+                            activeColor="primary"
                             onClick={() => handleTabChange("scope-of-appointment")}
                             iconPosition="end"
-                            label={isMobile ? "" : "SOAs"}
+                            label={
+                                <div className={`${styles.tabTextContainer} ${selectedTab != "scope-of-appointment" ? styles.inactiveTab : ""}`}>
+                                    {!isMobile && "SOAs"}
+                                    <Badge>
+                                        <div className={styles.tabIconContainer}>
+                                            <EditBox className={styles.tabIcon} />
+                                        </div>
+                                    </Badge>
+                                </div>
+                            }
                         />
                     </Tabs>
                 </Grid>

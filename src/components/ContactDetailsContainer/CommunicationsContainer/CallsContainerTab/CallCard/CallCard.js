@@ -14,6 +14,8 @@ const CallCard = ({ call }) => {
     const [isMobile, setIsMobile] = useState(false);
 
     const isMissedCall = call.callStatusReason === "no-answer";
+    const callDuration = isMissedCall ? "Missed" : calculateCallDuration(call.duration);
+    const callTime = getLocalDateTime(call.callStartTime)?.time;
 
     const callIcons = {
         missed: <CallHistory className={styles.callIconSize} size="md" color="#C81E27" />,
@@ -47,12 +49,12 @@ const CallCard = ({ call }) => {
                                             {getLocalDateTime(call.callStartTime)?.date}
                                         </Typography>
                                         <Typography variant="custom">
-                                            {getLocalDateTime(call.callStartTime)?.time}
+                                            {call.hasViewed ? callTime : <strong>{callTime}</strong>}
                                         </Typography>
                                     </div>
                                     <div className={styles.callDuration}>
                                         <Typography variant="body1">
-                                            {isMissedCall ? <strong>Missed</strong> : calculateCallDuration(call.duration)}
+                                            {call.hasViewed ? callDuration : <strong>{callDuration}</strong>}
                                         </Typography>
                                     </div>
                                 </div>

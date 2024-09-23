@@ -1,5 +1,10 @@
 @import "../../../../scss/globalDefines.scss";
 
+.textsContainer {
+    width: min(100%, 840px);
+    margin-inline: auto;
+}
+
 .headerContainer {
     display: flex;
     justify-content: space-between;

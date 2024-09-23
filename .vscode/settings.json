@@ -25,7 +25,10 @@
     "editor.cursorStyle": "line",
     // Enable or disable line numbers
     "editor.lineNumbers": "on",
-    "eslint.validate": ["javascript", "javascriptreact"],
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact"
+    ],
     "eslint.workingDirectories": [
         {
             "mode": "auto"
