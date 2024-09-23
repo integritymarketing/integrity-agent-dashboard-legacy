@@ -157,6 +157,7 @@ const InvitationBar = () => {
                     title="Select a Contact"
                     subTitle="Search for a contact by name"
                     searchId={contactSearchId}
+                    currentContactOption={campaignChannel}
                 />
             )}
         </Box>

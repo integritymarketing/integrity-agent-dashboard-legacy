@@ -46,6 +46,7 @@ const AutoCompleteContactSearchModal = ({
     isCreateNewAvailable = false,
     handleCancel,
     searchId,
+    currentContactOption,
 }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [contactList, setContactList] = useState([]);
@@ -87,7 +88,7 @@ const AutoCompleteContactSearchModal = ({
                     query,
                     undefined,
                     undefined,
-                    searchId
+                    searchId,
                 );
                 if (response) {
                     setContactList(response?.eligibleContacts);
@@ -101,7 +102,7 @@ const AutoCompleteContactSearchModal = ({
                 setLoading(false);
             }
         },
-        [clientsService, showToast, searchId]
+        [clientsService, showToast, searchId],
     );
 
     const debouncedContactSearch = useCallback(
@@ -110,7 +111,7 @@ const AutoCompleteContactSearchModal = ({
                 fetchContacts(query);
             }
         }, 1000),
-        [fetchContacts]
+        [fetchContacts],
     );
 
     useEffect(() => {
@@ -157,25 +158,33 @@ const AutoCompleteContactSearchModal = ({
         return <ContactListItem {...props} contact={option} handleClick={handleSelectOldContact} />;
     };
 
-    const handleSubmit = async () => {
-        if (!tempLead?.email) {
+    const handleSubmit = () => {
+        if (currentContactOption === "Sms" && !tempLead?.phone) {
+            handleClose(false);
+            showToast({
+                type: "error",
+                message: "Cannot send campaign: This contact does not have a phone number.",
+                time: 5000,
+            });
+            return;
+        } else if (currentContactOption === "Email" && !tempLead?.email) {
             handleClose(false);
             showToast({
                 type: "error",
                 message: "Cannot send campaign: This contact does not have an email address.",
                 time: 5000,
             });
-        } else {
-            handleContactSelect(tempLead, "old");
-            handleClose(false);
+            return;
         }
+        handleContactSelect(tempLead, "old");
+        handleClose(false);
     };
 
     useEffect(() => {
         if (isCreateNewAvailable) {
-            setContactList([...contactList, { firstName: "", lastName: "", isNewContact: true }]);
+            setContactList((prevList) => [...prevList, { firstName: "", lastName: "", isNewContact: true }]);
         }
-    }, [contactList, isCreateNewAvailable]);
+    }, [isCreateNewAvailable]);
 
     return (
         <CustomModal
@@ -268,7 +277,8 @@ AutoCompleteContactSearchModal.propTypes = {
     handleContactSelect: PropTypes.func.isRequired,
     isCreateNewAvailable: PropTypes.bool,
     handleCancel: PropTypes.func.isRequired,
-    campaignId: PropTypes.string.isRequired,
+    searchId: PropTypes.string.isRequired,
+    currentContactOption: PropTypes.string.isRequired,
 };
 
 export default AutoCompleteContactSearchModal;
