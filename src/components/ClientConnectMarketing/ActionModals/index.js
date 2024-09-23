@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import { Box, Typography, InputAdornment } from "@mui/material";
 import { TextInput, CustomModal } from "components/MuiComponents";
 import { useMarketing } from "providers/Marketing";
+import { ActionsCopy, ActionsRename, ActionsDelete, ActionsSend } from "@integritymarketing/icons";
 import styles from "./styles.module.scss";
 
 const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
     const { handleAllCampaignActions } = useMarketing();
     const { optionText, optionLabel } = campaignAction;
 
-    const { customCampaignDescription: existingCampaignName } = campaign;
+    const { customCampaignDescription: existingCampaignName, campaignStatus } = campaign;
 
     const copyName = `${existingCampaignName} (Copy)`;
 
@@ -27,6 +28,7 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
             const payload = {
                 ...campaign,
                 customCampaignDescription: campaignName,
+                campaignStatus: "Draft",
                 id: 0,
             };
             handleAllCampaignActions({ payload: payload, method: "post", refresh });
@@ -54,6 +56,21 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
         onClose();
     };
 
+    const saveIcon = useMemo(() => {
+        if (optionText === "Copy") {
+            return <ActionsCopy color="#ffffff" />;
+        }
+        if (optionText === "Rename") {
+            return <ActionsRename color="#ffffff" />;
+        }
+        if (optionText === "Send") {
+            return <ActionsSend color="#ffffff" />;
+        }
+        if (optionText === "Delete") {
+            return <ActionsDelete color="#ffffff" />;
+        }
+    }, [optionText]);
+
     const disableSaveButton = useMemo(() => {
         if (optionText === "Rename" || optionText === "Copy") {
             return !campaignName || campaignName.length > maxLength || campaignName === existingCampaignName;
@@ -61,9 +78,28 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
         return false;
     }, [campaignName, optionText]);
 
+    const { title, saveButtonLabel } = useMemo(() => {
+        if (optionText === "Delete") {
+            return {
+                title: `Delete ${campaignStatus} Campaign`,
+                saveButtonLabel: `Delete this ${campaignStatus} Campaign`,
+            };
+        } else if (optionText === "Send") {
+            return {
+                title: "Send Campaign",
+                saveButtonLabel: "Send this Campaign",
+            };
+        } else {
+            return {
+                title: `${optionText} Campaign`,
+                saveButtonLabel: optionText,
+            };
+        }
+    }, [optionText, campaignStatus]);
+
     return (
         <CustomModal
-            title={`${optionText} Campaign`}
+            title={title}
             open={open}
             handleClose={onClose}
             footer
@@ -73,18 +109,15 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
             isSaveButtonDisabled={disableSaveButton}
             maxWidth="sm"
             disableContentBackground
-            saveLabel={optionText}
+            saveLabel={saveButtonLabel}
+            footerActionIcon={saveIcon}
         >
             <Box className={styles.modalSubHeading}>
-                <Typography variant="body1" gutterBottom>
-                    {optionLabel}
-                </Typography>
+                <Typography className={styles.campaignLabel}>{optionLabel}</Typography>
             </Box>
             {["Rename", "Copy"].includes(optionText) && (
                 <Box className={styles.modalContent}>
-                    <Typography variant="body1" gutterBottom>
-                        Campaign Name
-                    </Typography>
+                    <Typography className={styles.campaignName}>Campaign Name</Typography>
 
                     <TextInput
                         fullWidth

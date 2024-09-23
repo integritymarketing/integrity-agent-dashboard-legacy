@@ -4,7 +4,7 @@ import { Box, IconButton } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import styles from "./styles.module.scss";
 import ActionModal from "../ActionModals";
-import { ActionsCopy, ActionsRename, ActionsStart, ActionsDelete, ActionsSend } from "@integritymarketing/icons";
+import { ActionsCopy, ActionsRename, ActionsDelete, ActionsSend } from "@integritymarketing/icons";
 
 const campaignOperations = [
     { optionText: "Rename", value: "rename", icon: ActionsRename, optionLabel: "Edit campaign name." },
@@ -88,7 +88,6 @@ const ActionPopover = ({ anchorEl, onClose, campaign, refresh }) => {
                                         </IconButton>
                                     </Box>
                                     <Box
-                                        sx={{ cursor: "pointer" }}
                                         className={styles.selections}
                                         onClick={() => handleActionModalOpen(campaignObj)}
                                     >

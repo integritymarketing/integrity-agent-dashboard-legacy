@@ -20,6 +20,10 @@
     width: 100px;
     margin: 10px;
     border-radius: 4px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #434a51;
+    cursor: pointer;
 }
 
 .cardDivider {
@@ -31,4 +35,10 @@
     > div {
         height: 36px;
     }
+}
+
+.roundedIcon {
+    background-color: #f1faff !important;
+    width: 40px;
+    height: 40px;
 }

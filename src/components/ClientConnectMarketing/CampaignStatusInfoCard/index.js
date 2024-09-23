@@ -26,7 +26,7 @@ const CampaignStatusInfoCard = ({ icon: IconComponent, date, campaignStatus, cam
             <Box className={styles.sentStatusBody}>
                 <SendBlast color="black" size="md" className={styles.mIcon} /> &nbsp;
                 <Typography variant="body1">
-                    <span className={styles.sentText}>{campaignStatus !== "Active" ? campaignType : "When"}:</span>
+                    <span className={styles.sentText}>{campaignType}:</span>
                     <span className={styles.sentMsg}>one-time send</span>
                 </Typography>
             </Box>

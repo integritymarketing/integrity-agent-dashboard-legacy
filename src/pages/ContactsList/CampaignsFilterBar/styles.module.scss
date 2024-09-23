@@ -1,0 +1,65 @@
+@import "../../../scss/globalDefines.scss";
+
+.banner {
+    display: flex;
+    align-items: center;
+    border: 1px solid #dfe5ef;
+    background-color: #f1faff;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #434a51;
+    border-left: 6px solid #4178ff;
+    padding: 8px 16px;
+    width: 100%;
+    margin-bottom: 32px;
+
+    @include small {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.bannerFilter {
+    margin-left: auto;
+}
+
+.colorBar {
+    width: 2px;
+    height: 100%;
+    left: 0;
+    background-color: #4178ff;
+}
+
+.divider {
+    border: 1px solid #cccccc;
+    height: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+    @include small {
+        display: none;
+    }
+}
+
+.count {
+    font-weight: 700;
+}
+
+.filteredContent {
+    font-size: 16px;
+    line-height: 20px;
+
+    .status {
+        font-weight: 600;
+        color: #052a63;
+        margin-right: 4px;
+    }
+    .italicText {
+        font-style: italic;
+        color: #434a51;
+        margin-right: 4px;
+    }
+    .campaignName {
+        color: #4178ff;
+    }
+}

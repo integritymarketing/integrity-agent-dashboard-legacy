@@ -23,6 +23,7 @@ import { ContactsListActions } from "./ContactsListActions";
 import { ContactsTable } from "./ContactsTable";
 import { DuplicateBanner } from "./DuplicateBanner";
 import { FilteredLeadIdsBanner } from "./FilteredLeadIdsBanner";
+import { CampaignsFilterBar } from "./CampaignsFilterBar";
 import { ContactsListModalProvider } from "./providers/ContactsListModalProvider";
 import { ContactsListProvider } from "./providers/ContactsListProvider";
 import { ContactDetailsProvider } from "providers/ContactDetails";
@@ -48,6 +49,7 @@ function ContactsList() {
                                 <ContactsListActions />
                                 <FilteredLeadIdsBanner />
                                 <DuplicateBanner />
+                                <CampaignsFilterBar />
                                 {!isMobile && <Divider className={styles.divider} />}
                                 <Routes>
                                     <Route path="/" element={<Navigate to="/contacts/list" replace={true} />} />

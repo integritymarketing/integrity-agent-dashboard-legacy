@@ -700,6 +700,8 @@ export const CampaignInvitationProvider = ({ children }) => {
             setCampaignChannel,
             setCampaignName,
             setCurrentPage,
+            setFilteredContactsList,
+            setFilteredContentStatus,
             setIsCreateCampaignModalOpen,
             setSelectedContact,
             startCampaignError,

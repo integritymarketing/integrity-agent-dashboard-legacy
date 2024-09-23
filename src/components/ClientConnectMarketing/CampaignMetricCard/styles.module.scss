@@ -6,10 +6,14 @@
     padding: 8px;
     border-radius: 8px;
     display: flex;
+    cursor: pointer;
     @include small {
         align-items: center;
         justify-content: center;
     }
+}
+.disable {
+    cursor: not-allowed;
 }
 
 .percentage {

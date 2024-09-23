@@ -8,14 +8,7 @@ import truncateText from "utils/truncateText";
 import styles from "./styles.module.scss";
 import ActionPopoverContainer from "../ActionPopover";
 
-import {
-    MetricRecipients,
-    MetricOpens,
-    MetricClicks,
-    MetricUnsubscribes,
-    CampaignTypeTextMessage,
-    CampaignTypeEmail,
-} from "@integritymarketing/icons";
+import { CampaignTypeTextMessage, CampaignTypeEmail } from "@integritymarketing/icons";
 
 const CampaignStatusCard = ({ campaign }) => {
     const theme = useTheme();
@@ -29,19 +22,21 @@ const CampaignStatusCard = ({ campaign }) => {
         campaignType,
         formattedDate,
         requestPayload,
+        statusCounts,
         id,
     } = campaign;
-
-    const statusInfo = [
-        { name: "Recipients", value: "1,300", sPercentage: "", icon: MetricRecipients },
-        { name: "Opens", value: "550", sPercentage: "42%", icon: MetricOpens },
-        { name: "Clicks", value: "72", sPercentage: "5%", icon: MetricClicks },
-        { name: "Unsubscribes", value: "11", sPercentage: "0.8%", icon: MetricUnsubscribes },
-    ];
 
     const handleOpenCampaign = () => {
         navigate(`/marketing/campaign-details/${id}`);
     };
+
+    // Function to find the object with the specific status and return its count
+    const getStatusCount = (statusCounts, statusName) => {
+        const statusObject = statusCounts?.find((item) => item.statusName === statusName);
+        return statusObject ? statusObject.count : 0; // Return 0 if the status is not found
+    };
+
+    const totalCount = getStatusCount(statusCounts, "Delivered");
 
     return (
         <Box className={styles.campaignCardContainer}>
@@ -49,13 +44,18 @@ const CampaignStatusCard = ({ campaign }) => {
                 <Box className={styles.cardHeader}>
                     <Box className={styles.cardType}>
                         {campaignChannel === "Email" ? (
-                            <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
-                                <CampaignTypeEmail size="lg" className={styles.mIcon} />
-                            </IconButton>
+                            <>
+                                <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
+                                    <CampaignTypeEmail size="lg" className={styles.mIcon} />
+                                </IconButton>
+                            </>
                         ) : campaignChannel === "Sms" ? (
-                            <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
-                                <CampaignTypeTextMessage size="lg" className={styles.mIcon} />
-                            </IconButton>
+                            <>
+                                {" "}
+                                <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
+                                    <CampaignTypeTextMessage size="lg" className={styles.mIcon} />
+                                </IconButton>
+                            </>
                         ) : null}
 
                         <Typography className={styles.campaignTitle} variant="h4" onClick={handleOpenCampaign}>
@@ -70,7 +70,8 @@ const CampaignStatusCard = ({ campaign }) => {
                         <Box className={styles.cardLabel}>
                             I want to send {campaignChannel === "Sms" ? "a" : "an"} {campaignChannel.toLowerCase()} to
                             <span className={styles.cardValue}>
-                                {` ${customCampaignDescription} to ${requestPayload?.leads[0]?.firstName} ${requestPayload?.leads[0]?.lastName}`}
+                                {customCampaignDescription} to {requestPayload?.leads[0]?.firstName}
+                                {requestPayload?.leads[0]?.lastName}
                             </span>
                         </Box>
                     )}
@@ -86,16 +87,26 @@ const CampaignStatusCard = ({ campaign }) => {
                             icon={EmailIcon}
                         />
                     </Box>
-                    {statusInfo.length > 0 && (
+                    {statusCounts?.length > 0 && (
                         <Box className={styles.clicksCardsContainer}>
                             <Grid container spacing={1}>
-                                {statusInfo.map((item, index) => (
-                                    <Grid item xs={6} md={6} key={index}>
+                                {statusCounts.map((item, index) => (
+                                    <Grid
+                                        item
+                                        xs={item.statusName === "clicked" && statusCounts.length === 3 ? 12 : 6}
+                                        md={item.statusName === "clicked" && statusCounts.length === 3 ? 12 : 6}
+                                        key={index}
+                                    >
                                         <CampaignMetricCard
-                                            name={item.name}
-                                            value={item.value}
-                                            sPercentage={item.sPercentage}
+                                            key={index}
+                                            statusName={item.statusName}
+                                            count={item.count}
+                                            showPercentage={item.showPercentage}
                                             icon={item.icon}
+                                            campaignChannel={campaignChannel}
+                                            leadIds={item.leadIds}
+                                            campaignName={customCampaignDescription}
+                                            totalCount={totalCount}
                                         />
                                     </Grid>
                                 ))}
@@ -121,9 +132,18 @@ CampaignStatusCard.propTypes = {
                 PropTypes.shape({
                     firstName: PropTypes.string,
                     lastName: PropTypes.string,
-                }),
+                })
             ),
         }),
+        statusCounts: PropTypes.arrayOf(
+            PropTypes.shape({
+                count: PropTypes.number,
+                statusName: PropTypes.string,
+                showPercentage: PropTypes.string,
+                icon: PropTypes.elementType,
+                leadIds: PropTypes.arrayOf(),
+            })
+        ),
         sentDate: PropTypes.string,
         trigger: PropTypes.string,
         stats: PropTypes.shape({

@@ -27,13 +27,20 @@ CampaignsList.propTypes = {
             description: PropTypes.string.isRequired,
             sentDate: PropTypes.string,
             trigger: PropTypes.string,
+            statusCounts: PropTypes.arrayOf(
+                PropTypes.shape({
+                    count: PropTypes.number,
+                    statusName: PropTypes.string,
+                    leadIds: PropTypes.arrayOf(),
+                })
+            ),
             stats: PropTypes.shape({
                 recipients: PropTypes.number,
                 opens: PropTypes.number,
                 clicks: PropTypes.number,
                 unsubscribes: PropTypes.number,
             }),
-        }),
+        })
     ).isRequired,
 };
 

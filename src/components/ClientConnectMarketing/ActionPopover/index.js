@@ -20,7 +20,7 @@ const ActionPopoverContainer = ({ campaign, refresh }) => {
     return (
         <>
             <Box onClick={(event) => handleClick(event)}>
-                <IconButton size="lg">
+                <IconButton size="lg" className={styles.roundedIcon}>
                     <CampaignActionsEllipsis size="lg" className={styles.mIcon} />
                 </IconButton>
             </Box>

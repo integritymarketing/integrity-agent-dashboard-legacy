@@ -93,7 +93,14 @@ function useFetchTableData() {
                 }
                 const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
                 const filterLeadIds = getAndResetItemFromLocalStorage("filterLeadIds");
-                const leadIds = filterLeadIds ? filterLeadIds : duplicateIds ? duplicateIds : null;
+                const campaignsLeadIds = getAndResetItemFromLocalStorage("campaignsLeadIds");
+                const leadIds = filterLeadIds
+                    ? filterLeadIds
+                    : duplicateIds
+                    ? duplicateIds
+                    : campaignsLeadIds
+                    ? campaignsLeadIds
+                    : null;
                 let response;
                 if (!selectedFilterSections?.length) {
                     setIsLoading(true);

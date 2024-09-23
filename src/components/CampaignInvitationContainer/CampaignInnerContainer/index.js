@@ -31,9 +31,11 @@ const CampaignInnerContainer = () => {
         campaignStatus,
         templateDescription,
         handleGetCampaignDetailsById,
+        filteredContentStatus,
     } = useCampaignInvitation();
 
     const readOnly = campaignStatus === campaignStatuses.COMPLETED;
+    const selectedFilters = JSON.parse(sessionStorage.getItem("campaign_contactList_selectedFilterSections"));
 
     const [showPreview, setShowPreview] = useState(false);
     const [isSendCampaignModalOpen, setIsSendCampaignModalOpen] = useState(false);
@@ -57,7 +59,10 @@ const CampaignInnerContainer = () => {
         Boolean(campaignChannel) &&
         Boolean(campaignActionType) &&
         ((campaignActionType === "all contacts" && allContactsList?.length !== 0) ||
-            (campaignActionType === "contacts filtered by…" && filteredContactsList?.length !== 0) ||
+            (campaignActionType === "contacts filtered by…" &&
+                filteredContactsList?.length !== 0 &&
+                selectedFilters?.length !== 0 &&
+                filteredContentStatus) ||
             (campaignActionType === "a contact" && selectedContact) ||
             (campaignActionType !== "" && allContactsList?.length !== 0));
 
@@ -136,7 +141,7 @@ const CampaignInnerContainer = () => {
                         </Button>
                     </Box>
                 )}
-                {((showPreview && !readOnly) || readOnly) && (
+                {((showPreview && !readOnly && allSelected) || readOnly) && (
                     <>
                         <Grid container className={styles.detailsContainer}>
                             {templateDescription && <TemplateDescriptionCard description={templateDescription} />}

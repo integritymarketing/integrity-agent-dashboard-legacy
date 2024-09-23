@@ -31,6 +31,8 @@ const contactOptions = [
 const InvitationBar = () => {
     const {
         filteredContactsList,
+        filteredContentStatus,
+        setFilteredContactsList,
         handleSummaryBarInfo,
         setSelectedContact,
         campaignChannel,
@@ -89,10 +91,12 @@ const InvitationBar = () => {
 
     const handleCloseFilterDropdown = useCallback(() => {
         setAnchorEl(null);
-        if (filteredContactsList?.length === 0) {
+        const selectedFilters = JSON.parse(sessionStorage.getItem("campaign_contactList_selectedFilterSections"));
+        if (selectedFilters?.length === 0 && !filteredContentStatus) {
             setCampaignActionType("");
+            setFilteredContactsList([]);
         }
-    }, [setAnchorEl]);
+    }, [setAnchorEl, setFilteredContactsList, setCampaignActionType, filteredContentStatus]);
 
     const handleContactOptions = useCallback(
         (event) => {
@@ -133,6 +137,7 @@ const InvitationBar = () => {
                     options={campaignActionOptions}
                     anchorEl={contactOptionOpen}
                     handleAction={handleContactOptionsChange}
+                    handleClose={() => setContactOptionOpen(null)}
                 />
             </Box>
 
