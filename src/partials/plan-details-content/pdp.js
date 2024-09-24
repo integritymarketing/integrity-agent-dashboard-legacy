@@ -10,6 +10,7 @@ import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
 import MailOrderNotApplicable from "components/MailOrderNotApplicable";
+import PharmacyFilter from "components/ui/PharmacyFilter";
 import { useHealth } from "providers/ContactDetails";
 import { usePharmacyContext } from "providers/PharmacyProvider";
 
@@ -168,6 +169,9 @@ const PdpDetailsContent = ({
                         />
                     )}
                 </div>
+
+                {isMobile && <PharmacyFilter type="select" />}
+
                 <div ref={costsRef} className={`${styles["costs"]}`}>
                     {plan && <PdpCostTable planData={plan} isMobile={isMobile} planType="PDP" />}
                 </div>

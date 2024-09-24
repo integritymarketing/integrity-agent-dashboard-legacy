@@ -14,6 +14,7 @@ import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTab
 import MailOrderNotApplicable from "components/MailOrderNotApplicable";
 import { useHealth } from "providers/ContactDetails";
 import { usePharmacyContext } from "providers/PharmacyProvider";
+import PharmacyFilter from "components/ui/PharmacyFilter";
 
 const MapdDetailsContent = ({
     contact,
@@ -149,6 +150,8 @@ const MapdDetailsContent = ({
                         />
                     )}
                 </div>
+                {isMobile && <PharmacyFilter type="select" />}
+
                 <div ref={costsRef} className={`${styles["costs"]}`}>
                     {plan && <MapdCostTable isMobile={isMobile} planData={plan} planType="MAPD" />}
                 </div>

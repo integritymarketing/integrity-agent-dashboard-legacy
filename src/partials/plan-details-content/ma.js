@@ -8,6 +8,7 @@ import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTableV2";
 import MailOrderNotApplicable from "components/MailOrderNotApplicable";
+import PharmacyFilter from "components/ui/PharmacyFilter";
 import { useHealth } from "providers/ContactDetails";
 import { usePharmacyContext } from "providers/PharmacyProvider";
 
@@ -113,6 +114,9 @@ const MaDetailsContent = ({
                         />
                     )}
                 </div>
+
+                {isMobile && <PharmacyFilter type="select" />}
+
                 <div ref={costsRef} className={`${styles["costs"]}`}>
                     {plan && <MaCostTable isMobile={isMobile} planData={plan} planType="MA" />}
                 </div>
