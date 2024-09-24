@@ -32,6 +32,7 @@ import styles from "./PlanDetailsPage.module.scss";
 import { PLAN_TYPE_ENUMS } from "../constants";
 
 import NewBackBtn from "images/new-back-btn.svg";
+import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 
 const PlanDetailsPage = () => {
     const showToast = useToast();
@@ -48,13 +49,24 @@ const PlanDetailsPage = () => {
 
     const { isNonRTS_User } = useRoles();
     const { clientsService, plansService } = useClientServiceContext();
+    const [pharmacies, setPharmacies] = useState([]);
+    const {
+        pharmacies: pharmacyList,
+        fetchPharmacies
+    } = useHealth() || {};
+    
+    useEffect(() => {
+        setPharmacies(pharmacyList);
+    }, [pharmacyList])
 
     const getContactAndPlanData = useCallback(async () => {
         setIsLoading(true);
         try {
             const contactData = await clientsService.getContactInfo(contactId);
 
-            const planData = await plansService.getPlan(contactId, planId, contactData, effectiveDate);
+            const primaryPharmacy = pharmacyList.length > 0 ? pharmacyList.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
+
+            const planData = await plansService.getPlan(contactId, planId, contactData, effectiveDate, primaryPharmacy);
 
             if (!planData) {
                 showToast({
@@ -76,11 +88,19 @@ const PlanDetailsPage = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [contactId, planId, showToast, effectiveDate]);
+    }, [contactId, planId, showToast, effectiveDate, fetchPharmacies, pharmacies]);
 
     useEffect(() => {
         getContactAndPlanData();
     }, [getContactAndPlanData]);
+
+    const fetchPharmacyList = useCallback(async () => {
+        await fetchPharmacies(contactId);
+    }, [contactId, fetchPharmacies]);
+    
+    useEffect(() => {
+        fetchPharmacyList();
+    }, []);
 
     return (
         <React.Fragment>

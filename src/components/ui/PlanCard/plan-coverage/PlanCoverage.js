@@ -116,7 +116,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
     };
 
     const onDeletePharmacy = async (pharmacy) => {
-        await deletePharmacy(pharmacy, null, contactId);
+        await deletePharmacy(pharmacy,refresh, contactId);
         if (pharmacy.isPrimary) {
             const pharmacyToMakePrimary = pharmaciesList.find((item) => {
                 if (item.pharmacyId !== pharmacy.pharmacyId) {
@@ -124,7 +124,10 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
                 }
             });
             if (pharmacyToMakePrimary) {
-                handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
+                await handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
+                if(refresh) {
+                    refresh();
+                }
             }
         }
     };
@@ -274,7 +277,6 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
                         onDelete={(pharmacy) => {
                             onDeletePharmacy(pharmacy);
                             setIsOpenPharmacyCoverageModal(false);
-                            refresh();
                         }} />
                 </Modal>
             )}

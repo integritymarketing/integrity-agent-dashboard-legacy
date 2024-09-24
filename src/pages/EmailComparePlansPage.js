@@ -52,13 +52,14 @@ export default (props) => {
         agentNPN,
         agentInfo,
     }) {
+        const primaryPharmacy = pharmacies.length > 0 ? pharmacies.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
         return Promise.all(
             planIds
                 .filter(Boolean)
                 .map((planId) =>
                     !isComingFromEmail
-                        ? plansService.getPlan(contactId, planId, contactData, effectiveDate)
-                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN),
+                        ? plansService.getPlan(contactId, planId, contactData, effectiveDate, primaryPharmacy)
+                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN, primaryPharmacy),
                 ),
         );
     }

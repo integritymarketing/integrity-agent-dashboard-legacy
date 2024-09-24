@@ -142,7 +142,6 @@ const PlansPage = () => {
     const [results, setResults] = useState([]);
     const [providers, setProviders] = useState([]);
     const [prescriptions, setPrescriptions] = useState([]);
-    const [pharmacies, setPharmacies] = useState([]);
     const [selectedPlans, setSelectedPlans] = useState(
         initialSelectedPlans.reduce((acc, p) => {
             acc[p.id] = true;
@@ -160,7 +159,7 @@ const PlansPage = () => {
     const [rXToSpecialists, setRXToSpecialists] = useState([]);
     const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);
 
-    const { fetchPrescriptions, fetchPharmacies, fetchProviders } = useHealth() || {};
+    const { pharmacies, fetchPrescriptions, fetchPharmacies, fetchProviders } = useHealth() || {};
 
     useEffect(() => {
         if (id) {
@@ -204,7 +203,6 @@ const PlansPage = () => {
             setContact(contactData);
             setProviders(providerData.providers);
             setPrescriptions(prescriptionData);
-            setPharmacies(pharmacyData);
 
             const { birthdate, shouldHideSpecialistPrompt } = contactData;
             const payload = {
@@ -380,7 +378,8 @@ const PlansPage = () => {
                 setResults([]);
                 setSubTypeList([]);
                 setCarrierList([]);
-                const plansData = await plansService.getPlans(contact.leadsId, {
+                const primaryPharmacy = pharmacies?.length > 0 ? pharmacies.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
+                const params = {
                     fips: contact.addresses?.[0].countyFips.toString(),
                     zip: contact.addresses?.[0].postalCode.toString(),
                     year: effectiveDate.getFullYear(),
@@ -389,7 +388,11 @@ const PlansPage = () => {
                     ShowPharmacy: true,
                     PlanType: planType,
                     effectiveDate: `${effectiveDate.getFullYear()}-${effectiveDate.getMonth() + 1}-01`,
-                });
+                 }
+                if (primaryPharmacy) {
+                    params.pharmacyId = primaryPharmacy;
+                }
+                const plansData = await plansService.getPlans(contact.leadsId, params);
                 setPlansAvailableCount(plansData?.medicarePlans?.length);
                 setCurrentPage(1);
                 setResults(plansData?.medicarePlans);
@@ -403,7 +406,12 @@ const PlansPage = () => {
                 setPlansLoading(false);
             }
         }
-    }, [contact, effectiveDate, planType, myAppointedPlans]);
+    }, [contact, effectiveDate, planType, myAppointedPlans, pharmacies]);
+
+    useEffect(() => {
+        refreshPlans();
+    }, [refreshPlans, pharmacies]);
+
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -421,7 +429,8 @@ const PlansPage = () => {
                 setResults([]);
                 setSubTypeList([]);
                 setCarrierList([]);
-                const plansData = await plansService.getPlans(contact.leadsId, {
+                const primaryPharmacy = pharmacies?.length > 0 ? pharmacies.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
+                const params = {
                     fips: contact.addresses?.[0].countyFips.toString(),
                     zip: contact.addresses?.[0].postalCode.toString(),
                     year: effectiveDate.getFullYear(),
@@ -430,7 +439,11 @@ const PlansPage = () => {
                     ShowPharmacy: true,
                     PlanType: planType,
                     effectiveDate: `${effectiveDate.getFullYear()}-${effectiveDate.getMonth() + 1}-01`,
-                });
+                }
+                if (primaryPharmacy) {
+                    params.pharmacyId = primaryPharmacy;
+                }
+                const plansData = await plansService.getPlans(contact.leadsId, params);
                 setPlansAvailableCount(plansData?.medicarePlans?.length);
                 setCurrentPage(1);
                 setResults(plansData?.medicarePlans);
@@ -588,8 +601,8 @@ const PlansPage = () => {
             <div className={`${styles["plans-page"]}`}>
                 <Media
                     query={"(max-width: 500px)"}
-                    onChange={(isMobile) => {
-                        setIsMobile(isMobile);
+                    onChange={(isMobileDevice) => {
+                        setIsMobile(isMobileDevice);
                     }}
                 />
                 <WithLoader isLoading={isLoading}>

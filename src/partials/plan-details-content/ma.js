@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
+import PropTypes from "prop-types";
 import MaCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
 import MaPlanBenefitsTable from "components/ui/PlanDetailsTable/shared/plan-benefits-table";
 import PlanDocumentsTable from "components/ui/PlanDetailsTable/shared/plan-documents-table";
@@ -8,6 +9,7 @@ import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTableV2";
 import MailOrderNotApplicable from "components/MailOrderNotApplicable";
 import { useHealth } from "providers/ContactDetails";
+import { usePharmacyContext } from "providers/PharmacyProvider";
 
 const MaDetailsContent = ({
     plan,
@@ -22,6 +24,7 @@ const MaDetailsContent = ({
     contact,
 }) => {
     const { pharmacies: pharmaciesList } = useHealth() || {};
+    const { selectedPharmacy } = usePharmacyContext();
     const { leadId } = contact;
 
     const costsRef = useRef(null);
@@ -33,7 +36,8 @@ const MaDetailsContent = ({
     const { hasMailDrugBenefits, estimatedAnnualMailOrderDrugCostPartialYear } = plan;
 
     const mailOrderNotApplicable =
-        (hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits;
+        selectedPharmacy?.name === "Mail Order" &&
+        ((hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits);
 
     return (
         <>
@@ -140,6 +144,21 @@ const MaDetailsContent = ({
             </div>
         </>
     );
+};
+
+MaDetailsContent.propTypes = {
+    plan: PropTypes.object.isRequired,
+    isMobile: PropTypes.bool.isRequired,
+    styles: PropTypes.object.isRequired,
+    onEnrollClick: PropTypes.func.isRequired,
+    onShareClick: PropTypes.func.isRequired,
+    isEnroll: PropTypes.bool,
+    enrollData: PropTypes.object,
+    isEmail: PropTypes.bool,
+    refresh: PropTypes.func.isRequired,
+    contact: PropTypes.shape({
+        leadId: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 export default MaDetailsContent;

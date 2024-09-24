@@ -31,9 +31,11 @@ import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./PlansPage.module.scss";
 
+import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import PharmacyFilter from "components/ui/PharmacyFilter";
 import MailOrderNotApplicable from "components/MailOrderNotApplicable";
 import { useLeadDetails } from "providers/ContactDetails";
+import {usePharmacyContext} from "../providers/PharmacyProvider";
 
 const ComparePlansPage = (props) => {
     const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
@@ -51,9 +53,11 @@ const ComparePlansPage = (props) => {
     const [hasErrorPrescriptions, setHasErrorPrescriptions] = useState(false);
     const [hasErrorPharmacies, setHasErrorPharmacies] = useState(false);
     const [mailOrderNotApplicable, setMailOrderNotApplicable] = useState(false);
+
     const { clientsService, comparePlansService, plansService } = useClientServiceContext();
     const { leadDetails } = useLeadDetails();
-
+    const { pharmacies: pharmaciesList } = useHealth() || {};
+    const { selectedPharmacy } = usePharmacyContext();
     const { isNonRTS_User } = useRoles();
 
     function getAllPlanDetails({
@@ -65,13 +69,14 @@ const ComparePlansPage = (props) => {
         agentNPN,
         agentInfo,
     }) {
+        const primaryPharmacy = pharmaciesList.length > 0 ? pharmaciesList.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
         return Promise.all(
             planIds
                 .filter(Boolean)
                 .map((planId) =>
                     !isComingFromEmail
-                        ? plansService.getPlan(contactId, planId, contactData, effectiveDate)
-                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN),
+                        ? plansService.getPlan(contactId, planId, contactData, effectiveDate, primaryPharmacy)
+                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN, primaryPharmacy),
                 ),
         );
     }
@@ -148,13 +153,13 @@ const ComparePlansPage = (props) => {
             setComparePlans(results?.filter((plan) => planIds.includes(plan?.id)));
             const mailOrdrNotApplicable = results?.every((plan) => {
                 const { hasMailDrugBenefits, estimatedAnnualMailOrderDrugCostPartialYear } = plan;
-                return Boolean(
+                return (selectedPharmacy?.name === "Mail Order") && Boolean(
                     (hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits,
                 );
             });
             setMailOrderNotApplicable(mailOrdrNotApplicable);
         }
-    }, [planIds, results]);
+    }, [planIds, results, selectedPharmacy]);
 
     useEffect(() => {
         id && getContactRecordInfo();

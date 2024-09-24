@@ -11,12 +11,16 @@ export class PlansService {
         return response?.json();
     };
 
-    getPlan = async (leadId, planId, contactData, effectiveDate) => {
-        const response = await this._clientAPIRequest(`Lead/${leadId}/Plan/${planId}`, "GET", {
+    getPlan = async (leadId, planId, contactData, effectiveDate, primaryPharmacy) => {
+        const params = {
             zip: contactData.addresses[0].postalCode,
             fips: contactData.addresses[0].countyFips,
             effectiveDate,
-        });
+        }
+        if (primaryPharmacy) {
+            params.pharmacyId = primaryPharmacy;
+        }
+        const response = await this._clientAPIRequest(`Lead/${leadId}/Plan/${planId}`, "GET", params);
 
         return response?.json();
     };

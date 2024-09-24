@@ -26,16 +26,6 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const leadId = contact?.leadsId;
 
-    useEffect(() => {
-        if (leadId) {
-            fetchPharmacyDetails();
-        }
-    }, [leadId]);
-
-    const fetchPharmacyDetails = useCallback(async () => {
-        await fetchPharmacies(leadId);
-    }, [leadId, fetchPharmacies]);
-
     const hasApiFailed = pharmacyList?.length === 0 && planData?.pharmacyCosts?.length > 0;
 
     const handleSetAsPrimary = async (pharmacyId) => {

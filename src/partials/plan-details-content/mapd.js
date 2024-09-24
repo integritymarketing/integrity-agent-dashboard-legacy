@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import { useRef } from "react";
+import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import MapdCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
@@ -12,6 +13,7 @@ import PrescriptionTable from "components/ui/PlanDetailsTable/shared/Prescriptio
 import ProvidersTableV2 from "components/ui/PlanDetailsTable/shared/ProvidersTableV2";
 import MailOrderNotApplicable from "components/MailOrderNotApplicable";
 import { useHealth } from "providers/ContactDetails";
+import { usePharmacyContext } from "providers/PharmacyProvider";
 
 const MapdDetailsContent = ({
     contact,
@@ -28,6 +30,8 @@ const MapdDetailsContent = ({
 }) => {
     const location = useLocation();
     const { pharmacies: pharmaciesList } = useHealth() || {};
+    const { selectedPharmacy } = usePharmacyContext();
+
     const costsRef = useRef(null);
     const providersRef = useRef(null);
     const prescriptionsRef = useRef(null);
@@ -48,7 +52,8 @@ const MapdDetailsContent = ({
     } = plan;
 
     const mailOrderNotApplicable =
-        (hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits;
+        selectedPharmacy?.name === "Mail Order" &&
+        ((hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits);
 
     return (
         <>
@@ -209,6 +214,20 @@ const MapdDetailsContent = ({
             </div>
         </>
     );
+};
+
+MapdDetailsContent.propTypes = {
+    contact: PropTypes.object.isRequired,
+    plan: PropTypes.object.isRequired,
+    isMobile: PropTypes.bool.isRequired,
+    styles: PropTypes.object.isRequired,
+    onEnrollClick: PropTypes.func.isRequired,
+    onShareClick: PropTypes.func.isRequired,
+    isEnroll: PropTypes.bool,
+    enrollData: PropTypes.object,
+    isEmail: PropTypes.bool,
+    refresh: PropTypes.func.isRequired,
+    leadId: PropTypes.string.isRequired,
 };
 
 export default MapdDetailsContent;

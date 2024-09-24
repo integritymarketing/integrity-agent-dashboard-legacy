@@ -29,16 +29,18 @@ export class ComparePlansService {
         return response.json().then((res) => res || []);
     };
 
-    getPlan = async (leadId, planId, agentInfo, effectiveDate, agentNPN) => {
+    getPlan = async (leadId, planId, agentInfo, effectiveDate, agentNPN, primaryPharmacy) => {
+        const params = {
+            zip: agentInfo?.ZipCode,
+            fips: agentInfo?.CountyFIPS,
+            effectiveDate,
+        }
+        if (primaryPharmacy) {
+            params.pharmacyId = primaryPharmacy;
+        }
         const response = await this._clientPublicAPIRequest(
             `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/${planId}`,
-            "GET",
-            {
-                zip: agentInfo?.ZipCode,
-                fips: agentInfo?.CountyFIPS,
-                effectiveDate,
-            },
-            null,
+             "GET", params, null,
             {
                 AgentNPN: agentNPN,
             }

@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
+import PropTypes from "prop-types";
 import { useLocation } from "react-router-dom";
 import PdpCostTable from "components/ui/PlanDetailsTable/shared/cost-table";
 import PdpPharmacyTable from "components/ui/PlanDetailsTable/shared/PharmacyTable/pharmacy-table";
@@ -8,18 +9,17 @@ import EnrollmentPlanCard from "components/EnrollmentHistoryContainer/Enrollment
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import CompactPlanCardNew from "components/ui/PlanCard/CompactNew";
 import PrescriptionTable from "components/ui/PlanDetailsTable/shared/PrescriptionTable";
-import MailOrderNotApplicable from "../../components/MailOrderNotApplicable";
-import { useHealth } from "../../providers/ContactDetails";
+import MailOrderNotApplicable from "components/MailOrderNotApplicable";
+import { useHealth } from "providers/ContactDetails";
+import { usePharmacyContext } from "providers/PharmacyProvider";
 
 const PdpDetailsContent = ({
     contact,
-    // prescriptions,
     plan,
     isMobile,
     styles,
     onEnrollClick,
     onShareClick,
-    pharmacies,
     isEnroll = false,
     enrollData,
     isEmail = false,
@@ -28,6 +28,8 @@ const PdpDetailsContent = ({
 }) => {
     const location = useLocation();
     const { pharmacies: pharmaciesList } = useHealth() || {};
+    const { selectedPharmacy } = usePharmacyContext();
+
     const costsRef = useRef(null);
     const prescriptionsRef = useRef(null);
     const pharmacyRef = useRef(null);
@@ -46,7 +48,8 @@ const PdpDetailsContent = ({
     } = plan;
 
     const mailOrderNotApplicable =
-        (hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits;
+        selectedPharmacy?.name === "Mail Order" &&
+        ((hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits);
 
     return (
         <>
@@ -217,6 +220,21 @@ const PdpDetailsContent = ({
             </div>
         </>
     );
+};
+
+PdpDetailsContent.propTypes = {
+    contact: PropTypes.object.isRequired,
+    plan: PropTypes.object.isRequired,
+    isMobile: PropTypes.bool.isRequired,
+    styles: PropTypes.object.isRequired,
+    onEnrollClick: PropTypes.func.isRequired,
+    onShareClick: PropTypes.func.isRequired,
+    pharmacies: PropTypes.array.isRequired,
+    isEnroll: PropTypes.bool,
+    enrollData: PropTypes.object,
+    isEmail: PropTypes.bool,
+    refresh: PropTypes.func.isRequired,
+    leadId: PropTypes.string.isRequired,
 };
 
 export default PdpDetailsContent;
