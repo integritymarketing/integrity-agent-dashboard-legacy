@@ -76,7 +76,9 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
         setIsProviderModalOpen(false);
         setIsEditingProvider(false);
         setProviderToEdit(null);
-        if (refresh) { refresh(); }
+        if (refresh) {
+            refresh();
+        }
     };
 
     // provider modal handle functions //
@@ -112,11 +114,11 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
     const handleSetAsPrimary = async (pharmacyId) => {
         const pharmacyItem = { ...pharmaciesList.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
         await putLeadPharmacy(contactId, pharmacyItem);
-        fetchPharmacies(contactId);
+        setTimeout(async () => await fetchPharmacies(contactId), [5000]);
     };
 
     const onDeletePharmacy = async (pharmacy) => {
-        await deletePharmacy(pharmacy,refresh, contactId);
+        await deletePharmacy(pharmacy, refresh, contactId);
         if (pharmacy.isPrimary) {
             const pharmacyToMakePrimary = pharmaciesList.find((item) => {
                 if (item.pharmacyId !== pharmacy.pharmacyId) {
@@ -125,18 +127,19 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
             });
             if (pharmacyToMakePrimary) {
                 await handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
-                if(refresh) {
+                if (refresh) {
                     refresh();
                 }
             }
+            window.location.reload(true);
         }
     };
 
     const selectedProvider = isEditingProvider
         ? {
-            ...providerToEdit,
-            NPI: providerToEdit?.npi,
-        }
+              ...providerToEdit,
+              NPI: providerToEdit?.npi,
+          }
         : null;
 
     const uniqueProvidersList = removeDuplicates(planData?.providers, "npi");
@@ -151,10 +154,9 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
         return acc + provider?.addresses?.filter((address) => address?.inNetwork).length || 0;
     }, 0);
 
-    const coveredPharmacies = planData?.pharmacyCosts?.filter(
-    (pharmacy) =>
-        pharmaciesList?.some((pharm) => pharm.pharmacyId === pharmacy?.pharmacyID && pharmacy?.isNetwork)
-);
+    const coveredPharmacies = planData?.pharmacyCosts?.filter((pharmacy) =>
+        pharmaciesList?.some((pharm) => pharm.pharmacyId === pharmacy?.pharmacyID && pharmacy?.isNetwork),
+    );
 
     const coveredPrescriptions = planData?.planDrugCoverage?.filter((prescription) => prescription?.tierNumber > 0);
 
@@ -271,13 +273,15 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
                     isAddPharmacy={pharmaciesList.length < 3}
                     onAdd={() => setOpenAddPharmacyModal(true)}
                 >
-                    <UpdateView pharmaciesData={pharmaciesList}
+                    <UpdateView
+                        pharmaciesData={pharmaciesList}
                         pharmacyCosts={planData?.pharmacyCosts}
                         handleSetAsPrimary={handleSetAsPrimary}
                         onDelete={(pharmacy) => {
                             onDeletePharmacy(pharmacy);
                             setIsOpenPharmacyCoverageModal(false);
-                        }} />
+                        }}
+                    />
                 </Modal>
             )}
             {openAddPharmacyModal && (

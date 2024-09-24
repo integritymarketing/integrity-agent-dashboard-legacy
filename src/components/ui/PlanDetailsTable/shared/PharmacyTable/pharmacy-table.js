@@ -43,6 +43,7 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
             });
             if (pharmacyToMakePrimary) {
                 handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
+                window.location.reload(true);
             }
         }
     };
