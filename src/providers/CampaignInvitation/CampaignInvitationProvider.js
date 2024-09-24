@@ -121,12 +121,12 @@ export const CampaignInvitationProvider = ({ children }) => {
     useEffect(() => {
         handleCampaignAction(
             campaignActionType === "contacts filtered by…" && filteredContactsList?.length > 0 && filteredCount > 0,
-            { campaign_ActionType: "contacts filtered by…" },
+            { campaign_ActionType: "contacts filtered by…" }
         );
 
         handleCampaignAction(
             campaignActionType === "all contacts" && allContactsList?.length > 0 && totalContactsCount > 0,
-            { campaign_ActionType: "all contacts" },
+            { campaign_ActionType: "all contacts" }
         );
 
         handleCampaignAction(campaignActionType === "a contact" && selectedContact, {
@@ -140,7 +140,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 allContactsList?.length > 0,
             {
                 campaign_ActionType: campaignActionType,
-            },
+            }
         );
     }, [filteredContactsList, campaignActionType, allContactsList, totalContactsCount, filteredCount, selectedContact]);
 
@@ -212,7 +212,9 @@ export const CampaignInvitationProvider = ({ children }) => {
             const resData = await fetchCampaignDetailsByEmail(null, false);
 
             if (resData?.length) {
-                const filteredCampaigns = resData.filter((item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName));
+                const filteredCampaigns = resData.filter(
+                    (item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName)
+                );
                 setAllCampaignInvitationData(filteredCampaigns);
             }
             return resData;
@@ -233,7 +235,9 @@ export const CampaignInvitationProvider = ({ children }) => {
                 const resData = await fetchCampaignDetailsByText(null, false);
 
                 if (resData?.length) {
-                    const filteredCampaigns = resData.filter((item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName));
+                    const filteredCampaigns = resData.filter(
+                        (item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName)
+                    );
                     setAllCampaignInvitationData(filteredCampaigns);
                     if (templateId) {
                         const templateData = resData?.find((item) => item?.templateId === templateId);
@@ -253,15 +257,16 @@ export const CampaignInvitationProvider = ({ children }) => {
             }
             return null;
         },
-        [fetchCampaignDetailsByEmail, fireEvent, showToast],
+        [fetchCampaignDetailsByEmail, fireEvent, showToast]
     );
 
     const handleCreateCampaignFromContact = async (leadInformation) => {
+        debugger;
         let channel = "";
         let payload = {};
-        if (leadInformation?.contactPreferences?.primary === "Email" && leadInformation?.emails[0]?.leadEmail) {
+        if (leadInformation?.contactPreferences?.primary === "email" && leadInformation?.emails[0]?.leadEmail) {
             channel = "Email";
-        } else if (leadInformation?.contactPreferences?.primary === "Phone" && leadInformation?.phones[0]?.leadPhone) {
+        } else if (leadInformation?.contactPreferences?.primary === "phone" && leadInformation?.phones[0]?.leadPhone) {
             channel = "Sms";
         } else {
             channel = "Email";
@@ -312,6 +317,11 @@ export const CampaignInvitationProvider = ({ children }) => {
                     ],
                 },
             };
+            await handleCreateOrUpdateCampaign({
+                redirectTo: "/marketing/campaign-details",
+                payload: payload,
+                isUpdate: false,
+            });
         }
 
         if (channel === "Sms") {
@@ -333,12 +343,12 @@ export const CampaignInvitationProvider = ({ children }) => {
                     ],
                 },
             };
+            await handleCreateOrUpdateCampaign({
+                redirectTo: "/marketing/campaign-details",
+                payload: payload,
+                isUpdate: false,
+            });
         }
-
-        handleCreateOrUpdateCampaign({
-            redirectTo: "/marketing/campaign-details",
-            payload: payload,
-        });
     };
 
     const handleGetCampaignDetailsById = useCallback(
@@ -362,27 +372,40 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 resData?.customFilter &&
                                 templateData?.id
                             ) {
-                                const customFilterData = JSON.parse(JSON.parse(resData?.customFilter));
-                                const { selectedFilterSections, filteredContentStatus } = customFilterData;
-                                sessionStorage.setItem(
-                                    "campaign_contactList_selectedFilterSections",
-                                    JSON.stringify(selectedFilterSections),
-                                );
+                                let customFilterData;
+                                try {
+                                    const customFilter = JSON.parse(resData?.customFilter);
+                                    if (customFilter) {
+                                        customFilterData = JSON.parse(customFilter);
+                                    } else {
+                                        customFilterData = {}; // or any default value you prefer
+                                    }
+                                } catch (error) {
+                                    console.error("Failed to parse customFilter:", error);
+                                    customFilterData = {}; // or any default value you prefer
+                                }
 
+                                if (customFilterData?.selectedFilterSections) {
+                                    sessionStorage.setItem(
+                                        "campaign_contactList_selectedFilterSections",
+                                        JSON.stringify(selectedFilterSections)
+                                    );
+                                }
                                 const filterData = await fetchTableData({
                                     sort: ["createDate:desc"],
                                     searchString: undefined,
-                                    selectedFilterSections: selectedFilterSections,
+                                    selectedFilterSections: customFilterData?.selectedFilterSections || [],
                                     isSilent: true,
                                     returnAll: true,
                                     searchId: templateData?.id,
                                     statusOptionsMap,
                                 });
+                                const filteredContentStatus = customFilterData?.filteredContentStatus || "";
 
                                 handleSummaryBarInfo(
                                     filterData?.tableData,
                                     filteredContentStatus,
-                                    filterData?.filteredEligibleCount,
+                                    filterData?.filteredEligibleCount
                                 );
                             } else {
                                 sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
@@ -394,7 +417,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 resData?.campaignSelectedAction !== ""
                             ) {
                                 const actionData = templateData?.campaignActions?.find(
-                                    (item) => item?.actionName === resData?.campaignSelectedAction,
+                                    (item) => item?.actionName === resData?.campaignSelectedAction
                                 );
                                 if (actionData) {
                                     setActionDescription(actionData?.actionDescription);
@@ -420,7 +443,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             }
             return null;
         },
-        [fetchCampaignDetailsById, fireEvent, showToast],
+        [fetchCampaignDetailsById, fireEvent, showToast]
     );
 
     const getAgentAccountInformation = useCallback(async () => {
@@ -473,7 +496,7 @@ export const CampaignInvitationProvider = ({ children }) => {
     const updateCampaignRequestPayload = ({ campaign_Status, template_Id, campaign_Channel, campaign_ActionType }) => {
         // Retrieve and parse the JSON string from session storage
         const selectedFilterSections = JSON.parse(
-            sessionStorage.getItem("campaign_contactList_selectedFilterSections"),
+            sessionStorage.getItem("campaign_contactList_selectedFilterSections")
         );
 
         // Construct the customFilterData object
@@ -482,14 +505,18 @@ export const CampaignInvitationProvider = ({ children }) => {
             filteredContentStatus: filteredContentStatus,
         };
 
+        const channel = campaign_Channel ? campaign_Channel : campaignChannel;
+        const actionType =
+            campaign_ActionType === "empty" ? "" : campaign_ActionType ? campaign_ActionType : campaignActionType;
+
         const payload = {
             id: campaignId,
             agentId: agentId,
             agentNpn: npn,
-            campaignType: "Blast",
+            campaignType: channel === "Sms" || actionType === "a contact" ? "Individual" : "Blast",
             campaignStatus: campaign_Status ? campaign_Status : campaignStatus,
             customCampaignDescription: campaignName,
-            campaignChannel: campaign_Channel ? campaign_Channel : campaignChannel,
+            campaignChannel: channel,
             campaignSelectedAction:
                 campaign_ActionType === "empty" ? "" : campaign_ActionType ? campaign_ActionType : campaignActionType,
             customFilter:
@@ -588,7 +615,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                             campaign_Channel,
                             campaign_ActionType,
                         }),
-                        false,
+                        false
                     );
                 } else {
                     const requestPayload = payload ?? createCampaignRequestPayload(campaign_Status);
@@ -603,8 +630,8 @@ export const CampaignInvitationProvider = ({ children }) => {
                             campaignActionType === "contacts filtered by…"
                                 ? "filter contacts"
                                 : campaignActionType === "all contacts"
-                                  ? "all contacts"
-                                  : "search for a contact",
+                                ? "all contacts"
+                                : "search for a contact",
                     });
                     if (redirectTo) {
                         navigate(`${redirectTo}/${resData?.id}`);
@@ -645,7 +672,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             agentAccountDetails,
             agentPurlURL,
             navigate,
-        ],
+        ]
     );
 
     return (
@@ -699,6 +726,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             setCampaignName,
             setCurrentPage,
             setFilteredContactsList,
+            setFilteredCount,
             setFilteredContentStatus,
             setIsCreateCampaignModalOpen,
             setSelectedContact,

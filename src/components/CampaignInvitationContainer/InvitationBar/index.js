@@ -30,9 +30,10 @@ const contactOptions = [
 
 const InvitationBar = () => {
     const {
-        filteredContactsList,
         filteredContentStatus,
         setFilteredContactsList,
+        setFilteredCount,
+        setFilteredContentStatus,
         handleSummaryBarInfo,
         setSelectedContact,
         campaignChannel,
@@ -48,6 +49,7 @@ const InvitationBar = () => {
         campaignActions,
         setActionDescription,
         selectedContact,
+        handleCreateOrUpdateCampaign,
     } = useCampaignInvitation();
 
     const emailActionsList = campaignActions.map((action) => ({
@@ -92,9 +94,19 @@ const InvitationBar = () => {
     const handleCloseFilterDropdown = useCallback(() => {
         setAnchorEl(null);
         const selectedFilters = JSON.parse(sessionStorage.getItem("campaign_contactList_selectedFilterSections"));
-        if (selectedFilters?.length === 0 && !filteredContentStatus) {
+        const filteredData = selectedFilters?.filter(
+            (filter) => filter?.selectedFilterOption && isFilterSelectOpen === false
+        );
+        if (filteredData?.length === 0) {
             setCampaignActionType("");
             setFilteredContactsList([]);
+            setFilteredCount(0);
+            setFilteredContentStatus();
+            sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
+
+            handleCreateOrUpdateCampaign({
+                campaign_ActionType: "empty",
+            });
         }
     }, [setAnchorEl, setFilteredContactsList, setCampaignActionType, filteredContentStatus]);
 

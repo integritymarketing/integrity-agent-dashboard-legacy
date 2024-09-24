@@ -7,24 +7,20 @@ import ActionModal from "../ActionModals";
 import { ActionsCopy, ActionsRename, ActionsDelete, ActionsSend } from "@integritymarketing/icons";
 
 const campaignOperations = [
-    { optionText: "Rename", value: "rename", icon: ActionsRename, optionLabel: "Edit campaign name." },
-
+    { optionText: "Rename", value: "rename", optionLabel: "Edit campaign name." },
     {
         optionText: "Send",
         value: "send",
-        icon: ActionsSend,
         optionLabel: "Are you sure you want to send this campaign? Sent messages cannot be unsent.",
     },
     {
         optionText: "Copy",
         value: "copy",
-        icon: ActionsCopy,
         optionLabel: "Give your campaign a new name and then select create.",
     },
     {
         optionText: "Delete",
         value: "delete",
-        icon: ActionsDelete,
         optionLabel: "Are you sure you want to delete this draft? This action cannot be undone.",
     },
 ];
@@ -32,7 +28,8 @@ const campaignOperations = [
 const ActionPopover = ({ anchorEl, onClose, campaign, refresh }) => {
     const open = Boolean(anchorEl);
     const id = anchorEl ? "simple-popover-actions" : undefined;
-    const { campaignChannel, requestPayload, campaignSelectedAction, campaignStatus } = campaign;
+    const { campaignChannel, requestPayload, campaignSelectedAction, campaignStatus, customCampaignDescription } =
+        campaign;
 
     const [campaignAction, setCampaignAction] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
@@ -49,6 +46,21 @@ const ActionPopover = ({ anchorEl, onClose, campaign, refresh }) => {
 
     const isCampaignCanStarted =
         campaignChannel && campaignSelectedAction && requestPayload?.templateId && requestPayload?.leads?.length > 0;
+
+    const showIcon = (optionText, disable) => {
+        if (optionText === "Copy") {
+            return <ActionsCopy size="md" className={styles.actionIcon} color={disable ? "#00000061" : "#4178FF"} />;
+        }
+        if (optionText === "Rename") {
+            return <ActionsRename size="md" className={styles.actionIcon} color={disable ? "#00000061" : "#4178FF"} />;
+        }
+        if (optionText === "Send") {
+            return <ActionsSend size="md" className={styles.actionIcon} color={disable ? "#00000061" : "#4178FF"} />;
+        }
+        if (optionText === "Delete") {
+            return <ActionsDelete size="md" className={styles.actionIcon} color={disable ? "#00000061" : "#4178FF"} />;
+        }
+    };
 
     return (
         <>
@@ -73,23 +85,31 @@ const ActionPopover = ({ anchorEl, onClose, campaign, refresh }) => {
                 {campaignOperations
                     .filter((item) => (campaignStatus === "Completed" ? item.value == "copy" : true))
                     ?.map((campaignObj, index) => {
-                        if (campaignObj.value === "start" && !isCampaignCanStarted) {
-                            return null;
-                        }
+                        const isSendDisable = campaignObj.value === "send" && !isCampaignCanStarted;
                         return (
                             <>
-                                <Box sx={{ display: "flex", padding: "8px" }} key={index}>
+                                <Box
+                                    sx={{ display: "flex", padding: "8px" }}
+                                    className={`  ${isSendDisable ? styles.disabledRow : ""}`}
+                                    key={index}
+                                >
                                     <Box className={styles.actionIcons}>
                                         <IconButton
                                             size="lg"
-                                            className={`${styles.integrityIcon} ${styles.integrityIconBg}`}
+                                            className={`${styles.roundedIcon} ${isSendDisable ? styles.disable : ""}`}
                                         >
-                                            <campaignObj.icon size="md" className={styles.actionIcon} />
+                                            {showIcon(campaignObj.optionText, isSendDisable)}
                                         </IconButton>
                                     </Box>
                                     <Box
                                         className={styles.selections}
-                                        onClick={() => handleActionModalOpen(campaignObj)}
+                                        onClick={() => {
+                                            if (isSendDisable) {
+                                                return;
+                                            } else {
+                                                handleActionModalOpen(campaignObj);
+                                            }
+                                        }}
                                     >
                                         {campaignObj.optionText}
                                     </Box>

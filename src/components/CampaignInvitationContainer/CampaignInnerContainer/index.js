@@ -71,15 +71,15 @@ const CampaignInnerContainer = () => {
     };
 
     const buttonStyles = {
-        borderColor: readOnly ? "#49648B" : "#e0e0e0",
-        backgroundColor: readOnly ? "#49648B" : "#e0e0e0",
-        color: readOnly ? "#FFF" : "#000",
-        textTransform: "none",
+        backgroundColor: readOnly ? "#49648B" : "#DDDDDD",
+        color: readOnly ? "#FFF" : "#434A51",
         borderRadius: "4px",
         boxShadow: "none",
-        cursor: "none",
+        cursor: "auto",
+        fontSize: "13px",
+        fontWeight: "400",
         "&:hover": {
-            backgroundColor: readOnly ? "#49648B" : "#e0e0e0",
+            backgroundColor: readOnly ? "#49648B" : "#DDDDDD",
         },
     };
 

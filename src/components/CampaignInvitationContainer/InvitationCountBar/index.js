@@ -49,25 +49,27 @@ const InvitationCountBar = () => {
             .join(" ");
     };
 
+    const sendText = readOnly ? "Sent to" : "Sending to";
+
     return (
         <Box className={styles.banner}>
             <Box className={styles.colorBar}></Box>
             <Box className={styles.bannerContent}>
                 {campaignActionType === "a contact" && (
                     <>
-                        Sending to <span className={styles.count}> 1</span> contact
+                        {sendText} <span className={styles.count}> 1</span> contact
                     </>
                 )}
                 {campaignActionType === "all contacts" && (
                     <>
-                        Sending to <span className={styles.count}>{eligibleContactsLength}</span> of{" "}
+                        {sendText} <span className={styles.count}>{eligibleContactsLength}</span> of{" "}
                         <span className={styles.count}>{totalContactsCount}</span> contacts
                     </>
                 )}
 
                 {campaignActionType === "contacts filtered by…" && (
                     <>
-                        Sending to <span className={styles.count}>{filteredCount}</span> of{" "}
+                        {sendText} <span className={styles.count}>{filteredCount}</span> of{" "}
                         <span className={styles.count}>{filteredEligibleCount}</span> contacts
                     </>
                 )}
@@ -75,7 +77,7 @@ const InvitationCountBar = () => {
                     campaignActionType !== "a contact" &&
                     campaignActionType !== "" && (
                         <>
-                            Sending to <span className={styles.count}>{eligibleContactsLength}</span> contacts
+                            {sendText} <span className={styles.count}>{eligibleContactsLength}</span> contacts
                         </>
                     )}
             </Box>

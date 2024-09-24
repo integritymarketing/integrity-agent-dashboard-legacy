@@ -16,6 +16,15 @@
     margin: auto 0;
 }
 
+.disabledRow {
+    cursor: not-allowed;
+
+    .selections {
+        color: rgba(0, 0, 0, 0.38);
+        cursor: not-allowed;
+    }
+}
+
 .selections {
     width: 100px;
     margin: 10px;
@@ -41,4 +50,9 @@
     background-color: #f1faff !important;
     width: 40px;
     height: 40px;
+}
+
+.disable {
+    background-color: #f1f1f1 !important;
+    cursor: not-allowed;
 }
