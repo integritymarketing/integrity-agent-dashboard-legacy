@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
+import Button from "@mui/material/Button";
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import UpdateView from "./components/UpdateView/updateView";
 import Edit from "components/Edit";
 import Modal from "components/Modal";
+import DeleteIcon from "components/icons/version-2/Delete";
 import EditIcon from "components/icons/edit2";
 import InNetworkIcon from "components/icons/inNetwork";
 import PlusIcon from "components/icons/plus";
@@ -12,7 +14,7 @@ import PharmacyModal from "components/SharedModals/PharmacyModal";
 
 import OutNetworkIcon from "../../Icons/outNetwork";
 import PlanDetailsTableWithCollapse from "../../planDetailsTableWithCollapse";
-import APIFail from "../APIFail/index";
+import { formatPhoneNumber } from "utils/phones";
 
 const getNetworkIcon = (pharmacyCost) => {
     return pharmacyCost?.isNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
@@ -34,8 +36,7 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
         await fetchPharmacies(leadId);
     }, [leadId, fetchPharmacies]);
 
-    const hasApiFailed =
-        pharmacyList?.length === 0 && planData?.pharmacyCosts?.length > 0;
+    const hasApiFailed = pharmacyList?.length === 0 && planData?.pharmacyCosts?.length > 0;
 
     const handleSetAsPrimary = async (pharmacyId) => {
         const pharmacyItem = { ...pharmacyList.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
@@ -56,38 +57,67 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
         }
     };
 
-    const columns = useMemo(() => [
-        {
-            Header: "Pharmacy",
-            columns: isMobile
-                ? [
-                    {
-                        hideHeader: true,
-                        accessor: "name_address"
-                    },
-                ]
-                : [
-                    { hideHeader: true, accessor: "name" },
-                    {
-                        hideHeader: true,
-                        accessor: "address"
-                    },
-                ],
-        },
-    ], [isMobile]);
+    const columns = useMemo(
+        () => [
+            {
+                Header: "Pharmacy",
+                columns: isMobile
+                    ? [
+                          {
+                              hideHeader: true,
+                              accessor: "name_address",
+                          },
+                      ]
+                    : [
+                          { hideHeader: true, accessor: "name" },
+                          {
+                              hideHeader: true,
+                              accessor: "address",
+                          },
+                          {
+                              hideHeader: true,
+                              accessor: "action",
+                          },
+                      ],
+            },
+        ],
+        [isMobile],
+    );
 
     const tableData = useMemo(() => {
-        if (!pharmacyList || !Array.isArray(planData?.pharmacyCosts)) { return []; }
+        if (!pharmacyList || !Array.isArray(planData?.pharmacyCosts)) {
+            return [];
+        }
 
         return pharmacyList.map((pharmacy, index) => {
             const pharmacyCost = planData?.pharmacyCosts[index];
             return {
-                name: <span className="label">{pharmacy?.name}</span>,
+                name: (
+                    <div>
+                        <span className="label">{pharmacy?.name}</span>
+                        <span className="phoneNumber">{formatPhoneNumber(pharmacy?.pharmacyPhone)}</span>
+                    </div>
+                ),
                 address: (
                     <div className="address">
                         <span className="networkIcon">{getNetworkIcon(pharmacyCost)}</span>
                         {`${pharmacy?.address1}\n${pharmacy?.address2}\n${pharmacy?.city} ${pharmacy?.state} ${pharmacy?.zip}`}
                     </div>
+                ),
+                action: (
+                    <Button
+                        variant="text"
+                        className="deleteButton"
+                        onClick={() => {
+                            onDeletePharmacy(pharmacy);
+                            setIsEditModalOpen(false);
+                            setIsAddModalOpen(false);
+                        }}
+                        size="small"
+                        endIcon={<DeleteIcon />}
+                    >
+                        <div>{"Delete"}</div>
+                    </Button>
                 ),
                 name_address: (
                     <>
@@ -106,18 +136,27 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
             setIsAddModalOpen(true);
         }
     };
-
+    const noPharmacy = () => {
+        return (
+            <div className="no-items">
+                <span className="noPharmacy">This contact has no pharmacy.</span>
+                <span className="addButton" onClick={() => setIsAddModalOpen(true)}>
+                    Add Pharmacy
+                </span>
+            </div>
+        );
+    };
     return (
         <>
             <PlanDetailsTableWithCollapse
                 columns={hasApiFailed ? [{ Header: "Pharmacy", columns: [{ accessor: "unAvailable" }] }] : columns}
-                data={hasApiFailed ? [{ unAvailable: <APIFail title="Pharmacy" /> }] : tableData}
+                data={hasApiFailed ? [{ unAvailable: noPharmacy() }] : tableData}
                 className="quotes"
                 header="Pharmacy"
                 actions={
                     !isEnroll && (
                         <Edit
-                            label={tableData.length ? "Edit" : "Add"}
+                            label={tableData.length ? "Edit" : "Add New"}
                             onClick={handleEditClick}
                             icon={tableData.length ? <EditIcon /> : <PlusIcon />}
                         />
@@ -134,14 +173,16 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                     isAddPharmacy={pharmacyList.length < 3}
                     onAdd={() => setIsAddModalOpen(true)}
                 >
-                    <UpdateView pharmaciesData={pharmacyList}
+                    <UpdateView
+                        pharmaciesData={pharmacyList}
                         handleSetAsPrimary={handleSetAsPrimary}
                         pharmacyCosts={planData?.pharmacyCosts}
                         onDelete={(pharmacy) => {
                             onDeletePharmacy(pharmacy);
                             setIsEditModalOpen(false);
                             setIsAddModalOpen(false);
-                        }} />
+                        }}
+                    />
                 </Modal>
             )}
             {isAddModalOpen && (

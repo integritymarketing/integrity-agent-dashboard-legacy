@@ -6,6 +6,7 @@
     border-radius: 8px;
     border-collapse: collapse;
     background-color: white;
+
     .plan-details-thead {
         font-weight: 600;
         font-size: 24px;
@@ -34,7 +35,7 @@
 
     &.plan-benfits {
         @media screen and (min-width: 320px) and (max-width: 480px) {
-            tr > td {
+            tr>td {
                 width: 50%;
             }
         }
@@ -43,14 +44,17 @@
     .plan-details-tbody {
         tr {
             height: 96px;
+
             @media screen and (min-width: 320px) and (max-width: 480px) {
                 width: 100% !important;
             }
+
             td {
                 @media screen and (min-width: 320px) and (max-width: 480px) {
                     width: calc(70% / 3);
                 }
             }
+
             td:first-child {
                 @media screen and (min-width: 320px) and (max-width: 480px) {
                     width: 30%;
@@ -78,6 +82,7 @@
                 padding: 16px;
                 width: 50%;
             }
+
             .label,
             .value {
                 font-weight: 500;
@@ -92,18 +97,22 @@
                     font-weight: normal;
                     font-size: 14px;
                 }
+
                 .value-subtext {
                     margin-left: 5px;
                     font-weight: normal;
                     font-size: 14px;
                 }
+
                 .currency-value-blue {
                     color: #052a63;
                 }
+
                 .per-mobile {
                     font-weight: normal;
                     display: none;
                 }
+
                 p {
                     display: inline;
                     margin-left: 10px;
@@ -112,9 +121,11 @@
                 @media screen and (min-width: 320px) and (max-width: 480px) {
                     display: flex;
                     flex-direction: column;
+
                     .per {
                         display: none;
                     }
+
                     .per-mobile {
                         display: block;
                     }
@@ -126,6 +137,7 @@
                 font-size: 16px;
                 line-height: 150%;
                 color: #4178ff;
+
                 @media screen and (min-width: 320px) and (max-width: 480px) {
                     word-break: break-word;
                 }
@@ -136,10 +148,12 @@
                     display: flex;
                     flex-direction: column;
                 }
+
                 .label {
                     margin-right: 4px;
                     padding: 0;
                 }
+
                 .supply {
                     letter-spacing: -0.14px;
                     font-style: italic;
@@ -217,13 +231,16 @@
     .comp-td:last-child {
         border-right: 1px solid #cbd5e1 !important;
     }
+
     .comp-td:not(:first-child) {
         padding-left: 15px;
         padding-right: 8px;
+
         @media screen and (min-width: 320px) and (max-width: 480px) {
             width: calc(70% / 3);
         }
     }
+
     .extra-padding {
         padding-left: 20px;
     }
@@ -244,6 +261,7 @@
         margin-left: 11px;
         color: #4178ff;
     }
+
     .cost-arrow-side {
         transform: rotate(180deg);
     }
@@ -306,32 +324,40 @@
         font-weight: normal;
         font-size: 14px;
     }
+
     .value-subtext {
         margin-left: 5px;
         font-weight: normal;
         font-size: 14px;
     }
+
     .currency-value-blue {
         color: #052a63;
     }
+
     .per-mobile {
         font-weight: normal;
         display: none;
     }
+
     @media screen and (min-width: 320px) and (max-width: 480px) {
         display: flex;
         flex-direction: column;
+
         .per {
             display: none;
         }
+
         .per-mobile {
             display: block;
         }
     }
 }
+
 .plan-details-contact-section {
     background-color: #ffffff;
 }
+
 .cost-monthly-prescriptions {
     .cost-monthly-bar {
         display: flex;
@@ -340,14 +366,17 @@
         overflow: hidden;
         height: auto;
         width: 100%;
+
         .value {
             color: #052a63;
             font-weight: bold;
             font-size: 14px;
         }
+
         .final-value {
             color: #4178ff;
         }
+
         .cost-monthly-header {
             display: flex;
             align-items: center;
@@ -414,6 +443,7 @@
                 transform: rotate(270deg);
             }
         }
+
         .costPhases {
             color: #717171;
             font-size: 14px;
@@ -440,13 +470,16 @@
                         padding-left: 20px;
                         padding-right: 10px;
                     }
+
                     th:last-child {
                         border-right: unset;
                     }
+
                     th:not(:first-child) {
                         text-align: right;
                     }
                 }
+
                 &:first-child {
                     height: 17px;
                 }
@@ -484,6 +517,7 @@
                         display: flex;
                         flex-direction: column;
                     }
+
                     td:not(:first-child) {
                         color: #052a63;
                         font-weight: bold;
@@ -505,14 +539,17 @@
             display: none;
             background-color: #f1faff;
             padding: 0 48px 24px 16px;
+
             .total-line {
                 display: flex;
+
                 @media screen and (min-width: 320px) and (max-width: 480px) {
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
                 }
             }
+
             .cost-total {
                 display: flex;
                 align-items: center;
@@ -521,20 +558,24 @@
                 flex-direction: row;
                 width: 100%;
                 height: 40px;
+
                 .total-line {
                     @media screen and (min-width: 320px) and (max-width: 480px) {
                         display: flex;
                         flex-direction: row;
                     }
                 }
+
                 .operator {
                     padding-left: 40px;
                     padding-right: 40px;
+
                     @media screen and (min-width: 320px) and (max-width: 480px) {
                         padding-left: 20px;
                         padding-right: 20px;
                     }
                 }
+
                 .total-label {
                     padding-right: 8px;
                 }
@@ -553,6 +594,35 @@
     margin-top: 2px;
 }
 
+.phoneNumber {
+    font-size: 16px;
+    color: #4178FF;
+    padding: 0 40px;
+}
+
+.no-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #434A51;
+}
+
+.noPharmacy {
+    font-size: 16px;
+    line-height: 20px;
+    color: #434A51;
+}
+
+.addButton {
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 5px;
+    color: #4178FF;
+    cursor: pointer;
+}
+
 .address {
     align-items: center;
     font-style: normal;
@@ -561,6 +631,7 @@
     line-height: 130%;
     color: #717171;
     display: flex;
+
     @media screen and (min-width: 320px) and (max-width: 480px) {
         padding: 16px;
         margin-top: 16px;
@@ -588,6 +659,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px 40px;
+
     @media (max-width: 768px) {
         flex-direction: column !important;
         padding: 20px 20px !important;

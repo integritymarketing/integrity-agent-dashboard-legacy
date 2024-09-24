@@ -28,7 +28,7 @@ const ProvidersTableV2 = ({ isMobile, providers, refresh, planName, isEnroll, co
         setIsModalOpen(false);
         setIsEditingProvider(false);
         setProviderToEdit(null);
-        if (refresh) refresh();
+        if (refresh) {refresh();}
     };
 
     const closeEditModal = () => {
