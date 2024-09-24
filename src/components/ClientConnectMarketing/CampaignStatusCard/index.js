@@ -9,6 +9,21 @@ import styles from "./styles.module.scss";
 import ActionPopoverContainer from "../ActionPopover";
 
 import { CampaignTypeTextMessage, CampaignTypeEmail } from "@integritymarketing/icons";
+import { MetricRecipients, MetricOpens, MetricClicks, MetricUnsubscribes } from "@integritymarketing/icons";
+import { useMemo } from "react";
+
+const staticData = [
+    { count: 0, showPercentage: 0, statusName: "Delivered", leadIds: [], icon: MetricRecipients },
+    { count: 0, showPercentage: 0, statusName: "open", leadIds: [], icon: MetricOpens },
+    { count: 0, showPercentage: 0, statusName: "clicked", leadIds: [], icon: MetricClicks },
+    {
+        count: 0,
+        showPercentage: 0,
+        statusName: "UnSubscribed",
+        leadIds: [],
+        icon: MetricUnsubscribes,
+    },
+];
 
 const CampaignStatusCard = ({ campaign }) => {
     const theme = useTheme();
@@ -26,17 +41,53 @@ const CampaignStatusCard = ({ campaign }) => {
         id,
     } = campaign;
 
+    const calPercentage = (list, totalCount) => {
+        if (list.statusName === "Delivered") {
+            return null;
+        } else if (["open", "clicked", "UnSubscribed"].includes(list.statusName)) {
+            const per = totalCount === 0 ? 0 : (list.count / totalCount) * 100;
+            return `${Math.round(per)}%`;
+        }
+
+        return "0";
+    };
+
+    const mergeData = (staticData, apiData) => {
+        if (!apiData?.length > 0) return staticData;
+        const order = ["Delivered", "open", "clicked", "UnSubscribed"];
+        const icons = [MetricRecipients, MetricOpens, MetricClicks, MetricUnsubscribes];
+
+        const totalCount = apiData?.find((item) => item.statusName === "Delivered")?.count || 0;
+
+        const mergedData = staticData.map((item) => {
+            const data = apiData?.find((status) => status.statusName === item.statusName);
+            if (campaign.campaignChannel === "Email") {
+                return {
+                    ...item,
+                    count: data?.count || 0,
+                    showPercentage: calPercentage(data, totalCount),
+                    icon: icons[order.indexOf(item.statusName)],
+                    leadIds: data?.leadIds || [],
+                    totalCount: totalCount || 0,
+                };
+            } else {
+                return {
+                    ...item,
+                };
+            }
+        });
+
+        const removeUnSubscribed = mergedData.filter(
+            (item) => !(item.statusName === "UnSubscribed" && item.count === 0)
+        );
+        return removeUnSubscribed;
+    };
+
+    const statusData = useMemo(() => mergeData(staticData, statusCounts), [statusCounts]);
+
     const handleOpenCampaign = () => {
         navigate(`/marketing/campaign-details/${id}`);
     };
-
-    // Function to find the object with the specific status and return its count
-    const getStatusCount = (statusCounts, statusName) => {
-        const statusObject = statusCounts?.find((item) => item.statusName === statusName);
-        return statusObject ? statusObject.count : 0; // Return 0 if the status is not found
-    };
-
-    const totalCount = getStatusCount(statusCounts, "Delivered");
 
     return (
         <Box className={styles.campaignCardContainer}>
@@ -87,14 +138,14 @@ const CampaignStatusCard = ({ campaign }) => {
                             icon={EmailIcon}
                         />
                     </Box>
-                    {statusCounts?.length > 0 && (
+                    {statusData?.length > 0 && (
                         <Box className={styles.clicksCardsContainer}>
                             <Grid container spacing={1}>
-                                {statusCounts.map((item, index) => (
+                                {statusData.map((item, index) => (
                                     <Grid
                                         item
-                                        xs={item.statusName === "clicked" && statusCounts.length === 3 ? 12 : 6}
-                                        md={item.statusName === "clicked" && statusCounts.length === 3 ? 12 : 6}
+                                        xs={item.statusName === "clicked" && statusData.length === 3 ? 12 : 6}
+                                        md={item.statusName === "clicked" && statusData.length === 3 ? 12 : 6}
                                         key={index}
                                     >
                                         <CampaignMetricCard
@@ -106,7 +157,7 @@ const CampaignStatusCard = ({ campaign }) => {
                                             campaignChannel={campaignChannel}
                                             leadIds={item.leadIds}
                                             campaignName={customCampaignDescription}
-                                            totalCount={totalCount}
+                                            totalCount={item.totalCount}
                                         />
                                     </Grid>
                                 ))}

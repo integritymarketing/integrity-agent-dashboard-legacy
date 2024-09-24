@@ -40,7 +40,9 @@ const CampaignMetricCard = ({
                 <Box className={styles.percentage}>
                     <span className={styles.statusPercentageNumber}>{campaignChannel === "Email" ? count : "N/A"}</span>
                     &nbsp;
-                    <span className={styles.statusInfoPercentage}>{showPercentage}</span>
+                    <span className={styles.statusInfoPercentage}>
+                        {campaignChannel === "Email" ? showPercentage : ""}
+                    </span>
                 </Box>
             </Box>
         </Box>
