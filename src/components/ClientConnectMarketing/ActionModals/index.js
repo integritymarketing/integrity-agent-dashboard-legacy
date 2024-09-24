@@ -69,6 +69,7 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
         if (optionText === "Delete") {
             return <ActionsDelete color="#ffffff" />;
         }
+        return null;
     }, [optionText]);
 
     const disableSaveButton = useMemo(() => {
@@ -76,7 +77,7 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
             return !campaignName || campaignName.length > maxLength || campaignName === existingCampaignName;
         }
         return false;
-    }, [campaignName, optionText]);
+    }, [campaignName, existingCampaignName, optionText]);
 
     const { title, saveButtonLabel } = useMemo(() => {
         if (optionText === "Delete") {

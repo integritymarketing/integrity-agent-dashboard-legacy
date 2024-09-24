@@ -11,7 +11,7 @@ import useFetch from "hooks/useFetch";
 import useAnalytics from "hooks/useAnalytics";
 import StageStatusContext from "contexts/stageStatus";
 
-const HIDE_SHOPPERS_CAMPAIGNS = [11, 19];
+const HIDE_SHOPPERS_CAMPAIGNS = ["PlanChanges"];
 export const CampaignInvitationContext = createContext();
 
 export const CampaignInvitationProvider = ({ children }) => {
@@ -48,7 +48,6 @@ export const CampaignInvitationProvider = ({ children }) => {
     const contactName = selectedContact ? `${selectedContact?.firstName} ${selectedContact?.lastName}` : null;
     const { agentId, npn, firstName, lastName, email, phone } = useUserProfile();
     const { statusOptions } = useContext(StageStatusContext);
-
     const navigate = useNavigate();
     const showToast = useToast();
     const { fireEvent } = useAnalytics();
@@ -213,7 +212,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             const resData = await fetchCampaignDetailsByEmail(null, false);
 
             if (resData?.length) {
-                const filteredCampaigns = resData.filter((item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.id));
+                const filteredCampaigns = resData.filter((item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName));
                 setAllCampaignInvitationData(filteredCampaigns);
             }
             return resData;
@@ -234,7 +233,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 const resData = await fetchCampaignDetailsByText(null, false);
 
                 if (resData?.length) {
-                    const filteredCampaigns = resData.filter((item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.id));
+                    const filteredCampaigns = resData.filter((item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName));
                     setAllCampaignInvitationData(filteredCampaigns);
                     if (templateId) {
                         const templateData = resData?.find((item) => item?.templateId === templateId);
@@ -505,7 +504,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 agentFirstName: firstName,
                 agentLastName: lastName,
                 agentEmail: email,
-                agentPhone: phone,
+                agentPhone: agentAccountDetails?.agentVirtualPhoneNumber,
                 templateId: template_Id === "empty" ? "" : template_Id ? template_Id : templateId,
                 custom1: `${process.env.REACT_APP_MEDICARE_ENROLL}/quick-profile?purl=${agentPurlURL?.agentPurlCode}`,
                 custom2: "Integrity",
