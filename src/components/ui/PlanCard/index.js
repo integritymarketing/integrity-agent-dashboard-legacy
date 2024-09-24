@@ -153,12 +153,12 @@ export default function PlanCard({
                                     {validatePartialMonthlyDrugCost === "N/A"
                                         ? "N/A"
                                         : currencyFormatter.format(
-                                              Number(
-                                                  selectedPharmacyCosts.isMailOrder
-                                                      ? mailOrder?.estMonthlyRxDrugCost
-                                                      : selectedPharmacyCosts?.estMonthlyRxDrugCost,
-                                              ),
-                                          )}
+                                            Number(
+                                                selectedPharmacyCosts?.isMailOrder
+                                                    ? mailOrder?.estMonthlyRxDrugCost
+                                                    : selectedPharmacyCosts?.estMonthlyRxDrugCost,
+                                            ),
+                                        )}
                                 </div>
                             </div>
                             <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
@@ -171,7 +171,7 @@ export default function PlanCard({
                     <CostBreakdowns
                         planData={planData}
                         effectiveDate={effectiveDate}
-                        selectedPharmacyCosts={selectedPharmacyCosts.isMailOrder ? mailOrder : selectedPharmacyCosts}
+                        selectedPharmacyCosts={selectedPharmacyCosts?.isMailOrder ? mailOrder : selectedPharmacyCosts}
                         mailOrderNotApplicable={mailOrderNotApplicable}
                     />
                 </div>
@@ -254,7 +254,7 @@ PlanCard.propTypes = {
         planType: PropTypes.number.isRequired,
         nonLicensedPlan: PropTypes.bool,
         crossUpSellPlanOptions: PropTypes.object,
-        estimatedCostCalculationRxs: PropTypes.object,
+        estimatedCostCalculationRxs: PropTypes.array,
         estimatedMailOrderCostCalculationRx: PropTypes.object,
         estimatedAnnualDrugCostPartialYear: PropTypes.number,
         drugPremium: PropTypes.number,

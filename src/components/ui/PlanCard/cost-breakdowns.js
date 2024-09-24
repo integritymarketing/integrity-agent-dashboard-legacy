@@ -19,25 +19,30 @@ const CostBreakdowns = ({ planData, effectiveDate, selectedPharmacyCosts, mailOr
         if (subtext) {
             subtext = subtext.replace(
                 "{effectiveDate}",
-                `${effectiveDate.toLocaleString("default", {
+                `${new Date(effectiveDate).toLocaleString("default", {
                     month: "long",
-                })} ${effectiveDate.getFullYear()} `,
+                })} ${new Date(effectiveDate).getFullYear()} `,
             );
         }
         let value = planData[breakdown.field];
         let errorText = "";
         let errorDescription = "";
         if (breakdown.key) {
-            value = selectedPharmacyCosts[breakdown.key];
+            value = selectedPharmacyCosts ? selectedPharmacyCosts[breakdown.key] : "N/A";
         } else if (breakdown.function) {
             value = breakdown.function(planData, effectiveDate);
         }
 
         if (breakdown.conditionalValue) {
-            value = breakdown.conditionalValue(planData, mailOrderNotApplicable)["value"];
-            errorText = breakdown.conditionalValue(planData, mailOrderNotApplicable)["errorText"];
-            errorDescription = breakdown.conditionalValue(planData, mailOrderNotApplicable)["errorDescription"];
+            const conditionalValue = breakdown.conditionalValue(planData, mailOrderNotApplicable);
+            value = conditionalValue ? conditionalValue["value"] : "N/A";
+            errorText = conditionalValue ? conditionalValue["errorText"] : "";
+            errorDescription = conditionalValue ? conditionalValue["errorDescription"] : "";
         }
+
+        // Ensure value is a number before formatting
+        const formattedValue = isNaN(value) ? "N/A" : currencyFormatter.format(value);
+
         rows.push(
             <div className={"cost-row"} key={key++}>
                 <div>
@@ -46,7 +51,7 @@ const CostBreakdowns = ({ planData, effectiveDate, selectedPharmacyCosts, mailOr
                         <div className={"subtext"}>{subtext}</div>
                     </div>
                     <div className={"currency"}>
-                        {value === "N/A" ? "N/A" : currencyFormatter.format(value)}
+                        {formattedValue}
                         {errorText && (
                             <div className={"error-text"}>
                                 <Tooltip title={errorDescription} arrow>

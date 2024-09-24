@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import PropTypes from "prop-types";
 import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
-import OutNetworkX from "../../../icons/out-network-x";
-import InNetworkCheck from "../../../icons/in-network-check";
+import InNetworkIcon from "components/icons/inNetwork";
+import OutNetworkIcon from "components/icons/outNetwork";
 import APIFail from "./APIFail/index";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "components/icons/info";
@@ -43,7 +43,7 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
                                 return "-";
                             }
 
-                            const NetworkIcon = value.isNetwork ? InNetworkCheck : OutNetworkX;
+                            const NetworkIcon = value.isNetwork ? InNetworkIcon : OutNetworkIcon;
                             return (
                                 <span className="pr-network">
                                     <NetworkIcon />
@@ -77,7 +77,9 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
                 name: <span className="label">{pharmacy.name}</span>,
                 address: pharmacyFormattedAddress,
                 ...plans.reduce((acc, plan, index) => {
-                    const pharmacyCost = plan?.pharmacyCosts?.find((pr) => pr.pharmacyId === pharmacy.id);
+                    const pharmacyCost = plan?.pharmacyCosts?.find((pr) => {
+                        return pr.pharmacyID === pharmacy.pharmacyId;
+                    });
 
                     acc[`plan-${index}`] = pharmacyCost
                         ? {
