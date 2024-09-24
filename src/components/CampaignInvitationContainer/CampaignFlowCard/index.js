@@ -32,7 +32,6 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
         isUpdateCampaignLoading,
         handleTemplateData,
         campaignDescriptionType,
-        setCampaignActionType,
         handleCreateOrUpdateCampaign,
         reset,
     } = useCampaignInvitation();
@@ -66,6 +65,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
             campaign_Channel: value,
             template_Id: "empty",
             campaign_ActionType: "empty",
+            selectedCampaignId: value?.id,
         });
     };
 
@@ -75,6 +75,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
         handleCreateOrUpdateCampaign({
             template_Id: value?.templateId,
             campaign_ActionType: "empty",
+            selectedCampaignId: value?.id,
         });
     };
 
