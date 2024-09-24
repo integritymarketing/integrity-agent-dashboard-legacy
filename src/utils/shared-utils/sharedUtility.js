@@ -157,6 +157,7 @@ const convertAndFormatUTCDateToLocalDate = (date) => {
     const isValidDate = moment(date).isValid();
     return isValidDate ? moment.utc(date).local().format("MM-DD-YYYY") : "";
 };
+
 // Reusable function to filter campaigns by status and format date
 export const filterCampaignsByStatus = (list, status) => {
     if (!list || !Array.isArray(list)) {
