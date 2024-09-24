@@ -36,7 +36,6 @@ import * as serviceWorker from "./serviceWorker";
 import customTheme from "./themes/muiTheme";
 import { ClientServiceContextProvider } from "services/clientServiceProvider";
 import Auth0ProviderWithHistory from "auth/Auth0ProviderWithHistory";
-import ErrorBoundary from "components/ErrorBoundary";
 
 // error logging disabled for netlify deploy-preview and branch-deploy builds
 // DSN only defined in production apps.  see netlify.toml
@@ -52,76 +51,74 @@ const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
     <React.StrictMode>
-        <ErrorBoundary>
-            <ParallaxProvider>
-                <Router>
-                    <Auth0ProviderWithHistory>
-                        <ClientServiceContextProvider>
-                            <ThemeProvider theme={customTheme}>
-                                <CssBaseline />
-                                <RecoilRoot>
-                                    <ToastContextProvider>
-                                        <StageStatusProvider>
-                                            <AgentPreferencesProvider>
-                                                <AgentAccountProvider>
-                                                    <CountyProvider>
-                                                        <CountyDataProvider>
-                                                            <DeleteLeadProvider>
-                                                                <ContactsProvider>
-                                                                    <BackNavProvider>
-                                                                        <StageSummaryProvider>
-                                                                            <TaskListProvider>
-                                                                                <CampaignInvitationProvider>
-                                                                                    <ProfessionalProfileProvider>
-                                                                                        <ContactDetailsProvider>
-                                                                                            <CreateNewQuoteProvider>
-                                                                                                <MarketingProvider>
-                                                                                                    <PharmacyProvider>
-                                                                                                        <HelmetProvider>
-                                                                                                            <Helmet>
-                                                                                                                <title>
-                                                                                                                    Integrity
-                                                                                                                </title>
-                                                                                                            </Helmet>
-                                                                                                            <Suspense
-                                                                                                                fallback={
-                                                                                                                    <div>
-                                                                                                                        Loading...
-                                                                                                                    </div>
-                                                                                                                }
-                                                                                                            >
-                                                                                                                <AppRouter>
-                                                                                                                    <div className="content-frame">
-                                                                                                                        <AppRoutes />
-                                                                                                                    </div>
-                                                                                                                </AppRouter>
-                                                                                                            </Suspense>
-                                                                                                            <PortalUrl />
-                                                                                                        </HelmetProvider>
-                                                                                                    </PharmacyProvider>
-                                                                                                </MarketingProvider>
-                                                                                            </CreateNewQuoteProvider>
-                                                                                        </ContactDetailsProvider>
-                                                                                    </ProfessionalProfileProvider>
-                                                                                </CampaignInvitationProvider>
-                                                                            </TaskListProvider>
-                                                                        </StageSummaryProvider>
-                                                                    </BackNavProvider>
-                                                                </ContactsProvider>
-                                                            </DeleteLeadProvider>
-                                                        </CountyDataProvider>
-                                                    </CountyProvider>
-                                                </AgentAccountProvider>
-                                            </AgentPreferencesProvider>
-                                        </StageStatusProvider>
-                                    </ToastContextProvider>
-                                </RecoilRoot>
-                            </ThemeProvider>
-                        </ClientServiceContextProvider>
-                    </Auth0ProviderWithHistory>
-                </Router>
-            </ParallaxProvider>
-        </ErrorBoundary>
+        <ParallaxProvider>
+            <Router>
+                <Auth0ProviderWithHistory>
+                    <ClientServiceContextProvider>
+                        <ThemeProvider theme={customTheme}>
+                            <CssBaseline />
+                            <RecoilRoot>
+                                <ToastContextProvider>
+                                    <StageStatusProvider>
+                                        <AgentPreferencesProvider>
+                                            <AgentAccountProvider>
+                                                <CountyProvider>
+                                                    <CountyDataProvider>
+                                                        <DeleteLeadProvider>
+                                                            <ContactsProvider>
+                                                                <BackNavProvider>
+                                                                    <StageSummaryProvider>
+                                                                        <TaskListProvider>
+                                                                            <CampaignInvitationProvider>
+                                                                                <ProfessionalProfileProvider>
+                                                                                    <ContactDetailsProvider>
+                                                                                        <CreateNewQuoteProvider>
+                                                                                            <MarketingProvider>
+                                                                                                <PharmacyProvider>
+                                                                                                    <HelmetProvider>
+                                                                                                        <Helmet>
+                                                                                                            <title>
+                                                                                                                Integrity
+                                                                                                            </title>
+                                                                                                        </Helmet>
+                                                                                                        <Suspense
+                                                                                                            fallback={
+                                                                                                                <div>
+                                                                                                                    Loading...
+                                                                                                                </div>
+                                                                                                            }
+                                                                                                        >
+                                                                                                            <AppRouter>
+                                                                                                                <div className="content-frame">
+                                                                                                                    <AppRoutes />
+                                                                                                                </div>
+                                                                                                            </AppRouter>
+                                                                                                        </Suspense>
+                                                                                                        <PortalUrl />
+                                                                                                    </HelmetProvider>
+                                                                                                </PharmacyProvider>
+                                                                                            </MarketingProvider>
+                                                                                        </CreateNewQuoteProvider>
+                                                                                    </ContactDetailsProvider>
+                                                                                </ProfessionalProfileProvider>
+                                                                            </CampaignInvitationProvider>
+                                                                        </TaskListProvider>
+                                                                    </StageSummaryProvider>
+                                                                </BackNavProvider>
+                                                            </ContactsProvider>
+                                                        </DeleteLeadProvider>
+                                                    </CountyDataProvider>
+                                                </CountyProvider>
+                                            </AgentAccountProvider>
+                                        </AgentPreferencesProvider>
+                                    </StageStatusProvider>
+                                </ToastContextProvider>
+                            </RecoilRoot>
+                        </ThemeProvider>
+                    </ClientServiceContextProvider>
+                </Auth0ProviderWithHistory>
+            </Router>
+        </ParallaxProvider>
     </React.StrictMode>,
 );
 
