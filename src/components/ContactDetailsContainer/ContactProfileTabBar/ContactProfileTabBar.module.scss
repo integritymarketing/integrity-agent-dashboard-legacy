@@ -41,6 +41,11 @@
         .userName {
             color: #052a63;
             font-size: 32px;
+            @include small {
+                    font-size: 30px;
+                    line-height: 24px;
+                    padding-left: 32px;
+                }
         }
 
         .profileTabs {
