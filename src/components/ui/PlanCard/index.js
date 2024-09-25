@@ -66,9 +66,15 @@ export default function PlanCard({
 
     const { logoURL, estimatedCostCalculationRxs, estimatedMailOrderCostCalculationRx } = planData;
 
-    const selectedPharmacyCosts = estimatedCostCalculationRxs.find(
-        (rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId,
-    );
+    let selectedPharmacyCosts;
+
+    if (Object.keys(selectedPharmacy).length) {
+        selectedPharmacyCosts = estimatedCostCalculationRxs.find(
+            (rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId,
+        );
+    } else {
+        selectedPharmacyCosts = estimatedCostCalculationRxs.find((rx) => rx.pharmacyType === 2);
+    }
 
     const mailOrder = estimatedMailOrderCostCalculationRx;
 
@@ -91,11 +97,10 @@ export default function PlanCard({
         effectiveDate,
     );
 
-    const mailOrderNotApplicable = (selectedPharmacy?.name === "Mail Order") &&
-        (
-            (planData.hasMailDrugBenefits && !planData.estimatedAnnualMailOrderDrugCostPartialYear) ||
-            !planData.hasMailDrugBenefits
-        );
+    const mailOrderNotApplicable =
+        selectedPharmacy?.name === "Mail Order" &&
+        ((planData.hasMailDrugBenefits && !planData.estimatedAnnualMailOrderDrugCostPartialYear) ||
+            !planData.hasMailDrugBenefits);
 
     return (
         <div className={"plan-card"}>
@@ -153,12 +158,12 @@ export default function PlanCard({
                                     {validatePartialMonthlyDrugCost === "N/A"
                                         ? "N/A"
                                         : currencyFormatter.format(
-                                            Number(
-                                                selectedPharmacyCosts?.isMailOrder
-                                                    ? mailOrder?.estMonthlyRxDrugCost
-                                                    : selectedPharmacyCosts?.estMonthlyRxDrugCost,
-                                            ),
-                                        )}
+                                              Number(
+                                                  selectedPharmacyCosts?.pharmacyType === 2
+                                                      ? mailOrder?.estMonthlyRxDrugCost
+                                                      : selectedPharmacyCosts?.estMonthlyRxDrugCost,
+                                              ),
+                                          )}
                                 </div>
                             </div>
                             <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>

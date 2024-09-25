@@ -205,7 +205,6 @@ const PharmacyModal = ({ open, onClose, pharmaciesPreSelected, userZipCode, refr
                         address2: pharmacy.address2,
                         city: pharmacy.city,
                         isDigital: pharmacy.isDigital,
-                        isMailOrder: pharmacy.isMailOrder,
                         isPrimary: !existingPrimary && index === 0,
                         name: pharmacy.name,
                         pharmacyID: pharmacy.pharmacyID,

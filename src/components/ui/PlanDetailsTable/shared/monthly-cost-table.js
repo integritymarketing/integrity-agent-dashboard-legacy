@@ -9,7 +9,13 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
     const { selectedPharmacy } = usePharmacyContext();
     const { pharmacyCosts } = planData;
 
-    const selectedPharmacyCosts = pharmacyCosts.find((rx) => rx.pharmacyID === selectedPharmacy.pharmacyId);
+    let selectedPharmacyCosts;
+
+    if (Object.keys(selectedPharmacy).length) {
+        selectedPharmacyCosts = pharmacyCosts.find((rx) => rx.pharmacyID === selectedPharmacy.pharmacyId);
+    } else {
+        selectedPharmacyCosts = pharmacyCosts.find((rx) => rx.pharmacyType === 2);
+    }
 
     const effectiveMonthlyCosts =
         planData && pharmacyCosts?.length > 0

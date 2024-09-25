@@ -18,7 +18,13 @@ const PrescriptionTable = ({ isMobile, planDrugCoverage, planData, refresh, isEn
     const { selectedPharmacy } = usePharmacyContext();
     const { pharmacyCosts } = planData;
 
-    const drugCosts = pharmacyCosts.find((rx) => rx.pharmacyID === selectedPharmacy.pharmacyId)?.drugCosts;
+    let drugCosts;
+
+    if (Object.keys(selectedPharmacy).length) {
+        drugCosts = pharmacyCosts.find((rx) => rx.pharmacyID === selectedPharmacy.pharmacyId)?.drugCosts;
+    } else {
+        drugCosts = pharmacyCosts.find((rx) => rx.pharmacyType === 2)?.drugCosts;
+    }
 
     useEffect(() => {
         if (leadId) {
