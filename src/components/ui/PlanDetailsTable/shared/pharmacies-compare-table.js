@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import PropTypes from "prop-types";
 import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
-import InNetworkIcon from "components/icons/inNetwork";
-import OutNetworkIcon from "components/icons/outNetwork";
+import OutNetworkX from "../../../icons/out-network-x";
+import InNetworkCheck from "../../../icons/in-network-check";
 import APIFail from "./APIFail/index";
 import Tooltip from "@mui/material/Tooltip";
 import InfoIcon from "components/icons/info";
@@ -43,7 +43,7 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
                                 return "-";
                             }
 
-                            const NetworkIcon = value.isNetwork ? InNetworkIcon : OutNetworkIcon;
+                            const NetworkIcon = value.isNetwork ? InNetworkCheck : OutNetworkX;
                             return (
                                 <span className="pr-network">
                                     <NetworkIcon />
