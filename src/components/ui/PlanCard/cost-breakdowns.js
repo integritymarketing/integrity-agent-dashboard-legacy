@@ -2,6 +2,7 @@ import planTypeValueMap from "components/ui/PlanCard/plan-type-map.js";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import SimpleTooltip from "../SimpleTooltip";
 import Tooltip from "@mui/material/Tooltip";
+import { usePharmacyContext } from "providers/PharmacyProvider";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -9,6 +10,7 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 });
 
 const CostBreakdowns = ({ planData, effectiveDate, selectedPharmacyCosts, mailOrderNotApplicable }) => {
+    const { selectedPharmacy } = usePharmacyContext();
     const rows = [];
     const planTypeBreakdowns = planTypeValueMap[PLAN_TYPE_ENUMS[planData.planType]];
     let key = 0;
@@ -34,7 +36,7 @@ const CostBreakdowns = ({ planData, effectiveDate, selectedPharmacyCosts, mailOr
         }
 
         if (breakdown.conditionalValue) {
-            const conditionalValue = breakdown.conditionalValue(planData, mailOrderNotApplicable);
+            const conditionalValue = breakdown.conditionalValue(planData, selectedPharmacy, mailOrderNotApplicable);
             value = conditionalValue ? conditionalValue["value"] : "N/A";
             errorText = conditionalValue ? conditionalValue["errorText"] : "";
             errorDescription = conditionalValue ? conditionalValue["errorDescription"] : "";

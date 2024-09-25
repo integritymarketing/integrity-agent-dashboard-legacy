@@ -73,7 +73,7 @@ export default function PlanCard({
             (rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId,
         );
     } else {
-        selectedPharmacyCosts = estimatedCostCalculationRxs.find((rx) => rx.pharmacyType === 2);
+        selectedPharmacyCosts = estimatedCostCalculationRxs.find((rx) => rx.isMailOrder || rx.pharmacyType === 2);
     }
 
     const mailOrder = estimatedMailOrderCostCalculationRx;

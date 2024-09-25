@@ -1,5 +1,15 @@
 import { calculatePartialYearDrugCost } from "./calculatePartialDrugCost";
 
+const getSelectedPharmacy = (planData, selectedPharmacy) => {
+    const { estimatedCostCalculationRxs } = planData;
+
+    if (estimatedCostCalculationRxs && Object.keys(selectedPharmacy).length) {
+        return planData.estimatedCostCalculationRxs.find((rx) => rx.pharmacyId == selectedPharmacy.pharmacyId);
+    } else {
+        return planData.estimatedCostCalculationRxs.find((rx) => rx.isMailOrder);
+    }
+};
+
 const planTypeMap = {
     MAPD: [
         {
@@ -13,11 +23,17 @@ const planTypeMap = {
         {
             label: "Rx Drug Deductible",
             field: "drugDeductible",
-            conditionalValue: (planData, condition) => {
+            conditionalValue: (planData, selectedPharmacy, condition) => {
+                const pharmacy = getSelectedPharmacy(planData, selectedPharmacy);
+
                 if (condition) {
-                    return {value: "N/A", errorText: "Mail Order Not Available", errorDescription: "Mail Order not available with this plan. Please select or add a pharmacy."};
+                    return {
+                        value: "N/A",
+                        errorText: "Mail Order Not Available",
+                        errorDescription: "Mail Order not available with this plan. Please select or add a pharmacy.",
+                    };
                 }
-                return {value: planData.drugDeductible, errorText: "", errorDescription: ""};
+                return { value: pharmacy.drugDeductible, errorText: "", errorDescription: "" };
             },
         },
         {
@@ -25,7 +41,12 @@ const planTypeMap = {
             subtext: "Based on {effectiveDate} Effective Date",
             field: "estimatedAnnualDrugCostPartialYear",
             key: "estimatedYearlyRxDrugCost",
-            function: (planData, effectiveDate) => calculatePartialYearDrugCost(planData?.estimatedAnnualDrugCostPartialYear, planData?.drugPremium, effectiveDate),
+            function: (planData, effectiveDate) =>
+                calculatePartialYearDrugCost(
+                    planData?.estimatedAnnualDrugCostPartialYear,
+                    planData?.drugPremium,
+                    effectiveDate,
+                ),
         },
         {
             label: "Estimated Yearly Total Cost",
@@ -34,11 +55,17 @@ const planTypeMap = {
             key: "estimatedYearlyTotalCost",
             function: (planData, effectiveDate) =>
                 planData.estimatedAnnualDrugCostPartialYear + planData.medicalPremium * (12 - effectiveDate.getMonth()),
-            conditionalValue: (planData, condition) => {
+            conditionalValue: (planData, selectedPharmacy, condition) => {
+                const pharmacy = getSelectedPharmacy(planData, selectedPharmacy);
+
                 if (condition) {
-                    return {value: "N/A", errorText: "Mail Order Not Available", errorDescription: "Mail Order not available with this plan. Please select or add a pharmacy."};
+                    return {
+                        value: "N/A",
+                        errorText: "Mail Order Not Available",
+                        errorDescription: "Mail Order not available with this plan. Please select or add a pharmacy.",
+                    };
                 }
-                return {value: planData.estimatedAnnualDrugCostPartialYear, errorText: "", errorDescription: ""};
+                return { value: pharmacy.estimatedYearlyTotalCost, errorText: "", errorDescription: "" };
             },
         },
     ],
@@ -69,7 +96,12 @@ const planTypeMap = {
             subtext: "Based on {effectiveDate} Effective Date",
             field: "estimatedAnnualDrugCostPartialYear",
             key: "estimatedYearlyRxDrugCost",
-            function: (planData, effectiveDate) => calculatePartialYearDrugCost(planData?.estimatedAnnualDrugCostPartialYear, planData?.drugPremium, effectiveDate),
+            function: (planData, effectiveDate) =>
+                calculatePartialYearDrugCost(
+                    planData?.estimatedAnnualDrugCostPartialYear,
+                    planData?.drugPremium,
+                    effectiveDate,
+                ),
         },
         {
             label: "Estimated Yearly Total Cost",
