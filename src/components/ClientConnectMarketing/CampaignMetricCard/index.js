@@ -3,6 +3,16 @@ import { Box, Typography, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.scss";
 
+const statusMapping = {
+    open: "Opened",
+    UnSubscribed: "Unsubscribed",
+    clicked: "Clicked",
+};
+
+const formatStatusName = (statusName) => {
+    return statusMapping[statusName] || statusName;
+};
+
 const CampaignMetricCard = ({
     icon: IconComponent,
     statusName,
@@ -21,7 +31,7 @@ const CampaignMetricCard = ({
         localStorage.setItem("campaignsLeadIds", JSON.stringify(leadIds));
         localStorage.setItem(
             "campaignsLeadInfo",
-            JSON.stringify({ status: statusName, campaignName: campaignName, totalCount: totalCount })
+            JSON.stringify({ status: statusName, campaignName: campaignName, totalCount: totalCount }),
         );
         navigate("/contacts/list");
     };
@@ -35,7 +45,7 @@ const CampaignMetricCard = ({
             </Box>
             <Box textAlign="left" className={styles.metricData}>
                 <Typography variant="h5" className={styles.statusName}>
-                    {statusName}
+                    {formatStatusName(statusName)}
                 </Typography>
                 <Box className={styles.percentage}>
                     <span className={styles.statusPercentageNumber}>{campaignChannel === "Email" ? count : "N/A"}</span>
@@ -53,8 +63,15 @@ CampaignMetricCard.propTypes = {
     icon: PropTypes.elementType.isRequired,
     statusName: PropTypes.string.isRequired,
     count: PropTypes.number.isRequired,
-    showPercentage: PropTypes.string.isRequired,
-    campaignChannel: PropTypes.string,
+    showPercentage: PropTypes.string,
+    campaignChannel: PropTypes.string.isRequired,
+    leadIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    campaignName: PropTypes.string.isRequired,
+    totalCount: PropTypes.number.isRequired,
+};
+
+CampaignMetricCard.defaultProps = {
+    showPercentage: "",
 };
 
 export default CampaignMetricCard;

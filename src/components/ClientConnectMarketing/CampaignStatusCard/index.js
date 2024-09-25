@@ -8,8 +8,15 @@ import truncateText from "utils/truncateText";
 import styles from "./styles.module.scss";
 import ActionPopoverContainer from "../ActionPopover";
 
-import { CampaignTypeTextMessage, CampaignTypeEmail } from "@integritymarketing/icons";
-import { MetricRecipients, MetricOpens, MetricClicks, MetricUnsubscribes } from "@integritymarketing/icons";
+import {
+    CampaignTypeTextMessage,
+    CampaignTypeEmail,
+    MetricRecipients,
+    MetricOpens,
+    MetricClicks,
+    MetricUnsubscribes,
+} from "@integritymarketing/icons";
+
 import { useMemo } from "react";
 
 const staticData = [
@@ -42,7 +49,7 @@ const CampaignStatusCard = ({ campaign }) => {
     } = campaign;
 
     const calPercentage = (list, totalCount) => {
-        if (list.statusName === "Delivered") {
+        if (!list || list.statusName === "Delivered") {
             return null;
         } else if (["open", "clicked", "UnSubscribed"].includes(list.statusName)) {
             const per = totalCount === 0 ? 0 : (list.count / totalCount) * 100;
@@ -53,7 +60,9 @@ const CampaignStatusCard = ({ campaign }) => {
     };
 
     const mergeData = (staticData, apiData) => {
-        if (!apiData?.length > 0) return staticData;
+        if (!apiData?.length) {
+            return staticData;
+        }
         const order = ["Delivered", "open", "clicked", "UnSubscribed"];
         const icons = [MetricRecipients, MetricOpens, MetricClicks, MetricUnsubscribes];
 
@@ -78,7 +87,7 @@ const CampaignStatusCard = ({ campaign }) => {
         });
 
         const removeUnSubscribed = mergedData.filter(
-            (item) => !(item.statusName === "UnSubscribed" && item.count === null)
+            (item) => !(item.statusName === "UnSubscribed" && item.count === null),
         );
         return removeUnSubscribed;
     };
@@ -95,18 +104,13 @@ const CampaignStatusCard = ({ campaign }) => {
                 <Box className={styles.cardHeader}>
                     <Box className={styles.cardType}>
                         {campaignChannel === "Email" ? (
-                            <>
-                                <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
-                                    <CampaignTypeEmail size="lg" className={styles.mIcon} />
-                                </IconButton>
-                            </>
+                            <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
+                                <CampaignTypeEmail size="lg" className={styles.mIcon} />
+                            </IconButton>
                         ) : campaignChannel === "Sms" ? (
-                            <>
-                                {" "}
-                                <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
-                                    <CampaignTypeTextMessage size="lg" className={styles.mIcon} />
-                                </IconButton>
-                            </>
+                            <IconButton size="lg" className={`${styles.emailIcon} ${styles.emailIconBg}`}>
+                                <CampaignTypeTextMessage size="lg" className={styles.mIcon} />
+                            </IconButton>
                         ) : null}
 
                         <Typography className={styles.campaignTitle} variant="h4" onClick={handleOpenCampaign}>
@@ -121,7 +125,7 @@ const CampaignStatusCard = ({ campaign }) => {
                         <Box className={styles.cardLabel}>
                             I want to send {campaignChannel === "Sms" ? "a" : "an"} {campaignChannel.toLowerCase()} to
                             <span className={styles.cardValue}>
-                                {customCampaignDescription} to {requestPayload?.leads[0]?.firstName}
+                                {customCampaignDescription} to {requestPayload?.leads[0]?.firstName}{" "}
                                 {requestPayload?.leads[0]?.lastName}
                             </span>
                         </Box>
@@ -175,7 +179,7 @@ CampaignStatusCard.propTypes = {
         campaignChannel: PropTypes.string.isRequired,
         campaignType: PropTypes.string.isRequired,
         campaignStatus: PropTypes.string.isRequired,
-        campaignRunDate: PropTypes.string.isRequired,
+        campaignRunDate: PropTypes.string,
         customCampaignDescription: PropTypes.string.isRequired,
         formattedDate: PropTypes.string,
         requestPayload: PropTypes.shape({
@@ -183,7 +187,7 @@ CampaignStatusCard.propTypes = {
                 PropTypes.shape({
                     firstName: PropTypes.string,
                     lastName: PropTypes.string,
-                })
+                }),
             ),
         }),
         statusCounts: PropTypes.arrayOf(
@@ -192,8 +196,8 @@ CampaignStatusCard.propTypes = {
                 statusName: PropTypes.string,
                 showPercentage: PropTypes.string,
                 icon: PropTypes.elementType,
-                leadIds: PropTypes.arrayOf(),
-            })
+                leadIds: PropTypes.arrayOf(PropTypes.string),
+            }),
         ),
         sentDate: PropTypes.string,
         trigger: PropTypes.string,
@@ -203,6 +207,7 @@ CampaignStatusCard.propTypes = {
             clicks: PropTypes.number,
             unsubscribes: PropTypes.number,
         }),
+        id: PropTypes.string.isRequired,
     }).isRequired,
 };
 
