@@ -12,6 +12,7 @@ export const CallsProvider = ({ children }) => {
     const { Post: postMessage, Get: fetchMessageList, loading: messageListLoading } = useFetch(URL);
     const showToast = useToast();
     const [messageList, setMessageList] = useState([]);
+    const [unviewedCallCount, setUnviewedCallCount] = useState(0);
     const [callsList, setCallsList] = useState([]);
 
     const getCallsList = useCallback(
@@ -19,6 +20,7 @@ export const CallsProvider = ({ children }) => {
             const path = `Call/Records?LeadId=${leadId}`;
             const data = await fetchCallsList(null, false, path);
             setCallsList(data || []);
+            setUnviewedCallCount(data?.filter((c) => !c.hasViewed).length || 0);
         },
         [fetchCallsList],
     );
@@ -66,6 +68,7 @@ export const CallsProvider = ({ children }) => {
         () => ({
             getCallsList,
             callsList,
+            unviewedCallCount,
             messageListLoading,
             callsListError,
             postUpdateMessageRead,
@@ -78,6 +81,7 @@ export const CallsProvider = ({ children }) => {
         [
             getCallsList,
             callsList,
+            unviewedCallCount,
             messageListLoading,
             callsListError,
             postUpdateMessageRead,

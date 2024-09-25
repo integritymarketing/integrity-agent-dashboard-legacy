@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { usePharmacyContext } from "providers/PharmacyProvider/usePharmacyContext";
 import { Formik, Field, Form } from "formik";
 import { Select } from "components/ui/Select";
@@ -86,52 +86,51 @@ export default function PharmacyFilter({ type = "radio" }) {
     }
 
     if (type == "select") {
-        const selectOptions = () => {
+        const mailOrderOption = { value: "Mail Order", label: "Mail Order" };
+        const [selectOptions, setSelectOptions] = useState([mailOrderOption]);
+        const [selectInitial, setSelectInitial] = useState(mailOrderOption);
+
+        useEffect(() => {
             if (!pharmacyLoading && pharmacies.length > 0) {
-                const options = pharmacies.map((pharmacy) => ({ value: pharmacy.pharmacyId, label: pharmacy.name }));
-
+                const options = pharmacies.map(pharmacy => ({ value: pharmacy.pharmacyId, label: pharmacy.name }));
                 if (featureFlag) {
-                    options.push({
-                        value: "Mail Order",
-                        label: "Mail Order",
-                    });
+                    options.push(mailOrderOption);
                 }
-
-                return options;
+                setSelectOptions(options);
+            } else {
+                setSelectOptions([mailOrderOption]);
             }
 
-            return [
-                {
-                    value: "Mail Order",
-                    label: "Mail Order",
-                },
-            ];
-        };
+            if (!selectedPharmacy.pharmacyId) {
+                if (pharmacies.length) {
+                    const primaryPharmacy = pharmacies.find(pharmacy => pharmacy.isPrimary);
+                    if (primaryPharmacy) {
+                        setSelectInitial({ value: primaryPharmacy.pharmacyId, label: primaryPharmacy.name });
+                    }
+                } else {
+                    setSelectInitial(mailOrderOption);
+                }
+            } else {
+                setSelectInitial({ value: selectedPharmacy.pharmacyId, label: selectedPharmacy.name });
+            }
 
-        let selectInitial;
-
-        if (!selectedPharmacy.pharmacyId) {
-            selectInitial = { value: "Mail Order", label: "Mail Order" };
-        } else {
-            selectInitial = {
-                value: selectedPharmacy.pharmacyId,
-                label: selectedPharmacy.name,
-            };
-        }
+        }, [pharmacies]);
 
         return (
             <label id="pharmacy-select-label" htmlFor="pharmacy-filter-select" className="pharmacy-filter">
                 <span className="select-label">Estimates Based On</span>
-                <Select
-                    initialValue={selectInitial.value}
-                    options={selectOptions()}
-                    id="pharmacy-filter-select"
-                    onChange={(event) => handleFilterChange(event)}
-                    showValueAlways={true}
-                    style={{
-                        width: "275px",
-                    }}
-                />
+                {!pharmacyLoading &&
+                    <Select
+                        initialValue={selectInitial.value}
+                        options={selectOptions}
+                        id="pharmacy-filter-select"
+                        onChange={(event) => handleFilterChange(event)}
+                        showValueAlways={true}
+                        style={{
+                            width: "275px",
+                        }}
+                    />
+                }
             </label>
         );
     }

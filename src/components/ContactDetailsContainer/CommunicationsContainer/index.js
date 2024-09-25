@@ -19,9 +19,8 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
     const [selectedTab, setSelectedTab] = useState(tabSelectedInitialParam || "texts");
 
     const { leadId } = useParams();
-    const { getCallsList, callsList = [] } = useCallsHistory();
+    const { getCallsList, callsList = [], unviewedCallCount } = useCallsHistory();
     const { fireEvent } = useAnalytics();
-    const unviewedCallCount = callsList.filter((c) => !c.hasViewed).length;
 
     const tabs = useMemo(
         () => ({

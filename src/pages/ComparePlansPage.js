@@ -35,7 +35,7 @@ import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import PharmacyFilter from "components/ui/PharmacyFilter";
 import MailOrderNotApplicable from "components/MailOrderNotApplicable";
 import { useLeadDetails } from "providers/ContactDetails";
-import {usePharmacyContext} from "../providers/PharmacyProvider";
+import { usePharmacyContext } from "../providers/PharmacyProvider";
 
 const ComparePlansPage = (props) => {
     const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
@@ -56,7 +56,7 @@ const ComparePlansPage = (props) => {
 
     const { clientsService, comparePlansService, plansService } = useClientServiceContext();
     const { leadDetails } = useLeadDetails();
-    const { pharmacies: pharmaciesList } = useHealth() || {};
+    const { pharmacies: pharmaciesList, fetchPharmacies } = useHealth() || {};
     const { selectedPharmacy } = usePharmacyContext();
     const { isNonRTS_User } = useRoles();
 
@@ -114,6 +114,7 @@ const ComparePlansPage = (props) => {
 
                 try {
                     const pharmacyData = await clientsService.getLeadPharmacies(id);
+                    fetchPharmacies(id);
                     setPharmacies(pharmacyData || []);
                 } catch (pharmacyError) {
                     setHasErrorPharmacies(true);
@@ -130,6 +131,7 @@ const ComparePlansPage = (props) => {
 
                 try {
                     const pharmacyData = await comparePlansService.getLeadPharmacies(id, agentInfo?.AgentNpn);
+                    fetchPharmacies(id);
                     setPharmacies(pharmacyData || []);
                 } catch (pharmacyError) {
                     setHasErrorPharmacies(true);
@@ -205,7 +207,7 @@ const ComparePlansPage = (props) => {
                 />
             )}
             <div className={styles.comparePage}>
-                <Media query={"(max-width: 500px)"} onChange={(isMobile) => {}} />
+                <Media query={"(max-width: 500px)"} onChange={(isMobile) => { }} />
                 <WithLoader isLoading={isLoading}>
                     <Helmet>
                         <title>Integrity - Plans</title>
