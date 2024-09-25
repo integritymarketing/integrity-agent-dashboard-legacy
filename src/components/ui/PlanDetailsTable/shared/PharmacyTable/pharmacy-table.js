@@ -15,10 +15,8 @@ import PharmacyModal from "components/SharedModals/PharmacyModal";
 import OutNetworkIcon from "../../Icons/outNetwork";
 import PlanDetailsTableWithCollapse from "../../planDetailsTableWithCollapse";
 import { formatPhoneNumber } from "utils/phones";
-
-const getNetworkIcon = (pharmacyCost) => {
-    return pharmacyCost?.isNetwork ? <InNetworkIcon /> : <OutNetworkIcon />;
-};
+import { formatAddress } from "utils/addressFormatter";
+import { DIGITAL_PHARMACY } from "./components/UpdateView/updateView.constants";
 
 const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
     const { pharmacies: pharmacyList, deletePharmacy, fetchPharmacies, putLeadPharmacy } = useHealth();
@@ -27,6 +25,11 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
     const leadId = contact?.leadsId;
 
     const hasApiFailed = pharmacyList?.length === 0 && planData?.pharmacyCosts?.length > 0;
+
+    const pharmacyCostMap = useMemo(
+        () => new Map(planData?.pharmacyCosts?.map((cost) => [cost.pharmacyID, cost.isNetwork])),
+        [planData?.pharmacyCosts],
+    );
 
     const handleSetAsPrimary = async (pharmacyId) => {
         const pharmacyItem = { ...pharmacyList.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
@@ -54,22 +57,22 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 Header: "Pharmacy",
                 columns: isMobile
                     ? [
-                          {
-                              hideHeader: true,
-                              accessor: "name_address",
-                          },
-                      ]
+                        {
+                            hideHeader: true,
+                            accessor: "mobileDetails",
+                        }
+                    ]
                     : [
-                          { hideHeader: true, accessor: "name" },
-                          {
-                              hideHeader: true,
-                              accessor: "address",
-                          },
-                          {
-                              hideHeader: true,
-                              accessor: "action",
-                          },
-                      ],
+                        { hideHeader: true, accessor: "name" },
+                        {
+                            hideHeader: true,
+                            accessor: "address",
+                        },
+                        {
+                            hideHeader: true,
+                            accessor: "action",
+                        },
+                    ],
             },
         ],
         [isMobile],
@@ -80,42 +83,61 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
             return [];
         }
 
-        return pharmacyList.map((pharmacy, index) => {
-            const pharmacyCost = planData?.pharmacyCosts[index];
+        return pharmacyList.map((pharmacy) => {
+            const { pharmacyId, name, pharmacyPhone, isDigital, address1, address2, city, state, zip } = pharmacy;
+            const address = formatAddress({ address1, address2, city, stateCode: state, postalCode: zip });
+            const isCovered = pharmacyCostMap.get(pharmacyId) || false;
+            const renderDeleteButton = () => (
+                <Button
+                    variant="text"
+                    className="deleteButton"
+                    onClick={() => {
+                        onDeletePharmacy(pharmacy);
+                        setIsEditModalOpen(false);
+                        setIsAddModalOpen(false);
+                    }}
+                    size="small"
+                    endIcon={<DeleteIcon />}
+                >
+                    <div>{"Delete"}</div>
+                </Button>
+            )
             return {
                 name: (
                     <div>
-                        <span className="label">{pharmacy?.name}</span>
-                        <span className="phoneNumber">{formatPhoneNumber(pharmacy?.pharmacyPhone)}</span>
+                        <span className="label">{name}</span>
+                        <span className="phoneNumber">{formatPhoneNumber(pharmacyPhone)}</span>
+                    </div>
+                ),
+                mobileDetails: (
+                    <div className="container">
+                        <div className="mobileLabel">{name}</div>
+                        <div className="mobilePhoneNumber">
+                            {formatPhoneNumber(pharmacyPhone)}
+                            {renderDeleteButton()}
+                        </div>
+                        <div className="digitalContainer">
+                            {isCovered ? <InNetworkIcon /> : <OutNetworkIcon />}
+                            <div>
+                                {isDigital ? (
+                                    <div>{DIGITAL_PHARMACY}</div>
+                                ) : (
+                                    <div className={""}>{address}</div>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 ),
                 address: (
                     <div className="address">
-                        <span className="networkIcon">{getNetworkIcon(pharmacyCost)}</span>
-                        {`${pharmacy?.address1}\n${pharmacy?.address2}\n${pharmacy?.city} ${pharmacy?.state} ${pharmacy?.zip}`}
+                        <span className="networkIcon">{
+                            pharmacyCostMap.get(pharmacy?.pharmacyId) ? <InNetworkIcon /> : <OutNetworkIcon />}</span>
+                        {address}
                     </div>
                 ),
                 action: (
-                    <Button
-                        variant="text"
-                        className="deleteButton"
-                        onClick={() => {
-                            onDeletePharmacy(pharmacy);
-                            setIsEditModalOpen(false);
-                            setIsAddModalOpen(false);
-                        }}
-                        size="small"
-                        endIcon={<DeleteIcon />}
-                    >
-                        <div>{"Delete"}</div>
-                    </Button>
-                ),
-                name_address: (
-                    <>
-                        <div>{pharmacy?.name}</div>
-                        <div>{`${pharmacy?.address1}, ${pharmacy?.city}, ${pharmacy?.state} ${pharmacy?.zip}`}</div>
-                    </>
-                ),
+                    renderDeleteButton()
+                )
             };
         });
     }, [pharmacyList, planData]);
@@ -144,6 +166,7 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 data={hasApiFailed ? [{ unAvailable: noPharmacy() }] : tableData}
                 className="quotes"
                 header="Pharmacy"
+                tbodyClassName="pharmacy-body"
                 actions={
                     !isEnroll && (
                         <Edit

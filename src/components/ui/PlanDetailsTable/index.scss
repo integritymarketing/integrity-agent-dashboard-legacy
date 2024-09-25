@@ -41,6 +41,16 @@
         }
     }
 
+    .pharmacy-body {
+        tr {
+            border-bottom: 1px solid #cdd0d5;
+        }
+
+        tr:nth-child(even) {
+            background: #FFF !important;
+        }
+    }
+
     .plan-details-tbody {
         tr {
             height: 96px;
@@ -81,6 +91,18 @@
                 word-break: initial;
                 padding: 16px;
                 width: 50%;
+            }
+
+            .container {
+                padding: 0 8px;
+            }
+
+            .mobileLabel {
+                font-weight: 500;
+                font-size: 20px;
+                color:#052A63;
+                line-height: 24px;
+                letter-spacing: 0.2px;
             }
 
             .label,
@@ -596,8 +618,34 @@
 
 .phoneNumber {
     font-size: 16px;
-    color: #4178FF;
+    color:#717171;;
     padding: 0 40px;
+}
+
+.mobilePhoneNumber {
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    color: #717171;;
+    align-items: center;
+
+    .deleteButton {
+        padding-right: 0;
+    }
+}
+
+.digitalContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    div {
+        background: var(--action-selected, #F1FAFF);
+        border-radius: 4px;
+        padding: 8px;
+        width: 100%;
+    }
+
 }
 
 .no-items {
