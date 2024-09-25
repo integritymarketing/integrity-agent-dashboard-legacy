@@ -78,7 +78,7 @@ const CampaignStatusCard = ({ campaign }) => {
         });
 
         const removeUnSubscribed = mergedData.filter(
-            (item) => !(item.statusName === "UnSubscribed" && item.count === 0)
+            (item) => !(item.statusName === "UnSubscribed" && item.count === null)
         );
         return removeUnSubscribed;
     };

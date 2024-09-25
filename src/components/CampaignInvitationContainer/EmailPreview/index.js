@@ -23,7 +23,8 @@ const EmailPreview = () => {
                     </Box>
                 </Box>
             </Grid>
-            <Modal open={open} onClose={handleClose} className={emailPreviewStyles.modalStyles}>
+
+            <Modal size="xl" open={open} onClose={handleClose} className={emailPreviewStyles.modalStyles}>
                 <Box className={emailPreviewStyles.modalContent}>
                     <IconButton className={emailPreviewStyles.closeButton} onClick={handleClose}>
                         <CloseIcon />

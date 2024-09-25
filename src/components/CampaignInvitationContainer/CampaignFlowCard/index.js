@@ -65,7 +65,6 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
             campaign_Channel: value,
             template_Id: "empty",
             campaign_ActionType: "empty",
-            selectedCampaignId: value?.id,
         });
     };
 

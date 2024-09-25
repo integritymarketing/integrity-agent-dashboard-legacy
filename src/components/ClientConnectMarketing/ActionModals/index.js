@@ -44,7 +44,7 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
         if (optionText === "Send") {
             const payload = {
                 ...campaign,
-                campaignStatus: "Completed",
+                campaignStatus: "Submitted",
             };
             handleAllCampaignActions({ payload, method: "put", refresh });
         }

@@ -7,7 +7,7 @@ const EmailContent = () => {
     const { templateDetails } = useCampaignInvitation();
 
     return (
-        <Grid item md={6} xs={12} className={styles.emailDetails}>
+        <Grid item md={6} xs={12} direction={"column"} className={styles.emailDetails}>
             {templateDetails?.map((detail) => (
                 <>
                     <Box className={styles.detailItem} key={detail.sectionOrder}>
