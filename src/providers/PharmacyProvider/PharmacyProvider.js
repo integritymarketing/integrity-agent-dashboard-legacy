@@ -10,8 +10,7 @@ export const PharmacyProvider = ({ children }) => {
 
     useEffect(() => {
         const primaryPharmacy = pharmacies.find((pharmacy) => pharmacy.isPrimary);
-
-        if (primaryPharmacy && Object.keys(selectedPharmacy).length === 0) {
+        if (primaryPharmacy) {
             setSelectedPharmacy(primaryPharmacy);
         }
     }, [pharmacies]);

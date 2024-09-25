@@ -378,7 +378,6 @@ const PlansPage = () => {
                 setResults([]);
                 setSubTypeList([]);
                 setCarrierList([]);
-                const primaryPharmacy = pharmacies?.length > 0 ? pharmacies.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
                 const params = {
                     fips: contact.addresses?.[0].countyFips.toString(),
                     zip: contact.addresses?.[0].postalCode.toString(),
@@ -389,9 +388,6 @@ const PlansPage = () => {
                     PlanType: planType,
                     effectiveDate: `${effectiveDate.getFullYear()}-${effectiveDate.getMonth() + 1}-01`,
                  }
-                if (primaryPharmacy) {
-                    params.pharmacyId = primaryPharmacy;
-                }
                 const plansData = await plansService.getPlans(contact.leadsId, params);
                 setPlansAvailableCount(plansData?.medicarePlans?.length);
                 setCurrentPage(1);
@@ -409,7 +405,9 @@ const PlansPage = () => {
     }, [contact, effectiveDate, planType, myAppointedPlans, pharmacies]);
 
     useEffect(() => {
-        refreshPlans();
+        if (pharmacies?.length > 0 && pharmacies.find(pharmacy => pharmacy.isPrimary)) {
+            refreshPlans();
+        }
     }, [refreshPlans, pharmacies]);
 
 
@@ -429,7 +427,6 @@ const PlansPage = () => {
                 setResults([]);
                 setSubTypeList([]);
                 setCarrierList([]);
-                const primaryPharmacy = pharmacies?.length > 0 ? pharmacies.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
                 const params = {
                     fips: contact.addresses?.[0].countyFips.toString(),
                     zip: contact.addresses?.[0].postalCode.toString(),
@@ -439,9 +436,6 @@ const PlansPage = () => {
                     ShowPharmacy: true,
                     PlanType: planType,
                     effectiveDate: `${effectiveDate.getFullYear()}-${effectiveDate.getMonth() + 1}-01`,
-                }
-                if (primaryPharmacy) {
-                    params.pharmacyId = primaryPharmacy;
                 }
                 const plansData = await plansService.getPlans(contact.leadsId, params);
                 setPlansAvailableCount(plansData?.medicarePlans?.length);

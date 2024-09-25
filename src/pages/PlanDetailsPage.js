@@ -92,7 +92,7 @@ const PlanDetailsPage = () => {
 
     useEffect(() => {
         getContactAndPlanData();
-    }, [getContactAndPlanData]);
+    }, []);
 
     const fetchPharmacyList = useCallback(async () => {
         await fetchPharmacies(contactId);

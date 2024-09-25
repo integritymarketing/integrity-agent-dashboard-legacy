@@ -114,11 +114,11 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
     const handleSetAsPrimary = async (pharmacyId) => {
         const pharmacyItem = { ...pharmaciesList.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
         await putLeadPharmacy(contactId, pharmacyItem);
-        setTimeout(async () => await fetchPharmacies(contactId), [5000]);
+        fetchPharmacies(contactId);
     };
 
     const onDeletePharmacy = async (pharmacy) => {
-        await deletePharmacy(pharmacy, refresh, contactId);
+        await deletePharmacy(pharmacy, null, contactId);
         if (pharmacy.isPrimary) {
             const pharmacyToMakePrimary = pharmaciesList.find((item) => {
                 if (item.pharmacyId !== pharmacy.pharmacyId) {
@@ -127,19 +127,15 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
             });
             if (pharmacyToMakePrimary) {
                 await handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
-                if (refresh) {
-                    refresh();
-                }
             }
-            window.location.reload(true);
         }
     };
 
     const selectedProvider = isEditingProvider
         ? {
-              ...providerToEdit,
-              NPI: providerToEdit?.npi,
-          }
+            ...providerToEdit,
+            NPI: providerToEdit?.npi,
+        }
         : null;
 
     const uniqueProvidersList = removeDuplicates(planData?.providers, "npi");
