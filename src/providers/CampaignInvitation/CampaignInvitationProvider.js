@@ -123,12 +123,12 @@ export const CampaignInvitationProvider = ({ children }) => {
     useEffect(() => {
         handleCampaignAction(
             campaignActionType === "contacts filtered by…" && filteredContactsList?.length > 0 && filteredCount > 0,
-            { campaign_ActionType: "contacts filtered by…" }
+            { campaign_ActionType: "contacts filtered by…" },
         );
 
         handleCampaignAction(
             campaignActionType === "all contacts" && allContactsList?.length > 0 && totalContactsCount > 0,
-            { campaign_ActionType: "all contacts" }
+            { campaign_ActionType: "all contacts" },
         );
 
         handleCampaignAction(campaignActionType === "a contact" && selectedContact, {
@@ -142,7 +142,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 allContactsList?.length > 0,
             {
                 campaign_ActionType: campaignActionType,
-            }
+            },
         );
     }, [filteredContactsList, campaignActionType, allContactsList, totalContactsCount, filteredCount, selectedContact]);
 
@@ -215,7 +215,7 @@ export const CampaignInvitationProvider = ({ children }) => {
 
             if (resData?.length) {
                 const filteredCampaigns = resData.filter(
-                    (item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName)
+                    (item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName),
                 );
                 setAllCampaignInvitationData(filteredCampaigns);
             }
@@ -238,7 +238,7 @@ export const CampaignInvitationProvider = ({ children }) => {
 
                 if (resData?.length) {
                     const filteredCampaigns = resData.filter(
-                        (item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName)
+                        (item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName),
                     );
                     setAllCampaignInvitationData(filteredCampaigns);
                     if (templateId) {
@@ -259,7 +259,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             }
             return null;
         },
-        [fetchCampaignDetailsByEmail, fireEvent, showToast]
+        [fetchCampaignDetailsByEmail, fireEvent, showToast],
     );
 
     const handleCreateCampaignFromContact = async (leadInformation) => {
@@ -389,7 +389,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 if (customFilterData?.selectedFilterSections) {
                                     sessionStorage.setItem(
                                         "campaign_contactList_selectedFilterSections",
-                                        JSON.stringify(selectedFilterSections)
+                                        JSON.stringify(selectedFilterSections),
                                     );
                                 }
                                 const filterData = await fetchTableData({
@@ -406,7 +406,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 handleSummaryBarInfo(
                                     filterData?.tableData,
                                     filteredContentStatus,
-                                    filterData?.filteredEligibleCount
+                                    filterData?.filteredEligibleCount,
                                 );
                             } else {
                                 sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
@@ -418,7 +418,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 resData?.campaignSelectedAction !== ""
                             ) {
                                 const actionData = templateData?.campaignActions?.find(
-                                    (item) => item?.actionName === resData?.campaignSelectedAction
+                                    (item) => item?.actionName === resData?.campaignSelectedAction,
                                 );
                                 if (actionData) {
                                     setActionDescription(actionData?.actionDescription);
@@ -444,7 +444,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             }
             return null;
         },
-        [fetchCampaignDetailsById, fireEvent, showToast]
+        [fetchCampaignDetailsById, fireEvent, showToast],
     );
 
     const getAgentAccountInformation = useCallback(async () => {
@@ -503,7 +503,7 @@ export const CampaignInvitationProvider = ({ children }) => {
     }) => {
         // Retrieve and parse the JSON string from session storage
         const selectedFilterSections = JSON.parse(
-            sessionStorage.getItem("campaign_contactList_selectedFilterSections")
+            sessionStorage.getItem("campaign_contactList_selectedFilterSections"),
         );
 
         // Construct the customFilterData object
@@ -546,6 +546,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 custom3: formattedPhoneNumber,
                 custom4: `${process.env.REACT_APP_MEDICARE_ENROLL}/?purl=${agentPurlURL?.agentPurlCode}`,
                 custom5: agentAccountDetails?.caLicense,
+                custom6: agentAccountDetails?.profileImageUr,
                 eventTrigger: {
                     tags: [],
                     stage: {
@@ -633,7 +634,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                             campaign_ActionType,
                             selectedCampaignId,
                         }),
-                        false
+                        false,
                     );
                 } else {
                     const requestPayload = payload ?? createCampaignRequestPayload(campaign_Status);
@@ -648,8 +649,8 @@ export const CampaignInvitationProvider = ({ children }) => {
                             campaignActionType === "contacts filtered by…"
                                 ? "filter contacts"
                                 : campaignActionType === "all contacts"
-                                ? "all contacts"
-                                : "search for a contact",
+                                  ? "all contacts"
+                                  : "search for a contact",
                     });
                     if (redirectTo) {
                         navigate(`${redirectTo}/${resData?.id}`);
@@ -690,7 +691,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             agentAccountDetails,
             agentPurlURL,
             navigate,
-        ]
+        ],
     );
 
     return (
