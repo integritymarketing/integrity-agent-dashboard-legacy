@@ -48,8 +48,8 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
                 retail: [],
                 restrictions: [],
                 catastrophic: [],
-                drugName: planDrugCoverage.labelName,
-                type: planDrugCoverage.tierDescription || "Non-Preferred Drug",
+                drugName: planDrugCoverage?.labelName,
+                type: planDrugCoverage?.tierDescription || "Non-Preferred Drug",
             },
         };
         plans.forEach(({ pharmacyCosts } = {}, planIndex) => {

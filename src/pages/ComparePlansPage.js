@@ -154,6 +154,7 @@ const ComparePlansPage = (props) => {
         if (results && results.length) {
             setComparePlans(results?.filter((plan) => planIds.includes(plan?.id)));
             const mailOrdrNotApplicable = results?.every((plan) => {
+                if (!plan) {return false;}
                 const { hasMailDrugBenefits, estimatedAnnualMailOrderDrugCostPartialYear } = plan;
                 return (selectedPharmacy?.name === "Mail Order") && Boolean(
                     (hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits,
