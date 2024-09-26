@@ -69,48 +69,48 @@ export default function PlanCard({
     let selectedPharmacyCosts;
 
     if (Object.keys(selectedPharmacy).length) {
-        selectedPharmacyCosts = estimatedCostCalculationRxs.find(
+        selectedPharmacyCosts = estimatedCostCalculationRxs?.find(
             (rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId,
         );
     } else {
-        selectedPharmacyCosts = estimatedCostCalculationRxs.find((rx) => rx.isMailOrder);
+        selectedPharmacyCosts = estimatedCostCalculationRxs?.find((rx) => rx?.isMailOrder);
     }
 
     const mailOrder = estimatedMailOrderCostCalculationRx;
 
     const checkForImage = logoURL && logoURL.match(/.(jpg|jpeg|png|gif)$/i) ? logoURL : false;
 
-    const planType = PLAN_TYPE_ENUMS[planData.planType];
+    const planType = PLAN_TYPE_ENUMS[planData?.planType];
 
     const { isNonRTS_User } = useRoles();
 
     const disableEnroll = isNonRTS_User || shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
 
     const validatePartialYearDrugCost = calculatePartialYearDrugCost(
-        planData.estimatedAnnualDrugCostPartialYear,
+        planData?.estimatedAnnualDrugCostPartialYear,
         planData?.drugPremium,
         effectiveDate,
     );
     const validatePartialMonthlyDrugCost = calculateMonthlyDrugCost(
-        planData.estimatedAnnualDrugCostPartialYear,
+        planData?.estimatedAnnualDrugCostPartialYear,
         planData?.drugPremium,
         effectiveDate,
     );
 
     const mailOrderNotApplicable =
         selectedPharmacy?.name === "Mail Order" &&
-        ((planData.hasMailDrugBenefits && !planData.estimatedAnnualMailOrderDrugCostPartialYear) ||
-            !planData.hasMailDrugBenefits);
+        ((planData?.hasMailDrugBenefits && !planData?.estimatedAnnualMailOrderDrugCostPartialYear) ||
+            !planData?.hasMailDrugBenefits);
 
     return (
         <div className={"plan-card"}>
             <div className={`header ${isMobile ? "mobile" : ""}`}>
-                <div className={"plan-name"}>{planData.planName} </div>
+                <div className={"plan-name"}>{planData?.planName} </div>
                 {checkForImage && (
                     <div className={"plan-logo"}>
                         {isMobile && (
                             <div className={"rating-container"}>
-                                <Rating value={planData.planRating} />
+                                <Rating value={planData?.planRating} />
                             </div>
                         )}
                         <img src={LOGO_BASE_URL + logoURL} alt="logo" />{" "}
@@ -122,7 +122,7 @@ export default function PlanCard({
                     <div className={"carrier-name cr-name-mbl"}>{planData?.marketingName}</div>
                     {!isMobile && (
                         <div className={"rating-container"}>
-                            <Rating value={planData.planRating} />
+                            <Rating value={planData?.planRating} />
                         </div>
                     )}
                 </div>
@@ -158,12 +158,12 @@ export default function PlanCard({
                                     {validatePartialMonthlyDrugCost === "N/A"
                                         ? "N/A"
                                         : currencyFormatter.format(
-                                              Number(
-                                                  selectedPharmacyCosts?.pharmacyType === 2
-                                                      ? mailOrder?.estMonthlyRxDrugCost
-                                                      : selectedPharmacyCosts?.estMonthlyRxDrugCost,
-                                              ),
-                                          )}
+                                            Number(
+                                                selectedPharmacyCosts?.pharmacyType === 2
+                                                    ? mailOrder?.estMonthlyRxDrugCost
+                                                    : selectedPharmacyCosts?.estMonthlyRxDrugCost,
+                                            ),
+                                        )}
                                 </div>
                             </div>
                             <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
@@ -214,10 +214,10 @@ export default function PlanCard({
                     />
                     <span className={"compare-txt"}>Compare</span>{" "}
                 </div>
-                <div onClick={() => onDetailsClick(planData.id)} className="planDetailsBtn">
+                <div onClick={() => onDetailsClick(planData?.id)} className="planDetailsBtn">
                     Plan Details
                 </div>
-                {!planData.nonLicensedPlan && (
+                {!planData?.nonLicensedPlan && (
                     <Button
                         label={"Apply"}
                         onClick={() => {
@@ -225,7 +225,7 @@ export default function PlanCard({
                             fireEvent("Health Apply CTA Clicked", {
                                 leadid: leadId,
                                 line_of_business: "Health",
-                                product_type: PLAN_TYPE_ENUMS[planData.planType]?.toLowerCase(),
+                                product_type: PLAN_TYPE_ENUMS[planData?.planType]?.toLowerCase(),
                             });
                         }}
                         icon={<img src={EnrollBack} alt="enroll" />}
@@ -241,13 +241,14 @@ export default function PlanCard({
                     open={preCheckListPdfModal}
                     onClose={() => {
                         setPreCheckListPdfModal(false);
-                        onEnrollClick(planData.id);
+                        onEnrollClick(planData?.id);
                     }}
                 />
             )}
         </div>
     );
 }
+
 PlanCard.propTypes = {
     contact: PropTypes.object.isRequired,
     planData: PropTypes.shape({
