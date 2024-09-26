@@ -42,7 +42,7 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
     const rows = [];
 
     for (let i = 0, len = prescriptions.length; i < len; i++) {
-        const planDrugCoverage = plans[0]?.planDrugCoverage[i];
+        const planDrugCoverage = plans[0]?.planDrugCoverage?.[i];
         rows[i] = {
             data: {
                 gap: [],
@@ -56,30 +56,30 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
             },
         };
         plans.forEach(({ pharmacyCosts } = {}, planIndex) => {
-            const currentDrugCoverage = plans[planIndex]?.planDrugCoverage[i];
-            const rowData = rows[i].data;
+            const currentDrugCoverage = plans[planIndex]?.planDrugCoverage?.[i];
+            const rowData = rows[i]?.data;
 
             let pharmacy;
             if (Object.keys(selectedPharmacy).length) {
-                pharmacy = pharmacyCosts.find((rx) => rx.pharmacyID === selectedPharmacy.pharmacyId);
+                pharmacy = pharmacyCosts?.find((rx) => rx?.pharmacyID === selectedPharmacy?.pharmacyId);
             } else {
-                pharmacy = pharmacyCosts.find((rx) => rx.pharmacyType === 2);
+                pharmacy = pharmacyCosts?.find((rx) => rx?.pharmacyType === 2);
             }
 
             const costs = pharmacy?.drugCosts?.[i] || {};
 
-            rowData.gap[planIndex] = costs.gap;
-            rowData.copay[planIndex] = costs.beforeGap;
-            rowData.catastrophic[planIndex] = costs.afterGap;
-            rowData.retail[planIndex] = costs.deductible;
+            rowData.gap[planIndex] = costs?.gap;
+            rowData.copay[planIndex] = costs?.beforeGap;
+            rowData.catastrophic[planIndex] = costs?.afterGap;
+            rowData.retail[planIndex] = costs?.deductible;
             rowData.restrictions[planIndex] = {
-                hasPriorAuthorization: currentDrugCoverage.hasPriorAuthorization,
-                hasQuantityLimit: currentDrugCoverage.hasQuantityLimit,
-                hasStepTherapy: currentDrugCoverage.hasStepTherapy,
-                quantityLimitAmount: currentDrugCoverage.quantityLimitAmount,
-                quantityLimitDays: currentDrugCoverage.quantityLimitDays,
+                hasPriorAuthorization: currentDrugCoverage?.hasPriorAuthorization,
+                hasQuantityLimit: currentDrugCoverage?.hasQuantityLimit,
+                hasStepTherapy: currentDrugCoverage?.hasStepTherapy,
+                quantityLimitAmount: currentDrugCoverage?.quantityLimitAmount,
+                quantityLimitDays: currentDrugCoverage?.quantityLimitDays,
             };
-            rowData.covered[planIndex] = currentDrugCoverage.tierNumber > 0;
+            rowData.covered[planIndex] = currentDrugCoverage?.tierNumber > 0;
         });
     }
     rows.push({
@@ -88,14 +88,14 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
             cost: plans.map((plan) => {
                 let pharmacy;
                 if (Object.keys(selectedPharmacy).length) {
-                    pharmacy = plan.estimatedCostCalculationRxs.find(
-                        (rx) => rx.pharmacyID === selectedPharmacy.pharmacyId,
+                    pharmacy = plan?.estimatedCostCalculationRxs?.find(
+                        (rx) => rx?.pharmacyID === selectedPharmacy?.pharmacyId,
                     );
                 } else {
-                    pharmacy = plan.estimatedCostCalculationRxs.find((rx) => rx.isMailOrder);
+                    pharmacy = plan?.estimatedCostCalculationRxs?.find((rx) => rx?.isMailOrder);
                 }
 
-                return pharmacy.estimatedYearlyRxDrugCost;
+                return pharmacy?.estimatedYearlyRxDrugCost;
             }),
         },
     });
