@@ -6,14 +6,16 @@ export const PharmacyContext = createContext();
 
 export const PharmacyProvider = ({ children }) => {
     const [selectedPharmacy, setSelectedPharmacy] = useState({});
-    const { pharmacies, pharmacyLoading } = useHealth();
+    const { pharmacies, hasFetchedPharmacies, pharmacyLoading } = useHealth();
 
     useEffect(() => {
         const primaryPharmacy = pharmacies.find((pharmacy) => pharmacy.isPrimary);
         if (primaryPharmacy && Object.keys(selectedPharmacy).length === 0) {
             setSelectedPharmacy(primaryPharmacy);
+        } else if (!pharmacies.length) {
+            setSelectedPharmacy({});
         }
-    }, [pharmacies]);
+    }, [pharmacies, hasFetchedPharmacies]);
 
     const contextValue = useMemo(
         () => ({

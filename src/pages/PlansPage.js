@@ -159,7 +159,7 @@ const PlansPage = () => {
     const [rXToSpecialists, setRXToSpecialists] = useState([]);
     const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);
 
-    const { pharmacies, fetchPrescriptions, fetchPharmacies, fetchProviders } = useHealth() || {};
+    const { pharmacies, hasFetchedPharmacies, fetchPrescriptions, fetchPharmacies, fetchProviders } = useHealth() || {};
 
     useEffect(() => {
         if (id) {
@@ -387,7 +387,7 @@ const PlansPage = () => {
                     ShowPharmacy: true,
                     PlanType: planType,
                     effectiveDate: `${effectiveDate.getFullYear()}-${effectiveDate.getMonth() + 1}-01`,
-                 }
+                }
                 const plansData = await plansService.getPlans(contact.leadsId, params);
                 setPlansAvailableCount(plansData?.medicarePlans?.length);
                 setCurrentPage(1);
@@ -405,9 +405,7 @@ const PlansPage = () => {
     }, [contact, effectiveDate, planType, myAppointedPlans, pharmacies]);
 
     useEffect(() => {
-        if (pharmacies?.length > 0 && pharmacies.find(pharmacy => pharmacy.isPrimary)) {
-            refreshPlans();
-        }
+        if (hasFetchedPharmacies) refreshPlans();
     }, [refreshPlans, pharmacies]);
 
 
@@ -476,14 +474,14 @@ const PlansPage = () => {
 
         const rebatePlans = rebatesFilter
             ? [...specialNeedsPlans].filter((plan) => {
-                  if (plan.planDataFields && plan.planDataFields.length > 0) {
-                      return plan.planDataFields.find((detail) =>
-                          detail.name.toLowerCase().includes("part b giveback"),
-                      );
-                  } else {
-                      return false;
-                  }
-              })
+                if (plan.planDataFields && plan.planDataFields.length > 0) {
+                    return plan.planDataFields.find((detail) =>
+                        detail.name.toLowerCase().includes("part b giveback"),
+                    );
+                } else {
+                    return false;
+                }
+            })
             : specialNeedsPlans;
 
         const sortedResults = [...rebatePlans]?.sort(sortFunction);
@@ -701,7 +699,7 @@ const PlansPage = () => {
                                             {effectiveDate && (
                                                 <AdditionalFilters
                                                     planType={planType}
-                                                    onChange={() => {}}
+                                                    onChange={() => { }}
                                                     toggleAppointedPlans={toggleAppointedPlans}
                                                     carriers={carrierList}
                                                     policyTypes={subTypeList}

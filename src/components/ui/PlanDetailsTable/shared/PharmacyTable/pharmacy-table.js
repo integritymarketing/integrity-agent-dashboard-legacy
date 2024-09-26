@@ -34,7 +34,6 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
     const handleSetAsPrimary = async (pharmacyId) => {
         const pharmacyItem = { ...pharmacyList.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
         await putLeadPharmacy(leadId, pharmacyItem);
-        fetchPharmacies(leadId);
     };
     const onDeletePharmacy = async (pharmacy) => {
         await deletePharmacy(pharmacy, null, leadId);
@@ -45,13 +44,11 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 }
             });
             if (pharmacyToMakePrimary) {
-                handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
+                await handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
                 window.location.reload(true);
-            } else {
-                const updatedPharmacies = await fetchPharmacies(leadId);
-                if (!updatedPharmacies.length) window.location.reload(true);
             }
         }
+        await fetchPharmacies(leadId);
     };
 
     const columns = useMemo(
