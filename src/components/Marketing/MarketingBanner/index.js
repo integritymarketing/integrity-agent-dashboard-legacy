@@ -4,14 +4,24 @@ import styles from "./styles.module.scss";
 import bannerImage from "images/PlanEnrollBanner.svg";
 import PropTypes from "prop-types";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
+import useToast from "hooks/useToast";
 
 const MarketingBanner = ({ page, leadDetails = null }) => {
+    const showToast = useToast();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const { setCurrentPage, handleCreateCampaignFromContact } = useCampaignInvitation();
 
     const navigateToCreateCampaignInvitation = () => {
+        if(!leadDetails?.emails[0]?.leadEmail && !leadDetails?.phones[0]?.leadPhone) {
+            showToast({
+                type: "error",
+                message: "Cannot send campaign: This contact does not have a phone number.",
+                time: 5000,
+            });
+            return;
+        }
         setCurrentPage(page);
         if (leadDetails) {
             handleCreateCampaignFromContact(leadDetails);

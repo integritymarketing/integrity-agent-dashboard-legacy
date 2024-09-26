@@ -308,7 +308,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             id: 0,
             agentId: agentId,
             agentNpn: npn,
-            campaignType: "Blast",
+            campaignType: "Individual",
             campaignStatus: campaignStatuses.DRAFT,
             customCampaignDescription: `${leadInformation?.firstName} ${leadInformation?.lastName} Get Sync`,
             campaignChannel: channel,
@@ -461,7 +461,14 @@ export const CampaignInvitationProvider = ({ children }) => {
                     }
                     setCampaignActionType(resData?.campaignSelectedAction);
                     if (resData?.campaignSelectedAction === "a contact") {
-                        setSelectedContact(resData?.requestPayload?.leads[0]);
+                        const contact ={
+                            leadsId: resData?.requestPayload?.leads[0]?.leadsId,
+                            firstName: resData?.requestPayload?.leads[0]?.firstName,
+                            lastName: resData?.requestPayload?.leads[0]?.lastName,
+                            email: resData?.campaignChannel === "Email" ? resData?.requestPayload?.leads[0]?.destination: undefined,
+                            phone: resData?.campaignChannel === "Sms" ? resData?.requestPayload?.leads[0]?.destination: undefined,
+                        }
+                        setSelectedContact(contact);
                     }
                 }
                 return resData;
