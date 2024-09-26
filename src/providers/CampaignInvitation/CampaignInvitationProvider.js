@@ -577,7 +577,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 custom3: formattedPhoneNumber,
                 custom4: `${process.env.REACT_APP_MEDICARE_ENROLL}/?purl=${agentPurlURL?.agentPurlCode}`,
                 custom5: agentAccountDetails?.caLicense,
-                custom6: agentAccountDetails?.profileImageUr,
+                custom6: agentAccountDetails?.profileImageUrl,
                 eventTrigger: {
                     tags: [],
                     stage: {
