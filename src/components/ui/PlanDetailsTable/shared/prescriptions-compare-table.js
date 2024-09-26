@@ -5,6 +5,7 @@ import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 import APIFail from "./APIFail/index";
 import Prescription, { currencyFormatter } from "./prescription";
 import "./prescription.scss";
+import { usePharmacyContext } from "providers/PharmacyProvider";
 
 const EstimatedCost = ({ data, drugCount }) => {
     if (!data || !data?.cost) {
@@ -19,7 +20,7 @@ const EstimatedCost = ({ data, drugCount }) => {
                     <div className="sub-title">Based on {drugCount} drugs</div>
                 </div>
                 {data.cost.map((val) => (
-                    <div className="col val">
+                    <div className="col val" key={val}>
                         <div className="cost">{currencyFormatter.format(val)}</div>
                         <div className="duration">{data.startMonth} - Dec</div>
                     </div>
@@ -37,7 +38,9 @@ const renderCell = (value, rowIndex, totalRows, prescriptions) => {
 };
 
 const getTableData = (plans = [], prescriptions = [], startMonth) => {
+    const { selectedPharmacy } = usePharmacyContext();
     const rows = [];
+
     for (let i = 0, len = prescriptions.length; i < len; i++) {
         const planDrugCoverage = plans[0]?.planDrugCoverage[i];
         rows[i] = {
@@ -55,7 +58,15 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
         plans.forEach(({ pharmacyCosts } = {}, planIndex) => {
             const currentDrugCoverage = plans[planIndex]?.planDrugCoverage[i];
             const rowData = rows[i].data;
-            const costs = pharmacyCosts?.[0]?.drugCosts?.[i] || {};
+
+            let pharmacy;
+            if (Object.keys(selectedPharmacy).length) {
+                pharmacy = pharmacyCosts.find((rx) => rx.pharmacyID === selectedPharmacy.pharmacyId);
+            } else {
+                pharmacy = pharmacyCosts.find((rx) => rx.pharmacyType === 2);
+            }
+
+            const costs = pharmacy?.drugCosts?.[i] || {};
 
             rowData.gap[planIndex] = costs.gap;
             rowData.copay[planIndex] = costs.beforeGap;
@@ -74,7 +85,18 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
     rows.push({
         data: {
             startMonth,
-            cost: plans.map((plan) => plan.estimatedAnnualDrugCostPartialYear),
+            cost: plans.map((plan) => {
+                let pharmacy;
+                if (Object.keys(selectedPharmacy).length) {
+                    pharmacy = plan.estimatedCostCalculationRxs.find(
+                        (rx) => rx.pharmacyID === selectedPharmacy.pharmacyId,
+                    );
+                } else {
+                    pharmacy = plan.estimatedCostCalculationRxs.find((rx) => rx.isMailOrder);
+                }
+
+                return pharmacy.estimatedYearlyRxDrugCost;
+            }),
         },
     });
     return rows;
@@ -85,8 +107,8 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
     const { effectiveDate } = useParams();
     const startMonth = moment.utc(effectiveDate).format("MMM");
 
-    const columns = useMemo(
-        () => [
+    const columns = useMemo(() => {
+        return [
             {
                 Header: "Prescriptions",
                 columns: [
@@ -98,9 +120,8 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
                     },
                 ],
             },
-        ],
-        [prescriptions],
-    );
+        ];
+    }, [prescriptions]);
 
     const data = useMemo(() => getTableData(plans, prescriptions, startMonth), [plans, prescriptions, startMonth]);
 

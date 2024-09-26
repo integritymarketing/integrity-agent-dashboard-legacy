@@ -24,8 +24,6 @@ const planTypeMap = {
             label: "Rx Drug Deductible",
             field: "drugDeductible",
             conditionalValue: (planData, selectedPharmacy, condition) => {
-                const pharmacy = getSelectedPharmacy(planData, selectedPharmacy);
-
                 if (condition) {
                     return {
                         value: "N/A",
@@ -33,7 +31,7 @@ const planTypeMap = {
                         errorDescription: "Mail Order not available with this plan. Please select or add a pharmacy.",
                     };
                 }
-                return { value: pharmacy.drugDeductible, errorText: "", errorDescription: "" };
+                return { value: planData.drugDeductible, errorText: "", errorDescription: "" };
             },
         },
         {

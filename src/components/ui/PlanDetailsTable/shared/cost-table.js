@@ -5,6 +5,7 @@ import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 import MonthlyCostTable from "./monthly-cost-table";
 import MonthlyCostCompareTable from "./monthly-cost-comapare-table";
 import { usePharmacyContext } from "providers/PharmacyProvider/usePharmacyContext";
+import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
 
 const months = [
     "January",
@@ -24,9 +25,9 @@ const months = [
 const determinePharmacyCosts = (planData) => {
     const { selectedPharmacy } = usePharmacyContext();
 
-    return selectedPharmacy?.name == "Mail Order"
-        ? planData?.estimatedMailOrderCostCalculationRx
-        : planData?.estimatedCostCalculationRxs.find((rx) => rx.pharmacyId == selectedPharmacy.pharmacyId);
+    return selectedPharmacy.pharmacyId
+        ? planData?.estimatedCostCalculationRxs.find((rx) => rx?.pharmacyId == selectedPharmacy.pharmacyId)
+        : planData?.estimatedCostCalculationRxs.find((rx) => rx?.pharmacyType === 2 || rx?.isMailOrder);
 };
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
