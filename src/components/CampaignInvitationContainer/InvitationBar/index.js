@@ -97,7 +97,8 @@ const InvitationBar = () => {
         const filteredData = selectedFilters?.filter(
             (filter) => filter?.selectedFilterOption && isFilterSelectOpen === false
         );
-        if (filteredData?.length === 0) {
+
+        if (!filteredData || filteredData?.length === 0) {
             setCampaignActionType("");
             setFilteredContactsList([]);
             setFilteredCount(0);
