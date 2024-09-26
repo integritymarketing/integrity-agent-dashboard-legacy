@@ -22,7 +22,7 @@ import { useMemo } from "react";
 const staticData = [
     { count: 0, showPercentage: 0, statusName: "Delivered", leadIds: [], icon: MetricRecipients },
     { count: 0, showPercentage: 0, statusName: "open", leadIds: [], icon: MetricOpens },
-    { count: 0, showPercentage: 0, statusName: "clicked", leadIds: [], icon: MetricClicks },
+    { count: 0, showPercentage: 0, statusName: "click", leadIds: [], icon: MetricClicks },
     {
         count: 0,
         showPercentage: 0,
@@ -51,7 +51,7 @@ const CampaignStatusCard = ({ campaign }) => {
     const calPercentage = (list, totalCount) => {
         if (!list || list.statusName === "Delivered") {
             return null;
-        } else if (["open", "clicked", "UnSubscribed"].includes(list.statusName)) {
+        } else if (["open", "click", "UnSubscribed"].includes(list.statusName)) {
             const per = totalCount === 0 ? 0 : (list.count / totalCount) * 100;
             return `${Math.round(per)}%`;
         }
@@ -63,7 +63,7 @@ const CampaignStatusCard = ({ campaign }) => {
         if (!apiData?.length) {
             return staticData;
         }
-        const order = ["Delivered", "open", "clicked", "UnSubscribed"];
+        const order = ["Delivered", "open", "click", "UnSubscribed"];
         const icons = [MetricRecipients, MetricOpens, MetricClicks, MetricUnsubscribes];
 
         const totalCount = apiData?.find((item) => item.statusName === "Delivered")?.count || 0;
@@ -148,8 +148,8 @@ const CampaignStatusCard = ({ campaign }) => {
                                 {statusData.map((item, index) => (
                                     <Grid
                                         item
-                                        xs={item.statusName === "clicked" && statusData.length === 3 ? 12 : 6}
-                                        md={item.statusName === "clicked" && statusData.length === 3 ? 12 : 6}
+                                        xs={item.statusName === "click" && statusData.length === 3 ? 12 : 6}
+                                        md={item.statusName === "click" && statusData.length === 3 ? 12 : 6}
                                         key={index}
                                     >
                                         <CampaignMetricCard

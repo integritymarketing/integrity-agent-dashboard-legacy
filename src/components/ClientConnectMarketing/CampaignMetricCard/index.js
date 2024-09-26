@@ -6,7 +6,7 @@ import styles from "./styles.module.scss";
 const statusMapping = {
     open: "Opened",
     UnSubscribed: "Unsubscribed",
-    clicked: "Clicked",
+    click: "Clicked",
 };
 
 const formatStatusName = (statusName) => {
