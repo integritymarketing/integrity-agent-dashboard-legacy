@@ -5,7 +5,6 @@ import PlanDetailsTableWithCollapse from "../planDetailsTableWithCollapse";
 import MonthlyCostTable from "./monthly-cost-table";
 import MonthlyCostCompareTable from "./monthly-cost-comapare-table";
 import { usePharmacyContext } from "providers/PharmacyProvider/usePharmacyContext";
-import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
 
 const months = [
     "January",
@@ -131,9 +130,11 @@ const CostTable = ({ planData }) => {
     const [y, m] = effectiveDate?.split("-");
     const effectiveStartDate = new Date(`${y}-${m}-15`);
 
+    const pharmacyCosts = determinePharmacyCosts(planData);
+
     const effectiveMonthlyCosts =
-        planData && planData.pharmacyCosts?.length > 0
-            ? planData.pharmacyCosts[0].monthlyCosts?.filter((mc) => mc.monthID <= 12 - parseInt(m))
+        planData && pharmacyCosts?.length > 0
+            ? pharmacyCosts?.monthlyCosts?.filter((mc) => mc.monthID <= 12 - parseInt(m))
             : [];
     const totalDrugCost = effectiveMonthlyCosts?.reduce((acc, curr) => {
         return (
@@ -173,9 +174,7 @@ const CostTable = ({ planData }) => {
         data.push({
             label: (
                 <EstRxLabel
-                    drugsCount={
-                        (planData?.pharmacyCosts?.length > 0 && planData?.pharmacyCosts[0]?.drugCosts?.length) || 0
-                    }
+                    drugsCount={(pharmacyCosts?.length > 0 && pharmacyCosts?.drugCosts?.length) || 0}
                     effectiveYear={y}
                     effectiveMonth={getMonthShortName(parseInt(m) - 1)}
                 />

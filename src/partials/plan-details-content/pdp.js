@@ -31,6 +31,10 @@ const PdpDetailsContent = ({
     const { pharmacies: pharmaciesList } = useHealth() || {};
     const { selectedPharmacy } = usePharmacyContext();
 
+    const pharmacyCosts = selectedPharmacy.pharmacyId
+        ? plan?.pharmacyCosts.find((rx) => rx?.pharmacyId == selectedPharmacy.pharmacyId)
+        : plan?.pharmacyCosts.find((rx) => rx?.pharmacyType === 2 || rx?.isMailOrder);
+
     const costsRef = useRef(null);
     const prescriptionsRef = useRef(null);
     const pharmacyRef = useRef(null);
@@ -188,7 +192,7 @@ const PdpDetailsContent = ({
                             planData={plan}
                             isMobile={isMobile}
                             planDrugCoverage={plan?.planDrugCoverage}
-                            drugCosts={plan?.pharmacyCosts?.[0]?.drugCosts}
+                            drugCosts={pharmacyCosts}
                             refresh={refresh}
                             isEnroll={isEnroll}
                             leadId={leadId}

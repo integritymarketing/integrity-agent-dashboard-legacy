@@ -3,6 +3,7 @@ import ArrowDown from "../../../icons/arrow-down";
 import PlanDetailsTable from "../index";
 import Media from "react-media";
 import { currencyFormatter } from "./prescription";
+import { usePharmacyContext } from "providers/PharmacyProvider";
 
 export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber = 0, isShowMore = false }) {
     const clonedPlans = useMemo(() => {
@@ -13,11 +14,17 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
         return copyPlans;
     }, [plans]);
 
+    const { selectedPharmacy } = usePharmacyContext();
+
     const calculateEffectiveMonthlyCosts = (planData, index) => {
+        const pharmacyCosts = selectedPharmacy.pharmacyId
+            ? planData?.pharmacyCosts.find((rx) => rx?.pharmacyId == selectedPharmacy.pharmacyId)
+            : planData?.pharmacyCosts.find((rx) => rx?.pharmacyType === 2 || rx?.isMailOrder);
+
         const effectiveMonthlyCosts =
             planData?.pharmacyCosts?.length > 0
-                ? planData?.pharmacyCosts[0].monthlyCosts?.filter(
-                      (mc) => mc.monthID <= 12 - parseInt(monthNumber) // 10
+                ? pharmacyCosts.monthlyCosts?.filter(
+                      (mc) => mc.monthID <= 12 - parseInt(monthNumber), // 10
                   )
                 : [];
 
@@ -62,7 +69,7 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
 
             monthlyCostDetails?.forEach(({ labelName, memberCost }) => {
                 const existingRecord = acc.find(
-                    (record) => record.labelName === labelName && record.monthID === monthID
+                    (record) => record.labelName === labelName && record.monthID === monthID,
                 );
 
                 if (existingRecord) {
@@ -128,14 +135,14 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
             { Header: "Cost", accessor: "plan1" },
             { Header: "Cost", accessor: "plan2" },
         ],
-        []
+        [],
     );
 
     const showMonthlyBars = () => {
         return showMonths?.map((month, MIndex) => {
             const className = expandedMonths[MIndex] ? "cost-monthly-bar active" : "cost-monthly-bar";
 
-            let alldata = plansData().flat();
+            const alldata = plansData().flat();
 
             const filterData = alldata.filter((data) => {
                 return data.monthID === MIndex;
@@ -154,7 +161,7 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
                     onClick={(e) => {
                         e.stopPropagation();
                         const newExpandedMonths = { ...expandedMonths };
-                        newExpandedMonths[MIndex] = !!!expandedMonths[MIndex];
+                        newExpandedMonths[MIndex] = Boolean(!expandedMonths[MIndex]);
                         setExpandedMonths(newExpandedMonths);
                     }}
                 >
@@ -167,13 +174,13 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
                         </div>
                         {!isMobile && (
                             <>
-                                {filterData?.map((month) => (
-                                    <div className="cost-monthly-header-item">
+                                {filterData?.map((m, index) => (
+                                    <div className="cost-monthly-header-item" key={index}>
                                         <span style={{ display: "flex", alignItems: "center" }}>
                                             <span className={"value"}>Phase:</span>{" "}
-                                            <span className="costPhases">{month?.costPhases?.toLowerCase() || ""}</span>
+                                            <span className="costPhases">{m?.costPhases?.toLowerCase() || ""}</span>
                                         </span>
-                                        <span className="value">{month?.totalEstimatedCost || ""}</span>
+                                        <span className="value">{m?.totalEstimatedCost || ""}</span>
                                     </div>
                                 ))}
                             </>
@@ -195,12 +202,12 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
 
     const showPastMonthBar = () => {
         const start = monthNumber !== 1 ? months[0] : undefined;
-        const previous = start && months[monthNumber - 2] ? " - " + months[monthNumber - 2] : "";
+        const previous = start && months[monthNumber - 2] ? ` - ${months[monthNumber - 2]}` : "";
         return (
             <div className="cost-monthly-bar">
                 <div className="compare-cost-month-container">
                     {start + previous}
-                    <span className="date">{"Effective " + months[monthNumber - 1]}</span>
+                    <span className="date">{`Effective ${months[monthNumber - 1]}`}</span>
                 </div>
                 {plans?.map(() => {
                     return <div className="cost-monthly-bar-item">{currencyFormatter.format("0")}</div>;
