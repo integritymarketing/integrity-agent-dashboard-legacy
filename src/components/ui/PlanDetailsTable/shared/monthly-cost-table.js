@@ -11,10 +11,10 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
 
     let selectedPharmacyCosts;
 
-    if (Object.keys(selectedPharmacy).length) {
-        selectedPharmacyCosts = pharmacyCosts.find((rx) => rx.pharmacyID === selectedPharmacy.pharmacyId);
+    if (Object.keys(selectedPharmacy)?.length) {
+        selectedPharmacyCosts = pharmacyCosts?.find((rx) => rx?.pharmacyID === selectedPharmacy?.pharmacyId);
     } else {
-        selectedPharmacyCosts = pharmacyCosts.find((rx) => rx.pharmacyType === 2);
+        selectedPharmacyCosts = pharmacyCosts?.find((rx) => rx?.pharmacyType === 2);
     }
 
     const effectiveMonthlyCosts =
@@ -65,7 +65,7 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
                             <div className="cost-phases">
                                 <span className={"value"}>Phase:</span>{" "}
                                 <span className="costPhases">
-                                    {mc.costPhases === "0" ? "" : mc.costPhases.toLowerCase() || ""}
+                                    {mc?.costPhases === "0" ? "" : mc?.costPhases?.toLowerCase() || ""}
                                 </span>
                             </div>
                         )}
@@ -162,6 +162,7 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
         </>
     );
 }
+
 MonthlyCostTable.propTypes = {
     planData: PropTypes.object,
     months: PropTypes.array,
