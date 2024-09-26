@@ -4,9 +4,9 @@ const getSelectedPharmacy = (planData, selectedPharmacy) => {
     const { estimatedCostCalculationRxs } = planData;
 
     if (estimatedCostCalculationRxs && Object.keys(selectedPharmacy).length) {
-        return planData.estimatedCostCalculationRxs.find((rx) => rx.pharmacyId == selectedPharmacy.pharmacyId);
+        return planData?.estimatedCostCalculationRxs?.find((rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId);
     } else {
-        return planData.estimatedCostCalculationRxs.find((rx) => rx.isMailOrder);
+        return planData?.estimatedCostCalculationRxs?.find((rx) => rx?.isMailOrder);
     }
 };
 
