@@ -127,6 +127,9 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
             });
             if (pharmacyToMakePrimary) {
                 await handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
+            } else {
+                const updatedPharmacies = await fetchPharmacies(contactId);
+                if (!updatedPharmacies.length) window.location.reload(true);
             }
         }
     };

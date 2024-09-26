@@ -47,6 +47,9 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
             if (pharmacyToMakePrimary) {
                 handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
                 window.location.reload(true);
+            } else {
+                const updatedPharmacies = await fetchPharmacies(leadId);
+                if (!updatedPharmacies.length) window.location.reload(true);
             }
         }
     };

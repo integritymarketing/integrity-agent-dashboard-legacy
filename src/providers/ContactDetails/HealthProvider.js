@@ -18,6 +18,7 @@ const performAsyncOperation = async (operation, setLoading, onSuccess, onError) 
             throw new Error(data);
         }
         onSuccess(data);
+        return data;
     } catch (err) {
         Sentry.captureException(err);
         if (onError) {
@@ -74,11 +75,12 @@ export const HealthProvider = ({ children }) => {
                 return;
             }
             const path = `${leadId}/Pharmacies`;
-            await performAsyncOperation(
+            const updatedData = await performAsyncOperation(
                 () => fetchLeadPharmacies(null, false, path),
                 setPharmacyLoading,
                 (data) => setPharmacies(data || [])
             );
+            return updatedData || [];
         },
         [fetchLeadPharmacies]
     );
