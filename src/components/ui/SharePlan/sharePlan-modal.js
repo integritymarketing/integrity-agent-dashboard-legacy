@@ -52,7 +52,7 @@ const SharePlanModal = ({
     } = useAgentInformationByID();
 
     const { firstName, lastName, emails, phones, leadsId, birthdate, agentNpn, middleName, addresses } = contact;
-    const { planRating, id, documents } = planData;
+    const { planRating = '', id, documents = [] } = planData || {};
     const leadEmail = emails?.[0]?.leadEmail ?? "";
     const leadPhone = phones?.[0]?.leadPhone ?? "";
     const addressData = addresses?.length > 0 ? addresses?.[0] : null;
@@ -370,11 +370,10 @@ const SharePlanModal = ({
                                                             placeholder={hasFocus ? "" : "XXX-XXX-XXXX"}
                                                             value={formattedMobile}
                                                             maxLength="10"
-                                                            className={`${
-                                                                mobile.length !== 10 && mobile.length !== 0
-                                                                    ? "error-class"
-                                                                    : ""
-                                                            } text-input`}
+                                                            className={`${mobile.length !== 10 && mobile.length !== 0
+                                                                ? "error-class"
+                                                                : ""
+                                                                } text-input`}
                                                             onChange={(e) => {
                                                                 setFormattedMobile(
                                                                     formatPhoneNumber(
@@ -408,7 +407,7 @@ const SharePlanModal = ({
                                                     name: "documents",
                                                     checked:
                                                         selectedDocuments.filter((item) => item === document)?.length >
-                                                        0
+                                                            0
                                                             ? true
                                                             : false,
                                                     value: document.name,

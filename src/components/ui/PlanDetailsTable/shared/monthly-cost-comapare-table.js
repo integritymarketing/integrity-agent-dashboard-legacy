@@ -17,15 +17,15 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
     const { selectedPharmacy } = usePharmacyContext();
 
     const calculateEffectiveMonthlyCosts = (planData, index) => {
-        const pharmacyCosts = selectedPharmacy.pharmacyId
-            ? planData?.pharmacyCosts.find((rx) => rx?.pharmacyId == selectedPharmacy.pharmacyId)
-            : planData?.pharmacyCosts.find((rx) => rx?.pharmacyType === 2 || rx?.isMailOrder);
+        const pharmacyCosts = selectedPharmacy?.pharmacyId
+            ? planData?.pharmacyCosts?.find((rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId)
+            : planData?.pharmacyCosts?.find((rx) => rx?.pharmacyType === 2 || rx?.isMailOrder);
 
         const effectiveMonthlyCosts =
             planData?.pharmacyCosts?.length > 0
-                ? pharmacyCosts.monthlyCosts?.filter(
-                      (mc) => mc.monthID <= 12 - parseInt(monthNumber), // 10
-                  )
+                ? pharmacyCosts?.monthlyCosts?.filter(
+                    (mc) => mc?.monthID <= 12 - parseInt(monthNumber),
+                )
                 : [];
 
         const costDetails = effectiveMonthlyCosts?.map((mc) => {
@@ -43,8 +43,8 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
             });
 
             return {
-                costPhases: mc.costPhases,
-                monthID: mc.monthID,
+                costPhases: mc?.costPhases,
+                monthID: mc?.monthID,
                 totalDrugCost: currencyFormatter.format(totalDrugCost),
                 totalEstimatedCost: currencyFormatter.format(totalEstimatedCost),
                 monthlyCostDetails: data,
@@ -145,7 +145,7 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
             const alldata = plansData().flat();
 
             const filterData = alldata.filter((data) => {
-                return data.monthID === MIndex;
+                return data?.monthID === MIndex;
             });
 
             const drugCostsConvertList = convertList(filterData);
