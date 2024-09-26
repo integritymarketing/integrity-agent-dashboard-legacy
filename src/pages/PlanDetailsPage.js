@@ -33,6 +33,7 @@ import { PLAN_TYPE_ENUMS } from "../constants";
 
 import NewBackBtn from "images/new-back-btn.svg";
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
+import { usePharmacyContext } from "providers/PharmacyProvider";
 
 const PlanDetailsPage = () => {
     const showToast = useToast();
@@ -49,24 +50,19 @@ const PlanDetailsPage = () => {
 
     const { isNonRTS_User } = useRoles();
     const { clientsService, plansService } = useClientServiceContext();
-    const [pharmacies, setPharmacies] = useState([]);
-    const {
-        pharmacies: pharmacyList,
-        fetchPharmacies
-    } = useHealth() || {};
-    
-    useEffect(() => {
-        setPharmacies(pharmacyList);
-    }, [pharmacyList])
+    const { pharmacies, fetchPharmacies } = useHealth() || {};
+    const { selectedPharmacy } = usePharmacyContext();
 
     const getContactAndPlanData = useCallback(async () => {
         setIsLoading(true);
         try {
+            await fetchPharmacies(contactId);
             const contactData = await clientsService.getContactInfo(contactId);
 
-            const primaryPharmacy = pharmacyList.length > 0 ? pharmacyList.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
+            const primaryPharmacy = pharmacies.length > 0 ? pharmacies.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
+            const pharmacyId = selectedPharmacy?.pharmacyId || primaryPharmacy;
 
-            const planData = await plansService.getPlan(contactId, planId, contactData, effectiveDate, primaryPharmacy);
+            const planData = await plansService.getPlan(contactId, planId, contactData, effectiveDate, pharmacyId);
 
             if (!planData) {
                 showToast({
@@ -88,18 +84,10 @@ const PlanDetailsPage = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [contactId, planId, showToast, effectiveDate, fetchPharmacies, pharmacies]);
+    }, [contactId, planId, showToast, effectiveDate, fetchPharmacies]);
 
     useEffect(() => {
         getContactAndPlanData();
-    }, []);
-
-    const fetchPharmacyList = useCallback(async () => {
-        await fetchPharmacies(contactId);
-    }, [contactId, fetchPharmacies]);
-    
-    useEffect(() => {
-        fetchPharmacyList();
     }, []);
 
     return (

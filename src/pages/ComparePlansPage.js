@@ -70,13 +70,15 @@ const ComparePlansPage = (props) => {
         agentInfo,
     }) {
         const primaryPharmacy = pharmaciesList.length > 0 ? pharmaciesList.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
+        const pharmacyId = selectedPharmacy?.pharmacyId || primaryPharmacy;
+
         return Promise.all(
             planIds
                 .filter(Boolean)
                 .map((planId) =>
                     !isComingFromEmail
-                        ? plansService.getPlan(contactId, planId, contactData, effectiveDate, primaryPharmacy)
-                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN, primaryPharmacy),
+                        ? plansService.getPlan(contactId, planId, contactData, effectiveDate, pharmacyId)
+                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN, pharmacyId),
                 ),
         );
     }
@@ -91,7 +93,7 @@ const ComparePlansPage = (props) => {
                 contactData = await clientsService.getContactInfo(id);
                 setContactData(contactData);
             }
-
+            await fetchPharmacies(id);
             const plansData = await getAllPlanDetails({
                 planIds,
                 contactId: id,
@@ -114,7 +116,6 @@ const ComparePlansPage = (props) => {
 
                 try {
                     const pharmacyData = await clientsService.getLeadPharmacies(id);
-                    fetchPharmacies(id);
                     setPharmacies(pharmacyData || []);
                 } catch (pharmacyError) {
                     setHasErrorPharmacies(true);
@@ -131,7 +132,6 @@ const ComparePlansPage = (props) => {
 
                 try {
                     const pharmacyData = await comparePlansService.getLeadPharmacies(id, agentInfo?.AgentNpn);
-                    fetchPharmacies(id);
                     setPharmacies(pharmacyData || []);
                 } catch (pharmacyError) {
                     setHasErrorPharmacies(true);
@@ -154,7 +154,7 @@ const ComparePlansPage = (props) => {
         if (results && results.length) {
             setComparePlans(results?.filter((plan) => planIds.includes(plan?.id)));
             const mailOrdrNotApplicable = results?.every((plan) => {
-                if (!plan) {return false;}
+                if (!plan) { return false; }
                 const { hasMailDrugBenefits, estimatedAnnualMailOrderDrugCostPartialYear } = plan;
                 return (selectedPharmacy?.name === "Mail Order") && Boolean(
                     (hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits,
