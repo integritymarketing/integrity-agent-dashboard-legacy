@@ -15,7 +15,7 @@ const TextsTab = () => {
     const [isNewTextInputOpen, setIsNewTextInputOpen] = useState(false);
     const [newMessageValue, setNewMessageValue] = useState("");
     const { postSendMessage, getMessageList, messageList, postUpdateMessageRead, messageListLoading } =
-        useCallsHistory();
+    useCallsHistory();
     const { agentInformation } = useAgentInformationByID();
     const { agentFirstName, agentLastName, agentID, agentNPN, agentVirtualPhoneNumber } = agentInformation || {};
     const { leadDetails } = useLeadDetails();
@@ -45,7 +45,7 @@ const TextsTab = () => {
 
     const handleSendMessage = async () => {
         try {
-            await postSendMessage({
+            const response = await postSendMessage({
                 agentFirstName,
                 agentLastName,
                 agentID,
@@ -57,13 +57,14 @@ const TextsTab = () => {
                 leadPhone: leadDetails.phones?.[0]?.leadPhone || "",
                 messageBody: newMessageValue,
             });
+            if(response.ok) {
             await getMessageList(agentNPN, leadDetails.leadsId);
             setNewMessageValue("");
             setIsNewTextInputOpen(false);
             fireEvent("Connect Communication Sent", {
                 communicationMethod: "text",
                 leadId: leadDetails.leadsId,
-            });
+            });}
         } catch (error) {
             Sentry.captureException(error);
             showToast({

@@ -45,11 +45,24 @@ export const CallsProvider = ({ children }) => {
 
     const postSendMessage = useCallback(
         async (postData) => {
+            if (!postData.leadPhone) {
+                showToast({
+                    type: "error",
+                    message: "This lead doesn't have any phone number. Please add a valid phone number.",
+                });
+                return { ok: false };
+            }
+
             const response = await postMessage(postData, true, "CampaignLog/SendSms");
             if (response.ok) {
                 showToast({
                     type: "success",
                     message: "Your message was delivered successfully.",
+                });
+            } else {
+                showToast({
+                    type: "error",
+                    message: "Failed to send message",
                 });
             }
             return response;
