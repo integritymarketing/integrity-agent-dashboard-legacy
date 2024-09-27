@@ -8,6 +8,7 @@ import "./index.scss";
 export default function PharmacyFilter({ type = "radio" }) {
     const { pharmacies, pharmacyLoading, selectedPharmacy, setSelectedPharmacy } = usePharmacyContext();
 
+ 
     const featureFlag = process.env.REACT_APP_PHARMACY_FILTER_SHOW_MAILORDER === "true";
 
     const handleFilterChange = useCallback(

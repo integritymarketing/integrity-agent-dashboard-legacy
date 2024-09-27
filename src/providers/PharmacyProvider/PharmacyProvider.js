@@ -10,12 +10,13 @@ export const PharmacyProvider = ({ children }) => {
 
     useEffect(() => {
         const primaryPharmacy = pharmacies.find((pharmacy) => pharmacy.isPrimary);
-        if (primaryPharmacy && Object.keys(selectedPharmacy).length === 0) {
+        console.log("PharmacyProvider -> primaryPharmacy", primaryPharmacy, pharmacies);
+        if (primaryPharmacy &&  pharmacies.length) {
             setSelectedPharmacy(primaryPharmacy);
         } else if (!pharmacies.length) {
             setSelectedPharmacy({});
         }
-    }, [pharmacies]);
+    }, [pharmacies, setSelectedPharmacy]);
 
     const contextValue = useMemo(
         () => ({

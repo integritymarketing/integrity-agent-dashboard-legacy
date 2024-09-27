@@ -53,14 +53,20 @@ const PlanDetailsPage = () => {
     const { pharmacies, fetchPharmacies } = useHealth() || {};
     const { selectedPharmacy } = usePharmacyContext();
 
+    console.log("PlanDetailsPage -> pharmacyId",selectedPharmacy,   pharmacies);   
+
+
     const getContactAndPlanData = useCallback(async () => {
         setIsLoading(true);
         try {
-            await fetchPharmacies(contactId);
+           const updatedData = await fetchPharmacies(contactId);
+           console.log("PlanDetailsPage -> updatedData", updatedData);
             const contactData = await clientsService.getContactInfo(contactId);
 
-            const primaryPharmacy = pharmacies.length > 0 ? pharmacies.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
-            const pharmacyId = selectedPharmacy?.pharmacyId || primaryPharmacy;
+            const primaryPharmacy = updatedData.length > 0 ? updatedData.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
+
+            const pharmacyId = primaryPharmacy;
+
 
             const planData = await plansService.getPlan(contactId, planId, contactData, effectiveDate, pharmacyId);
 
@@ -84,7 +90,7 @@ const PlanDetailsPage = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [contactId, planId, showToast, effectiveDate, fetchPharmacies]);
+    }, [contactId, planId, showToast, effectiveDate, fetchPharmacies, clientsService, plansService, pharmacies, selectedPharmacy]);
 
     useEffect(() => {
         getContactAndPlanData();

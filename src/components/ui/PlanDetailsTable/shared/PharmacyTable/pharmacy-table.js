@@ -18,7 +18,7 @@ import { formatPhoneNumber } from "utils/phones";
 import { formatAddress } from "utils/addressFormatter";
 import { DIGITAL_PHARMACY } from "./components/UpdateView/updateView.constants";
 
-const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
+const PharmacyTable = ({ contact, planData, isMobile, isEnroll, refresh }) => {
     const { pharmacies: pharmacyList, deletePharmacy, fetchPharmacies, putLeadPharmacy } = useHealth();
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -34,7 +34,8 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
     const handleSetAsPrimary = async (pharmacyId) => {
         const pharmacyItem = { ...pharmacyList.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
         await putLeadPharmacy(leadId, pharmacyItem);
-        fetchPharmacies(leadId);
+        refresh();
+        setIsEditModalOpen(false);
     };
     const onDeletePharmacy = async (pharmacy) => {
         await deletePharmacy(pharmacy, null, leadId);
@@ -49,7 +50,7 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 window.location.reload(true);
             } else {
                 const updatedPharmacies = await fetchPharmacies(leadId);
-                if (!updatedPharmacies.length) window.location.reload(true);
+                if (!updatedPharmacies.length) {window.location.reload(true);}
             }
         }
     };
@@ -153,9 +154,7 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
         }
     };
 
-    const refreshPage = () => {
-        window.location.reload(true);
-    }
+   
 
     const noPharmacy = () => {
         return (
@@ -211,9 +210,10 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 <PharmacyModal
                     open={isAddModalOpen}
                     pharmaciesPreSelected={pharmacyList}
-                    onClose={refreshPage}
+                    onClose={() => setIsAddModalOpen(false)}
                     userZipCode={contact?.addresses?.[0]?.postalCode}
                     leadId={leadId}
+                    refresh={refresh}
                 />
             )}
         </>
