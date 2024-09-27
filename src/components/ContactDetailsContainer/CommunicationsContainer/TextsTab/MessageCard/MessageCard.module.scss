@@ -60,15 +60,9 @@
     gap: 10px;
 }
 
-.sendCampaignButton button {
-    border-radius: 25px;
-    border: none;
-    background: #4178ff;
-    padding: 5px 15px;
-    font-size: 14px;
-    font-weight: normal;
-    display: flex;
-    justify-content: flex-start;
-    cursor: pointer;
-    margin-bottom: 15px;
+.viewCampaignButton {
+    font-weight: 400;
+    font-size: 16px;
+    border: 1px solid;
+    margin-top: 20px;
 }

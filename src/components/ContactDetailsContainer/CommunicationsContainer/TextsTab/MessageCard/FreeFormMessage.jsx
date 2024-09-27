@@ -2,16 +2,9 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import DateTimeBox from "./DateTimeBox";
 import styles from "./MessageCard.module.scss";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import BroadCast from "components/icons/version-2/Broadcast";
 import ArrowRightCircle from "components/icons/version-2/ArrowRightCircle";
-
-const formatSmsContent = (smsContent) => {
-    return smsContent
-        .replace(/\r/g, '• ')
-        .replace(/\n/g, '<br />');
-};
-
 const FreeFormMessage = ({ formattedDate, formattedTime, hasViewed, campaignLogId, smsContent }) => {
     const navigate = useNavigate();
 
@@ -21,25 +14,32 @@ const FreeFormMessage = ({ formattedDate, formattedTime, hasViewed, campaignLogI
 
     return (
         <div className={`${styles.messageBox} ${!hasViewed ? styles.isUnread : ""}`}>
-            <div className={styles.messageTextBoxBroadcast}>
-                <DateTimeBox formattedDate={formattedDate} formattedTime={formattedTime} />
-            </div>
-            <div className={styles.smsContent} dangerouslySetInnerHTML={{ __html: formatSmsContent(smsContent) }}></div>
-            <div className={styles.chatIconBoxBroadcast}>
-                <BroadCast />
-                {campaignLogId && (
-                    <div className={styles.sendCampaignButton}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            endIcon={<ArrowRightCircle />}
-                            onClick={handleViewCampaign}
-                        >
-                            View campaign
-                        </Button>
+            <Grid container spacing={2}>
+                <Grid item xs={2}>
+                    <div className={styles.messageTextBoxBroadcast}>
+                        <DateTimeBox formattedDate={formattedDate} formattedTime={formattedTime} />
                     </div>
-                )}
-            </div>
+                </Grid>
+                <Grid item xs={7}>
+                    {smsContent && <div dangerouslySetInnerHTML={{ __html: smsContent }}></div>}
+                </Grid>
+                <Grid item xs={3}>
+                    <div>
+                        <BroadCast />
+                        {campaignLogId && (
+                            <Button
+                                className={styles.viewCampaignButton}
+                                variant="contained"
+                                color="primary"
+                                endIcon={<ArrowRightCircle />}
+                                onClick={handleViewCampaign}
+                            >
+                                View campaign
+                            </Button>
+                        )}
+                    </div>
+                </Grid>
+            </Grid>
         </div>
     );
 };
