@@ -10,7 +10,6 @@ export const PharmacyProvider = ({ children }) => {
 
     useEffect(() => {
         const primaryPharmacy = pharmacies.find((pharmacy) => pharmacy.isPrimary);
-        console.log("PharmacyProvider -> primaryPharmacy", primaryPharmacy, pharmacies);
         if (primaryPharmacy &&  pharmacies.length) {
             setSelectedPharmacy(primaryPharmacy);
         } else if (!pharmacies.length) {

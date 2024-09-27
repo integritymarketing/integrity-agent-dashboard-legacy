@@ -53,14 +53,12 @@ const PlanDetailsPage = () => {
     const { pharmacies, fetchPharmacies } = useHealth() || {};
     const { selectedPharmacy } = usePharmacyContext();
 
-    console.log("PlanDetailsPage -> pharmacyId",selectedPharmacy,   pharmacies);   
 
 
     const getContactAndPlanData = useCallback(async () => {
         setIsLoading(true);
         try {
            const updatedData = await fetchPharmacies(contactId);
-           console.log("PlanDetailsPage -> updatedData", updatedData);
             const contactData = await clientsService.getContactInfo(contactId);
 
             const primaryPharmacy = updatedData.length > 0 ? updatedData.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
