@@ -13,6 +13,7 @@ const MessageCard = ({ smsType, data }) => {
                 formattedTime={formattedTime}
                 hasViewed={data.hasViewed}
                 campaignLogId={data?.campaignLogId}
+                smsContent={data.smsContent}
             />
         );
     }
@@ -46,6 +47,7 @@ MessageCard.propTypes = {
         smsContent: PropTypes.string,
         hasViewed: PropTypes.bool,
         isFreeForm: PropTypes.bool,
+        campaignLogId: PropTypes.string,
     }).isRequired,
 };
 

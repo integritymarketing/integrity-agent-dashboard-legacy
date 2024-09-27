@@ -6,7 +6,13 @@ import { Button } from "@mui/material";
 import BroadCast from "components/icons/version-2/Broadcast";
 import ArrowRightCircle from "components/icons/version-2/ArrowRightCircle";
 
-const FreeFormMessage = ({ formattedDate, formattedTime, hasViewed, campaignLogId }) => {
+const formatSmsContent = (smsContent) => {
+    return smsContent
+        .replace(/\r/g, '• ')
+        .replace(/\n/g, '<br />');
+};
+
+const FreeFormMessage = ({ formattedDate, formattedTime, hasViewed, campaignLogId, smsContent }) => {
     const navigate = useNavigate();
 
     const handleViewCampaign = () => {
@@ -18,6 +24,7 @@ const FreeFormMessage = ({ formattedDate, formattedTime, hasViewed, campaignLogI
             <div className={styles.messageTextBoxBroadcast}>
                 <DateTimeBox formattedDate={formattedDate} formattedTime={formattedTime} />
             </div>
+            <div className={styles.smsContent} dangerouslySetInnerHTML={{ __html: formatSmsContent(smsContent) }}></div>
             <div className={styles.chatIconBoxBroadcast}>
                 <BroadCast />
                 {campaignLogId && (
@@ -41,6 +48,8 @@ FreeFormMessage.propTypes = {
     formattedDate: PropTypes.string.isRequired,
     formattedTime: PropTypes.string.isRequired,
     hasViewed: PropTypes.bool.isRequired,
+    campaignLogId: PropTypes.string,
+    smsContent: PropTypes.string.isRequired,
 };
 
 export default FreeFormMessage;
