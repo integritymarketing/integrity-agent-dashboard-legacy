@@ -52,7 +52,6 @@ const CampaignStatusCard = ({ campaign }) => {
         campaignSelectedAction,
     } = campaign;
 
-
     const showCampaignInfo = () => {
         if (campaignChannel === "Email") {
             const campaignData = emailData.find((item) => item.id === campaignId);
@@ -67,7 +66,7 @@ const CampaignStatusCard = ({ campaign }) => {
     const showActionInfo = () => {
         if (campaignSelectedAction === "a contact") {
             return `${requestPayload.leads[0].firstName} ${requestPayload.leads[0].lastName}`;
-        } else if(campaignSelectedAction === "contacts filtered by…"){
+        } else if (campaignSelectedAction === "contacts filtered by…") {
             return "Filtered contacts";
         } else if (campaignSelectedAction !== "") {
             return campaignSelectedAction;
@@ -126,6 +125,14 @@ const CampaignStatusCard = ({ campaign }) => {
         navigate(`/marketing/campaign-details/${id}`);
     };
 
+    const convertCampaignChannel = () => {
+        const lowerCaseChannel = campaignChannel.toLowerCase();
+        if (lowerCaseChannel === "sms") {
+            return "text";
+        }
+        return campaignChannel;
+    };
+
     return (
         <Box className={styles.campaignCardContainer}>
             <Box className={styles.campaignCard}>
@@ -151,11 +158,8 @@ const CampaignStatusCard = ({ campaign }) => {
                 <Box className={styles.cardDetails}>
                     {campaignChannel && (
                         <Box className={styles.cardLabel}>
-                            I want to send {campaignChannel === "Sms" ? "a" : "an"} {campaignChannel.toLowerCase()} to
-                            <span className={styles.cardValue}>
-                                {showCampaignInfo()} 
-                            </span>
-                           {" "} to {showActionInfo()}
+                            I want to send {campaignChannel === "Sms" ? "a" : "an"} {convertCampaignChannel()} to
+                            <span className={styles.cardValue}>{showCampaignInfo()}</span> to {showActionInfo()}
                         </Box>
                     )}
                 </Box>
