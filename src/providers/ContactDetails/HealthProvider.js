@@ -45,7 +45,6 @@ export const HealthProvider = ({ children }) => {
     const { Get: fetchLeadPrescriptions, Delete: deleteLeadPrescription, Post: createPrescription } = useFetch(URL);
     const { Post: updateLeadPrescription } = useFetch(URL);
 
-    const [hasFetchedPharmacies, setHasFetchedPharmacies] = useState(false);
     const [pharmacies, setPharmacies] = useState([]);
     const [pharmacyLoading, setPharmacyLoading] = useState(false);
     const [providers, setProviders] = useState([]);
@@ -81,7 +80,6 @@ export const HealthProvider = ({ children }) => {
                 setPharmacyLoading,
                 (data) => setPharmacies(data || [])
             );
-            setHasFetchedPharmacies(true);
             return updatedData || [];
         },
         [fetchLeadPharmacies]
@@ -337,7 +335,6 @@ export const HealthProvider = ({ children }) => {
             deleteProvider,
             fetchPrescriptions,
             fetchPharmacies,
-            hasFetchedPharmacies,
             fetchProviders,
         }),
         [
@@ -357,7 +354,6 @@ export const HealthProvider = ({ children }) => {
             deleteProvider,
             fetchPrescriptions,
             fetchPharmacies,
-            hasFetchedPharmacies,
             fetchProviders,
         ]
     );

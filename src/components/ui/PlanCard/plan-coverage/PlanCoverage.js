@@ -114,6 +114,7 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
     const handleSetAsPrimary = async (pharmacyId) => {
         const pharmacyItem = { ...pharmaciesList.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
         await putLeadPharmacy(contactId, pharmacyItem);
+        fetchPharmacies(contactId);
     };
 
     const onDeletePharmacy = async (pharmacy) => {
@@ -126,9 +127,11 @@ const PlanCoverage = ({ contact, planData, planName, refresh, contactId }) => {
             });
             if (pharmacyToMakePrimary) {
                 await handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
+            } else {
+                const updatedPharmacies = await fetchPharmacies(contactId);
+                if (!updatedPharmacies.length) window.location.reload(true);
             }
         }
-        await fetchPharmacies(contactId);
     };
 
     const selectedProvider = isEditingProvider

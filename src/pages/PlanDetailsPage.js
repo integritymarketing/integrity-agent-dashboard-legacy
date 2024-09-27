@@ -50,15 +50,16 @@ const PlanDetailsPage = () => {
 
     const { isNonRTS_User } = useRoles();
     const { clientsService, plansService } = useClientServiceContext();
-    const { pharmacies, fetchPharmacies, hasFetchedPharmacies } = useHealth() || {};
+    const { pharmacies, fetchPharmacies } = useHealth() || {};
     const { selectedPharmacy } = usePharmacyContext();
 
     const getContactAndPlanData = useCallback(async () => {
         setIsLoading(true);
         try {
+            await fetchPharmacies(contactId);
             const contactData = await clientsService.getContactInfo(contactId);
 
-            const primaryPharmacy = pharmacies.length > 0 ? pharmacies?.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
+            const primaryPharmacy = pharmacies.length > 0 ? pharmacies.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
             const pharmacyId = selectedPharmacy?.pharmacyId || primaryPharmacy;
 
             const planData = await plansService.getPlan(contactId, planId, contactData, effectiveDate, pharmacyId);
@@ -85,14 +86,9 @@ const PlanDetailsPage = () => {
         }
     }, [contactId, planId, showToast, effectiveDate, fetchPharmacies]);
 
-    const getPharmacies = async () => {
-        if (!hasFetchedPharmacies) await fetchPharmacies(contactId);
-    }
-
     useEffect(() => {
-        getPharmacies();
         getContactAndPlanData();
-    }, [pharmacies]);
+    }, []);
 
     return (
         <React.Fragment>

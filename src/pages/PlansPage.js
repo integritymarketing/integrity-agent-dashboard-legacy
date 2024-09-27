@@ -159,7 +159,7 @@ const PlansPage = () => {
     const [rXToSpecialists, setRXToSpecialists] = useState([]);
     const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);
 
-    const { pharmacies, hasFetchedPharmacies, fetchPrescriptions, fetchPharmacies, fetchProviders } = useHealth() || {};
+    const { pharmacies, fetchPharmacies, fetchProviders } = useHealth() || {};
 
     useEffect(() => {
         if (id) {
@@ -405,7 +405,9 @@ const PlansPage = () => {
     }, [contact, effectiveDate, planType, myAppointedPlans, pharmacies]);
 
     useEffect(() => {
-        if (hasFetchedPharmacies) refreshPlans();
+        if (pharmacies?.length > 0 && pharmacies.find(pharmacy => pharmacy.isPrimary)) {
+            refreshPlans();
+        }
     }, [refreshPlans, pharmacies]);
 
 
