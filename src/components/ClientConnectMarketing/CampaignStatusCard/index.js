@@ -130,7 +130,7 @@ const CampaignStatusCard = ({ campaign }) => {
         if (lowerCaseChannel === "sms") {
             return "text";
         }
-        return campaignChannel;
+        return campaignChannel.toLowerCase();
     };
 
     return (
