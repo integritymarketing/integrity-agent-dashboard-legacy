@@ -18,14 +18,12 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
 
     const calculateEffectiveMonthlyCosts = (planData, index) => {
         const pharmacyCosts = selectedPharmacy?.pharmacyId
-            ? planData?.pharmacyCosts?.find((rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId)
+            ? planData?.pharmacyCosts?.find((rx) => rx?.pharmacyID == selectedPharmacy?.pharmacyId)
             : planData?.pharmacyCosts?.find((rx) => rx?.pharmacyType === 2 || rx?.isMailOrder);
 
         const effectiveMonthlyCosts =
             planData?.pharmacyCosts?.length > 0
-                ? pharmacyCosts?.monthlyCosts?.filter(
-                    (mc) => mc?.monthID <= 12 - parseInt(monthNumber),
-                )
+                ? pharmacyCosts?.monthlyCosts?.filter((mc) => mc?.monthID <= 12 - parseInt(monthNumber))
                 : [];
 
         const costDetails = effectiveMonthlyCosts?.map((mc) => {
