@@ -11,7 +11,7 @@ import useFetch from "hooks/useFetch";
 import useAnalytics from "hooks/useAnalytics";
 import StageStatusContext from "contexts/stageStatus";
 
-const HIDE_SHOPPERS_CAMPAIGNS = ["PlanChanges"];
+const HIDE_SHOPPERS_CAMPAIGNS = ["PlanChanges", "SignSoa"];
 export const CampaignInvitationContext = createContext();
 const campaignsSortOrder = {
     PlanEnrollProfile: 1,
