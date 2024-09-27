@@ -89,7 +89,7 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
                 let pharmacy;
                 if (Object.keys(selectedPharmacy).length) {
                     pharmacy = plan?.estimatedCostCalculationRxs?.find(
-                        (rx) => rx?.pharmacyID === selectedPharmacy?.pharmacyId,
+                        (rx) => rx?.pharmacyId === selectedPharmacy?.pharmacyId,
                     );
                 } else {
                     pharmacy = plan?.estimatedCostCalculationRxs?.find((rx) => rx?.isMailOrder);
