@@ -73,7 +73,7 @@ const CampaignStatusCard = ({ campaign }) => {
             if (campaign.campaignChannel === "Email") {
                 return {
                     ...item,
-                    count: data?.count || 0,
+                    count: data?.count,
                     showPercentage: calPercentage(data, totalCount),
                     icon: icons[order.indexOf(item.statusName)],
                     leadIds: data?.leadIds || [],
