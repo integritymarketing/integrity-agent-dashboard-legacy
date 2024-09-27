@@ -48,7 +48,7 @@ export const CallsProvider = ({ children }) => {
             if (!postData.leadPhone) {
                 showToast({
                     type: "error",
-                    message: "This lead doesn't have any phone number. Please add a valid phone number.",
+                    message: "This lead doesn't have any valid phone number. Please add a valid phone number.",
                 });
                 return { ok: false };
             }
