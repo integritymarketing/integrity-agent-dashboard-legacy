@@ -152,6 +152,11 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
             setIsAddModalOpen(true);
         }
     };
+
+    const refreshPage = () => {
+        window.location.reload(true);
+    }
+
     const noPharmacy = () => {
         return (
             <div className="no-items">
@@ -206,7 +211,7 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll }) => {
                 <PharmacyModal
                     open={isAddModalOpen}
                     pharmaciesPreSelected={pharmacyList}
-                    onClose={() => setIsAddModalOpen(false)}
+                    onClose={refreshPage}
                     userZipCode={contact?.addresses?.[0]?.postalCode}
                     leadId={leadId}
                 />
