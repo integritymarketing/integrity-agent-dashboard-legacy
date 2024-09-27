@@ -16,6 +16,7 @@ import {
     MetricClicks,
     MetricUnsubscribes,
 } from "@integritymarketing/icons";
+import { useMarketing } from "providers/Marketing";
 
 import { useMemo } from "react";
 
@@ -36,6 +37,7 @@ const CampaignStatusCard = ({ campaign }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    const { smsData, emailData } = useMarketing();
 
     const {
         campaignChannel,
@@ -46,7 +48,33 @@ const CampaignStatusCard = ({ campaign }) => {
         requestPayload,
         statusCounts,
         id,
+        campaignId,
+        campaignSelectedAction,
     } = campaign;
+
+
+    const showCampaignInfo = () => {
+        if (campaignChannel === "Email") {
+            const campaignData = emailData.find((item) => item.id === campaignId);
+            return campaignData?.campaignDescription;
+        } else if (campaignChannel === "Sms") {
+            const campaignData = smsData.find((item) => item.id === campaignId);
+            return campaignData?.campaignDescription;
+        }
+        return "";
+    };
+
+    const showActionInfo = () => {
+        if (campaignSelectedAction === "a contact") {
+            return `${requestPayload.leads[0].firstName} ${requestPayload.leads[0].lastName}`;
+        } else if(campaignSelectedAction === "contacts filtered by…"){
+            return "Filtered contacts";
+        } else if (campaignSelectedAction !== "") {
+            return campaignSelectedAction;
+        } else {
+            return "";
+        }
+    };
 
     const calPercentage = (list, totalCount) => {
         if (!list || list.statusName === "Delivered") {
@@ -125,9 +153,9 @@ const CampaignStatusCard = ({ campaign }) => {
                         <Box className={styles.cardLabel}>
                             I want to send {campaignChannel === "Sms" ? "a" : "an"} {campaignChannel.toLowerCase()} to
                             <span className={styles.cardValue}>
-                                {customCampaignDescription} to {requestPayload?.leads[0]?.firstName}{" "}
-                                {requestPayload?.leads[0]?.lastName}
+                                {showCampaignInfo()} 
                             </span>
+                           {" "} to {showActionInfo()}
                         </Box>
                     )}
                 </Box>
@@ -208,6 +236,8 @@ CampaignStatusCard.propTypes = {
             unsubscribes: PropTypes.number,
         }),
         id: PropTypes.string.isRequired,
+        campaignId: PropTypes.number,
+        campaignSelectedAction: PropTypes.string,
     }).isRequired,
 };
 

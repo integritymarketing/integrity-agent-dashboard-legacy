@@ -16,6 +16,8 @@ export const MarketingProvider = ({ children }) => {
 
     const [completedCampaignsList, setCompletedCampaignsList] = useState([]);
     const [allCampaignsList, setAllCampaignsList] = useState([]);
+    const [emailData,  setEmailData] = useState([]);
+    const [smsData, setSmsData] = useState([]);
 
     const URL = `${process.env.REACT_APP_COMMUNICATION_API}/CampaignLog/GetCampaignLog/${npn}`;
     const COPY_CAMPAIGN_URL = `${process.env.REACT_APP_COMMUNICATION_API}/CampaignLog/Create`;
@@ -140,6 +142,10 @@ export const MarketingProvider = ({ children }) => {
             createCampaignError,
             isDeleteCampaignLoading,
             deleteCampaignError,
+            emailData,
+            setEmailData,
+            smsData,
+            setSmsData,
         };
     }
 };
