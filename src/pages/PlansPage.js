@@ -159,7 +159,7 @@ const PlansPage = () => {
     const [rXToSpecialists, setRXToSpecialists] = useState([]);
     const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);
 
-    const { pharmacies, fetchPharmacies, fetchProviders } = useHealth() || {};
+    const { pharmacies, fetchPharmacies, fetchPrescriptions, fetchProviders } = useHealth() || {};
 
     useEffect(() => {
         if (id) {
