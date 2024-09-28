@@ -46,7 +46,11 @@
 }
 
 .sendNewTextButton {
-    left: 8px;
+    button {
+        font-weight: normal;
+        box-shadow: none;
+        padding-right: 18px;
+    }
 }
 
 .newMessageFooter {

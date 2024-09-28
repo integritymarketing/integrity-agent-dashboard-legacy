@@ -80,25 +80,42 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
         setTabSelectedInitial(newValue);
     };
     const unReadMessagesCount = useMemo(() => {
-        return messageList.filter((item) => !item.hasViewed && (item.smsType === "inbound" || !item.isFreeForm)).length;
+        return messageList.filter((item) => !item.hasViewed && (item.smsType === "inbound" || !item.isFreeForm))
+            ?.length;
     }, [messageList]);
+
     return (
         <Container sx={{ mx: { xs: "1rem", sm: "2rem", md: "5rem" } }}>
             <Grid container>
                 <Grid item xs={12}>
-                    <Tabs value={tabs[selectedTab].position} aria-label="communications-tabs" variant="fullWidth" className={styles.tabs}>
+                    <Tabs
+                        value={tabs[selectedTab].position}
+                        aria-label="communications-tabs"
+                        variant="fullWidth"
+                        className={styles.tabs}
+                    >
                         <Tab
                             active={selectedTab === "texts"}
                             activeColor="primary"
                             onClick={() => handleTabChange("texts")}
                             label={
-                                <div className={`${styles.tabTextContainer} ${selectedTab != "texts" ? styles.inactiveTab : ""}`}>
+                                <div
+                                    className={`${styles.tabTextContainer} ${
+                                        selectedTab != "texts" ? styles.inactiveTab : ""
+                                    }`}
+                                >
                                     {!isMobile && "Texts"}
                                     <Badge>
                                         <div className={styles.tabIconContainer}>
                                             <CampaignTypeTextMessage className={styles.tabIcon} />
                                         </div>
-                                        {unReadMessagesCount > 0 && <Badge color={selectedTab === "texts" ? "primary" : "info"} badgeContent={unReadMessagesCount} className={styles.tabCountBadge} />}
+                                        {unReadMessagesCount > 0 && (
+                                            <Badge
+                                                color={selectedTab === "texts" ? "primary" : "info"}
+                                                badgeContent={unReadMessagesCount}
+                                                className={styles.tabCountBadge}
+                                            />
+                                        )}
                                     </Badge>
                                 </div>
                             }
@@ -108,13 +125,23 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                             activeColor="primary"
                             onClick={() => handleTabChange("calls")}
                             label={
-                                <div className={`${styles.tabTextContainer} ${selectedTab != "calls" ? styles.inactiveTab : ""}`}>
+                                <div
+                                    className={`${styles.tabTextContainer} ${
+                                        selectedTab != "calls" ? styles.inactiveTab : ""
+                                    }`}
+                                >
                                     {!isMobile && "Calls"}
                                     <Badge>
                                         <div className={styles.tabIconContainer}>
                                             <CallHistory size="md" className={styles.tabIcon} />
                                         </div>
-                                        {unviewedCallCount > 0 && <Badge color="primary" badgeContent={unviewedCallCount} className={styles.tabCountBadge} />}
+                                        {unviewedCallCount > 0 && (
+                                            <Badge
+                                                color="primary"
+                                                badgeContent={unviewedCallCount}
+                                                className={styles.tabCountBadge}
+                                            />
+                                        )}
                                     </Badge>
                                 </div>
                             }
@@ -125,7 +152,11 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                             onClick={() => handleTabChange("scope-of-appointment")}
                             iconPosition="end"
                             label={
-                                <div className={`${styles.tabTextContainer} ${selectedTab != "scope-of-appointment" ? styles.inactiveTab : ""}`}>
+                                <div
+                                    className={`${styles.tabTextContainer} ${
+                                        selectedTab != "scope-of-appointment" ? styles.inactiveTab : ""
+                                    }`}
+                                >
                                     {!isMobile && "SOAs"}
                                     <Badge>
                                         <div className={styles.tabIconContainer}>

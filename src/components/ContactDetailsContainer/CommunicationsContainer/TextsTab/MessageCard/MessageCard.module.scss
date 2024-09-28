@@ -30,12 +30,17 @@
     max-width: 20%;
 }
 
-.messageTextBoxBroadcast {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
+.messageTextBox {
+    word-break: break-all;
 }
 
+.messageTextBoxBroadcast {
+    display: flex;
+    gap: 15px;
+}
+.broadCastContainer {
+    text-align: right;
+}
 .dateTimeBox {
     display: inline-block;
 }
@@ -61,6 +66,14 @@
 }
 
 .viewCampaignButton {
-    font-size: 16px;
-    margin-top: 20px;
+    button {
+        font-size: 16px;
+        margin-top: 20px;
+        font-weight: normal;
+        box-shadow: none;
+        padding-right: 18px;
+        @include small {
+            margin-top: 0;
+        }
+    }
 }

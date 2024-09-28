@@ -4,19 +4,23 @@ import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 
-const SimpleTooltip = ({ label, tooltipText }) => {
+const SimpleTooltip = ({ label, tooltipText, children, placement }) => {
     return (
         <Tooltip
+            placement={placement || "bottom"}
             title={
-                <Box className={styles.tooltipBox}>
-                    <Typography className={styles.tooltipText}>{tooltipText}</Typography>
-                </Box>
+                tooltipText ? (
+                    <Box className={styles.tooltipBox}>
+                        <Typography className={styles.tooltipText}>{tooltipText}</Typography>
+                    </Box>
+                ) : null
             }
             enterTouchDelay={0}
             leaveTouchDelay={2000}
             arrow
         >
-            <Typography className={styles.tooltipLabel}>{label}</Typography>
+            {children}
+            {label && <Typography className={styles.tooltipLabel}>{label}</Typography>}
         </Tooltip>
     );
 };
