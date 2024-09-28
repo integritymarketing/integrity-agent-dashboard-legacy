@@ -66,11 +66,11 @@ function Prescription({ data, prescriptions }) {
                     </div>
                 ))}
             </div>
-            {fields.map((field, index) => (
-                <div className="row" key={index}>
+            {fields.map((field) => (
+                <div className="row" key={field}>
                     <div className="col field">{field}</div>
-                    {data[field].map((value) => (
-                        <div className="col val" key={value}>
+                    {data[field].map((value, idx) => (
+                        <div className="col val" key={idx}>
                             {(value && currencyFormatter.format(value)) || "-"}
                         </div>
                     ))}

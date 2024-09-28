@@ -10,7 +10,7 @@ import useToast from "hooks/useToast";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import CallScript from "components/icons/callScript";
 import { BackToTop } from "components/ui/BackToTop";
-import { Button } from "components/ui/Button";
+import BackButton from "components/BackButton";
 import EnrollmentModal from "components/ui/Enrollment/enrollment-modal";
 import SharePlanModal from "components/ui/SharePlan/sharePlan-modal";
 import WithLoader from "components/ui/WithLoader";
@@ -58,7 +58,7 @@ const PlanDetailsPage = () => {
     const getContactAndPlanData = useCallback(async () => {
         setIsLoading(true);
         try {
-           const updatedData = await fetchPharmacies(contactId);
+            const updatedData = await fetchPharmacies(contactId);
             const contactData = await clientsService.getContactInfo(contactId);
 
             const primaryPharmacy = updatedData.length > 0 ? updatedData.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
@@ -113,15 +113,7 @@ const PlanDetailsPage = () => {
                     <div className={`${styles["header"]}`} style={{ height: "auto" }}>
                         <Container className={`${styles["plan-details-container"]}`}>
                             <div className={`${styles["back"]}`}>
-                                <Button
-                                    icon={<img src={NewBackBtn} alt="Back" />}
-                                    label={isMobile ? "Back" : "Back to Plans"}
-                                    onClick={() => {
-                                        window.location = `/plans/${contactId}?preserveSelected=true`;
-                                    }}
-                                    type="tertiary"
-                                    className={`${styles["back-button"]}`}
-                                />
+                                <BackButton label={isMobile ? "Back" : "Back to Plans"} route={`/plans/${contactId}?preserveSelected=true`} />
                             </div>
                             <p className={`${styles["header-text"]}`}>Plan Details</p>
                             <p className={`${styles["header-callscript"]}`}>{isMobile ? <CallScript /> : null}</p>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import * as Sentry from "@sentry/react";
 import { Box, TextareaAutosize, Typography, Button } from "@mui/material";
 import PlusIcon from "components/icons/plus";
@@ -15,13 +15,17 @@ const TextsTab = () => {
     const [isNewTextInputOpen, setIsNewTextInputOpen] = useState(false);
     const [newMessageValue, setNewMessageValue] = useState("");
     const { postSendMessage, getMessageList, messageList, postUpdateMessageRead, messageListLoading } =
-    useCallsHistory();
+        useCallsHistory();
     const { agentInformation } = useAgentInformationByID();
     const { agentFirstName, agentLastName, agentID, agentNPN, agentVirtualPhoneNumber } = agentInformation || {};
     const { leadDetails } = useLeadDetails();
     const { showToast } = useToast();
     const formattedPhoneNumber = agentVirtualPhoneNumber?.replace(/^\+1/, "");
     const { fireEvent } = useAnalytics();
+
+    const isSmsCompatible = useMemo(() => {
+        return leadDetails?.phones?.[0]?.isSmsCompatible;
+    }, [leadDetails?.phones]);
 
     useEffect(() => {
         getMessageList(agentNPN, leadDetails.leadsId);
@@ -57,14 +61,15 @@ const TextsTab = () => {
                 leadPhone: leadDetails.phones?.[0]?.leadPhone || "",
                 messageBody: newMessageValue,
             });
-            if(response.ok) {
-            await getMessageList(agentNPN, leadDetails.leadsId);
-            setNewMessageValue("");
-            setIsNewTextInputOpen(false);
-            fireEvent("Connect Communication Sent", {
-                communicationMethod: "text",
-                leadId: leadDetails.leadsId,
-            });}
+            if (response.ok) {
+                await getMessageList(agentNPN, leadDetails.leadsId);
+                setNewMessageValue("");
+                setIsNewTextInputOpen(false);
+                fireEvent("Connect Communication Sent", {
+                    communicationMethod: "text",
+                    leadId: leadDetails.leadsId,
+                });
+            }
         } catch (error) {
             Sentry.captureException(error);
             showToast({
@@ -88,6 +93,7 @@ const TextsTab = () => {
                         onClick={() => setIsNewTextInputOpen(true)}
                         endIcon={<PlusIcon strokeColor="#fff" />}
                         size="small"
+                        disabled={!isSmsCompatible}
                     >
                         Send a new text
                     </Button>

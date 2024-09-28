@@ -9,3 +9,8 @@ export const filterList = atom({
   key: "filterList",
   default: [],
 });
+
+export const selectedPharmacyIdAtom = atom({
+  key: "selectedPharmacyId",
+  default: "",
+});

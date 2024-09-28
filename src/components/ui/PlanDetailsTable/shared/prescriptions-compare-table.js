@@ -19,8 +19,8 @@ const EstimatedCost = ({ data, drugCount }) => {
                     <div className="title">Estimate Drug Cost</div>
                     <div className="sub-title">Based on {drugCount} drugs</div>
                 </div>
-                {data.cost.map((val) => (
-                    <div className="col val" key={val}>
+                {data.cost.map((val, idx) => (
+                    <div className="col val" key={idx}>
                         <div className="cost">{currencyFormatter.format(val)}</div>
                         <div className="duration">{data.startMonth} - Dec</div>
                     </div>
