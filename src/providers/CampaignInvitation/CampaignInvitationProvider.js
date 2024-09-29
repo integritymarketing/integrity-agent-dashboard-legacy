@@ -410,17 +410,16 @@ export const CampaignInvitationProvider = ({ children }) => {
                                     if (customFilter) {
                                         customFilterData = JSON.parse(customFilter);
                                     } else {
-                                        customFilterData = {}; // or any default value you prefer
+                                        customFilterData = {};
                                     }
                                 } catch (error) {
-                                    console.error("Failed to parse customFilter:", error);
-                                    customFilterData = {}; // or any default value you prefer
+                                    customFilterData = {};
                                 }
-
+ 
                                 if (customFilterData?.selectedFilterSections) {
                                     sessionStorage.setItem(
                                         "campaign_contactList_selectedFilterSections",
-                                        JSON.stringify(selectedFilterSections),
+                                        JSON.stringify(customFilterData.selectedFilterSections),
                                     );
                                 }
                                 const filterData = await fetchTableData({
@@ -433,7 +432,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                     statusOptionsMap,
                                 });
                                 const filteredContentStatus = customFilterData?.filteredContentStatus || "";
-
+ 
                                 handleSummaryBarInfo(
                                     filterData?.tableData,
                                     filteredContentStatus,
@@ -461,13 +460,19 @@ export const CampaignInvitationProvider = ({ children }) => {
                     }
                     setCampaignActionType(resData?.campaignSelectedAction);
                     if (resData?.campaignSelectedAction === "a contact") {
-                        const contact ={
+                        const contact = {
                             leadsId: resData?.requestPayload?.leads[0]?.leadsId,
                             firstName: resData?.requestPayload?.leads[0]?.firstName,
                             lastName: resData?.requestPayload?.leads[0]?.lastName,
-                            email: resData?.campaignChannel === "Email" ? resData?.requestPayload?.leads[0]?.destination: undefined,
-                            phone: resData?.campaignChannel === "Sms" ? resData?.requestPayload?.leads[0]?.destination: undefined,
-                        }
+                            email:
+                                resData?.campaignChannel === "Email"
+                                    ? resData?.requestPayload?.leads[0]?.destination
+                                    : undefined,
+                            phone:
+                                resData?.campaignChannel === "Sms"
+                                    ? resData?.requestPayload?.leads[0]?.destination
+                                    : undefined,
+                        };
                         setSelectedContact(contact);
                     }
                 }
