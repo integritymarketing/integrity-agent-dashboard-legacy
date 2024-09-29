@@ -146,9 +146,9 @@ export const CampaignInvitationProvider = ({ children }) => {
 
         handleCampaignAction(
             campaignActionType !== "contacts filtered by…" &&
-                campaignActionType !== "a contact" &&
-                campaignActionType !== "" &&
-                allContactsList?.length > 0,
+            campaignActionType !== "a contact" &&
+            campaignActionType !== "" &&
+            allContactsList?.length > 0,
             {
                 campaign_ActionType: campaignActionType,
             },
@@ -206,6 +206,16 @@ export const CampaignInvitationProvider = ({ children }) => {
         setFilteredCount(null);
         setSelectedContact(null);
     };
+
+    const resetSecond = () => {
+        sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
+        setCampaignActionType("");
+        setFilteredContactsList([]);
+        setFilteredCount(null);
+        setSelectedContact(null);
+        setFilteredContentStatus(null);
+        
+    }
 
     const handleTemplateData = (data) => {
         setTemplateDetails(data?.templateDetails);
@@ -415,7 +425,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 } catch (error) {
                                     customFilterData = {};
                                 }
- 
+
                                 if (customFilterData?.selectedFilterSections) {
                                     sessionStorage.setItem(
                                         "campaign_contactList_selectedFilterSections",
@@ -432,7 +442,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                     statusOptionsMap,
                                 });
                                 const filteredContentStatus = customFilterData?.filteredContentStatus || "";
- 
+
                                 handleSummaryBarInfo(
                                     filterData?.tableData,
                                     filteredContentStatus,
@@ -572,8 +582,8 @@ export const CampaignInvitationProvider = ({ children }) => {
                 campaign_ActionType === "empty" ? "" : campaign_ActionType ? campaign_ActionType : campaignActionType,
             customFilter:
                 campaignActionType === "contacts filtered by…" &&
-                filteredContactsList?.length > 0 &&
-                selectedFilterSections?.length > 0
+                    filteredContactsList?.length > 0 &&
+                    selectedFilterSections?.length > 0
                     ? JSON.stringify(customFilterData)
                     : "",
             requestPayload: {
@@ -693,8 +703,8 @@ export const CampaignInvitationProvider = ({ children }) => {
                             campaignActionType === "contacts filtered by…"
                                 ? "filter contacts"
                                 : campaignActionType === "all contacts"
-                                  ? "all contacts"
-                                  : "search for a contact",
+                                    ? "all contacts"
+                                    : "search for a contact",
                     });
                     if (redirectTo) {
                         navigate(`${redirectTo}/${resData?.id}`);
@@ -799,6 +809,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             templateImageUrl,
             totalContactsCount,
             updateCampaignError,
+            resetSecond
         };
     }
 };

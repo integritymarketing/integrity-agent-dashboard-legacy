@@ -34,6 +34,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
         campaignDescriptionType,
         handleCreateOrUpdateCampaign,
         reset,
+        resetSecond,
     } = useCampaignInvitation();
 
     const readOnly = campaignStatus === campaignStatuses.COMPLETED;
@@ -72,6 +73,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
     const handleEmailChannelOptionsChange = (value) => {
         setEmailOptionsOpen(null);
         handleTemplateData(value);
+        resetSecond();
         handleCreateOrUpdateCampaign({
             template_Id: value?.templateId,
             campaign_ActionType: "empty",

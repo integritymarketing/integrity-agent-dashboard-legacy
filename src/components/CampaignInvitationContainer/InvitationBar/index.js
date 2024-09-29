@@ -24,7 +24,7 @@ const contactOptions = [
     {
         optionText: "contacts filtered by ",
         icon: <FilterContacts />,
-        value: { actionName: "contacts filtered by .." },
+        value: { actionName: "contacts filtered by…" },
     },
 ];
 
@@ -50,6 +50,7 @@ const InvitationBar = () => {
         setActionDescription,
         selectedContact,
         handleCreateOrUpdateCampaign,
+        resetSecond
     } = useCampaignInvitation();
 
     const emailActionsList = campaignActions.map((action) => ({
@@ -99,11 +100,7 @@ const InvitationBar = () => {
         );
 
         if (!filteredData || filteredData?.length === 0) {
-            setCampaignActionType("");
-            setFilteredContactsList([]);
-            setFilteredCount(0);
-            setFilteredContentStatus();
-            sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
+            resetSecond();
 
             handleCreateOrUpdateCampaign({
                 campaign_ActionType: "empty",
@@ -168,7 +165,7 @@ const InvitationBar = () => {
                     handleCancel={() => {
                         setChooseContactModalOpen(false);
                         if (!selectedContact) {
-                            setCampaignActionType("");
+                            setCampaignActionType("");                          
                         }
                     }}
                     handleContactSelect={setSelectedContact}

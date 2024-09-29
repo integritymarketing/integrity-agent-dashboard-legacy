@@ -17,13 +17,13 @@ const InvitationCountBar = () => {
         filteredEligibleCount,
         campaignStatuses,
         actionDescription,
+        resetSecond
     } = useCampaignInvitation();
 
     const readOnly = campaignStatus === campaignStatuses.COMPLETED;
 
     const handleClearFilter = () => {
-        setCampaignActionType("");
-        sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
+        resetSecond();
     };
 
     const showClearFilterButton = () => {
@@ -75,6 +75,7 @@ const InvitationCountBar = () => {
                 )}
                 {campaignActionType !== "contacts filtered by…" &&
                     campaignActionType !== "a contact" &&
+                    campaignActionType !== "all contacts" &&
                     campaignActionType !== "" && (
                         <>
                             {sendText} <span className={styles.count}>{eligibleContactsLength}</span> contacts
@@ -87,17 +88,18 @@ const InvitationCountBar = () => {
                 {campaignActionType === "a contact" && (contactName ? contactName : "Choose a contact")}
 
                 {campaignActionType === "all contacts" &&
-                    "All Contacts who have an email address and have not created a PlanEnroll account"}
+                    "All Contacts"}
 
                 {campaignActionType === "contacts filtered by…" && filteredContentStatus && (
                     <span
                         dangerouslySetInnerHTML={{
-                            __html: `${filteredContentStatus} who have an email address and have not created a PlanEnroll account`,
+                            __html: `${filteredContentStatus}`,
                         }}
                     ></span>
                 )}
                 {campaignActionType !== "contacts filtered by…" &&
                     campaignActionType !== "a contact" &&
+                    campaignActionType !== "all contacts" &&
                     campaignActionType !== "" && (
                         <>
                             <span
