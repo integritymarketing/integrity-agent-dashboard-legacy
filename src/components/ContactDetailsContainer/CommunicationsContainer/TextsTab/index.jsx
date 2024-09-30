@@ -24,9 +24,9 @@ const TextsTab = () => {
     const formattedPhoneNumber = agentVirtualPhoneNumber?.replace(/^\+1/, "");
     const { fireEvent } = useAnalytics();
 
-    const isSmsCompatible = useMemo(() => {
-        return leadDetails?.phones?.[0]?.isSmsCompatible;
-    }, [leadDetails?.phones]);
+    // const isSmsCompatible = useMemo(() => {
+    //     return leadDetails?.phones?.[0]?.isSmsCompatible;
+    // }, [leadDetails?.phones]);
 
     useEffect(() => {
         getMessageList(agentNPN, leadDetails.leadsId);
@@ -89,24 +89,24 @@ const TextsTab = () => {
             <div className={styles.headerContainer}>
                 <div className={styles.messagesLengthTitle}>{messageList.length} messages</div>
                 <div className={styles.sendNewTextButton}>
-                    <Tooltip
+                    {/* <Tooltip
                         title={isSmsCompatible ? "" : "Please add a valid phone number that can accept text messages."}
                         placement="top"
                         arrow
-                    >
-                        <span>
-                            {/* Wrapping button in a span to ensure the tooltip works when the button is disabled */}
-                            <Button
-                                variant="contained"
-                                onClick={() => setIsNewTextInputOpen(true)}
-                                endIcon={<PlusIcon strokeColor="#fff" />}
-                                disabled={!isSmsCompatible}
-                                size="medium"
-                            >
-                                Send a new text
-                            </Button>
-                        </span>
-                    </Tooltip>
+                    > */}
+                    <span>
+                        {/* Wrapping button in a span to ensure the tooltip works when the button is disabled */}
+                        <Button
+                            variant="contained"
+                            onClick={() => setIsNewTextInputOpen(true)}
+                            endIcon={<PlusIcon strokeColor="#fff" />}
+                            // disabled={!isSmsCompatible}
+                            size="medium"
+                        >
+                            Send a new text
+                        </Button>
+                    </span>
+                    {/* </Tooltip> */}
                 </div>
             </div>
             {isNewTextInputOpen && (
