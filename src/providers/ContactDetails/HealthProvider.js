@@ -252,7 +252,6 @@ export const HealthProvider = ({ children }) => {
                     showToast({
                         message: "Pharmacy Deleted",
                         time: toastTimer,
-                        onClickHandler: () => addPharmacy(pharmacy, null, leadId),
                         closeToastRequired: true,
                     });
                 },
