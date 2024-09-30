@@ -66,11 +66,11 @@ const CampaignStatusCard = ({ campaign }) => {
     const showActionInfo = () => {
         if(showCampaignInfo() === "...") return ""; 
         if (campaignSelectedAction === "a contact" && requestPayload?.leads?.length > 0) {
-            return `to ${requestPayload?.leads[0]?.firstName} ${requestPayload?.leads[0]?.lastName}.`;
+            return ` to ${requestPayload?.leads[0]?.firstName} ${requestPayload?.leads[0]?.lastName}.`;
         } else if (campaignSelectedAction === "contacts filtered by…") {
-            return "to Filtered contacts.";
+            return " to Filtered contacts.";
         } else if (campaignSelectedAction !== "") {
-            return `to ${campaignSelectedAction}.`;
+            return ` to ${campaignSelectedAction}.`;
         } else {
             return " ...";
         }
