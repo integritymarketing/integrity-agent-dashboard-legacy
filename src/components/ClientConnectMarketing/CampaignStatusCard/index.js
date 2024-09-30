@@ -53,25 +53,26 @@ const CampaignStatusCard = ({ campaign }) => {
     } = campaign;
 
     const showCampaignInfo = () => {
-        if (campaignChannel === "Email") {
+        if (campaignChannel === "Email" && emailData?.length > 0) {
             const campaignData = emailData.find((item) => item.id === campaignId);
-            return campaignData?.campaignDescription;
-        } else if (campaignChannel === "Sms") {
+            return campaignData ?  campaignData?.campaignDescription  : "..."
+        } else if (campaignChannel === "Sms" && smsData?.length > 0) {
             const campaignData = smsData.find((item) => item.id === campaignId);
-            return campaignData?.campaignDescription;
+            return campaignData ?  campaignData?.campaignDescription  : "..."
         }
-        return "";
+        return "...";
     };
 
     const showActionInfo = () => {
-        if (campaignSelectedAction === "a contact") {
-            return `${requestPayload.leads[0].firstName} ${requestPayload.leads[0].lastName}`;
+        if(showCampaignInfo() === "...") return ""; 
+        if (campaignSelectedAction === "a contact" && requestPayload?.leads?.length > 0) {
+            return `to ${requestPayload?.leads[0]?.firstName} ${requestPayload?.leads[0]?.lastName}.`;
         } else if (campaignSelectedAction === "contacts filtered by…") {
-            return "Filtered contacts";
+            return "to Filtered contacts.";
         } else if (campaignSelectedAction !== "") {
-            return campaignSelectedAction;
+            return `to ${campaignSelectedAction}.`;
         } else {
-            return "";
+            return " ...";
         }
     };
 
@@ -158,8 +159,8 @@ const CampaignStatusCard = ({ campaign }) => {
                 <Box className={styles.cardDetails}>
                     {campaignChannel && (
                         <Box className={styles.cardLabel}>
-                            I want to send {campaignChannel === "Sms" ? "a" : "an"} {convertCampaignChannel()} to
-                            <span className={styles.cardValue}>{showCampaignInfo()}</span> to {showActionInfo()}
+                            I want to send {campaignChannel === "Sms" ? "a" : "an"} {convertCampaignChannel()}
+                            <span className={styles.cardValue}>{showCampaignInfo()}</span>{showActionInfo()}
                         </Box>
                     )}
                 </Box>
