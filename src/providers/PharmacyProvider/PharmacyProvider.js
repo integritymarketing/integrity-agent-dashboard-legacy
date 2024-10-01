@@ -20,13 +20,18 @@ export const PharmacyProvider = ({ children }) => {
                 return setSelectedPharmacy(selectedPharmacyInPharmacies);
             }
         }
-        const primaryPharmacy = pharmacies.find((pharmacy) => pharmacy.isPrimary);
-        if (primaryPharmacy && pharmacies.length) {
-            setSelectedPharmacy(primaryPharmacy);
-        } else if (!pharmacies.length) {
-            setSelectedPharmacy({});
+
+        if (pharmacies.length === 1) {
+            setSelectedPharmacy(pharmacies[0]);
+        } else {
+            const primaryPharmacy = pharmacies.find((pharmacy) => pharmacy.isPrimary);
+            if (primaryPharmacy && pharmacies.length) {
+                setSelectedPharmacy(primaryPharmacy);
+            } else if (!pharmacies.length) {
+                setSelectedPharmacy({});
+            }
         }
-    }, [pharmacies, setSelectedPharmacy]);
+    }, [pharmacies, setSelectedPharmacy, selectedPharmacyId]);
 
     useEffect(() => {
         setSelectedPharmacyId(selectedPharmacy.pharmacyId);

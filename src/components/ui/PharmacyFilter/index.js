@@ -24,6 +24,12 @@ export default function PharmacyFilter({ type = "radio" }) {
         [pharmacies, setSelectedPharmacy],
     );
 
+    useEffect(() => {
+        if (!pharmacyLoading && pharmacies.length === 1) {
+            setSelectedPharmacy(pharmacies[0]);
+        }
+    }, [pharmacies, pharmacyLoading, setSelectedPharmacy]);
+
     if (type == "radio") {
         return (
             <Formik
