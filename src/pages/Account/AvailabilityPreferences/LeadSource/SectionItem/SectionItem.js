@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
-import { Switch } from "components/ui/version-2/Swich";
+import { Switch } from "@mui/material";
 
 import styles from "./styles.module.scss";
 
@@ -22,7 +22,13 @@ function SectionItem({ title, subTitle, actionTitle, action, actionIcon, icon, c
                     ) : (
                         <Box></Box>
                     )}
-                    <Switch defaultChecked={checked} disabled={disabled} onChange={onChange} />
+                    <Switch
+                        checked={checked}
+                        onChange={onChange}
+                        disabled={disabled}
+                        variant="availability"
+                        inputProps={{ "aria-label": "controlled" }}
+                    />
                 </Box>
             </Box>
             {subTitle && <Box className={styles.subTitle}>{subTitle}</Box>}

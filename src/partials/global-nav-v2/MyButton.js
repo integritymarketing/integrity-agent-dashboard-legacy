@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./myButton.scss";
 import AvailabilityOverlay from "./microComponent/AvailabilityOverlay";
-import { Switch } from "components/ui/version-2/Swich";
+import { Switch } from "@mui/material";
 
 import Notice from "./microComponent/Notice";
 import { useClientServiceContext } from "services/clientServiceProvider";
@@ -27,20 +27,22 @@ function MyButton({ page, leadPreference }) {
 
         const isLifeCheck = response.leadPreference?.leadCenterLife && hasActiveLifeCallCampaign;
         const isHealthChecked = hasActiveHealthCallCampaign ? response.leadPreference?.leadCenter : false;
-        const isPlanEnrollChecked = response.leadPreference?.medicareEnrollPurl;
 
-        if (!isAvailable) {
-            if (!isLifeCheck && !isHealthChecked && !isPlanEnrollChecked) {
-                setIsNoticeVisible(true);
-                return;
+        if (!isLifeCheck && !isHealthChecked) {
+            setIsAvailable(false);
+            setIsNoticeVisible(true);
+            return;
+        } else {
+            try {
+                await clientsService.updateAgentAvailability({
+                    agentID: agentId,
+                    availability: !isAvailable,
+                });
+                setIsAvailable(!isAvailable);
+            } catch (error) {
+                console.error("Error in updating agent availability", error);
             }
         }
-
-        await clientsService.updateAgentAvailability({
-            agentID: agentId,
-            availability: !isAvailable,
-        });
-        setIsAvailable(!isAvailable);
 
         if (!isCheckInUpdateModalDismissed && isAvailable) {
             setIsAvailabiltyModalVisible(true);
@@ -84,7 +86,12 @@ function MyButton({ page, leadPreference }) {
         <>
             <div id="myButton" className="myButtonWrapper">
                 <span className="myButtonText">I'm Available</span>
-                <Switch checked={isAvailable} onChange={handleClick} />
+                <Switch
+                    checked={!!isAvailable}
+                    onChange={handleClick}
+                    variant="availability"
+                    inputProps={{ "aria-label": "controlled" }}
+                />
             </div>
             {isAvailabiltyModalVisible && (
                 <AvailabilityOverlay
@@ -95,7 +102,7 @@ function MyButton({ page, leadPreference }) {
                     onDismissed={onDismissed}
                 />
             )}
-            {isNoticeVisible && <Notice hideModal={() => setIsNoticeVisible(false)} />}
+            <Notice handleClose={() => setIsNoticeVisible(false)} open={isNoticeVisible} />
         </>
     );
 }

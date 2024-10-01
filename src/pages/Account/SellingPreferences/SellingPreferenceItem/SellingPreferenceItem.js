@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 
 import PropTypes from "prop-types";
 
-import { Switch } from "components/ui/version-2/Swich";
+import { Switch } from "@mui/material";
 
 import styles from "./styles.module.scss";
 
@@ -12,7 +12,13 @@ const SellingPreferenceItem = ({ title, description, checked, onChange, disabled
             <Box className={styles.subTitle}>{title}</Box>
             <Box className={styles.text}>{description}</Box>
         </Box>
-        <Switch defaultChecked={checked} disabled={disabled} onChange={onChange} />
+        <Switch
+            checked={checked}
+            onChange={onChange}
+            disabled={disabled}
+            variant="availability"
+            inputProps={{ "aria-label": "controlled" }}
+        />
     </Box>
 );
 

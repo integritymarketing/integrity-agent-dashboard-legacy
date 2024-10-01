@@ -1,42 +1,35 @@
-import Styles from "./Notice.module.scss";
-import { useLocation } from "react-router-dom";
-import ClickAwayListener from "react-click-away-listener";
+import { Typography } from "@mui/material";
+import { CustomModal } from "components/MuiComponents";
+import PropTypes from "prop-types";
 
-export default function Notice({ hideModal }) {
-    const location = useLocation();
-    const redirectToAccount = () => {
-        window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}/agent-profile`;
+export default function NoticeModal({ open = false, handleClose = () => {} }) {
+    const handleAccountPageNavigation = () => {
+        window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}/agent-profile#Preferences`;
     };
+
     return (
-        <div className={Styles.wrapper}>
-            <ClickAwayListener onClickAway={hideModal}>
-                <div className={Styles.body}>
-                    <div className={Styles.header}>
-                        Set your Availability Preferences
-                        <button onClick={hideModal}>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className={Styles.closeBtn}
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div className={Styles.content}>
-                        To receive leads please turn on at least one Lead Source. Availability Preferences can be found
-                        on your Account Page.
-                    </div>
-                    {location.pathname !== "/account" && (
-                        <button className={Styles.button} onClick={redirectToAccount}>
-                            View Account
-                        </button>
-                    )}
-                </div>
-            </ClickAwayListener>
-        </div>
+        <CustomModal
+            title="Set Your Availability Preferences"
+            maxWidth="xs"
+            subtitle={
+                <Typography variant="body1" color="#052a63">
+                    To receive Realtime calls, please verify that your life or health lead sources are enabled and that
+                    you have at least one active campaign. Availability preferences can be adjusted in your account
+                    settings.
+                </Typography>
+            }
+            showCloseButton
+            open={open}
+            handleClose={handleClose}
+            saveLabel="View Account Settings"
+            handleSave={handleAccountPageNavigation}
+            footer
+            shouldShowCancelButton={false}
+        ></CustomModal>
     );
 }
+
+NoticeModal.propTypes = {
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+};

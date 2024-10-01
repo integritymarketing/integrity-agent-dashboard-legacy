@@ -29,6 +29,9 @@ const FooterButtons = ({
             size="medium"
             variant="contained"
             color="primary"
+            sx={{
+                marginLeft: "auto",
+            }}
             onClick={handleSave}
             disabled={isSaveButtonDisabled}
             startIcon={iconPosition === "left" ? footerActionIcon : null}
