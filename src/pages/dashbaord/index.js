@@ -259,10 +259,10 @@ export default function Dashbaord() {
                     </section>
 
                     <section className={`recent-activity-section ${isClientSnapshotOpen ? "mt-400" : ""}`}>
+                        <TaskList isMobile={isMobile} npn={userProfile?.npn} />
                         <ContactsListProvider>
                             <PlanSnapShot isMobile={isMobile} npn={userProfile?.npn} />
                         </ContactsListProvider>
-                        <TaskList isMobile={isMobile} npn={userProfile?.npn} />
                         <DashboardActivityTable
                             realoadActivityData={loadActivityData}
                             activityData={activityData}
