@@ -165,7 +165,11 @@ const InvitationBar = () => {
                     handleCancel={() => {
                         setChooseContactModalOpen(false);
                         if (!selectedContact) {
-                            setCampaignActionType("");                          
+                            resetSecond();
+                            handleCreateOrUpdateCampaign({
+                                campaign_ActionType: "empty",
+                            });
+                          
                         }
                     }}
                     handleContactSelect={setSelectedContact}

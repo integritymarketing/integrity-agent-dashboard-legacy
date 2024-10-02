@@ -46,6 +46,10 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
                 ...campaign,
                 campaignStatus: "Submitted",
             };
+            if (payload?.campaignSelectedAction === "contacts filtered by…" && payload?.customFilter !== "") {
+                const data = JSON.parse(JSON.parse(payload?.customFilter));
+                payload.customFilter = data ? JSON.stringify(data) : "";
+            }
             handleAllCampaignActions({ payload, method: "put", refresh });
         }
 
