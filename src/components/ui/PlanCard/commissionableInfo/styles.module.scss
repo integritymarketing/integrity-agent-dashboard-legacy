@@ -1,0 +1,14 @@
+.commisionableInfo {
+    display: flex;
+    align-items: center;
+}
+ 
+.commissionableStatusIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+    svg {
+       margin-top: 4px;
+    }
+}

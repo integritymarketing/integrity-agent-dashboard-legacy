@@ -18,6 +18,7 @@ import { Button } from "../Button";
 import Rating from "../Rating";
 import EnrollBack from "images/enroll-btn-back.svg";
 import { usePharmacyContext } from "providers/PharmacyProvider/usePharmacyContext";
+import CommissionableInfo from "./commissionableInfo";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -217,6 +218,7 @@ export default function PlanCard({
                 <div onClick={() => onDetailsClick(planData?.id)} className="planDetailsBtn">
                     Plan Details
                 </div>
+                <CommissionableInfo status={planData?.commissionable} />
                 {!planData?.nonLicensedPlan && (
                     <Button
                         label={"Apply"}
@@ -264,6 +266,7 @@ PlanCard.propTypes = {
         estimatedMailOrderCostCalculationRx: PropTypes.object,
         estimatedAnnualDrugCostPartialYear: PropTypes.number,
         drugPremium: PropTypes.number,
+        commissionable: PropTypes.bool,
     }).isRequired,
     pharmacyMap: PropTypes.object,
     effectiveDate: PropTypes.string.isRequired,
@@ -276,4 +279,5 @@ PlanCard.propTypes = {
     refresh: PropTypes.func.isRequired,
     leadId: PropTypes.string.isRequired,
     selectedPharmacy: PropTypes.object.isRequired,
+   
 };
