@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 
 import PropTypes from "prop-types";
 import { useAgentAccountContext } from "providers/AgentAccountProvider";
@@ -6,23 +6,43 @@ import { useAgentAccountContext } from "providers/AgentAccountProvider";
 import { DEFAULT_EFFECTIVE_YEAR } from "utils/dates";
 
 import useFetch from "hooks/useFetch";
+import useCallRecordings from "hooks/useCallRecordings";
 
 import Modal from "components/Modal";
 import WithLoader from "components/ui/WithLoader";
 
 import { ModalContent } from "./ModalContent";
+import { CallSourceModalContent } from "./CallSourceModalContent";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 
 const DEFAULT_CARRIER_COUNT = `0-78`;
 const DEFAULT_PLAN_COUNT = `0-2,613`;
 const LIFE = "LIFE";
 const HEALTH = "HEALTH";
+const IN_PROGRESS = "in-progress";
+const VALID_CALL_SOURCES = [
+    "SilverSneakers PlanEnroll (Realtime Call)",
+    "inperson",
+    "PlanEnroll Final Expense (Realtime Call)",
+    "PlanEnroll (Realtime Call)",
+];
 
 export const CallScriptModal = ({ modalOpen, handleClose, leadId, countyFips, postalCode, carrierAndProductData }) => {
     const [carrierProductData, setCarrierProductData] = useState(null);
     const [isLoadingData, setIsLoadingData] = useState(false);
     const { leadPreference } = useAgentAccountContext();
+    const callRecordings = useCallRecordings();
+    const { agentInformation } = useAgentInformationByID();
+
+    const isCallInProgress = useMemo(
+        () => callRecordings.find((record) => record.callStatus === IN_PROGRESS),
+        [callRecordings],
+    );
+    const hasCallSource = isCallInProgress?.callSource;
+    const isValidCallSource = hasCallSource && VALID_CALL_SOURCES.includes(hasCallSource);
+    const isPlanEnrollFinalExpense = hasCallSource === "PlanEnroll Final Expense (Realtime Call)";
     const { Get: fetchCarrierProductData } = useFetch(
-        `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/Carrier/Count?Zip=${postalCode}&Fips=${countyFips}&Year=${DEFAULT_EFFECTIVE_YEAR}`
+        `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/Carrier/Count?Zip=${postalCode}&Fips=${countyFips}&Year=${DEFAULT_EFFECTIVE_YEAR}`,
     );
 
     const shouldShowOptionalHealthInfo = !carrierProductData && !postalCode && !carrierAndProductData;
@@ -58,14 +78,27 @@ export const CallScriptModal = ({ modalOpen, handleClose, leadId, countyFips, po
     return (
         <Modal open={modalOpen} onClose={handleClose} title="Recorded Call Script" hideFooter>
             <WithLoader isLoading={isLoadingData}>
-                <ModalContent
-                    carrierCount={carrierCount}
-                    productCount={productCount}
-                    shouldShowOptionalHealthInfo={shouldShowOptionalHealthInfo}
-                    leadPreference={leadPreference}
-                    currentType={currentType}
-                    leadId={leadId}
-                />
+                {!isValidCallSource ? (
+                    <ModalContent
+                        carrierCount={carrierCount}
+                        productCount={productCount}
+                        shouldShowOptionalHealthInfo={shouldShowOptionalHealthInfo}
+                        leadPreference={leadPreference}
+                        currentType={currentType}
+                        leadId={leadId}
+                    />
+                ) : (
+                    <CallSourceModalContent
+                        carrierCount={carrierCount}
+                        productCount={productCount}
+                        shouldShowOptionalHealthInfo={shouldShowOptionalHealthInfo}
+                        leadPreference={leadPreference}
+                        currentType={currentType}
+                        leadId={leadId}
+                        agentInformation={agentInformation}
+                        showOnlyLife={isPlanEnrollFinalExpense}
+                    />
+                )}
             </WithLoader>
         </Modal>
     );
