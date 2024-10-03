@@ -131,7 +131,7 @@ export const CampaignInvitationProvider = ({ children }) => {
 
     useEffect(() => {
         handleCampaignAction(
-            campaignActionType === "contacts filtered by…" && filteredContactsList?.length > 0 && filteredCount > 0,
+            campaignActionType === "contacts filtered by…" && filteredContactsList?.length >= 0 && filteredCount >= 0,
             { campaign_ActionType: "contacts filtered by…" },
         );
 

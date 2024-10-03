@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import ArrowDownBig from "components/icons/version-2/ArrowDownBig";
 import styles from "./styles.module.scss";
@@ -32,8 +32,6 @@ const InvitationBar = () => {
     const {
         filteredContentStatus,
         setFilteredContactsList,
-        setFilteredCount,
-        setFilteredContentStatus,
         handleSummaryBarInfo,
         setSelectedContact,
         campaignChannel,
@@ -50,7 +48,7 @@ const InvitationBar = () => {
         setActionDescription,
         selectedContact,
         handleCreateOrUpdateCampaign,
-        resetSecond
+        resetSecond,
     } = useCampaignInvitation();
 
     const emailActionsList = campaignActions.map((action) => ({
@@ -89,14 +87,14 @@ const InvitationBar = () => {
             }
             setContactOptionOpen(null);
         },
-        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription]
+        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription],
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
         setAnchorEl(null);
         const selectedFilters = JSON.parse(sessionStorage.getItem("campaign_contactList_selectedFilterSections"));
         const filteredData = selectedFilters?.filter(
-            (filter) => filter?.selectedFilterOption && isFilterSelectOpen === false
+            (filter) => filter?.selectedFilterOption && filter.isFilterSelectOpen === false,
         );
 
         if (!filteredData || filteredData?.length === 0) {
@@ -112,7 +110,7 @@ const InvitationBar = () => {
         (event) => {
             setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
         },
-        [contactOptionOpen, campaignActionType]
+        [contactOptionOpen, campaignActionType],
     );
 
     return (
@@ -169,7 +167,6 @@ const InvitationBar = () => {
                             handleCreateOrUpdateCampaign({
                                 campaign_ActionType: "empty",
                             });
-                          
                         }
                     }}
                     handleContactSelect={setSelectedContact}

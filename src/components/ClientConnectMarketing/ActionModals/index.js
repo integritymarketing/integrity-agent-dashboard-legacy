@@ -23,57 +23,64 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
         setCampaignName(event.target.value);
     };
 
-    const handleActionBtn = () => {
-        if (optionText === "Copy") {
-            const payload = {
-                ...campaign,
-                customCampaignDescription: campaignName,
-                campaignStatus: "Draft",
-                id: 0,
-            };
-            handleAllCampaignActions({ payload: payload, method: "post", refresh });
-        }
-        if (optionText === "Rename") {
-            const payload = {
-                ...campaign,
-                customCampaignDescription: campaignName,
-            };
+    const handleActionButton = () => {
+        const createPayload = (overrides) => ({
+            ...campaign,
+            customCampaignDescription: campaignName,
+            ...overrides,
+        });
 
-            handleAllCampaignActions({ payload, method: "put", refresh });
-        }
-        if (optionText === "Send") {
-            const payload = {
-                ...campaign,
-                campaignStatus: "Submitted",
-            };
+        const handleCustomFilter = (payload) => {
             if (payload?.campaignSelectedAction === "contacts filtered by…" && payload?.customFilter !== "") {
                 const data = JSON.parse(JSON.parse(payload?.customFilter));
                 payload.customFilter = data ? JSON.stringify(data) : "";
             }
-            handleAllCampaignActions({ payload, method: "put", refresh });
+        };
+
+        let payload;
+        let method;
+
+        switch (optionText) {
+            case "Copy":
+                payload = createPayload({ campaignStatus: "Draft", id: 0 });
+                handleCustomFilter(payload);
+                method = "post";
+                break;
+            case "Rename":
+                payload = createPayload();
+                method = "put";
+                break;
+            case "Send":
+                payload = createPayload({ campaignStatus: "Submitted" });
+                handleCustomFilter(payload);
+                method = "put";
+                break;
+            case "Delete":
+                payload = campaign;
+                method = "delete";
+                break;
+            default:
+                return;
         }
 
-        if (optionText === "Delete") {
-            handleAllCampaignActions({ payload: campaign, method: "delete", refresh });
-        }
+        handleAllCampaignActions({ payload, method, refresh });
         setCampaignName("");
         onClose();
     };
 
     const saveIcon = useMemo(() => {
-        if (optionText === "Copy") {
-            return <ActionsCopy color="#ffffff" />;
+        switch (optionText) {
+            case "Copy":
+                return <ActionsCopy color="#ffffff" />;
+            case "Rename":
+                return <ActionsRename color="#ffffff" />;
+            case "Send":
+                return <ActionsSend color="#ffffff" />;
+            case "Delete":
+                return <ActionsDelete color="#ffffff" />;
+            default:
+                return null;
         }
-        if (optionText === "Rename") {
-            return <ActionsRename color="#ffffff" />;
-        }
-        if (optionText === "Send") {
-            return <ActionsSend color="#ffffff" />;
-        }
-        if (optionText === "Delete") {
-            return <ActionsDelete color="#ffffff" />;
-        }
-        return null;
     }, [optionText]);
 
     const disableSaveButton = useMemo(() => {
@@ -108,7 +115,7 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
             open={open}
             handleClose={onClose}
             footer
-            handleSave={handleActionBtn}
+            handleSave={handleActionButton}
             showCloseButton
             shouldShowCancelButton={true}
             isSaveButtonDisabled={disableSaveButton}

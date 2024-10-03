@@ -152,7 +152,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
                 )}
             </Box>
             {showInvitationBar() && <InvitationBar />}
-            {((showPreview && !readOnly) || readOnly) && <InvitationCountBar />}
+            {((showPreview && !readOnly && allSelected) || readOnly) && <InvitationCountBar />}
         </Box>
     );
 };
