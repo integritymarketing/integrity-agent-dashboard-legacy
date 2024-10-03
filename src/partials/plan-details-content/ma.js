@@ -22,12 +22,11 @@ const MaDetailsContent = ({
     enrollData,
     isEmail = false,
     refresh,
-    contact,
+    contact = {}
 }) => {
     const { pharmacies: pharmaciesList } = useHealth() || {};
     const { selectedPharmacy } = usePharmacyContext();
-    const { leadId } = contact;
-
+    const { leadId } = contact || {};
     const costsRef = useRef(null);
     const prescriptionsRef = useRef(null);
     const providersRef = useRef(null);
@@ -161,7 +160,7 @@ MaDetailsContent.propTypes = {
     isEmail: PropTypes.bool,
     refresh: PropTypes.func.isRequired,
     contact: PropTypes.shape({
-        leadId: PropTypes.string.isRequired,
+    leadId: PropTypes.string,
     }).isRequired,
 };
 
