@@ -60,7 +60,6 @@ const CampaignInnerContainer = () => {
         Boolean(campaignActionType) &&
         ((campaignActionType === "all contacts" && allContactsList?.length !== 0) ||
             (campaignActionType === "contacts filtered by…" &&
-                filteredContactsList?.length !== 0 &&
                 selectedFilters?.length !== 0 &&
                 filteredContentStatus) ||
             (campaignActionType === "a contact" && selectedContact) ||
@@ -84,6 +83,12 @@ const CampaignInnerContainer = () => {
     };
 
     const showPreviewButton = !readOnly && !showPreview && allSelected;
+
+    const saveButtonDisabled =
+        isStartCampaignLoading ||
+        isUpdateCampaignLoading ||
+        (campaignActionType === "contacts filtered by…" && filteredContactsList?.length === 0) ||
+        !allSelected;
 
     return (
         <Box className={styles.container}>
@@ -168,7 +173,7 @@ const CampaignInnerContainer = () => {
                             onClick={() => {
                                 setIsSendCampaignModalOpen(true);
                             }}
-                            disabled={isStartCampaignLoading || isUpdateCampaignLoading}
+                            disabled={saveButtonDisabled}
                         >
                             Send Campaign
                         </Button>
