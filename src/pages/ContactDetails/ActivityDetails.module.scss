@@ -1,72 +1,70 @@
 @import "../../scss/globalDefines.scss";
 
 .subSection {
-  .topSection {
-    display: flex;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    flex-wrap: wrap;
-    word-break: break-word;
-    color: #434a51;
-    flex-direction: column;
-    Button {
-      margin-top: 10px;
+    .topSection {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        flex-wrap: wrap;
+        word-break: break-word;
+        color: #434a51;
+        flex-direction: column;
+        Button {
+            margin-top: 10px;
+        }
     }
-  }
 }
 
 .subHeading {
-  padding-top: 10px;
-  line-height: 36px;
-  padding-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-
-  .subHeadingTitle {
+    padding-top: 10px;
+    padding-bottom: 10px;
     display: flex;
-    color: #002d72;
-    font-size: 20px;
-  }
+    justify-content: space-between;
+
+    .subHeadingTitle {
+        display: flex;
+        color: #002d72;
+        font-size: 20px;
+    }
 }
 
 .parsedBody {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .date {
-  margin-top: 5px;
-  text-align: end;
-  font-size: 14px;
-  .day {
-    color: #052A63;
-  }
-  .time {
-    color: #717171;
-    margin-left: 5px;
-  }
+    margin-top: 5px;
+    text-align: end;
+    font-size: 14px;
+    .day {
+        color: #052a63;
+    }
+    .time {
+        color: #717171;
+        margin-left: 5px;
+    }
 }
 
-
 .activityButton {
-  border-radius: 25px !important;
-  padding: 10px 20px !important;
-  background-color: #4178ff !important;
-  margin-top: 10px;
+    border-radius: 25px !important;
+    padding: 8px 16px !important;
+    background-color: #4178ff !important;
+    margin-top: 10px;
 
-  span {
-    font-size: 14px !important;
-    color: #ffffff !important;
-    font-weight: 500;
-  }
+    span {
+        font-size: 14px !important;
+        color: #ffffff !important;
+        font-weight: 500;
+    }
 
-  &:hover {
-      background-color: #1357FF !important;
+    &:hover {
+        background-color: #1357ff !important;
     }
     @include small {
-      width: 100%;
-   }
+        width: 100%;
+    }
 }

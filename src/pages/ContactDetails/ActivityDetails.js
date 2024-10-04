@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./ActivityDetails.module.scss";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -10,6 +10,7 @@ import ActivityButtonText from "pages/ContactDetails/ActivityButtonText.js";
 import CreatedDate from "./CreatedDate";
 import { formatPhoneNumber } from "utils/phones";
 import ActivitySubjectWithIcon from "./ActivitySubjectWithIcon";
+import ShoppersCard from "components/Shoppers/ShoppersCard";
 
 export default function ActivityDetails({
     open,
@@ -64,6 +65,15 @@ export default function ActivityDetails({
         );
     };
 
+    const headerTitle = useMemo(() => {
+        const value = activityObj?.activitySubject;
+        if (value.includes("Shopper") && activityObj?.activityTypeName === "Triggered") {
+            return "Ask Integrity Suggests";
+        } else {
+            return value;
+        }
+    }, [activityObj]);
+
     return (
         <Box>
             <Modal
@@ -74,11 +84,11 @@ export default function ActivityDetails({
                 title={
                     <div className={styles.subHeading}>
                         <ActivitySubjectWithIcon
-                            activitySubject={activityObj?.activitySubject}
+                            activitySubject={headerTitle}
                             iconURL={activityObj?.activityInteractionIconUrl}
                             activityId={activityObj?.activityId}
                         />
-                        {activityObj?.activitySubject}
+                        {headerTitle}
                     </div>
                 }
                 onSave={() => {
@@ -95,10 +105,12 @@ export default function ActivityDetails({
                             <div className={styles.subHeadingTitle}>{leadFullName}</div>
                         </div>
                         {activityObj &&
+                            headerTitle !== "Ask Integrity Suggests" &&
                             (type === "Triggered" || activityObj?.activitySubject === "Meeting Recorded") && (
                                 <>
                                     <div className={styles.topSection}>
                                         {activityBody_Parser(activityObj?.activityBody)}
+
                                         <ActivityButtonText
                                             activity={activityObj}
                                             leadsId={leadId}
@@ -107,6 +119,15 @@ export default function ActivityDetails({
                                     </div>
                                 </>
                             )}
+                        {headerTitle === "Ask Integrity Suggests" && activityObj?.activityTypeName === "Triggered" && (
+                            <ShoppersCard
+                                leadId={leadId}
+                                title={activityObj?.activitySubject}
+                                content={activityObj?.activityBody}
+                                url={activityObj?.activityInteractionUrl}
+                                icon={activityObj?.activityInteractionIconUrl}
+                            />
+                        )}
                     </div>
                     <div>
                         {type === "Triggered" && (

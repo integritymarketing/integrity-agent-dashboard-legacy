@@ -4,7 +4,7 @@ import moment from "moment";
 import { Grid, Stack, Typography, Button, useMediaQuery, useTheme, Box } from "@mui/material";
 import styles from "./styles.module.scss";
 import LegacySafeGuardCardImage from "images/Campaigns/legacy-safeguard.png";
-import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCirlce";
+import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCircle";
 import useUserProfile from "hooks/useUserProfile";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 

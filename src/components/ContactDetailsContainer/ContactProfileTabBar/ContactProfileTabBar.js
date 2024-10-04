@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Avatar, Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import useFetch from "hooks/useFetch";
 import { GET_COUNTIES } from "components/AddZipContainer/AddZipContainer.constants";
-import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCirlce";
+import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCircle";
 import BackButton from "components/BackButton";
 import PlansTypeModal from "components/PlansTypeModal";
 import { ConnectModal } from "../ConnectModal";
@@ -69,7 +69,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
             setSelectedTab(section);
             navigate(`/contact/${leadId}/${section}`);
         },
-        [leadId, navigate, setSelectedTab],
+        [leadId, navigate, setSelectedTab]
     );
 
     const handleClosePlanTypeModal = useCallback(() => {

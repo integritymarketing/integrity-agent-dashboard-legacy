@@ -1,68 +1,67 @@
 .askIntegrityCard {
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 16px;
-  gap: 15px;
-  margin-bottom: 8px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 16px;
+    gap: 15px;
+    margin-bottom: 8px;
 }
 
 .askIntegrityInfo {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
-
 .askIntegrityTitleIcon {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
 .tagInfo {
-  margin-left: 10px;
+    margin-left: 10px;
 }
 
 .tagName {
-  font-size: 16px;
-  color: #052a63;
-  font-weight: bold;
+    font-size: 16px;
+    color: #052a63;
+    font-weight: bold;
 }
 
-
 .tagNameCampaign {
-  font-size: 16px;
-  color: #717171;
+    font-size: 16px;
+    color: #717171;
 }
 
 .tagMetaData {
-  font-size: 14px;
-  color: #717171;
-  font-style: italic;
+    font-size: 14px;
+    color: #717171;
+    font-style: italic;
 }
 
 .tagCategoryLabel {
-  color: #052A63;
-  font-size: 16px;
-  font-weight: bold;
+    color: #052a63;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 4px;
 }
 
 .tagCategoryLabelCampaign {
-  color: #052A63;
-  font-size: 16px;
-  font-weight: bold;
-  margin-right: 5px;
+    color: #052a63;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 5px;
 }
 
 .iconWrapper {
-  background: #f1faff;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  position: relative;
-  bottom: 2px;
-
-  img,
-  svg {
+    background: #f1faff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     position: relative;
-    top: 8px;
-    left: 8px;
-  }
+    bottom: 2px;
+
+    img,
+    svg {
+        position: relative;
+        top: 8px;
+        left: 8px;
+    }
 }

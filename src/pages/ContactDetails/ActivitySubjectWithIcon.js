@@ -16,6 +16,7 @@ import styles from "./ActivitySubjectWithIcon.module.scss";
 import share from "../../images/Plans-Shared.png";
 import MeetingRecord from "../../images/MeetingRecording.png";
 import LegacySafeguard from "../../images/LegacySafeguard.png";
+import AskIntegritySuggests from "components/icons/activities/AskIntegritySuggests";
 
 export const ImageToIcon = ({ src, alt }) => <img src={src} alt={alt} />;
 
@@ -66,7 +67,14 @@ const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId, showOnl
             "Provider Added": <PROVIDER />,
             "Provider Deleted": <PROVIDER />,
             "Medicaid Updated by Client": <MEDICAID />,
-            "Legacy Safeguard Eligible": showOnlyFilterIcon ? <ImageToIcon src={LegacySafeguard} alt="Legacy Safeguard Eligible" /> : iconURL ? <ImageToIcon src={iconURL} alt={activityId} /> : <Activity />,
+            "Ask Integrity Suggests": <AskIntegritySuggests />,
+            "Legacy Safeguard Eligible": showOnlyFilterIcon ? (
+                <ImageToIcon src={LegacySafeguard} alt="Legacy Safeguard Eligible" />
+            ) : iconURL ? (
+                <ImageToIcon src={iconURL} alt={activityId} />
+            ) : (
+                <Activity />
+            ),
         };
 
         return iconMapping[activitySubject] || <Activity />;

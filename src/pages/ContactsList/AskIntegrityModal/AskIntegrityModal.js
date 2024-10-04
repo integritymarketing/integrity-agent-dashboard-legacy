@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import ArrowRight from "components/icons/version-2/ArrowRight";
 import AskIntegrity from "components/icons/version-2/AskIntegrity";
+import ShoppersCard from "components/Shoppers/ShoppersCard";
 
 import Modal from "components/Modal";
 import useDeviceType from "hooks/useDeviceType";
@@ -35,6 +36,13 @@ const AskIntegrityModal = ({ open, onClose, askIntegrityList, leadData, view }) 
 
     const fullName = `${leadData?.firstName ?? ""} ${leadData?.middleName ?? ""} ${leadData?.lastName ?? ""}`;
 
+    const AIS_List = askIntegrityList?.filter(
+        (item) => item?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests"
+    );
+    const AIR_List = askIntegrityList?.filter(
+        (item) => item?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
+    );
+
     return (
         <Modal
             maxWidth="sm"
@@ -57,8 +65,19 @@ const AskIntegrityModal = ({ open, onClose, askIntegrityList, leadData, view }) 
                 </Box>
             </Box>
             <Box>
-                {askIntegrityList?.map((tagInfo, index) => (
-                    <Box key={index} className={styles.askIntegrityCard}>
+                {AIS_List?.map((tagInfo, index) => (
+                    <Box key={`AIS-${index}`}>
+                        <ShoppersCard
+                            leadId={leadData?.leadsId}
+                            title={tagInfo?.tag?.tagLabel}
+                            content={tagInfo?.tag?.metadata}
+                            url={tagInfo?.interactionUrl}
+                            icon={tagInfo?.tag?.tagIconUrl}
+                        />
+                    </Box>
+                ))}
+                {AIR_List?.map((tagInfo, index) => (
+                    <Box key={`AIR-${index}`} className={styles.askIntegrityCard}>
                         <Box className={styles.askIntegrityInfo}>
                             <Box>
                                 {tagInfo?.tag?.tagIconUrl ? <img src={tagInfo?.tag?.tagIconUrl} /> : <AskIntegrity />}

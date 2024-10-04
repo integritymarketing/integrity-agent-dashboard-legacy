@@ -1,5 +1,5 @@
 import { Grid, Stack, Typography, Button, useMediaQuery, useTheme } from "@mui/material";
-import ArrowForwardWithCircle from "../../icons/version-2/ArrowForwardWithCirlce";
+import ArrowForwardWithCircle from "../../icons/version-2/ArrowForwardWithCircle";
 import styles from "./styles.module.scss";
 import bannerImage from "images/PlanEnrollBanner.svg";
 import PropTypes from "prop-types";

@@ -102,7 +102,7 @@ function ContactsTable() {
 
     const contactsListResultsEvent = () => {
         const contacts_with_health_policies_count = policyCounts.filter(
-            (contact) => contact.healthPolicyCount > 0,
+            (contact) => contact.healthPolicyCount > 0
         ).length;
         const contacts_with_life_policies_count = policyCounts.filter((contact) => contact.lifePolicyCount > 0).length;
 
@@ -224,7 +224,7 @@ function ContactsTable() {
                 Cell: ({ value, row }) => {
                     const leadDataOriginal = row?.original;
                     const campaignTags = row?.original?.leadTags?.filter((tag) =>
-                        tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign"),
+                        tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign")
                     );
                     const campaignTagDefaultImage = campaignTags?.[0]?.tag?.tagIconUrl;
                     return (
@@ -261,9 +261,9 @@ function ContactsTable() {
                     const askIntegrityTags = row?.original?.leadTags?.filter(
                         (tag) =>
                             tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations" ||
-                            tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests",
+                            tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests"
                     );
-                    const askIntegrityTagDefaultImage = askIntegrityTags?.[0]?.tag?.tagIconUrl;
+
                     return (
                         <>
                             {askIntegrityTags?.length > 0 ? (
@@ -272,15 +272,9 @@ function ContactsTable() {
                                     name="askIntegrity"
                                     onClick={() => askIntegrityHandler(askIntegrityTags, leadDataOriginal)}
                                     IconComponent={
-                                        askIntegrityTagDefaultImage ? (
-                                            <Box className={styles.iconWrapper}>
-                                                <img src={askIntegrityTagDefaultImage} />
-                                            </Box>
-                                        ) : (
-                                            <Box className={styles.iconWrapper}>
-                                                <AskIntegrity />
-                                            </Box>
-                                        )
+                                        <Box className={styles.iconWrapper}>
+                                            <AskIntegrity />
+                                        </Box>
                                     }
                                     count={askIntegrityTags?.length > 1 ? askIntegrityTags?.length : null}
                                 />
@@ -366,7 +360,7 @@ function ContactsTable() {
                 ),
             },
         ],
-        [],
+        []
     );
 
     return (

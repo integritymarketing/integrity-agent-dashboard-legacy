@@ -20,6 +20,7 @@ import useRoles from "hooks/useRoles";
 
 import closeAudio from "../components/WebChat/close.mp3";
 import CMSCompliance from "components/CMSCompliance";
+import CurrentCarrierSummaryBanner from "components/CurrentCarrierSummaryBanner";
 import { ContactProfileTabBar } from "components/ContactDetailsContainer/ContactProfileTabBar";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import ProviderModal from "components/SharedModals/ProviderModal";
@@ -201,6 +202,9 @@ const PlansPage = () => {
             ]);
 
             setContact(contactData);
+
+            checkForCurrentCarrierSummary(contactData);
+
             setProviders(providerData.providers);
             setPrescriptions(prescriptionData);
 
@@ -236,6 +240,44 @@ const PlansPage = () => {
             setLoading(false);
         }
     }, [id, postSpecialists, setShowViewAvailablePlans]);
+
+    const [showCurrentCarrierSummary, setShowCurrentCarrierSummary] = useState(true);
+
+    const checkForCurrentCarrierSummary = (contactData) => {
+        let currentCarrierTag = contactData.leadTags.find(t => {
+            const labelMatches = t.interactionUrlLabel?.toLowerCase() === "current carrier plans";
+            if (!labelMatches) return false;
+            const [, currentCarrierQuery] = t.interactionUrl.split("?");
+            const urlMatches = `?${currentCarrierQuery}` === window.location.search;
+            return labelMatches && urlMatches;
+        });
+        if (currentCarrierTag) {
+            const [, currentCarrierQuery] = currentCarrierTag.interactionUrl.split("?");
+            if (`?${currentCarrierQuery}` === window.location.search) {
+                setCarrierFilters([query.get("carrierName")]);
+                setPlanType(Number(query.get("planType")));
+                setMyAppointedPlans(false);
+                if (isMobile) {
+                    setCarrierFilters_mobile([query.get("carrierName")]);
+                    setPlanType_mobile(Number(query.get("planType")));
+                    setMyAppointedPlans_mobile(false);
+                }
+                setShowCurrentCarrierSummary(true);
+            }
+        }
+    }
+
+    const handleClearSummaryBanner = () => {
+        setMyAppointedPlans(MY_APPOINTED_PLANS);
+        setCarrierFilters([]);
+        if (isMobile) {
+            setMyAppointedPlans_mobile(MY_APPOINTED_PLANS);
+            setCarrierFilters_mobile([]);
+        }
+        history.pushState(null, "", location.href.split("?")[0]);
+        setShowCurrentCarrierSummary(false);
+        refreshData();
+    }
 
     const [currentPage, setCurrentPage] = useState(1);
     const [planType, setPlanType] = useState((showSelected ? initialPlanType : null) || location.state?.planType || 2);
@@ -327,6 +369,7 @@ const PlansPage = () => {
     };
 
     const changeFilters = (e) => {
+        setShowCurrentCarrierSummary(false);
         const { checked, value, name } = e.target;
         const policy_filters = isMobile ? policyFilters_mobile : policyFilters;
         const carrier_filters = isMobile ? carrierFilters_mobile : carrierFilters;
@@ -526,6 +569,7 @@ const PlansPage = () => {
     };
 
     const applyFilters = () => {
+        setShowCurrentCarrierSummary(false);
         setMyAppointedPlans(myAppointedPlans_mobile);
         setEffectiveDate(effectiveDate_mobile);
         setCarrierFilters(carrierFilters_mobile);
@@ -639,6 +683,13 @@ const PlansPage = () => {
                             <Container className={`${styles["search-container"]}`}>
                                 {(!isMobile || (isMobile && filtersOpen)) && (
                                     <div className={`${styles["filters"]}`}>
+                                        {!isNonRTS_User && !isMobile && showCurrentCarrierSummary && (
+                                            <CMSCompliance
+                                                leadId={contact?.leadsId}
+                                                countyFips={contact?.addresses?.[0]?.countyFips}
+                                                postalCode={contact?.addresses?.[0]?.postalCode}
+                                            />
+                                        )}
                                         {isMobile && (
                                             <>
                                                 <div className={`${styles["plans-count-mobile"]}`}>
@@ -741,11 +792,18 @@ const PlansPage = () => {
                                 )}
                                 {((isMobile && !filtersOpen) || !isMobile) && (
                                     <div className={`${styles["results"]}`}>
-                                        {!isNonRTS_User && (
+                                        {!isNonRTS_User && ((isMobile && showCurrentCarrierSummary) || !showCurrentCarrierSummary) && (
                                             <CMSCompliance
                                                 leadId={contact?.leadsId}
                                                 countyFips={contact?.addresses?.[0]?.countyFips}
                                                 postalCode={contact?.addresses?.[0]?.postalCode}
+                                            />
+                                        )}
+                                        {results.length > 0 && showCurrentCarrierSummary && (
+                                            <CurrentCarrierSummaryBanner
+                                                plans={results}
+                                                plansCount={filteredPlansCount}
+                                                handleClear={handleClearSummaryBanner}
                                             />
                                         )}
 

@@ -6,6 +6,7 @@ import Styles from "./TagsInfo.module.scss";
 import { toSentenceCase } from "utils/toSentenceCase";
 import CustomTagIcon from "components/icons/version-2/customTag";
 import AskIntegrity from "components/icons/version-2/AskIntegrity";
+import ShoppersCard from "components/Shoppers/ShoppersCard";
 
 function TagsInfo({ leadId }) {
     const { leadDetails, getLeadDetails } = useLeadDetails();
@@ -14,12 +15,13 @@ function TagsInfo({ leadId }) {
         if (!leadDetails || leadDetails?.leadsId != leadId) getLeadDetails(leadId);
     }, [getLeadDetails, leadId]);
 
-    const { askIntegrityTags, campaignTags } = useMemo(
+    const { AIS_List, AIR_List, campaignTags } = useMemo(
         () => ({
-            askIntegrityTags: leadDetails?.leadTags?.filter(
-                (tag) =>
-                    tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations" ||
-                    tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests"
+            AIS_List: leadDetails?.leadTags?.filter(
+                (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests"
+            ),
+            AIR_List: leadDetails?.leadTags?.filter(
+                (tag) => tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Recommendations"
             ),
             campaignTags: leadDetails?.leadTags?.filter((tag) =>
                 tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign")
@@ -51,7 +53,19 @@ function TagsInfo({ leadId }) {
         </Box>
     );
 
-    const renderAskIntegrityTag = (tagInfo) => (
+    const renderAISTag = (tagInfo) => (
+        <Box marginBottom="8px">
+            <ShoppersCard
+                leadId={leadId}
+                title={tagInfo?.tag?.tagLabel}
+                content={tagInfo?.tag?.metadata}
+                url={tagInfo?.interactionUrl}
+                icon={tagInfo?.tag?.tagIconUrl}
+            />
+        </Box>
+    );
+
+    const renderAIRTag = (tagInfo) => (
         <Box className={Styles.askIntegrityCard}>
             <Box className={Styles.askIntegrityInfo}>
                 <Box className={Styles.iconWrapper}>
@@ -73,10 +87,16 @@ function TagsInfo({ leadId }) {
                     <Box>{campaignTags?.map((tagInfo) => renderTag(tagInfo))}</Box>
                 </Box>
             )}
-            {askIntegrityTags?.length > 0 && (
+            {AIS_List?.length > 0 && (
                 <Box marginBottom="10px">
                     <Box className={Styles.tagCategoryLabel}>Ask Integrity Suggests</Box>
-                    <Box>{askIntegrityTags?.map((tagInfo) => renderAskIntegrityTag(tagInfo))}</Box>
+                    <Box>{AIS_List?.map((tagInfo) => renderAISTag(tagInfo))}</Box>
+                </Box>
+            )}
+            {AIR_List?.length > 0 && (
+                <Box marginBottom="10px">
+                    <Box className={Styles.tagCategoryLabel}>Ask Integrity Recommendations</Box>
+                    <Box>{AIR_List?.map((tagInfo) => renderAIRTag(tagInfo))}</Box>
                 </Box>
             )}
         </Box>
