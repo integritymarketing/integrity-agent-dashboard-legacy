@@ -29,7 +29,7 @@ const StyledIconButton = styled(CloseIcon)(() => ({
 const StyledPopover = styled(Popover)(() => ({
     ".MuiPopover-paper": {
         marginTop: "10px",
-        width: "400px",
+        width: "440px",
         maxWidth: "calc(100vw - 35px) !important",
     },
 }));
@@ -43,7 +43,7 @@ const LightTooltip = styled(({ className, ...props }) => <Tooltip {...props} cla
             fontSize: 12,
             border: "none",
         },
-    })
+    }),
 );
 
 function Filter({
