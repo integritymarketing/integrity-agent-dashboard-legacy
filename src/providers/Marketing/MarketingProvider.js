@@ -57,7 +57,8 @@ export const MarketingProvider = ({ children }) => {
                     const dateB = new Date(b.modifiedDateTime);
                     return dateB - dateA;
                 });
-                setAllCampaignsList(sortAllCampaignsList);
+                const filteredValidCampaigns = sortAllCampaignsList.filter((item) => item?.requestPayload?.templateId !== "sms-freeform");
+                setAllCampaignsList(filteredValidCampaigns);
                 const filteredData = resData.filter((item) => item.campaignStatus === "Completed");
                 setCompletedCampaignsList(filteredData);
             }
