@@ -461,6 +461,13 @@ const PlansPage = () => {
         return () => clearTimeout(timer);
     }, [myAppointedPlans]);
 
+    useEffect(() => {
+        if (contact && contact?.hasMedicAid) {
+            setSpecialNeedsFilter(true);
+            setSpecialNeedsFilter_mobile(true);
+        }
+    }, [contact]);
+ 
     const getAllPlans = useCallback(async () => {
         if (contact) {
             setPlansAvailableCount(0);
@@ -513,9 +520,11 @@ const PlansPage = () => {
             policyFilters?.length > 0
                 ? carrierGroup.filter((res) => policyFilters?.includes(res.planSubType))
                 : carrierGroup;
-        const specialNeedsPlans = specialNeedsFilter
-            ? [...policyGroup].filter((plan) => plan?.planName.includes("SNP"))
-            : policyGroup;
+
+                const specialNeedsPlans = specialNeedsFilter
+                ? policyGroup.filter((plan) => plan?.planName.includes("SNP"))
+                : policyGroup.filter((plan) => (planType === 2 ? !plan?.planName.includes("SNP") : true));
+     
 
         const rebatePlans = rebatesFilter
             ? [...specialNeedsPlans].filter((plan) => {
