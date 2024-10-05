@@ -14,10 +14,13 @@ export const PharmacyProvider = ({ children }) => {
     const [selectedPharmacyId, setSelectedPharmacyId] = useRecoilState(selectedPharmacyIdAtom);
 
     useEffect(() => {
+        if(selectedPharmacy?.name === "Mail Order") {
+            return;
+        }
         if (selectedPharmacyId) {
             const selectedPharmacyInPharmacies = pharmacies.find((pharmacy) => pharmacy.pharmacyId === selectedPharmacyId);
             if (selectedPharmacyInPharmacies) {
-                return setSelectedPharmacy(selectedPharmacyInPharmacies);
+                setSelectedPharmacy(selectedPharmacyInPharmacies);
             }
         }
 

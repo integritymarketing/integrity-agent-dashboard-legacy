@@ -12,6 +12,10 @@ const MailOrderNotApplicable = ({ mailOrderNotApplicable, pharmaciesList, contac
         return null;
     }
 
+    const selectedPharmaciesLessThanThree = pharmaciesList && pharmaciesList?.length < 3;
+    const addPharmacyClassName = selectedPharmaciesLessThanThree ?
+        styles.addPharmacyText : styles.addPharmacyTextDisabled;
+
     return (
         <div className={styles.mailOrderNotApplicable}>
             <div className={styles.mailOrderNotApplicableIcon}>
@@ -28,7 +32,11 @@ const MailOrderNotApplicable = ({ mailOrderNotApplicable, pharmaciesList, contac
                 gutterBottom={false}
             >
                 Mail Order not available with this plan. Please select or{" "}
-                <span style={{ color: "#4178FF", cursor: "pointer" }} onClick={() => setOpenAddPharmacyModal(true)}>
+                <span className={addPharmacyClassName} onClick={() => {
+                    if(selectedPharmaciesLessThanThree) {
+                        setOpenAddPharmacyModal(true);
+                    }
+                }}>
                     add a pharmacy
                 </span>
             </Typography>
