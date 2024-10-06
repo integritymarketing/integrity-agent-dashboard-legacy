@@ -8,7 +8,7 @@ import Filter from "./Filter";
 const StyledPopover = styled(Popover)(() => ({
     ".MuiPopover-paper": {
         marginTop: "10px",
-        width: "400px",
+        width: "480px",
         maxWidth: "calc(100vw - 35px) !important",
     },
 }));

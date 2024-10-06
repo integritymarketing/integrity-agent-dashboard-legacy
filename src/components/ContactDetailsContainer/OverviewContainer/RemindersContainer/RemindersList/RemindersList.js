@@ -18,8 +18,7 @@ import { Button as OldButton } from "components/ui/Button";
 
 import styles from "./RemindersList.module.scss";
 
-import { Complete, Delete } from "../../Icons";
-import { Reminder, AskIntegrityReminderIcon } from "../../Icons";
+import { Reminder, AskIntegrityReminderIcon, Complete, Delete } from "../../Icons";
 
 export const RemindersList = () => {
     const { leadId } = useParams();

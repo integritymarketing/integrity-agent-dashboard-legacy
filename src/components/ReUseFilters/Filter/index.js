@@ -359,6 +359,39 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                             Askintegrity,
                     },
                 },
+                "Shopper Priority 1...": {
+                    heading: "Ask Integrity Suggests",
+                    option: {
+                        label: "Shopper Priority 1...",
+                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 1"))
+                            ?.tagId,
+                        icon:
+                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 1"))
+                                ?.tagIconUrl || Askintegrity,
+                    },
+                },
+                "Shopper Priority 2...": {
+                    heading: "Ask Integrity Suggests",
+                    option: {
+                        label: "Shopper Priority 2...",
+                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 2"))
+                            ?.tagId,
+                        icon:
+                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 2"))
+                                ?.tagIconUrl || Askintegrity,
+                    },
+                },
+                "Shopper Priority 3...": {
+                    heading: "Ask Integrity Suggests",
+                    option: {
+                        label: "Shopper Priority 2...",
+                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 3"))
+                            ?.tagId,
+                        icon:
+                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 3"))
+                                ?.tagIconUrl || Askintegrity,
+                    },
+                },
             });
             setFetchedFiltersSectionConfigFromApi(true);
         }
@@ -653,6 +686,30 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                             {filterSectionsConfig.sep.option.value && (
                                 <Box className={styles.dropdownOption} onClick={() => handleFilterOptionClick("sep")}>
                                     SEP
+                                </Box>
+                            )}
+                            {filterSectionsConfig.sep.option.value && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("Shopper Priority 1...")}
+                                >
+                                    Shopper Priority 1...
+                                </Box>
+                            )}
+                            {filterSectionsConfig.sep.option.value && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("Shopper Priority 2...")}
+                                >
+                                    Shopper Priority 2...
+                                </Box>
+                            )}
+                            {filterSectionsConfig.sep.option.value && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("Shopper Priority 3...")}
+                                >
+                                    Shopper Priority 3...
                                 </Box>
                             )}
                         </span>

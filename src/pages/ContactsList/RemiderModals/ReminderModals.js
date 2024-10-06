@@ -33,6 +33,7 @@ const RemindersModals = ({
             const addPayload = { ...payload, leadsId: leadData?.leadsId, isComplete };
             editReminder(addPayload, refreshData);
             setShowAddReminderModal(false);
+            setShowRemindersListModal(false);
             setSelectedReminder(null);
         },
         [editReminder, leadData?.leadsId, refreshData, setShowAddReminderModal]
@@ -65,6 +66,7 @@ const RemindersModals = ({
                     setShowEditReminderModal={setShowAddReminderModal}
                     isMobile={isMobile}
                     view={view}
+                    updateReminder={updateReminder}
                 />
             )}
         </>

@@ -339,6 +339,27 @@ export const filterSectionsConfig = {
             value: "",
         },
     },
+    "Shopper Priority 1...": {
+        heading: "Ask Integrity Suggests",
+        option: {
+            label: "Shopper Priority 1...",
+            value: "",
+        },
+    },
+    "Shopper Priority 2...": {
+        heading: "Ask Integrity Suggests",
+        option: {
+            label: "Shopper Priority 2...",
+            value: "",
+        },
+    },
+    "Shopper Priority 3...": {
+        heading: "Ask Integrity Suggests",
+        option: {
+            label: "Shopper Priority 3...",
+            value: "",
+        },
+    },
     custom_tags: {
         heading: "Custom Tags",
     },

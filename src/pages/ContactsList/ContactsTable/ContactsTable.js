@@ -286,7 +286,7 @@ function ContactsTable() {
                                             }}
                                         >
                                             {AI_tagIcon ? (
-                                                <img src={`http://${AI_tagIcon}`} alt="shoppersImage" />
+                                                <img src={AI_tagIcon} alt="shoppersImage" />
                                             ) : (
                                                 <AskIntegrity />
                                             )}
