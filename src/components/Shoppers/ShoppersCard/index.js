@@ -1,10 +1,11 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Button, Box, Grid } from "@mui/material";
 import TextFormatter from "components/Shoppers/ShoppersTextFormat";
 import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCircle";
 import AskIntegritySuggests from "components/icons/activities/AskIntegritySuggests";
 import { useNavigate } from "react-router-dom";
+import { getShoppersColorScheme } from "utils/shared-utils/sharedUtility";
 
 import styles from "./styles.module.scss";
 
@@ -12,18 +13,22 @@ const ShoppersCard = ({ leadId, title, content, url, icon }) => {
     const navigate = useNavigate();
     const priority = title?.includes("1") ? "1" : title?.includes("2") ? "2" : "3";
 
-    const { color, bgColor } = useMemo(() => {
-        const colors = {
-            1: { color: "#A9905F", bgColor: "#E9E3D7" },
-            2: { color: "#4178FF", bgColor: "#F1FAFF" },
-            3: { color: "#052A63", bgColor: "#F1FAFF" },
+    const { color, bgColor } = getShoppersColorScheme(priority);
+
+    const getQueryParams = (url) => {
+        const queryString = url.split("?")[1];
+        const params = new URLSearchParams(queryString);
+        return {
+            carrierId: params.get("carrierId"),
+            planType: params.get("planType"),
         };
-        return colors[priority];
-    }, [priority]);
+    };
 
     const handleCarrierClick = () => {
-        const carrierURL = url?.split("/");
-        navigate(`/plans/${carrierURL[4]}`);
+        const decodedURI = decodeURIComponent(url);
+        const { carrierId, planType } = getQueryParams(decodedURI);
+
+        navigate(`/plans/${leadId}?carrierId=${carrierId}&planType=${planType}`);
     };
 
     const handleAllPlansClick = () => {
@@ -34,7 +39,14 @@ const ShoppersCard = ({ leadId, title, content, url, icon }) => {
         <Grid container className={styles.shoppersCard}>
             <Grid item md="1.5" xs="2">
                 {icon ? (
-                    <img src={`http://${icon}`} alt="shoppersImage" />
+                    <Box
+                        className={styles.iconWrapper}
+                        sx={{
+                            background: bgColor,
+                        }}
+                    >
+                        <img src={`http://${icon}`} alt="shoppersImage" />
+                    </Box>
                 ) : (
                     <AskIntegritySuggests color={color} bgColor={bgColor} />
                 )}

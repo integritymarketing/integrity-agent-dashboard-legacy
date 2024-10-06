@@ -3,10 +3,26 @@
 .shoppersCard {
     display: flex;
     padding: 16px;
+    margin-bottom: 8px;
     align-items: flex-start;
     align-self: stretch;
     border-radius: 8px;
     background-color: #ffffff;
+
+    .iconWrapper {
+        background: #f1faff;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        position: relative;
+         cursor: pointer;
+    
+        img {
+            position: relative;
+            top: 8px;
+            left: 8px;
+        }
+    }
 
     .shoppersHeader {
         font-size: 16px;

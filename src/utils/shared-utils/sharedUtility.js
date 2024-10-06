@@ -175,3 +175,14 @@ export const filterCampaignsByStatus = (list, status) => {
 
     return filteredList.length > 0 ? filteredList : [];
 };
+
+export const getShoppersColorScheme = (title) => {
+    const priority = title?.includes("1") ? "1" : title?.includes("2") ? "2" : "3";
+
+    const colors = {
+        1: { color: "#A9905F", bgColor: "#E9E3D7" },
+        2: { color: "#4178FF", bgColor: "#F1FAFF" },
+        3: { color: "#052A63", bgColor: "#F1FAFF" },
+    };
+    return colors[priority];
+};

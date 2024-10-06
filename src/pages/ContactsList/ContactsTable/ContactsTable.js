@@ -41,6 +41,7 @@ import ConnectEmail from "../ConnectEmail";
 import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import AskIntegrity from "components/icons/version-2/AskIntegrity";
 import { CountyDataProvider } from "providers/CountyDataProvider";
+import { getShoppersColorScheme } from "utils/shared-utils/sharedUtility";
 
 function ContactsTable() {
     const { tableData, policyCounts, refreshData } = useContactsListContext();
@@ -264,6 +265,12 @@ function ContactsTable() {
                             tag?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests"
                     );
 
+                    const AIS_List = row?.original?.leadTags?.find(
+                        (item) => item?.tag?.tagCategory?.tagCategoryName === "Ask Integrity Suggests"
+                    );
+
+                    const AI_tagIcon = AIS_List?.tag?.tagIconUrl;
+
                     return (
                         <>
                             {askIntegrityTags?.length > 0 ? (
@@ -272,8 +279,17 @@ function ContactsTable() {
                                     name="askIntegrity"
                                     onClick={() => askIntegrityHandler(askIntegrityTags, leadDataOriginal)}
                                     IconComponent={
-                                        <Box className={styles.iconWrapper}>
-                                            <AskIntegrity />
+                                        <Box
+                                            className={styles.iconWrapper}
+                                            sx={{
+                                                background: getShoppersColorScheme(AIS_List?.tag?.tagLabel)?.bgColor,
+                                            }}
+                                        >
+                                            {AI_tagIcon ? (
+                                                <img src={`http://${AI_tagIcon}`} alt="shoppersImage" />
+                                            ) : (
+                                                <AskIntegrity />
+                                            )}
                                         </Box>
                                     }
                                     count={askIntegrityTags?.length > 1 ? askIntegrityTags?.length : null}

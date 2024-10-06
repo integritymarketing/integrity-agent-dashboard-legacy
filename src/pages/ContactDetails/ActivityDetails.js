@@ -124,7 +124,7 @@ export default function ActivityDetails({
                                 leadId={leadId}
                                 title={activityObj?.activitySubject}
                                 content={activityObj?.activityBody}
-                                url={activityObj?.activityInteractionUrl}
+                                url={activityObj?.activityInteractionURL}
                                 icon={activityObj?.activityInteractionIconUrl}
                             />
                         )}
