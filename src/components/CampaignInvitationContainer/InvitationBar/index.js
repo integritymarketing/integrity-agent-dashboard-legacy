@@ -87,15 +87,13 @@ const InvitationBar = () => {
             }
             setContactOptionOpen(null);
         },
-        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription],
+        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription]
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
         setAnchorEl(null);
         const selectedFilters = JSON.parse(sessionStorage.getItem("campaign_contactList_selectedFilterSections"));
-        const filteredData = selectedFilters?.filter(
-            (filter) => filter?.selectedFilterOption && filter.isFilterSelectOpen === false,
-        );
+        const filteredData = selectedFilters?.filter((filter) => filter?.selectedFilterOption);
 
         if (!filteredData || filteredData?.length === 0) {
             resetSecond();
@@ -110,7 +108,7 @@ const InvitationBar = () => {
         (event) => {
             setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
         },
-        [contactOptionOpen, campaignActionType],
+        [contactOptionOpen, campaignActionType]
     );
 
     return (
