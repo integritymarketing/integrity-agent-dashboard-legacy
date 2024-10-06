@@ -13,3 +13,4 @@ export * from "./LifeIcon";
 export * from "./PlanEnroll";
 export * from "./CrossIcon";
 export * from "./Arrow";
+export * from "./AskIntegrityReminder";

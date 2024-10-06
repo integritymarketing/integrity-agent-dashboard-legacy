@@ -1,7 +1,5 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Box } from "@mui/material";
-import styles from "./styles.module.scss";
 
 /**
  * A React component that formats the given text.
@@ -11,7 +9,7 @@ import styles from "./styles.module.scss";
  * @param {Object} props - Props passed to the component.
  * @param {string} props.inputText - The input text that needs to be formatted.
  */
-const TextFormatter = ({ inputText }) => {
+const TextFormatter = ({ inputText, fontSize = "19px", color = "#717171" }) => {
     /**
      * Formats the given input text.
      * - Text before "||" is displayed as a paragraph.
@@ -30,7 +28,12 @@ const TextFormatter = ({ inputText }) => {
         const bulletPoints = bulletPointText ? bulletPointText.split("\n") : [];
 
         return (
-            <Box className={styles.formattedText}>
+            <Box
+                sx={{
+                    fontSize: fontSize,
+                    color: color,
+                }}
+            >
                 {/* Display the plain text before "||" */}
                 <p>{plainText.trim()}</p>
 
@@ -51,6 +54,8 @@ const TextFormatter = ({ inputText }) => {
 TextFormatter.propTypes = {
     // inputText is required and should be a string
     inputText: PropTypes.string.isRequired, // The raw text input for formatting
+    fontSize: PropTypes.string, // The font size of the text
+    color: PropTypes.string, // The color of the text
 };
 
 export default TextFormatter;

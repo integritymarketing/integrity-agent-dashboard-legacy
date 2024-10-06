@@ -1,36 +1,35 @@
 @import "../../../../../scss/globalDefines.scss";
 
-.reminderItem {
-    display: flex;
-    padding: 22px 28px;
+.reminderInfoContainer {
+    padding: 16px 24px;
     margin-bottom: 8px;
-    flex-direction: row;
-    justify-content: space-between;
     box-shadow: inset 0px -1px 0px #dddddd;
-    gap: 15px;
-    align-items: flex-start;
 
     &:last-child {
         box-shadow: none;
     }
+}
+
+.reminderDatesInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 
     @include small {
-        padding: 8px;
-        flex-direction: column;
-        gap: 12px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
     }
 }
 
-.reminderDue {
+.reminderNotesInfo {
     display: flex;
-    flex-direction: row;
-    color: #434a51;
-    font-size: 16px;
-    width: 150px;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
 
     @include small {
-        width: 100%;
+        margin-top: 16px;
     }
 }
 
@@ -41,22 +40,27 @@
 }
 
 .dueLabel {
+    color: #052a63;
+    font-weight: 600;
+    font-size: 16px;
     margin: 2px 0;
 }
 
 .reminderDescription {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 8px;
-    width: calc(100% - 150px - 100px);
-    height: 120px;
+    border: 1px solid #0000003b;
+    border-radius: 4px;
+    padding: 8px 12px;
+    width: 100%;
+    height: 84px;
     line-break: anywhere;
     color: #434a51;
+    margin-top: 8px;
+}
 
-    @include small {
-        width: 100%;
-        height: auto;
-    }
+.reminderDescriptionAI {
+    padding: 8px 12px;
+    line-break: anywhere;
+    margin-top: 8px;
 }
 
 .reminderActions {
@@ -64,22 +68,17 @@
     justify-content: space-between;
     flex-direction: column;
     align-items: flex-end;
-    width: 100px;
 
     @include small {
         flex-direction: row-reverse;
         align-items: center;
-        width: 100%;
+        margin-top: 16px;
     }
 }
 
 .editButton {
     margin-top: 5px;
     margin-bottom: 5px;
-}
-
-.deleteButton {
-    // Add styling for the delete button
 }
 
 .buttonWithIcon {
@@ -91,8 +90,8 @@
     }
 
     span {
-        font-size: 14px !important;
-        color: #4178ff !important;
+        font-size: 14px;
+        color: #4178ff;
         font-weight: 500;
     }
 
@@ -100,7 +99,7 @@
         background: #ffffff 0% 0% no-repeat padding-box;
         border-radius: 20px;
         box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
-        color: #1357ff !important;
+        color: #1357ff;
     }
 }
 
@@ -131,30 +130,19 @@
     }
 }
 
-.reminderIcon {
-    background-color: #f1faff;
-    width: 30px;
-    height: 30px;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-    @include small {
-        width: 10%;
-    }
-}
-
-.dueIcon {
-    background-color: #ffc3c3;
-}
 .segregator {
     padding: unset;
     max-width: none;
-  }
+}
 
-  .dueDateStyles{
+.reminderDates {
+    margin-top: 8px;
     @include small {
-        width: 40%;
+        margin-left: 1rem;
+        margin-top: 0px;
     }
-  }
+}
+
+.overDueValue {
+    color: #c81e27;
+}

@@ -20,6 +20,7 @@ import { ArrowForwardWithCircle } from "components/ContactDetailsContainer/Overv
 
 import styles from "./AddReminderModal.module.scss";
 import { Typography, useMediaQuery, useTheme } from "@mui/material";
+import TextFormatter from "components/Shoppers/ShoppersTextFormat";
 
 const initialReminderValues = {
     date: null,
@@ -40,6 +41,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
     const reminderActionButton = selectedReminder ? "Save Reminder" : "Add Reminder";
     const name = `${leadData?.firstName ?? ""} ${leadData?.middleName ?? ""} ${leadData?.lastName ?? ""}`;
     const actionButtonDisabled = !values.date || !values.notes;
+    const isShopperActivity = selectedReminder ? selectedReminder?.reminderSource === "Ask Integrity" : false;
 
     const handleSaveReminder = useCallback(() => {
         const reminderDateTime = new Date(values.date);
@@ -129,6 +131,7 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
                             fullWidth
                             inputProps={{ maxLength: 256 }}
                             className={styles.notes}
+                            disabled={isShopperActivity}
                         />
                         <Box className={styles.characterCountContainer}>
                             {!isMobileView && values.title.length >= 256 && (
@@ -159,18 +162,24 @@ export const AddReminderModal = ({ open, onClose, onSave, selectedReminder, lead
                     </Box>
                     <Box className={styles.reminderField}>
                         <h4 className={styles.label}>Notes*</h4>
-                        <TextField
-                            id="outlined-basic"
-                            placeholder="Notes..."
-                            variant="outlined"
-                            value={values.notes}
-                            onChange={(e) => handleChange("notes", e.target.value)}
-                            fullWidth
-                            inputProps={{ maxLength: 256 }}
-                            multiline
-                            rows={3}
-                            className={styles.notes}
-                        />
+                        {!isShopperActivity ? (
+                            <TextField
+                                id="outlined-basic"
+                                placeholder="Notes..."
+                                variant="outlined"
+                                value={values.notes}
+                                onChange={(e) => handleChange("notes", e.target.value)}
+                                fullWidth
+                                inputProps={{ maxLength: 256 }}
+                                multiline
+                                rows={3}
+                                className={styles.notes}
+                            />
+                        ) : (
+                            <Box className={styles.reminderDescriptionAI}>
+                                <TextFormatter inputText={values.notes} fontSize="16px" color="rgba(0, 0, 0, 0.38);" />
+                            </Box>
+                        )}
                         <Box className={styles.characterCountContainer}>
                             {!isMobileView && values.notes.length >= 256 && (
                                 <Typography variant="body2" color="error" className={styles.errorText}>

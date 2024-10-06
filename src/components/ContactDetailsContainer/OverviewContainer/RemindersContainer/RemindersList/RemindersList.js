@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import Box from "@mui/material/Box";
+import { Box, Grid, Typography, Button } from "@mui/material";
 
 import { useOverView, useLeadDetails } from "providers/ContactDetails";
 
@@ -11,19 +11,18 @@ import { getLocalDateTime, getOverDue, sortListByDate } from "utils/dates";
 import ContactSectionCard from "packages/ContactSectionCard";
 
 import { AddReminderModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddReminderModal/AddReminderModal";
-import useDeviceType from "hooks/useDeviceType";
 import EditIcon from "components/icons/icon-edit";
 import Plus from "components/icons/plus";
-import { Button } from "components/ui/Button";
+import TextFormatter from "components/Shoppers/ShoppersTextFormat";
+import { Button as OldButton } from "components/ui/Button";
 
 import styles from "./RemindersList.module.scss";
 
 import { Complete, Delete } from "../../Icons";
-import { Reminder } from "../../Icons/reminder";
+import { Reminder, AskIntegrityReminderIcon } from "../../Icons";
 
 export const RemindersList = () => {
     const { leadId } = useParams();
-    const { isMobile } = useDeviceType();
     const { getReminders, reminders, addReminder, removeReminder, editReminder } = useOverView();
     const leadData = useLeadDetails();
     const [isAddNewModalOpen, setIsAddNewModalOpen] = useState(false);
@@ -73,7 +72,7 @@ export const RemindersList = () => {
                 customStyle={styles.segregator}
                 actions={
                     <div className="actions">
-                        <Button
+                        <OldButton
                             icon={<Plus />}
                             iconPosition="right"
                             label="Add New"
@@ -103,93 +102,131 @@ export const RemindersList = () => {
                 )}
                 <>
                     {sortedTasks?.map((reminder, index) => {
-                        const { reminderNote = "", isComplete = false, reminderId, reminderDate } = reminder;
+                        const {
+                            reminderNote = "",
+                            isComplete = false,
+                            reminderId,
+                            reminderDate,
+                            reminderTitle,
+                            reminderSource,
+                        } = reminder;
 
                         const isOverDue = getOverDue(reminderDate) ? true : false;
                         return (
-                            <Box className={styles.reminderItem} key={index}>
-                                <Box className={styles.reminderDue}>
-                                    <Box className={`${styles.reminderIcon} ${isOverDue ? styles.dueIcon : ""}`}>
-                                        {isOverDue ? <Reminder color="#FF1717" /> : <Reminder color="#4178FF" />}
-                                    </Box>
-                                    <Box className={styles.dueDateStyles}>
-                                        <Box className={styles.dueLabel}>
-                                            Due:
-                                            <span className={styles.dueValue}>
-                                                {getLocalDateTime(reminderDate)?.date}
-                                            </span>
+                            <Grid container className={styles.reminderInfoContainer} key={index}>
+                                <Grid item md={2} xs={12}>
+                                    <Box className={styles.reminderDatesInfo}>
+                                        <Box>
+                                            {reminderSource !== "Ask Integrity" ? (
+                                                <>
+                                                    <Reminder
+                                                        color={isOverDue ? "#C81E27" : "#4178FF"}
+                                                        bgColor={isOverDue ? "#FBDEDE" : "#F1FAFF"}
+                                                    />
+                                                </>
+                                            ) : (
+                                                <AskIntegrityReminderIcon
+                                                    color={isOverDue ? "#C81E27" : "#4178FF"}
+                                                    bgColor={isOverDue ? "#FBDEDE" : "#F1FAFF"}
+                                                />
+                                            )}
                                         </Box>
-                                        {getLocalDateTime(reminder.reminderDate)?.time !== "12:00 am" && (
+                                        <Box className={styles.reminderDates}>
                                             <Box className={styles.dueLabel}>
-                                                At:
-                                                <span className={styles.dueValue}>
-                                                    {getLocalDateTime(reminderDate)?.time}
+                                                Due:
+                                                <span
+                                                    className={`${styles.dueValue} ${
+                                                        isOverDue ? styles.overDueValue : ""
+                                                    }`}
+                                                >
+                                                    {getLocalDateTime(reminderDate)?.date}
                                                 </span>
+                                            </Box>
+                                            {getLocalDateTime(reminder.reminderDate)?.time !== "12:00 am" && (
+                                                <Box className={styles.dueLabel}>
+                                                    At:
+                                                    <span
+                                                        className={`${styles.dueValue} ${
+                                                            isOverDue ? styles.overDueValue : ""
+                                                        }`}
+                                                    >
+                                                        {getLocalDateTime(reminderDate)?.time}
+                                                    </span>
+                                                </Box>
+                                            )}
+                                        </Box>
+                                    </Box>
+                                </Grid>
+
+                                <Grid item md={8} xs={12}>
+                                    <Box className={styles.reminderNotesInfo}>
+                                        <Box>
+                                            <Typography variant="h5" color="#052A63">
+                                                {reminderTitle}
+                                            </Typography>
+                                        </Box>
+                                        {reminderSource !== "Ask Integrity" ? (
+                                            <Box className={styles.reminderDescription}>
+                                                <Typography variant="body1" color="#434A51">
+                                                    {reminderNote}
+                                                </Typography>
+                                            </Box>
+                                        ) : (
+                                            <Box className={styles.reminderDescriptionAI}>
+                                                <TextFormatter
+                                                    inputText={reminderNote}
+                                                    fontSize="16px"
+                                                    color="#434A51"
+                                                />
                                             </Box>
                                         )}
                                     </Box>
-                                    {isMobile && (
-                                        <Box
-                                            sx={{
-                                                width: "50%",
-                                                display: "flex",
-                                                justifyContent: "flex-end",
-                                            }}
-                                        >
-                                            <Button
-                                                icon={<Complete color="#4178FF" />}
-                                                label={"Complete"}
-                                                className={styles.buttonWithIcon}
-                                                onClick={() => updateReminder(reminder, true)}
-                                                type="tertiary"
-                                                iconPosition="right"
-                                            />
-                                        </Box>
-                                    )}
-                                </Box>
-                                <Box className={styles.reminderDescription}>{reminderNote}</Box>
-                                <Box className={styles.reminderActions}>
-                                    {!isComplete && (
-                                        <>
-                                            {!isMobile && (
+                                </Grid>
+                                <Grid item md={2} xs={12}>
+                                    <Box className={styles.reminderActions}>
+                                        {!isComplete && (
+                                            <>
                                                 <Box>
                                                     <Button
-                                                        icon={<Complete color="#4178FF" />}
-                                                        label={"Complete"}
-                                                        className={styles.buttonWithIcon}
+                                                        size="small"
+                                                        variant="text"
+                                                        color="primary"
+                                                        endIcon={<Complete color="#4178FF" />}
                                                         onClick={() => updateReminder(reminder, true)}
-                                                        type="tertiary"
-                                                        iconPosition="right"
-                                                    />
+                                                    >
+                                                        Complete
+                                                    </Button>
                                                 </Box>
-                                            )}
-                                            <Box className={styles.editButton}>
-                                                <Button
-                                                    icon={<EditIcon />}
-                                                    label={"Edit"}
-                                                    className={styles.buttonWithIcon}
-                                                    onClick={() => {
-                                                        setSelectedReminder(reminder);
-                                                        setIsAddNewModalOpen(true);
-                                                    }}
-                                                    type="tertiary"
-                                                    iconPosition="right"
-                                                />
-                                            </Box>
-                                        </>
-                                    )}
-                                    <Box>
-                                        <Button
-                                            icon={<Delete color="#4178FF" />}
-                                            label={"Delete"}
-                                            className={styles.buttonWithIcon}
-                                            onClick={() => deleteReminder(reminderId)}
-                                            type="tertiary"
-                                            iconPosition="right"
-                                        />
+                                                <Box className={styles.editButton}>
+                                                    <Button
+                                                        size="small"
+                                                        variant="text"
+                                                        color="primary"
+                                                        endIcon={<EditIcon />}
+                                                        onClick={() => {
+                                                            setSelectedReminder(reminder);
+                                                            setIsAddNewModalOpen(true);
+                                                        }}
+                                                    >
+                                                        Edit
+                                                    </Button>
+                                                </Box>
+                                            </>
+                                        )}
+                                        <Box>
+                                            <Button
+                                                size="small"
+                                                variant="text"
+                                                color="primary"
+                                                endIcon={<Delete color="#4178FF" />}
+                                                onClick={() => deleteReminder(reminderId)}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </Box>
                                     </Box>
-                                </Box>
-                            </Box>
+                                </Grid>
+                            </Grid>
                         );
                     })}
                 </>

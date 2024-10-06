@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Button, Box, Grid } from "@mui/material";
 import TextFormatter from "components/Shoppers/ShoppersTextFormat";
@@ -15,7 +14,7 @@ const ShoppersCard = ({ leadId, title, content, url, icon }) => {
 
     const { color, bgColor } = getShoppersColorScheme(priority);
 
-    const getQueryParams = (url) => {
+    const getQueryParams = () => {
         const queryString = url.split("?")[1];
         const params = new URLSearchParams(queryString);
         return {
@@ -45,7 +44,7 @@ const ShoppersCard = ({ leadId, title, content, url, icon }) => {
                             background: bgColor,
                         }}
                     >
-                        <img src={`http://${icon}`} alt="shoppersImage" />
+                        <img src={icon} alt="shoppersImage" />
                     </Box>
                 ) : (
                     <AskIntegritySuggests color={color} bgColor={bgColor} />
@@ -53,7 +52,7 @@ const ShoppersCard = ({ leadId, title, content, url, icon }) => {
             </Grid>
             <Grid item md="10.5" xs="10">
                 <Box className={styles.shoppersHeader}>{title}</Box>
-                <TextFormatter inputText={content} />
+                <TextFormatter inputText={content} fontSize="19px" color="#717171" />
                 <Box className={styles.plansButtons}>
                     <Button
                         size="small"
