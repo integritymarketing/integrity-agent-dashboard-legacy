@@ -274,9 +274,9 @@ const PlansPage = () => {
             setMyAppointedPlans_mobile(MY_APPOINTED_PLANS);
             setCarrierFilters_mobile([]);
         }
-        history.pushState(null, "", location.href.split("?")[0]);
+        history.pushState(null, "", window.location.href.split("?")[0]);
         setShowCurrentCarrierSummary(false);
-        refreshData();
+        refreshPlans();
     }
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -467,7 +467,7 @@ const PlansPage = () => {
             setSpecialNeedsFilter_mobile(true);
         }
     }, [contact]);
- 
+
     const getAllPlans = useCallback(async () => {
         if (contact) {
             setPlansAvailableCount(0);
@@ -521,10 +521,10 @@ const PlansPage = () => {
                 ? carrierGroup.filter((res) => policyFilters?.includes(res.planSubType))
                 : carrierGroup;
 
-                const specialNeedsPlans = specialNeedsFilter
-                ? policyGroup.filter((plan) => plan?.planName.includes("SNP"))
-                : policyGroup.filter((plan) => (planType === 2 ? !plan?.planName.includes("SNP") : true));
-     
+        const specialNeedsPlans = specialNeedsFilter
+            ? policyGroup.filter((plan) => plan?.planName.includes("SNP"))
+            : policyGroup.filter((plan) => (planType === 2 ? !plan?.planName.includes("SNP") : true));
+
 
         const rebatePlans = rebatesFilter
             ? [...specialNeedsPlans].filter((plan) => {
