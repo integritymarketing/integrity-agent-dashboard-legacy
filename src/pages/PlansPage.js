@@ -241,7 +241,7 @@ const PlansPage = () => {
         }
     }, [id, postSpecialists, setShowViewAvailablePlans]);
 
-    const [showCurrentCarrierSummary, setShowCurrentCarrierSummary] = useState(true);
+    const [showCurrentCarrierSummary, setShowCurrentCarrierSummary] = useState(false);
 
     const checkForCurrentCarrierSummary = (contactData) => {
         let currentCarrierTag = contactData.leadTags.find(t => {
