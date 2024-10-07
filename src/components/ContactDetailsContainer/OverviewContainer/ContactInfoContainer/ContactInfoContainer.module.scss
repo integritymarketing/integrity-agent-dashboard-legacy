@@ -4,8 +4,9 @@
 .miniContainer {
     display: flex;
     flex-direction: column;
+
     @include small {
-     
+
         flex-direction: row;
         gap: 24px;
     }
@@ -22,9 +23,10 @@
         top: -10px;
         right: 0;
     }
+
     @include small {
         display: flex;
-     }
+    }
 }
 
 .emailBox {
@@ -132,32 +134,96 @@
 
 .miniCard {
     width: 100%;
+
     @include small {
-        width:50%;
+        width: 50%;
     }
-    
- }
- .icon {
+
+}
+
+.icon {
     cursor: pointer;
     padding-top: 6px;
     height: 50px;
-  
+
     svg {
-      transition: 300ms ease-out;
+        transition: 300ms ease-out;
     }
-  }
-  
-  .iconRotate {
+}
+
+.iconRotate {
     svg {
         transform: rotate(-180deg);
     }
-  }
-  
-  .iconWithTitle {
+}
+
+.iconWithTitle {
     display: flex;
     align-items: center;
-  }
+}
 
-  .underLine{
+.underLine {
     box-shadow: rgb(199, 204, 209) 0px -1px 0px inset;
-  }
+}
+
+.specialAssistanceCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap-md-16, 16px);
+    align-self: stretch;
+    border-radius: 8px;
+    background: var(--background-paper-elevation-0, #FFF);
+
+    .specialAssistanceFormWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        align-self: stretch;
+    }
+
+    .specialAssistanceOptions {
+        display: flex;
+        flex-direction: row;
+        padding: 0px 16px;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 36px;
+        align-self: stretch;
+    }
+
+    .specialAssistanceRadios {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--padding-gap-sm-8, 8px);
+        align-self: stretch;
+
+        &:first-of-type {
+            margin-right: 46px;
+        }
+    }
+
+    .specialAssistanceHeader {
+        color: var(--Integrity-navy-default, #052A63);
+        font-feature-settings: 'liga' off, 'clig' off;
+
+        /* table/header */
+        font-family: Lato;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px;
+        /* 125% */
+        letter-spacing: 0.17px;
+    }
+
+    .specialAssistanceContainer {
+        display: flex;
+        flex-direction: column;
+        gap: var(--padding-gap-sm-8, 8px);
+        align-self: stretch;
+    }
+}

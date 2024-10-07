@@ -97,6 +97,7 @@ export const LeadDetailsProvider = ({ children }) => {
             partA,
             partB,
             hasMedicAid,
+            subsidyLevel,
             gender,
             weight,
             height,
@@ -115,6 +116,7 @@ export const LeadDetailsProvider = ({ children }) => {
             contactRecordType,
             notes,
             hasMedicAid,
+            subsidyLevel,
             gender,
             weight,
             height,
@@ -161,7 +163,7 @@ export const LeadDetailsProvider = ({ children }) => {
         const payload = removeNullAndEmptyFields(reqData);
         return await performAsyncOperation(
             () => editLeadDetails(payload, false, newPayload.leadsId),
-            () => {},
+            () => { },
             async (data) => {
                 await getLeadDetails(newPayload?.leadsId);
                 showToast({
@@ -182,7 +184,7 @@ export const LeadDetailsProvider = ({ children }) => {
             const formattedData = getFormattedData(newPayload, oldPayload);
             await performAsyncOperation(
                 () => editLeadDetails(formattedData, false, newPayload.leadsId),
-                () => {},
+                () => { },
                 async () => {
                     await getLeadDetails(newPayload?.leadsId);
                     showToast({
@@ -203,7 +205,7 @@ export const LeadDetailsProvider = ({ children }) => {
         async (leadId, callBack) => {
             await performAsyncOperation(
                 () => deleteContact(null, true, leadId),
-                () => {},
+                () => { },
                 () => {
                     callBack();
                 },

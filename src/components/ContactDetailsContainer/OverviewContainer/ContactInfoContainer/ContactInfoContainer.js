@@ -22,6 +22,7 @@ import { EditWithIcon, Favorite } from "../Icons";
 import { Hide } from "../Icons/Hide";
 import { Show } from "../Icons/Show";
 import ArrowDownBig from "components/icons/version-2/ArrowDownBig";
+import { Paper, Stack, Typography } from "@mui/material";
 
 const NOT_AVAILABLE = "-";
 
@@ -48,6 +49,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
         partA,
         partB,
         hasMedicAid,
+        subsidyLevel,
         contactRecordType,
         emailID,
         leadAddressId,
@@ -162,6 +164,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
         leadCountyFips,
         isPrimary,
         hasMedicAid,
+        subsidyLevel,
         contactRecordType: contactRecordType?.toLowerCase(),
         emailID,
         leadAddressId,
@@ -181,7 +184,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
             height,
             isTobaccoUser,
             modifyDate,
-            hasMedicAid: data.hasMedicAid === "Yes" ? 1 : 0,
+            hasMedicAid: Number(data.hasMedicAid),
             consumerId,
         };
         updateLeadDetails(payload);
@@ -312,8 +315,16 @@ export const ContactInfoContainer = ({ isMobile }) => {
                             </Box>
                         </SectionContainer>
                         <SectionContainer>
-                            <Label value="Medicaid" color="#717171" size="14px" />
-                            <Label value={hasMedicAid ? "Yes" : "No"} color="#052A63" size="16px" />
+                            <Paper className={styles.specialAssistanceCard} elevation="0">
+                                <Stack className={styles.specialAssistanceContainer} direction="row">
+                                    <Typography className={styles.specialAssistanceHeader} variant="custom">
+                                        Special Assistance
+                                    </Typography>
+                                    {hasMedicAid > 0 && <Typography variant="body1" color="#434A51">Medicaid</Typography>}
+                                    {subsidyLevel === "Yes" && <Typography variant="body1" color="#434A51">LIS</Typography>}
+                                    {!hasMedicAid && subsidyLevel != "Yes" && <Typography variant="body1" color="#434A51">None</Typography>}
+                                </Stack>
+                            </Paper>
                         </SectionContainer>
                         <Box display="flex" alignItems="center" justifyContent="center" marginTop="10px">
                             <Label value={`Created Date: ${leadCreatedDate}`} color="#717171" size="14px" />

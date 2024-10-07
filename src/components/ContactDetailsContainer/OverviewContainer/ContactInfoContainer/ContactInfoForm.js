@@ -27,6 +27,7 @@ import "pages/contacts/contactRecordInfo/contactRecordInfo.scss";
 
 import styles from "./ContactInfoContainer.module.scss";
 import { StyledElementName, StyledFormItem } from "./StyledComponents";
+import { Divider, Paper, Stack, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 
 import SelectableButtonGroup from "components/SelectableButtonGroup";
 
@@ -54,6 +55,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
         partA,
         partB,
         hasMedicAid,
+        subsidyLevel
     } = leadDetails;
 
     const {
@@ -176,7 +178,8 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 medicareBeneficiaryID: medicareBeneficiaryID ? formatMbiNumber(medicareBeneficiaryID) : "",
                 partA: partA ?? "",
                 partB: partB ?? "",
-                hasMedicAid: hasMedicAid ? "Yes" : "No",
+                hasMedicAid,
+                subsidyLevel
             }}
             validate={async (values) => {
                 return validationService.validateMultiple(
@@ -636,18 +639,48 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                         )}
                                     </StyledFormItem>
                                 </SectionContainer>
-
                                 <SectionContainer>
-                                    <StyledFormItem>
-                                        <SelectableButtonGroup
-                                            labelText={"Medicaid"}
-                                            selectedButtonText={values.hasMedicAid}
-                                            buttonOptions={["Yes", "No"]}
-                                            onSelect={(value) => {
-                                                setFieldValue("hasMedicAid", value);
-                                            }}
-                                        />
-                                    </StyledFormItem>
+                                    <Paper className={styles.specialAssistanceCard} elevation="0">
+                                        <Stack className={styles.specialAssistanceFormWrapper} direction="row">
+                                            <Typography className={styles.specialAssistanceHeader} variant="custom">
+                                                Special Assistance
+                                            </Typography>
+                                            <Stack className={styles.specialAssistanceOptions}>
+                                                <Typography variant="body1" color="#434A51">Y</Typography>
+                                                <Typography variant="body1" color="#434A51">N</Typography>
+                                                <Typography variant="body1" color="#434A51">IDK</Typography>
+                                            </Stack>
+                                            <Stack className={styles.specialAssistanceContainer}>
+                                                <Stack direction="row" className={styles.specialAssistanceRadios}>
+                                                    <Typography variant="body1" color="#434A51">Medicaid</Typography>
+                                                    <RadioGroup
+                                                        row
+                                                        name="hasMedicAid"
+                                                        value={values.hasMedicAid}
+                                                        onChange={evt => {
+                                                            setFieldValue("hasMedicAid", evt.target.value);
+                                                        }}
+                                                    >
+                                                        {[1, 0].map(option => <FormControlLabel value={option} control={<Radio />} />)}
+                                                    </RadioGroup>
+                                                </Stack>
+                                                <Divider />
+                                                <Stack direction="row" className={styles.specialAssistanceRadios}>
+                                                    <Typography variant="body1" color="#434A51">LIS</Typography>
+                                                    <RadioGroup
+                                                        row
+                                                        name="subsidyLevel"
+                                                        value={values.subsidyLevel}
+                                                        onChange={evt => {
+                                                            setFieldValue("subsidyLevel", evt.target.value);
+                                                        }}
+                                                    >
+                                                        {["Yes", "No", "I Don't Know"].map(option => <FormControlLabel value={option} control={<Radio />} />)}
+                                                    </RadioGroup>
+                                                </Stack>
+                                            </Stack>
+                                        </Stack>
+                                    </Paper>
                                 </SectionContainer>
 
                                 {duplicateLeadIds?.length > 0 && (
