@@ -49,7 +49,7 @@ const AskIntegrityModal = ({ open, onClose, askIntegrityList, leadData, view }) 
             open={open}
             onClose={onClose}
             title={
-                <Box display="flex">
+                <Box className={styles.subHeading}>
                     <span className={styles.askIntegrityTitleIcon}>
                         <AskIntegrity />
                     </span>

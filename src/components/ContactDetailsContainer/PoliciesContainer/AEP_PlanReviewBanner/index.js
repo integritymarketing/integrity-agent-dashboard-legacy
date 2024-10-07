@@ -25,30 +25,34 @@ const AEP_PlanReviewBanner = () => {
     };
 
     return (
-        <Box className={styles.aepPlanReviewBannerContainer}>
-            <Grid container className={styles.aepPlanReviewBanner}>
-                <Grid item md={8}>
-                    <Typography variant="h4" color="#052A63">
-                        AEP Plan Review
-                    </Typography>
-                    <Typography variant="body1" color="#434A51">
-                        Many Medicare plans are changing this year. Current carrier may offer alternatives for existing
-                        members. Make sure to complete an AEP plan review with your client
-                    </Typography>
-                </Grid>
-                <Grid item md={4} className={styles.buttonContainer}>
-                    <Button
-                        size="medium"
-                        variant="contained"
-                        color="primary"
-                        endIcon={<ArrowForwardWithCircle />}
-                        onClick={handleCarrierClick}
-                    >
-                        Current Carrier Plans
-                    </Button>
-                </Grid>
-            </Grid>
-        </Box>
+        <>
+            {isLeadHasAskIntegrityShoppersTags && (
+                <Box className={styles.aepPlanReviewBannerContainer}>
+                    <Grid container className={styles.aepPlanReviewBanner}>
+                        <Grid item md={8}>
+                            <Typography variant="h4" color="#052A63">
+                                AEP Plan Review
+                            </Typography>
+                            <Typography variant="body1" color="#434A51">
+                                Many Medicare plans are changing this year. Current carrier may offer alternatives for
+                                existing members. Make sure to complete an AEP plan review with your client
+                            </Typography>
+                        </Grid>
+                        <Grid item md={4} className={styles.buttonContainer}>
+                            <Button
+                                size="medium"
+                                variant="contained"
+                                color="primary"
+                                endIcon={<ArrowForwardWithCircle />}
+                                onClick={handleCarrierClick}
+                            >
+                                Current Carrier Plans
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Box>
+            )}
+        </>
     );
 };
 

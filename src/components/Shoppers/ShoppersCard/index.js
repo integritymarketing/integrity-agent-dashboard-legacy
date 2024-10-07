@@ -11,6 +11,7 @@ import styles from "./styles.module.scss";
 const ShoppersCard = ({ leadId, title, content, url, icon }) => {
     const navigate = useNavigate();
     const priority = title?.includes("1") ? "1" : title?.includes("2") ? "2" : "3";
+    const isShopper = title?.includes("Shopper");
 
     const { color, bgColor } = getShoppersColorScheme(priority);
 
@@ -43,28 +44,32 @@ const ShoppersCard = ({ leadId, title, content, url, icon }) => {
             </Grid>
             <Grid item md="10.5" xs="10">
                 <Box className={styles.shoppersHeader}>{title}</Box>
-                <TextFormatter inputText={content} fontSize="19px" color="#717171" />
-                <Box className={styles.plansButtons}>
-                    <Button
-                        size="small"
-                        variant="contained"
-                        color="primary"
-                        endIcon={<ArrowForwardWithCircle />}
-                        onClick={handleCarrierClick}
-                    >
-                        Current Carrier Plans
-                    </Button>
+                <TextFormatter inputText={content} fontSize="14px" color="#717171" />
+                {url && (
+                    <Box className={styles.plansButtons}>
+                        <Button
+                            size="small"
+                            variant="contained"
+                            color="primary"
+                            endIcon={<ArrowForwardWithCircle />}
+                            onClick={handleCarrierClick}
+                        >
+                            Current Carrier Plans
+                        </Button>
 
-                    <Button
-                        size="small"
-                        variant="text"
-                        color="primary"
-                        endIcon={<ArrowForwardWithCircle color="#4178FF" />}
-                        onClick={handleAllPlansClick}
-                    >
-                        All Available Plans
-                    </Button>
-                </Box>
+                        {isShopper && (
+                            <Button
+                                size="small"
+                                variant="text"
+                                color="primary"
+                                endIcon={<ArrowForwardWithCircle color="#4178FF" />}
+                                onClick={handleAllPlansClick}
+                            >
+                                All Available Plans
+                            </Button>
+                        )}
+                    </Box>
+                )}
             </Grid>
         </Grid>
     );

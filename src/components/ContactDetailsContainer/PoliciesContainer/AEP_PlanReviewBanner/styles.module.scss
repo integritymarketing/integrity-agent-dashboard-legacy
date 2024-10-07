@@ -5,6 +5,7 @@
     background: #ffffff;
     padding: 8px;
     margin-bottom: 56px;
+    width: 888px;
 }
 
 .aepPlanReviewBanner {
@@ -16,7 +17,7 @@
     background: #f1faff;
 
     @include small {
-        gap : "8px"
+        gap: "8px";
     }
 }
 
