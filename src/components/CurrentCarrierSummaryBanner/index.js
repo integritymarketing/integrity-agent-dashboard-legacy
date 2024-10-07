@@ -11,8 +11,8 @@ const CurrentCarrierSummaryBanner = ({ plans, plansCount, handleClear }) => {
 
     const getCarrierInfo = useCallback(() => {
         const queryParams = new URLSearchParams(window.location.search);
-        const carrierName = queryParams.get("carrierName");
-        return plans.find(p => p.marketingName === carrierName);
+        const carrierId = queryParams.get("carrierId");
+        return plans.find(p => p.carrierID == carrierId);
     }, [plans])
     const carrierInfo = getCarrierInfo();
 

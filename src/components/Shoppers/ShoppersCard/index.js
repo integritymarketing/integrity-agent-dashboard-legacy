@@ -14,20 +14,11 @@ const ShoppersCard = ({ leadId, title, content, url, icon }) => {
 
     const { color, bgColor } = getShoppersColorScheme(priority);
 
-    const getQueryParams = () => {
-        const queryString = url.split("?")[1];
-        const params = new URLSearchParams(queryString);
-        return {
-            carrierId: params.get("carrierId"),
-            planType: params.get("planType"),
-        };
-    };
-
     const handleCarrierClick = () => {
         const decodedURI = decodeURIComponent(url);
-        const { carrierId, planType } = getQueryParams(decodedURI);
+        const [, queryString] = decodedURI.split("?");
 
-        navigate(`/plans/${leadId}?carrierId=${carrierId}&planType=${planType}`);
+        navigate(`/plans/${leadId}?${queryString}`);
     };
 
     const handleAllPlansClick = () => {
