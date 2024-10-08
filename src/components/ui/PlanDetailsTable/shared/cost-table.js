@@ -25,8 +25,16 @@ const determinePharmacyCosts = (planData) => {
     const { selectedPharmacy } = usePharmacyContext();
 
     return selectedPharmacy.pharmacyId
-        ? planData?.estimatedCostCalculationRxs.find((rx) => rx?.pharmacyId == selectedPharmacy.pharmacyId)
-        : planData?.estimatedCostCalculationRxs.find((rx) => rx?.pharmacyType === 2 || rx?.isMailOrder);
+        ? planData?.pharmacyCosts?.find((rx) => rx?.pharmacyID == selectedPharmacy.pharmacyId)
+        : planData?.pharmacyCosts?.find((rx) => rx?.pharmacyType === 2 || rx?.isMailOrder);
+};
+
+const determineEstimatedCostCalculationsRxs = (planData) => {
+    const { selectedPharmacy } = usePharmacyContext();
+
+    return selectedPharmacy.pharmacyId
+        ? planData?.estimatedCostCalculationRxs?.find((rx) => rx?.pharmacyId == selectedPharmacy.pharmacyId)
+        : planData?.estimatedCostCalculationRxs?.find((rx) => rx?.pharmacyType === 2 || rx?.isMailOrder);
 };
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -45,7 +53,7 @@ function PremiumLabel() {
 }
 
 function PremiumCell({ planData }) {
-    const pharmacyCosts = determinePharmacyCosts(planData);
+    const pharmacyCosts = determineEstimatedCostCalculationsRxs(planData);
     const monthlyPremium = pharmacyCosts?.monthlyPlanPremium || 0;
 
     return (
@@ -75,7 +83,7 @@ function TotalEstLabel({ effectiveMonth, effectiveYear }) {
 }
 
 export function EstRxValue({ planData, monthNumber }) {
-    const pharmacyCosts = determinePharmacyCosts(planData);
+    const pharmacyCosts = determineEstimatedCostCalculationsRxs(planData);
     const drugCost = pharmacyCosts?.estimatedYearlyRxDrugCost || 0;
 
     return (
@@ -110,7 +118,7 @@ function getShortFormMonthSpan(monthNumber) {
 }
 
 export function TotalEstValue({ planData, monthNumber }) {
-    const pharmacyCosts = determinePharmacyCosts(planData);
+    const pharmacyCosts = determineEstimatedCostCalculationsRxs(planData);
     const totalDrugCost = pharmacyCosts?.estimatedYearlyTotalCost || 0;
 
     return (
@@ -174,7 +182,7 @@ const CostTable = ({ planData }) => {
         data.push({
             label: (
                 <EstRxLabel
-                    drugsCount={(pharmacyCosts?.length > 0 && pharmacyCosts?.drugCosts?.length) || 0}
+                    drugsCount={pharmacyCosts?.drugCosts?.length || 0}
                     effectiveYear={y}
                     effectiveMonth={getMonthShortName(parseInt(m) - 1)}
                 />
