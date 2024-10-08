@@ -74,6 +74,7 @@ const AskIntegrityModal = ({ open, onClose, askIntegrityList, leadData, view }) 
                             url={tagInfo?.interactionUrl}
                             icon={tagInfo?.tag?.tagIconUrl}
                             activityInteractionLabel={tagInfo?.interactionUrlLabel}
+                            activityInteractionIcon={tagInfo?.activityInteractionIconUrl}
                         />
                     </Box>
                 ))}

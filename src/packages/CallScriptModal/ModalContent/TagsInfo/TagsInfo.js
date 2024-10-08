@@ -62,6 +62,7 @@ function TagsInfo({ leadId }) {
                 url={tagInfo?.interactionUrl}
                 icon={tagInfo?.tag?.tagIconUrl}
                 activityInteractionLabel={tagInfo?.interactionUrlLabel}
+                activityInteractionIcon={tagInfo?.activityInteractionIconUrl}
             />
         </Box>
     );
