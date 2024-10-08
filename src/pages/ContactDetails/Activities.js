@@ -42,10 +42,14 @@ const Activities = ({ leadId }) => {
         }));
 
         setFilterValues(
-            [...new Set(formattedActivities.map((activity) => activity.activitySubject))].map((name) => ({
-                name,
-                selected: Boolean(activitiesFilters[name]),
-            }))
+            [...new Set(formattedActivities.map((activity) => activity.activitySubject))].map((name) => {
+                const activity = formattedActivities.find((act) => act.activitySubject === name);
+                return {
+                    name,
+                    selected: Boolean(activitiesFilters[name]),
+                    icon: activity?.activityIconUrl,
+                };
+            })
         );
     }, [leadDetails, activitiesFilters]);
 

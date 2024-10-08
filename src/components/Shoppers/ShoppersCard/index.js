@@ -8,7 +8,7 @@ import { getShoppersColorScheme } from "utils/shared-utils/sharedUtility";
 
 import styles from "./styles.module.scss";
 
-const ShoppersCard = ({ leadId, title, content, url, icon }) => {
+const ShoppersCard = ({ leadId, title, content, url, icon, activityInteractionLabel }) => {
     const navigate = useNavigate();
     const priority = title?.includes("1") ? "1" : title?.includes("2") ? "2" : "3";
     const isShopper = title?.includes("Shopper");
@@ -54,7 +54,7 @@ const ShoppersCard = ({ leadId, title, content, url, icon }) => {
                             endIcon={<ArrowForwardWithCircle />}
                             onClick={handleCarrierClick}
                         >
-                            Current Carrier Plans
+                            {activityInteractionLabel}
                         </Button>
 
                         {isShopper && (

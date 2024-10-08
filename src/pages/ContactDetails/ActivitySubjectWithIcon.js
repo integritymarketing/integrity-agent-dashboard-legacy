@@ -25,7 +25,7 @@ ImageToIcon.propTypes = {
     alt: PropTypes.string.isRequired,
 };
 
-const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId, showOnlyFilterIcon }) => {
+const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId, showOnlyFilterIcon, interactionIconUrl }) => {
     const iconComponent = useMemo(() => {
         const iconMapping = {
             "Contact Updated": <ContactUpdated />,
@@ -70,15 +70,15 @@ const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId, showOnl
             "Ask Integrity Suggests": <AskIntegritySuggests />,
             "Legacy Safeguard Eligible": showOnlyFilterIcon ? (
                 <ImageToIcon src={LegacySafeguard} alt="Legacy Safeguard Eligible" />
-            ) : iconURL ? (
-                <ImageToIcon src={iconURL} alt={activityId} />
+            ) : interactionIconUrl ? (
+                <ImageToIcon src={interactionIconUrl} alt={activityId} />
             ) : (
                 <Activity />
             ),
         };
 
-        return iconMapping[activitySubject] || <Activity />;
-    }, [activityId, activitySubject, iconURL, showOnlyFilterIcon]);
+        return iconURL ? <ImageToIcon src={iconURL} alt={activityId} /> : iconMapping[activitySubject] || <Activity />;
+    }, [activityId, activitySubject, interactionIconUrl, showOnlyFilterIcon, iconURL]);
 
     return <div className={styles.icon}>{iconComponent}</div>;
 };
@@ -88,6 +88,7 @@ ActivitySubjectWithIcon.propTypes = {
     iconURL: PropTypes.string,
     activityId: PropTypes.string,
     showOnlyFilterIcon: PropTypes.bool,
+    interactionIconUrl: PropTypes.string,
 };
 
 export default ActivitySubjectWithIcon;

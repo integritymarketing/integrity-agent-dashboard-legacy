@@ -300,8 +300,9 @@ export default function DashboardActivityTable({
                     <div className={styles.activityDataCell}>
                         <ActivitySubjectWithIcon
                             activitySubject={row?.original?.activities[0]?.activitySubject}
-                            iconURL={row?.original?.activities[0]?.activityInteractionIconUrl}
+                            interactionIconUrl={row?.original?.activities[0]?.activityInteractionIconUrl}
                             activityId={row?.original?.activities[0]?.activityId}
+                            iconURL={row?.original?.activities[0]?.activityIconUrl}
                         />
                         <Typography
                             color="#434A51"
@@ -404,8 +405,9 @@ export default function DashboardActivityTable({
                     <div className={styles.activityDataCell}>
                         <ActivitySubjectWithIcon
                             activitySubject={row?.original?.activities[0]?.activitySubject}
-                            iconURL={row?.original?.activities[0]?.activityInteractionIconUrl}
+                            interactionIconUrl={row?.original?.activities[0]?.activityInteractionIconUrl}
                             activityId={row?.original?.activities[0]?.activityId}
+                            iconURL={row?.original?.activities[0]?.activityIconUrl}
                         />
                         <Typography
                             color="#434A51"

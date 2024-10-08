@@ -71,7 +71,7 @@ export default function PlanCard({
 
     if (Object.keys(selectedPharmacy).length) {
         selectedPharmacyCosts = estimatedCostCalculationRxs?.find(
-            (rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId,
+            (rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId
         );
     } else {
         selectedPharmacyCosts = estimatedCostCalculationRxs?.find((rx) => rx?.isMailOrder);
@@ -90,12 +90,12 @@ export default function PlanCard({
     const validatePartialYearDrugCost = calculatePartialYearDrugCost(
         planData?.estimatedAnnualDrugCostPartialYear,
         planData?.drugPremium,
-        effectiveDate,
+        effectiveDate
     );
     const validatePartialMonthlyDrugCost = calculateMonthlyDrugCost(
         planData?.estimatedAnnualDrugCostPartialYear,
         planData?.drugPremium,
-        effectiveDate,
+        effectiveDate
     );
 
     const mailOrderNotApplicable =
@@ -159,12 +159,12 @@ export default function PlanCard({
                                     {validatePartialMonthlyDrugCost === "N/A"
                                         ? "N/A"
                                         : currencyFormatter.format(
-                                            Number(
-                                                selectedPharmacyCosts?.pharmacyType === 2
-                                                    ? mailOrder?.estMonthlyRxDrugCost
-                                                    : selectedPharmacyCosts?.estMonthlyRxDrugCost,
-                                            ),
-                                        )}
+                                              Number(
+                                                  selectedPharmacyCosts?.pharmacyType === 2
+                                                      ? mailOrder?.estMonthlyRxDrugCost
+                                                      : selectedPharmacyCosts?.estMonthlyRxDrugCost
+                                              )
+                                          )}
                                 </div>
                             </div>
                             <div className={`${!breakdownCollapsed ? "iconReverse" : ""}`}>
@@ -218,7 +218,9 @@ export default function PlanCard({
                 <div onClick={() => onDetailsClick(planData?.id)} className="planDetailsBtn">
                     Plan Details
                 </div>
-                <CommissionableInfo status={planData?.commissionable} />
+                {(planData?.planType === 1 || planData?.planType === 2) && (
+                    <CommissionableInfo status={planData?.commissionable} />
+                )}
                 {!planData?.nonLicensedPlan && (
                     <Button
                         label={"Apply"}
@@ -279,5 +281,4 @@ PlanCard.propTypes = {
     refresh: PropTypes.func.isRequired,
     leadId: PropTypes.string.isRequired,
     selectedPharmacy: PropTypes.object.isRequired,
-   
 };

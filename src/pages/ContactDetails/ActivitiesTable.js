@@ -141,8 +141,9 @@ export default function ActivitiesTable({
                     <div className={styles.activityDataCell}>
                         <ActivitySubjectWithIcon
                             activitySubject={row?.original?.activitySubject}
-                            iconURL={row?.original?.activityInteractionIconUrl}
+                            iconURL={row?.original?.activityIconUrl}
                             activityId={row?.original?.activityId}
+                            interactionIconUrl={row?.original?.activityInteractionIconUrl}
                         />
                         <div noWrap onClick={() => onActivityClick(row?.original)}>
                             <div className={styles.activitySubject}>
@@ -211,8 +212,9 @@ export default function ActivitiesTable({
                     <div className={styles.activityDataCell}>
                         <ActivitySubjectWithIcon
                             activitySubject={row?.original?.activitySubject}
-                            iconURL={row?.original?.activityInteractionIconUrl}
+                            iconURL={row?.original?.activityIconUrl}
                             activityId={row?.original?.activityId}
+                            interactionIconUrl={row?.original?.activityInteractionIconUrl}
                         />
                         <div noWrap onClick={() => onActivityClick(row?.original)}>
                             <div className={styles.activitySubject}>

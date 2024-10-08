@@ -126,6 +126,7 @@ export default function ActivityDetails({
                                 content={activityObj?.activityBody}
                                 url={activityObj?.activityInteractionURL}
                                 icon={activityObj?.activityInteractionIconUrl}
+                                activityInteractionLabel={activityObj?.activityInteractionLabel}
                             />
                         )}
                     </div>
