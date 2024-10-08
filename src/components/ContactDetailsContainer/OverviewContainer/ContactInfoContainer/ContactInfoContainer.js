@@ -184,7 +184,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
             height,
             isTobaccoUser,
             modifyDate,
-            hasMedicAid: Number(data.hasMedicAid),
+            hasMedicAid: data.hasMedicAid != null ? Number(data.hasMedicAid) : null,
             consumerId,
         };
         updateLeadDetails(payload);
