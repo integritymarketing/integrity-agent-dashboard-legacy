@@ -47,6 +47,7 @@ const PlanDetailsPage = () => {
     const [plan, setPlan] = useState();
     const [modalOpen, setModalOpen] = useState();
     const [shareModalOpen, setShareModalOpen] = useState(false);
+    const [filterPharmacyId, setFilterPharmacyId] = useState(null);
 
     const { isNonRTS_User } = useRoles();
     const { clientsService, plansService } = useClientServiceContext();
@@ -91,8 +92,11 @@ const PlanDetailsPage = () => {
     }, [contactId, planId, showToast, effectiveDate, fetchPharmacies, clientsService, plansService, pharmacies, selectedPharmacy]);
 
     useEffect(() => {
-        getContactAndPlanData();
-    }, []);
+        if(filterPharmacyId !== selectedPharmacy?.pharmacyId){
+            getContactAndPlanData();
+            setFilterPharmacyId(selectedPharmacy?.pharmacyId);
+        }
+    }, [selectedPharmacy]);
 
     return (
         <React.Fragment>

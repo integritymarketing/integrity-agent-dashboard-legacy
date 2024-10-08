@@ -22,9 +22,7 @@ export const PharmacyProvider = ({ children }) => {
             if (selectedPharmacyInPharmacies) {
                 setSelectedPharmacy(selectedPharmacyInPharmacies);
             }
-        }
-
-        if (pharmacies.length === 1) {
+        }else if (pharmacies.length === 1) {
             setSelectedPharmacy(pharmacies[0]);
         } else {
             const primaryPharmacy = pharmacies.find((pharmacy) => pharmacy.isPrimary);

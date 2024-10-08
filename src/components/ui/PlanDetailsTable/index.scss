@@ -233,9 +233,10 @@
 
 .pr-network-inOut {
     display: flex;
-    align-items:flex-start;
+    align-items: center;
 
     .pr-network-pharmacy {
+            margin-bottom: 5px;
             font-family: Lato;
             font-style: normal;
             font-weight: 400;
