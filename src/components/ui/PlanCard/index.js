@@ -85,7 +85,10 @@ export default function PlanCard({
 
     const { isNonRTS_User } = useRoles();
 
-    const disableEnroll = isNonRTS_User || shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
+    const disableEnroll =
+        isNonRTS_User ||
+        shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate) ||
+        (planData?.planType === 2 && planData?.commissionable === false);
 
     const validatePartialYearDrugCost = calculatePartialYearDrugCost(
         planData?.estimatedAnnualDrugCostPartialYear,
