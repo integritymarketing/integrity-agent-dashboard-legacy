@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import { useEffect } from "react";
+import React, { useCallback , useEffect } from "react";
+
 
 import PropTypes from "prop-types";
 import { useDuplicateContacts, useLeadDetails } from "providers/ContactDetails";
@@ -38,7 +38,7 @@ export const DuplicateContactNotificationBanner = () => {
 
     const handleMultipleDuplicates = useCallback(() => {
         if (duplicateLeadIds?.length) {
-            setFilteredDataHandle("duplicateLeadIds", duplicateLeadIds);
+            setFilteredDataHandle("duplicateLeadIds", null, duplicateLeadIds, null);
         }
         return true;
     }, [duplicateLeadIds]);
