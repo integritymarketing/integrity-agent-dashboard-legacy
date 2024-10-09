@@ -12,8 +12,8 @@ const CurrentCarrierSummaryBanner = ({ plans, plansCount, handleClear }) => {
     const getCarrierInfo = useCallback(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const carrierId = queryParams.get("carrierId");
-        return plans.find(p => p.carrierID == carrierId);
-    }, [plans])
+        return plans.find((p) => p.carrierID == carrierId);
+    }, [plans]);
     const carrierInfo = getCarrierInfo();
 
     return (
@@ -28,11 +28,12 @@ const CurrentCarrierSummaryBanner = ({ plans, plansCount, handleClear }) => {
                 {!isMobile ? (
                     <>
                         <Stack direction="row" className={styles.summary}>
-                            {carrierInfo?.logoURL &&
+                            {carrierInfo?.logoURL && (
                                 <img src={LOGO_BASE_URL + carrierInfo?.logoURL} className={styles.carrierLogo} />
-                            }
+                            )}
                             <Typography variant="body1">
-                                Showing <strong>{plansCount}</strong> plans from <strong>{carrierInfo?.marketingName}</strong>
+                                Showing <strong>{plansCount}</strong> plans from{" "}
+                                <strong>{carrierInfo?.marketingName}</strong>
                             </Typography>
                         </Stack>
                         <Button
@@ -48,14 +49,14 @@ const CurrentCarrierSummaryBanner = ({ plans, plansCount, handleClear }) => {
                 ) : (
                     <>
                         <div className={styles.topRowMobile}>
-                            {carrierInfo?.logoURL &&
+                            {carrierInfo?.logoURL && (
                                 <img src={LOGO_BASE_URL + carrierInfo?.logoURL} className={styles.carrierLogo} />
-                            }
+                            )}
                             <Button
                                 color="primary"
                                 size="small"
                                 variant="text"
-                                endIcon={<PreviewCollapse color="#4178FF" size="md" />}
+                                endIcon={<Close color="#4178FF" size="md" />}
                                 onClick={() => handleClear()}
                             >
                                 Clear Filter
@@ -64,14 +65,15 @@ const CurrentCarrierSummaryBanner = ({ plans, plansCount, handleClear }) => {
                         <Divider />
                         <div className={styles.bottomRowMobile}>
                             <Typography variant="body1">
-                                Showing <strong>{plansCount}</strong> plans from <strong>{carrierInfo?.marketingName}</strong>
+                                Showing <strong>{plansCount}</strong> plans from{" "}
+                                <strong>{carrierInfo?.marketingName}</strong>
                             </Typography>
                         </div>
                     </>
                 )}
             </Stack>
         </>
-    )
-}
+    );
+};
 
 export default CurrentCarrierSummaryBanner;
