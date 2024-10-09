@@ -13,6 +13,7 @@ import PolicyNoData from "components/PolicySnapShot/policy-no-data.svg";
 import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
 import UnlinkedPolicyList from "components/TaskList/UnlinkedPolicies";
 import { useClientServiceContext } from "services/clientServiceProvider";
+import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
 
 import WithLoader from "components/ui/WithLoader";
 import "./style.scss";
@@ -42,6 +43,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
     const navigate = useNavigate();
     const showToast = useToast();
     const { enrollPlansService } = useClientServiceContext();
+    const { setFilteredDataHandle } = useFilteredLeadIds();
 
     const { selectedFilterSections, setSelectedFilterSections } = useContactsListContext();
     const status = tabs[statusIndex]?.policyStatus;
@@ -96,8 +98,8 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
             const filterInfo = { status, policyStatusColor, policyCount };
 
-            window.localStorage.setItem("filterInfo", JSON.stringify(filterInfo));
-            window.localStorage.setItem("filterLeadIds", JSON.stringify(leadIds));
+            setFilteredDataHandle("filterLeadIds", "filterInfo", leadIds, filterInfo);
+
             navigate(`/contacts`);
         },
         [tabs, leadIds, navigate]

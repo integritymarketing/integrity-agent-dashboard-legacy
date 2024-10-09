@@ -8,6 +8,7 @@ import { useMemo, useContext, useEffect } from "react";
 import { useWindowSize } from "hooks/useWindowSize";
 import useAnalytics from "hooks/useAnalytics";
 import stageStatusContext from "contexts/stageStatus";
+import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
 
 function FilterResultBanner() {
     const {
@@ -20,6 +21,7 @@ function FilterResultBanner() {
         setFilterConditions,
     } = useContactsListContext();
     const { fireEvent } = useAnalytics();
+    const { removeFilteredLeadIds } = useFilteredLeadIds();
 
     const { statusOptions } = useContext(stageStatusContext);
 
@@ -33,6 +35,12 @@ function FilterResultBanner() {
         fireEvent("Closed Tag Filter");
         setTimeout(() => resetData([]), 100);
     };
+
+    useEffect(() => {
+        if (selectedFilterSections.length) {
+            removeFilteredLeadIds();
+        }
+    }, [selectedFilterSections, removeFilteredLeadIds]);
 
     const filterLabel = useMemo(() => {
         return selectedFilterSections

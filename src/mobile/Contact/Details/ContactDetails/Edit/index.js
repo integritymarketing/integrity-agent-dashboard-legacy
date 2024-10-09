@@ -13,6 +13,7 @@ import { formatDate } from "utils/dates";
 import ContactRecordTypes from "utils/contactRecordTypes";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets, formatMbiNumber } from "utils/shared-utils/sharedUtility";
+import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
 import CountyContext from "contexts/counties";
 import DatePickerMUI from "components/DatePicker";
 import styles from "./styles.module.scss";
@@ -23,6 +24,8 @@ const PrimaryContactTypes = [
 ];
 
 const EditDetails = (props) => {
+    const { setFilteredDataHandle } = useFilteredLeadIds();
+
     const {
         firstName = "",
         middleName = "",
@@ -110,7 +113,7 @@ const EditDetails = (props) => {
 
     const handleMultileDuplicates = () => {
         if (duplicateLeadIds.length) {
-            window.localStorage.setItem("duplicateLeadIds", JSON.stringify(duplicateLeadIds));
+            setFilteredDataHandle("duplicateLeadIds", duplicateLeadIds);
         }
         return true;
     };

@@ -3,6 +3,8 @@ import { useEffect } from "react";
 
 import PropTypes from "prop-types";
 import { useDuplicateContacts, useLeadDetails } from "providers/ContactDetails";
+import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
+
 import { toTitleCase } from "utils/toTitleCase";
 
 import Warning from "components/icons/warning";
@@ -13,6 +15,7 @@ export const DuplicateContactNotificationBanner = () => {
     const { leadDetails } = useLeadDetails();
 
     const { getDuplicateContacts, duplicateLeadIds, duplicateLeadIdName } = useDuplicateContacts();
+    const { setFilteredDataHandle } = useFilteredLeadIds();
 
     useEffect(() => {
         if (leadDetails?.leadsId) {
@@ -33,9 +36,9 @@ export const DuplicateContactNotificationBanner = () => {
         }
     }, [leadDetails, getDuplicateContacts]);
 
-    const handleMultileDuplicates = useCallback(() => {
+    const handleMultipleDuplicates = useCallback(() => {
         if (duplicateLeadIds?.length) {
-            window.localStorage.setItem("duplicateLeadIds", JSON.stringify(duplicateLeadIds));
+            setFilteredDataHandle("duplicateLeadIds", duplicateLeadIds);
         }
         return true;
     }, [duplicateLeadIds]);
@@ -49,7 +52,7 @@ export const DuplicateContactNotificationBanner = () => {
             );
         } else if (duplicateLeadIds.length > 1) {
             return (
-                <a onClick={handleMultileDuplicates} href="/contacts" target="_blank" rel="noopener noreferrer">
+                <a onClick={handleMultipleDuplicates} href="/contacts" target="_blank" rel="noopener noreferrer">
                     these contacts
                 </a>
             );

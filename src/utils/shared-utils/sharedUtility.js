@@ -186,3 +186,15 @@ export const getShoppersColorScheme = (title) => {
     };
     return colors[priority];
 };
+
+export const getAndResetItemFromLocalStorage = (key, initialValue) => {
+    try {
+        const item = window.localStorage.getItem(key);
+        const val = item ? JSON.parse(item) : initialValue;
+        return val;
+    } catch (error) {
+        Sentry.captureException(error);
+        window.localStorage.removeItem(key);
+        return initialValue;
+    }
+};

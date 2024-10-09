@@ -25,6 +25,7 @@ import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
 import CountyContext from "contexts/counties";
+import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
 
 import analyticsService from "services/analyticsService";
 import { useClientServiceContext } from "services/clientServiceProvider";
@@ -44,6 +45,7 @@ const NewContactForm = ({
     tags = [],
 }) => {
     const { get } = useQueryParams();
+    const { setFilteredDataHandle } = useFilteredLeadIds();
     const addNewDuplicateErrorRef = useRef();
     const { fireEvent } = useAnalytics();
     const callFrom = get("callFrom");
@@ -96,7 +98,7 @@ const NewContactForm = ({
                 };
             }
         },
-        [clientsService, showToast],
+        [clientsService, showToast]
     );
 
     const getContactLink = (id) => `/contact/${id}/overview`;
@@ -106,9 +108,9 @@ const NewContactForm = ({
     const goToContactPage = () => {
         navigate("/contacts/list");
     };
-    const handleMultileDuplicates = () => {
+    const handleMultipleDuplicates = () => {
         if (duplicateLeadIds.length) {
-            window.localStorage.setItem("duplicateLeadIds", JSON.stringify(duplicateLeadIds));
+            setFilteredDataHandle("duplicateLeadIds", duplicateLeadIds);
         }
         return true;
     };
@@ -240,7 +242,7 @@ const NewContactForm = ({
                             args: ["Medicare Beneficiary ID Number"],
                         },
                     ],
-                    values,
+                    values
                 );
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
@@ -634,7 +636,7 @@ const NewContactForm = ({
                                         handleBlur(e);
                                         setFieldValue(
                                             "medicareBeneficiaryID",
-                                            formatMbiNumber(values.medicareBeneficiaryID),
+                                            formatMbiNumber(values.medicareBeneficiaryID)
                                         );
                                     }}
                                 />
@@ -677,7 +679,6 @@ const NewContactForm = ({
 
                         <div className="mt-3 mb-3 border-bottom border-bottom--light" />
                         <div>
-
                             {duplicateLeadIds?.length > 0 && (
                                 <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>
                                     <div>
@@ -698,7 +699,7 @@ const NewContactForm = ({
                                                 to="/contacts"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                onClick={handleMultileDuplicates}
+                                                onClick={handleMultipleDuplicates}
                                             >
                                                 {" "}
                                                 view duplicates

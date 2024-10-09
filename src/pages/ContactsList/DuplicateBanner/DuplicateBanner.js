@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 
-import useDuplicateLeadIds from "../hooks/useDuplicateLeadIds";
+import useFilteredLeadIds from "../hooks/useFilteredLeadIds";
 
 import RoundCloseIcon from "components/icons/round-close";
 import { useContactsListContext } from "../providers/ContactsListProvider";
@@ -8,11 +8,11 @@ import styles from "./styles.module.scss";
 
 function DuplicateBanner() {
     const { refreshData } = useContactsListContext();
-    const { duplicateIds, removeDuplicateIds } = useDuplicateLeadIds();
+    const { duplicateIds, removeFilteredLeadIds } = useFilteredLeadIds();
     const count = duplicateIds?.length ?? 0;
 
     const onClickHandle = () => {
-        removeDuplicateIds();
+        removeFilteredLeadIds();
         refreshData();
     };
 

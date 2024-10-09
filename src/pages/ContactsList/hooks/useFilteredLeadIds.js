@@ -1,28 +1,94 @@
+import { useCallback, useEffect } from "react";
 import * as Sentry from "@sentry/react";
-import { useCallback } from "react";
+import { getAndResetItemFromLocalStorage } from "utils/shared-utils/sharedUtility";
 
-const getItemFromLocalStorage = (key) => {
+const removeItemFromLocalStorage = (key) => {
     try {
-        const item = window.localStorage.getItem(key);
-        const val = item ? JSON.parse(item) : null;
-        return val;
+        window.localStorage.removeItem(key);
     } catch (error) {
         Sentry.captureException(error);
-        window.localStorage.removeItem(key);
-        return null;
     }
 };
 
-function useFilteredLeadIds() {
-    const filteredInfo = getItemFromLocalStorage("filterInfo");
-    const filteredIds = getItemFromLocalStorage("filterLeadIds");
+const setItemInLocalStorage = (key, value) => {
+    try {
+        window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+        Sentry.captureException(error);
+    }
+};
 
+const removeMultipleItemsFromLocalStorage = (keys) => {
+    keys.forEach((key) => removeItemFromLocalStorage(key));
+};
+
+function useFilteredLeadIds() {
     const removeFilteredLeadIds = useCallback(() => {
-        window.localStorage.removeItem("filterLeadIds");
-        window.localStorage.removeItem("filterInfo");
+        removeItemFromLocalStorage("filteredLeadIds");
+        removeItemFromLocalStorage("filteredLeadInfo");
+        removeItemFromLocalStorage("duplicateLeadIds");
+        removeItemFromLocalStorage("campaignsLeadIds");
+        removeItemFromLocalStorage("campaignsLeadInfo");
     }, []);
 
-    return { filteredIds, filteredInfo, removeFilteredLeadIds };
+    const filteredInfo = getAndResetItemFromLocalStorage("filteredLeadInfo");
+    const filteredIds = getAndResetItemFromLocalStorage("filteredLeadIds");
+    const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
+    const campaignsLeadIds = getAndResetItemFromLocalStorage("campaignsLeadIds");
+    const campaignsLeadInfo = getAndResetItemFromLocalStorage("campaignsLeadInfo");
+
+    const setFilteredDataHandle = (key1, key2, leadIds, leadInfo) => {
+        handleStorageChange(key1);
+        setItemInLocalStorage(key1, leadIds);
+        if (key2 && leadInfo) setItemInLocalStorage(key2, leadInfo);
+    };
+
+    const handleStorageChange = useCallback((key) => {
+        if (key === "campaignsLeadIds") {
+            removeMultipleItemsFromLocalStorage([
+                "duplicateLeadIds",
+                "filteredLeadIds",
+                "filteredLeadInfo",
+                "contactList_filterSectionsConfig",
+                "contactList_selectedFilterSections",
+            ]);
+        } else if (key === "duplicateLeadIds") {
+            removeMultipleItemsFromLocalStorage([
+                "campaignsLeadIds",
+                "campaignsLeadInfo",
+                "filteredLeadIds",
+                "filteredLeadInfo",
+                "contactList_filterSectionsConfig",
+                "contactList_selectedFilterSections",
+            ]);
+        } else if (key === "filteredLeadIds") {
+            removeMultipleItemsFromLocalStorage(["campaignsLeadIds", "campaignsLeadInfo", "duplicateLeadIds"]);
+        }
+    }, []);
+
+    useEffect(() => {
+        const handleStorageEvent = (event) => {
+            if (event.key) {
+                handleStorageChange(event.key);
+            }
+        };
+
+        window.addEventListener("storage", handleStorageEvent);
+
+        return () => {
+            window.removeEventListener("storage", handleStorageEvent);
+        };
+    }, [handleStorageChange]);
+
+    return {
+        removeFilteredLeadIds,
+        filteredIds,
+        filteredInfo,
+        duplicateIds,
+        campaignsLeadIds,
+        campaignsLeadInfo,
+        setFilteredDataHandle,
+    };
 }
 
 export default useFilteredLeadIds;

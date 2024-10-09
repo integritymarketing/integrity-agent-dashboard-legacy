@@ -11,7 +11,7 @@ import useToast from "../../../hooks/useToast";
 import { formatPhoneNumber } from "utils/phones";
 import { formatDate } from "utils/dates";
 import PhoneLabels from "utils/phoneLabels";
-import ContactRecordTypes from "utils/contactRecordTypes";
+import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
 import analyticsService from "services/analyticsService";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 import CountyContext from "contexts/counties";
@@ -62,6 +62,7 @@ const DetailsEditContact = (props) => {
 
     const navigate = useNavigate();
     const { clientsService } = useClientServiceContext();
+    const { setFilteredDataHandle } = useFilteredLeadIds();
 
     const getContactLink = (id) => `/contact/${id}`;
     const goToContactDetailPage = (id) => {
@@ -106,7 +107,7 @@ const DetailsEditContact = (props) => {
 
     const handleMultileDuplicates = () => {
         if (duplicateLeadIds.length) {
-            window.localStorage.setItem("duplicateLeadIds", JSON.stringify(duplicateLeadIds));
+            setFilteredDataHandle("duplicateLeadIds", duplicateLeadIds);
         }
         return true;
     };
@@ -218,7 +219,7 @@ const DetailsEditContact = (props) => {
                             args: ["Medicare Beneficiary ID Number"],
                         },
                     ],
-                    values,
+                    values
                 );
                 return await isDuplicateContact(values, setDuplicateLeadIds, errors, leadsId);
             }}
@@ -283,8 +284,9 @@ const DetailsEditContact = (props) => {
                                     type="secondary"
                                 />
                                 <Button
-                                    className={`contact-details-submit submit-btn btn ${!dirty || !isValid ? "btn-disabled" : ""
-                                        }`}
+                                    className={`contact-details-submit submit-btn btn ${
+                                        !dirty || !isValid ? "btn-disabled" : ""
+                                    }`}
                                     data-gtm="new-contact-create-button"
                                     label="Save Changes"
                                     disabled={!dirty || !isValid}
@@ -541,7 +543,7 @@ const DetailsEditContact = (props) => {
                                                 onChange={(value) => {
                                                     setFieldValue("address.county", value);
                                                     const { key: fip, state } = allCounties.filter(
-                                                        (item) => item.value === value,
+                                                        (item) => item.value === value
                                                     )[0];
                                                     setFieldValue("address.countyFips", fip);
                                                     if (allCounties.length > 1) {
@@ -592,7 +594,7 @@ const DetailsEditContact = (props) => {
                                                 handleBlur(e);
                                                 setFieldValue(
                                                     "medicareBeneficiaryID",
-                                                    formatMbiNumber(values.medicareBeneficiaryID),
+                                                    formatMbiNumber(values.medicareBeneficiaryID)
                                                 );
                                             }}
                                         />
@@ -666,8 +668,9 @@ const DetailsEditContact = (props) => {
                                     </div>
                                 )}
                                 <div
-                                    className={` ${props.page === "plansPage" ? "save-btn-only" : ""
-                                        } btn-responsive-display mt-3`}
+                                    className={` ${
+                                        props.page === "plansPage" ? "save-btn-only" : ""
+                                    } btn-responsive-display mt-3`}
                                     style={{ display: "flex" }}
                                 >
                                     <Button
@@ -677,8 +680,9 @@ const DetailsEditContact = (props) => {
                                         onClick={() => props.setEdit(false)}
                                     />
                                     <Button
-                                        className={`contact-details-submit submit-btn btn ${!dirty || !isValid ? "btn-disabled" : ""
-                                            }`}
+                                        className={`contact-details-submit submit-btn btn ${
+                                            !dirty || !isValid ? "btn-disabled" : ""
+                                        }`}
                                         data-gtm="new-contact-create-button"
                                         label="Save Changes"
                                         disabled={!dirty || !isValid}

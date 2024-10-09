@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import { Box, Typography, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
+
 import styles from "./styles.module.scss";
 
 const statusMapping = {
@@ -24,15 +26,19 @@ const CampaignMetricCard = ({
     totalCount,
 }) => {
     const navigate = useNavigate();
+    const { setFilteredDataHandle } = useFilteredLeadIds();
+
     const handleJumpList = () => {
         if (count === 0) {
             return;
         }
-        localStorage.setItem("campaignsLeadIds", JSON.stringify(leadIds));
-        localStorage.setItem(
-            "campaignsLeadInfo",
-            JSON.stringify({ status: statusName, campaignName: campaignName, totalCount: totalCount }),
-        );
+
+        setFilteredDataHandle("campaignsLeadIds", "campaignsLeadInfo", leadIds, {
+            status: statusName,
+            campaignName: campaignName,
+            totalCount: totalCount,
+        });
+
         navigate("/contacts/list");
     };
 

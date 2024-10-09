@@ -6,17 +6,7 @@ import useToast from "hooks/useToast";
 
 import { useClientServiceContext } from "services/clientServiceProvider";
 
-const getAndResetItemFromLocalStorage = (key, initialValue) => {
-    try {
-        const item = window.localStorage.getItem(key);
-        const val = item ? JSON.parse(item) : initialValue;
-        return val;
-    } catch (error) {
-        Sentry.captureException(error);
-        window.localStorage.removeItem(key);
-        return initialValue;
-    }
-};
+import { getAndResetItemFromLocalStorage } from "utils/shared-utils/sharedUtility";
 
 function useFetchTableData() {
     const [isLoading, setIsLoading] = useState(false);

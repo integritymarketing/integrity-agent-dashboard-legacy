@@ -28,12 +28,12 @@ const Scroller = ({ cards, cardRenderer }) => {
                 return Math.max(Math.min(cards.length - 1, newIndex), 0);
             });
         },
-        [cards.length],
+        [cards.length]
     );
 
     useEffect(() => {
         const debouncedHandleResize = debounce(function handleResize() {
-            const { height, width } = cardsContainerRef.current.getBoundingClientRect();
+            const { height, width } = cardsContainerRef?.current?.getBoundingClientRect();
             setDimensions({
                 height,
                 width,
@@ -47,10 +47,10 @@ const Scroller = ({ cards, cardRenderer }) => {
     }, []);
 
     useEffect(() => {
-        const { width: scrollerCardWidth } = cardsContainerRef.current.children[0].getBoundingClientRect();
+        const { width: scrollerCardWidth } = cardsContainerRef?.current?.children[0]?.getBoundingClientRect();
         setShowLeftScrollButton(currentIndex * scrollerCardWidth > 0);
         setShowRightScrollButton(
-            (cards.length - currentIndex) * (scrollerCardWidth + cardGap) > dimensions.width + cardGap,
+            (cards.length - currentIndex) * (scrollerCardWidth + cardGap) > dimensions.width + cardGap
         );
         cardsContainerRef.current.scroll({
             top: 0,
