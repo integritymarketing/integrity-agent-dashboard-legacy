@@ -1,6 +1,7 @@
-import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
+import * as Sentry from "@sentry/react";
+
 /**
  * Renders a color option with styling and click handler.
  *
