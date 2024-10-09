@@ -113,7 +113,7 @@ const EditDetails = (props) => {
 
     const handleMultileDuplicates = () => {
         if (duplicateLeadIds.length) {
-            setFilteredDataHandle("duplicateLeadIds", duplicateLeadIds);
+            setFilteredDataHandle("duplicateLeadIds", "editContact", duplicateLeadIds, null);
         }
         return true;
     };

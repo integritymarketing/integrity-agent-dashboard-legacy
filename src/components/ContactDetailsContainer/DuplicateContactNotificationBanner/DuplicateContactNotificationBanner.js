@@ -38,7 +38,7 @@ export const DuplicateContactNotificationBanner = () => {
 
     const handleMultipleDuplicates = useCallback(() => {
         if (duplicateLeadIds?.length) {
-            setFilteredDataHandle("duplicateLeadIds", null, duplicateLeadIds, null);
+            setFilteredDataHandle("duplicateLeadIds", "contactDetailsBanner", duplicateLeadIds, null);
         }
         return true;
     }, [duplicateLeadIds]);

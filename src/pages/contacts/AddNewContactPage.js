@@ -110,7 +110,8 @@ const NewContactForm = ({
     };
     const handleMultipleDuplicates = () => {
         if (duplicateLeadIds.length) {
-            setFilteredDataHandle("duplicateLeadIds", duplicateLeadIds);
+            setFilteredDataHandle("duplicateLeadIds", "addNewContact", duplicateLeadIds, null);
+            
         }
         return true;
     };
