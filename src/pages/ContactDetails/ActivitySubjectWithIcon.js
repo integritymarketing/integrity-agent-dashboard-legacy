@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import PropTypes from "prop-types";
 import ApplicationSubmitted from "components/icons/ApplicationSubmitted";
 import Activity from "components/icons/activities/Activity";
@@ -68,6 +68,9 @@ const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId, showOnl
             "Provider Deleted": <PROVIDER />,
             "Medicaid Updated by Client": <MEDICAID />,
             "Ask Integrity Suggests": <AskIntegritySuggests />,
+            "Shopper Priority 1 - Major Coverage Changes": <AskIntegritySuggests color="#A9905F" bgColor="#E9E3D7" />,
+            "Shopper Priority 2 - Network or Prescription Changes": <AskIntegritySuggests color="#4178FF" bgColor="#F1FAFF" />,
+            "Shopper Priority 3 - Benefits Changes": <AskIntegritySuggests color="#052A63" bgColor="#F1FAFF" />,
             "Legacy Safeguard Eligible": showOnlyFilterIcon ? (
                 <ImageToIcon src={LegacySafeguard} alt="Legacy Safeguard Eligible" />
             ) : interactionIconUrl ? (
