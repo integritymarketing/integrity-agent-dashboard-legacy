@@ -6,6 +6,7 @@ import styles from "./MessageCard.module.scss";
 import BroadCast from "components/icons/version-2/Broadcast";
 import ArrowRightCircle from "components/icons/version-2/ArrowRightCircle";
 import { useWindowSize } from "hooks/useWindowSize";
+
 const FreeFormMessage = ({ formattedDate, formattedTime, hasViewed, campaignLogId, smsContent }) => {
     const navigate = useNavigate();
     const { width: windowWidth } = useWindowSize();
@@ -24,7 +25,7 @@ const FreeFormMessage = ({ formattedDate, formattedTime, hasViewed, campaignLogI
                     </div>
                 </Grid>
                 <Grid item xs={7} md={7}>
-                    {smsContent && <div dangerouslySetInnerHTML={{ __html: smsContent }}></div>}
+                    {smsContent && <div className={styles.wrappedContent} dangerouslySetInnerHTML={{ __html: smsContent }}></div>}
                 </Grid>
                 {isMobile && (
                     <Grid item xs={2}>
