@@ -11,7 +11,8 @@ import styles from "./styles.module.scss";
 const ShoppersCard = ({ leadId, title, content, url, icon, activityInteractionLabel, activityInteractionIcon }) => {
     const navigate = useNavigate();
     const priority = title?.includes("1") ? "1" : title?.includes("2") ? "2" : "3";
-    const isShopper = title?.toLowerCase().includes("shopper");
+    const isShopper = title?.toLowerCase()?.includes("shopper priority");
+
     const { color, bgColor } = getShoppersColorScheme(priority);
 
     const handleCarrierClick = () => {
@@ -80,8 +81,8 @@ ShoppersCard.propTypes = {
     content: PropTypes.string.isRequired,
     url: PropTypes.string,
     icon: PropTypes.string,
-    activityInteractionLabel: PropTypes.string.isRequired,
-    activityInteractionIcon: PropTypes.element,
+    activityInteractionLabel: PropTypes.string,
+    activityInteractionIcon: PropTypes.string,
 };
 
 export default ShoppersCard;

@@ -1,9 +1,10 @@
-import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
+import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Typography } from "@mui/material";
 import FooterButtons from "packages/FooterButtons";
 import CheckMark from "packages/ContactListFilterOptions/CheckMarkIcon/CheckMark";
+import ActivitySubjectWithIcon from "pages/ContactDetails/ActivitySubjectWithIcon";
 
 export default function FilterOptions({ values, onApply, multiSelect = true, onReset, showOnlyFilterIcon }) {
     const [updatedValues, setUpdatedValues] = useState([]);
@@ -11,7 +12,6 @@ export default function FilterOptions({ values, onApply, multiSelect = true, onR
     useEffect(() => {
         if (values) {
             const parsedValues = JSON.parse(JSON.stringify(values));
-            setUpdatedValues(parsedValues);
             if (!multiSelect) {
                 parsedValues.forEach((v) => {
                     v.selected = false;
@@ -84,7 +84,7 @@ export default function FilterOptions({ values, onApply, multiSelect = true, onR
                             onClick={(event) => handleListItemClick(event, i)}
                             key={row.name + i}
                         >
-                            <div style={{ display: "flex", padding: "0 8px" }}>
+                            <div style={{ display: "flex", padding: "0 8px", alignItems: "center" }}>
                                 <ActivitySubjectWithIcon
                                     activitySubject={row.name}
                                     showOnlyFilterIcon={showOnlyFilterIcon}
@@ -111,3 +111,17 @@ export default function FilterOptions({ values, onApply, multiSelect = true, onR
         </>
     );
 }
+
+FilterOptions.propTypes = {
+    values: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            selected: PropTypes.bool,
+            icon: PropTypes.string,
+        })
+    ).isRequired,
+    onApply: PropTypes.func.isRequired,
+    multiSelect: PropTypes.bool,
+    onReset: PropTypes.func.isRequired,
+    showOnlyFilterIcon: PropTypes.bool,
+};

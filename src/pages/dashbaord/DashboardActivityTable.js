@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useNavigate } from "react-router-dom";
 
@@ -86,6 +86,9 @@ const FILTER_OPTIONS = [
     { name: "Scope of Appointment Sent", selected: false },
     { name: "Scope of Appointment Completed", selected: false },
     { name: "Scope of Appointment Signed", selected: false },
+    { name: "Shopper Priority 1 - Major Coverage Changes", selected: false },
+    { name: "Shopper Priority 2 - Network or Prescription Changes", selected: false },
+    { name: "Shopper Priority 3 - Benefits Changes", selected: false },
     { name: "Stage Change", selected: false },
     { name: "Legacy Safeguard Eligible", selected: false },
 ];
