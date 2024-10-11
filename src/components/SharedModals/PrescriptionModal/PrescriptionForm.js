@@ -35,7 +35,7 @@ const PrescriptionForm = ({
 
     return (
         <Grid container rowSpacing={1} columnSpacing={3}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={12}>
                 <Box>
                     <Typography className={classes.customTypography}>Dosage</Typography>
                     <Select
@@ -49,7 +49,7 @@ const PrescriptionForm = ({
                     />
                 </Box>
             </Grid>
-            <Grid item xs={4} md={2}>
+            <Grid item xs={4} md={4}>
                 <Box>
                     <Typography className={classes.customTypography}>Quantity</Typography>
                     <TextField
@@ -63,7 +63,7 @@ const PrescriptionForm = ({
                     />
                 </Box>
             </Grid>
-            <Grid item xs={8} md={4}>
+            <Grid item xs={8} md={8}>
                 <Box>
                     <Typography className={classes.customTypography}>Frequency</Typography>
                     <Select
@@ -78,7 +78,7 @@ const PrescriptionForm = ({
                 </Box>
             </Grid>
             {packageOptions?.length > 0 && (
-                <Grid item xs={8} md={8}>
+                <Grid item xs={12} md={12}>
                     <Box>
                         <Typography className={classes.customTypography}>Packaging</Typography>
                         <Select
