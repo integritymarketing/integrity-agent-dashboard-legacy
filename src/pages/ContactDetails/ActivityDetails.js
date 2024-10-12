@@ -67,7 +67,7 @@ export default function ActivityDetails({
 
     const headerTitle = useMemo(() => {
         const value = activityObj?.activitySubject;
-        if (value.includes("Shopper") && activityObj?.activityTypeName === "Triggered") {
+        if (value?.toLowerCase()?.includes("shopper priority") && activityObj?.activityTypeName === "Triggered") {
             return "Ask Integrity Suggests";
         } else {
             return value;

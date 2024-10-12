@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useMemo } from "react";
 import { Button, Box, Grid } from "@mui/material";
 import TextFormatter from "components/Shoppers/ShoppersTextFormat";
 import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCircle";
@@ -26,6 +27,19 @@ const ShoppersCard = ({ leadId, title, content, url, icon, activityInteractionLa
         navigate(`/plans/${leadId}`);
     };
 
+    const isHaveCarrierId = useMemo(() => {
+        // Create a URL object
+        const urlObj = new URL(url);
+
+        // Use URLSearchParams to get the query parameters
+        const params = new URLSearchParams(urlObj.search);
+
+        // Get the carrierId value
+        const carrierId = params.get("carrierId");
+
+        return carrierId === null || carrierId === 0 || carrierId === "0" || carrierId === undefined ? false : true;
+    }, [url]);
+
     return (
         <Grid container className={styles.shoppersCard}>
             <Grid item md="1.5" xs="2">
@@ -47,15 +61,17 @@ const ShoppersCard = ({ leadId, title, content, url, icon, activityInteractionLa
                 <TextFormatter inputText={content} fontSize="14px" color="#717171" />
                 {url && (
                     <Box className={styles.plansButtons}>
-                        <Button
-                            size="small"
-                            variant="contained"
-                            color="primary"
-                            endIcon={activityInteractionIcon ? activityInteractionIcon : <ArrowForwardWithCircle />}
-                            onClick={handleCarrierClick}
-                        >
-                            {activityInteractionLabel}
-                        </Button>
+                        {isHaveCarrierId && (
+                            <Button
+                                size="small"
+                                variant="contained"
+                                color="primary"
+                                endIcon={activityInteractionIcon ? activityInteractionIcon : <ArrowForwardWithCircle />}
+                                onClick={handleCarrierClick}
+                            >
+                                {activityInteractionLabel}
+                            </Button>
+                        )}
 
                         {isShopper && (
                             <Button
