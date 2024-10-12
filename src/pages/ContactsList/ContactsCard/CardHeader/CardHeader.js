@@ -40,7 +40,6 @@ function CardHeader({ item }) {
                     <Link to={`/contact/${item.leadsId}`} className={styles.customLink}>
                         {getName(item)}
                     </Link>
-                    {item.leadSource === "Import" && <Box className={styles.tag}>MARKETING LEAD</Box>}
                 </Box>
             </Box>
             <Box>

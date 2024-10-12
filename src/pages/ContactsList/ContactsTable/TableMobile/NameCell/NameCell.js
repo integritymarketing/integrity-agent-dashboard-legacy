@@ -15,7 +15,6 @@ const NameCell = ({ row }) => {
             <Link to={`/contact/${row.leadsId}`} className={styles.customLink}>
                 {name}
             </Link>
-            {row.leadSource === "Import" && <Box className={styles.tag}>MARKETING LEAD</Box>}
         </Box>
     );
 };

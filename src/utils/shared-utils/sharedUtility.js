@@ -199,3 +199,19 @@ export const getAndResetItemFromLocalStorage = (key, initialValue) => {
         return initialValue;
     }
 };
+
+export const isHaveCarrierId = (url) => {
+    if (!url) {
+        return false;
+    }
+    // Create a URL object
+    const urlObj = new URL(url);
+
+    // Use URLSearchParams to get the query parameters
+    const params = new URLSearchParams(urlObj.search);
+
+    // Get the carrierId value
+    const carrierId = params.get("carrierId");
+
+    return carrierId === null || carrierId === 0 || carrierId === "0" || carrierId === undefined ? false : true;
+};

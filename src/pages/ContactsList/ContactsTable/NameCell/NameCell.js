@@ -24,7 +24,6 @@ function NameCell({ row }) {
             <Link to={`/contact/${row.original.leadsId}`} className={styles.customLink}>
                 {name}
             </Link>
-            {row.original.leadSource === "Import" && <Box className={styles.tag}>MARKETING LEAD</Box>}
         </>
     );
 }

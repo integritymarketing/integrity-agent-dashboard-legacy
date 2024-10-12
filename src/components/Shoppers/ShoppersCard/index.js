@@ -5,7 +5,7 @@ import TextFormatter from "components/Shoppers/ShoppersTextFormat";
 import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCircle";
 import AskIntegritySuggests from "components/icons/activities/AskIntegritySuggests";
 import { useNavigate } from "react-router-dom";
-import { getShoppersColorScheme } from "utils/shared-utils/sharedUtility";
+import { getShoppersColorScheme, isHaveCarrierId } from "utils/shared-utils/sharedUtility";
 
 import styles from "./styles.module.scss";
 
@@ -27,18 +27,7 @@ const ShoppersCard = ({ leadId, title, content, url, icon, activityInteractionLa
         navigate(`/plans/${leadId}`);
     };
 
-    const isHaveCarrierId = useMemo(() => {
-        // Create a URL object
-        const urlObj = new URL(url);
-
-        // Use URLSearchParams to get the query parameters
-        const params = new URLSearchParams(urlObj.search);
-
-        // Get the carrierId value
-        const carrierId = params.get("carrierId");
-
-        return carrierId === null || carrierId === 0 || carrierId === "0" || carrierId === undefined ? false : true;
-    }, [url]);
+    const showButton = isHaveCarrierId(url);
 
     return (
         <Grid container className={styles.shoppersCard}>
@@ -61,7 +50,7 @@ const ShoppersCard = ({ leadId, title, content, url, icon, activityInteractionLa
                 <TextFormatter inputText={content} fontSize="14px" color="#717171" />
                 {url && (
                     <Box className={styles.plansButtons}>
-                        {isHaveCarrierId && (
+                        {showButton && (
                             <Button
                                 size="small"
                                 variant="contained"

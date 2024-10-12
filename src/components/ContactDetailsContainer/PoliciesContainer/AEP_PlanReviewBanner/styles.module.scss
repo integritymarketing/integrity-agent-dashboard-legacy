@@ -6,6 +6,9 @@
     padding: 8px;
     margin-bottom: 56px;
     width: 888px;
+    @include small {
+        width: 100%;
+    }
 }
 
 .aepPlanReviewBanner {

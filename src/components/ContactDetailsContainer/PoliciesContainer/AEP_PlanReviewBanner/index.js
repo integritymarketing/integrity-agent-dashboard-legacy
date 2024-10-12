@@ -5,6 +5,7 @@ import { Typography, Button, Grid } from "@mui/material";
 import ArrowForwardWithCircle from "components/icons/version-2/ArrowForwardWithCircle";
 import { useLeadDetails } from "providers/ContactDetails";
 import { useNavigate } from "react-router-dom";
+import { isHaveCarrierId } from "utils/shared-utils/sharedUtility";
 import styles from "./styles.module.scss";
 
 const AEP_PlanReviewBanner = () => {
@@ -25,25 +26,14 @@ const AEP_PlanReviewBanner = () => {
         navigate(`/plans/${leadId}?${queryString}`);
     };
 
-    const isHaveCarrierId = useMemo(() => {
-        // Create a URL object
-        const urlObj = new URL(url);
-
-        // Use URLSearchParams to get the query parameters
-        const params = new URLSearchParams(urlObj.search);
-
-        // Get the carrierId value
-        const carrierId = params.get("carrierId");
-
-        return carrierId === null || carrierId === 0 || carrierId === "0" || carrierId === undefined ? false : true;
-    }, [url]);
+    const showButton = isHaveCarrierId(url);
 
     return (
         <>
             {isLeadHasAskIntegrityShoppersTags && (
                 <Box className={styles.aepPlanReviewBannerContainer}>
                     <Grid container className={styles.aepPlanReviewBanner}>
-                        <Grid item md={8}>
+                        <Grid item md={showButton ? 8 : 12}>
                             <Typography variant="h4" color="#052A63">
                                 AEP Plan Review
                             </Typography>
@@ -52,7 +42,7 @@ const AEP_PlanReviewBanner = () => {
                                 existing members. Make sure to complete an AEP plan review with your client
                             </Typography>
                         </Grid>
-                        {isHaveCarrierId && (
+                        {showButton && (
                             <Grid item md={4} className={styles.buttonContainer}>
                                 <Button
                                     size="medium"
