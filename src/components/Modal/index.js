@@ -68,6 +68,7 @@ export default function Modal({
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
+                        lineHeight: "32px",
                     }}
                 >
                     <span>{title}</span>

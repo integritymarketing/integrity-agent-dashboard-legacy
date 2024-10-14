@@ -104,7 +104,25 @@ const ComparePlanModal = ({
         const stateCode = addresses?.[0]?.stateCode;
         const countyFIPS = addresses?.[0]?.countyFips;
         const urlPathName = window.location.pathname;
-        const planCompareUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}`;
+        let planCompareUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}`;
+
+        const extractIdsFromUrl = (url) => {
+            const match = url.match(/\/compare\/([^/]+)/);
+            return match ? match[1].split(",") : [];
+        };
+
+        const buildUrlWithFilteredIds = (url, selectedIds) => {
+            const idsArray = extractIdsFromUrl(url);
+            const filteredIds = idsArray.filter((id) => selectedIds.includes(id));
+            const filteredIdsString = filteredIds.join(",");
+            const baseUrl = url.split("/compare/")[0];
+            const date = url.split("/").pop();
+            const newUrl = `${baseUrl}/compare/${filteredIdsString}/${date}`;
+            return newUrl;
+        };
+
+        const selectedIds = comparePlans?.map((plan) => plan.id) || [];
+        planCompareUrl = buildUrlWithFilteredIds(planCompareUrl, selectedIds);
         let updatedRoles;
         if (typeof roles === "string") {
             updatedRoles = [roles];
@@ -296,7 +314,7 @@ const ComparePlanModal = ({
                                                     } text-input`}
                                                     onChange={(e) => {
                                                         setFormattedMobile(
-                                                            formatPhoneNumber(e.currentTarget.value.replace(/\D/g, ""))
+                                                            formatPhoneNumber(e.currentTarget.value.replace(/\D/g, "")),
                                                         );
                                                     }}
                                                 />
