@@ -22,7 +22,7 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
             ? selectedPharmacyCosts?.monthlyCosts?.filter((mc) => mc.monthID <= 12 - parseInt(monthNumber))
             : [];
     const [expandedMonths, setExpandedMonths] = useState({});
-    const [showMore, setShowMore] = useState(false);
+    const [showMore, setShowMore] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
     const monthlyPrescriptionDetailsColumns = React.useMemo(
         () => [
@@ -139,8 +139,8 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
         <>
             <Media
                 query={"(max-width: 500px)"}
-                onChange={(isMobile) => {
-                    setIsMobile(isMobile);
+                onChange={(matches) => {
+                    setIsMobile(matches);
                 }}
             />
             {isShowMore && (
