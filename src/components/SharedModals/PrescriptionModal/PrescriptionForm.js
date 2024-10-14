@@ -82,6 +82,8 @@ const PrescriptionForm = ({
                     <Box>
                         <Typography className={classes.customTypography}>Packaging</Typography>
                         <Select
+                            selectContainerClassName={styles.distanceSelectContainer}
+                            inputBoxClassName={styles.distanceInputBox}
                             providerModal={true}
                             initialValue={dosagePackage}
                             options={packageOptions}
