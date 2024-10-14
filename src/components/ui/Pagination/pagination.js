@@ -66,7 +66,7 @@ const Pagination = ({
     ...props
 }) => {
     const handlePageChange = (page) => {
-        if (page < 1 || page > totalPages || page === currentPage) return noop;
+        if (page < 1 || page > totalPages || page === currentPage) {return noop;}
         return () => onPageChange(page);
     };
 
@@ -76,7 +76,7 @@ const Pagination = ({
     return (
         <Media
             queries={{
-                large: "(min-width: 768px)",
+                large: "(min-width: 500px)",
             }}
         >
             {(matches) =>

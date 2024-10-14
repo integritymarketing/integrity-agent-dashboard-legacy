@@ -244,9 +244,9 @@ const PlansPage = () => {
     const [showCurrentCarrierSummary, setShowCurrentCarrierSummary] = useState(false);
 
     const checkForCurrentCarrierSummary = (contactData) => {
-        let currentCarrierTag = contactData.leadTags.find(t => {
+        const currentCarrierTag = contactData.leadTags.find(t => {
             const labelMatches = t.interactionUrlLabel?.toLowerCase() === "current carrier plans";
-            if (!labelMatches) return false;
+            if (!labelMatches) {return false;}
             const [, currentCarrierQuery] = t.interactionUrl.split("?");
             const urlMatches = `?${currentCarrierQuery}` === window.location.search;
             return labelMatches && urlMatches;
@@ -861,6 +861,7 @@ const PlansPage = () => {
                                                         totalResults={filteredPlansCount}
                                                         pageSize={pageSize}
                                                         onPageChange={(page) => setCurrentPage(page)}
+                                                        providerPagination={isMobile}
                                                     />
                                                 </div>
                                             )}
