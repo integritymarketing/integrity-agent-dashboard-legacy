@@ -12,7 +12,7 @@ const useArrayMerger = (policyArray, leadArray) => {
         const newArray = [];
 
         for (const lead of leadArray) {
-            const matchingPolicy = policyArray.find((policy) => policy.leadId === lead.leadsId);
+            const matchingPolicy = policyArray?.find((policy) => policy.leadId === lead.leadsId);
 
             if (matchingPolicy) {
                 const mergedObject = {

@@ -4,8 +4,6 @@ import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import useFetchTableData from "../hooks/useFetchTableData";
-import usePolicyCount from "../hooks/usePolicyCount";
-import useArrayMerger from "../hooks/useArrayMerger";
 
 import Spinner from "components/ui/Spinner/index";
 import { filterSectionsConfig as filterSectionsConfigOriginal } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
@@ -61,8 +59,6 @@ export const ContactsListProvider = ({ children }) => {
         fetchTableDataWithoutFilters,
         pageResult,
     } = useFetchTableData();
-    const { policyCounts, isLoading: loadingPolicyCount } = usePolicyCount(allLeads);
-    const mergedData = useArrayMerger(policyCounts, tableData);
 
     const fetchAllListCount = useCallback(async () => {
         if (!withoutFilterResponseSize) {
@@ -126,7 +122,7 @@ export const ContactsListProvider = ({ children }) => {
 
     const contextValue = useMemo(
         () => ({
-            tableData: mergedData,
+            tableData: tableData,
             fetchTableData,
             withoutFilterResponseSize,
             setWithoutFilterResponseSize,
@@ -148,7 +144,6 @@ export const ContactsListProvider = ({ children }) => {
             refreshData,
             pageResult,
             setPageSize,
-            policyCounts,
             selectedFilterSections,
             setSelectedFilterSections,
             filterSectionsConfig,
@@ -159,7 +154,7 @@ export const ContactsListProvider = ({ children }) => {
             setFilterConditions
         }),
         [
-            mergedData,
+            tableData,
             fetchTableData,
             searchString,
             pageSize,
@@ -173,7 +168,6 @@ export const ContactsListProvider = ({ children }) => {
             withoutFilterResponseSize,
             pageResult,
             fetchSilently,
-            policyCounts,
             selectedFilterSections,
             setSelectedFilterSections,
             filterSectionsConfig,
@@ -202,7 +196,7 @@ export const ContactsListProvider = ({ children }) => {
         setLayout(location.pathname === CARD_PATH ? "card" : "list");
     }, [location.pathname]);
 
-    if (isfetchingTableData || isLoading || loadingPolicyCount) {
+    if (isfetchingTableData || isLoading) {
         return <Spinner />;
     }
 
