@@ -43,11 +43,11 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
     const isApiCallInitiated = useRef(false);
     const [tagsList, setTagsList] = useState([]);
     const [filterSectionsConfig, setFilterSectionsConfigState] = useState(
-        JSON.parse(sessionStorage.getItem("campaign_contactList_filterSectionsConfig")) || filterSectionsConfigOriginal
+        JSON.parse(sessionStorage.getItem("campaign_contactList_filterSectionsConfig")) || filterSectionsConfigOriginal,
     );
 
     const [selectedFilterSections, setSelectedFilterSectionsState] = useState(
-        JSON.parse(sessionStorage.getItem("campaign_contactList_selectedFilterSections")) || []
+        JSON.parse(sessionStorage.getItem("campaign_contactList_selectedFilterSections")) || [],
     );
 
     const { statusOptions } = useContext(StageStatusContext);
@@ -103,8 +103,8 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                 } else if (section.option) {
                     thisItemLabel = `<span>
                 ${section.heading} ${
-                        item.selectedIsOption === "is_not" ? "is not" : "is"
-                    } <span style="font-weight:bold">${section.option.label || ""}</span>
+                    item.selectedIsOption === "is_not" ? "is not" : "is"
+                } <span style="font-weight:bold">${section.option.label || ""}</span>
               </span>`;
                 }
                 return thisItemLabel + andOrLabel;
@@ -114,7 +114,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
 
     useEffect(() => {
         const selectedFilterSections = JSON.parse(
-            sessionStorage.getItem("campaign_contactList_selectedFilterSections")
+            sessionStorage.getItem("campaign_contactList_selectedFilterSections"),
         );
         if (selectedFilterSections?.length > 0 && tableData?.length === 0 && filteredEligibleCount === 0) {
             resetData(selectedFilterSections);
@@ -148,7 +148,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                 });
             }
         },
-        [searchId, , statusOptionsMap]
+        [searchId, , statusOptionsMap],
     );
 
     const setFilterSectionsConfig = useCallback(
@@ -156,7 +156,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
             setFilterSectionsConfigState(newValue);
             sessionStorage.setItem("campaign_contactList_filterSectionsConfig", JSON.stringify(newValue));
         },
-        [setFilterSectionsConfigState]
+        [setFilterSectionsConfigState],
     );
 
     const setSelectedFilterSections = useCallback(
@@ -164,7 +164,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
             setSelectedFilterSectionsState(filters);
             sessionStorage.setItem("campaign_contactList_selectedFilterSections", JSON.stringify(filters));
         },
-        [setSelectedFilterSectionsState]
+        [setSelectedFilterSectionsState],
     );
 
     useEffect(() => {
@@ -186,21 +186,21 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
             const campaignInterestObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Interest");
             const askIntegrityObject =
                 dataWithFalse.find(
-                    (item) => item.tagCategoryName === "Ask Integrity Recommendations" && item.tags.length > 0
+                    (item) => item.tagCategoryName === "Ask Integrity Recommendations" && item.tags.length > 0,
                 ) ||
                 dataWithFalse.find((item) => item.tagCategoryName === "Ask Integrity Suggests" && item.tags.length > 0);
             const customTagsObject = data.find((item) => item.tagCategoryName === "Other");
             const productTypePdpOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "PDP" && item.tagIconUrl
+                (item) => item.tagLabel === "PDP" && item.tagIconUrl,
             );
             const productTypeMapdOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "MAPD" && item.tagIconUrl
+                (item) => item.tagLabel === "MAPD" && item.tagIconUrl,
             );
             const productTypeFinalExpenseOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "FINAL EXPENSE" || item.tagLabel === "FEXP"
+                (item) => item.tagLabel === "FINAL EXPENSE" || item.tagLabel === "FEXP",
             );
             const productTypeMedicareAdvantageOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "MEDICARE ADVANTAGE" || item.tagLabel === "HEALTH"
+                (item) => item.tagLabel === "MEDICARE ADVANTAGE" || item.tagLabel === "HEALTH",
             );
             const productTypeOptions = [
                 {
@@ -234,7 +234,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                     (item) =>
                         (item.tagLabel === "SOA SIGNED" && item.tagIconUrl) ||
                         (item.tagLabel === "SOA SENT" && item.tagIconUrl) ||
-                        item.tagLabel === "SOA COMPLETED"
+                        item.tagLabel === "SOA COMPLETED",
                 )
                 .map((item) => ({
                     label: item.tagLabel,
@@ -269,7 +269,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                             icon:
                                 item.tagIconUrl ||
                                 filterSectionsConfigOriginal.carrier.options.find(
-                                    (item1) => item1.label === item.tagLabel
+                                    (item1) => item1.label === item.tagLabel,
                                 )?.icon ||
                                 "",
                         })) || [],
@@ -282,7 +282,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                         icon:
                             item.tagIconUrl ||
                             filterSectionsConfigOriginal.product_status.options.find(
-                                (item1) => item1.label === item.tagLabel
+                                (item1) => item1.label === item.tagLabel,
                             )?.icon ||
                             "",
                         iconClassName: stylesFilterSectionBox.menuItemIconMedium,
@@ -316,7 +316,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                         icon:
                             item.tagIconUrl ||
                             filterSectionsConfigOriginal.campaign_type.options.find(
-                                (item1) => item1.label === item.tagLabel
+                                (item1) => item1.label === item.tagLabel,
                             )?.icon ||
                             "",
                     })),
@@ -389,6 +389,28 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                             ?.tagId,
                         icon:
                             askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 3"))
+                                ?.tagIconUrl || Askintegrity,
+                    },
+                },
+                "Shopper Priority 4...": {
+                    heading: "Ask Integrity Suggests",
+                    option: {
+                        label: "Shopper Priority 4...",
+                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 4"))
+                            ?.tagId,
+                        icon:
+                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 4"))
+                                ?.tagIconUrl || Askintegrity,
+                    },
+                },
+                "Shopper Priority 5...": {
+                    heading: "Ask Integrity Suggests",
+                    option: {
+                        label: "Shopper Priority 5...",
+                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 5"))
+                            ?.tagId,
+                        icon:
+                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 5"))
                                 ?.tagIconUrl || Askintegrity,
                     },
                 },
@@ -710,6 +732,22 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                                     onClick={() => handleFilterOptionClick("Shopper Priority 3...")}
                                 >
                                     Shopper Priority 3...
+                                </Box>
+                            )}
+                            {filterSectionsConfig.sep.option.value && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("Shopper Priority 4...")}
+                                >
+                                    Shopper Priority 4...
+                                </Box>
+                            )}
+                            {filterSectionsConfig.sep.option.value && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("Shopper Priority 5...")}
+                                >
+                                    Shopper Priority 5...
                                 </Box>
                             )}
                         </span>

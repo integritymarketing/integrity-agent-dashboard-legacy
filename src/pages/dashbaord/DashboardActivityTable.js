@@ -89,6 +89,8 @@ const FILTER_OPTIONS = [
     { name: "Shopper Priority 1 - Major Coverage Changes", selected: false },
     { name: "Shopper Priority 2 - Network or Prescription Changes", selected: false },
     { name: "Shopper Priority 3 - Benefits Changes", selected: false },
+    { name: "Shopper Priority 4 - Plan Review Recommended", selected: false },
+    { name: "Shopper Priority 5 - May Benefit from Plan Review", selected: false },
     { name: "Stage Change", selected: false },
     { name: "Legacy Safeguard Eligible", selected: false },
 ];

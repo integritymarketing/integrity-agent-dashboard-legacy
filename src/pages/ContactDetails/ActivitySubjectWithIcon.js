@@ -71,6 +71,8 @@ const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId, showOnl
             "Shopper Priority 1 - Major Coverage Changes": <AskIntegritySuggests color="#A9905F" bgColor="#E9E3D7" />,
             "Shopper Priority 2 - Network or Prescription Changes": <AskIntegritySuggests color="#4178FF" bgColor="#F1FAFF" />,
             "Shopper Priority 3 - Benefits Changes": <AskIntegritySuggests color="#052A63" bgColor="#F1FAFF" />,
+            "Shopper Priority 4 - Plan Review Recommended": <AskIntegritySuggests color="#666666" bgColor="#F1F1F1" />,
+            "Shopper Priority 5 - May Benefit from Plan Review": <AskIntegritySuggests color="#999999" bgColor="#F1F1F1" />,
             "Legacy Safeguard Eligible": showOnlyFilterIcon ? (
                 <ImageToIcon src={LegacySafeguard} alt="Legacy Safeguard Eligible" />
             ) : interactionIconUrl ? (

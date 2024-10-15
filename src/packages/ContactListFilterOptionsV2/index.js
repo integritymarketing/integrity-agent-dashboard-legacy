@@ -273,11 +273,33 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                 "Shopper Priority 3...": {
                     heading: "Ask Integrity Suggests",
                     option: {
-                        label: "Shopper Priority 2...",
+                        label: "Shopper Priority 3...",
                         value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 3"))
                             ?.tagId,
                         icon:
                             askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 3"))
+                                ?.tagIconUrl || Askintegrity,
+                    },
+                },
+                "Shopper Priority 4...": {
+                    heading: "Ask Integrity Suggests",
+                    option: {
+                        label: "Shopper Priority 4...",
+                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 4"))
+                            ?.tagId,
+                        icon:
+                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 4"))
+                                ?.tagIconUrl || Askintegrity,
+                    },
+                },
+                "Shopper Priority 5...": {
+                    heading: "Ask Integrity Suggests",
+                    option: {
+                        label: "Shopper Priority 5...",
+                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 5"))
+                            ?.tagId,
+                        icon:
+                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 5"))
                                 ?.tagIconUrl || Askintegrity,
                     },
                 },
@@ -600,6 +622,22 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                                     onClick={() => handleFilterOptionClick("Shopper Priority 3...")}
                                 >
                                     Shopper Priority 3...
+                                </Box>
+                            )}
+                                                        {filterSectionsConfig.sep.option.value && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("Shopper Priority 4...")}
+                                >
+                                    Shopper Priority 4...
+                                </Box>
+                            )}
+                                                        {filterSectionsConfig.sep.option.value && (
+                                <Box
+                                    className={styles.dropdownOption}
+                                    onClick={() => handleFilterOptionClick("Shopper Priority 5...")}
+                                >
+                                    Shopper Priority 5...
                                 </Box>
                             )}
                         </span>

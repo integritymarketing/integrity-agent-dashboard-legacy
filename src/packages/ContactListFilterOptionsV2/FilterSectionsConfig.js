@@ -360,6 +360,20 @@ export const filterSectionsConfig = {
             value: "",
         },
     },
+    "Shopper Priority 4...": {
+        heading: "Ask Integrity Suggests",
+        option: {
+            label: "Shopper Priority 4...",
+            value: "",
+        },
+    },
+    "Shopper Priority 5...": {
+        heading: "Ask Integrity Suggests",
+        option: {
+            label: "Shopper Priority 5...",
+            value: "",
+        },
+    },
     custom_tags: {
         heading: "Custom Tags",
     },
