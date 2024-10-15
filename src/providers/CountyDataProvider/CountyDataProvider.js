@@ -36,10 +36,6 @@ export const CountyDataProvider = ({ children }) => {
         }
     }, [zipCode, getCounties]);
 
-    useEffect(() => {
-        fetchCountiesData();
-    }, [zipCode, fetchCountiesData]);
-
     const contextValue = useMemo(
         () => ({
             countiesData,
