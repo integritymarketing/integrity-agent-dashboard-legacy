@@ -65,7 +65,7 @@ const PrescriptionModal = ({ onClose: onCloseHandler, open, item, isEdit, refres
                 const drugID = selectedGenericDrug ? selectedDrug?.g_value : selectedDrug?.value;
                 const results = await clientsService.getDrugDetails(drugID);
                 const dosageOptions = (results?.dosages || []).map((dosage) => ({
-                    label: frontTruncate(dosage.labelName, 34),
+                    label: dosage.labelName,
                     value: dosage,
                 }));
                 setDosageOptions(dosageOptions);
@@ -261,14 +261,13 @@ const PrescriptionModal = ({ onClose: onCloseHandler, open, item, isEdit, refres
             open={open}
             title={isEdit ? "Update Prescription" : "Add Prescriptions"}
             onClose={onClose}
-            onCancel={isEdit && handleDeletePrescription}
-            cancelButtonName="Delete Prescription"
+            onCancel={isEdit ? handleDeletePrescription : onClose}
+            cancelButtonName={isEdit ? "Delete Prescription" : "Cancel"}
             onSave={isEdit ? handleUpdatePrescription : addFunction}
             actionButtonName={isEdit ? "Update Prescription" : "Add Prescription"}
             actionButtonDisabled={disabled}
             endIcon={selectedDrug ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
             modalName="Prescription"
-            contentStyle={{ overflowY: "visible", paddingBottom: "0" }}
         >
             {!selectedDrug && !isLoading ? (
                 <>
