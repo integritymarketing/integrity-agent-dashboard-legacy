@@ -10,7 +10,6 @@ function useFetchCampaignLeads() {
     const [isLoading, setIsLoading] = useState(false);
     const [tableData, setTableData] = useState([]);
     const [allLeads, setAllLeads] = useState([]);
-    const [pageResult, setPageResult] = useState(null);
     const showToast = useToast();
     const location = useLocation();
     const { clientsService } = useClientServiceContext();
@@ -36,16 +35,16 @@ function useFetchCampaignLeads() {
     }, [queryParams]);
 
     const fetchTableDataWithoutFilters = useCallback(
-        async ({ sort, searchString, returnAll, searchId, statusOptionsMap }) => {
+        async ({ sort, searchString, returnAll, searchId, statusOptionsMap, actionOrderedId }) => {
             const response = await clientsService.getCampaignLeads(
                 sort,
                 searchString,
                 returnAll,
-
                 null,
                 searchId,
                 null,
-                statusOptionsMap
+                statusOptionsMap,
+                actionOrderedId
             );
             const total = response.totalContactCount;
             const eligibleContactsLength = response?.eligibleContacts?.length;
@@ -114,7 +113,6 @@ function useFetchCampaignLeads() {
         fetchTableData,
         fetchTableDataWithoutFilters,
         allLeads,
-        pageResult,
         filteredEligibleCount,
     };
 }
