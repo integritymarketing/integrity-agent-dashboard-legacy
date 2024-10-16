@@ -77,6 +77,9 @@ const LeadImporter = () => {
                     processChunk={async (rows) => {
                         // required, receives a list of parsed objects based on defined fields and user column mapping;
                         // may be called several times if file is large
+                        rows = rows.filter(item => {
+                            return Object.values(item).some(value => value !== '' && value !== null);
+                        });
                         const isValid = checkPhoneOrEmailPresent(rows);
                         if (isValid) {
                             const formattedData = rows.map((row) => getFormattedData(row));
@@ -124,7 +127,7 @@ const LeadImporter = () => {
                     <ImporterField name="height" label="Height" optional />
                     <ImporterField name="weight" label="Weight" optional />
                     <ImporterField name="gender" label="Gender" optional />
-                    <ImporterField name="isTobaccoUser" label="Tabacco Use" optional />
+                    <ImporterField name="isTobaccoUser" label="Tobacco Use" optional />
                     <ImporterField name="stage" label="Stage" optional />
                     <ImporterField name="notes" label="Notes" optional />
                 </Importer>
