@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 
 import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
@@ -11,7 +11,6 @@ export const OverViewContext = createContext();
 
 export const OverViewProvider = ({ children }) => {
     const { getLeadDetails } = useLeadDetails();
-
     const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`;
 
     const {
@@ -33,7 +32,6 @@ export const OverViewProvider = ({ children }) => {
 
     const {
         loading: isLoadingActivities,
-        error: activitiesError,
         Put: updateActivity,
         Post: saveActivity,
         Delete: deleteActivity,
@@ -54,8 +52,10 @@ export const OverViewProvider = ({ children }) => {
 
     const getLeadTags = useCallback(async () => {
         const path = `Tag/TagsGroupByCategory`;
-        const data = await fetchLeadTags(null, false, path);
+        const data = await fetchLeadTags(null, true, path);
+        if(data.ok){
         setTags(data || []);
+        }
     }, [fetchLeadTags]);
 
     const editLeadTags = async (payload) => {
