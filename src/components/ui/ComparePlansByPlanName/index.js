@@ -90,7 +90,7 @@ export default function ComparePlansByPlanName({
                     },
                     planDetail: plan,
                 },
-                agentInfo.AgentNpn
+                agentInfo.AgentNpn,
             );
 
             if (enrolled && enrolled.url) {
@@ -220,7 +220,7 @@ export default function ComparePlansByPlanName({
                                             )}
                                         </>
                                     )}
-                                    {!isModal && !isEmail && comparePlans.length > 1 && (
+                                    {!isModal && !isEmail && comparePlans.length > 2 && (
                                         <span className={styles.close} onClick={() => handleRemovePlan(plan.id)}>
                                             X
                                         </span>
