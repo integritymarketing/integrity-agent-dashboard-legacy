@@ -49,6 +49,7 @@ const InvitationBar = () => {
         selectedContact,
         handleCreateOrUpdateCampaign,
         resetSecond,
+        setActionOrderedId,
     } = useCampaignInvitation();
 
     const emailActionsList = campaignActions.map((action) => ({
@@ -84,6 +85,7 @@ const InvitationBar = () => {
                 sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
                 setSelectedContact(null);
                 setActionDescription(value?.actionDescription);
+                setActionOrderedId(value?.actionOrder);
             }
             setContactOptionOpen(null);
         },

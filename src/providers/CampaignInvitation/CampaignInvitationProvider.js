@@ -53,6 +53,7 @@ export const CampaignInvitationProvider = ({ children }) => {
     const [contactSearchId, setContactSearchId] = useState(0);
     const [campaignActions, setCampaignActions] = useState([]);
     const [actionDescription, setActionDescription] = useState("");
+    const [actionOrderedId, setActionOrderedId] = useState(0);
 
     const contactName = selectedContact ? `${selectedContact?.firstName} ${selectedContact?.lastName}` : null;
     const { agentId, npn, firstName, lastName, email, phone } = useUserProfile();
@@ -169,6 +170,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             returnAll: true,
             searchId: contactSearchId,
             statusOptionsMap,
+            actionOrderedId,
         });
         setTotalContactsCount(response?.total);
         setEligibleContactsLength(response?.eligibleContactsLength);
@@ -179,7 +181,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             destination: campaignChannel === "Email" ? lead?.email || undefined : lead?.phone || undefined,
         }));
         setAllContactsList(leadsList);
-    }, [fetchTableDataWithoutFilters, campaignChannel, contactSearchId, statusOptionsMap]);
+    }, [fetchTableDataWithoutFilters, campaignChannel, contactSearchId, statusOptionsMap, actionOrderedId]);
 
     useEffect(() => {
         if (
@@ -192,7 +194,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 await fetchAllListCount();
             })();
         }
-    }, [fetchAllListCount, campaignActionType]);
+    }, [fetchAllListCount, campaignActionType, actionOrderedId]);
 
     const reset = () => {
         sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
@@ -205,6 +207,7 @@ export const CampaignInvitationProvider = ({ children }) => {
         setFilteredContactsList([]);
         setFilteredCount(null);
         setSelectedContact(null);
+        setActionOrderedId(0);
     };
 
     const resetSecond = () => {
@@ -214,6 +217,7 @@ export const CampaignInvitationProvider = ({ children }) => {
         setFilteredCount(null);
         setSelectedContact(null);
         setFilteredContentStatus(null);
+        setActionOrderedId(0);
     };
 
     const handleTemplateData = (data) => {
@@ -462,6 +466,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 );
                                 if (actionData) {
                                     setActionDescription(actionData?.actionDescription);
+                                    setActionOrderedId(actionData?.actionOrder);
                                 }
                             }
                         }
@@ -808,6 +813,8 @@ export const CampaignInvitationProvider = ({ children }) => {
             totalContactsCount,
             updateCampaignError,
             resetSecond,
+            actionOrderedId,
+            setActionOrderedId,
         };
     }
 };

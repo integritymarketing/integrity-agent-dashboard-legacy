@@ -194,7 +194,8 @@ export class ClientsService {
         selectedFilterSections = [],
         campaignId,
         filterId,
-        statusOptionsMap
+        statusOptionsMap,
+        actionOrderedId = 0
     ) => {
         if (!campaignId) {
             return;
@@ -264,7 +265,7 @@ export class ClientsService {
         };
 
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Campaign/GetCampaignLeads/${campaignId}`,
+            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Campaign/GetCampaignLeads/${campaignId}/${actionOrderedId}`,
             "POST",
             body
         );
