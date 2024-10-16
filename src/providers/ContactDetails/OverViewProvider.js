@@ -47,14 +47,15 @@ export const OverViewProvider = ({ children }) => {
             const data = await fetchReminders(null, false, path);
             setReminders(data || []);
         },
-        [fetchReminders]
+        [fetchReminders],
     );
 
     const getLeadTags = useCallback(async () => {
         const path = `Tag/TagsGroupByCategory`;
         const data = await fetchLeadTags(null, true, path);
-        if(data.ok){
-        setTags(data || []);
+        if (data.ok) {
+            const response = await data.json();
+            setTags(response || []);
         }
     }, [fetchLeadTags]);
 
@@ -74,7 +75,7 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to update Tags`,
-                })
+                }),
         );
     };
 
@@ -94,7 +95,7 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to update Tag`,
-                })
+                }),
         );
     };
 
@@ -114,7 +115,7 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to update Tag`,
-                })
+                }),
         );
     };
 
@@ -133,7 +134,7 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to delete Tag`,
-                })
+                }),
         );
     };
 
@@ -154,7 +155,7 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to Add Activity`,
-                })
+                }),
         );
     };
 
@@ -174,7 +175,7 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to delete Activity`,
-                })
+                }),
         );
     };
 
@@ -197,7 +198,7 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to update Activity`,
-                })
+                }),
         );
     };
 
@@ -220,7 +221,7 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to update Activity`,
-                })
+                }),
         );
     };
 
@@ -240,7 +241,7 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to Add reminders`,
-                })
+                }),
         );
     };
 
@@ -259,7 +260,7 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to delete reminders`,
-                })
+                }),
         );
     };
 
@@ -279,7 +280,7 @@ export const OverViewProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to update reminders`,
-                })
+                }),
         );
     };
 
