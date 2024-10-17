@@ -434,6 +434,7 @@ const SharePlanModal = ({
                                         />
                                     )}
                                     <Button
+                                        className={"cancel-button"}
                                         fullWidth={matches.mobile}
                                         data-gtm="button-cancel"
                                         label={"Cancel"}

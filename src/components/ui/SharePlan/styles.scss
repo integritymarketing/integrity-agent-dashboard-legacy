@@ -1,3 +1,5 @@
+@import "../../../scss/globalDefines";
+
 .shareplan-modal {
   &.modal .modal__card.card {
     padding-top: 10px;
@@ -6,12 +8,30 @@
     .modal__exit.icon-btn {
       right: auto;
     }
+
+    @include small {
+        padding-top: 30px;
+    }
+  }
+
+
+  @include small {
+      .container {
+        width: 90%;
+      }
+      .card--page {
+        padding: 10%;
+        overflow-x: hidden;
+      }
   }
 
   .dialog--title {
     margin-left: 0;
     margin-bottom: 31px;
     margin-top: 39px;
+    @include small {
+      margin: 0;
+    }
   }
 
   .plan-card {
@@ -46,12 +66,12 @@
       margin-right: 16px;
     }
 
-    @media screen and (min-width: 320px) and (max-width: 480px) {
+    @include small {
       flex-direction: column;
     }
     .email-mobile-section {
       width: 40%;
-      @media screen and (min-width: 320px) and (max-width: 480px) {
+      @include small {
         margin-top: 10px;
         width: 100%;
       }
@@ -71,7 +91,7 @@
 
   .email-mobile-section {
     width: 40%;
-    @media screen and (min-width: 320px) and (max-width: 480px) {
+    @include small {
       margin-top: 10px;
       width: 100%;
     }
@@ -116,6 +136,19 @@
 
     .button {
       margin-right: 16px;
+    }
+
+     @include small {
+      gap: 10px;
+      margin-left: 0;
+      margin-right: 0;
+      padding-right: 0;
+      .button {
+        margin-right: 0;
+      }
+      .cancel-button {
+        width: 30%;
+      }
     }
   }
 }
