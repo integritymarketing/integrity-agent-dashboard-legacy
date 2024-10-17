@@ -75,21 +75,21 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
             const campaignInterestObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Interest");
             const askIntegrityObject =
                 dataWithFalse.find(
-                    (item) => item.tagCategoryName === "Ask Integrity Recommendations" && item.tags.length > 0
+                    (item) => item.tagCategoryName === "Ask Integrity Recommendations" && item.tags.length > 0,
                 ) ||
                 dataWithFalse.find((item) => item.tagCategoryName === "Ask Integrity Suggests" && item.tags.length > 0);
             const customTagsObject = data.find((item) => item.tagCategoryName === "Other");
             const productTypePdpOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "PDP" && item.tagIconUrl
+                (item) => item.tagLabel === "PDP" && item.tagIconUrl,
             );
             const productTypeMapdOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "MAPD" && item.tagIconUrl
+                (item) => item.tagLabel === "MAPD" && item.tagIconUrl,
             );
             const productTypeFinalExpenseOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "FINAL EXPENSE" || item.tagLabel === "FEXP"
+                (item) => item.tagLabel === "FINAL EXPENSE" || item.tagLabel === "FEXP",
             );
             const productTypeMedicareAdvantageOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "MEDICARE ADVANTAGE" || item.tagLabel === "HEALTH"
+                (item) => item.tagLabel === "MEDICARE ADVANTAGE" || item.tagLabel === "HEALTH",
             );
             const productTypeOptions = [
                 {
@@ -123,7 +123,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                     (item) =>
                         (item.tagLabel === "SOA SIGNED" && item.tagIconUrl) ||
                         (item.tagLabel === "SOA SENT" && item.tagIconUrl) ||
-                        item.tagLabel === "SOA COMPLETED"
+                        item.tagLabel === "SOA COMPLETED",
                 )
                 .map((item) => ({
                     label: item.tagLabel,
@@ -158,7 +158,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                             icon:
                                 item.tagIconUrl ||
                                 filterSectionsConfigOriginal.carrier.options.find(
-                                    (item1) => item1.label === item.tagLabel
+                                    (item1) => item1.label === item.tagLabel,
                                 )?.icon ||
                                 "",
                         })) || [],
@@ -171,7 +171,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                         icon:
                             item.tagIconUrl ||
                             filterSectionsConfigOriginal.product_status.options.find(
-                                (item1) => item1.label === item.tagLabel
+                                (item1) => item1.label === item.tagLabel,
                             )?.icon ||
                             "",
                         iconClassName: stylesFilterSectionBox.menuItemIconMedium,
@@ -205,7 +205,7 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                         icon:
                             item.tagIconUrl ||
                             filterSectionsConfigOriginal.campaign_type.options.find(
-                                (item1) => item1.label === item.tagLabel
+                                (item1) => item1.label === item.tagLabel,
                             )?.icon ||
                             "",
                     })),
@@ -430,6 +430,15 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
     const hasUnfinishedFilterSections = selectedFilterSections.filter((item) => !item.selectedFilterOption).length;
 
     const hasReminderSection = selectedFilterSections.find((item) => item.sectionId === "reminders");
+
+    const shopperPriorities = [
+        "Shopper Priority 1...",
+        "Shopper Priority 2...",
+        "Shopper Priority 3...",
+        "Shopper Priority 4...",
+        "Shopper Priority 5...",
+    ];
+
     return (
         <Box overflowY={"scroll"} maxHeight={"400px"}>
             <Box padding={2}>
@@ -600,46 +609,15 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                                     SEP
                                 </Box>
                             )}
-                            {filterSectionsConfig.sep.option.value && (
+                            {shopperPriorities.map((priority) => (
                                 <Box
+                                    key={priority}
                                     className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("Shopper Priority 1...")}
+                                    onClick={() => handleFilterOptionClick(priority)}
                                 >
-                                    Shopper Priority 1...
+                                    {priority}
                                 </Box>
-                            )}
-                            {filterSectionsConfig.sep.option.value && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("Shopper Priority 2...")}
-                                >
-                                    Shopper Priority 2...
-                                </Box>
-                            )}
-                            {filterSectionsConfig.sep.option.value && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("Shopper Priority 3...")}
-                                >
-                                    Shopper Priority 3...
-                                </Box>
-                            )}
-                                                        {filterSectionsConfig.sep.option.value && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("Shopper Priority 4...")}
-                                >
-                                    Shopper Priority 4...
-                                </Box>
-                            )}
-                                                        {filterSectionsConfig.sep.option.value && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("Shopper Priority 5...")}
-                                >
-                                    Shopper Priority 5...
-                                </Box>
-                            )}
+                            ))}
                         </span>
                         {Boolean(customTags?.length) && (
                             <span className={styles.filterDropdownHeader}>Custom Tags</span>

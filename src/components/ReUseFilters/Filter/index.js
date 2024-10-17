@@ -540,6 +540,14 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
         return <Spinner />;
     }
 
+    const shopperPriorities = [
+        "Shopper Priority 1...",
+        "Shopper Priority 2...",
+        "Shopper Priority 3...",
+        "Shopper Priority 4...",
+        "Shopper Priority 5...",
+    ];
+
     return (
         <Box overflowY={"scroll"} maxHeight={"400px"}>
             <Box padding={2}>
@@ -710,46 +718,15 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                                     SEP
                                 </Box>
                             )}
-                            {filterSectionsConfig.sep.option.value && (
+                            {shopperPriorities.map((priority) => (
                                 <Box
+                                    key={priority}
                                     className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("Shopper Priority 1...")}
+                                    onClick={() => handleFilterOptionClick(priority)}
                                 >
-                                    Shopper Priority 1...
+                                    {priority}
                                 </Box>
-                            )}
-                            {filterSectionsConfig.sep.option.value && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("Shopper Priority 2...")}
-                                >
-                                    Shopper Priority 2...
-                                </Box>
-                            )}
-                            {filterSectionsConfig.sep.option.value && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("Shopper Priority 3...")}
-                                >
-                                    Shopper Priority 3...
-                                </Box>
-                            )}
-                            {filterSectionsConfig.sep.option.value && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("Shopper Priority 4...")}
-                                >
-                                    Shopper Priority 4...
-                                </Box>
-                            )}
-                            {filterSectionsConfig.sep.option.value && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("Shopper Priority 5...")}
-                                >
-                                    Shopper Priority 5...
-                                </Box>
-                            )}
+                            ))}
                         </span>
                         {Boolean(customTags?.length) && (
                             <span className={styles.filterDropdownHeader}>Custom Tags</span>
