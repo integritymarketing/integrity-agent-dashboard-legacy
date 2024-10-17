@@ -88,9 +88,9 @@ const FILTER_OPTIONS = [
     { name: "Scope of Appointment Signed", selected: false },
     { name: "Shopper Priority 1 - Major Coverage Changes", selected: false },
     { name: "Shopper Priority 2 - Network or Prescription Changes", selected: false },
-    { name: "Shopper Priority 3 - Benefits Changes", selected: false },
-    { name: "Shopper Priority 4 - Plan Review Recommended", selected: false },
-    { name: "Shopper Priority 5 - May Benefit from Plan Review", selected: false },
+    { name: "Shopper Priority 3 - Plan Review Necessary", selected: false },
+    { name: "Shopper Priority 4 - Plan Review Suggested", selected: false },
+    { name: "Shopper Priority 5 - Plan Review Optional", selected: false },
     { name: "Stage Change", selected: false },
     { name: "Legacy Safeguard Eligible", selected: false },
 ];
