@@ -1,5 +1,7 @@
-/* eslint-disable max-lines-per-function */
-import React, { useEffect, useMemo, useState } from "react";
+ 
+import { useEffect, useMemo, useState } from "react";
+import PropTypes from "prop-types";
+import * as Sentry from "@sentry/react";
 import styles from "./ActivityDetails.module.scss";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -31,7 +33,7 @@ export default function ActivityDetails({
             tagName: activityObj?.activitySubject,
             page_name: pageName,
         });
-    }, []);
+    }, [fireEvent, leadId, activityObj?.activitySubject, pageName]);
 
     const type = activityObj?.activityTypeName;
 
@@ -48,19 +50,20 @@ export default function ActivityDetails({
         if (!data) {
             return null;
         }
+        if(!data.includes("Call recorded to")) {
+            return data;
+        }
         const dataParse = data?.split(",");
         return (
             <div className={styles.parsedBody}>
                 {dataParse &&
-                    dataParse.map((item, index) => {
-                        return (
-                            <div className={index > 0 ? "mt-2" : ""} key={index}>
-                                {item.includes("Call recorded to")
-                                    ? `Call recorded to :  ${callRecordFormat(item)}`
-                                    : item}
-                            </div>
-                        );
-                    })}
+                    dataParse.map((item, index) => (
+                        <div className={index > 0 ? "mt-2" : ""} key={index}>
+                            {item.includes("Call recorded to")
+                                ? `Call recorded to :  ${callRecordFormat(item)}`
+                                : item}
+                        </div>
+                    ))}
             </div>
         );
     };
@@ -73,6 +76,15 @@ export default function ActivityDetails({
             return value;
         }
     }, [activityObj]);
+
+    const handleSave = async () => {
+        try {
+            await onSave(activityObj, note, leadId);
+            onClose();
+        } catch (error) {
+            Sentry.captureException(error);
+        }
+    };
 
     return (
         <Box>
@@ -91,10 +103,7 @@ export default function ActivityDetails({
                         {headerTitle}
                     </div>
                 }
-                onSave={() => {
-                    onSave(activityObj, note, leadId);
-                    onClose();
-                }}
+                onSave={handleSave}
                 actionButtonName="Save"
                 actionButtonDisabled={activityObj?.activityNote === note || !note || note?.length < 2}
                 endIcon={<ArrowForwardWithCircle />}
@@ -172,3 +181,14 @@ export default function ActivityDetails({
         </Box>
     );
 }
+
+ActivityDetails.propTypes = {
+    open: PropTypes.bool.isRequired,
+    onSave: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    activityObj: PropTypes.object.isRequired,
+    leadFullName: PropTypes.string.isRequired,
+    leadId: PropTypes.string.isRequired,
+    setDisplay: PropTypes.func.isRequired,
+    pageName: PropTypes.string.isRequired,
+};
