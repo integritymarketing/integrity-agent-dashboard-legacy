@@ -27,21 +27,21 @@ const UnLinkedCallCard = ({ task }) => {
                 }}
             />
             <Grid container spacing={2}>
-                <Grid item xs={6} md={3} sx={{ color: "#434A51" }}>
-                    <p>
+                <Grid item xs={6} md={3} alignSelf={"center"}>
+                    <p> {formatPhoneNumber(task?.phoneNumber, true)}</p>
+                </Grid>
+                <Grid item xs={6} md={3}>
+                    <Box>
                         <span className="date-time-duration-text">Date:</span>
                         {convertToLocalDateTime(task?.taskDate).format("MM/DD/yyyy")}
-                    </p>
-                    <p>
+                    </Box>
+                    <Box>
                         <span className="date-time-duration-text">Time:</span>{" "}
                         {convertToLocalDateTime(task?.taskDate).format("h:mm a")}
-                    </p>
+                    </Box>
                     <p>
                         <span className="date-time-duration-text">Duration:</span> {task?.duration}
                     </p>
-                </Grid>
-                <Grid item xs={6} md={3} alignSelf={"center"} sx={{ textAlign: "center", color: "#434A51" }}>
-                    <p> {formatPhoneNumber(task?.phoneNumber, true)}</p>
                 </Grid>
                 <Grid
                     item

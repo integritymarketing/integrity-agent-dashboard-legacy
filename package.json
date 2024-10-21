@@ -10,7 +10,7 @@
         "@babel/eslint-parser": "^7.23.3",
         "@emotion/react": "^11.11.3",
         "@emotion/styled": "^11.11.0",
-        "@integritymarketing/icons": "^1.1.3",
+        "@integritymarketing/icons": "^1.1.7",
         "@integritymarketing/ui-button-components": "^0.0.9",
         "@integritymarketing/ui-container-components": "^0.0.5",
         "@integritymarketing/ui-header": "^0.0.13",

@@ -26,7 +26,7 @@ import RemindersList from "./Reminders";
 import Soa48HoursRule from "./Soa48HoursRule";
 import { TaskListCardContainer } from "./TaskListCardContainer";
 import styles from "./TaskListMobileLayout.module.scss";
-import UnLinkedCalls from "./UnlinkedCalls";
+import UnLinkedTextAndCalls from "components/TaskList/UnlinkedTextAndCalls";
 
 import PlanEnrollBig from "images/enroll.svg";
 import NoReminder from "images/no-reminder.svg";
@@ -39,11 +39,10 @@ const DEFAULT_TABS = [
         name: "Reminders",
         value: 1,
     },
-
     {
-        policyStatus: "Unlinked Calls",
+        policyStatus: "Unlinked Text/Calls",
         name: "UnlinkedCalls",
-        value: 2,
+        value: 4,
     },
     {
         policyStatus: "Health SOAs",
@@ -150,8 +149,8 @@ export default function TaskListMobileLayout() {
 
     const renderList = () => {
         switch (WIDGET_NAME) {
-            case "Unlinked Calls":
-                return <UnLinkedCalls taskList={taskList} refreshData={refreshData} />;
+            case "Unlinked Text/Calls":
+                return <UnLinkedTextAndCalls taskList={taskList} refreshData={refreshData} />;
             case "Reminders":
                 return <RemindersList taskList={taskList} refreshData={refreshData} />;
             case "Health SOAs":
@@ -180,7 +179,7 @@ export default function TaskListMobileLayout() {
         switch (selectedName) {
             case "Reminders":
                 return NoReminder;
-            case "Unlinked Calls":
+            case "Unlinked Text/Calls":
                 return NoUnlinkedCalls;
             case "PlanEnroll Leads":
                 return PlanEnrollBig;
@@ -196,8 +195,8 @@ export default function TaskListMobileLayout() {
             case "Reminders": {
                 return "about how you can create reminders.";
             }
-            case "Unlinked Calls": {
-                return "about unlinked calls.";
+            case "Unlinked Text/Calls": {
+                return "about Unlinked Text/Calls.";
             }
 
             case "Health SOAs": {

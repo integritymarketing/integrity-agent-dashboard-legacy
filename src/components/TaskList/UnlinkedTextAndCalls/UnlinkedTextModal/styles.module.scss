@@ -1,0 +1,24 @@
+.textModalBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.textHeader {
+    font-weight: 500;
+    color: #052a63;
+}
+
+.divider {
+    margin: 0px 16px;
+    border-right: 1px solid #434a51;
+}
+
+.modalContent {
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    margin-top: 8px;
+    margin-bottom: 24px;
+}

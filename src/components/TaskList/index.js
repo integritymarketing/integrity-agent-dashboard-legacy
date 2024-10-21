@@ -21,7 +21,7 @@ import WithLoader from "components/ui/WithLoader";
 import { StageStatusProvider } from "contexts/stageStatus";
 import { useClientServiceContext } from "services/clientServiceProvider";
 
-import UnLinkedCalls from "pages/dashbaord/UnLinkedCalls";
+import UnLinkedTextAndCalls from "./UnlinkedTextAndCalls";
 
 import { InfoModal } from "./InfoModal/InfoModal";
 import PlanEnrollLeads from "./PlanEnrollLeads";
@@ -49,10 +49,10 @@ const DEFAULT_TABS = [
         value: 1,
     },
     {
-        policyStatus: "Unlinked Calls",
+        policyStatus: "Unlinked",
         policyStatusColor: "#DEEBFB",
         name: "UnlinkedCalls",
-        value: 2,
+        value: 4,
     },
     {
         policyStatus: "Health SOAs",
@@ -64,7 +64,7 @@ const DEFAULT_TABS = [
 
 const getLink = {
     Reminders: "MedicareCENTER-Reminders-Guide.pdf",
-    "Unlinked Calls": "MedicareCENTER-Unlinked-Calls-Guide.pdf",
+    Unlinked: "MedicareCENTER-Unlinked-Calls-Guide.pdf",
 };
 
 export default function TaskList({ isMobile, npn }) {
@@ -211,8 +211,8 @@ export default function TaskList({ isMobile, npn }) {
 
     const renderList = () => {
         switch (selectedName) {
-            case "Unlinked Calls":
-                return <UnLinkedCalls taskList={taskList} refreshData={refreshData} />;
+            case "Unlinked":
+                return <UnLinkedTextAndCalls taskList={taskList} refreshData={refreshData} />;
 
             case "Reminders":
                 return <RemindersList taskList={taskList} refreshData={refreshData} />;
@@ -246,7 +246,7 @@ export default function TaskList({ isMobile, npn }) {
         switch (selectedName) {
             case "Reminders":
                 return NoReminder;
-            case "Unlinked Calls":
+            case "Unlinked":
                 return NoUnlinkedCalls;
             case "PlanEnroll Leads":
                 return NoSOA48Hours;
@@ -262,8 +262,8 @@ export default function TaskList({ isMobile, npn }) {
             case "Reminders": {
                 return "about how you can create reminders.";
             }
-            case "Unlinked Calls": {
-                return "about unlinked calls.";
+            case "Unlinked": {
+                return "about unlinked Text and Calls .";
             }
             case "Health SOAs": {
                 return "To track an SOA sent through Contact Management, make sure you check the “Track SOA” box on the Send SOA screen. Tracked SOAs will be displayed here once they’re signed by your Contacts. When you complete tracked SOAs, they’ll be removed from this view but will still be available in the Contact records.";
