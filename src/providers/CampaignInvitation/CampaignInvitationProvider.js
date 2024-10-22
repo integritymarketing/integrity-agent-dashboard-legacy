@@ -558,6 +558,7 @@ export const CampaignInvitationProvider = ({ children }) => {
         campaign_Channel,
         campaign_ActionType,
         selectedCampaignId,
+        template_Description,
     }) => {
         // Retrieve and parse the JSON string from session storage
         const selectedFilterSections = JSON.parse(
@@ -596,7 +597,8 @@ export const CampaignInvitationProvider = ({ children }) => {
                 agentLastName: lastName,
                 agentEmail: email,
                 agentPhone: formattedPhoneNumber,
-                templateId: template_Id === "empty" ? "" : template_Id ? template_Id : templateId,
+                templateId: template_Id === "empty" ? "" : template_Id || templateId,
+                templateDescription: template_Description === "empty" ? "" : template_Description || templateDescription,
                 custom1: `${process.env.REACT_APP_MEDICARE_ENROLL}/quick-profile?purl=${agentPurlURL?.agentPurlCode}`,
                 custom2: "Integrity",
                 custom3: formattedPhoneNumber,
@@ -679,6 +681,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             payload,
             isUpdate = true,
             selectedCampaignId,
+            template_Description,
         }) => {
             try {
                 let resData = null;
@@ -690,6 +693,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                             campaign_Channel,
                             campaign_ActionType,
                             selectedCampaignId,
+                            template_Description,
                         }),
                         false
                     );

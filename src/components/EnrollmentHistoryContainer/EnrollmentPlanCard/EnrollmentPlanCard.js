@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
+import * as Sentry from "@sentry/react";
 import { useNavigate, useLocation } from "react-router";
 import styles from "./EnrollmentPlanCard.module.scss";
 import IconWithText from "packages/IconWithText";
@@ -56,6 +58,14 @@ export default function EnrollmentPlanCard(props) {
     const status = policyStatus === "terminated" ? "Inactive" : capitalizeFirstLetter(policyStatus);
     const isFinalExpense = productCategory === "Final Expense";
 
+    const handleShareClick = async () => {
+        try {
+            await onShareClick();
+        } catch (error) {
+            Sentry.captureException(error);
+        }
+    };
+
     return (
         <div className={styles.planCardContainer}>
             <Media
@@ -86,9 +96,8 @@ export default function EnrollmentPlanCard(props) {
                             className={styles.detailAndDateContainer}
                             style={{ backgroundColor: !currentYear ? "#F1F1F1" : "#FFFFFF" }}
                         >
-                            {/* <div className={styles.details}> */}
                             <div>
-                                <div className={styles.planLabel}>Product Type</div>{" "}
+                                <div className={styles.planLabel}>Product Type</div>
                                 <div className={styles.planValue}>{productCategory}</div>
                             </div>
                             <div className={styles.planCompany}>{renderPlanDetails("Carrier", carrier)}</div>
@@ -96,24 +105,19 @@ export default function EnrollmentPlanCard(props) {
                                 <div className={styles.planLabel}>Plan ID </div>
                                 <div className={styles.planValue}>{planId ? planId : "--"}</div>
                             </div>
-                            {/* </div> */}
                             <div className={styles.dates}>
                                 {currentYear ? (
                                     <>
                                         {submittedDate && !isFinalExpense && (
                                             <PlanDate type={"Submitted"} date={submittedDate} />
                                         )}
-
                                         {(policyStatus === "upcoming" || policyStatus === "active") && (
                                             <>
                                                 {policyEffectiveDate && isFinalExpense && (
                                                     <PlanDate type={"Effective"} date={policyEffectiveDate} />
                                                 )}
-                                                {enrolledDate && (
-                                                    <PlanDate
-                                                        type={isFinalExpense ? "Issued" : "Enrolled"}
-                                                        date={enrolledDate}
-                                                    />
+                                                {!isFinalExpense && enrolledDate && (
+                                                    <PlanDate type="Enrolled" date={enrolledDate} />
                                                 )}
                                             </>
                                         )}
@@ -126,7 +130,6 @@ export default function EnrollmentPlanCard(props) {
                                                 date={policyEffectiveDate}
                                             />
                                         )}
-
                                         {termedDate && <PlanDate type="Termed" date={termedDate} />}
                                     </>
                                 )}
@@ -137,14 +140,14 @@ export default function EnrollmentPlanCard(props) {
                                 {isEnrollPlansPage ? (
                                     <div>
                                         {isMobile ? (
-                                            <div className={styles.shareBtnContainer} onClick={() => onShareClick()}>
+                                            <div className={styles.shareBtnContainer} onClick={handleShareClick}>
                                                 <span className={styles.shareText}>Share</span>
                                                 <SharePlan />
                                             </div>
                                         ) : (
                                             <Button
                                                 label="Share Plan"
-                                                onClick={() => onShareClick()}
+                                                onClick={handleShareClick}
                                                 type="secondary"
                                                 className={styles.shareBtn}
                                             />
@@ -260,3 +263,24 @@ export default function EnrollmentPlanCard(props) {
         );
     }
 }
+
+EnrollmentPlanCard.propTypes = {
+    submittedDate: PropTypes.string,
+    enrolledDate: PropTypes.string,
+    policyEffectiveDate: PropTypes.string,
+    termedDate: PropTypes.string,
+    policyHolder: PropTypes.object,
+    policyId: PropTypes.string,
+    currentYear: PropTypes.bool,
+    leadId: PropTypes.string.isRequired,
+    isEnrollPlansPage: PropTypes.bool,
+    onShareClick: PropTypes.func.isRequired,
+    policyStatus: PropTypes.string.isRequired,
+    confirmationNumber: PropTypes.string.isRequired,
+    isEmail: PropTypes.bool,
+    planName: PropTypes.string.isRequired,
+    carrier: PropTypes.string,
+    planId: PropTypes.string,
+    hasPlanDetails: PropTypes.bool,
+    productCategory: PropTypes.string,
+};

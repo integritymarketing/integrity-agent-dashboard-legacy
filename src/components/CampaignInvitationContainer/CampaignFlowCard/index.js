@@ -67,6 +67,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
             template_Id: "empty",
             campaign_ActionType: "empty",
             selectedCampaignId: "empty",
+            template_Description: "empty",
         });
     };
 
@@ -78,6 +79,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
             template_Id: value?.templateId,
             campaign_ActionType: "empty",
             selectedCampaignId: value?.id,
+            template_Description: value?.templateDescription,
         });
     };
 
