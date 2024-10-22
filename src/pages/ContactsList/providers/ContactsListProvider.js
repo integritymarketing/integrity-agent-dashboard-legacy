@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { useLocation } from "react-router-dom";
 
 import PropTypes from "prop-types";
+import * as Sentry from "@sentry/react";
 
 import useFetchTableData from "../hooks/useFetchTableData";
 
@@ -9,7 +10,8 @@ import Spinner from "components/ui/Spinner/index";
 import { filterSectionsConfig as filterSectionsConfigOriginal } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
 import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
 
-const DEFAULT_PAGE_ITEM = 12;
+const DEFAULT_PAGE_SIZE = 12;
+const INITIAL_PAGE_NUMBER = 1;
 const DEFAULT_SORT = ["createDate:desc"];
 const CARD_PATH = "/contacts/card";
 
@@ -21,11 +23,10 @@ export const ContactsListProvider = ({ children }) => {
     const [sort, setSort] = useState(DEFAULT_SORT);
     const [searchString, setSearchString] = useState(null);
     const [withoutFilterResponseSize, setWithoutFilterResponseSize] = useState(null);
-    const [pageSize, setPageSize] = useState(DEFAULT_PAGE_ITEM);
     const [filterSectionsConfig, setFilterSectionsConfigOriginal] = useState(
         JSON.parse(localStorage.getItem("contactList_filterSectionsConfig")) || filterSectionsConfigOriginal
     );
-    const [pageIndex, setPageIndex] = useState(1);
+    const [pageIndex, setPageIndex] = useState(INITIAL_PAGE_NUMBER);
     const [selectedContacts, setSelectedContacts] = useState([]);
     const [filterConditions, setFilterConditions] = useState();
     const [fetchedFiltersSectionConfigFromApi, setFetchedFiltersSectionConfigFromApi] = useState(false);
@@ -61,40 +62,53 @@ export const ContactsListProvider = ({ children }) => {
     } = useFetchTableData();
 
     const fetchAllListCount = useCallback(async () => {
-        if (!withoutFilterResponseSize) {
-            const response = await fetchTableDataWithoutFilters({
-                pageIndex: 1,
-                pageSize: DEFAULT_PAGE_ITEM,
-                searchString,
-                sort: DEFAULT_SORT,
-            });
-            setWithoutFilterResponseSize(response?.total);
+        try {
+            if (!withoutFilterResponseSize) {
+                const response = await fetchTableDataWithoutFilters({
+                    pageIndex: INITIAL_PAGE_NUMBER,
+                    pageSize: DEFAULT_PAGE_SIZE,
+                    searchString,
+                    sort: DEFAULT_SORT,
+                });
+                setWithoutFilterResponseSize(response?.total);
+            }
+        } catch (error) {
+            Sentry.captureException(error); // Log the error to Sentry
+            console.error("Failed to fetch all leads count", error); // Local logging
         }
     }, [searchString, withoutFilterResponseSize, fetchTableDataWithoutFilters]);
 
     const refreshData = useCallback(() => {
         fetchTableData({
-            pageIndex: 1,
-            pageSize,
+            pageIndex: INITIAL_PAGE_NUMBER,
+            pageSize: DEFAULT_PAGE_SIZE,
             searchString,
             sort,
             selectedFilterSections,
             filterSectionsConfig,
             isSilent: true,
         });
-    }, [fetchTableData, pageSize, searchString, sort, selectedFilterSections, filterSectionsConfig]);
+    }, [fetchTableData, searchString, sort, selectedFilterSections, filterSectionsConfig]);
 
-    const fetchSilently = useCallback(
-        (_pageSize) => {
-            fetchTableData({
-                pageSize: _pageSize,
-                pageIndex,
-                searchString,
-                sort,
-                isSilent: true,
-                selectedFilterSections,
-                filterSectionsConfig,
-            });
+    const fetchMoreContactsByPage = useCallback(
+        async () => {
+            try {
+                const nextPage = pageIndex + 1;
+                await fetchTableData({
+                    pageSize: DEFAULT_PAGE_SIZE,
+                    pageIndex: nextPage,
+                    searchString,
+                    sort,
+                    isSilent: true,
+                    selectedFilterSections,
+                    filterSectionsConfig,
+                    appendData: true
+                });
+                setPageIndex(nextPage);
+            } catch (error) {
+                Sentry.captureException(error);
+                console.error("Failed to fetch more contacts", error);
+            }
         },
         [fetchTableData, pageIndex, searchString, sort, selectedFilterSections, filterSectionsConfig]
     );
@@ -108,8 +122,8 @@ export const ContactsListProvider = ({ children }) => {
             fetchAllListCount();
             setSelectedContacts([]);
             fetchTableData({
-                pageIndex: 1,
-                pageSize: DEFAULT_PAGE_ITEM,
+                pageIndex: INITIAL_PAGE_NUMBER,
+                pageSize: DEFAULT_PAGE_SIZE,
                 searchString,
                 sort: DEFAULT_SORT,
                 selectedFilterSections: newSelectedFilterSections,
@@ -122,17 +136,14 @@ export const ContactsListProvider = ({ children }) => {
 
     const contextValue = useMemo(
         () => ({
-            tableData: tableData,
+            tableData,
             fetchTableData,
             withoutFilterResponseSize,
             setWithoutFilterResponseSize,
             setIsLoading,
             searchString,
             setSearchString,
-            pageSize,
-            fetchSilently,
-            pageIndex,
-            setPageIndex,
+            fetchMoreContactsByPage,
             sort,
             setSort,
             layout,
@@ -143,7 +154,6 @@ export const ContactsListProvider = ({ children }) => {
             allLeads,
             refreshData,
             pageResult,
-            setPageSize,
             selectedFilterSections,
             setSelectedFilterSections,
             filterSectionsConfig,
@@ -157,8 +167,6 @@ export const ContactsListProvider = ({ children }) => {
             tableData,
             fetchTableData,
             searchString,
-            pageSize,
-            pageIndex,
             sort,
             layout,
             resetData,
@@ -167,7 +175,7 @@ export const ContactsListProvider = ({ children }) => {
             refreshData,
             withoutFilterResponseSize,
             pageResult,
-            fetchSilently,
+            fetchMoreContactsByPage,
             selectedFilterSections,
             setSelectedFilterSections,
             filterSectionsConfig,
@@ -181,16 +189,21 @@ export const ContactsListProvider = ({ children }) => {
         if (location.pathname.includes("/contacts")) {
             fetchAllListCount();
             fetchTableData({
-                pageSize,
-                pageIndex,
+                pageSize: DEFAULT_PAGE_SIZE,
+                pageIndex: INITIAL_PAGE_NUMBER,
                 searchString,
                 sort,
                 selectedFilterSections,
                 filterSectionsConfig,
                 isSilent: true,
+            }).then(() => {
+                setPageIndex(INITIAL_PAGE_NUMBER);
+            }).catch(error => {
+                Sentry.captureException(error);
+                console.error("Error during initial fetch", error);
             });
         }
-    }, [fetchTableData, searchString, location.search, pageIndex, sort]);
+    }, [fetchTableData, searchString, location.search, sort]);
 
     useEffect(() => {
         setLayout(location.pathname === CARD_PATH ? "card" : "list");

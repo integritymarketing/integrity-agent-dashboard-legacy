@@ -31,7 +31,6 @@ import styles from "./PlanDetailsPage.module.scss";
 
 import { PLAN_TYPE_ENUMS } from "../constants";
 
-import NewBackBtn from "images/new-back-btn.svg";
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import { usePharmacyContext } from "providers/PharmacyProvider";
 
@@ -54,29 +53,25 @@ const PlanDetailsPage = () => {
     const { pharmacies, fetchPharmacies } = useHealth() || {};
     const { selectedPharmacy } = usePharmacyContext();
 
+    const getPlanDetails = async (pharmacyId, contactData) => {
+        const planData = await plansService.getPlan(contactId, planId, contactData, effectiveDate, pharmacyId);
 
+        if (!planData) {
+            showToast({
+                type: "error",
+                message: "There was an error loading the plan.",
+            });
+        }
+        setPlan(planData);
+        setContact(contactData);
+    };
 
     const getContactAndPlanData = useCallback(async () => {
-        setIsLoading(true);
         try {
             const updatedData = await fetchPharmacies(contactId);
             const contactData = await clientsService.getContactInfo(contactId);
-
-            const primaryPharmacy = updatedData.length > 0 ? updatedData.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
-
-            const pharmacyId = primaryPharmacy;
-
-
-            const planData = await plansService.getPlan(contactId, planId, contactData, effectiveDate, pharmacyId);
-
-            if (!planData) {
-                showToast({
-                    type: "error",
-                    message: "There was an error loading the plan.",
-                });
-            }
-            setPlan(planData);
-            setContact(contactData);
+            const pharmacyId = updatedData.length > 0 ? updatedData.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
+            await getPlanDetails(pharmacyId, contactData);
             analyticsService.fireEvent("event-content-load", {
                 pagePath: "/:contactId/plan/:planId",
             });
@@ -92,19 +87,24 @@ const PlanDetailsPage = () => {
     }, [contactId, planId, showToast, effectiveDate, fetchPharmacies, clientsService, plansService, pharmacies, selectedPharmacy]);
 
     useEffect(() => {
-        if(filterPharmacyId !== selectedPharmacy?.pharmacyId){
-            getContactAndPlanData();
-            setFilterPharmacyId(selectedPharmacy?.pharmacyId);
+        if(filterPharmacyId !== selectedPharmacy?.pharmacyId) {
+            getPlanDetails(selectedPharmacy?.pharmacyId, contact).then(() => {
+                setFilterPharmacyId(selectedPharmacy?.pharmacyId);
+            });
         }
     }, [selectedPharmacy]);
+
+    useEffect(() => {
+        getContactAndPlanData();
+    }, []);
 
     return (
         <React.Fragment>
             <div className={`${styles["plan-details-page"]}`} style={isLoading ? { background: "#ffffff" } : {}}>
                 <Media
                     query={"(max-width: 500px)"}
-                    onChange={(isMobile) => {
-                        setIsMobile(isMobile);
+                    onChange={(isMobileDevice) => {
+                        setIsMobile(isMobileDevice);
                     }}
                 />
 

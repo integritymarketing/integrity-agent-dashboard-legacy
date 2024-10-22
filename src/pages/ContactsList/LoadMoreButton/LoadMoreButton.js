@@ -7,15 +7,11 @@ import styles from "./styles.module.scss";
 
 import { useContactsListContext } from "../providers/ContactsListProvider";
 
-const DEFAULT_PAGE_ITEM = 12;
-
 function LoadMoreButton() {
-    const { fetchSilently, pageResult, layout, pageSize, setPageSize } = useContactsListContext();
+    const { fetchMoreContactsByPage, pageResult, layout } = useContactsListContext();
 
     const onLoadMoreHandle = () => {
-        const newSize = pageSize + DEFAULT_PAGE_ITEM;
-        setPageSize(newSize);
-        fetchSilently(newSize);
+        fetchMoreContactsByPage();
     };
 
     if (pageResult?.totalPages <= 1) {

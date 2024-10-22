@@ -76,6 +76,7 @@ function useFetchTableData() {
             isSilent,
             selectedFilterSections,
             filterSectionsConfig,
+            appendData=false,
         }) => {
             try {
                 if (!isSilent && !selectedFilterSections?.length) {
@@ -132,8 +133,18 @@ function useFetchTableData() {
                             : res.contactRecordType,
                 }));
                 setPageResult(response?.pageResult);
-                setTableData(listData);
-                setAllLeads(listData?.map((contact) => contact.leadsId));
+                if(appendData){
+                    setTableData((prevTableData) => [...(prevTableData || []), ...listData]);
+                    if (listData && Array.isArray(listData)) {
+                        setAllLeads((prevLeads) => [
+                            ...(prevLeads || []),
+                            ...listData.map((contact) => contact.leadsId),
+                        ]);
+                    }
+                }else {
+                    setTableData(listData);
+                    setAllLeads(listData?.map((contact) => contact.leadsId));
+                }
                 setIsLoading(false);
             } catch (error) {
                 setIsLoading(false);
