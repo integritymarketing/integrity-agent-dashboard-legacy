@@ -45,7 +45,7 @@ const useWebStyles = makeStyles({
             position: "absolute",
             top: "12px",
             right: "0",
-        }
+        },
     },
     compareTable: {
         width: "100% !important",
@@ -93,6 +93,9 @@ const useMobileStyles = makeStyles({
         },
         padding: "unset !important",
     },
+    isAdditionalGrey: {
+        backgroundColor: "rgba(0, 0, 0, 0.15) !important",
+    },
     addressText: {
         color: "#434A51",
         fontSize: 16,
@@ -133,7 +136,7 @@ const useMobileStyles = makeStyles({
     },
 });
 
-const Address = ({ addresses, isPlanPage }) => {
+const Address = ({ addresses, isPlanPage, isAdditional }) => {
     const classes = useMobileStyles();
     const isMultiple = addresses?.length > 1;
 
@@ -143,7 +146,9 @@ const Address = ({ addresses, isPlanPage }) => {
                 return (
                     <ListItemButton
                         key={address?.id}
-                        className={`${classes.listItem}, ${isMultiple ? classes.isMultiple : classes.isSingle}`}
+                        className={`${classes.listItem}, ${isMultiple ? classes.isMultiple : classes.isSingle} ${
+                            isAdditional ? classes.isAdditionalGrey : ""
+                        }`}
                         selected={true}
                     >
                         {isPlanPage && (
@@ -162,8 +167,8 @@ const Address = ({ addresses, isPlanPage }) => {
                                     <div>
                                         {address
                                             ? [address?.city, address?.state, address?.zipCode]
-                                                .filter(Boolean)
-                                                .join(",")
+                                                  .filter(Boolean)
+                                                  .join(",")
                                             : null}
                                     </div>
                                 </div>
@@ -200,7 +205,7 @@ const MobileAddress = ({ addresses, isPlanPage }) => {
                             Additional Locations ({additionalAddresses?.length})
                         </Typography>
                     </Box>
-                    {isOpen && <Address addresses={additionalAddresses} isPlanPage={isPlanPage} />}
+                    {isOpen && <Address addresses={additionalAddresses} isPlanPage={isPlanPage} isAdditional={true} />}
                 </>
             )}
         </Box>

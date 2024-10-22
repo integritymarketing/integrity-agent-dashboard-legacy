@@ -263,6 +263,7 @@ const ProviderModal = ({ open, onClose, userZipCode, isEdit, selected, refresh, 
             onSave={isEdit ? handleEditProvider : handleSaveProvider}
             actionButtonName={isEdit ? "Update Provider" : "Add Provider"}
             customFooter={isEdit && <CustomFooter buttonName={"Delete Provider"} onClick={handleDeleteProvider} />}
+            isCurved={isEdit ? false : true}
             actionButtonDisabled={disabled}
             endIcon={selectedProvider ? <AddCircleOutline /> : <ArrowForwardWithCirlce />}
         >

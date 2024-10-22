@@ -11,7 +11,7 @@ import SearchLabel from "../SharedComponents/SearchLabel";
 import PrescriptionList from "./PrescriptionList";
 import PrescriptionForm from "./PrescriptionForm";
 import { useClientServiceContext } from "services/clientServiceProvider";
-
+import CustomFooter from "components/Modal/CustomFooter";
 import "./styles.module.scss";
 
 const transformPrescriptionOptions = (option) => {
@@ -26,14 +26,6 @@ const transformPrescriptionOptions = (option) => {
         g_description: genericDrugType ? genericDrugType : "Generic",
         g_label: genericDrugName,
     };
-};
-
-const frontTruncate = (str, maxChars, replacement = "...") => {
-    if (str.length > maxChars) {
-        const value = str.slice(0, 14) + replacement + str.slice(str.length - 13, str.length);
-        return value;
-    }
-    return str;
 };
 
 const PrescriptionModal = ({ onClose: onCloseHandler, open, item, isEdit, refresh, leadId }) => {
@@ -261,13 +253,17 @@ const PrescriptionModal = ({ onClose: onCloseHandler, open, item, isEdit, refres
             open={open}
             title={isEdit ? "Update Prescription" : "Add Prescriptions"}
             onClose={onClose}
-            onCancel={isEdit ? handleDeletePrescription : onClose}
-            cancelButtonName={isEdit ? "Delete Prescription" : "Cancel"}
+            onCancel={onClose}
+            cancelButtonName={"Cancel"}
             onSave={isEdit ? handleUpdatePrescription : addFunction}
             actionButtonName={isEdit ? "Update Prescription" : "Add Prescription"}
             actionButtonDisabled={disabled}
             endIcon={selectedDrug ? <AddCircleOutline /> : <ArrowForwardWithCircle />}
             modalName="Prescription"
+            isCurved={isEdit ? false : true}
+            customFooter={
+                isEdit && <CustomFooter buttonName={"Delete Prescription"} onClick={handleDeletePrescription} />
+            }
         >
             {!selectedDrug && !isLoading ? (
                 <>

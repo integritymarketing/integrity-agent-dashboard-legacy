@@ -14,8 +14,6 @@ import Heading2 from "packages/Heading2";
 import Heading3 from "packages/Heading3";
 import Tags from "packages/Tags/Tags";
 
-import GoBackNavbar from "components/BackButtonNavbar";
-
 import Footer from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
@@ -27,6 +25,7 @@ import ContactSearch from "./ContactSearch";
 import CreateNewContact from "./CreateNewContact";
 import PossibleMatches from "./PossibleMatches";
 import styles from "./styles.module.scss";
+import BackButton from "components/BackButton";
 
 export default function LinkToContact() {
     const navigate = useNavigate();
@@ -44,7 +43,7 @@ export default function LinkToContact() {
             return null;
         }
     });
-    const callIsAssigned = !callRecordings.some(callRecording => callRecording?.callLogId === parseInt(callLogId));
+    const callIsAssigned = !callRecordings.some((callRecording) => callRecording?.callLogId === parseInt(callLogId));
 
     const getContacts = async (searchStr) => {
         setIsLoading(true);
@@ -53,7 +52,7 @@ export default function LinkToContact() {
                 undefined,
                 undefined,
                 ["Activities.CreateDate:desc"],
-                searchStr
+                searchStr,
             );
             setIsLoading(false);
             if (response && response.result) {
@@ -69,6 +68,7 @@ export default function LinkToContact() {
     const bannerContent = () => {
         return (
             <>
+                <BackButton />
                 <Heading3 text="Link to contacts" />
                 <div>
                     <Button size={"medium"} startIcon={<CallScriptIcon />} onClick={() => setModalOpen(true)}>
@@ -84,7 +84,7 @@ export default function LinkToContact() {
             callLog.callLogTags.map((tagInfo) => ({
                 tagId: tagInfo.tag.tagId,
                 tagLabel: tagInfo.tag.tagLabel,
-            }))
+            })),
         );
 
         // Remove potential duplicates based on tagId
@@ -117,7 +117,6 @@ export default function LinkToContact() {
                 <title>Integrity - Link to Contact</title>
             </Helmet>
             <GlobalNav />
-            <GoBackNavbar />
             <DashboardHeaderSection
                 content={bannerContent()}
                 justifyContent={"space-between"}

@@ -34,6 +34,7 @@ export default function Modal({
     maxWidth = "sm",
     isAddPharmacy,
     onAdd,
+    isCurved,
 }) {
     const { isMobile } = useDeviceType();
 
@@ -89,7 +90,7 @@ export default function Modal({
             </DialogContent>
             {!hideFooter && (
                 <DialogActions className={styles.footer} sx={{ padding: 0 }}>
-                    <Box className={styles.footerButtons}>
+                    <Box className={isCurved ? styles.curvedFooterButtons : styles.footerButtons}>
                         {onCancel ? (
                             <Button onClick={onCancel} className={styles.cancelButton}>
                                 {cancelButtonName ? cancelButtonName : "Cancel"}
@@ -155,6 +156,7 @@ Modal.propTypes = {
     maxWidth: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl"]),
     isAddPharmacy: PropTypes.bool,
     onAdd: PropTypes.func,
+    isCurved: PropTypes.bool,
 };
 
 Modal.defaultProps = {
@@ -173,4 +175,5 @@ Modal.defaultProps = {
     maxWidth: "sm",
     isAddPharmacy: false,
     onAdd: null,
+    isCurved: true,
 };
