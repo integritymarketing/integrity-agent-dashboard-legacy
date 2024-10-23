@@ -58,11 +58,9 @@ const useStyles = makeStyles({
     },
     listItem: {
         backgroundColor: "#dddddd !important",
-
         "&.Mui-selected, &.Mui-selected:hover, &:hover": {
             backgroundColor: "#f1faff !important",
         },
-        padding: "unset !important",
     },
     addressText: {
         color: "#434A51",
@@ -88,6 +86,10 @@ const useStyles = makeStyles({
             color: "#4178FF",
         },
     },
+    isSingle: {
+        borderRadius: "4px",
+        boxShadow: "unset",
+    },
     isMultiple: {
         boxShadow: "inset 0px -1px 0px #CCCCCC",
         "&:first-child": {
@@ -95,9 +97,7 @@ const useStyles = makeStyles({
         },
         "&:last-child": {
             borderRadius: "0px 0px 4px 4px",
-        },
-        isSingle: {
-            borderRadius: "4px",
+            boxShadow: "unset",
         },
     },
 });
@@ -147,7 +147,7 @@ const Address = ({
                 return (
                     <ListItemButton
                         key={address?.id}
-                        className={`${classes.listItem}, ${isMultiple ? classes.isMultiple : classes.isSingle}`}
+                        className={`${classes.listItem} ${isMultiple ? classes.isMultiple : classes.isSingle}`}
                         selected={isChecked}
                         disabled={disableOtherAddresses(address?.id)}
                     >
@@ -190,15 +190,15 @@ const ProviderCard = ({
     disableAddressSelect,
 }) => {
     const classes = useStyles();
-    const [isOpen, setOpenToggle] = useState({})
+    const [isOpen, setOpenToggle] = useState({});
 
-    let selectedAddresses = providerToEdit?.addresses?.map((address) => address.id);
+    const selectedAddresses = providerToEdit?.addresses?.map((address) => address.id);
 
     const handleToggleOpen = (NPI, event) => {
         event.stopPropagation(); // Prevents event bubbling
-        setOpenToggle(prevOpen => ({
+        setOpenToggle((prevOpen) => ({
             ...prevOpen,
-            [NPI]: !prevOpen[NPI]
+            [NPI]: !prevOpen[NPI],
         }));
     };
 
