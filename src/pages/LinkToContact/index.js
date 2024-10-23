@@ -109,8 +109,6 @@ export default function LinkToContact() {
 
     const tagIds = flattenedTags?.map((tag) => tag.tagId);
 
-    const arrayToString = tagIds?.length > 0 ? tagIds?.join(", ") : "";
-
     const goToAddNewContactsPage = useCallback(() => {
         const baseRoute = `/contact/add-new/`;
         const logIdParam = callLogId ? `${callLogId}` : "";
@@ -213,7 +211,7 @@ export default function LinkToContact() {
                         </div>
                     ) : null}
 
-                    {callIsAssigned ? (
+                    {callIsAssigned && name !== "Text" ? (
                         <div className={styles.medContent}>
                             <div className={styles.content}>This call is already assigned to a lead.</div>
                         </div>

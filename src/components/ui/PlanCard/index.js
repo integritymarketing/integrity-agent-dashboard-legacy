@@ -19,6 +19,7 @@ import Rating from "../Rating";
 import EnrollBack from "images/enroll-btn-back.svg";
 import { usePharmacyContext } from "providers/PharmacyProvider/usePharmacyContext";
 import CommissionableInfo from "./commissionableInfo";
+import Box from "@mui/material/Box";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -206,43 +207,90 @@ export default function PlanCard({
                     <SelfRecommendation pills={getCoverageRecommendations(planData)} />
                 </div>
             )}
+            {!isMobile && (
+                <div className={`footer ${isMobile ? "mobile" : ""}`}>
+                    <div className={"compare-check "}>
+                        <input
+                            type="checkbox"
+                            className={"compare-inpt"}
+                            disabled={isCompareDisabled}
+                            checked={isChecked}
+                            onChange={(e) => onChangeCompare(e.target.checked)}
+                        />
+                        <span className={"compare-txt"}>Compare</span>{" "}
+                    </div>
+                    <div onClick={() => onDetailsClick(planData?.id)} className="planDetailsBtn">
+                        Plan Details
+                    </div>
+                    {(planData?.planType === 1 || planData?.planType === 2) && (
+                        <CommissionableInfo status={planData?.commissionable} />
+                    )}
+                    {!planData?.nonLicensedPlan && (
+                        <Button
+                            label={"Apply"}
+                            onClick={() => {
+                                setPreCheckListPdfModal(true);
+                                fireEvent("Health Apply CTA Clicked", {
+                                    leadid: leadId,
+                                    line_of_business: "Health",
+                                    product_type: PLAN_TYPE_ENUMS[planData?.planType]?.toLowerCase(),
+                                });
+                            }}
+                            icon={<img src={EnrollBack} alt="enroll" />}
+                            className={"enroll-btn"}
+                            disabled={disableEnroll}
+                            style={disableEnroll ? { opacity: 0.5, pointerEvent: "none" } : null}
+                            iconPosition={"right"}
+                        />
+                    )}
+                </div>
+            )}
+            {isMobile && (
+                <div className={`footer flex-column ${isMobile ? "mobile" : ""}`}>
+                    <Box className="mobileFooterSection">
+                        <div onClick={() => onDetailsClick(planData?.id)} className="planDetailsBtn">
+                            Plan Details
+                        </div>
 
-            <div className={`footer ${isMobile ? "mobile" : ""}`}>
-                <div className={"compare-check "}>
-                    <input
-                        type="checkbox"
-                        className={"compare-inpt"}
-                        disabled={isCompareDisabled}
-                        checked={isChecked}
-                        onChange={(e) => onChangeCompare(e.target.checked)}
-                    />
-                    <span className={"compare-txt"}>Compare</span>{" "}
+                        {(planData?.planType === 1 || planData?.planType === 2) && (
+                            <CommissionableInfo status={planData?.commissionable} />
+                        )}
+                    </Box>
+
+                    <Box className="mobileFooterSection" marginTop="16px">
+                        <div className={"compare-check "}>
+                            <input
+                                type="checkbox"
+                                className={"compare-inpt"}
+                                disabled={isCompareDisabled}
+                                checked={isChecked}
+                                onChange={(e) => onChangeCompare(e.target.checked)}
+                            />
+                            <span className={"compare-txt"}>Compare</span>{" "}
+                        </div>
+                        <div>
+                            {!planData?.nonLicensedPlan && (
+                                <Button
+                                    label={"Apply"}
+                                    onClick={() => {
+                                        setPreCheckListPdfModal(true);
+                                        fireEvent("Health Apply CTA Clicked", {
+                                            leadid: leadId,
+                                            line_of_business: "Health",
+                                            product_type: PLAN_TYPE_ENUMS[planData?.planType]?.toLowerCase(),
+                                        });
+                                    }}
+                                    icon={<img src={EnrollBack} alt="enroll" />}
+                                    className={"enroll-btn"}
+                                    disabled={disableEnroll}
+                                    style={disableEnroll ? { opacity: 0.5, pointerEvent: "none" } : null}
+                                    iconPosition={"right"}
+                                />
+                            )}
+                        </div>
+                    </Box>
                 </div>
-                <div onClick={() => onDetailsClick(planData?.id)} className="planDetailsBtn">
-                    Plan Details
-                </div>
-                {(planData?.planType === 1 || planData?.planType === 2) && (
-                    <CommissionableInfo status={planData?.commissionable} />
-                )}
-                {!planData?.nonLicensedPlan && (
-                    <Button
-                        label={"Apply"}
-                        onClick={() => {
-                            setPreCheckListPdfModal(true);
-                            fireEvent("Health Apply CTA Clicked", {
-                                leadid: leadId,
-                                line_of_business: "Health",
-                                product_type: PLAN_TYPE_ENUMS[planData?.planType]?.toLowerCase(),
-                            });
-                        }}
-                        icon={<img src={EnrollBack} alt="enroll" />}
-                        className={"enroll-btn"}
-                        disabled={disableEnroll}
-                        style={disableEnroll ? { opacity: 0.5, pointerEvent: "none" } : null}
-                        iconPosition={"right"}
-                    />
-                )}
-            </div>
+            )}
             {preCheckListPdfModal && (
                 <PreEnrollPDFModal
                     open={preCheckListPdfModal}

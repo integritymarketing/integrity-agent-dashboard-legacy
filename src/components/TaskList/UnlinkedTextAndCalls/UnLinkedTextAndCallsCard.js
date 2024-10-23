@@ -14,6 +14,7 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
     const navigate = useNavigate();
     const theme = useTheme();
     const isMobileView = useMediaQuery(theme.breakpoints.down("sm"));
+    const isTabletView = useMediaQuery(theme.breakpoints.down("md"));
 
     const [isUnlinkedTextModalOpen, setIsUnlinkedTextModalOpen] = useState(false);
 
@@ -52,7 +53,7 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
     return (
         <Box className={styles.unlinkedCard}>
             <Grid container className={styles.unlinkedCardGridContainer}>
-                <Grid item md={4} xs={12}>
+                <Grid item md={3} xs={12}>
                     <Box className={styles.contactInfo}>
                         <Box marginRight="8px">
                             <IconBackGround>
@@ -98,36 +99,29 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
                         )}
                     </Box>
                 </Grid>
-                <Grid item md={5} xs={12}>
-                    <Box className={styles.linkToContact}>
-                        <Box className={styles.iconBox}>
-                            {isMobileView ? (
-                                <Box onClick={handleDownloadAndTextClick}>
-                                    {isSms ? (
-                                        <View color="#4178FF" size="lg" />
-                                    ) : (
-                                        <Download color="#4178FF" size="lg" />
-                                    )}
-                                </Box>
-                            ) : (
-                                <Button
-                                    onClick={handleDownloadAndTextClick}
-                                    variant="text"
-                                    color="primary"
-                                    size="small"
-                                    endIcon={
-                                        isSms ? (
-                                            <View color="#4178FF" size="lg" />
-                                        ) : (
-                                            <Download color="#4178FF" size="lg" />
-                                        )
-                                    }
-                                >
-                                    {isSms ? "View Text" : "Download Call"}
-                                </Button>
-                            )}
-                        </Box>
-
+                <Grid item md={3} xs={2}>
+                    <Box className={styles.iconBox}>
+                        {isMobileView || isTabletView ? (
+                            <Box onClick={handleDownloadAndTextClick}>
+                                {isSms ? <View color="#4178FF" size="lg" /> : <Download color="#4178FF" size="lg" />}
+                            </Box>
+                        ) : (
+                            <Button
+                                onClick={handleDownloadAndTextClick}
+                                variant="text"
+                                color="primary"
+                                size="small"
+                                endIcon={
+                                    isSms ? <View color="#4178FF" size="lg" /> : <Download color="#4178FF" size="lg" />
+                                }
+                            >
+                                {isSms ? "View Text" : "Download Call"}
+                            </Button>
+                        )}
+                    </Box>
+                </Grid>
+                <Grid item md={3} xs={10}>
+                    <Box className={styles.linkContactButton}>
                         <Button
                             onClick={linkToContact}
                             variant="contained"

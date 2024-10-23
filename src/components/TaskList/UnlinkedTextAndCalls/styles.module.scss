@@ -28,18 +28,10 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            margin-right: 30px;
+            margin-right: 10px;
             @include small {
                 margin-right: 16px;
-            }
-        }
-        .linkToContact {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            @include small {
-                margin-top: 24px;
-                justify-content: flex-start;
+                margin-top: 16px;
             }
         }
         .label {
@@ -51,5 +43,11 @@
             color: #4178ff;
             font-weight: 500;
         }
+    }
+}
+
+.linkContactButton {
+    @include small {
+        margin-top: 16px;
     }
 }
