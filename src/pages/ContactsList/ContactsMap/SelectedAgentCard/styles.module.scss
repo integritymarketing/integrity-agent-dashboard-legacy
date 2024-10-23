@@ -1,0 +1,84 @@
+.selectedAgentCard {
+    background-color: white;
+    border-radius: 6px;
+    height: 635px;
+    padding-top: 20px;
+}
+
+.backButton {
+    gap: 10px;
+    color: #4178ff;
+    margin-bottom: 20px;
+    width: fit-content;
+}
+
+.avatarContainer {
+    text-align: center;
+}
+
+.agentName {
+    color: #052a63;
+    font-size: 24px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.agentDetailsContainer {
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.agentDetailRow {
+    margin-bottom: 15px;
+    svg {
+        cursor: pointer;
+    }
+}
+
+.agentDetailValue {
+    margin-top: 8px;
+}
+
+.stageContainer {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.viewContactLink {
+    text-decoration: none;
+}
+
+button.viewContactButton:not(.button-link) {
+    margin: 15px auto;
+    background-color: #4178ff;
+    border-radius: 50px;
+    padding: 5px 17px;
+    text-decoration: none;
+}
+
+.disabled {
+    filter: grayscale(1);
+    svg {
+        cursor: not-allowed;
+    }
+}
+
+.iconStyle {
+    width: 34px;
+    height: 40px;
+    svg {
+        background-color: #f1faff;
+        border-radius: 100px;
+        padding: 5px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.iconStylesLocation {
+    svg {
+        padding: 9px;
+    }
+}

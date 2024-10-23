@@ -35,6 +35,11 @@
     cursor: pointer;
 }
 
+.filterDisabled {
+    filter: grayscale(100%);
+    cursor: not-allowed;
+}
+
 .optionWithIcon {
     display: flex;
     flex-direction: row;

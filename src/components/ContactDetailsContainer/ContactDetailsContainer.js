@@ -32,10 +32,12 @@ export const ContactDetailsContainer = () => {
     const { leadId, sectionId } = useParams();
     const params = useQueryParams();
     const tabSelectedInitial = params.get("tab");
+    const isNewTextOpenInitial = params.get("isNewTextOpen");
     const { selectedTab, setSelectedTab, isLoadingLeadDetails, leadDetails, updateLeadDetailsWithZipCode } =
         useLeadDetails();
     const navigate = useNavigate();
     const [tabSelectedInitialState, setTabSelectedInitial] = useState(tabSelectedInitial);
+    const [isNewTextOpen, setIsNewTextOpen] = useState(isNewTextOpenInitial);
     const [isMobile, setIsMobile] = useState(false);
 
     const zipCode = leadDetails?.addresses?.[0]?.postalCode;
@@ -46,7 +48,10 @@ export const ContactDetailsContainer = () => {
         if (tabSelectedInitial) {
             setTabSelectedInitial(tabSelectedInitial);
         }
-    }, [tabSelectedInitial]);
+        if (isNewTextOpenInitial) {
+            setIsNewTextOpen(isNewTextOpenInitial);
+        }
+    }, [tabSelectedInitial, isNewTextOpenInitial]);
 
     useEffect(() => {
         const targetTab = sectionId || "overview";
@@ -102,6 +107,7 @@ export const ContactDetailsContainer = () => {
                         setTabSelectedInitial={setTabSelectedInitial}
                         tabSelectedInitialParam={tabSelectedInitialState}
                         isMobile={isMobile}
+                        isNewTextOpen={isNewTextOpen}
                     />
                 );
             default:

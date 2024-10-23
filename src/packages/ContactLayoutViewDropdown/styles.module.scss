@@ -1,0 +1,45 @@
+.body {
+    padding: 10px;
+}
+
+.option {
+    display: flex;
+    gap: 5px;
+    height: 40px;
+    padding: 0 10px;
+    &:hover {
+        cursor: pointer;
+        background-color: #e3e3e3;
+    }
+}
+
+.listIconActive {
+    margin-bottom: -6px;
+}
+
+.iconWrap {
+    cursor: pointer;
+}
+
+.optionList {
+    .optionName {
+        margin-top: 8px;
+    }
+}
+
+.optionCard {
+    padding-top: 8px;
+    padding-left: 16px;
+    .optionName {
+        padding-left: 7px;
+    }
+}
+
+.optionMap {
+    padding-left: 12px;
+    .optionName {
+        padding-left: 7px;
+        margin-top: 8px;
+        margin-left: -4px;
+    }
+}

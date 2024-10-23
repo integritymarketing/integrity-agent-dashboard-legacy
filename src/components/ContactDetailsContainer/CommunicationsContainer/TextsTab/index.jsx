@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import * as Sentry from "@sentry/react";
-import { Box, TextareaAutosize, Typography, Button, Tooltip } from "@mui/material";
+import { Box, TextareaAutosize, Typography, Button } from "@mui/material";
 import PlusIcon from "components/icons/plus";
 import styles from "./TextsTab.module.scss";
 import MessageCard from "./MessageCard";
@@ -9,11 +9,12 @@ import { useCallsHistory, useLeadDetails } from "providers/ContactDetails";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useToast from "hooks/useToast";
 import useAnalytics from "hooks/useAnalytics";
+import PropTypes from "prop-types";
 
 const MAX_CHARACTERS_LENGTH = 160;
 
-const TextsTab = () => {
-    const [isNewTextInputOpen, setIsNewTextInputOpen] = useState(false);
+const TextsTab = ({ isNewTextOpen }) => {
+    const [isNewTextInputOpen, setIsNewTextInputOpen] = useState(isNewTextOpen === "true");
     const [newMessageValue, setNewMessageValue] = useState("");
     const { postSendMessage, getMessageList, messageList, postUpdateMessageRead, messageListLoading } =
         useCallsHistory();
@@ -23,10 +24,6 @@ const TextsTab = () => {
     const { showToast } = useToast();
     const formattedPhoneNumber = agentVirtualPhoneNumber?.replace(/^\+1/, "");
     const { fireEvent } = useAnalytics();
-
-    // const isSmsCompatible = useMemo(() => {
-    //     return leadDetails?.phones?.[0]?.isSmsCompatible;
-    // }, [leadDetails?.phones]);
 
     useEffect(() => {
         getMessageList(agentNPN, leadDetails.leadsId);
@@ -39,7 +36,7 @@ const TextsTab = () => {
         if (smsLogIds.length) {
             postUpdateMessageRead({ smsLogIds });
         }
-    }, [messageList]);
+    }, [messageList, postUpdateMessageRead]);
 
     const handleMessageChange = (value) => {
         if (value.length > MAX_CHARACTERS_LENGTH) {
@@ -81,7 +78,7 @@ const TextsTab = () => {
     };
 
     const sortedMessageList = [...messageList].sort(
-        (a, b) => new Date(b.createdDateTime) - new Date(a.createdDateTime)
+        (a, b) => new Date(b.createdDateTime) - new Date(a.createdDateTime),
     );
 
     return (
@@ -89,24 +86,16 @@ const TextsTab = () => {
             <div className={styles.headerContainer}>
                 <div className={styles.messagesLengthTitle}>{messageList.length} messages</div>
                 <div className={styles.sendNewTextButton}>
-                    {/* <Tooltip
-                        title={isSmsCompatible ? "" : "Please add a valid phone number that can accept text messages."}
-                        placement="top"
-                        arrow
-                    > */}
                     <span>
-                        {/* Wrapping button in a span to ensure the tooltip works when the button is disabled */}
                         <Button
                             variant="contained"
                             onClick={() => setIsNewTextInputOpen(true)}
                             endIcon={<PlusIcon strokeColor="#fff" />}
-                            // disabled={!isSmsCompatible}
                             size="medium"
                         >
                             Send a new text
                         </Button>
                     </span>
-                    {/* </Tooltip> */}
                 </div>
             </div>
             {isNewTextInputOpen && (
@@ -152,6 +141,10 @@ const TextsTab = () => {
             </div>
         </Box>
     );
+};
+
+TextsTab.propTypes = {
+    isNewTextOpen: PropTypes.string.isRequired,
 };
 
 export default TextsTab;

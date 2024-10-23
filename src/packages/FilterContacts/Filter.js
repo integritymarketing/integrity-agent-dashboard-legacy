@@ -51,6 +51,7 @@ function Filter({
     content,
     open,
     onToggle,
+    isDisabled,
     Icon,
     ActiveIcon,
     filtered,
@@ -82,8 +83,11 @@ function Filter({
 
     return (
         <Box sx={{ mr: 2 }}>
-            <LightTooltip title={heading} placement="top">
-                <div className={`${styles.filter} ${filterOverrideClass}`} onClick={handleClick}>
+            <LightTooltip title={isDisabled ? "" : heading} placement="top">
+                <div
+                    className={`${styles.filter} ${filterOverrideClass} ${isDisabled ? styles.filterDisabled : ""}`}
+                    onClick={isDisabled ? null : handleClick}
+                >
                     {filterToggle || open || filtered ? (
                         <ActiveIcon onMouseOut={() => setFilterToggle(false)} />
                     ) : (
@@ -123,6 +127,7 @@ Filter.propTypes = {
     content: PropTypes.node.isRequired,
     open: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
+    isDisabled: PropTypes.bool,
     Icon: PropTypes.elementType.isRequired,
     ActiveIcon: PropTypes.elementType.isRequired,
     filtered: PropTypes.bool,
@@ -135,6 +140,7 @@ Filter.defaultProps = {
     filtered: false,
     filterOverrideClass: "",
     countToDisplay: null,
+    isDisabled: false,
 };
 
 export default Filter;

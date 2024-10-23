@@ -1,0 +1,136 @@
+@import "../../scss/globalDefines.scss";
+
+.mapContainer {
+    height: 100%;
+    width: 100%;
+
+    >div>div {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    @include small {
+        >div>div {
+            border-radius: 8px;
+        }
+    }
+}
+
+.infoWindow {
+    padding-top: 16px;
+}
+
+.photoColumn {
+    display: flex;
+
+    @include small {
+        margin-top: 10px;
+    }
+}
+
+.viewContactLink {
+    button {
+        font-weight: normal;
+    }
+
+    text-decoration: none;
+}
+
+.infoWindowBody {
+    display: flex;
+    flex-direction: row;
+    padding-right: 15px;
+
+    @include small {
+        padding-right: 0;
+        flex-direction: column-reverse;
+    }
+}
+
+.closeRow {
+    text-align: right;
+    position: absolute;
+    right: 10px;
+    top: 6px;
+
+    svg {
+        cursor: pointer;
+        filter: grayscale(1);
+    }
+}
+
+.agentName {
+    color: #052a63;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.agentDetailsRow {
+    margin-bottom: 10px;
+    gap: 10px;
+    display: flex;
+
+    svg {
+        cursor: pointer;
+    }
+}
+
+.viewContactLink {
+    button {
+        font-weight: normal;
+    }
+}
+
+.viewContactButton {
+    padding-left: 0;
+}
+
+.infoWindowContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+.iconStyle {
+    width: 34px;
+    height: 40px;
+
+    svg {
+        background-color: #f1faff;
+        border-radius: 100px;
+        padding: 5px;
+        width: 39px;
+        height: 40px;
+    }
+}
+
+.iconStylesLocation {
+    svg {
+        padding: 9px;
+    }
+}
+
+.nameColumn {
+    border-right: solid 1px #cccccc;
+    margin-right: 15px;
+    padding-right: 15px;
+
+    @include small {
+        border-right: none;
+        border-top: solid 1px #cccccc;
+        margin-top: 20px;
+        padding-top: 20px;
+        margin-right: 0px;
+        padding-right: 0px;
+    }
+}
+
+.disabled {
+    filter: grayscale(1);
+
+    svg {
+        cursor: not-allowed;
+    }
+}

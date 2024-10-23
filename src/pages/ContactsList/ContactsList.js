@@ -19,6 +19,7 @@ import { ContactListHeaderMobile } from "./ContactsListHeader/ContactListHeaderM
 import useDeviceType from "hooks/useDeviceType";
 
 import { ContactsCard } from "./ContactsCard";
+import { ContactsMap } from "./ContactsMap";
 import { ContactsListActions } from "./ContactsListActions";
 import { ContactsTable } from "./ContactsTable";
 import { DuplicateBanner } from "./DuplicateBanner";
@@ -66,6 +67,14 @@ function ContactsList() {
                                         element={
                                             <ContactDetailsProvider>
                                                 <ContactsCard />
+                                            </ContactDetailsProvider>
+                                        }
+                                    />
+                                    <Route
+                                        path="/map"
+                                        element={
+                                            <ContactDetailsProvider>
+                                                <ContactsMap />
                                             </ContactDetailsProvider>
                                         }
                                     />

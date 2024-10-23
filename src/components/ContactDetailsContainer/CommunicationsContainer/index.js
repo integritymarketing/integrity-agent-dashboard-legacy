@@ -11,7 +11,8 @@ import TextsTab from "./TextsTab";
 import { useWindowSize } from "hooks/useWindowSize";
 import { useCallsHistory } from "providers/ContactDetails/ContactDetailsContext";
 import useAnalytics from "hooks/useAnalytics";
-const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitial }) => {
+
+const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitial, isNewTextOpen }) => {
     const params = useQueryParams();
     const { width: windowWidth } = useWindowSize();
     const { messageList } = useCallsHistory();
@@ -27,7 +28,7 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
             texts: {
                 key: "texts",
                 position: 0,
-                component: <TextsTab />,
+                component: <TextsTab isNewTextOpen={isNewTextOpen} />,
             },
             calls: {
                 key: "calls",
@@ -40,7 +41,7 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                 component: <SOAsContainerTab />,
             },
         }),
-        []
+        [isNewTextOpen]
     );
 
     useEffect(() => {
@@ -62,7 +63,6 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                 communicationMethod: "text messages",
                 leadId: leadId,
             });
-            console.log("Analytics event fired for reading unread text messages");
         }
 
         if (newValue === "calls" && unviewedCallCount > 0) {
@@ -79,6 +79,7 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
         params.set("tab", newValue);
         setTabSelectedInitial(newValue);
     };
+
     const unReadMessagesCount = useMemo(() => {
         return messageList.filter((item) => !item.hasViewed && (item.smsType === "inbound" || !item.isFreeForm))
             ?.length;
@@ -100,9 +101,8 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                             onClick={() => handleTabChange("texts")}
                             label={
                                 <div
-                                    className={`${styles.tabTextContainer} ${
-                                        selectedTab != "texts" ? styles.inactiveTab : ""
-                                    }`}
+                                    className={`${styles.tabTextContainer} ${selectedTab != "texts" ? styles.inactiveTab : ""
+                                        }`}
                                 >
                                     {!isMobile && "Texts"}
                                     <Badge>
@@ -126,9 +126,8 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                             onClick={() => handleTabChange("calls")}
                             label={
                                 <div
-                                    className={`${styles.tabTextContainer} ${
-                                        selectedTab != "calls" ? styles.inactiveTab : ""
-                                    }`}
+                                    className={`${styles.tabTextContainer} ${selectedTab != "calls" ? styles.inactiveTab : ""
+                                        }`}
                                 >
                                     {!isMobile && "Calls"}
                                     <Badge>
@@ -153,9 +152,8 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
                             iconPosition="end"
                             label={
                                 <div
-                                    className={`${styles.tabTextContainer} ${
-                                        selectedTab != "scope-of-appointment" ? styles.inactiveTab : ""
-                                    }`}
+                                    className={`${styles.tabTextContainer} ${selectedTab != "scope-of-appointment" ? styles.inactiveTab : ""
+                                        }`}
                                 >
                                     {!isMobile && "SOAs"}
                                     <Badge>
@@ -179,6 +177,7 @@ const CommunicationsContainer = ({ tabSelectedInitialParam, setTabSelectedInitia
 CommunicationsContainer.propTypes = {
     tabSelectedInitialParam: PropTypes.string,
     setTabSelectedInitial: PropTypes.func.isRequired,
+    isNewTextOpen: PropTypes.string.isRequired,
 };
 
 export default CommunicationsContainer;

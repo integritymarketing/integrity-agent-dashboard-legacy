@@ -5,7 +5,7 @@ import BackIcon from "images/new-back-btn.svg";
 import { useMediaQuery, useTheme } from "@mui/material";
 import styles from "./BackButton.module.scss";
 
-function BackButton({ label = "Back", route = null, showInMobile = false }) {
+function BackButton({ label = "Back", route = null, showInMobile = false, onClick, className = "" }) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -28,9 +28,9 @@ function BackButton({ label = "Back", route = null, showInMobile = false }) {
             <Button
                 icon={<img src={BackIcon} alt="Back" />}
                 label={isMobile ? "" : label}
-                onClick={() => handleBackNavigation()}
+                onClick={onClick ? onClick : () => handleBackNavigation()}
                 type="tertiary"
-                className={styles.backButton}
+                className={`${styles.backButton} ${className}`}
             />
         </div>
     );
@@ -39,6 +39,8 @@ function BackButton({ label = "Back", route = null, showInMobile = false }) {
 BackButton.propTypes = {
     label: PropTypes.string, // optional string prop
     route: PropTypes.string,
+    showInMobile: PropTypes.bool,
+    className: PropTypes.string,
 };
 
 export default BackButton;
