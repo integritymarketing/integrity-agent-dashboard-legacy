@@ -1,5 +1,7 @@
 @use "sass:math";
 
+@import "../../scss/globalDefines.scss";
+
 @import "../../scss/mixins";
 
 .global-nav-v2 {
@@ -24,7 +26,7 @@
             }
         }
 
-        @media (max-width: 480px) {
+        @include small {
             position: absolute;
             top: 70px;
             margin: unset;
@@ -44,23 +46,37 @@
     &__mobile-trigger {
         margin-right: -0.5rem;
 
-        @media (max-width: 480px) {
+        @include small {
             bottom: 12px;
             position: absolute;
             right: 8px;
         }
     }
 
-    @media (max-width: 883px) {
+    &__taskList-mobile {
+        margin-right: 20px;
+
+        @include small {
+            top: 57px;
+            position: absolute;
+            right: 8px;
+
+            button {
+                margin-left: 8px;
+            }
+        }
+    }
+
+    @include medium {
         height: 144px;
         position: relative;
     }
 
-    @media (min-width: 480px) {
+    @include large {
         padding: 0.75rem 1.75rem;
     }
 
-    @media (min-width: 768px) {
+    @include large {
         padding: 20px 2.5rem;
 
         &--hasNotification {
@@ -173,11 +189,11 @@
         text-align: center;
     }
 
-    @media (min-width: 480px) {
+    @include small {
         padding: 1.75rem 1.75rem 3.25;
     }
 
-    @media (min-width: 768px) {
+    @include medium {
         padding: 2.5rem 2.5rem 3.25;
     }
 }
@@ -227,13 +243,13 @@
         align-items: center;
         padding: 0.5rem 1rem;
 
-        @media (min-width: 768px) {
+        @include medium {
             padding: 0.25rem 1rem;
         }
     }
 
     &__maintanance {
-        @media (min-width: 768px) {
+        @include medium {
             height: 92px;
         }
 
@@ -251,11 +267,11 @@
         font-weight: 500;
     }
 
-    @media (min-width: 768px) {
+    @include medium {
         position: absolute;
     }
 
-    @media (min-width: 900px) {
+    @include large {
         font-size: 1rem;
     }
 
@@ -314,7 +330,7 @@
     top: 0;
     width: 100%;
 
-    @media (max-width: 480px) {
+    @include small {
         align-items: flex-start;
         background-color: transparent;
         padding-left: 20px;
@@ -322,7 +338,7 @@
     }
 
     img {
-        @media (max-width: 480px) {
+        @include small {
             display: none;
         }
     }
@@ -330,7 +346,7 @@
     svg {
         color: gray;
 
-        @media (max-width: 480px) {
+        @include small {
             color: #ffff;
             width: 75%;
         }
@@ -340,7 +356,7 @@
         align-items: center;
         display: flex;
 
-        @media (max-width: 480px) {
+        @include small {
             display: none;
         }
 
@@ -363,7 +379,7 @@
 .logoImg {
     width: 100%;
 
-    @media (max-width: 480px) {
+    @include small {
         margin-top: 8px;
     }
 }
@@ -393,11 +409,13 @@
 }
 
 .taskListTitle {
-    color: #ffffff;
-    font-size: 18px;
-    left: 40%;
-    position: absolute;
-    top: 80px;
+    display: none;
+
+    @include small {
+        display: block;
+        color: #ffffff;
+        font-weight: 500;
+    }
 }
 
 .backButton {
@@ -405,7 +423,7 @@
     font-size: 16px;
     left: 4%;
     position: absolute;
-    top: 80px;
+    top: 60px;
     display: flex;
 
     span {

@@ -51,7 +51,7 @@ const DEFAULT_TABS = [
     {
         policyStatus: "Unlinked",
         policyStatusColor: "#DEEBFB",
-        name: "UnlinkedCalls",
+        name: "UnlinkedCommunications",
         value: 4,
     },
     {
@@ -203,7 +203,11 @@ export default function TaskList({ isMobile, npn }) {
         const selectedWidgetCount = tabs[index]?.policyCount;
 
         if (isMobile && selectedWidgetCount > 0) {
-            navigate(`/taskList-results-mobile-layout/${npn}/${widgetName}`);
+            navigate(
+                `/taskList-results-mobile-layout/${npn}/${
+                    widgetName === "UnlinkedCommunications" ? "UnlinkedCalls" : widgetName
+                }`
+            );
         }
     };
 

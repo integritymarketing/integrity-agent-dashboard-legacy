@@ -20,7 +20,7 @@ import analyticsService from "services/analyticsService";
 import { useClientServiceContext } from "services/clientServiceProvider";
 
 import validationService from "services/validationService";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ProfileMenu from "./ProfileMenu/ProfileMenu";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 
@@ -272,7 +272,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                               onClick: () =>
                                   window.open(
                                       `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`,
-                                      "_blank",
+                                      "_blank"
                                   ),
                           },
                           label: "LeadCENTER",
@@ -374,7 +374,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
             )}
             <header
                 className={`global-nav-v2 ${analyticsService.clickClass(
-                    "nav-wrapper",
+                    "nav-wrapper"
                 )} ${className} ${headernotificationClass}`}
                 {...props}
             >
@@ -384,13 +384,18 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
 
                 {page === "taskListMobileLayout" ? (
                     <>
-                        <div className="backButton" onClick={() => navigate(`/dashboard`)}>
-                            <span>
+                        <Box className="backButton" onClick={() => navigate(`/dashboard`)}>
+                            <Box>
                                 <img src={NewBackBtn} alt="Back" />
-                            </span>{" "}
-                            Back
-                        </div>
-                        <div className="taskListTitle">{title}</div>
+                            </Box>
+                            <Box marginTop="2px" marginLeft="4px">
+                                Back
+                            </Box>
+                        </Box>
+
+                        <Typography variant="h4" className="taskListTitle">
+                            {title}
+                        </Typography>
                     </>
                 ) : (
                     <div className={`global-nav-v2__title ${analyticsService.clickClass("nav-logo")}`}>
@@ -416,7 +421,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
           Causes console error in dev env only due to this issue
           https://github.com/ReactTraining/react-media/issues/139
         */}
-                        {isMobile && <SmallFormatMenu {...mobileMenuProps} />}
+                        {isMobile && <SmallFormatMenu {...mobileMenuProps} page={page} />}
                         <div className="onlyWeb flex">
                             {!isMobile && <LargeFormatMenu {...menuProps} />}
                             {!isMobile && user?.firstName && leadPreference && (

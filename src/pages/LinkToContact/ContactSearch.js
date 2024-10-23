@@ -1,14 +1,13 @@
 import React, { useCallback, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import SearchIcon from "@mui/icons-material/Search";
-import { InputAdornment, ListItem, ListItemButton, ListItemText, OutlinedInput, Typography } from "@mui/material";
+import { InputAdornment, ListItem, ListItemButton, ListItemText, OutlinedInput, Typography, Box } from "@mui/material";
+import { DropdownAContact } from "@integritymarketing/icons";
+
 import { styled } from "@mui/system";
 
 import useToast from "hooks/useToast";
 import useAnalytics from "hooks/useAnalytics";
-
-import Heading3 from "packages/Heading3";
 
 import Spinner from "components/ui/Spinner/index";
 
@@ -20,7 +19,7 @@ const SearchInput = styled(OutlinedInput)(() => ({
     background: "#FFFFFF 0% 0% no-repeat padding-box",
     borderRadius: "4px",
     "input::placeholder": {
-        color: "#434A51",
+        color: "#717171",
         fontSize: "16px",
     },
 }));
@@ -29,8 +28,8 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children,
     const showToast = useToast();
     const { fireEvent } = useAnalytics();
     const navigate = useNavigate();
-    const { clientsService, callRecordingsService } = useClientServiceContext();
 
+    const { clientsService, callRecordingsService } = useClientServiceContext();
     const updatePrimaryContact = useCallback(() => {
         return clientsService.updateLeadPhone(contact, callFrom);
     }, [clientsService, contact, callFrom]);
@@ -83,7 +82,12 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children,
 };
 
 export default function ContactSearch({ contacts, onChange, isLoading, tagIds }) {
-    const { callLogId, callFrom } = useParams();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+
+    const callLogId = queryParams.get("id");
+    const callFrom = queryParams.get("phoneNumber");
+
     const [searchStr, setSearchStr] = useState("");
     const callLogIdNumber = Number(callLogId);
 
@@ -121,15 +125,19 @@ export default function ContactSearch({ contacts, onChange, isLoading, tagIds })
 
     return (
         <div className={styles.searchContainer}>
-            <Heading3 className="pb-1" text="Add to Existing Contact" />
+            <Box marginBottom="8px">
+                <Typography variant="h4" color="#052a63">
+                    Add to Existing Contact
+                </Typography>
+            </Box>
             <SearchInput
                 size="small"
                 fullWidth
-                placeholder={"Start by typing a contact’s name"}
+                placeholder={"Search for a contact"}
                 type="search"
-                endAdornment={
+                startAdornment={
                     <InputAdornment position="end">
-                        <SearchIcon style={{ color: "#0052CE" }} aria-label="search" edge="end"></SearchIcon>
+                        <DropdownAContact color="#4178FF" size="md" />
                     </InputAdornment>
                 }
                 onChange={(e) => {
@@ -144,10 +152,11 @@ export default function ContactSearch({ contacts, onChange, isLoading, tagIds })
                     })
                 ) : (
                     <div className={styles.emptyList}>
-                        {" "}
-                        {searchStr && searchStr.length > 0 && contacts && contacts.length >= 0
-                            ? "No records found"
-                            : "Search for a contact"}
+                        <Typography variant="body2" color="#434A51">
+                            {searchStr && searchStr.length > 0 && contacts && contacts.length >= 0
+                                ? "No records found"
+                                : "Search for a contact"}
+                        </Typography>
                     </div>
                 )}
             </div>

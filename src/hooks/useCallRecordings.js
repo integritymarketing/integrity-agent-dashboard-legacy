@@ -13,7 +13,7 @@ export default function useCallRecordings() {
     const location = useLocation();
 
     const isLinkToContactPath = () => {
-        return location.pathname.includes("/link-to-contact/");
+        return location.pathname.includes("/link-to-contact");
     };
 
     async function fetchCallRecordings() {

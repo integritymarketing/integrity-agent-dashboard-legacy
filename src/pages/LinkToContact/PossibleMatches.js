@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/react";
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Typography, Box } from "@mui/material";
 
 import useAnalytics from "hooks/useAnalytics";
 import useToast from "hooks/useToast";
@@ -11,7 +12,11 @@ import styles from "./styles.module.scss";
 
 export default function PossibleMatches({ phone, tagIds }) {
     const [matches, setMatches] = useState([]);
-    const { callLogId, callFrom } = useParams();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+
+    const callLogId = queryParams.get("id");
+    const callFrom = queryParams.get("phoneNumber");
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
     const showToast = useToast();
@@ -23,10 +28,22 @@ export default function PossibleMatches({ phone, tagIds }) {
             const number = phone.toString().slice(2, phone.length);
             try {
                 const response = await clientsService.getList(
-                    undefined,
-                    undefined,
-                    ["Activities.CreateDate:desc"],
-                    number
+                    null,
+                    null,
+                    null,
+                    number,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    true,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
                 );
 
                 if (response && response?.result.length > 0) {
@@ -83,16 +100,20 @@ export default function PossibleMatches({ phone, tagIds }) {
     if (matches?.length > 0) {
         return (
             <div className={styles.possibleMatch}>
-                <div className={styles.title}>Possible Matches</div>
+                <Typography variant="h4" color="#052a63">
+                    Possible Matches
+                </Typography>
                 <div className={styles.matchList}>
                     {matches.map((contact, index) => (
-                        <div
-                            className={styles.matchItem}
+                        <Box
                             key={`matchItem-${index}`}
+                            className={styles.matchItem}
                             onClick={() => onClickHandler(contact)}
                         >
-                            {`${contact?.firstName} ${contact.lastName}`}
-                        </div>
+                            <Typography variant="body1" color="#434A51">
+                                {`${contact?.firstName} ${contact.lastName}`}
+                            </Typography>
+                        </Box>
                     ))}
                 </div>
             </div>

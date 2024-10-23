@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Typography, Box, Button } from "@mui/material";
-import NewBackBtn from "images/new-back-btn.svg";
+import NewBackBtn from "../../images/new-back-btn.svg";
 import styles from "./styles.module.scss";
 
 const SubHeader = ({

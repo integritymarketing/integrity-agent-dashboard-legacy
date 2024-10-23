@@ -1,107 +1,128 @@
 @import "src/scss/globalDefines.scss";
 
 .callScript {
-  height: 22px;
-  width: 22px;
+    height: 22px;
+    width: 22px;
 }
 
 .outerContainer {
-  display: flex;
-  justify-content: center;
-  background-color: #f4f8fb;
-  .innerContainer {
-    min-width: 328px;
-    height: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 3rem 0;
-    gap: 2rem;
+    justify-content: center;
+    background-color: #f1f1f1;
+    padding: 56px 24px;
+    .innerContainer {
+        width: 320px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: auto;
+        gap: 2rem;
 
-    .medContent {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+        .medContent {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     }
-  }
 }
 
 .searchContainer {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-
-  .contactsListContainer {
-    margin-top: 24px;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
-    max-height: 350px;
-    width: 100%;
-    .contactItem {
-      background-color: #ffffff;
-    }
+    justify-content: center;
 
-    .emptyList {
-      height: 350px;
-      width: 350px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: $bright-gray;
+    .contactsListContainer {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        max-height: 350px;
+        width: 288px;
+        .contactItem {
+            background-color: #ffffff;
+        }
+
+        .emptyList {
+            height: auto;
+            min-height: 100px;
+            width: 288px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #dddddd;
+            border-radius: 4px;
+        }
     }
-  }
 }
 
 .headerSection {
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px -1px 0px #c7ccd1;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px -1px 0px #c7ccd1;
 }
 
 .contactName {
-  padding: 4px 8px;
-  width: 100%;
-  cursor: pointer;
+    padding: 4px 8px;
+    width: 100%;
+    cursor: pointer;
 
-  &:hover {
-    background-color: #f1faff;
-  }
+    &:hover {
+        background-color: #f1faff;
+    }
 }
 .possibleMatch {
-  width: 100%;
-  .title {
-    color: #002d72;
-    font-size: 20px;
-  }
-  .matchList {
-    background-color: #ffffff;
-    border-radius: 4px;
-    margin-top: 10px;
-    .matchItem {
-      color: #051d43;
-      font-size: 16px;
-      padding: 10px;
-      box-shadow: inset 0px -1px 0px #00000029;
-      cursor: pointer;
-      &:last-child {
-        box-shadow: unset;
-      }
+    .matchList {
+        .matchItem {
+            margin-top: 8px;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+        }
     }
-  }
 }
 
 .callRecording {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  .content {
-    color: #051d43;
-    font-size: 16px;
-  }
-  .mt10 {
-    margin-top: 10px;
-  }
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .content {
+        color: #051d43;
+        font-size: 16px;
+    }
+    .mt10 {
+        margin-top: 10px;
+    }
+}
+
+.divider {
+    margin: 0px 16px;
+    border-right: 1px solid #434a51;
+}
+
+.linkToContactSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 4px;
+}
+
+.createNewContact {
+    margin: 32px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.smsContent {
+    padding: 24px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    margin-top: 8px;
+    margin-bottom: 24px;
 }

@@ -3,10 +3,16 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MobileMenu from "./MobileMenu";
 import PlusMenu from "./plusMenu";
 
-const SmallFormatNav = ({ navOpen, setNavOpen }) => {
+const SmallFormatNav = ({ navOpen, setNavOpen, page }) => {
     return (
         <React.Fragment>
-            <div className="global-nav-v2__mobile-trigger flex">
+            <div
+                className={`${
+                    page === "taskListMobileLayout"
+                        ? "global-nav-v2__taskList-mobile flex"
+                        : "global-nav-v2__mobile-trigger flex"
+                }`}
+            >
                 <PlusMenu />
                 <button className="icon-btn" onClick={() => setNavOpen(true)}>
                     <span className="visually-hidden">Open Navigation Menu</span>

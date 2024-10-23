@@ -28,14 +28,15 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            margin-right: 8px;
+            margin-right: 30px;
             @include small {
                 margin-right: 16px;
             }
         }
         .linkToContact {
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
+            align-items: center;
             @include small {
                 margin-top: 24px;
                 justify-content: flex-start;

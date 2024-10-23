@@ -32,15 +32,15 @@ const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
 const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
 const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
 const SOAConfirmationForm = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation"));
-const SOAConfirmationPage = lazy(
-    () => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage"),
+const SOAConfirmationPage = lazy(() =>
+    import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage")
 );
 const TermsPage = lazy(() => import("pages/TermsPage"));
 const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
 const TaskListResultsMobileLayout = lazy(() => import("pages/dashbaord/Tasklist/TaskListResultsMobileLayout"));
-const PolicySnapshotMobileLayout = lazy(
-    () => import("pages/dashbaord/PolicySnapShot/PolicySnapShotMobileContainer/PolicySnapShotMobileContainer"),
+const PolicySnapshotMobileLayout = lazy(() =>
+    import("pages/dashbaord/PolicySnapShot/PolicySnapShotMobileContainer/PolicySnapShotMobileContainer")
 );
 
 const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
@@ -121,7 +121,7 @@ const appProtectedRoutes = [
         ),
     },
     {
-        path: "/link-to-contact/:callLogId/:callFrom/:duration/:date",
+        path: "/link-to-contact/*",
         component: <LinkToContact />,
     },
     {

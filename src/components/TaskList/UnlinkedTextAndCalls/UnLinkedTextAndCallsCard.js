@@ -3,12 +3,12 @@ import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { convertUTCDateToLocalDate, convertToLocalDateTime } from "utils/dates";
-import { formatPhoneNumber } from "utils/phones";
 import { ContactLink, Download, CallHistory, View, Sms } from "@integritymarketing/icons";
 import { Box, Typography, Button, useMediaQuery, useTheme } from "@mui/material";
 import IconBackGround from "components/ui/IconBackGround";
 import styles from "./styles.module.scss";
 import UnlinkedTextModal from "./UnlinkedTextModal";
+import OutBoundCall from "components/OutBoundCall";
 
 const UnLinkedTextAndCallsCard = ({ task }) => {
     const navigate = useNavigate();
@@ -17,13 +17,26 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
 
     const [isUnlinkedTextModalOpen, setIsUnlinkedTextModalOpen] = useState(false);
 
+    const isSms = task?.smsContent;
+    const name = isSms ? "Text" : "Call";
+
     const linkToContact = () => {
         const date = convertUTCDateToLocalDate(task?.taskDate);
-        navigate(`/link-to-contact/${task?.id}/${task?.phoneNumber}/${task?.duration}/${date}`);
+        const queryParams = new URLSearchParams({
+            id: task?.id,
+            phoneNumber: task?.phoneNumber,
+            duration: task?.duration,
+            date: date,
+            name: name,
+            url: task?.recordingUrl,
+            smsText: task?.smsContent,
+        }).toString();
+
+        navigate(`/link-to-contact?${queryParams}`);
     };
 
     const handleDownloadAndTextClick = () => {
-        if (task?.smsContent) {
+        if (isSms) {
             setIsUnlinkedTextModalOpen(true);
         } else {
             const recordingUrl = task?.recordingUrl;
@@ -34,28 +47,24 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
         }
     };
 
+    const API_Phone = task?.phoneNumber?.replace("+1", "");
+
     return (
         <Box className={styles.unlinkedCard}>
             <Grid container className={styles.unlinkedCardGridContainer}>
                 <Grid item md={4} xs={12}>
                     <Box className={styles.contactInfo}>
-                        <Box className={styles.iconBox}>
+                        <Box marginRight="8px">
                             <IconBackGround>
-                                {task?.smsContent ? (
-                                    <Sms size="xl" color="#4178FF" />
-                                ) : (
-                                    <CallHistory color="#4178FF" size="md" />
-                                )}
+                                {isSms ? <Sms size="xl" color="#4178FF" /> : <CallHistory color="#4178FF" size="md" />}
                             </IconBackGround>
                         </Box>
 
                         <Box className={styles.contactNumber}>
                             <Typography variant="body1" color="#434A51">
-                                Unlinked Call
+                                Unlinked {isSms ? "Text" : "Call"}
                             </Typography>
-                            <Typography variant="h4" className={styles.phoneNumber}>
-                                {formatPhoneNumber(task?.phoneNumber, true)}
-                            </Typography>
+                            <OutBoundCall leadPhone={API_Phone} view="task" />
                         </Box>
                     </Box>
                 </Grid>
@@ -77,14 +86,16 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
                                 {convertToLocalDateTime(task?.taskDate).format("h:mm a")}
                             </Typography>
                         </Box>
-                        <Box display="flex">
-                            <Typography variant="h5" className={styles.label}>
-                                Duration:
-                            </Typography>
-                            <Typography variant="body1" color="#434A51">
-                                {task?.duration}
-                            </Typography>
-                        </Box>
+                        {!isSms && (
+                            <Box display="flex">
+                                <Typography variant="h5" className={styles.label}>
+                                    Duration:
+                                </Typography>
+                                <Typography variant="body1" color="#434A51">
+                                    {task?.duration}
+                                </Typography>
+                            </Box>
+                        )}
                     </Box>
                 </Grid>
                 <Grid item md={5} xs={12}>
@@ -92,7 +103,7 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
                         <Box className={styles.iconBox}>
                             {isMobileView ? (
                                 <Box onClick={handleDownloadAndTextClick}>
-                                    {task?.smsContent ? (
+                                    {isSms ? (
                                         <View color="#4178FF" size="lg" />
                                     ) : (
                                         <Download color="#4178FF" size="lg" />
@@ -105,14 +116,14 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
                                     color="primary"
                                     size="small"
                                     endIcon={
-                                        task?.smsContent ? (
+                                        isSms ? (
                                             <View color="#4178FF" size="lg" />
                                         ) : (
                                             <Download color="#4178FF" size="lg" />
                                         )
                                     }
                                 >
-                                    {task?.smsContent ? "View Text" : "DownLoad"}
+                                    {isSms ? "View Text" : "Download Call"}
                                 </Button>
                             )}
                         </Box>
@@ -122,7 +133,7 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
                             variant="contained"
                             color="primary"
                             size="small"
-                            endIcon={<ContactLink color="#ffffff" size={isMobileView ? "sm" : "md"} />}
+                            endIcon={<ContactLink color="#ffffff" size="md" />}
                         >
                             Link to Contact
                         </Button>
@@ -134,7 +145,7 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
                 isModalOpen={isUnlinkedTextModalOpen}
                 setIsModalOpen={() => setIsUnlinkedTextModalOpen(false)}
                 linkToContact={linkToContact}
-                smsContent={task?.smsContent}
+                smsContent={isSms}
                 time={convertToLocalDateTime(task?.taskDate).format("h:mm a")}
                 date={convertToLocalDateTime(task?.taskDate).format("MM/DD/yyyy")}
             />

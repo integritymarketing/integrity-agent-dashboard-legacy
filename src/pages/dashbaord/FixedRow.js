@@ -13,59 +13,53 @@ import { convertUTCDateToLocalDate } from "utils/dates";
 import { callDuration } from "utils/dates";
 
 const StyledTableCell = styled(TableCell)(() => ({
-  "&:hover": {
-    cursor: "pointer",
-  },
+    "&:hover": {
+        cursor: "pointer",
+    },
 }));
 
 export default function FixedRow({ unAssosiatedCallRecord, onSelect }) {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const { callLogId, from, callStartTime, recordingStartTime, callEndTime } =
-    unAssosiatedCallRecord;
+    const { callLogId, from, callStartTime, recordingStartTime, callEndTime } = unAssosiatedCallRecord;
 
-  const date = convertUTCDateToLocalDate(callStartTime);
+    const date = convertUTCDateToLocalDate(callStartTime);
 
-  const goTolinkToContact = () => {
-    let duration = callDuration(recordingStartTime, callEndTime);
+    const goTolinkToContact = () => {
+        let duration = callDuration(recordingStartTime, callEndTime);
 
-    navigate(`/link-to-contact/${callLogId}/${from}/${duration}/${date}`);
-  };
+        const queryParams = new URLSearchParams({
+            id: callLogId,
+            phoneNumber: from,
+            duration: duration,
+            date: date,
+        }).toString();
 
-  const isIncommingCall = unAssosiatedCallRecord.callStatus === "in-progress";
+        navigate(`/link-to-contact?${queryParams}`);
+    };
 
-  return (
-    <>
-      <TableCell>
-        <Typography color="#434A51" fontSize="16px">
-          {dateFormatter(date, "MM/DD/yyyy")}
-        </Typography>
-      </TableCell>
-      <TableCell>
-        <Typography noWrap fontWeight="bold" fontSize="16px" color="#0052CE">
-          <strong>{formatPhoneNumber(from, true)}</strong>
-        </Typography>
-      </TableCell>
-      <TableCell onClick={() => onSelect(unAssosiatedCallRecord)}>
-        {
-          <IconWithText
-            text={isIncommingCall ? "Incoming Call" : "Inbound Call"}
-            icon={<InboundCall />}
-          />
-        }
-      </TableCell>
-      <StyledTableCell onClick={() => goTolinkToContact()}>
-        {
-          <IconWithText
-            text="Link to Contact"
-            icon={<img src={Link} alt="Link to Contact" />}
-          />
-        }
-      </StyledTableCell>
-      <StyledTableCell>
-        {<DownloadCallRecording url={unAssosiatedCallRecord.url} />}
-      </StyledTableCell>
-      <TableCell></TableCell>
-    </>
-  );
+    const isIncommingCall = unAssosiatedCallRecord.callStatus === "in-progress";
+
+    return (
+        <>
+            <TableCell>
+                <Typography color="#434A51" fontSize="16px">
+                    {dateFormatter(date, "MM/DD/yyyy")}
+                </Typography>
+            </TableCell>
+            <TableCell>
+                <Typography noWrap fontWeight="bold" fontSize="16px" color="#0052CE">
+                    <strong>{formatPhoneNumber(from, true)}</strong>
+                </Typography>
+            </TableCell>
+            <TableCell onClick={() => onSelect(unAssosiatedCallRecord)}>
+                {<IconWithText text={isIncommingCall ? "Incoming Call" : "Inbound Call"} icon={<InboundCall />} />}
+            </TableCell>
+            <StyledTableCell onClick={() => goTolinkToContact()}>
+                {<IconWithText text="Link to Contact" icon={<img src={Link} alt="Link to Contact" />} />}
+            </StyledTableCell>
+            <StyledTableCell>{<DownloadCallRecording url={unAssosiatedCallRecord.url} />}</StyledTableCell>
+            <TableCell></TableCell>
+        </>
+    );
 }

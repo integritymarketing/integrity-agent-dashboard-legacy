@@ -57,7 +57,7 @@ export const LeadDetailsProvider = ({ children }) => {
                 });
             }
         },
-        [fetchLeadDetails, showToast],
+        [fetchLeadDetails, showToast]
     );
 
     const updateLeadDetailsWithZipCode = useCallback(
@@ -73,7 +73,7 @@ export const LeadDetailsProvider = ({ children }) => {
                 });
             }
         },
-        [editLeadDetails, getLeadDetails, showToast],
+        [editLeadDetails, getLeadDetails, showToast]
     );
 
     const updateLeadDetails = async (newPayload) => {
@@ -163,7 +163,7 @@ export const LeadDetailsProvider = ({ children }) => {
         const payload = removeNullAndEmptyFields(reqData);
         return await performAsyncOperation(
             () => editLeadDetails(payload, false, newPayload.leadsId),
-            () => { },
+            () => {},
             async (data) => {
                 await getLeadDetails(newPayload?.leadsId);
                 showToast({
@@ -175,7 +175,7 @@ export const LeadDetailsProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to update lead`,
-                }),
+                })
         );
     };
 
@@ -184,7 +184,7 @@ export const LeadDetailsProvider = ({ children }) => {
             const formattedData = getFormattedData(newPayload, oldPayload);
             await performAsyncOperation(
                 () => editLeadDetails(formattedData, false, newPayload.leadsId),
-                () => { },
+                () => {},
                 async () => {
                     await getLeadDetails(newPayload?.leadsId);
                     showToast({
@@ -195,17 +195,17 @@ export const LeadDetailsProvider = ({ children }) => {
                     showToast({
                         type: "error",
                         message: `Failed to update lead`,
-                    }),
+                    })
             );
         },
-        [editLeadDetails, getLeadDetails, showToast],
+        [editLeadDetails, getLeadDetails, showToast]
     );
 
     const removeContact = useCallback(
         async (leadId, callBack) => {
             await performAsyncOperation(
                 () => deleteContact(null, true, leadId),
-                () => { },
+                () => {},
                 () => {
                     callBack();
                 },
@@ -213,10 +213,10 @@ export const LeadDetailsProvider = ({ children }) => {
                     showToast({
                         type: "error",
                         message: `Failed to delete lead`,
-                    }),
+                    })
             );
         },
-        [deleteContact, showToast],
+        [deleteContact, showToast]
     );
 
     const contextValue = useMemo(
@@ -243,7 +243,7 @@ export const LeadDetailsProvider = ({ children }) => {
             updateLeadDetails,
             updateClientNotes,
             updateLeadDetailsWithZipCode,
-        ],
+        ]
     );
 
     useEffect(() => {

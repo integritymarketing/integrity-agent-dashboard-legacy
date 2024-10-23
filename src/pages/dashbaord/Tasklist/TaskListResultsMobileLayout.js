@@ -217,7 +217,7 @@ export default function TaskListMobileLayout() {
             <Helmet>
                 <title>Integrity - Dashboard</title>
             </Helmet>
-            <GlobalNav page="taskListMobileLayout" title="Task List" />
+            <GlobalNav page="taskListMobileLayout" title="Task Lists" />
 
             <Box className={styles.mobileWidget}>
                 <Box className={styles.taskListColor} style={{ backgroundColor: widgetInfo?.color }}></Box>
