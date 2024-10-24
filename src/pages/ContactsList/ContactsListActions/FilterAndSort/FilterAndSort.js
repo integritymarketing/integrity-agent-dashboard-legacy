@@ -1,15 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
-
 
 import { useActiveFilters } from "hooks/useActiveFilters";
 import useAnalytics from "hooks/useAnalytics";
 
 import ContactListSort from "packages/ContactListSort";
 import Filter from "packages/FilterContacts/Filter";
-
 
 import FilterIcon from "components/icons/version-2/Filter";
 import FilterActive from "components/icons/version-2/FilterActive";
@@ -34,6 +32,15 @@ function FilterAndSort() {
     const navigate = useNavigate();
     const { fireEvent } = useAnalytics();
 
+    useEffect(() => {
+        if (window.location.href.includes(LIST_PATH)) {
+            setLayout("list");
+        } else if (window.location.href.includes(CARD_PATH)) {
+            setLayout("card");
+        } else if (window.location.href.includes(MAP_PATH)) {
+            setLayout("map");
+        }
+    }, []);
 
     const switchLayout = (newLayout) => {
         setLayout(newLayout);

@@ -12,7 +12,7 @@ import { useContactMapMakersDataContext } from "providers/ContactMapMarkersDataP
 import { getOverlappingMarker } from "utils/getOverlappingMarker";
 import { generateSpiderfy } from "utils/generateSpiderfy";
 
-function MapWithCount({ selectedAgent, setSelectedAgent }) {
+function MapWithCount({ selectedAgent, setSelectedAgent, isMapUILoading, setIsMapUILoading }) {
     const [mapMarkers, setMapMarkers] = useState(null);
     const { tableData } = useContactsListContext();
 
@@ -22,7 +22,6 @@ function MapWithCount({ selectedAgent, setSelectedAgent }) {
     const { agentId } = useUserProfile();
     const { clientsService } = useClientServiceContext();
     const [isMapLoading, setIsMapLoading] = useState(true);
-    const [isMapUILoading, setIsMapUILoading] = useState(true);
     const [center, setCenter] = useState({
         lat: 32.779167,
         lng: -96.808891,
@@ -93,60 +92,66 @@ function MapWithCount({ selectedAgent, setSelectedAgent }) {
         return groupedArray;
     }, [contactsData, setCenter]);
 
-    const checkWhetherMarkersAreSpiderfy = useCallback((marker) => {
-        const overlappingData = getOverlappingMarker(marker);
-        if (Object.keys(overlappingData).length < marker.length) {
-            setIsSpiderfier(true);
-            const multiplePolylineCoordinates = [];
-            let overallSpiderfyMarkersData = [];
-            Object.keys(overlappingData).forEach((overLapp) => {
-                const tempMarkerArray = [];
-                overlappingData[overLapp].forEach((markerSet) => {
-                    tempMarkerArray.push(marker[markerSet]);
+    const checkWhetherMarkersAreSpiderfy = useCallback(
+        (marker) => {
+            const overlappingData = getOverlappingMarker(marker);
+            if (Object.keys(overlappingData).length < marker.length) {
+                setIsSpiderfier(true);
+                const multiplePolylineCoordinates = [];
+                let overallSpiderfyMarkersData = [];
+                Object.keys(overlappingData).forEach((overLapp) => {
+                    const tempMarkerArray = [];
+                    overlappingData[overLapp].forEach((markerSet) => {
+                        tempMarkerArray.push(marker[markerSet]);
+                    });
+                    if (tempMarkerArray.length > 1) {
+                        const { polylineCoordinates, spiderfyMarkersData } = generateSpiderfy(
+                            JSON.parse(JSON.stringify(tempMarkerArray)),
+                            zoom
+                        );
+                        multiplePolylineCoordinates.push([...polylineCoordinates]);
+                        overallSpiderfyMarkersData = [...overallSpiderfyMarkersData, ...spiderfyMarkersData];
+                    } else {
+                        overallSpiderfyMarkersData = [...overallSpiderfyMarkersData, ...tempMarkerArray];
+                    }
                 });
-                if (tempMarkerArray.length > 1) {
-                    const { polylineCoordinates, spiderfyMarkersData } = generateSpiderfy(
-                        JSON.parse(JSON.stringify(tempMarkerArray)),
-                        zoom
-                    );
-                    multiplePolylineCoordinates.push([...polylineCoordinates]);
-                    overallSpiderfyMarkersData = [...overallSpiderfyMarkersData, ...spiderfyMarkersData];
+
+                setMapMarkers([...overallSpiderfyMarkersData]);
+                setPolylineData([...multiplePolylineCoordinates]);
+            } else {
+                setMapMarkers(marker);
+            }
+        },
+        [zoom]
+    );
+
+    const handleZoomChange = useCallback(
+        (e) => {
+            const newZoom = e.detail.zoom;
+            if (newZoom < 14 && isClusteredClicked.current) {
+                isClusteredClicked.current = false;
+                setMapMarkers(null);
+                setPolylineData([]);
+                setIsSpiderfier(false);
+            }
+            if (newZoom > 12 && !isClusteredClicked.current) {
+                isClusteredClicked.current = true;
+                const allMarkers = [];
+                contactsDataByZipCode.forEach((item) => {
+                    allMarkers.push(...item.agents);
+                });
+                checkWhetherMarkersAreSpiderfy(allMarkers);
+            }
+            setZoom((currZoom) => {
+                if (newZoom < 17 && newZoom > currZoom) {
+                    return newZoom + 3 > 17 ? 17 : newZoom + 2;
                 } else {
-                    overallSpiderfyMarkersData = [...overallSpiderfyMarkersData, ...tempMarkerArray];
+                    return newZoom - 2;
                 }
             });
-
-            setMapMarkers([...overallSpiderfyMarkersData]);
-            setPolylineData([...multiplePolylineCoordinates]);
-        } else {
-            setMapMarkers(marker);
-        }
-    }, [zoom]);
-
-    const handleZoomChange = useCallback((e) => {
-        const newZoom = e.detail.zoom;
-        if (newZoom < 14 && isClusteredClicked.current) {
-            isClusteredClicked.current = false;
-            setMapMarkers(null);
-            setPolylineData([]);
-            setIsSpiderfier(false);
-        }
-        if (newZoom > 12 && !isClusteredClicked.current) {
-            isClusteredClicked.current = true;
-            const allMarkers = [];
-            contactsDataByZipCode.forEach((item) => {
-                allMarkers.push(...item.agents);
-            });
-            checkWhetherMarkersAreSpiderfy(allMarkers);
-        }
-        setZoom((currZoom) => {
-            if (newZoom < 17 && newZoom > currZoom) {
-                return newZoom + 3 > 17 ? 17 : newZoom + 2;
-            } else {
-                return newZoom - 2;
-            }
-        });
-    }, [checkWhetherMarkersAreSpiderfy, contactsDataByZipCode]);
+        },
+        [checkWhetherMarkersAreSpiderfy, contactsDataByZipCode]
+    );
 
     const handleMarkerClick = useCallback(
         (contactGroupItem) => {
@@ -168,11 +173,13 @@ function MapWithCount({ selectedAgent, setSelectedAgent }) {
             const successPosition = (position) => {
                 isLocationCenterSet.current = true;
                 setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
+                setZoom(15);
             };
             const errorPosition = async () => {
                 const response = await clientsService.getAgentAvailability(agentId);
                 if (response?.latitude && response?.longitude) {
                     setCenter({ lat: response.latitude, lng: response.longitude });
+                    setZoom(15);
                     isLocationCenterSet.current = true;
                 }
             };
@@ -245,6 +252,8 @@ function MapWithCount({ selectedAgent, setSelectedAgent }) {
 MapWithCount.propTypes = {
     selectedAgent: PropTypes.object,
     setSelectedAgent: PropTypes.func.isRequired,
+    isMapUILoading: PropTypes.bool,
+    setIsMapUILoading: PropTypes.func,
 };
 
 export default MapWithCount;

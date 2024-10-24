@@ -90,28 +90,25 @@ export const ContactsListProvider = ({ children }) => {
         });
     }, [fetchTableData, searchString, sort, selectedFilterSections, filterSectionsConfig]);
 
-    const fetchMoreContactsByPage = useCallback(
-        async () => {
-            try {
-                const nextPage = pageIndex + 1;
-                await fetchTableData({
-                    pageSize: DEFAULT_PAGE_SIZE,
-                    pageIndex: nextPage,
-                    searchString,
-                    sort,
-                    isSilent: true,
-                    selectedFilterSections,
-                    filterSectionsConfig,
-                    appendData: true
-                });
-                setPageIndex(nextPage);
-            } catch (error) {
-                Sentry.captureException(error);
-                console.error("Failed to fetch more contacts", error);
-            }
-        },
-        [fetchTableData, pageIndex, searchString, sort, selectedFilterSections, filterSectionsConfig]
-    );
+    const fetchMoreContactsByPage = useCallback(async () => {
+        try {
+            const nextPage = pageIndex + 1;
+            await fetchTableData({
+                pageSize: DEFAULT_PAGE_SIZE,
+                pageIndex: nextPage,
+                searchString,
+                sort,
+                isSilent: true,
+                selectedFilterSections,
+                filterSectionsConfig,
+                appendData: true,
+            });
+            setPageIndex(nextPage);
+        } catch (error) {
+            Sentry.captureException(error);
+            console.error("Failed to fetch more contacts", error);
+        }
+    }, [fetchTableData, pageIndex, searchString, sort, selectedFilterSections, filterSectionsConfig]);
 
     const resetData = useCallback(
         (newSelectedFilterSections) => {
@@ -161,7 +158,7 @@ export const ContactsListProvider = ({ children }) => {
             fetchedFiltersSectionConfigFromApi,
             setFetchedFiltersSectionConfigFromApi,
             filterConditions,
-            setFilterConditions
+            setFilterConditions,
         }),
         [
             tableData,
@@ -196,12 +193,14 @@ export const ContactsListProvider = ({ children }) => {
                 selectedFilterSections,
                 filterSectionsConfig,
                 isSilent: true,
-            }).then(() => {
-                setPageIndex(INITIAL_PAGE_NUMBER);
-            }).catch(error => {
-                Sentry.captureException(error);
-                console.error("Error during initial fetch", error);
-            });
+            })
+                .then(() => {
+                    setPageIndex(INITIAL_PAGE_NUMBER);
+                })
+                .catch((error) => {
+                    Sentry.captureException(error);
+                    console.error("Error during initial fetch", error);
+                });
         }
     }, [fetchTableData, searchString, location.search, sort]);
 

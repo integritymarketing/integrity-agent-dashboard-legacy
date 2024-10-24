@@ -20,7 +20,7 @@ import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import AskIntegrity from "components/icons/version-2/AskIntegrity";
 import PropTypes from "prop-types";
 
-function ContactsCard({ cardWrapperClassName = "" }) {
+function ContactsCard({ cardWrapperClassName = "", isMapPage }) {
     const { tableData } = useContactsListContext();
     const { width: windowWidth } = useWindowSize();
 
@@ -189,12 +189,20 @@ function ContactsCard({ cardWrapperClassName = "" }) {
 
     return (
         <Box className={styles.container}>
-            <Box className={`${styles.cardWrapper} ${cardWrapperClassName}`}>
-                {clientsWithAddress.map((item) => {
-                    return renderContactCard(item);
-                })}
-            </Box>
-            {clientsWithoutAddress.length ? (
+            {isMapPage ? (
+                <Box className={`${styles.cardWrapper} ${cardWrapperClassName}`}>
+                    {clientsWithAddress.map((item) => {
+                        return renderContactCard(item);
+                    })}
+                </Box>
+            ) : (
+                <Box className={`${styles.cardWrapper} ${cardWrapperClassName}`}>
+                    {[...clientsWithAddress, ...clientsWithoutAddress].map((item) => {
+                        return renderContactCard(item);
+                    })}
+                </Box>
+            )}
+            {isMapPage && Boolean(clientsWithoutAddress.length) ? (
                 <>
                     <h2 className={styles.clientWithoutHeader}>Clients without an address</h2>
                     <Box className={`${styles.cardWrapper} ${cardWrapperClassName}`}>
@@ -238,6 +246,7 @@ function ContactsCard({ cardWrapperClassName = "" }) {
 
 ContactsCard.propTypes = {
     cardWrapperClassName: PropTypes.string,
+    isMapPage: PropTypes.bool,
 };
 
 export default ContactsCard;

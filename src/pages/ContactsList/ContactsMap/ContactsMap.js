@@ -11,6 +11,7 @@ import SelectedAgentCard from "./SelectedAgentCard/SelectedAgentCard";
 function ContactsMap() {
     const { setSelectedContactsAll } = useContactsListContext();
     const [selectedAgent, setSelectedAgent] = useState(null);
+    const [isMapUILoading, setIsMapUILoading] = useState(true);
 
     return (
         <Grid container className={styles.container} spacing={1}>
@@ -33,7 +34,7 @@ function ContactsMap() {
                             }}
                         />
                         <span>Select All</span>
-                        <ContactsCard cardWrapperClassName={styles.cardWrapperClassName} />
+                        <ContactsCard isMapPage={true} cardWrapperClassName={styles.cardWrapperClassName} />
                     </Box>
                 )}
             </Grid>
@@ -50,7 +51,12 @@ function ContactsMap() {
                     />
                     <span>Select All</span>
                 </Box>
-                <MapWithCount setSelectedAgent={setSelectedAgent} selectedAgent={selectedAgent} />
+                <MapWithCount
+                    isMapUILoading={isMapUILoading}
+                    setIsMapUILoading={setIsMapUILoading}
+                    setSelectedAgent={setSelectedAgent}
+                    selectedAgent={selectedAgent}
+                />
             </Grid>
         </Grid>
     );

@@ -1,5 +1,6 @@
 import moment from "moment";
 
+
 import { formatServerDate, parseDate } from "utils/dates";
 
 export const LEADS_API_VERSION = "v2.0";
@@ -169,6 +170,7 @@ export class ClientsService {
             includeContactPreference: true,
             includeReminder: true,
             includeTags: true,
+            includeAddress: true,
             ...remindersKeys,
             returnAll: returnAll,
             filterTagV3Request,

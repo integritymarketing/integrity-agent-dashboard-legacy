@@ -5,7 +5,7 @@ import { StageStatusContext } from "contexts/stageStatus";
 import { PinMarkerSvg } from "./images/pinMarkerSvg";
 import { ClusterSvg } from "./images/ClusterSvg";
 import styles from "./styles.module.scss";
-import { Avatar, Button } from "@mui/material";
+import { Avatar, Button, Popover, useMediaQuery } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { ConnectPhone } from "components/icons/version-2/ConnectPhone";
 import Connectemail from "components/icons/version-2/ConnectEmail";
@@ -45,6 +45,9 @@ export const MarkerWithInfoWindow = ({ contactGroupItem, selectedAgent, handleMa
     const { Post: outboundCallFromMedicareCenter } = useFetch(
         `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`
     );
+
+    const isMobile = useMediaQuery("(max-width: 600px)");
+
     const address = useMemo(() => {
         const addressFirst = addresses?.[0];
         return formatAddress(addressFirst || {});
@@ -128,6 +131,15 @@ export const MarkerWithInfoWindow = ({ contactGroupItem, selectedAgent, handleMa
         }, 100);
     };
 
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleLocationClick = (event) => {
+        setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
+
+    const open = Boolean(anchorEl);
+    const id = open ? "address-popover" : undefined;
+
     return (
         <>
             {contactGroupItem.isCluster ? (
@@ -156,11 +168,35 @@ export const MarkerWithInfoWindow = ({ contactGroupItem, selectedAgent, handleMa
                         <div className={styles.nameColumn}>
                             <h2 className={styles.agentName}>{formatFullName(firstName, null, lastName)}</h2>
                             <div className={styles.agentDetailsRow}>
-                                <Tooltip arrow title={address} placement="top">
-                                    <span>
-                                        <LocationPin className={`${styles.iconStyle} ${styles.iconStylesLocation}`} />
-                                    </span>
-                                </Tooltip>
+                                {isMobile ? (
+                                    <>
+                                        <span onClick={handleLocationClick} aria-describedby={id}>
+                                            <LocationPin className={`${styles.iconStyle} ${styles.iconStylesLocation}`} />
+                                        </span>
+                                        <Popover
+                                            id={id}
+                                            open={open}
+                                            anchorEl={anchorEl}
+                                            onClose={() => setAnchorEl(null)}
+                                            anchorOrigin={{
+                                                vertical: "bottom",
+                                                horizontal: "center",
+                                            }}
+                                            transformOrigin={{
+                                                vertical: "top",
+                                                horizontal: "center",
+                                            }}
+                                        >
+                                            <div className={styles.addressPopover}>{address}</div>
+                                        </Popover>
+                                    </>
+                                ) : (
+                                    <Tooltip arrow title={address} placement="top">
+                                        <span>
+                                            <LocationPin className={`${styles.iconStyle} ${styles.iconStylesLocation}`} />
+                                        </span>
+                                    </Tooltip>
+                                )}
                                 <span className={phone ? "" : styles.disabled} onClick={phone ? handleCall : null}>
                                     <ConnectPhone />
                                 </span>
