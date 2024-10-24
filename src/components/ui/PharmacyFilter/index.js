@@ -7,8 +7,6 @@ import "./index.scss";
 
 export default function PharmacyFilter({ type = "radio" }) {
     const { pharmacies, pharmacyLoading, selectedPharmacy, setSelectedPharmacy } = usePharmacyContext();
-
- 
     const featureFlag = process.env.REACT_APP_PHARMACY_FILTER_SHOW_MAILORDER === "true";
 
     const handleFilterChange = useCallback(
@@ -18,81 +16,117 @@ export default function PharmacyFilter({ type = "radio" }) {
                     ? { name: "Mail Order" }
                     : pharmacies.find((pharmacy) => pharmacy.pharmacyId == payload);
 
-            // pass selected pharmacy into callback to update data
             setSelectedPharmacy(newPharmacy);
         },
         [pharmacies, setSelectedPharmacy],
     );
 
     useEffect(() => {
-        if (!pharmacyLoading && pharmacies.length === 1) {
-            setSelectedPharmacy(pharmacies[0]);
+        if (!pharmacyLoading) {
+            if (pharmacies?.length === 1) {
+                setSelectedPharmacy(pharmacies[0]);
+                handleFilterChange(pharmacies[0].pharmacyId);
+            } else if (pharmacies?.length === 0) {
+                setSelectedPharmacy({ name: "Mail Order" });
+                handleFilterChange("Mail Order");
+            }
         }
     }, [pharmacies, pharmacyLoading, setSelectedPharmacy]);
 
-    if (type == "radio") {
+    if (type === "radio") {
         return (
             <Formik
-                // set default selection to selectedPharmacy if available
                 initialValues={{
-                    picked: selectedPharmacy?.name ? selectedPharmacy.name : "Mail Order",
+                    picked: selectedPharmacy?.pharmacyId || "Mail Order",
                 }}
+                onSubmit={() => {}}
             >
-                {/* Handle filter changes when form is updated */}
-                <Form onChange={(event) => handleFilterChange(event.target.value)}>
-                    <fieldset
-                        id="pharmacy-filter-fieldset"
-                        className="pharmacy-filter"
-                        style={{ border: 0, padding: 0, margin: 0, display: "flex", flexDirection: "column" }}
-                        aria-labelledby="pharmacy-filter-header"
-                    >
-                        <legend id="pharmacy-filter-header" className="header">
-                            Estimates Based On:
-                        </legend>
+                {({ values, setFieldValue }) => {
+                    useEffect(() => {
+                        if (selectedPharmacy?.pharmacyId) {
+                            setFieldValue("picked", selectedPharmacy.pharmacyId);
+                        } else {
+                            setFieldValue("picked", "Mail Order");
+                        }
+                    }, [selectedPharmacy, setFieldValue]);
 
-                        {!pharmacyLoading && pharmacies.length > 0 ? (
-                            <>
-                                {/* Dynamic Options */}
-                                {pharmacies.map((pharmacy) => (
-                                    <label
-                                        htmlFor={`option-${pharmacy.pharmacyId}`}
-                                        style={{ display: "flex", gap: "1ch" }}
-                                        key={pharmacy.pharmacyId}
-                                    >
+                    return (
+                        <Form>
+                            <fieldset
+                                id="pharmacy-filter-fieldset"
+                                className="pharmacy-filter"
+                                style={{ border: 0, padding: 0, margin: 0, display: "flex", flexDirection: "column" }}
+                                aria-labelledby="pharmacy-filter-header"
+                            >
+                                <legend id="pharmacy-filter-header" className="header">
+                                    Estimates Based On:
+                                </legend>
+
+                                {!pharmacyLoading && pharmacies.length > 0 ? (
+                                    <>
+                                        {pharmacies.map((pharmacy) => (
+                                            <label
+                                                htmlFor={`option-${pharmacy.pharmacyId}`}
+                                                style={{ display: "flex", gap: "1ch" }}
+                                                key={pharmacy.pharmacyId}
+                                            >
+                                                <Field
+                                                    id={`option-${pharmacy.pharmacyId}`}
+                                                    type="radio"
+                                                    name="picked"
+                                                    value={pharmacy.pharmacyId}
+                                                    checked={String(values.picked) === String(pharmacy.pharmacyId)}
+                                                    onChange={() => {
+                                                        setFieldValue("picked", pharmacy.pharmacyId);
+                                                        handleFilterChange(pharmacy.pharmacyId);
+                                                    }}
+                                                />
+                                                {pharmacy.name}
+                                            </label>
+                                        ))}
+
+                                        {featureFlag && (
+                                            <label htmlFor="option-mail-order" style={{ display: "flex", gap: "1ch" }}>
+                                                <Field
+                                                    id="option-mail-order"
+                                                    type="radio"
+                                                    name="picked"
+                                                    value="Mail Order"
+                                                    checked={values.picked === "Mail Order"}
+                                                    onChange={() => {
+                                                        setFieldValue("picked", "Mail Order");
+                                                        handleFilterChange("Mail Order");
+                                                    }}
+                                                />
+                                                Mail Order
+                                            </label>
+                                        )}
+                                    </>
+                                ) : (
+                                    <label htmlFor="option-mail-order" style={{ display: "flex", gap: "1ch" }}>
                                         <Field
-                                            id={`option-${pharmacy.pharmacyId}`}
+                                            id="option-mail-order"
                                             type="radio"
                                             name="picked"
-                                            value={pharmacy.pharmacyId}
-                                            checked={pharmacy?.name === selectedPharmacy?.name}
+                                            value="Mail Order"
+                                            checked={values.picked === "Mail Order"}
+                                            onChange={() => {
+                                                setFieldValue("picked", "Mail Order");
+                                                handleFilterChange("Mail Order");
+                                            }}
                                         />
-                                        {pharmacy.name}
-                                    </label>
-                                ))}
-
-                                {featureFlag && (
-                                    <label htmlFor="option-mail-order" style={{ display: "flex", gap: "1ch" }}>
-                                        <Field id="option-mail-order" type="radio" name="picked" value="Mail Order" />
                                         Mail Order
                                     </label>
                                 )}
-                            </>
-                        ) : (
-                            <>
-                                {/* Static Option */}
-                                <label htmlFor="option-mail-order" style={{ display: "flex", gap: "1ch" }}>
-                                    <Field id="option-mail-order" type="radio" name="picked" value="Mail Order" />
-                                    Mail Order
-                                </label>
-                            </>
-                        )}
-                    </fieldset>
-                </Form>
+                            </fieldset>
+                        </Form>
+                    );
+                }}
             </Formik>
         );
     }
 
-    if (type == "select") {
+    if (type === "select") {
         const mailOrderOption = { value: "Mail Order", label: "Mail Order" };
         const [selectOptions, setSelectOptions] = useState([mailOrderOption]);
         const [selectInitial, setSelectInitial] = useState(mailOrderOption);
@@ -126,7 +160,7 @@ export default function PharmacyFilter({ type = "radio" }) {
         return (
             <label id="pharmacy-select-label" htmlFor="pharmacy-filter-select" className="pharmacy-filter">
                 <span className="select-label">Estimates Based On</span>
-                {!pharmacyLoading &&
+                {!pharmacyLoading && (
                     <Select
                         initialValue={selectInitial.value}
                         options={selectOptions}
@@ -137,7 +171,7 @@ export default function PharmacyFilter({ type = "radio" }) {
                             width: "275px",
                         }}
                     />
-                }
+                )}
             </label>
         );
     }

@@ -23,9 +23,8 @@ const planTypeMap = {
         {
             label: "Rx Drug Deductible",
             field: "drugDeductible",
-            conditionalValue: (planData, selectedPharmacy, hasMailDrugBenefits) => {
-                const noPharmacySelected = !selectedPharmacy?.pharmacyId;
-                if (!hasMailDrugBenefits && noPharmacySelected) {
+            conditionalValue: (planData, selectedPharmacy, condition) => {
+                if (condition) {
                     return {
                         value: "N/A",
                         errorText: "Mail Order Not Available",
@@ -54,11 +53,10 @@ const planTypeMap = {
             key: "estimatedYearlyTotalCost",
             function: (planData, effectiveDate) =>
                 planData?.estimatedAnnualDrugCostPartialYear + planData?.medicalPremium * (12 - effectiveDate?.getMonth()),
-            conditionalValue: (planData, selectedPharmacy, hasMailDrugBenefits) => {
+            conditionalValue: (planData, selectedPharmacy, condition) => {
                 const pharmacy = getSelectedPharmacy(planData, selectedPharmacy);
-                const noPharmacySelected = !selectedPharmacy?.pharmacyId;
 
-                if (!hasMailDrugBenefits && noPharmacySelected) {
+                if (condition) {
                     return {
                         value: "N/A",
                         errorText: "Mail Order Not Available",
