@@ -47,14 +47,13 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children,
                         smsLogId: callLogId,
                         leadId,
                         tagIds: tagIds || [],
-                        isInbound: inbound === "true" ? true : false,
                     });
                 } else {
                     await callRecordingsService.assignsLeadToInboundCallRecord({
                         callLogId,
                         leadId,
                         tagIds: tagIds || [],
-                        isInbound: inbound === "true" ? true : false,
+                        isInbound: inbound,
                     });
                 }
                 showToast({

@@ -31,7 +31,6 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
             name: name,
             url: task?.recordingUrl,
             smsText: task?.smsContent,
-            inbound: false,
         }).toString();
 
         navigate(`/link-to-contact?${queryParams}`);

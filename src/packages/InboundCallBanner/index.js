@@ -39,7 +39,6 @@ export default function InboundCallBanner() {
             phoneNumber: from,
             duration: duration,
             date: localDate,
-            inbound: true,
         }).toString();
 
         navigate(`/link-to-contact?${queryParams}`);

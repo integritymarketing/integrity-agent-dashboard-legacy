@@ -41,7 +41,7 @@ const DEFAULT_TABS = [
     },
     {
         policyStatus: "Unlinked Text/Calls",
-        name: "UnlinkedCalls",
+        name: "UnlinkedCommunications",
         value: 4,
     },
     {

@@ -78,14 +78,13 @@ export default function PossibleMatches({ phone, tagIds, inbound, name }) {
                             smsLogId: callLogIdNumber,
                             leadId: contact.leadsId,
                             tagIds: tagIds || [],
-                            isInbound: inbound === "true" ? true : false,
                         });
                     } else {
                         await callRecordingsService.assignsLeadToInboundCallRecord({
                             callLogId: callLogIdNumber,
                             leadId: contact.leadsId,
                             tagIds: tagIds || [],
-                            isInbound: inbound === "true" ? true : false,
+                            isInbound: inbound,
                         });
                     }
                     showToast({

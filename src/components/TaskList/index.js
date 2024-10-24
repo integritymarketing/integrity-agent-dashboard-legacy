@@ -198,16 +198,11 @@ export default function TaskList({ isMobile, npn }) {
 
     const handleWidgetSelection = (index) => {
         setStatusIndex(index);
-
         const widgetName = tabs[index]?.name;
         const selectedWidgetCount = tabs[index]?.policyCount;
 
         if (isMobile && selectedWidgetCount > 0) {
-            navigate(
-                `/taskList-results-mobile-layout/${npn}/${
-                    widgetName === "UnlinkedCommunications" ? "UnlinkedCalls" : widgetName
-                }`
-            );
+            navigate(`/taskList-results-mobile-layout/${npn}/${widgetName}`);
         }
     };
 

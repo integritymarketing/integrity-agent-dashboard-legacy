@@ -33,7 +33,6 @@ export default function FixedRow({ unAssosiatedCallRecord, onSelect }) {
             phoneNumber: from,
             duration: duration,
             date: date,
-            inbound: true,
         }).toString();
 
         navigate(`/link-to-contact?${queryParams}`);

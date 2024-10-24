@@ -278,7 +278,6 @@ const NewContactForm = ({
                             await callRecordingsService.assignsLeadToOutboundSmsRecord({
                                 smsLogId: callLogId,
                                 leadId,
-                                isInbound: inbound,
                                 tagIds: tagsArray, // tags from the url
                             });
                         } else {

@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 
@@ -37,7 +37,6 @@ export default function LinkToContact() {
     const name = queryParams.get("name");
     const callRecordingUrl = queryParams.get("url");
     const smsContent = queryParams.get("smsText");
-    const inbound = queryParams.get("inbound");
 
     const [modalOpen, setModalOpen] = useState(false);
     const [contacts, setContacts] = useState([]);
@@ -45,18 +44,24 @@ export default function LinkToContact() {
     const callRecordings = useCallRecordings();
     const { clientsService } = useClientServiceContext();
 
-    const callsRecordingTags = callRecordings.filter((callRecording) => {
-        if (callRecording?.callLogId === parseInt(callLogId)) {
-            return callRecording?.callLogTags;
-        } else {
-            return null;
-        }
-    });
+    const callsRecordingTags = useMemo(() => {
+        return callRecordings.filter((callRecording) => {
+            if (callRecording?.callLogId === parseInt(callLogId)) {
+                return callRecording?.callLogTags;
+            } else {
+                return null;
+            }
+        });
+    }, [callRecordings, callLogId]);
 
     const callIsAssigned =
         callRecordings?.length === 0
             ? false
             : !callRecordings.some((callRecording) => callRecording?.callLogId === parseInt(callLogId));
+
+    const callRecordItem = callRecordings?.filter((callRecording) => callRecording?.callLogId === parseInt(callLogId));
+    const callType = callRecordItem?.[0]?.callType ? callRecordItem?.[0]?.callType : "inbound";
+    const inbound = callType === "inbound";
 
     const getContacts = async (searchStr) => {
         setIsLoading(true);
@@ -114,7 +119,7 @@ export default function LinkToContact() {
         const logIdParam = callLogId ? `${callLogId}` : "";
         const tagsParam = tagIds ? `tags=${tagIds}` : "";
         const callFromParam = callFrom ? `callFrom=${callFrom}` : "";
-        const inboundParam = inbound ? `inbound=${inbound}` : "";
+        const inboundParam = inbound ? `inbound=${callType}` : "";
         const nameParam = name ? `name=${name}` : "";
         const queryParams = [tagsParam, callFromParam, inboundParam, nameParam].filter(Boolean).join("&");
 
@@ -123,7 +128,7 @@ export default function LinkToContact() {
     }, [callLogId, tagIds, callFrom, navigate]);
 
     const handleDownloadAndTextClick = () => {
-        const recordingUrl = task?.recordingUrl;
+        const recordingUrl = callRecordingUrl;
         const link = document.createElement("a");
         link.href = recordingUrl;
         link.download = "call_recording.mp3";
@@ -182,29 +187,16 @@ export default function LinkToContact() {
                         )}
                     </Box>
                     <Box>
-                        {name !== "Text" && (
-                            <>
-                                <Button
-                                    size="medium"
-                                    variant="text"
-                                    color="primary"
-                                    endIcon={<CallSummary color="#4178FF" size="lg" />}
-                                    onClick={() => setModalOpen(true)}
-                                >
-                                    Call Script
-                                </Button>
-                                {callRecordingUrl && (
-                                    <Button
-                                        size="medium"
-                                        variant="text"
-                                        color="primary"
-                                        endIcon={<Download color="#4178FF" size="lg" />}
-                                        onClick={handleDownloadAndTextClick}
-                                    >
-                                        Download Call
-                                    </Button>
-                                )}
-                            </>
+                        {name !== "Text" && callRecordingUrl && (
+                            <Button
+                                size="medium"
+                                variant="text"
+                                color="primary"
+                                endIcon={<Download color="#4178FF" size="lg" />}
+                                onClick={handleDownloadAndTextClick}
+                            >
+                                Download Call
+                            </Button>
                         )}
                     </Box>
                     {flattenedTags?.length > 0 ? (
