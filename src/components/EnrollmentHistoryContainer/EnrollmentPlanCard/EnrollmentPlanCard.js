@@ -116,9 +116,6 @@ export default function EnrollmentPlanCard(props) {
                                                 {policyEffectiveDate && isFinalExpense && (
                                                     <PlanDate type={"Effective"} date={policyEffectiveDate} />
                                                 )}
-                                                {!isFinalExpense && enrolledDate && (
-                                                    <PlanDate type="Enrolled" date={enrolledDate} />
-                                                )}
                                             </>
                                         )}
                                     </>
