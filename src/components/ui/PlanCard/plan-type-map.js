@@ -3,7 +3,7 @@ import { calculatePartialYearDrugCost } from "./calculatePartialDrugCost";
 const getSelectedPharmacy = (planData, selectedPharmacy) => {
     const { estimatedCostCalculationRxs } = planData;
 
-    if (estimatedCostCalculationRxs && Object.keys(selectedPharmacy).length) {
+    if (estimatedCostCalculationRxs && Object.keys(selectedPharmacy).length && selectedPharmacy?.pharmacyId) {
         return planData?.estimatedCostCalculationRxs?.find((rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId);
     } else {
         return planData?.estimatedCostCalculationRxs?.find((rx) => rx?.isMailOrder);

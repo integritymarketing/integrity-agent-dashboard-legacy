@@ -20,7 +20,7 @@ const PrescriptionTable = ({ isMobile, planDrugCoverage, planData, refresh, isEn
 
     let drugCosts;
 
-    if (Object.keys(selectedPharmacy).length) {
+    if (Object.keys(selectedPharmacy).length && selectedPharmacy?.pharmacyId) {
         drugCosts = pharmacyCosts.find((rx) => rx.pharmacyID === selectedPharmacy.pharmacyId)?.drugCosts;
     } else {
         drugCosts = pharmacyCosts.find((rx) => rx.pharmacyType === 2)?.drugCosts;

@@ -70,7 +70,7 @@ export default function PlanCard({
 
     let selectedPharmacyCosts;
 
-    if (Object.keys(selectedPharmacy).length) {
+    if (Object.keys(selectedPharmacy).length && selectedPharmacy?.pharmacyId) {
         selectedPharmacyCosts = estimatedCostCalculationRxs?.find(
             (rx) => rx?.pharmacyId == selectedPharmacy?.pharmacyId
         );

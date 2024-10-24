@@ -60,7 +60,7 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
             const rowData = rows[i]?.data;
 
             let pharmacy;
-            if (Object.keys(selectedPharmacy).length) {
+            if (Object.keys(selectedPharmacy).length && selectedPharmacy?.pharmacyId) {
                 pharmacy = pharmacyCosts?.find((rx) => rx?.pharmacyID === selectedPharmacy?.pharmacyId);
             } else {
                 pharmacy = pharmacyCosts?.find((rx) => rx?.pharmacyType === 2);
@@ -87,7 +87,7 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
             startMonth,
             cost: plans.map((plan) => {
                 let pharmacy;
-                if (Object.keys(selectedPharmacy).length) {
+                if (Object.keys(selectedPharmacy).length && selectedPharmacy?.pharmacyId) {
                     pharmacy = plan?.estimatedCostCalculationRxs?.find(
                         (rx) => rx?.pharmacyId === selectedPharmacy?.pharmacyId,
                     );
