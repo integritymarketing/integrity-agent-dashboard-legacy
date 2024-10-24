@@ -1,18 +1,18 @@
 import { Link } from "react-router-dom";
-
 import Box from "@mui/material/Box";
-
 import PropTypes from "prop-types";
-
 import { Checkbox } from "components/ui/version-2/Checkbox";
-
 import { ActionsCell } from "pages/ContactsList/ContactsTable/ActionsCell";
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
-
 import styles from "./styles.module.scss";
+import useAnalytics from "hooks/useAnalytics";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 
 function CardHeader({ item }) {
     const { selectedContacts, setSelectedContacts } = useContactsListContext();
+    const { agentInformation } = useAgentInformationByID();
+    const { agentID, agentNPN } = agentInformation || {};
+    const { fireEvent } = useAnalytics();
 
     const getName = (_item) => {
         const name = [_item.firstName || "", _item.middleName || "", _item.lastName || ""].join(" ").trim();
@@ -28,6 +28,11 @@ function CardHeader({ item }) {
         setSelectedContacts(newSelectedContacts);
     };
 
+    const onCardTitleClick = () => {
+        const eventData = { leadId: item.leadsId, agentID: agentID, agentNPN: agentNPN };
+        fireEvent("Contact Map Card Details Viewed", eventData);
+    };
+
     return (
         <Box display="flex" alignItems="center" justifyContent="space-between" className={styles.header}>
             <Box display="flex" alignItems="center">
@@ -37,7 +42,7 @@ function CardHeader({ item }) {
                     value={item.leadsId}
                 />
                 <Box>
-                    <Link to={`/contact/${item.leadsId}`} className={styles.customLink}>
+                    <Link to={`/contact/${item.leadsId}`} className={styles.customLink} onClick={onCardTitleClick}>
                         {getName(item)}
                     </Link>
                 </Box>
