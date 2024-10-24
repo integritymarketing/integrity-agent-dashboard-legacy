@@ -24,7 +24,7 @@ const SearchInput = styled(OutlinedInput)(() => ({
     },
 }));
 
-const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children, tagIds }) => {
+const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children, tagIds, inbound, name }) => {
     const showToast = useToast();
     const { fireEvent } = useAnalytics();
     const navigate = useNavigate();
@@ -42,12 +42,21 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children,
                 await updatePrimaryContact();
             }
             if (callLogId) {
-                await callRecordingsService.assignsLeadToInboundCallRecord({
-                    callLogId,
-                    leadId,
-                    tagIds: tagIds || [],
-                    isInbound: true,
-                });
+                if (name === "Text") {
+                    await callRecordingsService.assignsLeadToOutboundSmsRecord({
+                        smsLogId: callLogId,
+                        leadId,
+                        tagIds: tagIds || [],
+                        isInbound: inbound === "true" ? true : false,
+                    });
+                } else {
+                    await callRecordingsService.assignsLeadToInboundCallRecord({
+                        callLogId,
+                        leadId,
+                        tagIds: tagIds || [],
+                        isInbound: inbound === "true" ? true : false,
+                    });
+                }
                 showToast({
                     message: "Contact linked successfully",
                 });
@@ -81,7 +90,7 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children,
     );
 };
 
-export default function ContactSearch({ contacts, onChange, isLoading, tagIds }) {
+export default function ContactSearch({ contacts, onChange, isLoading, tagIds, inbound, name }) {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
@@ -110,6 +119,8 @@ export default function ContactSearch({ contacts, onChange, isLoading, tagIds })
                     contact={value}
                     callFrom={callFrom}
                     tagIds={tagIds}
+                    inbound={inbound}
+                    name={name}
                 >
                     <ListItemText
                         primary={

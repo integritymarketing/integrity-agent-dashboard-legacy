@@ -39,6 +39,19 @@ export class CallRecordingsService {
         throw new Error(response?.statusText);
     };
 
+    assignsLeadToOutboundSmsRecord = async (data) => {
+        const response = await this._clientAPIRequest(
+            `${process.env.REACT_APP_COMMUNICATION_API}/SmsLog/Records/AssignToLead`,
+            "PUT",
+            data
+        );
+
+        if (response.ok) {
+            return response;
+        }
+        throw new Error(response?.statusText);
+    };
+
     _clientAPIRequest = async (url, method = "GET", body) => {
         const accessToken = await this.getAccessToken();
         const opts = {

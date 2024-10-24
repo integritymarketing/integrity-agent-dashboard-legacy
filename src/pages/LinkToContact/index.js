@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 
 import { dateFormatter } from "utils/dateFormatter";
-import { formatPhoneNumber } from "utils/phones";
 
 import useCallRecordings from "hooks/useCallRecordings";
 import { Download, CallSummary } from "@integritymarketing/icons";
@@ -38,6 +37,7 @@ export default function LinkToContact() {
     const name = queryParams.get("name");
     const callRecordingUrl = queryParams.get("url");
     const smsContent = queryParams.get("smsText");
+    const inbound = queryParams.get("inbound");
 
     const [modalOpen, setModalOpen] = useState(false);
     const [contacts, setContacts] = useState([]);
@@ -114,7 +114,9 @@ export default function LinkToContact() {
         const logIdParam = callLogId ? `${callLogId}` : "";
         const tagsParam = tagIds ? `tags=${tagIds}` : "";
         const callFromParam = callFrom ? `callFrom=${callFrom}` : "";
-        const queryParams = [tagsParam, callFromParam].filter(Boolean).join("&");
+        const inboundParam = inbound ? `inbound=${inbound}` : "";
+        const nameParam = name ? `name=${name}` : "";
+        const queryParams = [tagsParam, callFromParam, inboundParam, nameParam].filter(Boolean).join("&");
 
         const route = `${baseRoute}${logIdParam}${queryParams ? `?${queryParams}` : ""}`;
         navigate(route);
@@ -223,7 +225,7 @@ export default function LinkToContact() {
                                 </Typography>
                             </Box>
                             <Box className={styles.linkToContactSection}>
-                                <PossibleMatches phone={callFrom} tagIds={tagIds} />
+                                <PossibleMatches phone={callFrom} tagIds={tagIds} inbound={inbound} name={name} />
                                 <Box className={styles.createNewContact}>
                                     <Button
                                         size="small"
@@ -240,6 +242,8 @@ export default function LinkToContact() {
                                         onChange={(searchStr) => getContacts(searchStr)}
                                         contacts={contacts}
                                         tagIds={tagIds}
+                                        inbound={inbound}
+                                        name={name}
                                     />
                                 </div>
                             </Box>

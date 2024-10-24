@@ -10,7 +10,7 @@ import { useClientServiceContext } from "services/clientServiceProvider";
 
 import styles from "./styles.module.scss";
 
-export default function PossibleMatches({ phone, tagIds }) {
+export default function PossibleMatches({ phone, tagIds, inbound, name }) {
     const [matches, setMatches] = useState([]);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -73,12 +73,21 @@ export default function PossibleMatches({ phone, tagIds }) {
                     await updatePrimaryContact(contact);
                 }
                 if (callLogIdNumber) {
-                    await callRecordingsService.assignsLeadToInboundCallRecord({
-                        callLogId: callLogIdNumber,
-                        leadId: contact.leadsId,
-                        tagIds: tagIds || [],
-                        isInbound: true,
-                    });
+                    if (name === "Text") {
+                        await callRecordingsService.assignsLeadToOutboundSmsRecord({
+                            smsLogId: callLogIdNumber,
+                            leadId: contact.leadsId,
+                            tagIds: tagIds || [],
+                            isInbound: inbound === "true" ? true : false,
+                        });
+                    } else {
+                        await callRecordingsService.assignsLeadToInboundCallRecord({
+                            callLogId: callLogIdNumber,
+                            leadId: contact.leadsId,
+                            tagIds: tagIds || [],
+                            isInbound: inbound === "true" ? true : false,
+                        });
+                    }
                     showToast({
                         message: "Contact linked successfully",
                     });

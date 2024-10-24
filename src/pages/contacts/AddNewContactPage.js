@@ -50,6 +50,8 @@ const NewContactForm = ({
     const { fireEvent } = useAnalytics();
     const callFrom = get("callFrom");
     const isRelink = get("relink") === "true";
+    const inbound = get("inbound") === "true";
+    const name = get("name");
     const [showAddress2, setShowAddress2] = useState(false);
     const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
     const [zipLengthValid, setZipLengthValid] = useState(false);
@@ -111,7 +113,6 @@ const NewContactForm = ({
     const handleMultipleDuplicates = () => {
         if (duplicateLeadIds.length) {
             setFilteredDataHandle("duplicateLeadIds", "addNewContact", duplicateLeadIds, null);
-            
         }
         return true;
     };
@@ -273,12 +274,21 @@ const NewContactForm = ({
                     });
                     if (callLogId !== "undefined" && callLogId) {
                         const tagsArray = tags?.split(",").map(Number);
-                        await callRecordingsService.assignsLeadToInboundCallRecord({
-                            callLogId,
-                            leadId,
-                            isInbound: true,
-                            tagIds: tagsArray, // tags from the url
-                        });
+                        if (name === "Text") {
+                            await callRecordingsService.assignsLeadToOutboundSmsRecord({
+                                smsLogId: callLogId,
+                                leadId,
+                                isInbound: inbound,
+                                tagIds: tagsArray, // tags from the url
+                            });
+                        } else {
+                            await callRecordingsService.assignsLeadToInboundCallRecord({
+                                callLogId,
+                                leadId,
+                                isInbound: inbound,
+                                tagIds: tagsArray, // tags from the url
+                            });
+                        }
                     }
                     fireEvent("Call Linked", {
                         leadid: leadId,
