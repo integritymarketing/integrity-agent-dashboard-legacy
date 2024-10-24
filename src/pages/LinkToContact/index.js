@@ -1,12 +1,13 @@
 import * as Sentry from "@sentry/react";
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
+import { debounce } from "lodash";
 
 import { dateFormatter } from "utils/dateFormatter";
 
 import useCallRecordings from "hooks/useCallRecordings";
-import { Download, CallSummary } from "@integritymarketing/icons";
+import { Download } from "@integritymarketing/icons";
 
 import { CallScriptModal } from "packages/CallScriptModal";
 import Tags from "packages/Tags/Tags";
@@ -95,6 +96,19 @@ export default function LinkToContact() {
         }
     };
 
+    const debouncedContactSearch = useCallback(
+        debounce((query) => {
+            getContacts(query);
+        }, 1000),
+        [getContacts]
+    );
+
+    useEffect(() => {
+        return () => {
+            debouncedContactSearch.cancel();
+        };
+    }, [debouncedContactSearch]);
+
     const extractAndFlattenTags = (callLogs) => {
         const flattenedTags = callLogs.flatMap((callLog) =>
             callLog.callLogTags.map((tagInfo) => ({
@@ -119,7 +133,7 @@ export default function LinkToContact() {
         const logIdParam = callLogId ? `${callLogId}` : "";
         const tagsParam = tagIds ? `tags=${tagIds}` : "";
         const callFromParam = callFrom ? `callFrom=${callFrom}` : "";
-        const inboundParam = inbound ? `inbound=${callType}` : "";
+        const inboundParam = inbound ? `inbound=${inbound}` : "";
         const nameParam = name ? `name=${name}` : "";
         const queryParams = [tagsParam, callFromParam, inboundParam, nameParam].filter(Boolean).join("&");
 
@@ -231,7 +245,7 @@ export default function LinkToContact() {
                                 <div className={styles.medContent}>
                                     <ContactSearch
                                         isLoading={isLoading}
-                                        onChange={(searchStr) => getContacts(searchStr)}
+                                        onChange={(searchStr) => debouncedContactSearch(searchStr)}
                                         contacts={contacts}
                                         tagIds={tagIds}
                                         inbound={inbound}
