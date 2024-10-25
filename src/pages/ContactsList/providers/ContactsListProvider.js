@@ -11,9 +11,10 @@ import { filterSectionsConfig as filterSectionsConfigOriginal } from "packages/C
 import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
 
 const DEFAULT_PAGE_SIZE = 12;
+const MAP_DEFAULT_PAGE_SIZE = 50;
 const INITIAL_PAGE_NUMBER = 1;
 const DEFAULT_SORT = ["createDate:desc"];
-const CARD_PATH = "/contacts/card";
+
 
 const ContactsListContext = createContext(null);
 
@@ -66,7 +67,7 @@ export const ContactsListProvider = ({ children }) => {
             if (!withoutFilterResponseSize) {
                 const response = await fetchTableDataWithoutFilters({
                     pageIndex: INITIAL_PAGE_NUMBER,
-                    pageSize: DEFAULT_PAGE_SIZE,
+                    pageSize: layout == "map" ? MAP_DEFAULT_PAGE_SIZE : DEFAULT_PAGE_SIZE,
                     searchString,
                     sort: DEFAULT_SORT,
                 });
@@ -76,12 +77,12 @@ export const ContactsListProvider = ({ children }) => {
             Sentry.captureException(error); // Log the error to Sentry
             console.error("Failed to fetch all leads count", error); // Local logging
         }
-    }, [searchString, withoutFilterResponseSize, fetchTableDataWithoutFilters]);
+    }, [searchString, withoutFilterResponseSize, fetchTableDataWithoutFilters, layout]);
 
     const refreshData = useCallback(() => {
         fetchTableData({
             pageIndex: INITIAL_PAGE_NUMBER,
-            pageSize: DEFAULT_PAGE_SIZE,
+            pageSize: layout == "map" ? MAP_DEFAULT_PAGE_SIZE : DEFAULT_PAGE_SIZE,
             searchString,
             sort,
             selectedFilterSections,
@@ -94,7 +95,7 @@ export const ContactsListProvider = ({ children }) => {
         try {
             const nextPage = pageIndex + 1;
             await fetchTableData({
-                pageSize: DEFAULT_PAGE_SIZE,
+                pageSize: layout == "map" ? MAP_DEFAULT_PAGE_SIZE : DEFAULT_PAGE_SIZE,
                 pageIndex: nextPage,
                 searchString,
                 sort,
@@ -120,7 +121,7 @@ export const ContactsListProvider = ({ children }) => {
             setSelectedContacts([]);
             fetchTableData({
                 pageIndex: INITIAL_PAGE_NUMBER,
-                pageSize: DEFAULT_PAGE_SIZE,
+                pageSize: layout == "map" ? MAP_DEFAULT_PAGE_SIZE : DEFAULT_PAGE_SIZE,
                 searchString,
                 sort: DEFAULT_SORT,
                 selectedFilterSections: newSelectedFilterSections,
@@ -183,10 +184,10 @@ export const ContactsListProvider = ({ children }) => {
     );
 
     useEffect(() => {
-        if (location.pathname.includes("/contacts")) {
+        if (location.pathname.includes("/contacts") && layout) {
             fetchAllListCount();
             fetchTableData({
-                pageSize: DEFAULT_PAGE_SIZE,
+                pageSize: layout == "map" ? MAP_DEFAULT_PAGE_SIZE : DEFAULT_PAGE_SIZE,
                 pageIndex: INITIAL_PAGE_NUMBER,
                 searchString,
                 sort,
@@ -202,11 +203,7 @@ export const ContactsListProvider = ({ children }) => {
                     console.error("Error during initial fetch", error);
                 });
         }
-    }, [fetchTableData, searchString, location.search, sort]);
-
-    useEffect(() => {
-        setLayout(location.pathname === CARD_PATH ? "card" : "list");
-    }, [location.pathname]);
+    }, [fetchTableData, searchString, location.search, sort, layout]);
 
     if (isfetchingTableData || isLoading) {
         return <Spinner />;
