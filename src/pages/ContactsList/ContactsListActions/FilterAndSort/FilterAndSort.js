@@ -40,7 +40,7 @@ function FilterAndSort() {
         } else if (window.location.href.includes(MAP_PATH)) {
             setLayout("map");
         }
-    }, []);
+    }, [window.location.href]);
 
     const switchLayout = (newLayout) => {
         setLayout(newLayout);
@@ -55,7 +55,7 @@ function FilterAndSort() {
         fireEvent("Closed Tag Filter");
         if (value === false) {
             const hasUnfinishedFilterSections = selectedFilterSections.filter(
-                (item) => !item.selectedFilterOption
+                (item) => !item.selectedFilterOption,
             ).length;
             if (hasUnfinishedFilterSections) {
                 const newSelectedFilterSections = selectedFilterSections.filter((item) => item.selectedFilterOption);

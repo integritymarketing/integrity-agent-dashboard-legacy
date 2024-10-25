@@ -12,7 +12,7 @@ const Map = ({ center, zoom, handleZoomChange, handleCenterChange, setIsMapUILoa
             center={center}
             styles={mapStyles}
             maxZoom={17}
-            onTilesLoaded={() => {
+            onIdle={() => {
                 setIsMapUILoading(false);
             }}
             reuseMaps={true}
