@@ -9,7 +9,7 @@ import useAnalytics from "hooks/useAnalytics";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 
 function CardHeader({ item }) {
-    const { selectedContacts, setSelectedContacts } = useContactsListContext();
+    const { selectedContacts, setSelectedContacts, layout } = useContactsListContext();
     const { agentInformation } = useAgentInformationByID();
     const { agentID, agentNPN } = agentInformation || {};
     const { fireEvent } = useAnalytics();
@@ -42,7 +42,11 @@ function CardHeader({ item }) {
                     value={item.leadsId}
                 />
                 <Box>
-                    <Link to={`/contact/${item.leadsId}`} className={styles.customLink} onClick={onCardTitleClick}>
+                    <Link
+                        to={`/contact/${item.leadsId}`}
+                        className={styles.customLink}
+                        onClick={layout == "map" ? onCardTitleClick : null}
+                    >
                         {getName(item)}
                     </Link>
                 </Box>
