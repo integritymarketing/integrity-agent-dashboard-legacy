@@ -11,11 +11,9 @@ import { filterSectionsConfig as filterSectionsConfigOriginal } from "packages/C
 import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
 
 const DEFAULT_PAGE_SIZE = 12;
-const MAP_DEFAULT_PAGE_SIZE = 50;
 const INITIAL_PAGE_NUMBER = 1;
 const DEFAULT_SORT = ["createDate:desc"];
 const CARD_PATH = "/contacts/card";
-
 
 const ContactsListContext = createContext(null);
 
@@ -26,14 +24,14 @@ export const ContactsListProvider = ({ children }) => {
     const [searchString, setSearchString] = useState(null);
     const [withoutFilterResponseSize, setWithoutFilterResponseSize] = useState(null);
     const [filterSectionsConfig, setFilterSectionsConfigOriginal] = useState(
-        JSON.parse(localStorage.getItem("contactList_filterSectionsConfig")) || filterSectionsConfigOriginal,
+        JSON.parse(localStorage.getItem("contactList_filterSectionsConfig")) || filterSectionsConfigOriginal
     );
     const [pageIndex, setPageIndex] = useState(INITIAL_PAGE_NUMBER);
     const [selectedContacts, setSelectedContacts] = useState([]);
     const [filterConditions, setFilterConditions] = useState();
     const [fetchedFiltersSectionConfigFromApi, setFetchedFiltersSectionConfigFromApi] = useState(false);
     const [selectedFilterSections, setSelectedFilterSectionsState] = useState(
-        JSON.parse(localStorage.getItem("contactList_selectedFilterSections") || JSON.stringify([])),
+        JSON.parse(localStorage.getItem("contactList_selectedFilterSections") || JSON.stringify([]))
     );
     const { removeFilteredLeadIds, filteredInfo } = useFilteredLeadIds();
 
@@ -65,10 +63,10 @@ export const ContactsListProvider = ({ children }) => {
 
     const fetchAllListCount = useCallback(async () => {
         try {
-            if (!withoutFilterResponseSize && layout) {
+            if (!withoutFilterResponseSize) {
                 const response = await fetchTableDataWithoutFilters({
                     pageIndex: INITIAL_PAGE_NUMBER,
-                    pageSize: layout == "map" ? MAP_DEFAULT_PAGE_SIZE : DEFAULT_PAGE_SIZE,
+                    pageSize: DEFAULT_PAGE_SIZE,
                     searchString,
                     sort: DEFAULT_SORT,
                 });
@@ -78,7 +76,7 @@ export const ContactsListProvider = ({ children }) => {
             Sentry.captureException(error); // Log the error to Sentry
             console.error("Failed to fetch all leads count", error); // Local logging
         }
-    }, [searchString, withoutFilterResponseSize, fetchTableDataWithoutFilters, layout]);
+    }, [searchString, withoutFilterResponseSize, fetchTableDataWithoutFilters]);
 
     const refreshData = useCallback(() => {
         fetchTableData({
@@ -122,7 +120,7 @@ export const ContactsListProvider = ({ children }) => {
             setSelectedContacts([]);
             fetchTableData({
                 pageIndex: INITIAL_PAGE_NUMBER,
-                pageSize: layout == "map" ? MAP_DEFAULT_PAGE_SIZE : DEFAULT_PAGE_SIZE,
+                pageSize: DEFAULT_PAGE_SIZE,
                 searchString,
                 sort: DEFAULT_SORT,
                 selectedFilterSections: newSelectedFilterSections,
@@ -185,10 +183,10 @@ export const ContactsListProvider = ({ children }) => {
     );
 
     useEffect(() => {
-        if (location.pathname.includes("/contacts") && layout) {
+        if (location.pathname.includes("/contacts")) {
             fetchAllListCount();
             fetchTableData({
-                pageSize: layout == "map" ? MAP_DEFAULT_PAGE_SIZE : DEFAULT_PAGE_SIZE,
+                pageSize: DEFAULT_PAGE_SIZE,
                 pageIndex: INITIAL_PAGE_NUMBER,
                 searchString,
                 sort,
@@ -204,7 +202,7 @@ export const ContactsListProvider = ({ children }) => {
                     console.error("Error during initial fetch", error);
                 });
         }
-    }, [fetchTableData, searchString, location.search, sort, layout]);
+    }, [fetchTableData, searchString, location.search, sort]);
 
     useEffect(() => {
         setLayout(location.pathname === CARD_PATH ? "card" : "list");
