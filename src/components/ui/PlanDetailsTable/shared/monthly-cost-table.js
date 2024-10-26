@@ -11,7 +11,7 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
 
     let selectedPharmacyCosts;
 
-    if (Object.keys(selectedPharmacy)?.length) {
+    if (Object.keys(selectedPharmacy)?.length && selectedPharmacy?.pharmacyId) {
         selectedPharmacyCosts = pharmacyCosts?.find((rx) => rx?.pharmacyID === selectedPharmacy?.pharmacyId);
     } else {
         selectedPharmacyCosts = pharmacyCosts?.find((rx) => rx?.pharmacyType === 2);
