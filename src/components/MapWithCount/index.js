@@ -146,7 +146,7 @@ function MapWithCount({ selectedAgent, setSelectedAgent, isMapUILoading, setIsMa
                 if (newZoom < 17 && newZoom > currZoom) {
                     return newZoom + 3 > 17 ? 17 : newZoom + 2;
                 } else {
-                    return newZoom - 2;
+                    return currZoom - 2;
                 }
             });
         },
@@ -158,7 +158,7 @@ function MapWithCount({ selectedAgent, setSelectedAgent, isMapUILoading, setIsMa
             if (contactGroupItem.isCluster) {
                 checkWhetherMarkersAreSpiderfy(contactGroupItem.agents);
                 setCenter(contactGroupItem.position);
-                setZoom(15);
+                setZoom(16);
                 isClusteredClicked.current = true;
             } else {
                 setSelectedAgent(contactGroupItem);
@@ -173,13 +173,13 @@ function MapWithCount({ selectedAgent, setSelectedAgent, isMapUILoading, setIsMa
             const successPosition = (position) => {
                 isLocationCenterSet.current = true;
                 setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
-                setZoom(15);
+                setZoom(16);
             };
             const errorPosition = async () => {
                 const response = await clientsService.getAgentAvailability(agentId);
                 if (response?.latitude && response?.longitude) {
                     setCenter({ lat: response.latitude, lng: response.longitude });
-                    setZoom(15);
+                    setZoom(16);
                     isLocationCenterSet.current = true;
                 }
             };
