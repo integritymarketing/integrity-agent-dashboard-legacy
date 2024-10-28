@@ -104,7 +104,7 @@ export default function PlanCard({
 
     const mailOrderNotApplicable =
         selectedPharmacy?.name === "Mail Order" &&
-        ((planData?.hasMailDrugBenefits && !planData?.estimatedAnnualMailOrderDrugCostPartialYear) ||
+        ((planData?.hasMailDrugBenefits && planData?.estimatedAnnualMailOrderDrugCostPartialYear === null) ||
             !planData?.hasMailDrugBenefits);
 
     return (

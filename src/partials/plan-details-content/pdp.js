@@ -54,7 +54,7 @@ const PdpDetailsContent = ({
 
     const mailOrderNotApplicable =
         selectedPharmacy?.name === "Mail Order" &&
-        ((hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits);
+        ((hasMailDrugBenefits && estimatedAnnualMailOrderDrugCostPartialYear === null) || !hasMailDrugBenefits);
 
     return (
         <>

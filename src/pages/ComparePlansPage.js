@@ -157,7 +157,7 @@ const ComparePlansPage = (props) => {
                 if (!plan) { return false; }
                 const { hasMailDrugBenefits, estimatedAnnualMailOrderDrugCostPartialYear } = plan;
                 return (selectedPharmacy?.name === "Mail Order") && Boolean(
-                    (hasMailDrugBenefits && !estimatedAnnualMailOrderDrugCostPartialYear) || !hasMailDrugBenefits,
+                    (hasMailDrugBenefits && estimatedAnnualMailOrderDrugCostPartialYear === null) || !hasMailDrugBenefits,
                 );
             });
             setMailOrderNotApplicable(mailOrdrNotApplicable);
