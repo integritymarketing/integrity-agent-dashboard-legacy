@@ -15,7 +15,6 @@ const MAP_DEFAULT_PAGE_SIZE = 50;
 const INITIAL_PAGE_NUMBER = 1;
 const DEFAULT_SORT = ["createDate:desc"];
 
-
 const ContactsListContext = createContext(null);
 
 export const ContactsListProvider = ({ children }) => {
@@ -25,14 +24,14 @@ export const ContactsListProvider = ({ children }) => {
     const [searchString, setSearchString] = useState(null);
     const [withoutFilterResponseSize, setWithoutFilterResponseSize] = useState(null);
     const [filterSectionsConfig, setFilterSectionsConfigOriginal] = useState(
-        JSON.parse(localStorage.getItem("contactList_filterSectionsConfig")) || filterSectionsConfigOriginal
+        JSON.parse(localStorage.getItem("contactList_filterSectionsConfig")) || filterSectionsConfigOriginal,
     );
     const [pageIndex, setPageIndex] = useState(INITIAL_PAGE_NUMBER);
     const [selectedContacts, setSelectedContacts] = useState([]);
     const [filterConditions, setFilterConditions] = useState();
     const [fetchedFiltersSectionConfigFromApi, setFetchedFiltersSectionConfigFromApi] = useState(false);
     const [selectedFilterSections, setSelectedFilterSectionsState] = useState(
-        JSON.parse(localStorage.getItem("contactList_selectedFilterSections") || JSON.stringify([]))
+        JSON.parse(localStorage.getItem("contactList_selectedFilterSections") || JSON.stringify([])),
     );
     const { removeFilteredLeadIds, filteredInfo } = useFilteredLeadIds();
 
@@ -132,6 +131,14 @@ export const ContactsListProvider = ({ children }) => {
         [fetchAllListCount, fetchTableData, searchString, filterSectionsConfig],
     );
 
+    const setSelectAllContacts = (status) => {
+        if (status) {
+            setSelectedContacts(tableData.map((id) => String(id.leadsId)));
+        } else {
+            setSelectedContacts([]);
+        }
+    };
+
     const contextValue = useMemo(
         () => ({
             tableData,
@@ -160,6 +167,7 @@ export const ContactsListProvider = ({ children }) => {
             setFetchedFiltersSectionConfigFromApi,
             filterConditions,
             setFilterConditions,
+            setSelectAllContacts,
         }),
         [
             tableData,
