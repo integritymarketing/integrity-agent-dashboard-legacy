@@ -182,7 +182,6 @@ function MapWithCount({ selectedAgent, setSelectedAgent, isMapUILoading, setIsMa
                     setZoom(16);
                     isLocationCenterSet.current = true;
                 } else {
-                    // Fallback to highest cluster point
                     const highestCluster = contactsDataByZipCode.reduce((prev, curr) => {
                         return (prev.agents.length > curr.agents.length) ? prev : curr;
                     });
