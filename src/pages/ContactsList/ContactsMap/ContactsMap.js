@@ -29,7 +29,6 @@ function ContactsMap() {
                             onChange={(event) => {
                                 setSelectAllContacts(event.target.checked);
                             }}
-                            chec
                         />
                         <span>Select All</span>
                         <ContactsCard isMapPage={true} cardWrapperClassName={styles.cardWrapperClassName} />
@@ -37,15 +36,6 @@ function ContactsMap() {
                 )}
             </Grid>
             <Grid className={styles.mapColumn} item xs={12} md={7}>
-                <Box className={styles.selectAllCheckboxMobile}>
-                    <Checkbox
-                        checked={tableData.length == selectedContacts.length}
-                        onChange={(event) => {
-                            setSelectAllContacts(event.target.checked);
-                        }}
-                    />
-                    <span>Select All</span>
-                </Box>
                 <MapWithCount
                     isMapUILoading={isMapUILoading}
                     setIsMapUILoading={setIsMapUILoading}
