@@ -192,7 +192,7 @@ function MapWithCount({ selectedAgent, setSelectedAgent, isMapUILoading, setIsMa
             };
             navigator.geolocation.getCurrentPosition(successPosition, errorPosition);
         }
-    }, [clientsService, agentId, contactsDataByZipCode]);
+    }, [clientsService, agentId, contactsDataByZipCode, navigator]);
 
     const handleWindowClose = useCallback(() => {
         setSelectedAgent(null);
