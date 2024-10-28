@@ -181,11 +181,19 @@ function MapWithCount({ selectedAgent, setSelectedAgent, isMapUILoading, setIsMa
                     setCenter({ lat: response.latitude, lng: response.longitude });
                     setZoom(16);
                     isLocationCenterSet.current = true;
+                } else {
+                    // Fallback to highest cluster point
+                    const highestCluster = contactsDataByZipCode.reduce((prev, curr) => {
+                        return (prev.agents.length > curr.agents.length) ? prev : curr;
+                    });
+                    setCenter(highestCluster.position);
+                    setZoom(16);
+                    isLocationCenterSet.current = true;
                 }
             };
             navigator.geolocation.getCurrentPosition(successPosition, errorPosition);
         }
-    }, [clientsService, agentId]);
+    }, [clientsService, agentId, contactsDataByZipCode]);
 
     const handleWindowClose = useCallback(() => {
         setSelectedAgent(null);
