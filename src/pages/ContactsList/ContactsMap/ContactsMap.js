@@ -9,7 +9,7 @@ import { useState } from "react";
 import SelectedAgentCard from "./SelectedAgentCard/SelectedAgentCard";
 
 function ContactsMap() {
-    const { setSelectedContactsAll } = useContactsListContext();
+    const { setSelectAllContacts, tableData, selectedContacts } = useContactsListContext();
     const [selectedAgent, setSelectedAgent] = useState(null);
     const [isMapUILoading, setIsMapUILoading] = useState(true);
 
@@ -25,13 +25,11 @@ function ContactsMap() {
                 ) : (
                     <Box className={styles.clientsCardsContainer}>
                         <Checkbox
+                            checked={tableData.length == selectedContacts.length}
                             onChange={(event) => {
-                                if (event.target.checked) {
-                                    setSelectedContactsAll();
-                                } else {
-                                    setSelectedContactsAll(true);
-                                }
+                                setSelectAllContacts(event.target.checked);
                             }}
+                            chec
                         />
                         <span>Select All</span>
                         <ContactsCard isMapPage={true} cardWrapperClassName={styles.cardWrapperClassName} />
@@ -41,12 +39,9 @@ function ContactsMap() {
             <Grid className={styles.mapColumn} item xs={12} md={7}>
                 <Box className={styles.selectAllCheckboxMobile}>
                     <Checkbox
+                        checked={tableData.length == selectedContacts.length}
                         onChange={(event) => {
-                            if (event.target.checked) {
-                                setSelectedContactsAll();
-                            } else {
-                                setSelectedContactsAll(true);
-                            }
+                            setSelectAllContacts(event.target.checked);
                         }}
                     />
                     <span>Select All</span>
