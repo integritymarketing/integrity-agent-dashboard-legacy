@@ -1,11 +1,11 @@
 import * as Sentry from "@sentry/react";
-import React, { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { debounce } from "lodash";
+import PropTypes from "prop-types";
 
 import { dateFormatter } from "utils/dateFormatter";
-
 import useCallRecordings from "hooks/useCallRecordings";
 import { Download } from "@integritymarketing/icons";
 
@@ -22,20 +22,18 @@ import ContactSearch from "./ContactSearch";
 import PossibleMatches from "./PossibleMatches";
 import styles from "./styles.module.scss";
 import { Typography, Box, Button } from "@mui/material";
-import { useLocation } from "react-router-dom";
 import OutBoundCall from "components/OutBoundCall";
 
 export default function LinkToContact() {
     const navigate = useNavigate();
-
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
     const callLogId = queryParams.get("id");
-    const callFrom = queryParams.get("phoneNumber");
-    const duration = queryParams.get("duration");
-    const date = queryParams.get("date");
-    const name = queryParams.get("name");
+    const phoneNumber = decodeURIComponent(queryParams.get("phoneNumber"));
+    const callDuration = queryParams.get("duration");
+    const callDate = queryParams.get("date");
+    const callerName = queryParams.get("name");
     const callRecordingUrl = queryParams.get("url");
     const smsContent = queryParams.get("smsText");
 
@@ -62,7 +60,7 @@ export default function LinkToContact() {
 
     const callRecordItem = callRecordings?.filter((callRecording) => callRecording?.callLogId === parseInt(callLogId));
     const callType = callRecordItem?.[0]?.callType ? callRecordItem?.[0]?.callType : "inbound";
-    const inbound = callType === "inbound";
+    const isInboundCall = callType === "inbound";
 
     const getContacts = async (searchStr) => {
         setIsLoading(true);
@@ -85,7 +83,6 @@ export default function LinkToContact() {
                 null,
                 null
             );
-            setIsLoading(false);
             if (response && response.result) {
                 setContacts(response.result);
             }
@@ -117,13 +114,11 @@ export default function LinkToContact() {
             }))
         );
 
-        // Remove potential duplicates based on tagId
         const uniqueTags = Array.from(new Map(flattenedTags.map((tag) => [tag.tagId, tag])).values());
 
         return uniqueTags;
     };
 
-    // Extract and flatten tags from the provided data
     const flattenedTags = callsRecordingTags?.length > 0 ? extractAndFlattenTags(callsRecordingTags) : [];
 
     const tagIds = flattenedTags?.map((tag) => tag.tagId);
@@ -132,24 +127,26 @@ export default function LinkToContact() {
         const baseRoute = `/contact/add-new/`;
         const logIdParam = callLogId ? `${callLogId}` : "";
         const tagsParam = tagIds ? `tags=${tagIds}` : "";
-        const callFromParam = callFrom ? `callFrom=${callFrom}` : "";
-        const inboundParam = inbound ? `inbound=${inbound}` : "";
-        const nameParam = name ? `name=${name}` : "";
-        const queryParams = [tagsParam, callFromParam, inboundParam, nameParam].filter(Boolean).join("&");
-
-        const route = `${baseRoute}${logIdParam}${queryParams ? `?${queryParams}` : ""}`;
+        const callFromParam = phoneNumber ? `callFrom=${phoneNumber}` : "";
+        const inboundParam = isInboundCall ? `inbound=${isInboundCall}` : "";
+        const nameParam = callerName ? `name=${callerName}` : "";
+        const newQueryParams = [tagsParam, callFromParam, inboundParam, nameParam].filter(Boolean).join("&");
+        const route = `${baseRoute}${logIdParam}${newQueryParams ? `?${newQueryParams}` : ""}`;
         navigate(route);
-    }, [callLogId, tagIds, callFrom, navigate]);
+    }, [callLogId, tagIds, phoneNumber, isInboundCall, callerName, navigate]);
 
     const handleDownloadAndTextClick = () => {
-        const recordingUrl = callRecordingUrl;
+        if (!callRecordingUrl) {return;}
+
         const link = document.createElement("a");
-        link.href = recordingUrl;
+        link.href = callRecordingUrl;
         link.download = "call_recording.mp3";
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
     };
 
-    const API_Phone = callFrom?.replace("+1", "");
+    const formattedPhoneNumber = phoneNumber?.replace("+1", "");
 
     return (
         <>
@@ -162,37 +159,36 @@ export default function LinkToContact() {
                 <div className={styles.innerContainer}>
                     <Box marginBottom="8px">
                         <Typography variant="h2" color="#052A63">
-                            Unlinked {name}
+                            Unlinked {callerName}
                         </Typography>
                     </Box>
-                    <OutBoundCall leadPhone={API_Phone} view="linkToContact" />
-
+                    <OutBoundCall leadPhone={formattedPhoneNumber} view="linkToContact" />
                     <Box className={styles.callRecording}>
                         <Typography variant="h4" color="#052A63">
-                            {name === "Text" ? "Message Received" : "Call Recorded"}
+                            {callerName === "Text" ? "Message Received" : "Call Recorded"}
                         </Typography>
                         <Box display={"flex"} marginTop="10px">
                             <Typography variant="body1" color="#434A51">
-                                {dateFormatter(date, "MM/DD/yyyy")}
+                                {dateFormatter(callDate, "MM/DD/yyyy")}
                             </Typography>
                             <Box className={styles.divider} />
                             <Typography variant="body1" color="#434A51">
-                                {dateFormatter(date, "hh:mm A")}
+                                {dateFormatter(callDate, "hh:mm A")}
                             </Typography>
                         </Box>
-                        {name !== "Text" && (
+                        {callerName !== "Text" && (
                             <Box marginTop="16px">
                                 <Typography variant="h4" color="#052A63">
                                     Duration
                                 </Typography>
                                 <Box marginTop="10px" textAlign={"center"}>
                                     <Typography variant="body1" color="#434A51">
-                                        {duration}
+                                        {callDuration}
                                     </Typography>
                                 </Box>
                             </Box>
                         )}
-                        {name === "Text" && (
+                        {callerName === "Text" && (
                             <Box className={styles.smsContent}>
                                 <Typography variant="body1" color="#434A51">
                                     {smsContent}
@@ -201,7 +197,7 @@ export default function LinkToContact() {
                         )}
                     </Box>
                     <Box>
-                        {name !== "Text" && callRecordingUrl && (
+                        {callerName !== "Text" && callRecordingUrl && (
                             <Button
                                 size="medium"
                                 variant="text"
@@ -219,7 +215,7 @@ export default function LinkToContact() {
                         </div>
                     ) : null}
 
-                    {callIsAssigned && name !== "Text" ? (
+                    {callIsAssigned && callerName !== "Text" ? (
                         <div className={styles.medContent}>
                             <div className={styles.content}>This call is already assigned to a lead.</div>
                         </div>
@@ -231,7 +227,7 @@ export default function LinkToContact() {
                                 </Typography>
                             </Box>
                             <Box className={styles.linkToContactSection}>
-                                <PossibleMatches phone={callFrom} tagIds={tagIds} inbound={inbound} name={name} />
+                                <PossibleMatches phone={phoneNumber} tagIds={tagIds} inbound={isInboundCall} name={callerName} />
                                 <Box className={styles.createNewContact}>
                                     <Button
                                         size="small"
@@ -248,8 +244,8 @@ export default function LinkToContact() {
                                         onChange={(searchStr) => debouncedContactSearch(searchStr)}
                                         contacts={contacts}
                                         tagIds={tagIds}
-                                        inbound={inbound}
-                                        name={name}
+                                        inbound={isInboundCall}
+                                        name={callerName}
                                     />
                                 </div>
                             </Box>
@@ -267,3 +263,13 @@ export default function LinkToContact() {
         </>
     );
 }
+
+LinkToContact.propTypes = {
+    callLogId: PropTypes.string,
+    phoneNumber: PropTypes.string,
+    callDuration: PropTypes.string,
+    callDate: PropTypes.string,
+    callerName: PropTypes.string,
+    callRecordingUrl: PropTypes.string,
+    smsContent: PropTypes.string,
+};

@@ -12,7 +12,7 @@ const OutBoundCall = ({ leadPhone, view }) => {
     const { isCallScriptOpen, setIsCallScriptOpen, initiateCall } = useOutboundCall();
 
     const handleCall = useCallback(async () => {
-        if (!leadPhone) return;
+        if (!leadPhone) {return;}
         const wasSuccessful = await initiateCall(null, leadPhone);
         if (wasSuccessful) {
             fireEvent("Contact List Tag Viewed", {
@@ -21,7 +21,7 @@ const OutBoundCall = ({ leadPhone, view }) => {
                 content: "phone_number",
             });
         }
-    }, [initiateCall, leadPhone, fireEvent]);
+    }, [leadPhone, initiateCall, fireEvent, view]);
 
     return (
         <>
