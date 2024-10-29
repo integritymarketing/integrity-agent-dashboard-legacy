@@ -252,6 +252,7 @@ const PrescriptionModal = ({ onClose: onCloseHandler, open, item, isEdit, refres
         <Modal
             open={open}
             title={isEdit ? "Update Prescription" : "Add Prescriptions"}
+            contentStyle={{ overflowY: "visible", paddingBottom: "0" }}
             onClose={onClose}
             onCancel={onClose}
             cancelButtonName={"Cancel"}
