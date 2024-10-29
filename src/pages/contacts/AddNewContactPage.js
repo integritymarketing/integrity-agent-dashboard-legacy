@@ -48,7 +48,7 @@ const NewContactForm = ({
     const { setFilteredDataHandle } = useFilteredLeadIds();
     const addNewDuplicateErrorRef = useRef();
     const { fireEvent } = useAnalytics();
-    const callFrom = decodeURIComponent(get("callFrom") || "")?.replace(/^\+\d+/, "");
+    const callFrom = decodeURIComponent(get("callFrom")?.replace(/\s/g, "+") || "").replace(/^\+?1/, ""); 
     const isRelink = get("relink") === "true";
     const inbound = get("inbound") === "true";
     const name = get("name");
