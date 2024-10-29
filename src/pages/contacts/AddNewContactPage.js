@@ -169,7 +169,7 @@ const NewContactForm = ({
                 email: "",
                 birthdate: "",
                 phones: {
-                    leadPhone: callFrom?.replace("1", "") || "",
+                    leadPhone: callFrom?.replace(/^\+\d+/, "") || "",
                     phoneLabel: "mobile",
                 },
                 address: {
