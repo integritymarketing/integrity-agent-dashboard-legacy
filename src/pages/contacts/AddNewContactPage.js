@@ -48,7 +48,7 @@ const NewContactForm = ({
     const { setFilteredDataHandle } = useFilteredLeadIds();
     const addNewDuplicateErrorRef = useRef();
     const { fireEvent } = useAnalytics();
-    const callFrom = get("callFrom");
+    const callFrom = decodeURIComponent(get("callFrom") || "")?.replace(/^\+\d+/, "");
     const isRelink = get("relink") === "true";
     const inbound = get("inbound") === "true";
     const name = get("name");
@@ -169,7 +169,7 @@ const NewContactForm = ({
                 email: "",
                 birthdate: "",
                 phones: {
-                    leadPhone: callFrom?.replace(/^\+\d+/, "") || "",
+                    leadPhone: callFrom,
                     phoneLabel: "mobile",
                 },
                 address: {
