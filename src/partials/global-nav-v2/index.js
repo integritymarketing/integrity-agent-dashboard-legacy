@@ -351,7 +351,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                 showMaintenaceNotification={showMaintenaceNotification}
             />
 
-            <AbcBanner show={!showBanner} leadPreference={leadPreference} agentId={user?.agentId} />
+            <AbcBanner show={showBanner} leadPreference={leadPreference} agentId={user?.agentId} />
 
             <header
                 className={`global-nav-v2 ${analyticsService.clickClass(
