@@ -14,7 +14,7 @@ const MarketingBanner = ({ page, leadDetails = null }) => {
     const { setCurrentPage, handleCreateCampaignFromContact } = useCampaignInvitation();
 
     const navigateToCreateCampaignInvitation = () => {
-        if(!leadDetails?.emails[0]?.leadEmail && !leadDetails?.phones[0]?.leadPhone) {
+        if (!leadDetails?.emails[0]?.leadEmail && !leadDetails?.phones[0]?.leadPhone) {
             showToast({
                 type: "error",
                 message: "Cannot send campaign: This contact does not have a phone number.",
@@ -24,7 +24,28 @@ const MarketingBanner = ({ page, leadDetails = null }) => {
         }
         setCurrentPage(page);
         if (leadDetails) {
-            handleCreateCampaignFromContact(leadDetails);
+            let campaignChannel = "";
+            if (leadDetails?.contactPreferences?.primary === "email" && leadDetails?.emails[0]?.leadEmail) {
+                campaignChannel = "Email";
+            } else if (leadDetails?.contactPreferences?.primary === "phone" && leadDetails?.phones[0]?.leadPhone) {
+                campaignChannel = "Sms";
+            } else {
+                campaignChannel = "Email";
+            }
+            const campaignTitle = `${leadDetails?.firstName} ${leadDetails?.lastName} Get Sync`;
+            const lead = {
+                leadsId: leadDetails?.leadsId,
+                firstName: leadDetails?.firstName,
+                lastName: leadDetails?.lastName,
+                destination: leadDetails?.emails[0]?.leadEmail,
+            };
+            handleCreateCampaignFromContact({
+                campaignChannel,
+                campaignTitle,
+                customCampaign: "PlanEnrollProfile",
+                actionType: "a contact",
+                lead,
+            });
         }
     };
 

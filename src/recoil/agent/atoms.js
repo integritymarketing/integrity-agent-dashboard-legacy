@@ -5,16 +5,6 @@ export const agentIdAtom = atom({
     default: null,
 });
 
-export const welcomeModalOpenAtom = atom({
-    key: "welcomeModalOpenAtom",
-    default: false,
-});
-
-export const welcomeModalTempOpenAtom = atom({
-    key: "welcomeModalTempOpenAtom",
-    default: false,
-});
-
 export const agentPhoneAtom = atom({
     key: "agentPhoneAtom",
     default: "",

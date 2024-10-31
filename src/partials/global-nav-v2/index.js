@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useSetRecoilState, useRecoilState } from "recoil";
-import { welcomeModalOpenAtom, welcomeModalTempOpenAtom } from "recoil/agent/atoms";
 
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useUserProfile from "hooks/useUserProfile";
 
-import GetStarted from "packages/GetStarted";
 import InboundCallBanner from "packages/InboundCallBanner";
 
 import IntegrityLogo from "components/HeaderWithLogin/Integrity-logo";
@@ -39,6 +36,7 @@ import IntegrityMobileLogo from "components/HeaderWithLogin/integrity-mobile-log
 import NewBackBtn from "images/new-back-btn.svg";
 import MegaPhone from "./assets/MegaPhone.svg";
 import PlusMenu from "./plusMenu";
+import AbcBanner from "components/AbcBanner";
 
 const handleCSGSSO = async (navigate, npn, email) => {
     const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${npn}/${email}`, {
@@ -101,8 +99,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     const auth = useAuth0();
     const { clientsService } = useClientServiceContext();
     const navigate = useNavigate();
-    const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
-    const [welcomeModalTempOpen] = useRecoilState(welcomeModalTempOpenAtom);
     const { setContactSearchModalOpen } = useCreateNewQuote();
 
     const [navOpen, setNavOpen] = useState(false);
@@ -318,12 +314,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     };
 
     useEffect(() => {
-        if (leadPreference && !leadPreference?.isAgentMobilePopUpDismissed && !welcomeModalTempOpen) {
-            setWelcomeModalOpen(true);
-        }
-    }, [leadPreference, setWelcomeModalOpen, welcomeModalTempOpen]);
-
-    useEffect(() => {
         if (user?.agentId && agentInformation.isLoading === false && !agentInformation?.agentVirtualPhoneNumber) {
             setTimeout(() => clientsService.generateAgentTwiloNumber(user?.agentId), 5000);
         }
@@ -344,14 +334,9 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         .filter(Boolean)
         .join("-");
 
-    let showBanner = false;
-    if (
-        agentInformation &&
-        agentInformation.leadPreference &&
-        !agentInformation.leadPreference.isAgentMobileBannerDismissed
-    ) {
-        showBanner = true;
-    }
+    const showBanner = useMemo(() => {
+        return agentInformation?.leadPreference && !agentInformation?.leadPreference?.isAgentMobileBannerDismissed;
+    }, [agentInformation]);
 
     return (
         <WithLoader isLoading={auth.isLoading}>
@@ -365,13 +350,9 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                 showPhoneNotification={showPhoneNotification}
                 showMaintenaceNotification={showMaintenaceNotification}
             />
-            {showBanner && (
-                <GetStarted
-                    leadPreference={leadPreference}
-                    learnMoreModal={learnMoreModal}
-                    setLearnMoreModal={setLearnMoreModal}
-                />
-            )}
+
+            <AbcBanner show={!showBanner} leadPreference={leadPreference} agentId={user?.agentId} />
+
             <header
                 className={`global-nav-v2 ${analyticsService.clickClass(
                     "nav-wrapper"
@@ -451,7 +432,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                     </nav>
                 )}
             </header>
-
             {auth.isAuthenticated && !menuHidden && <InboundCallBanner agentInformation={agentInformation} />}
             <Modal
                 open={helpModalOpen}
