@@ -2,8 +2,8 @@ import * as Sentry from "@sentry/react";
 import { useEffect, useState } from "react";
 
 import { Form, Formik } from "formik";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { agentPhoneAtom, welcomeModalOpenAtom } from "recoil/agent/atoms";
+import { useRecoilState } from "recoil";
+import { agentPhoneAtom } from "recoil/agent/atoms";
 
 import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
@@ -27,7 +27,6 @@ const CallCenterContent = () => {
 
     const { agentId } = useUserProfile();
     const showToast = useToast();
-    const setWelcomeModalOpen = useSetRecoilState(welcomeModalOpenAtom);
     const [phoneAtom] = useRecoilState(agentPhoneAtom);
     const { clientsService } = useClientServiceContext();
 
@@ -52,9 +51,7 @@ const CallCenterContent = () => {
             if (!agentVirtualPhoneNumber) {
                 await clientsService.generateAgentTwiloNumber(agentId);
             }
-            if (!leadPreference?.isAgentMobilePopUpDismissed) {
-                setWelcomeModalOpen(true);
-            }
+
             setPhone(formatPhoneNumber(response.phone, true));
             if (response.callForwardNumber) {
                 setCallForwardNumber(formatPhoneNumber(response.callForwardNumber, true));

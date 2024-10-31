@@ -306,16 +306,14 @@ export const CampaignInvitationProvider = ({ children }) => {
         [fetchCampaignDetailsByEmail, fireEvent, showToast]
     );
 
-    const handleCreateCampaignFromContact = async (leadInformation) => {
-        let channel = "";
+    const handleCreateCampaignFromContact = async ({
+        campaignChannel,
+        campaignTitle,
+        customCampaign,
+        actionType,
+        lead,
+    }) => {
         let payload = {};
-        if (leadInformation?.contactPreferences?.primary === "email" && leadInformation?.emails[0]?.leadEmail) {
-            channel = "Email";
-        } else if (leadInformation?.contactPreferences?.primary === "phone" && leadInformation?.phones[0]?.leadPhone) {
-            channel = "Sms";
-        } else {
-            channel = "Email";
-        }
 
         payload = {
             id: 0,
@@ -323,9 +321,9 @@ export const CampaignInvitationProvider = ({ children }) => {
             agentNpn: npn,
             campaignType: "Individual",
             campaignStatus: campaignStatuses.DRAFT,
-            customCampaignDescription: `${leadInformation?.firstName} ${leadInformation?.lastName} Get Sync`,
-            campaignChannel: channel,
-            campaignSelectedAction: "a contact",
+            customCampaignDescription: campaignTitle,
+            campaignChannel: campaignChannel,
+            campaignSelectedAction: actionType,
             requestPayload: {
                 agentId: 0,
                 agentNPN: "",
@@ -343,25 +341,31 @@ export const CampaignInvitationProvider = ({ children }) => {
             },
         };
 
-        if (channel === "Email") {
+        if (campaignChannel === "Email") {
             const emailCampaignsData = await getCampaignDetailsByEmail();
-            const templateData = emailCampaignsData?.find((item) => item?.campaignName === "PlanEnrollProfile");
+            const templateData = emailCampaignsData?.find((item) => item?.campaignName === customCampaign);
 
             payload = {
                 ...payload,
                 requestPayload: {
                     ...payload.requestPayload,
                     templateId: templateData?.templateId,
-                    leads: [
-                        {
-                            leadsId: leadInformation?.leadsId,
-                            firstName: leadInformation?.firstName,
-                            lastName: leadInformation?.lastName,
-                            destination: leadInformation?.emails[0]?.leadEmail,
-                        },
-                    ],
                 },
             };
+
+            if (lead) {
+                payload = {
+                    ...payload,
+                    requestPayload: {
+                        ...payload.requestPayload,
+                        leads: [
+                            {
+                                ...lead,
+                            },
+                        ],
+                    },
+                };
+            }
             await handleCreateOrUpdateCampaign({
                 redirectTo: "/marketing/campaign-details",
                 payload: payload,
@@ -369,25 +373,31 @@ export const CampaignInvitationProvider = ({ children }) => {
             });
         }
 
-        if (channel === "Sms") {
+        if (campaignChannel === "Sms") {
             const textCampaignsData = await getCampaignDetailsByText();
-            const templateData = textCampaignsData?.find((item) => item?.campaignName === "PlanEnrollProfile");
+            const templateData = textCampaignsData?.find((item) => item?.campaignName === customCampaign);
 
             payload = {
                 ...payload,
                 requestPayload: {
                     ...payload.requestPayload,
                     templateId: templateData?.templateId,
-                    leads: [
-                        {
-                            leadsId: leadInformation?.leadsId,
-                            firstName: leadInformation?.firstName,
-                            lastName: leadInformation?.lastName,
-                            destination: leadInformation?.phones[0]?.leadPhone,
-                        },
-                    ],
                 },
             };
+
+            if (lead) {
+                payload = {
+                    ...payload,
+                    requestPayload: {
+                        ...payload.requestPayload,
+                        leads: [
+                            {
+                                ...lead,
+                            },
+                        ],
+                    },
+                };
+            }
             await handleCreateOrUpdateCampaign({
                 redirectTo: "/marketing/campaign-details",
                 payload: payload,

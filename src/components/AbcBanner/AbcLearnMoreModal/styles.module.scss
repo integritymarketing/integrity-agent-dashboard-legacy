@@ -1,0 +1,23 @@
+.modalBodyContainer {
+    border-radius: 8px;
+    border: 6px solid #fff;
+    background: #f1faff;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+        width: 220px;
+        height: 40px;
+    }
+}
+.divider {
+    margin: 24px 0px;
+    border-bottom: 1px solid #cccccc;
+}

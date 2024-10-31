@@ -5,8 +5,6 @@ import Media from "react-media";
 import { useNavigate } from "react-router-dom";
 
 import { Box } from "@mui/material";
-import { useRecoilState } from "recoil";
-import { welcomeModalOpenAtom, welcomeModalTempOpenAtom } from "recoil/agent/atoms";
 import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
 
 import { greetings } from "utils/greetings";
@@ -25,7 +23,6 @@ import Info from "components/icons/info-blue";
 import Popover from "components/ui/Popover";
 import WithLoader from "components/ui/WithLoader";
 
-import AgentWelcomeDialog from "partials/agent-welcome-dialog";
 import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
@@ -59,9 +56,6 @@ export default function Dashbaord() {
     const [selectedFilterValues, setSelectedFilterValues] = useState([]);
     const [sort, setSort] = useState("Activities.CreateDate:desc");
     const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(true);
-
-    const [welcomeModalOpen, setWelcomeModalOpen] = useRecoilState(welcomeModalOpenAtom);
-    const [, setWelcomeModalTempOpen] = useRecoilState(welcomeModalTempOpenAtom);
 
     const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
     const { trackAgentPreferencesEvents } = useAgentPreferences();
@@ -139,28 +133,6 @@ export default function Dashbaord() {
         localStorage.setItem("contactList_selectedFilterSections", JSON.stringify(filters));
 
         navigate(`/contacts/list`);
-    };
-
-    const handleConfirm = async () => {
-        try {
-            const payload = {
-                agentId: agentID || userProfile?.agentId,
-                leadPreference: {
-                    ...leadPreference,
-                    isAgentMobilePopUpDismissed: true,
-                },
-            };
-            await clientsService.updateAgentPreferences(payload);
-        } catch (error) {
-            showToast({
-                type: "error",
-                message: "Failed to update the Preferences.",
-                time: 10000,
-            });
-            Sentry.captureException(error);
-        } finally {
-            setWelcomeModalOpen(false);
-        }
     };
 
     return (
@@ -284,15 +256,6 @@ export default function Dashbaord() {
                         )}
                     </section>
                 </div>
-
-                <AgentWelcomeDialog
-                    open={welcomeModalOpen}
-                    handleConfirm={handleConfirm}
-                    close={() => {
-                        setWelcomeModalOpen(false);
-                        setWelcomeModalTempOpen(true);
-                    }}
-                />
             </WithLoader>
             <GlobalFooter />
         </>

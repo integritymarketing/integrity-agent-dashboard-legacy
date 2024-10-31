@@ -1,5 +1,5 @@
-import React from "react";
 import { Box } from "@mui/material";
+import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 import ClearFilterButton from "./ClearFilterButton";
@@ -7,7 +7,6 @@ import ClearFilterButton from "./ClearFilterButton";
 const InvitationCountBar = () => {
     const {
         campaignActionType,
-        setCampaignActionType,
         filteredContentStatus,
         filteredCount,
         totalContactsCount,
@@ -35,7 +34,7 @@ const InvitationCountBar = () => {
 
     // Function to style the actionDescription
     const styleActionDescription = (description) => {
-        if (!description) return description;
+        if (!description) {return description;}
         return description
             ?.split(" ")
             ?.map((word, index) => {
@@ -87,8 +86,7 @@ const InvitationCountBar = () => {
             <Box className={styles.filteredContent}>
                 {campaignActionType === "a contact" && (contactName ? contactName : "Choose a contact")}
 
-                {campaignActionType === "all contacts" &&
-                    "All Contacts"}
+                {campaignActionType === "all contacts" && "All Contacts"}
 
                 {campaignActionType === "contacts filtered by…" && filteredContentStatus && (
                     <span
@@ -117,6 +115,20 @@ const InvitationCountBar = () => {
             )}
         </Box>
     );
+};
+
+InvitationCountBar.propTypes = {
+    campaignActionType: PropTypes.string,
+    filteredContentStatus: PropTypes.string,
+    filteredCount: PropTypes.number,
+    totalContactsCount: PropTypes.number,
+    eligibleContactsLength: PropTypes.number,
+    contactName: PropTypes.string,
+    campaignStatus: PropTypes.string,
+    filteredEligibleCount: PropTypes.number,
+    campaignStatuses: PropTypes.object,
+    actionDescription: PropTypes.string,
+    resetSecond: PropTypes.func,
 };
 
 export default InvitationCountBar;
