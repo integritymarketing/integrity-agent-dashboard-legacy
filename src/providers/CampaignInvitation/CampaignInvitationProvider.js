@@ -212,13 +212,12 @@ export const CampaignInvitationProvider = ({ children }) => {
 
     const resetSecond = () => {
         sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
-        setCampaignActionType("");
         setFilteredContactsList([]);
         setFilteredCount(null);
         setSelectedContact(null);
         setFilteredContentStatus(null);
-        setActionOrderedId(0);
     };
+ 
 
     const handleTemplateData = (data) => {
         setTemplateDetails(data?.templateDetails);
@@ -229,8 +228,17 @@ export const CampaignInvitationProvider = ({ children }) => {
         setCampaignDescriptionType(data?.campaignDescription);
         const campaignActions = data?.campaignActions?.filter((action) => action?.actionType === "Basic");
         setCampaignActions(campaignActions);
+        const action = campaignActions?.find((item) => (item?.actionFilter || item?.actionDescription) && item?.actionOrder === 1);
+        if (action) {
+            setCampaignActionType(action?.actionName);
+            setActionDescription(action?.actionDescription);
+            setActionOrderedId(action?.actionOrder);
+        } else {
+            setCampaignActionType("");
+            setActionDescription("");
+            setActionOrderedId(0);
+        }
     };
-
     const getCampaignDetailsByEmail = useCallback(async () => {
         try {
             const resData = await fetchCampaignDetailsByEmail(null, false);
