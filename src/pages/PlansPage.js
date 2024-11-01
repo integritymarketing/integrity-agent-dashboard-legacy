@@ -137,7 +137,7 @@ const PlansPage = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [myAppointedPlans, setMyAppointedPlans] = useState(false);
     const [section, setSection] = useState("details");
-    const [sort, setSort] = useState(showSelected ? s_options?.s_sort : "premium-asc");
+    const [sort, setSort] = useState(showSelected ? s_options?.s_sort : "total-asc");
     const [isEdit, setIsEdit] = useState(false);
     const [effectiveDate, setEffectiveDate] = useState(initialeffDate);
     const [results, setResults] = useState([]);
@@ -574,7 +574,7 @@ const PlansPage = () => {
         setRebatesFilter_mobile(false);
         setSpecialNeedsFilter_mobile(false);
         setPlanType_mobile(2);
-        setSort_mobile("premium-asc");
+        setSort_mobile("total-asc");
     };
 
     const applyFilters = () => {
@@ -828,7 +828,7 @@ const PlansPage = () => {
                                                 <div className={`${styles["sort-select"]}`}>
                                                     <Select
                                                         mobileLabel={<SortIcon />}
-                                                        initialValue={"premium-asc"}
+                                                        initialValue={"total-asc"}
                                                         onChange={(value) => setSort(value)}
                                                         options={buildSortOptions(PLAN_SORT_OPTIONS)}
                                                         prefix="Sort by: "
