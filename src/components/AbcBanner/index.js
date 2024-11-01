@@ -65,11 +65,17 @@ const AbcBanner = ({ show, leadPreference, agentId }) => {
             Sentry.captureException(error);
         }
     };
+
+    const handleTempBannerClose = () => {
+        sessionStorage.setItem("isAgentMobileBannerDismissed", true);
+        setShowBanner(false);
+    };
+
     return (
         <>
             {showBanner && (
                 <>
-                    <AbcGetStartBanner onClose={() => setShowBanner(false)} onLearnMore={() => setOpen(true)} />
+                    <AbcGetStartBanner onClose={handleTempBannerClose} onLearnMore={() => setOpen(true)} />
                     <AbcLearnMoreModal
                         open={open}
                         onClose={() => setOpen(false)}

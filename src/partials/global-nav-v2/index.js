@@ -335,8 +335,13 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         .join("-");
 
     const showBanner = useMemo(() => {
-        return agentInformation?.leadPreference && !agentInformation?.leadPreference?.isAgentMobileBannerDismissed;
-    }, [agentInformation]);
+        const sessionValue = sessionStorage.getItem("isAgentMobileBannerDismissed");
+        return (
+            agentInformation?.leadPreference &&
+            !agentInformation?.leadPreference?.isAgentMobileBannerDismissed &&
+            !sessionValue
+        );
+    }, [agentInformation, sessionStorage]);
 
     return (
         <WithLoader isLoading={auth.isLoading}>

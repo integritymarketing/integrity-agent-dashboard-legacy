@@ -30,7 +30,13 @@ const AbcGetStartBanner = ({ onClose, onLearnMore }) => {
 
                 {/* Action Buttons Section */}
                 <Grid item xs={12} md={3} sm={3} container justifyContent="center" alignItems="center">
-                    <Button variant="contained" size="large" color="error" onClick={onLearnMore}>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        color="error"
+                        onClick={onLearnMore}
+                        className={styles.customBorderButton}
+                    >
                         Learn More
                     </Button>
                     <Box onClick={onClose} className={styles.closeButton}>
