@@ -28,8 +28,9 @@ const AbcLearnMoreModal = ({ open = false, onClose = () => {}, handleButtonClick
                 </Box>
                 <Box paddingBottom="16px">
                     <Typography variant="body1" color="#434A51">
-                        Help your clients safeguard their Medicare options by encouraging them to make their voices
-                        heard.
+                        By joining the coalition to allow FMOs to continue to support agents, brokers and carriers, your
+                        clients will help ensure beneficiaries can still have access to numerous coverage options —
+                        without increasing costs to consumers.
                     </Typography>
                 </Box>
                 <Box>
@@ -38,6 +39,7 @@ const AbcLearnMoreModal = ({ open = false, onClose = () => {}, handleButtonClick
                         size="large"
                         color="error"
                         onClick={() => handleButtonClick("send_invite")}
+                        className={styles.customBorderButton}
                     >
                         Send an Invite
                     </Button>
@@ -64,6 +66,7 @@ const AbcLearnMoreModal = ({ open = false, onClose = () => {}, handleButtonClick
                         size="medium"
                         color="error"
                         onClick={() => handleButtonClick("learn_more")}
+                        className={styles.customBorderButton}
                     >
                         Learn More
                     </Button>
