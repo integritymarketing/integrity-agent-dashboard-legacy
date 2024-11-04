@@ -47,6 +47,7 @@ const AbcBanner = ({ show, leadPreference, agentId }) => {
                         actionType: "",
                     });
                     setOpen(false);
+                    sessionStorage.setItem("isAgentMobileBannerDismissed", true);
                     setShowBanner(false);
                 }
 
