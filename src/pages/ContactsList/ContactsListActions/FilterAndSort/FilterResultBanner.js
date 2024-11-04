@@ -25,7 +25,7 @@ function FilterResultBanner() {
 
     const { statusOptions } = useContext(stageStatusContext);
 
-    const selectedFilterSections = selectedFilterSectionsOriginal.filter((item) => item.selectedFilterOption);
+    const selectedFilterSections = selectedFilterSectionsOriginal?.filter((item) => item.selectedFilterOption);
 
     const { width: windowWidth } = useWindowSize();
     const isMobile = windowWidth <= 784;
@@ -45,7 +45,13 @@ function FilterResultBanner() {
     const filterLabel = useMemo(() => {
         return selectedFilterSections
             .map((item, index) => {
-                const section = filterSectionsConfig[item.sectionId];
+                let section;
+                if (item && item?.root) {
+                    const rootSection = filterSectionsConfig[item.root];
+                    section = rootSection?.options?.find((option) => option.value === item.sectionId);
+                } else {
+                    section = filterSectionsConfig[item.sectionId];
+                }
                 let thisItemLabel = "";
                 let andOrLabel = "";
                 if (index !== selectedFilterSections.length - 1) {
@@ -55,7 +61,7 @@ function FilterResultBanner() {
                         andOrLabel = `<span> and </span>`;
                     }
                 }
-                if (section.options) {
+                if (section?.options) {
                     let label = "";
                     if (!section.options.length && section.heading.toLowerCase() === "stage") {
                         label = statusOptions.find((opt) => opt.statusId === item.selectedFilterOption)?.label || "";

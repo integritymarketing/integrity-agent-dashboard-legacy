@@ -1,23 +1,15 @@
-import { useState, useContext, useEffect, useMemo, useRef } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { ChevronLeft, Add } from "@mui/icons-material";
 import { Button } from "components/ui/Button";
-import { useClientServiceContext } from "services/clientServiceProvider";
-import * as Sentry from "@sentry/react";
 import styles from "./styles.module.scss";
 import { Box } from "@mui/material";
 import Close from "./icons/close.svg";
 import Icon from "components/Icon";
 import Popover from "@mui/material/Popover";
-import CustomTagIcon from "./icons/custom_tag.svg";
-import CampaignSourceDefaultIcon from "./icons/campaign_source_default.svg";
-import ProductStatusStarted from "./icons/product_status_started.svg";
-import ProductTypeMedicare from "./icons/product_type_medicare.svg";
-import CampaignInterestDefault from "./icons/campaign_interest_default.svg";
-import CampaignTitleDefault from "./icons/campaign_title_default.svg";
+
 import FilterSectionBox from "./FilterSectionBox/index";
 import { styled } from "@mui/system";
-import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
-import { filterSectionsConfig as filterSectionsConfigOriginal } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
+import { FILTER_ICONS, reminderFilters } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
 import useFetch from "hooks/useFetch";
 import stylesFilterSectionBox from "./FilterSectionBox/styles.module.scss";
 import StageStatusContext from "contexts/stageStatus";
@@ -35,273 +27,229 @@ const StyledPopover = styled(Popover)(() => ({
     },
 }));
 
-export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
+export default function ContactListFilterOptionsV2({
+    setSelectedFilterSections,
+    selectedFilterSections,
+    resetData,
+    filterSectionsConfig,
+    setFilterSectionsConfig,
+    fetchedFiltersSectionConfigFromApi,
+    setFetchedFiltersSectionConfigFromApi,
+}) {
     const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`;
     const { Get: fetchLeadTags } = useFetch(URL);
     const { fireEvent } = useAnalytics();
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const isApiCallInitiated = useRef(false);
-    const [tagsList, setTagsList] = useState([]);
     const { statusOptions } = useContext(StageStatusContext);
     const [isFilterSelectOpenForSection, setIsFilterSelectOpenForSection] = useState(null);
-    const {
-        selectedFilterSections,
-        setSelectedFilterSections,
-        resetData,
-        filterSectionsConfig,
-        setFilterSectionsConfig,
-        fetchedFiltersSectionConfigFromApi,
-        setFetchedFiltersSectionConfigFromApi,
-    } = useContactsListContext();
-    const { clientsService } = useClientServiceContext();
 
     useEffect(() => {
         async function fetchData() {
             isApiCallInitiated.current = true;
-            const path = `Tag/TagsGroupByCategory?mappedLeadTagsOnly=true`;
-            const path1 = `Tag/TagsGroupByCategory?mappedLeadTagsOnly=false`;
+            const path = "Tag/TagsGroupByCategory?mappedLeadTagsOnly=true";
+            const path1 = "Tag/TagsGroupByCategory?mappedLeadTagsOnly=false";
             const [data, dataWithFalse] = await Promise.all([
                 fetchLeadTags(null, false, path),
                 fetchLeadTags(null, false, path1),
             ]);
-            const campaignTitleObject = data.find((item) => item.tagCategoryName === "Campaign Title");
-            const carrierTagsObject = data.find((item) => item.tagCategoryName === "Carrier");
-            const productStatusObject = dataWithFalse.find((item) => item.tagCategoryName === "Product Status");
-            const productTypeObject = dataWithFalse.find((item) => item.tagCategoryName === "Product Type");
-            const healthSoAObject = dataWithFalse.find((item) => item.tagCategoryName === "Health SOA");
-            const campaignSourceObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Source");
-            const campaignTypeObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Type");
-            const campaignInterestObject = dataWithFalse.find((item) => item.tagCategoryName === "Campaign Interest");
-            const askIntegrityObject =
-                dataWithFalse.find(
-                    (item) => item.tagCategoryName === "Ask Integrity Recommendations" && item.tags.length > 0,
-                ) ||
-                dataWithFalse.find((item) => item.tagCategoryName === "Ask Integrity Suggests" && item.tags.length > 0);
-            const customTagsObject = data.find((item) => item.tagCategoryName === "Other");
-            const productTypePdpOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "PDP" && item.tagIconUrl,
+            const campaignTitleObject = data?.find((item) => item.tagCategoryName === "Campaign Title");
+            const carrierTagsObject = data?.find((item) => item.tagCategoryName === "Carrier");
+
+            const productStatusObject = dataWithFalse?.find((item) => item.tagCategoryName === "Product Status");
+            const productTypeObject = dataWithFalse?.find((item) => item.tagCategoryName === "Product Type");
+            const healthSoAObject = dataWithFalse?.find((item) => item.tagCategoryName === "Health SOA");
+
+            const campaignSourceObject = dataWithFalse?.find((item) => item.tagCategoryName === "Campaign Source");
+            const campaignTypeObject = dataWithFalse?.find((item) => item.tagCategoryName === "Campaign Type");
+            const campaignInterestObject = dataWithFalse?.find((item) => item.tagCategoryName === "Campaign Interest");
+
+            const askIntegrityObject = data?.find(
+                (item) => item.tagCategoryName === "Ask Integrity Suggests" && item.tags.length > 0
             );
-            const productTypeMapdOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "MAPD" && item.tagIconUrl,
-            );
-            const productTypeFinalExpenseOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "FINAL EXPENSE" || item.tagLabel === "FEXP",
-            );
-            const productTypeMedicareAdvantageOption = productTypeObject.tags.find(
-                (item) => item.tagLabel === "MEDICARE ADVANTAGE" || item.tagLabel === "HEALTH",
-            );
-            const productTypeOptions = [
-                {
-                    label: "PDP",
-                    value: productTypePdpOption.tagId,
-                    icon: productTypePdpOption.tagIconUrl || ProductTypeMedicare,
-                },
-                {
-                    label: "MAPD",
-                    value: productTypeMapdOption.tagId,
-                    icon: productTypeMapdOption.tagIconUrl || ProductTypeMedicare,
-                },
-                {
-                    label: "FINAL EXPENSE",
-                    value: productTypeFinalExpenseOption.tagId,
-                    icon: productTypeFinalExpenseOption.tagIconUrl || ProductTypeMedicare,
-                },
-                {
-                    label: "MEDICARE ADVANTANGE",
-                    value: productTypeMedicareAdvantageOption.tagId,
-                    icon: productTypeMedicareAdvantageOption.tagIconUrl || ProductTypeMedicare,
-                },
-            ];
-            const campaignSourceOptions = campaignSourceObject.tags.map((item) => ({
-                label: item.tagLabel,
-                value: item.tagId,
-                icon: item.tagIconUrl || CampaignSourceDefaultIcon,
-            }));
+            const sortedAskIntegrityTags = askIntegrityObject?.tags?.sort((a, b) => {
+                const regex = /\d+/;
+                const aHasNumber = regex.test(a.tagLabel);
+                const bHasNumber = regex.test(b.tagLabel);
+
+                if (!aHasNumber && !bHasNumber) {
+                    // Both a and b do not have numbers, sort alphabetically
+                    return a.tagLabel.localeCompare(b.tagLabel);
+                } else if (!aHasNumber) {
+                    // a does not have a number, b does, a comes first
+                    return -1;
+                } else if (!bHasNumber) {
+                    // b does not have a number, a does, b comes first
+                    return 1;
+                } else {
+                    // Both a and b have numbers, sort by the numerical value
+                    const aNumber = parseInt(a.tagLabel.match(regex)[0], 10);
+                    const bNumber = parseInt(b.tagLabel.match(regex)[0], 10);
+                    return aNumber - bNumber;
+                }
+            });
+
+            const customTagsObject = data?.find((item) => item.tagCategoryName === "Other");
+
+            const productTypeOptions =
+                productTypeObject?.tags
+                    ?.map((item) => {
+                        let label;
+                        if (item.tagLabel === "PDP") {
+                            label = "PDP";
+                        } else if (item.tagLabel === "MAPD") {
+                            label = "MAPD";
+                        } else if (item.tagLabel === "FINAL EXPENSE" || item.tagLabel === "FEXP") {
+                            label = "FINAL EXPENSE";
+                        } else if (item.tagLabel === "MEDICARE ADVANTAGE" || item.tagLabel === "HEALTH") {
+                            label = "MEDICARE ADVANTAGE";
+                        }
+                        return {
+                            label: label,
+                            value: item.tagId,
+                            icon: item.tagIconUrl || FILTER_ICONS["MEDICARE"],
+                        };
+                    })
+                    ?.filter((item, index, self) => {
+                        return item?.label && index === self.findIndex((t) => t.label === item.label);
+                    }) || [];
+
             const healthSoaOptions = healthSoAObject?.tags
                 .filter(
                     (item) =>
                         (item.tagLabel === "SOA SIGNED" && item.tagIconUrl) ||
                         (item.tagLabel === "SOA SENT" && item.tagIconUrl) ||
-                        item.tagLabel === "SOA COMPLETED",
+                        item.tagLabel === "SOA COMPLETED"
                 )
                 .map((item) => ({
                     label: item.tagLabel,
                     value: item.tagId,
-                    icon: item.tagIconUrl || ProductStatusStarted || "",
+                    icon: item.tagIconUrl || FILTER_ICONS["STARTED"],
                 }));
+
+            const campaignSourceOptions = campaignSourceObject?.tags?.map((item) => ({
+                label: item.tagLabel,
+                value: item.tagId,
+                icon: item.tagIconUrl || FILTER_ICONS["SOURCE_DEFAULT"],
+            }));
+
             setFilterSectionsConfig({
-                ...filterSectionsConfig,
-                campaign_title: {
-                    heading: campaignTitleObject.tagCategoryName,
-                    options:
-                        campaignTitleObject?.tags.map((item) => ({
-                            label: item.tagLabel,
-                            value: item.tagId,
-                            icon: item.tagIconUrl || CampaignTitleDefault,
-                        })) || [],
+                reminders: {
+                    heading: "Reminders",
+                    options: reminderFilters,
                 },
                 stage: {
                     heading: "Stage",
-                    options: statusOptions.map((item) => ({
+                    options: statusOptions?.map((item) => ({
                         value: item.statusId,
                         label: item.label,
                         color: item.color,
                     })),
                 },
-                carrier: {
-                    heading: carrierTagsObject.tagCategoryName,
-                    options:
-                        carrierTagsObject?.tags.map((item) => ({
-                            label: item.tagLabel,
-                            value: item.tagId,
-                            icon:
-                                item.tagIconUrl ||
-                                filterSectionsConfigOriginal.carrier.options.find(
-                                    (item1) => item1.label === item.tagLabel,
-                                )?.icon ||
-                                "",
-                        })) || [],
+                product_tags: {
+                    heading: "Product Tags",
+                    options: [
+                        {
+                            label: "Product Status",
+                            heading: "Product Status",
+                            value: "product_status",
+                            icon: FILTER_ICONS["NONE"],
+                            options: productStatusObject?.tags?.map((item) => ({
+                                label: item.tagLabel,
+                                value: item.tagId,
+                                icon: item.tagIconUrl || FILTER_ICONS[item.tagLabel],
+                                iconClassName: stylesFilterSectionBox.menuItemIconMedium,
+                            })),
+                        },
+                        {
+                            label: "Product Type",
+                            heading: "Product Type",
+                            value: "product_type",
+                            icon: FILTER_ICONS["MEDICARE"],
+                            options: productTypeOptions,
+                        },
+                        {
+                            label: "Carrier",
+                            value: "carrier",
+                            heading: "Carrier",
+                            icon: FILTER_ICONS["CARRIER"],
+                            options:
+                                carrierTagsObject?.tags?.map((item) => ({
+                                    label: item.tagLabel,
+                                    value: item.tagId,
+                                    icon: item.tagIconUrl || FILTER_ICONS[item.tagLabel],
+                                })) || [],
+                        },
+                        {
+                            label: "Health SOA",
+                            value: "health_soa",
+                            heading: "Health SOA",
+                            icon: FILTER_ICONS["STARTED"],
+                            options: healthSoaOptions,
+                        },
+                    ],
                 },
-                product_status: {
-                    heading: "Product Status",
-                    options: productStatusObject?.tags.map((item) => ({
+                campaign_tags: {
+                    heading: "Campaign Tags",
+                    options: [
+                        {
+                            label: "Campaign Source",
+                            value: "campaign_source",
+                            heading: "Campaign Source",
+                            icon: FILTER_ICONS["SOURCE_DEFAULT"],
+                            options: campaignSourceOptions,
+                        },
+                        {
+                            label: "Campaign Type",
+                            value: "campaign_type",
+                            heading: "Campaign Type",
+                            icon: FILTER_ICONS["TYPE_DEFAULT"],
+                            options: campaignTypeObject?.tags?.map((item) => ({
+                                label: item.tagLabel,
+                                value: item.tagId,
+                                icon: item.tagIconUrl || FILTER_ICONS[item.tagLabel],
+                            })),
+                        },
+                        {
+                            label: "Campaign Title",
+                            value: "campaign_title",
+                            heading: "Campaign Title",
+                            icon: FILTER_ICONS["TITLE_DEFAULT"],
+                            options: campaignTitleObject?.tags?.map((item) => ({
+                                label: item.tagLabel,
+                                value: item.tagId,
+                                icon: item.tagIconUrl || FILTER_ICONS["TITLE_DEFAULT"],
+                            })),
+                        },
+                        {
+                            label: "Campaign Interest",
+                            value: "campaign_interest",
+                            heading: "Campaign Interest",
+                            icon: FILTER_ICONS["INTEREST_DEFAULT"],
+                            options: campaignInterestObject?.tags?.map((item) => ({
+                                label: item.tagLabel,
+                                value: item.tagId,
+                                icon: item.tagIconUrl || FILTER_ICONS[item.tagLabel],
+                            })),
+                        },
+                    ],
+                },
+                askIntegrity_tags: {
+                    heading: "Ask Integrity Suggests",
+                    options: sortedAskIntegrityTags?.map((item) => ({
                         label: item.tagLabel,
                         value: item.tagId,
-                        icon:
-                            item.tagIconUrl ||
-                            filterSectionsConfigOriginal.product_status.options.find(
-                                (item1) => item1.label === item.tagLabel,
-                            )?.icon ||
-                            "",
-                        iconClassName: stylesFilterSectionBox.menuItemIconMedium,
+                        icon: item.tagIconUrl || Askintegrity,
                     })),
-                },
-                product_type: {
-                    heading: "Product Type",
-                    options: productTypeOptions,
                 },
                 custom_tags: {
                     heading: "Custom Tags",
-                    options: customTagsObject?.tags.map((item) => ({
+                    options: customTagsObject?.tags?.map((item) => ({
                         label: item.tagLabel,
                         value: item.tagId.toString(),
-                        icon: item.tagIconUrl || CustomTagIcon,
+                        icon: item.tagIconUrl || FILTER_ICONS["CUSTOM_TAG"],
                     })),
-                },
-                health_soa: {
-                    heading: "Health SOA",
-                    options: healthSoaOptions,
-                },
-                campaign_source: {
-                    heading: "Campaign Source",
-                    options: campaignSourceOptions,
-                },
-                campaign_type: {
-                    heading: "Campaign Type",
-                    options: campaignTypeObject?.tags.map((item) => ({
-                        label: item.tagLabel,
-                        value: item.tagId,
-                        icon:
-                            item.tagIconUrl ||
-                            filterSectionsConfigOriginal.campaign_type.options.find(
-                                (item1) => item1.label === item.tagLabel,
-                            )?.icon ||
-                            "",
-                    })),
-                },
-                campaign_interest: {
-                    heading: "Campaign Interest",
-                    options: campaignInterestObject?.tags.map((item) => ({
-                        label: item.tagLabel,
-                        value: item.tagId,
-                        icon: item.tagIconUrl || CampaignInterestDefault || "",
-                    })),
-                },
-                cross_sell: {
-                    heading: "Ask Integrity Suggests",
-                    option: {
-                        label: "Cross Sell",
-                        value: askIntegrityObject?.tags.find((item) => item.tagLabel === "CROSS-SELL")?.tagId,
-                        icon:
-                            askIntegrityObject?.tags.find((item) => item.tagLabel === "CROSS-SELL")?.tagIconUrl ||
-                            Askintegrity,
-                    },
-                },
-                switcher: {
-                    heading: "Ask Integrity Suggests",
-                    option: {
-                        label: "Switcher",
-                        value: askIntegrityObject?.tags.find((item) => item.tagLabel === "SWITCHER")?.tagId,
-                        icon:
-                            askIntegrityObject?.tags.find((item) => item.tagLabel === "SWITCHER")?.tagIconUrl ||
-                            Askintegrity,
-                    },
-                },
-                sep: {
-                    heading: "Ask Integrity Suggests",
-                    option: {
-                        label: "SEP",
-                        value: askIntegrityObject?.tags.find((item) => item.tagLabel === "SEP")?.tagId,
-                        icon:
-                            askIntegrityObject?.tags.find((item) => item.tagLabel === "SEP")?.tagIconUrl ||
-                            Askintegrity,
-                    },
-                },
-                "Shopper Priority 1...": {
-                    heading: "Ask Integrity Suggests",
-                    option: {
-                        label: "Shopper Priority 1...",
-                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 1"))
-                            ?.tagId,
-                        icon:
-                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 1"))
-                                ?.tagIconUrl || Askintegrity,
-                    },
-                },
-                "Shopper Priority 2...": {
-                    heading: "Ask Integrity Suggests",
-                    option: {
-                        label: "Shopper Priority 2...",
-                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 2"))
-                            ?.tagId,
-                        icon:
-                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 2"))
-                                ?.tagIconUrl || Askintegrity,
-                    },
-                },
-                "Shopper Priority 3...": {
-                    heading: "Ask Integrity Suggests",
-                    option: {
-                        label: "Shopper Priority 3...",
-                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 3"))
-                            ?.tagId,
-                        icon:
-                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 3"))
-                                ?.tagIconUrl || Askintegrity,
-                    },
-                },
-                "Shopper Priority 4...": {
-                    heading: "Ask Integrity Suggests",
-                    option: {
-                        label: "Shopper Priority 4...",
-                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 4"))
-                            ?.tagId,
-                        icon:
-                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 4"))
-                                ?.tagIconUrl || Askintegrity,
-                    },
-                },
-                "Shopper Priority 5...": {
-                    heading: "Ask Integrity Suggests",
-                    option: {
-                        label: "Shopper Priority 5...",
-                        value: askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 5"))
-                            ?.tagId,
-                        icon:
-                            askIntegrityObject?.tags.find((item) => item.tagLabel?.includes("SHOPPER PRIORITY 5"))
-                                ?.tagIconUrl || Askintegrity,
-                    },
                 },
             });
             setFetchedFiltersSectionConfigFromApi(true);
@@ -315,26 +263,6 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
         }
     }, [statusOptions]);
 
-    useEffect(() => {
-        onFilterCountChange(selectedFilterSections);
-    }, [selectedFilterSections]);
-
-    useEffect(() => {
-        const getTags = async () => {
-            try {
-                const res = await clientsService.getAllTagsByGroups();
-                setTagsList([...res]);
-            } catch (error) {
-                Sentry.captureException(error);
-            }
-        };
-        getTags();
-    }, []);
-
-    const customTags = useMemo(() => {
-        return tagsList.find((tag) => tag.tagCategoryName === "Other")?.tags;
-    }, [tagsList]);
-
     const handleOnClickAddNew = (event) => {
         setAnchorEl(event.currentTarget);
         setIsFilterDropdownOpen(true);
@@ -345,26 +273,35 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
         setIsFilterDropdownOpen(false);
     };
 
-    const handleFilterOptionClick = (sectionId) => {
+    const handleFilterOptionClick = ({ root = "", sectionId = "", value = "" }) => {
         const uuid = Math.random().toString(36).substring(7);
-        const filterSectionConfig = filterSectionsConfig[sectionId];
         const optionObject = { id: uuid, sectionId };
-        if (filterSectionConfig?.option) {
-            optionObject.selectedFilterOption = filterSectionConfig.option.value;
-            setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
-        } else if (sectionId.startsWith("custom_tags_")) {
-            const tagId = sectionId.split("_")[2];
-            optionObject.selectedFilterOption = tagId;
-            const gotitem = customTags.find((item) => item.tagId == parseInt(tagId));
-            optionObject.option = { label: gotitem?.tagLabel, value: parseInt(tagId) };
-            optionObject.sectionId = "custom_tags";
+
+        let filterSection;
+        if (root) {
+            const rootConfig = filterSectionsConfig[root];
+            filterSection = rootConfig?.options?.find((item) => item.value === sectionId);
+            optionObject.root = root;
+        } else {
+            filterSection = filterSectionsConfig[sectionId];
+        }
+        if (!value && filterSection.option) {
+            optionObject.selectedFilterOption = filterSection.option.value;
             setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
         }
+
+        if (value) {
+            optionObject.selectedFilterOption = value;
+            const gotItem = filterSection.options.find((item) => item.value == value);
+            optionObject.option = { label: gotItem?.label, value: value };
+            setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
+        }
+
         if ((sectionId === "reminders" || sectionId === "stage") && selectedFilterSections.length >= 1) {
             selectedFilterSections[selectedFilterSections.length - 1].nextAndOrOption = "and";
         }
         setSelectedFilterSections([...selectedFilterSections, optionObject]);
-        if (!sectionId.startsWith("custom_tags_")) {
+        if (sectionId !== "custom_tags" && sectionId !== "askIntegrity_tags") {
             setIsFilterSelectOpenForSection(uuid);
         }
         handleCloseFilterDropdown();
@@ -430,15 +367,6 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
     const hasUnfinishedFilterSections = selectedFilterSections.filter((item) => !item.selectedFilterOption).length;
 
     const hasReminderSection = selectedFilterSections.find((item) => item.sectionId === "reminders");
-
-    const shopperPriorities = [
-        "Shopper Priority 1...",
-        "Shopper Priority 2...",
-        "Shopper Priority 3...",
-        "Shopper Priority 4...",
-        "Shopper Priority 5...",
-    ];
-
     return (
         <Box overflowY={"scroll"} maxHeight={"400px"}>
             <Box padding={2}>
@@ -505,132 +433,87 @@ export default function ContactListFilterOptionsV2({ onFilterCountChange }) {
                         <span>
                             <Box
                                 className={`${styles.dropdownOption} ${styles.dropdownOptionWithMargin} ${styles.dropdownOptionWithBorderRadius}`}
-                                onClick={() => handleFilterOptionClick("stage")}
+                                onClick={() => handleFilterOptionClick({ sectionId: "stage" })}
                             >
                                 Stage
                             </Box>
                             {!hasReminderSection && (
                                 <Box
                                     className={`${styles.dropdownOption} ${styles.dropdownOptionWithBorderRadius}`}
-                                    onClick={() => handleFilterOptionClick("reminders")}
+                                    onClick={() => handleFilterOptionClick({ sectionId: "reminders" })}
                                 >
                                     Reminders
                                 </Box>
                             )}
                         </span>
-                        <span className={styles.filterDropdownHeader}>Product Tags</span>
-                        <span>
-                            {Boolean(filterSectionsConfig.product_status?.options.length) && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("product_status")}
-                                >
-                                    Product Status
-                                </Box>
-                            )}
-                            {Boolean(filterSectionsConfig.product_type?.options.length) && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("product_type")}
-                                >
-                                    Product Type
-                                </Box>
-                            )}
-                            {Boolean(filterSectionsConfig.carrier?.options.length) && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("carrier")}
-                                >
-                                    Carrier
-                                </Box>
-                            )}
-                            <Box
-                                className={styles.dropdownOption}
-                                onClick={() => handleFilterOptionClick("health_soa")}
-                            >
-                                Health SOA
-                            </Box>
-                        </span>
-                        <span className={styles.filterDropdownHeader}>Campaign Tags</span>
-                        <span>
-                            {Boolean(filterSectionsConfig.campaign_source?.options.length) && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("campaign_source")}
-                                >
-                                    Campaign Source
-                                </Box>
-                            )}
-                            {Boolean(filterSectionsConfig.campaign_type?.options.length) && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("campaign_type")}
-                                >
-                                    Campaign Type
-                                </Box>
-                            )}
-                            {Boolean(filterSectionsConfig.campaign_title?.options.length) && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("campaign_title")}
-                                >
-                                    Campaign Title
-                                </Box>
-                            )}
-                            {Boolean(filterSectionsConfig.campaign_interest?.options.length) && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("campaign_interest")}
-                                >
-                                    Campaign Interest
-                                </Box>
-                            )}
-                        </span>
+                        {Boolean(filterSectionsConfig?.product_tags?.options?.length) && (
+                            <span>
+                                <span className={styles.filterDropdownHeader}>
+                                    {filterSectionsConfig?.product_tags?.heading}
+                                </span>
+
+                                {filterSectionsConfig?.product_tags?.options?.map((item) => (
+                                    <Box
+                                        key={item.value}
+                                        className={styles.dropdownOption}
+                                        onClick={() =>
+                                            handleFilterOptionClick({ root: "product_tags", sectionId: item.value })
+                                        }
+                                    >
+                                        {item.label}
+                                    </Box>
+                                ))}
+                            </span>
+                        )}
+
+                        {Boolean(filterSectionsConfig?.campaign_tags?.options?.length) && (
+                            <span>
+                                <span className={styles.filterDropdownHeader}>
+                                    {filterSectionsConfig?.campaign_tags?.heading}
+                                </span>
+
+                                {filterSectionsConfig?.campaign_tags?.options?.map((item) => (
+                                    <Box
+                                        key={item.value}
+                                        className={styles.dropdownOption}
+                                        onClick={() =>
+                                            handleFilterOptionClick({ root: "campaign_tags", sectionId: item.value })
+                                        }
+                                    >
+                                        {item.label}
+                                    </Box>
+                                ))}
+                            </span>
+                        )}
+
                         <span className={styles.filterDropdownHeader}>Ask Integrity Suggests</span>
                         <span>
-                            {filterSectionsConfig.cross_sell.option?.value && (
+                            {filterSectionsConfig?.askIntegrity_tags?.options?.map((item) => (
                                 <Box
+                                    key={item.tagId}
                                     className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("cross_sell")}
+                                    onClick={() =>
+                                        handleFilterOptionClick({ sectionId: `askIntegrity_tags`, value: item.value })
+                                    }
                                 >
-                                    Cross-Sell
-                                </Box>
-                            )}
-                            {filterSectionsConfig.switcher.option.value && (
-                                <Box
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick("switcher")}
-                                >
-                                    Switcher
-                                </Box>
-                            )}
-                            {filterSectionsConfig.sep.option.value && (
-                                <Box className={styles.dropdownOption} onClick={() => handleFilterOptionClick("sep")}>
-                                    SEP
-                                </Box>
-                            )}
-                            {shopperPriorities.map((priority) => (
-                                <Box
-                                    key={priority}
-                                    className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick(priority)}
-                                >
-                                    {priority}
+                                    {item.label}
                                 </Box>
                             ))}
                         </span>
-                        {Boolean(customTags?.length) && (
+                        {Boolean(filterSectionsConfig?.custom_tags?.options?.length) && (
                             <span className={styles.filterDropdownHeader}>Custom Tags</span>
                         )}
                         <span>
-                            {customTags?.map((tag) => (
+                            {filterSectionsConfig?.custom_tags?.options?.map((tag) => (
                                 <Box
                                     key={tag.tagId}
                                     className={styles.dropdownOption}
-                                    onClick={() => handleFilterOptionClick(`custom_tags_${tag.tagId}`)}
+                                    onClick={() =>
+                                        handleFilterOptionClick({ sectionId: `custom_tags`, value: tag.value })
+                                    }
                                 >
-                                    <Icon className={styles.menuItemIcon} image={CustomTagIcon} />
-                                    {tag.tagLabel}
+                                    <Icon className={styles.menuItemIcon} image={FILTER_ICONS["CUSTOM_TAG"]} />
+                                    {tag.label}
                                 </Box>
                             ))}
                         </span>

@@ -10,7 +10,6 @@ import { Text } from "@integritymarketing/ui-text-components";
 import { useWindowSize } from "hooks/useWindowSize";
 import PropTypes from "prop-types";
 
-
 const IS_DROPDOWN_SELECT_OPTIONS = [
     { value: "is", label: "is" },
     { value: "is_not", label: "is not" },
@@ -32,7 +31,6 @@ export default function FilterSectionBox({
     onChangeNextAndOrOption,
     filterSectionsConfig,
 }) {
-    const configData = filterSectionsConfig[section.sectionId];
     const [filterIsConditionValue, setFilterIsConditionValue] = useState(section.selectedIsOption || "is");
     const [filterValue, setFilterValue] = useState(section.selectedFilterOption);
     const [filterAndOrConditionValue, setFilterAndOrConditionValue] = useState(section.nextAndOrOption || "and");
@@ -58,9 +56,19 @@ export default function FilterSectionBox({
         }
         return "";
     }, [filterValue]);
+
+    const configData = useMemo(() => {
+        if (section && section.root) {
+            const rootSection = filterSectionsConfig[section.root];
+            const data = rootSection?.options?.find((item) => item.value === section.sectionId);
+            return data || {};
+        } else {
+            return filterSectionsConfig[section.sectionId];
+        }
+    }, [section, filterSectionsConfig]);
     return (
         <>
-            <Text className={styles.sectionHeading} text={configData.heading} />
+            <Text className={styles.sectionHeading} text={configData?.heading} />
             <Box className={`${styles.sectionContent} ${filterValue ? "" : styles.sectionContentInline}`}>
                 {filterValue && (
                     <Select
@@ -109,7 +117,7 @@ export default function FilterSectionBox({
                         ))}
                     </Select>
                 )}
-                {configData.options && (
+                {configData?.options && (
                     <Box display={"flex"} width={"80%"}>
                         <Select
                             IconComponent={() => <ArrowDownBlue />}
@@ -129,9 +137,9 @@ export default function FilterSectionBox({
                             sx={{
                                 "& .MuiSelect-select .notranslate::after": placeholder
                                     ? {
-                                        content: `"${placeholder}"`,
-                                        opacity: 0.42,
-                                    }
+                                          content: `"${placeholder}"`,
+                                          opacity: 0.42,
+                                      }
                                     : {},
                                 svg: {
                                     pointerEvents: "none",
@@ -146,12 +154,16 @@ export default function FilterSectionBox({
                                 "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                                     borderColor: "#DDDDDD",
                                 },
-                                ".MuiSelect-outlined": { padding: "0px 7px", paddingRight: "0px !important", whiteSpace: "break-spaces" },
+                                ".MuiSelect-outlined": {
+                                    padding: "0px 7px",
+                                    paddingRight: "0px !important",
+                                    whiteSpace: "break-spaces",
+                                },
                                 ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" },
                                 "&:hover": { ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" } },
                             }}
                         >
-                            {configData.options.map(({ value, label, color, icon, iconClassName }) => (
+                            {configData?.options.map(({ value, label, color, icon, iconClassName }) => (
                                 <MenuItem
                                     className={styles.menuItem}
                                     value={value}
@@ -179,13 +191,13 @@ export default function FilterSectionBox({
                         )}
                     </Box>
                 )}
-                {configData.option && (
+                {configData?.option && (
                     <Box display={"flex"}>
                         <Box className={styles.singleOptionBox}>
-                            {configData.option.icon && (
-                                <Icon className={styles.itemIcon} image={configData.option.icon} />
+                            {configData?.option.icon && (
+                                <Icon className={styles.itemIcon} image={configData?.option.icon} />
                             )}
-                            {configData.option.label}
+                            {configData?.option.label}
                         </Box>
                         {isMobile && (
                             <Icon
@@ -201,7 +213,9 @@ export default function FilterSectionBox({
 
             {shouldShowAndOr && filterValue && (
                 <Box
-                    className={`${styles.sectionContent} ${styles.sectionContentInline} ${styles.sectionContentAndOr} ${freezeAndOption ? styles.selectBoxDisabled : ""}`}
+                    className={`${styles.sectionContent} ${styles.sectionContentInline} ${styles.sectionContentAndOr} ${
+                        freezeAndOption ? styles.selectBoxDisabled : ""
+                    }`}
                 >
                     <Select
                         IconComponent={() => <ArrowDownBlue />}
@@ -259,7 +273,8 @@ FilterSectionBox.propTypes = {
         sectionId: PropTypes.string.isRequired,
         selectedIsOption: PropTypes.string,
         selectedFilterOption: PropTypes.string,
-        nextAndOrOption: PropTypes.string
+        nextAndOrOption: PropTypes.string,
+        root: PropTypes.string,
     }).isRequired,
     shouldShowAndOr: PropTypes.bool,
     onRemove: PropTypes.func.isRequired,
@@ -268,5 +283,5 @@ FilterSectionBox.propTypes = {
     onChangeIsOption: PropTypes.func.isRequired,
     isFilterSelectOpenForSection: PropTypes.bool,
     onChangeNextAndOrOption: PropTypes.func.isRequired,
-    filterSectionsConfig: PropTypes.object.isRequired
+    filterSectionsConfig: PropTypes.object.isRequired,
 };

@@ -30,351 +30,66 @@ import CampaignSourceLc from "./icons/campaign_source_lc.svg";
 import CampaignSourcePlanEnroll from "./icons/campaign_source_planenroll.svg";
 import CampaignSourceDefault from "./icons/campaign_source_default.svg";
 import CampaignSourceManuallyAdded from "./icons/campaign_source_manually_added.svg";
+import CustomTagIcon from "./icons/custom_tag.svg";
+import CampaignTitleDefault from "./icons/campaign_title_default.svg";
+import Askintegrity from "components/icons/version-2/AskIntegrity";
 
-export const filterSectionsConfig = {
-    stage: {
-        heading: "Stage",
-        options: [],
-        id: "stage",
+export const reminderFilters = [
+    {
+        label: "Active Reminders",
+        value: "active_reminder",
+        icon: ReminderIcon,
     },
-    reminders: {
-        heading: "Reminders",
-        options: [
-            {
-                label: "Active Reminders",
-                value: "active_reminder",
-                icon: ReminderIcon,
-            },
-            {
-                label: "Overdue Reminders",
-                value: "overdue_reminder",
-                icon: Reminder_Overdue,
-            },
-            {
-                label: "No Reminders Added",
-                value: "no_reminders_added",
-                icon: Reminder_Add,
-            },
-            {
-                label: "Ask Integrity Active",
-                value: "ask_integrity_active",
-                icon: AskIntegrityActiveReminder,
-            },
-            {
-                label: "Ask Integrity Overdue",
-                value: "ask_integrity_overdue",
-                icon: AskIntegrityOverdueReminder,
-            },
-        ],
-        id: "reminders",
+    {
+        label: "Overdue Reminders",
+        value: "overdue_reminder",
+        icon: Reminder_Overdue,
     },
-    product_status: {
-        heading: "Product Status",
-        options: [
-            {
-                label: "NONE",
-                value: "none",
-                icon: ProductStatusNone,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "UNLINKED",
-                value: "unlinked",
-                icon: ProductStatusUnlinked,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "STARTED",
-                value: "started",
-                icon: ProductStatusStarted,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "SUBMITTED",
-                value: "submitted",
-                icon: ProductStatusSubmitted,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "PENDING",
-                value: "pending",
-                icon: ProductStatusPending,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "DECLINED",
-                value: "declined",
-                icon: ProductStatusDeclined,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "RETURNED",
-                value: "returned",
-                icon: ProductStatusReturned,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "UPCOMING",
-                value: "upcoming",
-                icon: ProductStatusUpcoming,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "ACTIVE",
-                value: "active",
-                icon: ProductStatusActive,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "INACTIVE",
-                value: "inactive",
-                icon: ProductStatusInactive,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "Locked",
-                value: "locked",
-                icon: ProductStatusLocked,
-                iconClassName: styles.menuItemIconMedium,
-            },
-        ],
-        id: "product_status",
+    {
+        label: "No Reminders Added",
+        value: "no_reminders_added",
+        icon: Reminder_Add,
     },
-    product_type: {
-        heading: "Product Type",
-        options: [
-            {
-                label: "Medicare Advantage",
-                value: "medicare_advantage",
-                icon: ProductTypeMedicare,
-            },
-            {
-                label: "MAPD",
-                value: "mapd",
-                icon: ProductTypeMedicare,
-            },
-            {
-                label: "PDP",
-                value: "pdp",
-                icon: ProductTypeMedicare,
-            },
-            {
-                label: "Final Expense",
-                value: "final_expense",
-                icon: ProductTypeFinalExpense,
-            },
-        ],
+    {
+        label: "Ask Integrity Active",
+        value: "ask_integrity_active",
+        icon: AskIntegrityActiveReminder,
     },
-    carrier: {
-        heading: "Carrier",
-        options: [
-            {
-                label: "WELLCARE",
-                value: "WELLCARE",
-                icon: CarrierWellcareLogo,
-            },
-            {
-                label: "AETNA",
-                value: "AETNA",
-                icon: CarrierAetnaLogo,
-            },
-            {
-                label: "HUMANA",
-                value: "HUMANA",
-                icon: CarrierHumanaLogo,
-            },
-            {
-                label: "CIGNA",
-                value: "CIGNA",
-                icon: CarrierCignaLogo,
-            },
-            {
-                label: "AFLAC",
-                value: "AFLAC",
-                icon: CarrierAflacLogo,
-            },
-            {
-                label: "MUTUAL OF OMAHA",
-                value: "MUTUAL OF OMAHA",
-                icon: CarrierOmahaLogo,
-            },
-        ],
+    {
+        label: "Ask Integrity Overdue",
+        value: "ask_integrity_overdue",
+        icon: AskIntegrityOverdueReminder,
     },
-    health_soa: {
-        heading: "Health SOA",
-        options: [
-            {
-                label: "SOA Sent",
-                value: "soa_sent",
-                icon: ProductStatusStarted,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "SOA Signed",
-                value: "soa_signed",
-                icon: ProductStatusStarted,
-                iconClassName: styles.menuItemIconMedium,
-            },
-            {
-                label: "SOA Completed",
-                value: "soa_completed",
-                icon: ProductStatusStarted,
-                iconClassName: styles.menuItemIconMedium,
-            },
-        ],
-    },
-    campaign_source: {
-        heading: "Campaign Source",
-        options: [
-            {
-                label: "DEFAULT",
-                value: "default",
-                icon: CampaignSourceDefault,
-            },
-            {
-                label: "PLANENROLL",
-                value: "planenroll",
-                icon: CampaignSourcePlanEnroll,
-            },
-            {
-                label: "LEADCENTER",
-                value: "leadcenter",
-                icon: CampaignSourceLc,
-            },
-            {
-                label: "MANUAL",
-                value: "manually_added",
-                icon: CampaignSourceManuallyAdded,
-            },
-        ],
-    },
-    campaign_type: {
-        heading: "Campaign Type",
-        options: [
-            {
-                label: "REAL-TIME",
-                value: "real_time",
-                icon: CampaignTypeRealtime,
-            },
-            {
-                label: "DATA",
-                value: "data",
-                icon: CampaignTypeData,
-            },
-        ],
-    },
-    campaign_interest: {
-        heading: "Campaign Interest",
-        options: [
-            {
-                label: "Original Medicare",
-                value: "original_medicare",
-                icon: CampaignInterestDefault,
-            },
-            {
-                label: "Medicare Advantage",
-                value: "medicare_advantage",
-                icon: CampaignInterestDefault,
-            },
-            {
-                label: "MAPD",
-                value: "mapd",
-                icon: CampaignInterestDefault,
-            },
-            {
-                label: "PDP",
-                value: "pdp",
-                icon: CampaignInterestDefault,
-            },
-            {
-                label: "MedSupp",
-                value: "med_supp",
-                icon: CampaignInterestDefault,
-            },
-            {
-                label: "Final Expense",
-                value: "final_expense",
-                icon: CampaignInterestDefault,
-            },
-            {
-                label: "Variable",
-                value: "variable",
-                icon: CampaignInterestDefault,
-            },
-            {
-                label: "Whole",
-                value: "whole",
-                icon: CampaignInterestDefault,
-            },
-            {
-                label: "Term",
-                value: "term",
-                icon: CampaignInterestDefault,
-            },
-            {
-                label: "Universal",
-                value: "universal",
-                icon: CampaignInterestDefault,
-            },
-        ],
-    },
-    cross_sell: {
-        heading: "Ask Integrity Suggests",
-        option: {
-            label: "Cross Sell",
-            value: "",
-        },
-    },
-    switcher: {
-        heading: "Ask Integrity Suggests",
-        option: {
-            label: "Switcher",
-            value: "",
-        },
-    },
-    sep: {
-        heading: "Ask Integrity Suggests",
-        option: {
-            label: "SEP",
-            value: "",
-        },
-    },
-    "Shopper Priority 1...": {
-        heading: "Ask Integrity Suggests",
-        option: {
-            label: "Shopper Priority 1...",
-            value: "",
-        },
-    },
-    "Shopper Priority 2...": {
-        heading: "Ask Integrity Suggests",
-        option: {
-            label: "Shopper Priority 2...",
-            value: "",
-        },
-    },
-    "Shopper Priority 3...": {
-        heading: "Ask Integrity Suggests",
-        option: {
-            label: "Shopper Priority 3...",
-            value: "",
-        },
-    },
-    "Shopper Priority 4...": {
-        heading: "Ask Integrity Suggests",
-        option: {
-            label: "Shopper Priority 4...",
-            value: "",
-        },
-    },
-    "Shopper Priority 5...": {
-        heading: "Ask Integrity Suggests",
-        option: {
-            label: "Shopper Priority 5...",
-            value: "",
-        },
-    },
-    custom_tags: {
-        heading: "Custom Tags",
-    },
+];
+
+export const FILTER_ICONS = {
+    NONE: ProductStatusNone,
+    UNLINKED: ProductStatusUnlinked,
+    STARTED: ProductStatusStarted,
+    SUBMITTED: ProductStatusSubmitted,
+    PENDING: ProductStatusPending,
+    DECLINED: ProductStatusDeclined,
+    RETURNED: ProductStatusReturned,
+    UPCOMING: ProductStatusUpcoming,
+    ACTIVE: ProductStatusActive,
+    INACTIVE: ProductStatusInactive,
+    Locked: ProductStatusLocked,
+    MEDICARE: ProductTypeMedicare,
+    FINALEXPENSE: ProductTypeFinalExpense,
+    DATA: CampaignTypeData,
+    REALTIME: CampaignTypeRealtime,
+    INTREST_DEFAULT: CampaignInterestDefault,
+    LC: CampaignSourceLc,
+    PLANENROLL: CampaignSourcePlanEnroll,
+    SOURCE_DEFAULT: CampaignSourceDefault,
+    MANUALLY_ADDED: CampaignSourceManuallyAdded,
+    AETNA: CarrierAetnaLogo,
+    AFLAC: CarrierAflacLogo,
+    CIGNA: CarrierCignaLogo,
+    HUMANA: CarrierHumanaLogo,
+    OMAHA: CarrierOmahaLogo,
+    WELLCARE: CarrierWellcareLogo,
+    CUSTOM_TAG: CustomTagIcon,
+    TITLE_DEFAULT: CampaignTitleDefault,
+    ASK_INTEGRITY: Askintegrity,
 };

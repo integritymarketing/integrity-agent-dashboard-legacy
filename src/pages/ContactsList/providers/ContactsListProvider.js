@@ -24,14 +24,14 @@ export const ContactsListProvider = ({ children }) => {
     const [searchString, setSearchString] = useState(null);
     const [withoutFilterResponseSize, setWithoutFilterResponseSize] = useState(null);
     const [filterSectionsConfig, setFilterSectionsConfigOriginal] = useState(
-        JSON.parse(localStorage.getItem("contactList_filterSectionsConfig")) || filterSectionsConfigOriginal,
+        JSON.parse(localStorage.getItem("contactList_filterSectionsConfig")) || {}
     );
     const [pageIndex, setPageIndex] = useState(INITIAL_PAGE_NUMBER);
     const [selectedContacts, setSelectedContacts] = useState([]);
     const [filterConditions, setFilterConditions] = useState();
     const [fetchedFiltersSectionConfigFromApi, setFetchedFiltersSectionConfigFromApi] = useState(false);
     const [selectedFilterSections, setSelectedFilterSectionsState] = useState(
-        JSON.parse(localStorage.getItem("contactList_selectedFilterSections") || JSON.stringify([])),
+        JSON.parse(localStorage.getItem("contactList_selectedFilterSections")) || []
     );
     const { removeFilteredLeadIds, filteredInfo } = useFilteredLeadIds();
 

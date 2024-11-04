@@ -16,7 +16,7 @@ import SortIcon from "components/icons/version-2/Sort";
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 
 import styles from "./styles.module.scss";
-import ContactListFilterOptionsV2 from "packages/ContactListFilterOptionsV2";
+import ContactsFilter from "./Filter";
 import ContactLayoutViewDropdown from "packages/ContactLayoutViewDropdown/ContactLayoutViewDropdown";
 
 const LIST_PATH = "/contacts/list";
@@ -40,7 +40,7 @@ function FilterAndSort() {
         } else if (window.location.href.includes(MAP_PATH)) {
             setLayout("map");
         }
-    }, [window.location.href]);
+    }, []);
 
     const switchLayout = (newLayout) => {
         setLayout(newLayout);
@@ -54,17 +54,17 @@ function FilterAndSort() {
         setFilterToggle(value);
         fireEvent("Closed Tag Filter");
         if (value === false) {
-            const hasUnfinishedFilterSections = selectedFilterSections.filter(
-                (item) => !item.selectedFilterOption,
+            const hasUnfinishedFilterSections = selectedFilterSections?.filter(
+                (item) => !item.selectedFilterOption
             ).length;
             if (hasUnfinishedFilterSections) {
-                const newSelectedFilterSections = selectedFilterSections.filter((item) => item.selectedFilterOption);
+                const newSelectedFilterSections = selectedFilterSections?.filter((item) => item.selectedFilterOption);
                 setSelectedFilterSections(newSelectedFilterSections);
             }
         }
     };
 
-    const selectedFilterSectionsCount = selectedFilterSections.filter((item) => item.selectedFilterOption).length;
+    const selectedFilterSectionsCount = selectedFilterSections?.filter((item) => item.selectedFilterOption).length || 0;
 
     return (
         <Box className={styles.customBox} display="flex" alignItems="flex-end">
@@ -89,7 +89,7 @@ function FilterAndSort() {
                 countToDisplay={selectedFilterSectionsCount > 1 ? selectedFilterSectionsCount : null}
                 onToggle={handleOnFilterToggle}
                 filtered={active}
-                content={<ContactListFilterOptionsV2 onFilterCountChange={setSelectedFilterSections} />}
+                content={<ContactsFilter onFilterCountChange={setSelectedFilterSections} />}
             />
         </Box>
     );
