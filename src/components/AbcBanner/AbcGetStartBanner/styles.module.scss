@@ -11,7 +11,7 @@
     position: relative;
 
     @include small {
-        height: 200px;
+        height: 220px;
         text-align: center;
     }
 }
@@ -57,4 +57,13 @@
 
 .customBorderButton {
     border-radius: 8px !important;
+}
+
+.learnMoreButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include small {
+        margin-bottom: 16px;
+    }
 }
