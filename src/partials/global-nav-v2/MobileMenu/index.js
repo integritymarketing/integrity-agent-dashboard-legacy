@@ -68,10 +68,10 @@ const MobileMenu = ({ onClose }) => {
             label: "LeadCENTER",
             action: () => {
                 window.open(
-                    `${
-                        process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI
-                    }/LeadCenterSSO/?redirectTo=${encodeURIComponent("campaigns")}`,
-                    "_blank",
+                    `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO/?redirectTo=${encodeURIComponent(
+                        "campaigns"
+                    )}`,
+                    "_blank"
                 );
                 onClose();
             },
@@ -81,7 +81,7 @@ const MobileMenu = ({ onClose }) => {
             action: () => {
                 window.open(
                     `${process.env.REACT_APP_CONNECTURE_LINK}/${npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
-                    "_blank",
+                    "_blank"
                 );
                 onClose();
             },
@@ -115,6 +115,7 @@ const MobileMenu = ({ onClose }) => {
         {
             label: "Sign Out",
             action: () => {
+                sessionStorage.removeItem("isAgentMobileBannerDismissed");
                 logout({
                     logoutParams: {
                         returnTo: window.location.origin,

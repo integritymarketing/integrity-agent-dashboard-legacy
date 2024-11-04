@@ -40,13 +40,13 @@ const ProfileMenu = () => {
                         `${
                             process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI
                         }/LeadCenterSSO/?redirectTo=${encodeURIComponent("campaigns")}`,
-                        "_blank",
+                        "_blank"
                     );
                     break;
                 case "medicareApp":
                     window.open(
                         `${process.env.REACT_APP_CONNECTURE_LINK}/${npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
-                        "_blank",
+                        "_blank"
                     );
                     break;
                 case "medicareLink":
@@ -61,6 +61,7 @@ const ProfileMenu = () => {
                     navigate("/help");
                     break;
                 case "sign_out":
+                    sessionStorage.removeItem("isAgentMobileBannerDismissed");
                     logout({
                         logoutParams: {
                             returnTo: window.location.origin,
@@ -72,7 +73,7 @@ const ProfileMenu = () => {
             }
             handleMenuClose();
         },
-        [navigate, npn, email, logout, handleMenuClose],
+        [navigate, npn, email, logout, handleMenuClose]
     );
 
     const menuItems = [

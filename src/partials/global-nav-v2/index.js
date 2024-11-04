@@ -16,46 +16,19 @@ import ContactInfo from "partials/contact-info";
 import analyticsService from "services/analyticsService";
 import { useClientServiceContext } from "services/clientServiceProvider";
 
-import validationService from "services/validationService";
 import { Box, Typography } from "@mui/material";
 import ProfileMenu from "./ProfileMenu/ProfileMenu";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 
-import Account from "./Account.svg";
-import Logout from "./Logout.svg";
 import MyButton from "./MyButton";
-import NeedHelp from "./Needhelp.svg";
-import MobileAccount from "./assets/icons-Account.svg";
-import MobileContacts from "./assets/icons-Contacts.svg";
-import MobileHome from "./assets/icons-Home.svg";
-import MobileLogout from "./assets/icons-Logout.svg";
+
 import "./index.scss";
 import LargeFormatMenu from "./large-format";
 import SmallFormatMenu from "./small-format";
 import IntegrityMobileLogo from "components/HeaderWithLogin/integrity-mobile-logo";
 import NewBackBtn from "images/new-back-btn.svg";
-import MegaPhone from "./assets/MegaPhone.svg";
 import PlusMenu from "./plusMenu";
 import AbcBanner from "components/AbcBanner";
-
-const handleCSGSSO = async (navigate, npn, email) => {
-    const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${npn}/${email}`, {
-        method: "GET",
-    });
-
-    if (response.status >= 200 && response.status < 300) {
-        const res = await response.json();
-
-        // standardize the API response into a formatted object
-        // note that formikErrorsFor is a bit of a mis-nomer, this simply formats the
-        // [{"Key":"redirect_url","Value":"url"}] api response
-        // as { redirct_url: 'url' } for simplicity
-        const formattedRes = validationService.formikErrorsFor(res);
-        window.open(formattedRes.redirect_url, "_blank");
-    } else {
-        navigate("/error?code=third_party_notauthorized", { replace: true });
-    }
-};
 
 const SiteNotification = ({ showPhoneNotification, showMaintenaceNotification }) => {
     const notificationClass = [
@@ -105,7 +78,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     const [isMobile, setIsMobile] = useState(false);
 
     const [helpModalOpen, setHelpModalOpen] = useState(false);
-    const [learnMoreModal, setLearnMoreModal] = useState(false);
     const user = useUserProfile();
 
     const { agentInformation } = useAgentInformationByID();
@@ -114,93 +86,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     const mobileMenuProps = {
         navOpen,
         setNavOpen,
-        ...(auth.isAuthenticated && !menuHidden
-            ? {
-                  primary: [
-                      {
-                          component: Link,
-                          props: {
-                              to: "/dashboard",
-                              className: analyticsService.clickClass("dashbaord-header"),
-                          },
-                          label: "Dashboard",
-                          img: MobileHome,
-                      },
-                      {
-                          component: Link,
-                          props: {
-                              to: "/contacts",
-                              className: analyticsService.clickClass("contacts-header"),
-                          },
-                          label: "Contacts",
-                          img: MobileContacts,
-                      },
-                      {
-                          component: Link,
-                          props: {
-                              to: "/marketing/client-connect-marketing",
-                              className: analyticsService.clickClass("marketing-header"),
-                          },
-                          label: "Marketing",
-                          img: MegaPhone,
-                      },
-                      ...(user?.fullName
-                          ? [
-                                {
-                                    component: "button",
-                                    props: {
-                                        type: "button",
-                                        onClick: () =>
-                                            (window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}`),
-                                    },
-                                    label: "Account",
-                                    img: MobileAccount,
-                                },
-                            ]
-                          : []),
-                  ],
-                  secondary: [
-                      {
-                          component: Link,
-                          props: {
-                              to: "/help",
-                          },
-                          label: "Need Help?",
-                          img: NeedHelp,
-                      },
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () => {
-                                  handleCSGSSO(navigate, user.npn, user.email);
-                              },
-                          },
-                          label: "CSG App",
-                      },
-                  ],
-                  tertiary: [
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () =>
-                                  auth.logout({
-                                      logoutParams: {
-                                          returnTo: window.location.origin,
-                                      },
-                                  }),
-                          },
-                          label: "Sign Out",
-                          img: MobileLogout,
-                      },
-                  ],
-              }
-            : {
-                  primary: [],
-                  secondary: [],
-                  tertiary: [],
-              }),
     };
 
     const menuProps = {
@@ -244,66 +129,6 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                               className: analyticsService.clickClass("quick-quote-header"),
                           },
                           label: "Quick Quote",
-                      },
-                  ],
-                  secondary: [
-                      ...(user.firstName
-                          ? [
-                                {
-                                    component: "button",
-                                    props: {
-                                        type: "button",
-                                        onClick: () =>
-                                            (window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}`),
-                                    },
-                                    label: "Account",
-                                    img: Account,
-                                },
-                            ]
-                          : []),
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () =>
-                                  window.open(
-                                      `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`,
-                                      "_blank"
-                                  ),
-                          },
-                          label: "LeadCENTER",
-                      },
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () => {
-                                  handleCSGSSO(navigate, user.npn, user.email);
-                              },
-                          },
-                          label: "CSG APP",
-                      },
-                      {
-                          component: Link,
-                          props: {
-                              to: "/help",
-                          },
-                          label: "Need Help?",
-                          img: NeedHelp,
-                      },
-                      {
-                          component: "button",
-                          props: {
-                              type: "button",
-                              onClick: () =>
-                                  auth.logout({
-                                      logoutParams: {
-                                          returnTo: window.location.origin,
-                                      },
-                                  }),
-                          },
-                          label: "Sign Out",
-                          img: Logout,
                       },
                   ],
               }

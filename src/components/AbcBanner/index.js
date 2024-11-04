@@ -54,6 +54,7 @@ const AbcBanner = ({ show, leadPreference, agentId }) => {
                 if (action === "learn_more") {
                     window.open(`https://beneficiarychoice.org/`, "_blank");
                     setOpen(false);
+                    sessionStorage.setItem("isAgentMobileBannerDismissed", true);
                     setShowBanner(false);
                 }
             }
