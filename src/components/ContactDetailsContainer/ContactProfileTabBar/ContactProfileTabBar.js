@@ -23,7 +23,7 @@ const TABS = [
 
 const isTruthyOrZero = (value) => value || value === 0;
 
-export const ContactProfileTabBar = ({ contactId }) => {
+export const ContactProfileTabBar = ({ contactId, showTabs = true }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { leadId: leadIdParam } = useParams();
@@ -69,7 +69,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
             setSelectedTab(section);
             navigate(`/contact/${leadId}/${section}`);
         },
-        [leadId, navigate, setSelectedTab]
+        [leadId, navigate, setSelectedTab],
     );
 
     const handleClosePlanTypeModal = useCallback(() => {
@@ -149,7 +149,7 @@ export const ContactProfileTabBar = ({ contactId }) => {
                             </Box>
                         </Box>
                     </Box>
-                    <Box className={styles.profileTabs}>{TABS.map(renderTab)}</Box>
+                    {showTabs ? <Box className={styles.profileTabs}>{TABS.map(renderTab)}</Box> : ""}
                     {isContactDetailsPage && (
                         <Button
                             onClick={handleStartQuote}

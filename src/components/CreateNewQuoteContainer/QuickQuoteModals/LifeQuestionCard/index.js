@@ -1,19 +1,12 @@
 import SelectionList from "../../Common/SelectionList";
+import { LIFE_QUESTION_CARD_LIST } from "./constants";
 
 const LifeQuestionCard = ({ handleSelectLifeProductType, IUL_FEATURE_FLAG }) => {
-    const disableOption = (option) => {
-        if (["Indexed Universal Life", "Term"].includes(option) && IUL_FEATURE_FLAG) {
-            return true;
-        }
-        return false;
-    };
-
     return (
         <SelectionList
             title="What type of Life Product?"
-            selectionList={["Final Expense", "Indexed Universal Life", "Term"]}
+            selectionList={Object.values(LIFE_QUESTION_CARD_LIST)}
             handleSelectItem={handleSelectLifeProductType}
-            disableOption={disableOption}
         />
     );
 };

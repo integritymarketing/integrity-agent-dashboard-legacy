@@ -17,7 +17,7 @@ const SelectionList = ({ title, selectionList, handleSelectItem, disableOption }
             <Box className={styles.selectionListContainer}>
                 {selectionList?.map((item, index) => (
                     <Box
-                        className={`${styles.selectItemLabel} ${disableOption(item) ? styles.disableOption : ""}`}
+                        className={`${styles.selectItemLabel} ${disableOption?.(item) ? styles.disableOption : ""}`}
                         key={index}
                         onClick={() => handleSelectItem(item)}
                     >

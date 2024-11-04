@@ -1,9 +1,7 @@
-import { useCreateNewQuote } from "providers/CreateNewQuote";
+import PropTypes from "prop-types";
 import SelectionList from "../../Common/SelectionList";
 
-const IulGoalQuestionCard = () => {
-    const { handleSelectIulGoal } = useCreateNewQuote();
-
+const IulGoalQuestionCard = ({ handleSelectIulGoal }) => {
     return (
         <SelectionList
             title="What is your Indexed Universal Life Goal?"
@@ -11,6 +9,10 @@ const IulGoalQuestionCard = () => {
             handleSelectItem={handleSelectIulGoal}
         />
     );
+};
+
+IulGoalQuestionCard.propTypes = {
+    handleSelectIulGoal: PropTypes.func.isRequired,
 };
 
 export default IulGoalQuestionCard;

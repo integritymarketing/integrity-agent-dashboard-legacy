@@ -25,6 +25,8 @@ import LifeQuestionCard from "components/CreateNewQuoteContainer/QuickQuoteModal
 
 import styles from "./styles.module.scss";
 import WithLoader from "components/ui/WithLoader";
+import { LIFE_QUESTION_CARD_LIST } from "components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants";
+import IulGoalQuestionCard from "components/CreateNewQuoteContainer/QuickQuoteModals/IulGoalQuestionCard";
 
 const LIFE = "hideLifeQuote";
 const HEALTH = "hideHealthQuote";
@@ -34,6 +36,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
     const [checked, setChecked] = useState(false);
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
     const [showLifeQuestionCard, setShowLifeQuestionCard] = useState(false);
+    const [showIulGoalQuestionCard, setShowIulGoalQuestionCard] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
@@ -126,9 +129,32 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
         }
     };
 
-    const navigateToFinalExpensesPlans = useCallback(() => {
-        navigate(`/finalexpenses/create/${leadId}`);
-    }, [leadId, navigate]);
+    const handleSelectLifeProductType = useCallback(
+        (item) => {
+            switch (item) {
+                case LIFE_QUESTION_CARD_LIST.FINAL_EXPENSE:
+                    navigate(`/finalexpenses/create/${leadId}`);
+                    break;
+
+                case LIFE_QUESTION_CARD_LIST.INDEXED_UNIVERSAL_LIFE:
+                    setShowLifeQuestionCard(false);
+                    setShowIulGoalQuestionCard(true);
+                    break;
+                case LIFE_QUESTION_CARD_LIST.TERM:
+                    navigate(`/life/term/${leadId}/confirm-details`);
+                    break;
+            }
+        },
+        [leadId, navigate],
+    );
+
+    const handleSelectIulGoal = useCallback(
+        (item) => {
+            if (item == "Accumulation") { navigate(`/life/iul-accumulation/${leadId}/confirm-details`); }
+            else { navigate(`/life/iul-protection/${leadId}/confirm-details`); }
+        },
+        [leadId, navigate],
+    );
 
     /**
      * If the modal is shown and both health and life quotes are not hidden,
@@ -159,7 +185,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
         <>
             <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Choose Quote Type">
                 <WithLoader isLoading={isLoading}>
-                    {!showLifeQuestionCard && (
+                    {!showLifeQuestionCard && !showIulGoalQuestionCard && (
                         <>
                             <Box className={styles.container}>
                                 <Box className={styles.plan} onClick={handleFinalExpensePlanClick}>
@@ -184,12 +210,22 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                             </Box>
                         </>
                     )}
-                    {showLifeQuestionCard && (
+                    {showLifeQuestionCard && !showIulGoalQuestionCard && (
                         <QuoteModalCard action={shouldShowPlanTypeModal ? () => setShowLifeQuestionCard(false) : null}>
                             <LifeQuestionCard
                                 IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
-                                handleSelectLifeProductType={navigateToFinalExpensesPlans}
+                                handleSelectLifeProductType={handleSelectLifeProductType}
                             />
+                        </QuoteModalCard>
+                    )}
+                    {!showLifeQuestionCard && showIulGoalQuestionCard && (
+                        <QuoteModalCard
+                            action={() => {
+                                setShowLifeQuestionCard(true);
+                                setShowIulGoalQuestionCard(false);
+                            }}
+                        >
+                            <IulGoalQuestionCard handleSelectIulGoal={handleSelectIulGoal} />
                         </QuoteModalCard>
                     )}
                 </WithLoader>

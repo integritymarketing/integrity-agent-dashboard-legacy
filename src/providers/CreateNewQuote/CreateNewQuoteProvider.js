@@ -194,21 +194,44 @@ export const CreateNewQuoteProvider = ({ children }) => {
         ],
     );
 
-    const handleSelectLifeProductType = useCallback((productType) => {
-        setSelectedLifeProductType(productType);
+    const handleSelectLifeProductType = useCallback(
+        (productType) => {
+            setSelectedLifeProductType(productType);
 
-        switch (productType) {
-            case "Final Expense":
-                setQuoteModalStage("finalExpenseIntakeFormCard");
-                break;
-            case "Indexed Universal Life":
-                break;
-            case "Term":
-                break;
-            default:
-                break;
-        }
-    }, []);
+            switch (productType) {
+                case "Final Expense":
+                    setQuoteModalStage("finalExpenseIntakeFormCard");
+                    break;
+                case "Indexed Universal Life":
+                    setQuoteModalStage("iulGoalCard");
+                    break;
+                case "Term":
+                    navigate(`/life/term/${selectedLead.leadsId}/confirm-details`);
+                    setShowStartQuoteModal(false);
+                    break;
+                default:
+                    break;
+            }
+        },
+        [navigate, selectedLead],
+    );
+
+    const handleSelectIulGoalType = useCallback(
+        (productType) => {
+            setSelectedLifeProductType(productType);
+
+            switch (productType) {
+                case "Accumulation":
+                    navigate(`/life/iul-accumulation/${selectedLead.leadsId}/confirm-details`);
+                    break;
+                case "Protection":
+                    navigate(`/life/iul-protection/${selectedLead.leadsId}/confirm-details`);
+                    break;
+            }
+            setShowStartQuoteModal(false);
+        },
+        [navigate, selectedLead],
+    );
 
     const handleSelectedHealthProductType = useCallback(
         (productType) => {
@@ -277,6 +300,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             isMultipleCounties,
             fetchCountiesData,
             countiesData,
+            handleSelectIulGoalType,
         };
     }
 };

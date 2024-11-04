@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { InputAdornment, OutlinedInput } from "@mui/material";
 import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
@@ -6,8 +6,7 @@ import { formatDate } from "utils/dates";
 import DatePickerMUI from "components/DatePicker";
 import { SelectStateField } from "components/SharedFormFields";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
-import { Button } from "components/ui/Button";
-import styles from "./FinalExpenseContactDetailsForm.module.scss";
+import styles from "./ConfirmationDetailsForm.module.scss";
 import {
     BIRTHDATE,
     CONTACT_FORM_SUBTITLE,
@@ -26,11 +25,12 @@ import {
     TOBACCO_USE,
     WEIGHT,
     WT_PLACEHOLDER,
-} from "../FinalExpensePlansContainer.constants";
+} from "../../LifeForm.constants";
 import { useFormik } from "formik";
 import { FinalExpenseIntakeForm } from "schemas";
+import FullWidthButton from "components/ui/FullWidthButton";
 
-const FinalExpenseContactDetailsForm = ({ contactId, onSave }) => {
+export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
     const [isSaving, setIsSaving] = useState(false);
     const [mobileStepNumber, setMobileStepNumber] = useState(0);
 
@@ -46,7 +46,7 @@ const FinalExpenseContactDetailsForm = ({ contactId, onSave }) => {
 
     const { leadDetails } = useLeadDetails();
 
-    const onSaveHealthInfo = async () => {
+    const onSaveHealthInfo = useCallback(async () => {
         const dateOfBirth = values.dateOfBirth ? formatDate(values.dateOfBirth) : "";
         const updatedFormData = {
             stateCode: values.stateCode,
@@ -59,11 +59,11 @@ const FinalExpenseContactDetailsForm = ({ contactId, onSave }) => {
         setIsSaving(true);
         await onSave(updatedFormData);
         setIsSaving(false);
-    };
+    }, [values, onSave]);
 
-    const handleNext = async () => {
+    const handleNext = useCallback(async () => {
         await onSaveHealthInfo();
-    };
+    }, [onSaveHealthInfo]);
 
     const formik = useFormik({
         validateOnMount: true,
@@ -96,25 +96,25 @@ const FinalExpenseContactDetailsForm = ({ contactId, onSave }) => {
         }
     }, [leadDetails, contactId]);
 
-    const updateFeet = (value) => {
+    const updateFeet = useCallback((value) => {
         if (!value || (value > 0 && value <= 8 && !value.includes("."))) {
             setFieldValue("feet", value);
         }
-    };
+    }, [setFieldValue]);
 
-    const updateInch = (value) => {
+    const updateInch = useCallback((value) => {
         const numericValue = Number(value);
 
         if (value === "" || (Number.isInteger(numericValue) && numericValue >= 0 && numericValue <= 11)) {
             setFieldValue("inch", value);
         }
-    };
+    }, [setFieldValue]);
 
-    const updateWeight = (value) => {
+    const updateWeight = useCallback((value) => {
         if (!value || (value > 0 && value < 999)) {
             setFieldValue("weight", value);
         }
-    };
+    }, [setFieldValue]);
 
     const genderOptions = useMemo(
         () =>
@@ -239,13 +239,12 @@ const FinalExpenseContactDetailsForm = ({ contactId, onSave }) => {
                     </div>
                 </div>
                 <div className={styles.contactFooter}>
-                    <Button
+                    <FullWidthButton
                         disabled={isDisabled}
                         label={isSaving ? SAVING : NEXT}
                         onClick={handleSubmit}
                         type="primary"
                         icon={<ButtonCircleArrow />}
-                        fullWidth={true}
                         iconPosition="right"
                         style={{ border: "none" }}
                         className={styles.nextButton}
@@ -268,26 +267,24 @@ const FinalExpenseContactDetailsForm = ({ contactId, onSave }) => {
                     )}
                     <div className={styles.contactFooterMobile}>
                         {mobileStepNumber === 0 && (
-                            <Button
+                            <FullWidthButton
                                 disabled={isDisabled}
                                 label={NEXT}
                                 onClick={() => setMobileStepNumber(1)}
                                 type="primary"
                                 icon={<ButtonCircleArrow />}
-                                fullWidth={true}
                                 iconPosition="right"
                                 style={{ border: "none" }}
                                 className={styles.nextButton}
                             />
                         )}
                         {mobileStepNumber === 1 && (
-                            <Button
+                            <FullWidthButton
                                 disabled={isDisabled || isSaving}
                                 label={isSaving ? SAVING : NEXT}
                                 onClick={handleSubmit}
                                 type="primary"
                                 icon={<ButtonCircleArrow />}
-                                fullWidth={true}
                                 iconPosition="right"
                                 style={{ border: "none" }}
                                 className={styles.nextButton}
@@ -301,18 +298,16 @@ const FinalExpenseContactDetailsForm = ({ contactId, onSave }) => {
     );
 };
 
-FinalExpenseContactDetailsForm.propTypes = {
+ConfirmationDetailsForm.propTypes = {
     contactId: PropTypes.string.isRequired,
+    onSave: PropTypes.func.isRequired,
     address: PropTypes.shape({
         stateCode: PropTypes.string,
     }),
     birthdate: PropTypes.string,
-    sexuality: PropTypes.string,
-    wt: PropTypes.number,
-    hFeet: PropTypes.number,
-    hInch: PropTypes.number,
-    smoker: PropTypes.bool,
-    onSave: PropTypes.func.isRequired,
+    gender: PropTypes.string,
+    weight: PropTypes.number,
+    feet: PropTypes.number,
+    inch: PropTypes.number,
+    isTobaccoUser: PropTypes.bool,
 };
-
-export default FinalExpenseContactDetailsForm;

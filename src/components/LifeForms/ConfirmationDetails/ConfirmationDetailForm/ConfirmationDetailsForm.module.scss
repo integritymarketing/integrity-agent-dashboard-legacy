@@ -1,0 +1,278 @@
+@import "src/scss/globalDefines.scss";
+
+.finalExpenseContactDetailsForm {
+    width: 900px;
+    max-width: 90%;
+    margin: auto;
+    margin-top: 56px;
+}
+
+.contactCard {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 56px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+
+    @include small {
+        padding: 16px;
+    }
+}
+
+.contactForm {
+    @include small {
+        display: none;
+    }
+}
+
+.contactFormMobile {
+    display: none;
+
+    @include small {
+        display: block;
+    }
+}
+
+.contactCardHeading h4 {
+    font-size: 32px;
+    line-height: 29px;
+    color: #052a63;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+
+    @include small {
+        font-size: 20px;
+    }
+}
+
+.contactCardHeading p {
+    color: var(--neutral-text-color);
+    margin-top: 12px;
+    margin-bottom: 15px;
+
+    @include small {
+        font-size: 16px;
+        margin-top: 6px;
+    }
+}
+
+.contactCardHeading {
+    @include small {
+        margin-bottom: 8px;
+    }
+}
+
+.contactFooter {
+    margin-top: 40px;
+
+    @include small {
+        display: none;
+    }
+}
+
+.contactFooterMobile {
+    margin-top: 30px;
+}
+
+.nextButton {
+    width: 100%;
+    justify-content: space-between !important;
+    background-color: #4178ff;
+    border-radius: 100px !important;
+
+    svg {
+        margin-left: 100px;
+    }
+}
+
+.requiredFieldsText {
+    font-style: italic;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 5px;
+    color: #717171;
+}
+
+.contactFormRow {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin-bottom: 20px;
+
+    @include small {
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+
+    .contactFormCol {
+        width: 50%;
+
+        @include small {
+            width: 100%;
+            padding-right: 0px;
+        }
+    }
+}
+
+.formLabel {
+    color: #052a63;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.optionValueWrapper {
+    display: flex;
+    gap: 16px;
+
+    .optionValueBox {
+        background-color: #ffffff;
+        padding: 10px 15px;
+        width: 50%;
+        color: #434a51;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid #dddddd;
+    }
+
+    .optionValueBox.selected {
+        background-color: #f1faff;
+    }
+}
+
+.modalTitle {
+    @include small {
+        padding: 3rem !important;
+    }
+}
+
+.modalContainer {
+    padding: 24px 0 8px 0;
+    max-width: 488px;
+    color: #052a63;
+    font-size: 20px;
+}
+
+.contentBox {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 24px;
+    color: #434a51;
+
+    .redirectLink {
+        color: #4178ff;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .helpList {
+        list-style: disc;
+        padding: 16px;
+
+        li {
+            padding-top: 8px;
+        }
+    }
+
+    .footerButtons {
+        align-items: center;
+        justify-content: space-between;
+        display: flex;
+
+        .cancelCTA {
+            color: #4178ff;
+            font-size: 16px;
+            height: 40px;
+            padding: 10px 15px;
+            text-transform: none;
+
+            &:hover {
+                background: #ffffff;
+                border-radius: 20px;
+                box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .updatePermissionCTA {
+            background: #4178ff;
+            border-radius: 20px;
+            color: #ffffff;
+            text-transform: none;
+
+            &:hover {
+                background: #4178ff;
+            }
+
+            &.Mui-disabled {
+                background: #b3c9ff;
+                color: #ffffff;
+                cursor: not-allowed;
+
+                & svg #Icon_Arrow_path {
+                    // targeting the svg path by id
+                    fill: transparent; // changing the fill color
+                }
+
+                & svg #Icon_circle_path {
+                    // targeting the svg path by id
+                    fill: #ffffff; // changing the fill color
+                }
+
+                & svg #Icon_Add_path {
+                    // targeting the svg path by id
+                    fill: transparent; // changing the fill color
+                }
+            }
+        }
+
+        @include small {
+            flex-direction: column;
+            gap: 16px;
+        }
+    }
+}
+
+.selectInputBox {
+    height: 46px;
+}
+
+.inputBoxClassName {
+    height: 46px !important;
+}
+
+.input {
+    padding: 15px 0 14px 8px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.heightSpec {
+    display: flex;
+    gap: 16px;
+    height: 46px;
+}
+
+.datepicker {
+    width: 100%;
+
+    > div {
+        height: 46px;
+        width: 100%;
+    }
+
+    input {
+        color: #4178ff;
+    }
+
+    button {
+        color: #4178ff;
+    }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}

@@ -32,15 +32,15 @@ const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
 const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
 const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
 const SOAConfirmationForm = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation"));
-const SOAConfirmationPage = lazy(() =>
-    import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage")
+const SOAConfirmationPage = lazy(
+    () => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage"),
 );
 const TermsPage = lazy(() => import("pages/TermsPage"));
 const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
 const TaskListResultsMobileLayout = lazy(() => import("pages/dashbaord/Tasklist/TaskListResultsMobileLayout"));
-const PolicySnapshotMobileLayout = lazy(() =>
-    import("pages/dashbaord/PolicySnapShot/PolicySnapShotMobileContainer/PolicySnapShotMobileContainer")
+const PolicySnapshotMobileLayout = lazy(
+    () => import("pages/dashbaord/PolicySnapShot/PolicySnapShotMobileContainer/PolicySnapShotMobileContainer"),
 );
 
 const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
@@ -57,6 +57,13 @@ const LoginRedirectSSOPage = lazy(() => import("pages/auth/LoginRedirectSSOPage"
 const CampaignInvitationPage = lazy(() => import("pages/Marketing/CampaignInvitation"));
 const CampaignDashboardPage = lazy(() => import("pages/Marketing/CampaignDashboard"));
 const ClientConnectMarketingContainer = lazy(() => import("pages/Marketing/ClientConnectMarketing"));
+
+const IulAccumulationConfirmationDetailsPage = lazy(() => import("pages/IulAccumulationConfirmationDetailsPage"));
+const IulAccumulationProductPreferencesPage = lazy(() => import("pages/IulAccumulationProductPreferencesPage"));
+const IulProtectionConfirmationDetailsPage = lazy(() => import("pages/IulProtectionConfirmationDetailsPage"));
+const IulProtectionProductPreferencesPage = lazy(() => import("pages/IulProtectionProductPreferencesPage"));
+const TermConfirmationDetailsPage = lazy(() => import("pages/TermConfirmationDetailsPage"));
+const TermProductPreferencesPage = lazy(() => import("pages/TermProductPreferencesPage"));
 
 const appRoutes = [
     {
@@ -299,6 +306,84 @@ const appProtectedRoutes = [
     {
         path: "marketing/client-connect-marketing",
         component: <ClientConnectMarketingContainer />,
+    },
+    {
+        path: "/life/iul-accumulation/:contactId/confirm-details",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <FinalExpensePlansProvider>
+                        <IulAccumulationConfirmationDetailsPage />
+                    </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/life/iul-accumulation/:contactId/product-preferences",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <FinalExpensePlansProvider>
+                        <IulAccumulationProductPreferencesPage />
+                    </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/life/iul-protection/:contactId/confirm-details",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <FinalExpensePlansProvider>
+                        <IulProtectionConfirmationDetailsPage />
+                    </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/life/iul-protection/:contactId/product-preferences",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <FinalExpensePlansProvider>
+                        <IulProtectionProductPreferencesPage />
+                    </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/life/term/:contactId/confirm-details",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <FinalExpensePlansProvider>
+                        <TermConfirmationDetailsPage />
+                    </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/life/term/:contactId/product-preferences",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <FinalExpensePlansProvider>
+                        <TermProductPreferencesPage />
+                    </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
     },
 ];
 

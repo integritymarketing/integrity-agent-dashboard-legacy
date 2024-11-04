@@ -6,6 +6,7 @@ import QuoteModalCard from "../../Common/QuoteModalCard";
 import FinalExpenseIntakeFormCard from "../FinalExpenseIntakeFormCard";
 import ZipCodeInputCard from "../ZipCodeInputCard";
 import LifeQuestionCard from "../LifeQuestionCard";
+import IulGoalQuestionCard from "../IulGoalQuestionCard";
 
 const StartQuoteModal = () => {
     const {
@@ -19,6 +20,7 @@ const StartQuoteModal = () => {
         handleSelectLifeProductType,
         fetchCountiesData,
         isMultipleCounties,
+        handleSelectIulGoalType,
     } = useCreateNewQuote();
 
     useEffect(() => {
@@ -54,6 +56,15 @@ const StartQuoteModal = () => {
                     <LifeQuestionCard
                         IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
                         handleSelectLifeProductType={handleSelectLifeProductType}
+                    />
+                </QuoteModalCard>
+            )}
+
+            {quoteModalStage === "iulGoalCard" && (
+                <QuoteModalCard action={showUpArrow ? () => setQuoteModalStage("lifeQuestionCard") : null}>
+                    <IulGoalQuestionCard
+                        IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
+                        handleSelectIulGoal={handleSelectIulGoalType}
                     />
                 </QuoteModalCard>
             )}

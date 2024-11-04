@@ -1,34 +1,24 @@
-import { useMemo, useRef, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useLeadDetails } from "providers/ContactDetails";
 
 import { formatDate } from "utils/dates";
 import { formatMbiNumber } from "utils/shared-utils/sharedUtility";
 
-import useAnalytics from "hooks/useAnalytics";
-
 import PlanCardLoader from "components/ui/PlanCard/loader";
-import WithLoader from "components/ui/WithLoader";
 
-
-import FinalExpenseContactDetailsForm from "./FinalExpenseContactDetailsForm";
+import { ConfirmationDetailsForm } from "../ConfirmationDetailForm";
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
+import { LIFE_FORM_TYPES } from "components/LifeForms/LifeForm.constants";
+import PropTypes from "prop-types";
 
-export const FinalExpensePlansContainer = () => {
-    const { contactId } = useParams();
+export const ConfirmationDetailsContainer = ({ contactId, quoteType }) => {
     const contactFormDataRef = useRef(null);
 
     const navigate = useNavigate();
-    const { fireEvent } = useAnalytics();
 
     const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
-
-    useEffect(() => {
-        fireEvent("Final Expense Intake Viewed", {
-            leadid: contactId,
-        });
-    }, [contactId]);
 
     const onSave = async (formData) => {
         const {
@@ -116,24 +106,43 @@ export const FinalExpensePlansContainer = () => {
         const response = await updateLeadDetails(payload);
 
         contactFormDataRef.current = { ...formData };
-        fireEvent("Final Expense Intake Completed", {
-            leadid: contactId,
-        });
+
         if (response) {
-            navigate(`/finalexpenses/healthconditions/${contactId}`);
+            switch (quoteType) {
+                case LIFE_FORM_TYPES.IUL_ACCUMULATION:
+                    navigate(`/life/iul-accumulation/${contactId}/product-preferences`);
+                    break;
+
+                case LIFE_FORM_TYPES.IUL_PROTECTION:
+                    navigate(`/life/iul-protection/${contactId}/product-preferences`);
+                    break;
+
+                case LIFE_FORM_TYPES.TERM:
+                    navigate(`/life/term/${contactId}/product-preferences`);
+                    break;
+            }
         }
     };
 
     const renderContactDetailsLoader = useMemo(() => <PlanCardLoader />, []);
 
     return (
-        <WithLoader isLoading={isLoadingLeadDetails}>
+        <>
             <ContactProfileTabBar contactId={contactId} showTabs={false} />
             {isLoadingLeadDetails ? (
                 renderContactDetailsLoader
             ) : (
-                <FinalExpenseContactDetailsForm contactId={contactId} onSave={onSave} />
+                <ConfirmationDetailsForm contactId={contactId} onSave={onSave} />
             )}
-        </WithLoader>
+        </>
     );
+};
+
+ConfirmationDetailsContainer.propTypes = {
+    contactId: PropTypes.string.isRequired,
+    quoteType: PropTypes.oneOf([
+        LIFE_FORM_TYPES.IUL_ACCUMULATION,
+        LIFE_FORM_TYPES.IUL_PROTECTION,
+        LIFE_FORM_TYPES.TERM,
+    ]).isRequired,
 };
