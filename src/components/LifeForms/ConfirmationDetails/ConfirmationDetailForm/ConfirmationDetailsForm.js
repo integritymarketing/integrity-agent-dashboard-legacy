@@ -46,6 +46,18 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
 
     const { leadDetails } = useLeadDetails();
 
+    const formik = useFormik({
+        validateOnMount: true,
+        initialValues: formData,
+        validationSchema: FinalExpenseIntakeForm,
+        enableReinitialize: true,
+        onSubmit: () => {
+            handleNext();
+        },
+    });
+
+    const { values, dirty, isValid, setFieldValue, handleSubmit } = formik;
+
     const onSaveHealthInfo = useCallback(async () => {
         const dateOfBirth = values.dateOfBirth ? formatDate(values.dateOfBirth) : "";
         const updatedFormData = {
@@ -65,15 +77,7 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
         await onSaveHealthInfo();
     }, [onSaveHealthInfo]);
 
-    const formik = useFormik({
-        validateOnMount: true,
-        initialValues: formData,
-        validationSchema: FinalExpenseIntakeForm,
-        enableReinitialize: true,
-        onSubmit: handleNext,
-    });
 
-    const { values, dirty, isValid, setFieldValue, handleSubmit } = formik;
 
     useEffect(() => {
         if (leadDetails) {
