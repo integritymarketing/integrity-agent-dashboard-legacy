@@ -355,9 +355,11 @@ export const CampaignInvitationProvider = ({ children }) => {
 
             payload = {
                 ...payload,
+                campaignId:templateData?.id,
                 requestPayload: {
                     ...payload.requestPayload,
                     templateId: templateData?.templateId,
+                    campaignId:templateData?.id,
                 },
             };
 
@@ -387,9 +389,11 @@ export const CampaignInvitationProvider = ({ children }) => {
 
             payload = {
                 ...payload,
+                campaignId:templateData?.id,
                 requestPayload: {
                     ...payload.requestPayload,
                     templateId: templateData?.templateId,
+                    campaignId:templateData?.id,
                 },
             };
 
@@ -632,7 +636,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                         condition: "",
                     },
                     trigger: {},
-                },
+                  },
             },
         };
 
