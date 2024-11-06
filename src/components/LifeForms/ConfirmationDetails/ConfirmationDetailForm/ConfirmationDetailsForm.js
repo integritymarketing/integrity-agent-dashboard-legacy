@@ -110,7 +110,12 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
         const numericValue = Number(value);
 
         if (value === "" || (Number.isInteger(numericValue) && numericValue >= 0 && numericValue <= 11)) {
-            setFieldValue("inch", value);
+            // Prevent multiple zeros
+            if (numericValue === 0 && value.length > 1) {
+                setFieldValue("inch", "0");
+            } else {
+                setFieldValue("inch", value);
+            }
         }
     }, [setFieldValue]);
 
