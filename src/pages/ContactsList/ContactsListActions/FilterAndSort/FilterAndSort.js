@@ -33,7 +33,7 @@ function FilterAndSort() {
     const { fireEvent } = useAnalytics();
 
     useEffect(() => {
-        if (window.location.href.includes(LIST_PATH)) {
+        if (window.location.href.includes(LIST_PATH)|| window.location.href.includes("/contacts")) {
             setLayout("list");
         } else if (window.location.href.includes(CARD_PATH)) {
             setLayout("card");
