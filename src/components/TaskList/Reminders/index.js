@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid";
 
 import PropTypes from "prop-types";
 
-import { convertToLocalDateTime, isOverDue } from "utils/dates";
+import { convertToLocalDateTime, getOverDue } from "utils/dates";
 
 import useToast from "hooks/useToast";
 
@@ -28,7 +28,7 @@ const RemindersCard = ({ callData, refreshData }) => {
     const navigate = useNavigate();
     const showToast = useToast();
 
-    const isReminderDue = isOverDue(callData?.taskDate);
+    const isReminderDue = getOverDue(callData?.taskDate);
 
     const completeReminder = () => {
         const payload = {

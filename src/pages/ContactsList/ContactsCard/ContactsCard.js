@@ -6,7 +6,7 @@ import { CardStage } from "./CardStage";
 import styles from "./styles.module.scss";
 import ReminderModals from "../RemiderModals/ReminderModals";
 import { useWindowSize } from "hooks/useWindowSize";
-import { isOverDue } from "utils/dates";
+import { getOverDue } from "utils/dates";
 import { useContactsListContext } from "../providers/ContactsListProvider";
 import { Reminder } from "components/icons/version-2/Reminder";
 import AddReminder from "components/icons/version-2/addReminder";
@@ -60,7 +60,7 @@ function ContactsCard({ cardWrapperClassName = "", isMapPage }) {
         }
         const overDue = reminders.filter((reminder) => {
             const { reminderDate } = reminder;
-            return isOverDue(reminderDate);
+            return getOverDue(reminderDate);
         });
         return overDue?.length > 0 ? true : false;
     };

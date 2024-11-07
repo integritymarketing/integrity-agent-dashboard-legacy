@@ -12,7 +12,7 @@ import useToast from "hooks/useToast";
 
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
 import ReminderModals from "../RemiderModals/ReminderModals";
-import { isOverDue } from "utils/dates";
+import { getOverDue } from "utils/dates";
 import AskIntegrityModal from "pages/ContactsList/AskIntegrityModal/AskIntegrityModal";
 import HealthActive from "components/icons/version-2/HealthActive";
 import HealthInactive from "components/icons/version-2/HealthInactive";
@@ -96,7 +96,7 @@ function ContactsTable() {
         }
         const overDue = reminders.filter((reminder) => {
             const { reminderDate } = reminder;
-            return isOverDue(reminderDate);
+            return getOverDue(reminderDate);
         });
         return overDue?.length > 0 ? true : false;
     };

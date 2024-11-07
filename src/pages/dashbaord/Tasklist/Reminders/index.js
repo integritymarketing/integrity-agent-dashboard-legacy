@@ -3,7 +3,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 
 import { convertToLocalDateTime, formatDate } from "utils/dates";
-import { isOverDue } from "utils/dates";
+import { getOverDue } from "utils/dates";
 import { sortListByDate } from "utils/dates";
 
 import styles from "./styles.module.scss";
@@ -46,7 +46,7 @@ export default function Reminders({ taskList, refreshData }) {
     return (
         <>
             {sortedList?.map((item) => {
-                const isReminderDue = isOverDue(item?.taskDate);
+                const isReminderDue = getOverDue(item?.taskDate);
 
                 return (
                     <TaskListCard multi={taskList?.length > 1} background="white">

@@ -108,15 +108,20 @@ const timeZoneAbbreviated = () => {
     }
 };
 
+/**
+ * Checks if the given date is overdue by comparing the difference in milliseconds.
+ * @param {string | Date} value - The date to compare against the current date.
+ * @returns {boolean} - Returns true if the given date is overdue, false otherwise.
+ */
 export const getOverDue = (value) => {
-    let date = convertUTCDateToLocalDate(value);
-    let one = dateFormatter(new Date(), "MM/DD/yyyy");
-    let two = dateFormatter(date, "MM/DD/yyyy");
+    const localDate = convertUTCDateToLocalDate(value); // Convert the UTC date to local date
 
-    const result = differenceInDays(new Date(one), new Date(two));
-    if (result > 0) {
-        return `${result.toString()} Day${result.toString() > 1 ? "s" : ""} Overdue`;
-    } else return false;
+    const currentDateInMilliSeconds = new Date().getTime(); // Get current date in milliseconds
+    const targetDateInMilliSeconds = new Date(localDate).getTime(); // Convert target date to milliseconds
+
+    const timeDifference = currentDateInMilliSeconds - targetDateInMilliSeconds; // Difference in milliseconds
+
+    return timeDifference > 0; // Return true if the difference is greater than 0, meaning overdue
 };
 
 export const isOverDue = (value) => {
