@@ -72,7 +72,7 @@ function FilterResultBanner() {
                 ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"}
                 <span style="font-weight:bold">${label}</span>
               </span>`;
-                } else if (section.option) {
+                } else if (section?.option) {
                     thisItemLabel = `<span>
                 ${section.heading} ${
                         item.selectedIsOption === "is_not" ? "is not" : "is"
