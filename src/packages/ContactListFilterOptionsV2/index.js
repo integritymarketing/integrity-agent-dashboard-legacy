@@ -50,21 +50,18 @@ export default function ContactListFilterOptionsV2({
         async function fetchData() {
             isApiCallInitiated.current = true;
             const path = "Tag/TagsGroupByCategory?mappedLeadTagsOnly=true";
-            const path1 = "Tag/TagsGroupByCategory?mappedLeadTagsOnly=false";
-            const [data, dataWithFalse] = await Promise.all([
-                fetchLeadTags(null, false, path),
-                fetchLeadTags(null, false, path1),
-            ]);
+            const data = await fetchLeadTags(null, false, path);
+
             const campaignTitleObject = data?.find((item) => item.tagCategoryName === "Campaign Title");
             const carrierTagsObject = data?.find((item) => item.tagCategoryName === "Carrier");
 
-            const productStatusObject = dataWithFalse?.find((item) => item.tagCategoryName === "Product Status");
-            const productTypeObject = dataWithFalse?.find((item) => item.tagCategoryName === "Product Type");
-            const healthSoAObject = dataWithFalse?.find((item) => item.tagCategoryName === "Health SOA");
+            const productStatusObject = data?.find((item) => item.tagCategoryName === "Product Status");
+            const productTypeObject = data?.find((item) => item.tagCategoryName === "Product Type");
+            const healthSoAObject = data?.find((item) => item.tagCategoryName === "Health SOA");
 
-            const campaignSourceObject = dataWithFalse?.find((item) => item.tagCategoryName === "Campaign Source");
-            const campaignTypeObject = dataWithFalse?.find((item) => item.tagCategoryName === "Campaign Type");
-            const campaignInterestObject = dataWithFalse?.find((item) => item.tagCategoryName === "Campaign Interest");
+            const campaignSourceObject = data?.find((item) => item.tagCategoryName === "Campaign Source");
+            const campaignTypeObject = data?.find((item) => item.tagCategoryName === "Campaign Type");
+            const campaignInterestObject = data?.find((item) => item.tagCategoryName === "Campaign Interest");
 
             const askIntegrityObject = data?.find(
                 (item) => item.tagCategoryName === "Ask Integrity Suggests" && item.tags.length > 0
@@ -388,7 +385,6 @@ export default function ContactListFilterOptionsV2({
                     return (
                         <FilterSectionBox
                             section={section}
-                            isSingleSelect={isSingleSelect}
                             freezeAndOption={hasStageAndReminderNext}
                             filterSectionsConfig={filterSectionsConfig}
                             key={section.id + section.nextAndOrOption}
@@ -401,8 +397,7 @@ export default function ContactListFilterOptionsV2({
                         />
                     );
                 })}
-                {((selectedFilterSections?.length === 0 && isSingleSelect) ||
-                    (selectedFilterSections?.length < 3 && !isSingleSelect)) && (
+                {selectedFilterSections.length < 3 && (
                     <Button
                         data-gtm="contacts-add-new"
                         icon={<ChevronLeft className={styles.chevronIcon} />}
@@ -523,19 +518,17 @@ export default function ContactListFilterOptionsV2({
                     </Box>
                 </StyledPopover>
             </Box>
-            {!isSingleSelect && (
-                <Box className={styles.footer}>
-                    {selectedFilterSections.length > 0 && (
-                        <Button
-                            className={styles.footerCloseButton}
-                            icon={<Icon className={styles.footerCloseIcon} image={Close} />}
-                            iconPosition={"right"}
-                            label={"Clear All"}
-                            onClick={handleClearAllClick}
-                        />
-                    )}
-                </Box>
-            )}
+            <Box className={styles.footer}>
+                {selectedFilterSections.length > 0 && (
+                    <Button
+                        className={styles.footerCloseButton}
+                        icon={<Icon className={styles.footerCloseIcon} image={Close} />}
+                        iconPosition={"right"}
+                        label={"Clear All"}
+                        onClick={handleClearAllClick}
+                    />
+                )}
+            </Box>
         </Box>
     );
 }
