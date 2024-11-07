@@ -1,0 +1,106 @@
+@import "../../../scss/globalDefines.scss";
+
+.suggestedContactsMain {
+  padding: 20px 20px 0 20px;
+  box-sizing: border-box;
+  background-color: #052A63;
+  position: fixed;
+  bottom: 75px;
+  scrollbar-width: none;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: 28rem;
+  z-index: 2;
+
+  @include medium {
+    width: 24rem;
+  }
+
+  @include small {
+    width: 100%;
+  }
+}
+
+.suggestedContactsContainer {
+  height: 180px;
+  box-sizing: border-box;
+  background-color: #052A63;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+
+  .contactEntry:first-child {
+    border-radius: 10px 10px 0 0;
+  }
+  .contactEntry:last-child {
+    border-radius: 0 0 10px 10px;
+    border-bottom: none;
+  }
+}
+
+.contactEntry {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #375582;
+  border-bottom: 1px solid #889BB5;
+  cursor: pointer;
+}
+
+.contactDetails {
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  font-family: "Lato", sans-serif;
+  gap: 4px;
+  width: 80%;
+}
+
+.contactNameText {
+  font-size: 21px;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.3;
+  word-break: break-all;
+}
+
+.contactAddressText,
+.contactBirthdateText,
+.contactContactText {
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.2;
+  padding: 3px;
+  max-width: 20vw;
+  word-break: break-all;
+
+  @include small {
+    max-width: 70vw;
+  }
+}
+
+.contactLabel {
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.contactValue {
+  margin-left: 2px;
+  font-style: italic;
+  color: #ffffff;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.continueIcon {
+  width: 40px;
+  height: 40px;
+}
+
+.spinnerContainer > .spinner {
+  margin: 20% auto;
+}

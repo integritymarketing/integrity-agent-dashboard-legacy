@@ -33,6 +33,7 @@ const styleOptions = {
     spacing: {
         small: 2,
     },
+    sendBoxPadding: "0 12px 0 40px",
 };
 
 export default styleOptions;

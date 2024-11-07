@@ -8,7 +8,7 @@ import "./WebChat.scss";
 import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
 import useAnalytics from "hooks/useAnalytics";
-import { useAuth0 } from "@auth0/auth0-react";
+import {useAuth0} from "@auth0/auth0-react";
 import ChatIcon from "./askintegrity-logo.jpg";
 import HideIcon from "./hide-icon.png";
 import openAudio from "./open.mp3";
@@ -16,27 +16,68 @@ import closeAudio from "./close.mp3";
 import Info from "components/icons/info-blue";
 import useDeviceType from "hooks/useDeviceType";
 import AskIntegrityFeedback from "./AskIntegrityInfoContainer/AskIntegrityFeedback";
+import useFetch from "hooks/useFetch";
+import SearchIcon from "@mui/icons-material/Search";
+import debounce from "lodash.debounce";
 import styleOptions from "./webChatStyleOptions";
+import SuggestedContacts from "./AutoComplete/SuggestedContacts";
 
 const WebChatComponent = () => {
-    const { getAccessTokenSilently } = useAuth0();
-    const { npn, fullName } = useUserProfile();
+
+    const WHICH_CONTACT_PART_STRING = "Which contact would you like for your";
+    const {getAccessTokenSilently} = useAuth0();
+    const {npn, fullName} = useUserProfile();
     const showToast = useToast();
     const audioRefOpen = useRef(null);
     const audioRefClose = useRef(null);
     const chatRef = useRef(null);
-    const { fireEvent } = useAnalytics();
-    const { isDesktop } = useDeviceType();
+    const {fireEvent} = useAnalytics();
+    const {isDesktop} = useDeviceType();
     const [directLineToken, setDirectLineToken] = useState(null);
     const [showAskIntegrityFeedback, setShowAskIntegrityFeedback] = useState(false);
     const [isChatActive, setIsChatActive] = useState(false);
+    const [searchText, setSearchText] = useState("");
+    const [isContactsLoading, setIsContactsLoading] = useState(false);
+    const [suggestedContacts, setSuggestedContacts] = useState([]);
+    const [lastMessage, setLastMessage] = useState(null);
     const [skipFeedbackInfo, setSkipFeedbackInfo] = useState(false);
+
+    const {Get: getSuggestedContacts} = useFetch(
+        `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads?Search=${searchText}&IncludeContactPreference=true&Sort=CreateDate:desc`
+    );
+
+    const showSelectContactPrompt = useCallback(() => {
+        return lastMessage?.includes(WHICH_CONTACT_PART_STRING);
+    }, [lastMessage]);
+
+    useEffect(() => {
+        const debouncedFetch = debounce(async () => {
+            if (searchText.length > 1 && showSelectContactPrompt()) {
+                setIsContactsLoading(true);
+                try {
+                    const suggestedContactsResponse = await getSuggestedContacts();
+                    setSuggestedContacts(suggestedContactsResponse?.result || []);
+                } finally {
+                    setIsContactsLoading(false);
+                }
+            } else {
+                setSuggestedContacts([]);
+                setIsContactsLoading(false);
+            }
+        }, 500);
+
+        debouncedFetch();
+
+        return () => {
+            debouncedFetch.cancel();
+        };
+    }, [searchText, lastMessage]);
 
     const fetchDirectLineToken = useCallback(async () => {
         try {
             const response = await fetch(process.env.REACT_APP_DIRECT_LINE, {
                 method: "POST",
-                body: JSON.stringify({ marketerId: npn }),
+                body: JSON.stringify({marketerId: npn}),
             });
 
             if (response.ok) {
@@ -52,24 +93,45 @@ const WebChatComponent = () => {
         }
     }, [npn, showToast]);
 
-    const clearChatAndFetchToken = useCallback(async () => {
-        const container = document.querySelector(".webchat__basic-transcript__transcript");
-        if (container) {
-            container.innerHTML = "";
-        }
-        await fetchDirectLineToken();
-    }, [fetchDirectLineToken]);
-
     const clearChat = useCallback(() => {
         const container = document.querySelector(".webchat__basic-transcript__transcript");
         if (container) {
             container.innerHTML = "";
         }
+        setSuggestedContacts([]);
+        setLastMessage("");
+        setSearchText("");
+        store.dispatch({
+            type: "WEB_CHAT/SET_SEND_BOX",
+            payload: {text: ""},
+        });
+    }, []);
+
+    const clearChatAndFetchToken = useCallback(async () => {
+        clearChat();
+        await fetchDirectLineToken();
+    }, [clearChat, fetchDirectLineToken]);
+
+    const clearChatAndSendContact = useCallback((contactFullName) => {
+        setSuggestedContacts([]);
+        setLastMessage("");
+        setSearchText("");
+
+        store.dispatch({
+            type: "WEB_CHAT/SET_SEND_BOX",
+            payload: {text: ""},
+        });
+
+        store.dispatch({
+            type: "WEB_CHAT/SEND_MESSAGE",
+            payload: {text: contactFullName},
+        });
     }, []);
 
     const closeChat = useCallback(() => {
         clearChat();
         setShowAskIntegrityFeedback(false);
+        setSearchText("");
         if (isChatActive) {
             setIsChatActive(false);
             if (audioRefClose.current) {
@@ -94,7 +156,6 @@ const WebChatComponent = () => {
 
     useEffect(() => {
         let intervalId;
-
         if (isChatActive) {
             intervalId = setInterval(() => {
                 const inputElement = document.querySelector('[data-id="webchat-sendbox-input"]');
@@ -107,7 +168,6 @@ const WebChatComponent = () => {
                 }
             }, 500);
         }
-
         return () => clearInterval(intervalId);
     }, [isChatActive, isDesktop]);
 
@@ -120,26 +180,21 @@ const WebChatComponent = () => {
         };
     }, [isChatActive]);
 
-    const directLine = useMemo(() => createDirectLine({ token: directLineToken }), [directLineToken]);
+    const directLine = useMemo(() => createDirectLine({token: directLineToken}), [directLineToken]);
 
-    const overrideLocalizedStrings = {
-        TEXT_INPUT_PLACEHOLDER: "Ask Integrity",
-    };
+    const overrideLocalizedStrings = {TEXT_INPUT_PLACEHOLDER: showSelectContactPrompt() ? " Search for Contact..." : " Ask Integrity..."};
 
     const openChat = useCallback(async () => {
         fireEvent("AI - Ask Integrity Global Icon Clicked");
         setIsChatActive(true);
-        const container = document.querySelector(".webchat__basic-transcript__transcript");
-        if (container) {
-            container.innerHTML = "";
-        }
+        clearChat();
         if (audioRefOpen.current) {
             audioRefOpen.current.play().catch((error) => {
                 Sentry.captureException(error);
             });
         }
         await fetchDirectLineToken();
-    }, [fireEvent, fetchDirectLineToken]);
+    }, [fireEvent, fetchDirectLineToken, clearChat]);
 
     const goToContactDetailPage = useCallback(
         (leadId) => {
@@ -149,50 +204,9 @@ const WebChatComponent = () => {
         [clearChat],
     );
 
-    const handlePostActivity = useCallback(
-        async (action, dispatch) => {
-            if (action?.meta === "imBack") {
-                fireEvent("AI - Ask Integrity Playback Received", {
-                    intent_name: action?.payload?.activity?.text,
-                    message_card_id: action?.payload?.activity?.text,
-                });
-            }
-
-            if (action?.payload?.activity?.value?.leadId) {
-                fireEvent("AI - Ask Integrity CTA Clicked", {
-                    leadid: action?.payload?.activity?.value?.leadId,
-                    cta_name: action?.payload?.activity?.value?.name,
-                    intent_name: action?.payload?.activity?.value?.dialogId,
-                    message_card_id: action?.payload?.activity?.value?.dialogId,
-                });
-            }
-
-            if (
-                action?.payload?.activity?.name !== "webchat/join" &&
-                action?.payload?.activity?.value?.data?.dialogId
-            ) {
-                fireEvent("AI - Ask Integrity Playback Received", {
-                    leadid: action?.payload?.activity?.value?.data?.leadId,
-                    message_card_id: action?.payload?.activity?.value?.data?.dialogId,
-                });
-            }
-
-            const accessToken = await getAccessTokenSilently();
-            const activity = action.payload.activity;
-
-            if (activity.type === "message") {
-                handleMessageActivity(activity, accessToken, dispatch);
-            } else if (activity.type === "event") {
-                handleEventActivity(activity);
-            }
-        },
-        [fireEvent, getAccessTokenSilently],
-    );
-
     const handleMessageActivity = useCallback(
         (activity, accessToken, dispatch) => {
-            const message = activity.text || activity.value?.dropDownInfo || activity.value?.text;
-            activity.text = message;
+            activity.text = activity.text || activity.value?.dropDownInfo || activity.value?.text;
 
             const channelData = activity.channelData || {};
             channelData.authToken = `Bearer ${accessToken}`;
@@ -210,6 +224,16 @@ const WebChatComponent = () => {
                     setShowAskIntegrityFeedback(true);
                     setSkipFeedbackInfo(true);
                     setIsChatActive(false);
+                } else if (activityValue.name === "mc_Ask_Something_Else") {
+                    clearChat();
+                    dispatch({
+                        type: "WEB_CHAT/SEND_MESSAGE",
+                        payload: {text: "Ask something else"},
+                    });
+                    const inputElement = document.querySelector('[data-id="webchat-sendbox-input"]');
+                    if (inputElement) {
+                        inputElement.focus();
+                    }
                 }
             }
 
@@ -252,6 +276,46 @@ const WebChatComponent = () => {
         }
     }, []);
 
+    const handlePostActivity = useCallback(
+        async (action, dispatch) => {
+            if (action?.meta === "imBack") {
+                fireEvent("AI - Ask Integrity Playback Received", {
+                    intent_name: action?.payload?.activity?.text,
+                    message_card_id: action?.payload?.activity?.text,
+                });
+            }
+
+            if (action?.payload?.activity?.value?.leadId) {
+                fireEvent("AI - Ask Integrity CTA Clicked", {
+                    leadid: action?.payload?.activity?.value?.leadId,
+                    cta_name: action?.payload?.activity?.value?.name,
+                    intent_name: action?.payload?.activity?.value?.dialogId,
+                    message_card_id: action?.payload?.activity?.value?.dialogId,
+                });
+            }
+
+            if (
+                action?.payload?.activity?.name !== "webchat/join" &&
+                action?.payload?.activity?.value?.data?.dialogId
+            ) {
+                fireEvent("AI - Ask Integrity Playback Received", {
+                    leadid: action?.payload?.activity?.value?.data?.leadId,
+                    message_card_id: action?.payload?.activity?.value?.data?.dialogId,
+                });
+            }
+
+            const accessToken = await getAccessTokenSilently();
+            const activity = action.payload.activity;
+
+            if (activity.type === "message") {
+                handleMessageActivity(activity, accessToken, dispatch);
+            } else if (activity.type === "event") {
+                handleEventActivity(activity);
+            }
+        },
+        [fireEvent, getAccessTokenSilently, handleMessageActivity, handleEventActivity],
+    );
+
     const handleIncomingActivity = useCallback(
         (action) => {
             const activity = action.payload.activity;
@@ -272,10 +336,13 @@ const WebChatComponent = () => {
 
     const store = useMemo(
         () =>
-            createStore({}, ({ dispatch }) => (next) => async (action) => {
+            createStore({}, ({dispatch}) => (next) => async (action) => {
                 switch (action.type) {
+                    case "WEB_CHAT/SET_SEND_BOX":
+                        setSearchText(action.payload?.text || "");
+                        break;
                     case "WEB_CHAT/SUBMIT_SEND_BOX":
-                        fireEvent("AI - Ask Integrity Input Sent", { input_type: "text" });
+                        fireEvent("AI - Ask Integrity Input Sent", {input_type: "text"});
                         break;
 
                     case "DIRECT_LINE/CONNECT_FULFILLED": {
@@ -304,6 +371,9 @@ const WebChatComponent = () => {
 
                     case "DIRECT_LINE/INCOMING_ACTIVITY":
                         handleIncomingActivity(action);
+                        if (action.payload?.activity?.text) {
+                            setLastMessage(action.payload.activity.text);
+                        }
                         break;
 
                     default:
@@ -340,15 +410,14 @@ const WebChatComponent = () => {
             </div>
         );
     }
-
     return (
         <div className={styles.container} ref={chatRef}>
             <div
                 id="webchat"
                 className={cx(
                     styles.chatSidebar,
-                    { [styles.active]: isChatActive },
-                    { [styles.feedbackInfoSidebar]: showAskIntegrityFeedback },
+                    {[styles.active]: isChatActive},
+                    {[styles.feedbackInfoSidebar]: showAskIntegrityFeedback},
                 )}
             >
                 {!showAskIntegrityFeedback && (
@@ -363,18 +432,32 @@ const WebChatComponent = () => {
                             <p className={styles.headerText}>
                                 <span>Ask Integrity</span>
                                 <span className={styles.infoLogo} onClick={handleOpenAskIntegrityFeedback}>
-                                    <Info />
+                                    <Info/>
                                 </span>
                             </p>
-                            <img onClick={closeChat} className={styles.hideIcon} src={HideIcon} alt="Hide Icon" />
+                            <img onClick={closeChat} className={styles.hideIcon} src={HideIcon} alt="Hide Icon"/>
                         </div>
                         {directLineToken && (
-                            <ReactWebChat
-                                store={store}
-                                directLine={directLine}
-                                styleOptions={styleOptions}
-                                overrideLocalizedStrings={overrideLocalizedStrings}
-                            />
+                            <div>
+                                <SuggestedContacts
+                                    suggestedContacts={suggestedContacts}
+                                    isContactsLoading={isContactsLoading}
+                                    onContactSelect={clearChatAndSendContact}
+                                />
+
+                                <div>
+                                    <SearchIcon className="webchat-searchbox-icon" aria-label="search"
+                                                edge="end"></SearchIcon>
+                                    {directLine && (
+                                        <ReactWebChat
+                                            directLine={directLine}
+                                            store={store}
+                                            styleOptions={styleOptions}
+                                            overrideLocalizedStrings={overrideLocalizedStrings}
+                                        />
+                                    )}
+                                </div>
+                            </div>
                         )}
                     </>
                 )}
@@ -382,11 +465,11 @@ const WebChatComponent = () => {
             {!isChatActive && (
                 <div onClick={openChat} className={styles.chatIconWrapper}>
                     <p className={styles.chatIconText}>Ask Integrity</p>
-                    <img className={styles.chatIcon} src={ChatIcon} alt="Chat Icon" />
+                    <img className={styles.chatIcon} src={ChatIcon} alt="Chat Icon"/>
                 </div>
             )}
-            <audio ref={audioRefOpen} src={openAudio} />
-            <audio ref={audioRefClose} src={closeAudio} />
+            <audio ref={audioRefOpen} src={openAudio}/>
+            <audio ref={audioRefClose} src={closeAudio}/>
         </div>
     );
 };
