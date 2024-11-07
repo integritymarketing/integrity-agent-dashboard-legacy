@@ -17,4 +17,7 @@
     align-items: center;
     padding: 12px 8px;
     cursor: pointer;
+    &:hover {
+        background-color: #f1faff;
+    }
 }

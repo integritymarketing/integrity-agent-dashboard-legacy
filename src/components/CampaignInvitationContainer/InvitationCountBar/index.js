@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 import ClearFilterButton from "./ClearFilterButton";
@@ -16,7 +15,7 @@ const InvitationCountBar = () => {
         filteredEligibleCount,
         campaignStatuses,
         actionDescription,
-        resetSecond
+        resetSecond,
     } = useCampaignInvitation();
 
     const readOnly = campaignStatus === campaignStatuses.COMPLETED;
@@ -26,7 +25,12 @@ const InvitationCountBar = () => {
     };
 
     const showClearFilterButton = () => {
-        return (campaignActionType === "a contact" || campaignActionType === "contacts filtered by…") && !readOnly;
+        return (
+            (campaignActionType === "a contact" ||
+                campaignActionType === "contacts filtered by…" ||
+                campaignActionType === "a contact when") &&
+            !readOnly
+        );
     };
 
     // Define the words to be styled in black
@@ -66,13 +70,14 @@ const InvitationCountBar = () => {
                     </>
                 )}
 
-                {campaignActionType === "contacts filtered by…" && (
+                {(campaignActionType === "contacts filtered by…" || campaignActionType === "a contact when") && (
                     <>
                         {sendText} <span className={styles.count}>{filteredCount}</span> of{" "}
                         <span className={styles.count}>{filteredEligibleCount}</span> contacts
                     </>
                 )}
                 {campaignActionType !== "contacts filtered by…" &&
+                    campaignActionType !== "a contact when" &&
                     campaignActionType !== "a contact" &&
                     campaignActionType !== "all contacts" &&
                     campaignActionType !== "" && (
@@ -88,14 +93,16 @@ const InvitationCountBar = () => {
 
                 {campaignActionType === "all contacts" && "All Contacts"}
 
-                {campaignActionType === "contacts filtered by…" && filteredContentStatus && (
-                    <span
-                        dangerouslySetInnerHTML={{
-                            __html: `${filteredContentStatus}`,
-                        }}
-                    ></span>
-                )}
+                {(campaignActionType === "contacts filtered by…" || campaignActionType === "a contact when") &&
+                    filteredContentStatus && (
+                        <span
+                            dangerouslySetInnerHTML={{
+                                __html: `${filteredContentStatus}`,
+                            }}
+                        ></span>
+                    )}
                 {campaignActionType !== "contacts filtered by…" &&
+                    campaignActionType !== "a contact when" &&
                     campaignActionType !== "a contact" &&
                     campaignActionType !== "all contacts" &&
                     campaignActionType !== "" && (
@@ -115,20 +122,6 @@ const InvitationCountBar = () => {
             )}
         </Box>
     );
-};
-
-InvitationCountBar.propTypes = {
-    campaignActionType: PropTypes.string,
-    filteredContentStatus: PropTypes.string,
-    filteredCount: PropTypes.number,
-    totalContactsCount: PropTypes.number,
-    eligibleContactsLength: PropTypes.number,
-    contactName: PropTypes.string,
-    campaignStatus: PropTypes.string,
-    filteredEligibleCount: PropTypes.number,
-    campaignStatuses: PropTypes.object,
-    actionDescription: PropTypes.string,
-    resetSecond: PropTypes.func,
 };
 
 export default InvitationCountBar;

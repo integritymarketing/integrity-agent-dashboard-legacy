@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { Typography, Box } from "@mui/material";
 import { CustomModal } from "components/MuiComponents";
 import SendIcon from "@mui/icons-material/Send";
+import StartIcon from "components/icons/Marketing/start";
 import styles from "./styles.module.scss";
 
-const SendCampaignModal = ({ isModalOpen, setIsModalOpen, onSend, actionButtonName = "Send" }) => {
+const SendCampaignModal = ({ isModalOpen, setIsModalOpen, onSend, actionButtonName = "Send", advanceMode }) => {
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
@@ -17,7 +18,7 @@ const SendCampaignModal = ({ isModalOpen, setIsModalOpen, onSend, actionButtonNa
 
     return (
         <CustomModal
-            title="Send Campaign"
+            title={advanceMode ? "Start Campaign" : "Send Campaign"}
             open={isModalOpen}
             handleClose={handleCloseModal}
             showCloseButton
@@ -26,12 +27,14 @@ const SendCampaignModal = ({ isModalOpen, setIsModalOpen, onSend, actionButtonNa
             footer
             handleSave={handleSendCampaign}
             shouldShowCancelButton={true}
-            saveLabel={actionButtonName}
-            footerActionIcon={<SendIcon alt="Send icon" />}
+            saveLabel={advanceMode ? "Start" : actionButtonName}
+            footerActionIcon={advanceMode ? <StartIcon /> : <SendIcon alt="Send icon" />}
         >
             <Box className={styles.modalContent}>
                 <Typography variant="body1">
-                    Are you sure you want to send this campaign? Sent messages cannot be unsent.
+                    Are you sure you want to {advanceMode ? "start" : "send"} this campaign? Sent messages cannot be
+                    unsent.
+                    {advanceMode && "You can pause this campaign later."}
                 </Typography>
             </Box>
         </CustomModal>

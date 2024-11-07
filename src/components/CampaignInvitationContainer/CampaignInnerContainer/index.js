@@ -12,6 +12,7 @@ import AdvancedModeToggle from "../AdvancedModeToggle";
 import SendCampaignModal from "../SendCampaignModal/SendCampaignModal";
 import TemplateDescriptionCard from "../TemplateDescriptionCard";
 import ActionPopoverContainer from "components/ClientConnectMarketing/ActionPopover";
+import StartIcon from "components/icons/Marketing/start";
 
 const CampaignInnerContainer = () => {
     const {
@@ -32,9 +33,11 @@ const CampaignInnerContainer = () => {
         templateDescription,
         handleGetCampaignDetailsById,
         filteredContentStatus,
+        isAdvancedMode,
     } = useCampaignInvitation();
 
-    const readOnly = campaignStatus === campaignStatuses.COMPLETED;
+    const readOnly = campaignStatus !== campaignStatuses.DRAFT;
+    const advanceMode = isAdvancedMode && campaignActionType === "a contact when";
     const selectedFilters = JSON.parse(sessionStorage.getItem("campaign_contactList_selectedFilterSections"));
 
     const [showPreview, setShowPreview] = useState(false);
@@ -59,7 +62,7 @@ const CampaignInnerContainer = () => {
         Boolean(campaignChannel) &&
         Boolean(campaignActionType) &&
         ((campaignActionType === "all contacts" && allContactsList?.length !== 0) ||
-            (campaignActionType === "contacts filtered by…" &&
+            ((campaignActionType === "contacts filtered by…" || campaignActionType === "a contact when") &&
                 selectedFilters?.length !== 0 &&
                 filteredContentStatus) ||
             (campaignActionType === "a contact" && selectedContact) ||
@@ -87,7 +90,8 @@ const CampaignInnerContainer = () => {
     const saveButtonDisabled =
         isStartCampaignLoading ||
         isUpdateCampaignLoading ||
-        (campaignActionType === "contacts filtered by…" && filteredContactsList?.length === 0) ||
+        ((campaignActionType === "contacts filtered by…" || campaignActionType === "a contact when") &&
+            filteredContactsList?.length === 0) ||
         !allSelected;
 
     return (
@@ -132,7 +136,7 @@ const CampaignInnerContainer = () => {
             </Box>
 
             <Box className={styles.content}>
-                <CampaignFlowContainer showPreview={showPreview} allSelected={allSelected} />
+                <CampaignFlowContainer showPreview={showPreview} allSelected={allSelected} readOnly={readOnly} />
                 {showPreviewButton && (
                     <Box className={styles.previewCampaignButton}>
                         <Button
@@ -169,20 +173,21 @@ const CampaignInnerContainer = () => {
                             size="medium"
                             variant="contained"
                             color="primary"
-                            endIcon={<img src={ArrowForwardCircle} alt="Arrow forward" />}
+                            endIcon={advanceMode ? <StartIcon /> : <img src={ArrowForwardCircle} alt="Arrow forward" />}
                             onClick={() => {
                                 setIsSendCampaignModalOpen(true);
                             }}
                             disabled={saveButtonDisabled}
                         >
-                            Send Campaign
+                            {advanceMode ? "Start" : "Send"} Campaign
                         </Button>
                         <SendCampaignModal
                             isModalOpen={isSendCampaignModalOpen}
                             setIsModalOpen={setIsSendCampaignModalOpen}
+                            advanceMode={advanceMode}
                             onSend={() => {
                                 handleCreateOrUpdateCampaign({
-                                    campaign_Status: campaignStatuses.SUBMITTED,
+                                    campaign_Status: advanceMode ? campaignStatuses.ACTIVE : campaignStatuses.SUBMITTED,
                                 });
                             }}
                         />
@@ -190,7 +195,7 @@ const CampaignInnerContainer = () => {
                 )}
             </Box>
 
-            {false && !readOnly && (
+            {!readOnly && campaignChannel === "Email" && (
                 <Box className={styles.advancedModeToggle}>
                     <AdvancedModeToggle />
                 </Box>

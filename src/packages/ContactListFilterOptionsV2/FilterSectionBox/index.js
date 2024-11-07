@@ -3,7 +3,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Icon from "components/Icon";
 import styles from "./styles.module.scss";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ArrowDownBlue from "components/icons/version-2/ArrowDownBlue";
 import Close from "../icons/close.svg";
 import { Text } from "@integritymarketing/ui-text-components";
@@ -30,6 +30,7 @@ export default function FilterSectionBox({
     isFilterSelectOpenForSection,
     onChangeNextAndOrOption,
     filterSectionsConfig,
+    isSingleSelect,
 }) {
     const [filterIsConditionValue, setFilterIsConditionValue] = useState(section.selectedIsOption || "is");
     const [filterValue, setFilterValue] = useState(section.selectedFilterOption);
@@ -70,52 +71,62 @@ export default function FilterSectionBox({
         <>
             <Text className={styles.sectionHeading} text={configData?.heading} />
             <Box className={`${styles.sectionContent} ${filterValue ? "" : styles.sectionContentInline}`}>
-                {filterValue && (
-                    <Select
-                        IconComponent={() => <ArrowDownBlue />}
-                        value={filterIsConditionValue}
-                        className={styles.selectBox}
-                        onChange={(e) => onChangeIsOption(e.target.value)}
-                        MenuProps={{
-                            PaperProps: {
-                                sx: {
-                                    borderRadius: "8px",
-                                },
-                            },
-                        }}
-                        sx={{
-                            svg: {
-                                pointerEvents: "none",
-                                position: "absolute",
-                                right: "5px",
-                            },
-                            color: "#434A51",
-                            width: "125px",
-                            height: "45px",
-                            paddingRight: "5px",
-                            borderColor: "#DDDDDD",
-                            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                borderColor: "#DDDDDD",
-                            },
-                            ".MuiSelect-outlined": { padding: "0px 7px", paddingRight: "0px !important" },
-                            ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" },
-                            ".MuiOutlinedInput-root-MuiSelect-root.Mui-disabled": { cursor: "not-allowed" },
-                            "&:hover": { ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" } },
-                        }}
-                    >
-                        {IS_DROPDOWN_SELECT_OPTIONS.map(({ value, label }) => (
-                            <MenuItem
-                                className={styles.menuItem}
-                                value={value}
-                                key={value}
-                                onClick={() => onIsSelectItemClickHandle(value)}
+                {isSingleSelect ? (
+                    <Box paddingLeft={"5px"}>
+                        <Typography variant="body1" className={styles.becomesText}>
+                            becomes
+                        </Typography>
+                    </Box>
+                ) : (
+                    <>
+                        {filterValue && (
+                            <Select
+                                IconComponent={() => <ArrowDownBlue />}
+                                value={filterIsConditionValue}
+                                className={styles.selectBox}
+                                onChange={(e) => onChangeIsOption(e.target.value)}
+                                MenuProps={{
+                                    PaperProps: {
+                                        sx: {
+                                            borderRadius: "8px",
+                                        },
+                                    },
+                                }}
+                                sx={{
+                                    svg: {
+                                        pointerEvents: "none",
+                                        position: "absolute",
+                                        right: "5px",
+                                    },
+                                    color: "#434A51",
+                                    width: "125px",
+                                    height: "45px",
+                                    paddingRight: "5px",
+                                    borderColor: "#DDDDDD",
+                                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                        borderColor: "#DDDDDD",
+                                    },
+                                    ".MuiSelect-outlined": { padding: "0px 7px", paddingRight: "0px !important" },
+                                    ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" },
+                                    ".MuiOutlinedInput-root-MuiSelect-root.Mui-disabled": { cursor: "not-allowed" },
+                                    "&:hover": { ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" } },
+                                }}
                             >
-                                <Box paddingLeft={"5px"}>
-                                    <Box fontStyle={"italic"}>{label}</Box>
-                                </Box>
-                            </MenuItem>
-                        ))}
-                    </Select>
+                                {IS_DROPDOWN_SELECT_OPTIONS.map(({ value, label }) => (
+                                    <MenuItem
+                                        className={styles.menuItem}
+                                        value={value}
+                                        key={value}
+                                        onClick={() => onIsSelectItemClickHandle(value)}
+                                    >
+                                        <Box paddingLeft={"5px"}>
+                                            <Box fontStyle={"italic"}>{label}</Box>
+                                        </Box>
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        )}
+                    </>
                 )}
                 {configData?.options && (
                     <Box display={"flex"} width={"80%"}>
@@ -249,18 +260,19 @@ export default function FilterSectionBox({
                             "&:hover": { ".MuiOutlinedInput-notchedOutline": { borderColor: "#DDDDDD" } },
                         }}
                     >
-                        {ANDOR_DROPDOWN_SELECT_OPTIONS.map(({ value, label }) => (
-                            <MenuItem
-                                className={styles.menuItem}
-                                value={value}
-                                key={value}
-                                onClick={() => onAndOrSelectItemClickHandle(value)}
-                            >
-                                <Box paddingLeft={"5px"}>
-                                    <Box fontStyle={"italic"}>{label}</Box>
-                                </Box>
-                            </MenuItem>
-                        ))}
+                        {!isSingleSelect &&
+                            ANDOR_DROPDOWN_SELECT_OPTIONS.map(({ value, label }) => (
+                                <MenuItem
+                                    className={styles.menuItem}
+                                    value={value}
+                                    key={value}
+                                    onClick={() => onAndOrSelectItemClickHandle(value)}
+                                >
+                                    <Box paddingLeft={"5px"}>
+                                        <Box fontStyle={"italic"}>{label}</Box>
+                                    </Box>
+                                </MenuItem>
+                            ))}
                     </Select>
                 </Box>
             )}

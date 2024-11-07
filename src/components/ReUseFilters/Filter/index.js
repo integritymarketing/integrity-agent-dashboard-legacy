@@ -8,7 +8,7 @@ import ContactListFilterOptionsV2 from "packages/ContactListFilterOptionsV2";
 
 const DEFAULT_SORT = ["createDate:desc"];
 
-export default function CustomContactListFilter({ handleSummaryBarInfo, searchId }) {
+export default function CustomContactListFilter({ handleSummaryBarInfo, searchId, isSingleSelect }) {
     const [filterSectionsConfig, setFilterSectionsConfigState] = useState(
         JSON.parse(sessionStorage.getItem("campaign_contactList_filterSectionsConfig")) || {}
     );
@@ -61,14 +61,14 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                         andOrLabel = `<span> and </span>`;
                     }
                 }
-                if (section.options) {
+                if (section?.options) {
                     const label =
                         section.options.find((item1) => item1.value === item.selectedFilterOption)?.label || "";
                     thisItemLabel = `<span>
                 ${section.heading} ${item.selectedIsOption === "is_not" ? "is not" : "is"}
                 <span style="font-weight:bold">${label}</span>
               </span>`;
-                } else if (section.option) {
+                } else if (section?.option) {
                     thisItemLabel = `<span>
                 ${section.heading} ${
                         item.selectedIsOption === "is_not" ? "is not" : "is"
@@ -152,6 +152,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
             setFilterSectionsConfig={setFilterSectionsConfig}
             fetchedFiltersSectionConfigFromApi={fetchedFiltersSectionConfigFromApi}
             setFetchedFiltersSectionConfigFromApi={setFetchedFiltersSectionConfigFromApi}
+            isSingleSelect={isSingleSelect}
         />
     );
 }

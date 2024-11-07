@@ -1,4 +1,5 @@
 import { styled } from "@mui/system";
+import PropTypes from "prop-types";
 import Popover from "@mui/material/Popover";
 import styles from "./styles.module.scss";
 import { Box, Typography } from "@mui/material";
@@ -28,7 +29,7 @@ const StyledIconButton = styled(CloseIcon)(({ theme }) => ({
     },
 }));
 
-function ReUseFilters({ anchorEl, handleClose, handleSummaryBarInfo, searchId }) {
+function ReUseFilters({ anchorEl, handleClose, handleSummaryBarInfo, searchId, isSingleSelect }) {
     const open = Boolean(anchorEl);
     const id = anchorEl ? "simple-popover-filters" : undefined;
 
@@ -51,15 +52,27 @@ function ReUseFilters({ anchorEl, handleClose, handleSummaryBarInfo, searchId })
                 <Box>
                     <Box className={styles.filterHeader}>
                         <Typography variant="h5" sx={{ color: "#052A63" }}>
-                            Filter Contacts
+                            {isSingleSelect ? "When..." : "Filter Contacts"}
                         </Typography>
                         <StyledIconButton onClick={handleClose} />
                     </Box>
-                    <Filter handleSummaryBarInfo={handleSummaryBarInfo} searchId={searchId} />
+                    <Filter
+                        handleSummaryBarInfo={handleSummaryBarInfo}
+                        searchId={searchId}
+                        isSingleSelect={isSingleSelect}
+                    />
                 </Box>
             </Box>
         </StyledPopover>
     );
 }
+
+ReUseFilters.propTypes = {
+    anchorEl: PropTypes.object,
+    handleClose: PropTypes.func,
+    handleSummaryBarInfo: PropTypes.func,
+    searchId: PropTypes.string,
+    isSingleSelect: PropTypes.bool,
+};
 
 export default ReUseFilters;

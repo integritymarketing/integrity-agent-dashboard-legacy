@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import PropTypes from "prop-types";
 import { Box, Typography } from "@mui/material";
 import ArrowDownBig from "components/icons/version-2/ArrowDownBig";
 import styles from "./styles.module.scss";
@@ -6,7 +7,7 @@ import AllContacts from "components/icons/Marketing/allContacts";
 import FilterContacts from "components/icons/Marketing/filterContacts";
 import ChooseContact from "components/icons/Marketing/chooseContact";
 import CustomFilter from "components/icons/Marketing/customFilter";
-
+import WhenContactFilter from "components/icons/Marketing/aContactWhen";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
 import ReUseFilters from "components/ReUseFilters";
 import AutoCompleteContactSearchModal from "components/ChooseContactModal";
@@ -15,6 +16,7 @@ import CustomPopover from "components/CustomPopOver";
 const actionIcons = {
     "all contacts": <AllContacts />,
     "a contact": <ChooseContact />,
+    "a contact when": <WhenContactFilter />,
     "contacts filtered by…": <FilterContacts />,
 };
 
@@ -28,16 +30,12 @@ const contactOptions = [
     },
 ];
 
-const InvitationBar = () => {
+const InvitationBar = ({ readOnly }) => {
     const {
-        filteredContentStatus,
-        setFilteredContactsList,
         handleSummaryBarInfo,
         setSelectedContact,
         campaignChannel,
         contactName,
-        campaignStatus,
-        campaignStatuses,
         isFetchCampaignDetailsByEmailLoading,
         isFetchCampaignDetailsByTextLoading,
         isUpdateCampaignLoading,
@@ -49,6 +47,7 @@ const InvitationBar = () => {
         selectedContact,
         handleCreateOrUpdateCampaign,
         resetSecond,
+        resetThird,
         setActionOrderedId,
     } = useCampaignInvitation();
 
@@ -66,8 +65,6 @@ const InvitationBar = () => {
 
     const campaignActionOptions = campaignChannel === "Email" ? emailList : smsActionsList;
 
-    const readOnly = campaignStatus === campaignStatuses.COMPLETED;
-
     const [contactOptionOpen, setContactOptionOpen] = useState(null);
     const [chooseContactModalOpen, setChooseContactModalOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -79,7 +76,11 @@ const InvitationBar = () => {
             if (action === "a contact") {
                 sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
                 setChooseContactModalOpen(true);
-            } else if (action === "contacts filtered by…") {
+            } else if (action === "contacts filtered by…" || action === "a contact when") {
+                if (action !== campaignActionType) {
+                    resetThird();
+                    setActionOrderedId(0);
+                }
                 setAnchorEl(contactOptionOpen);
             } else {
                 sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
@@ -89,7 +90,7 @@ const InvitationBar = () => {
             }
             setContactOptionOpen(null);
         },
-        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription]
+        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription, resetSecond, campaignActionType]
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
@@ -99,18 +100,17 @@ const InvitationBar = () => {
 
         if (!filteredData || filteredData?.length === 0) {
             resetSecond();
-
             handleCreateOrUpdateCampaign({
                 campaign_ActionType: "empty",
             });
         }
-    }, [setAnchorEl, setFilteredContactsList, setCampaignActionType, filteredContentStatus]);
+    }, [setAnchorEl, resetSecond, handleCreateOrUpdateCampaign]);
 
     const handleContactOptions = useCallback(
         (event) => {
             setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
         },
-        [contactOptionOpen, campaignActionType]
+        [contactOptionOpen]
     );
 
     return (
@@ -131,9 +131,11 @@ const InvitationBar = () => {
             >
                 <Typography className={styles.bigOptionLink}>
                     {campaignActionType === "contacts filtered by…" && `Filtered contacts`}
+                    {campaignActionType === "a contact when" && "a contact when a tag is added"}
                     {campaignActionType === "a contact" && (contactName ? contactName : "")}
                     {campaignActionType !== "contacts filtered by…" &&
                     campaignActionType !== "a contact" &&
+                    campaignActionType !== "a contact when" &&
                     campaignActionType !== ""
                         ? campaignActionType
                         : ""}
@@ -146,6 +148,7 @@ const InvitationBar = () => {
                     anchorEl={contactOptionOpen}
                     handleAction={handleContactOptionsChange}
                     handleClose={() => setContactOptionOpen(null)}
+                    selected={campaignActionType}
                 />
             </Box>
 
@@ -154,6 +157,7 @@ const InvitationBar = () => {
                 handleClose={handleCloseFilterDropdown}
                 handleSummaryBarInfo={handleSummaryBarInfo}
                 searchId={contactSearchId}
+                isSingleSelect={campaignActionType === "a contact when"}
             />
 
             {!readOnly && chooseContactModalOpen && (
@@ -178,6 +182,10 @@ const InvitationBar = () => {
             )}
         </Box>
     );
+};
+
+InvitationBar.propTypes = {
+    readOnly: PropTypes.bool,
 };
 
 export default InvitationBar;

@@ -34,7 +34,8 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
         campaignDescriptionType,
         handleCreateOrUpdateCampaign,
         reset,
-        resetSecond,
+        resetThird,
+        setAdvancedMode,
     } = useCampaignInvitation();
 
     const readOnly = campaignStatus === campaignStatuses.COMPLETED;
@@ -59,6 +60,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
             getCampaignDetailsByEmail();
         } else if (value === "Sms") {
             getCampaignDetailsByText();
+            setAdvancedMode(false);
         }
 
         setCampaignChannel(value);
@@ -74,7 +76,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
     const handleEmailChannelOptionsChange = (value) => {
         setEmailOptionsOpen(null);
         handleTemplateData(value);
-        resetSecond();
+        resetThird();
         handleCreateOrUpdateCampaign({
             template_Id: value?.templateId,
             campaign_ActionType: "empty",

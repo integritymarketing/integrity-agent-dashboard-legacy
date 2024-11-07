@@ -5,7 +5,7 @@ import Option from "./option";
 import PropTypes from "prop-types";
 import { useOnClickOutside } from "hooks/useOnClickOutside";
 
-const CustomPopover = ({ options, anchorEl, handleAction, handleClose }) => {
+const CustomPopover = ({ options, anchorEl, handleAction, handleClose, selected }) => {
     const open = Boolean(anchorEl);
     const popperRef = useRef();
 
@@ -30,6 +30,7 @@ const CustomPopover = ({ options, anchorEl, handleAction, handleClose }) => {
                             optionText={option.optionText}
                             icon={option.icon}
                             onClick={() => handleAction(option.value)}
+                            selected={selected === option.optionText}
                         />
                         {index < options.length - 1 && <Box className={styles.divider} />}
                     </React.Fragment>
@@ -44,7 +45,7 @@ CustomPopover.propTypes = {
         PropTypes.shape({
             optionText: PropTypes.string.isRequired,
             icon: PropTypes.elementType,
-        }),
+        })
     ).isRequired,
     anchorEl: PropTypes.instanceOf(Element),
     open: PropTypes.bool.isRequired,
