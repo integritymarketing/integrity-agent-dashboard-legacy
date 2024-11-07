@@ -77,8 +77,8 @@ const LeadImporter = () => {
                     processChunk={async (rows) => {
                         // required, receives a list of parsed objects based on defined fields and user column mapping;
                         // may be called several times if file is large
-                        rows = rows.filter(item => {
-                            return Object.values(item).some(value => value !== '' && value !== null);
+                        rows = rows.filter((item) => {
+                            return Object.values(item).some((value) => value !== "" && value !== null);
                         });
                         const isValid = checkPhoneOrEmailPresent(rows);
                         if (isValid) {
@@ -111,25 +111,25 @@ const LeadImporter = () => {
                         navigate("/contacts");
                     }}
                 >
-                    <ImporterField name="firstName" label="First Name" />
-                    <ImporterField name="lastName" label="Last Name" />
-                    <ImporterField name="email" label="Email" optional />
-                    <ImporterField name="phone" label="Phone" optional />
-                    <ImporterField name="address1" label="Address 1" optional />
-                    <ImporterField name="address2" label="Address 2" optional />
-                    <ImporterField name="city" label="City" optional />
-                    <ImporterField name="state" label="State" optional />
-                    <ImporterField name="postalCode" label="Postal Code" optional />
-                    <ImporterField name="birthdate" label="Birthdate" optional />
-                    <ImporterField name="medicareBeneficiaryID" label="Medicare Beneficiary Id" optional />
-                    <ImporterField name="partA" label="Part A Effective Date" optional />
-                    <ImporterField name="partB" label="Part B Effective Date" optional />
-                    <ImporterField name="height" label="Height" optional />
-                    <ImporterField name="weight" label="Weight" optional />
-                    <ImporterField name="gender" label="Gender" optional />
-                    <ImporterField name="isTobaccoUser" label="Tobacco Use" optional />
-                    <ImporterField name="stage" label="Stage" optional />
-                    <ImporterField name="notes" label="Notes" optional />
+                    <ImporterField name="firstName" label="First Name (required)" />
+                    <ImporterField name="lastName" label="Last Name (required)" />
+                    <ImporterField name="email" label="Email (required)" optional />
+                    <ImporterField name="phone" label="Phone (required, 10 digits)" optional />
+                    <ImporterField name="address1" label="Address1 (optional)" optional />
+                    <ImporterField name="address2" label="Address2 (optional)" optional />
+                    <ImporterField name="city" label="City (optional)" optional />
+                    <ImporterField name="state" label="Abbreviated State (optional)" optional />
+                    <ImporterField name="postalCode" label="5 Digit Zip Code (optional)" optional />
+                    <ImporterField name="birthdate" label="Birthdate (optional, MM/DD/YYYY)" optional />
+                    <ImporterField name="medicareBeneficiaryID" label="Medicare Beneficiary Id (optional)" optional />
+                    <ImporterField name="partA" label="Part A Effective Date (optional, MM/DD/YYYY)" optional />
+                    <ImporterField name="partB" label="Part B Effective Date (optional, MM/DD/YYYY)" optional />
+                    <ImporterField name="height" label="Height (optional, inches)" optional />
+                    <ImporterField name="weight" label="Weight (optional, pounds)" optional />
+                    <ImporterField name="gender" label="Gender (optional, Male/Female)" optional />
+                    <ImporterField name="isTobaccoUser" label="Tobacco Use (optional, Yes or No)" optional />
+                    <ImporterField name="stage" label="Stage (optional)" optional />
+                    <ImporterField name="notes" label="Notes (optional)" optional />
                 </Importer>
             </div>
         </div>
