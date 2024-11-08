@@ -108,7 +108,13 @@ const CampaignInnerContainer = () => {
                     >
                         {campaignName}
                     </Typography>
-                    {campaign && <ActionPopoverContainer campaign={campaign} refresh={handleGetCampaignDetailsById} />}
+                    {campaign && (
+                        <ActionPopoverContainer
+                            campaign={campaign}
+                            refresh={handleGetCampaignDetailsById}
+                            advanceMode={advanceMode}
+                        />
+                    )}
                 </Box>
 
                 <Box gap={2} className={styles.statusIcons}>
@@ -187,7 +193,7 @@ const CampaignInnerContainer = () => {
                             advanceMode={advanceMode}
                             onSend={() => {
                                 handleCreateOrUpdateCampaign({
-                                    campaign_Status: advanceMode ? campaignStatuses.ACTIVE : campaignStatuses.SUBMITTED,
+                                    campaign_Status: campaignStatuses.SUBMITTED,
                                 });
                             }}
                         />

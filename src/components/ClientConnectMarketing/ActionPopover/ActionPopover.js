@@ -1,13 +1,39 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { Box, IconButton } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import styles from "./styles.module.scss";
 import ActionModal from "../ActionModals";
-import { ActionsCopy, ActionsRename, ActionsDelete, ActionsSend } from "@integritymarketing/icons";
+import {
+    ActionsCopy,
+    ActionsRename,
+    ActionsDelete,
+    ActionsSend,
+    ActionsPause,
+    ActionsStart,
+    ActionsEnd,
+} from "@integritymarketing/icons";
 
 const campaignOperations = [
+    {
+        optionText: "Pause",
+        value: "pause",
+        optionLabel: "Are you sure you want to pause this campaign? You can resume this campaign later.",
+    },
+    {
+        optionText: "Resume",
+        value: "resume",
+        optionLabel:
+            "Are you sure you want to resume this campaign? Sent messages cannot be unsent. You can pause this campaign later.",
+    },
+
     { optionText: "Rename", value: "rename", optionLabel: "Edit campaign name." },
+    {
+        optionText: "Start",
+        value: "start",
+        optionLabel:
+            "Are you sure you want to start this campaign? Sent messages cannot be unsent. You can pause this campaign later.",
+    },
     {
         optionText: "Send",
         value: "send",
@@ -23,13 +49,17 @@ const campaignOperations = [
         value: "delete",
         optionLabel: "Are you sure you want to delete this draft? This action cannot be undone.",
     },
+    {
+        optionText: "End",
+        value: "end",
+        optionLabel: "Are you sure you want to end this campaign? This action cannot be undone.",
+    },
 ];
 
-const ActionPopover = ({ anchorEl, onClose, campaign, refresh }) => {
+const ActionPopover = ({ anchorEl, onClose, campaign, refresh, advanceMode }) => {
     const open = Boolean(anchorEl);
     const id = anchorEl ? "simple-popover-actions" : undefined;
-    const { campaignChannel, requestPayload, campaignSelectedAction, campaignStatus, customCampaignDescription } =
-        campaign;
+    const { campaignChannel, requestPayload, campaignSelectedAction, campaignStatus } = campaign;
 
     const [campaignAction, setCampaignAction] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
@@ -60,7 +90,56 @@ const ActionPopover = ({ anchorEl, onClose, campaign, refresh }) => {
         if (optionText === "Delete") {
             return <ActionsDelete size="md" className={styles.actionIcon} color={disable ? "#00000061" : "#4178FF"} />;
         }
+        if (optionText === "Pause") {
+            return <ActionsPause size="md" className={styles.actionIcon} color={disable ? "#00000061" : "#4178FF"} />;
+        }
+        if (optionText === "Start") {
+            return <ActionsStart size="md" className={styles.actionIcon} color={disable ? "#00000061" : "#4178FF"} />;
+        }
+        if (optionText === "End") {
+            return <ActionsEnd size="md" className={styles.actionIcon} color={disable ? "#00000061" : "#4178FF"} />;
+        }
+        if (optionText === "Resume") {
+            return <ActionsStart size="md" className={styles.actionIcon} color={disable ? "#00000061" : "#4178FF"} />;
+        }
+        return null;
     };
+
+    const filteredCampaignOperations = useMemo(() => {
+        if (campaignStatus === "Completed") {
+            return campaignOperations.filter((item) => item.value === "copy");
+        }
+        if (campaignStatus === "Draft") {
+            if (advanceMode) {
+                return campaignOperations.filter(
+                    (item) =>
+                        item.value === "rename" ||
+                        item.value === "start" ||
+                        item.value === "copy" ||
+                        item.value === "delete",
+                );
+            } else {
+                return campaignOperations.filter(
+                    (item) =>
+                        item.value === "rename" ||
+                        item.value === "send" ||
+                        item.value === "copy" ||
+                        item.value === "delete",
+                );
+            }
+        }
+        if (campaignStatus === "Active") {
+            return campaignOperations.filter(
+                (item) => item.value === "pause" || item.value === "copy" || item.value === "end",
+            );
+        }
+        if (campaignStatus === "Paused") {
+            return campaignOperations.filter(
+                (item) => item.value === "resume" || item.value === "copy" || item.value === "end",
+            );
+        }
+        return [];
+    }, [campaignStatus, advanceMode]);
 
     return (
         <>
@@ -82,42 +161,39 @@ const ActionPopover = ({ anchorEl, onClose, campaign, refresh }) => {
                     ".MuiPaper-root": { borderRadius: "8px" },
                 }}
             >
-                {campaignOperations
-                    .filter((item) => (campaignStatus === "Completed" ? item.value == "copy" : true))
-                    ?.map((campaignObj, index) => {
-                        const isSendDisable = campaignObj.value === "send" && !isCampaignCanStarted;
-                        return (
-                            <>
-                                <Box
-                                    sx={{ display: "flex", padding: "8px" }}
-                                    className={`  ${isSendDisable ? styles.disabledRow : ""}`}
-                                    key={index}
-                                >
-                                    <Box className={styles.actionIcons}>
-                                        <IconButton
-                                            size="lg"
-                                            className={`${styles.roundedIcon} ${isSendDisable ? styles.disable : ""}`}
-                                        >
-                                            {showIcon(campaignObj.optionText, isSendDisable)}
-                                        </IconButton>
-                                    </Box>
-                                    <Box
-                                        className={styles.selections}
-                                        onClick={() => {
-                                            if (isSendDisable) {
-                                                return;
-                                            } else {
-                                                handleActionModalOpen(campaignObj);
-                                            }
-                                        }}
+                {filteredCampaignOperations?.map((campaignObj, index) => {
+                    const isDisable =
+                        (campaignObj.value === "send" || campaignObj.value === "start") && !isCampaignCanStarted;
+                    return (
+                        <>
+                            <Box
+                                sx={{ display: "flex", padding: "8px" }}
+                                className={`  ${isDisable ? styles.disabledRow : ""}`}
+                                key={index}
+                            >
+                                <Box className={styles.actionIcons}>
+                                    <IconButton
+                                        size="lg"
+                                        className={`${styles.roundedIcon} ${isDisable ? styles.disable : ""}`}
                                     >
-                                        {campaignObj.optionText}
-                                    </Box>
+                                        {showIcon(campaignObj.optionText, isDisable)}
+                                    </IconButton>
                                 </Box>
-                                {campaignObj.value == "copy" && <Box className={styles.cardDivider} />}
-                            </>
-                        );
-                    })}
+                                <Box
+                                    className={styles.selections}
+                                    onClick={() => {
+                                        if (!isDisable) {
+                                            handleActionModalOpen(campaignObj);
+                                        }
+                                    }}
+                                >
+                                    {campaignObj.optionText}
+                                </Box>
+                            </Box>
+                            {campaignObj.value == "copy" && <Box className={styles.cardDivider} />}
+                        </>
+                    );
+                })}
             </Popover>
             {modalOpen && (
                 <ActionModal
@@ -137,6 +213,7 @@ ActionPopover.propTypes = {
     onClose: PropTypes.func.isRequired,
     campaign: PropTypes.object.isRequired,
     refresh: PropTypes.func.isRequired,
+    advanceMode: PropTypes.bool,
 };
 
 export default ActionPopover;

@@ -169,8 +169,14 @@ export const filterCampaignsByStatus = (list, status) => {
         .filter((campaign) => campaign.campaignStatus === status)
         .map((campaign) => ({
             ...campaign,
-            formattedDate: campaign.campaignRunDate
+            runDate: campaign?.campaignRunDate
                 ? convertAndFormatUTCDateToLocalDate(campaign.campaignRunDate)
+                : undefined,
+            createdDate: campaign?.createdDateTime
+                ? convertAndFormatUTCDateToLocalDate(campaign.createdDateTime)
+                : undefined,
+            modifiedDate: campaign?.modifiedDateTime
+                ? convertAndFormatUTCDateToLocalDate(campaign.modifiedDateTime)
                 : undefined,
         }));
 
@@ -214,4 +220,59 @@ export const isHaveCarrierId = (url) => {
     const carrierId = params.get("carrierId");
 
     return carrierId === null || carrierId === 0 || carrierId === "0" || carrierId === undefined ? false : true;
+};
+
+// Define the words to be styled in black
+const blackWords = ["if", "is", "not", "becomes\n", "when"]; // Replace with your specific words
+
+// Function to style the actionDescription
+export const styleActionDescription = (description) => {
+    if (!description) {
+        return description;
+    }
+    return description
+        ?.split(" ")
+        ?.map((word, index) => {
+            const cleanWord = word.replace(/[.,?!;:()]/g, ""); // Remove punctuation for accurate matching
+            if (blackWords.includes(cleanWord.toLowerCase())) {
+                return `<span class="blackWord">${word}</span>`;
+            } else {
+                return `<span class="blueWord">${word}</span>`;
+            }
+        })
+        .join(" ");
+};
+
+const cleanDescription = (description) => {
+    // Remove nested span tags and clean up HTML
+    return description.replace(/<span>\s*<\/span>/g, "").replace(/<\/?span>/g, "<span>");
+};
+
+export const styleEventDescription = (description) => {
+    if (!description) {
+        return description;
+    }
+
+    // Clean description format to remove redundant span tags
+    const cleanedDescription = cleanDescription(description);
+
+    // Convert description to plain text and replace "is" with "becomes"
+    let output = cleanedDescription
+        .replace(/<[^>]+>/g, "") // Remove HTML tags to get plain text
+        .replace(/\bis\b/g, "becomes"); // Replace "is" with "becomes"
+
+    // Map over words and style based on `blackWords` array
+    return output
+        .split(" ")
+        .map((word) => {
+            if (!word) return word;
+            const cleanWord = word.replace(/[.,?!;:()]/g, ""); // Remove punctuation for matching
+
+            if (blackWords.includes(cleanWord.toLowerCase())) {
+                return `<span class="blackWord">${word}</span>`;
+            } else {
+                return `<span class="blueWord">${word}</span>`;
+            }
+        })
+        .join(" ");
 };

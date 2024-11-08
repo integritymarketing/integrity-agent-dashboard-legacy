@@ -30,6 +30,8 @@ const CampaignsStatusList = ({ allCampaignsList }) => {
     return (
         <Box className={styles.campaignInnerContainer}>
             <CampaignListContainer data={campaignsNoListData["drafts"]} campaigns={allCampaignsList} status="Draft" />{" "}
+            <CampaignListContainer data={campaignsNoListData["active"]} campaigns={allCampaignsList} status="Active" />
+            <CampaignListContainer data={campaignsNoListData["paused"]} campaigns={allCampaignsList} status="Paused" />
             <CampaignListContainer
                 data={campaignsNoListData["completed"]}
                 campaigns={allCampaignsList}

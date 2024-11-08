@@ -397,7 +397,8 @@ export default function ContactListFilterOptionsV2({
                         />
                     );
                 })}
-                {selectedFilterSections.length < 3 && (
+                {((selectedFilterSections?.length === 0 && isSingleSelect) ||
+                    (selectedFilterSections?.length < 3 && !isSingleSelect)) && (
                     <Button
                         data-gtm="contacts-add-new"
                         icon={<ChevronLeft className={styles.chevronIcon} />}
@@ -518,17 +519,19 @@ export default function ContactListFilterOptionsV2({
                     </Box>
                 </StyledPopover>
             </Box>
-            <Box className={styles.footer}>
-                {selectedFilterSections.length > 0 && (
-                    <Button
-                        className={styles.footerCloseButton}
-                        icon={<Icon className={styles.footerCloseIcon} image={Close} />}
-                        iconPosition={"right"}
-                        label={"Clear All"}
-                        onClick={handleClearAllClick}
-                    />
-                )}
-            </Box>
+            {!isSingleSelect && (
+                <Box className={styles.footer}>
+                    {selectedFilterSections.length > 0 && (
+                        <Button
+                            className={styles.footerCloseButton}
+                            icon={<Icon className={styles.footerCloseIcon} image={Close} />}
+                            iconPosition={"right"}
+                            label={"Clear All"}
+                            onClick={handleClearAllClick}
+                        />
+                    )}
+                </Box>
+            )}
         </Box>
     );
 }

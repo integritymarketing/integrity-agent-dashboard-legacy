@@ -44,31 +44,36 @@ const CampaignStatusCard = ({ campaign }) => {
         customCampaignDescription,
         campaignStatus,
         campaignType,
-        formattedDate,
+        runDate,
+        createdDate,
+        modifiedDate,
         requestPayload,
         statusCounts,
         id,
         campaignId,
         campaignSelectedAction,
+        customFilter,
     } = campaign;
 
     const showCampaignInfo = () => {
         if (campaignChannel === "Email" && emailData?.length > 0) {
             const campaignData = emailData.find((item) => item.id === campaignId);
-            return campaignData ?  campaignData?.campaignDescription  : "..."
+            return campaignData ? campaignData?.campaignDescription : "...";
         } else if (campaignChannel === "Sms" && smsData?.length > 0) {
             const campaignData = smsData.find((item) => item.id === campaignId);
-            return campaignData ?  campaignData?.campaignDescription  : "..."
+            return campaignData ? campaignData?.campaignDescription : "...";
         }
         return "...";
     };
 
     const showActionInfo = () => {
-        if(showCampaignInfo() === "...") return ""; 
+        if (showCampaignInfo() === "...") return "";
         if (campaignSelectedAction === "a contact" && requestPayload?.leads?.length > 0) {
             return ` to ${requestPayload?.leads[0]?.firstName} ${requestPayload?.leads[0]?.lastName}.`;
         } else if (campaignSelectedAction === "contacts filtered by…") {
             return " to Filtered contacts.";
+        } else if (campaignSelectedAction === "a contact when") {
+            return " a contact when a tag is added.";
         } else if (campaignSelectedAction !== "") {
             return ` to ${campaignSelectedAction}.`;
         } else {
@@ -115,7 +120,7 @@ const CampaignStatusCard = ({ campaign }) => {
         });
 
         const removeUnSubscribed = mergedData.filter(
-            (item) => !(item.statusName === "UnSubscribed" && item.count === null),
+            (item) => !(item.statusName === "UnSubscribed" && item.count === null)
         );
         return removeUnSubscribed;
     };
@@ -153,14 +158,18 @@ const CampaignStatusCard = ({ campaign }) => {
                             {truncateText(customCampaignDescription, isSmallScreen ? 15 : 45)}
                         </Typography>
                     </Box>
-                    <ActionPopoverContainer campaign={campaign} />
+                    <ActionPopoverContainer
+                        campaign={campaign}
+                        advanceMode={campaignSelectedAction === "a contact when"}
+                    />
                 </Box>
                 <Box className={styles.cardDivider} />
                 <Box className={styles.cardDetails}>
                     {campaignChannel && (
                         <Box className={styles.cardLabel}>
                             I want to send {campaignChannel === "Sms" ? "a" : "an"} {convertCampaignChannel()}
-                            <span className={styles.cardValue}>{showCampaignInfo()}</span>{showActionInfo()}
+                            <span className={styles.cardValue}>{showCampaignInfo()}</span>
+                            {showActionInfo()}
                         </Box>
                     )}
                 </Box>
@@ -169,10 +178,12 @@ const CampaignStatusCard = ({ campaign }) => {
                 <Box sx={{ padding: "16px" }}>
                     <Box className={styles.statusCard}>
                         <CampaignStatusInfoCard
-                            date={formattedDate}
+                            runDate={runDate}
+                            createdDate={createdDate}
+                            modifiedDate={modifiedDate}
                             campaignStatus={campaignStatus}
                             campaignType={campaignType}
-                            icon={EmailIcon}
+                            customFilter={customFilter}
                         />
                     </Box>
                     {statusData?.length > 0 && (
@@ -214,13 +225,13 @@ CampaignStatusCard.propTypes = {
         campaignStatus: PropTypes.string.isRequired,
         campaignRunDate: PropTypes.string,
         customCampaignDescription: PropTypes.string.isRequired,
-        formattedDate: PropTypes.string,
+        runDate: PropTypes.string,
         requestPayload: PropTypes.shape({
             leads: PropTypes.arrayOf(
                 PropTypes.shape({
                     firstName: PropTypes.string,
                     lastName: PropTypes.string,
-                }),
+                })
             ),
         }),
         statusCounts: PropTypes.arrayOf(
@@ -230,7 +241,7 @@ CampaignStatusCard.propTypes = {
                 showPercentage: PropTypes.string,
                 icon: PropTypes.elementType,
                 leadIds: PropTypes.arrayOf(PropTypes.string),
-            }),
+            })
         ),
         sentDate: PropTypes.string,
         trigger: PropTypes.string,

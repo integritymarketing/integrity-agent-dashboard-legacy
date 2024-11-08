@@ -69,7 +69,7 @@ export const CampaignInvitationProvider = ({ children }) => {
         SUBMITTED: "Submitted",
         COMPLETED: "Completed",
         ACTIVE: "Active",
-        PAUSE: "Pause",
+        PAUSE: "Paused",
     };
     const EMAIL_URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Campaign/Email`;
     const TEXT_URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Campaign/sms`;
@@ -173,7 +173,9 @@ export const CampaignInvitationProvider = ({ children }) => {
 
     const handleAdvanceToggleMode = () => {
         setAdvancedMode(!isAdvancedMode);
-        resetSecond();
+        if (isAdvancedMode && campaignActionType === "a contact when") {
+            resetSecond();
+        }
     };
 
     const { fetchTableDataWithoutFilters, fetchTableData } = useFetchCampaignLeads();
@@ -655,6 +657,15 @@ export const CampaignInvitationProvider = ({ children }) => {
                 selectedFilterSections?.length > 0
                     ? JSON.stringify(customFilterData)
                     : "",
+            eventTrigger: {
+                tags: [],
+                stage: {
+                    logicalOperator: "",
+                    value: "",
+                    condition: "",
+                },
+                trigger: {},
+            },
             requestPayload: {
                 agentId: agentId,
                 agentNPN: npn,
@@ -672,15 +683,6 @@ export const CampaignInvitationProvider = ({ children }) => {
                 custom5: agentAccountDetails?.caLicense,
                 custom6: agentAccountDetails?.profileImageUrl,
                 custom7: `${firstName.charAt(0)} ${lastName.charAt(0)}`,
-                eventTrigger: {
-                    tags: [],
-                    stage: {
-                        logicalOperator: "",
-                        value: "",
-                        condition: "",
-                    },
-                    trigger: {},
-                },
             },
         };
 
@@ -700,7 +702,11 @@ export const CampaignInvitationProvider = ({ children }) => {
                     leads: filteredContactsList,
                 },
             };
-        } else if (payload?.campaignSelectedAction === "a contact when" && selectedFilterSections?.length > 0) {
+        } else if (
+            payload?.campaignSelectedAction === "a contact when" &&
+            selectedFilterSections?.length > 0 &&
+            filteredContactsList?.length > 0
+        ) {
             const eventData = selectedFilterSections[0];
             let id = eventData?.selectedFilterOption;
             const triggerType = eventData?.sectionId;
@@ -710,14 +716,15 @@ export const CampaignInvitationProvider = ({ children }) => {
 
             return {
                 ...payload,
+                campaignType: "Event",
+                eventTrigger: {
+                    triggerType: triggerType === "stage" ? "Lead" : "Tag",
+                    when: triggerType === "stage" ? "Status" : id,
+                    becomes: triggerType === "stage" ? id : undefined,
+                },
                 requestPayload: {
                     ...payload.requestPayload,
                     leads: filteredContactsList,
-                    eventTrigger: {
-                        triggerType: triggerType === "stage" ? "Lead" : "Tag",
-                        when: triggerType === "stage" ? "Status" : id,
-                        becomes: triggerType === "stage" ? id : undefined,
-                    },
                 },
             };
         } else if (selectedContact?.leadsId && payload?.campaignSelectedAction === "a contact") {
@@ -789,16 +796,24 @@ export const CampaignInvitationProvider = ({ children }) => {
                 }
                 if (resData) {
                     setCampaign(resData);
-                    fireEvent("Campaign Created/Updated", {
-                        campaignName: campaignName,
-                        campaignDescription: campaignDescriptionType,
-                        scope:
-                            campaignActionType === "contacts filtered by…"
-                                ? "filter contacts"
-                                : campaignActionType === "all contacts"
-                                ? "all contacts"
-                                : "search for a contact",
-                    });
+                    if (campaign_Status === campaignStatuses.SUBMITTED) {
+                        const fireEventPayload = {
+                            campaignName: campaignName,
+                            campaignDescription: campaignDescriptionType,
+                            mode: resData?.campaignType === "Event" ? "advanced" : "basic",
+                            scope:
+                                campaignActionType === "contacts filtered by…"
+                                    ? "filter contacts"
+                                    : campaignActionType === "all contacts"
+                                    ? "all contacts"
+                                    : campaignActionType === "a contact"
+                                    ? "a contact"
+                                    : campaignActionType === "a contact when"
+                                    ? "a contact when"
+                                    : campaignActionType,
+                        };
+                        fireEvent("Campaign Started", fireEventPayload);
+                    }
                     if (redirectTo) {
                         navigate(`${redirectTo}/${resData?.id}`);
                     }

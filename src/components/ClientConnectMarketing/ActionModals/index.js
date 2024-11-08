@@ -3,7 +3,15 @@ import PropTypes from "prop-types";
 import { Box, Typography, InputAdornment } from "@mui/material";
 import { TextInput, CustomModal } from "components/MuiComponents";
 import { useMarketing } from "providers/Marketing";
-import { ActionsCopy, ActionsRename, ActionsDelete, ActionsSend } from "@integritymarketing/icons";
+import {
+    ActionsCopy,
+    ActionsRename,
+    ActionsDelete,
+    ActionsSend,
+    ActionsPause,
+    ActionsStart,
+    ActionsEnd,
+} from "@integritymarketing/icons";
 import styles from "./styles.module.scss";
 
 const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
@@ -55,6 +63,22 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
                 handleCustomFilter(payload);
                 method = "put";
                 break;
+            case "Start":
+                payload = createPayload({ campaignStatus: "Submitted", campaignType: "Event" });
+                method = "put";
+                break;
+            case "Pause":
+                payload = createPayload({ campaignStatus: "Paused" });
+                method = "put";
+                break;
+            case "Resume":
+                payload = createPayload({ campaignStatus: "Active" });
+                method = "put";
+                break;
+            case "End":
+                payload = createPayload({ campaignStatus: "Completed" });
+                method = "put";
+                break;
             case "Delete":
                 payload = campaign;
                 method = "delete";
@@ -78,6 +102,14 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
                 return <ActionsSend color="#ffffff" />;
             case "Delete":
                 return <ActionsDelete color="#ffffff" />;
+            case "Pause":
+                return <ActionsPause color="#ffffff" />;
+            case "Start":
+                return <ActionsStart color="#ffffff" />;
+            case "End":
+                return <ActionsEnd color="#ffffff" />;
+            case "Resume":
+                return <ActionsStart color="#ffffff" />;
             default:
                 return null;
         }

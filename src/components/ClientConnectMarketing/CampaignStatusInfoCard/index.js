@@ -1,22 +1,49 @@
 import PropTypes from "prop-types";
 import { Box, Typography, Grid } from "@mui/material";
-import { SendBlast } from "@integritymarketing/icons";
+import { SendBlast, SendTrigger } from "@integritymarketing/icons";
+import { styleEventDescription } from "utils/shared-utils/sharedUtility";
 import styles from "./styles.module.scss";
+import { useMemo } from "react";
 
-const CampaignStatusInfoCard = ({ icon: IconComponent, date, campaignStatus, campaignType }) => {
+const CampaignStatusInfoCard = ({ campaignStatus, campaignType, runDate, createdDate, modifiedDate, customFilter }) => {
+    const eventInfo = useMemo(() => {
+        let customFilterData;
+        try {
+            const customFilterText = JSON.parse(customFilter);
+            if (customFilterText) {
+                customFilterData = JSON.parse(customFilterText);
+            } else {
+                customFilterData = {};
+            }
+        } catch (error) {
+            customFilterData = {};
+        }
+        const { filteredContentStatus } = customFilterData;
+        return filteredContentStatus || "";
+    }, [customFilter]);
     return (
         <Box className={styles.sentStatusHeader}>
             <Box className={styles.sentHeaderBody}>
                 <Grid container>
                     <Grid xs={12} md={6}>
                         <Typography variant="custom" className={styles.sentText}>
-                            Sent: <span className={styles.sentDate}> {date}</span>
+                            Sent:{" "}
+                            <span className={styles.sentDate}>
+                                {campaignStatus === "Active" ? modifiedDate : runDate}
+                            </span>
                         </Typography>
                     </Grid>
                     {campaignStatus === "Completed" && (
                         <Grid xs={12} md={6} sx={{ textAlign: { xs: "left", md: "end" } }}>
                             <Typography variant="custom" className={styles.sentText}>
-                                Completed <span className={styles.sentDate}> {date}</span>
+                                Completed <span className={styles.sentDate}> {modifiedDate}</span>
+                            </Typography>
+                        </Grid>
+                    )}
+                    {campaignStatus === "Paused" && (
+                        <Grid xs={12} md={6} sx={{ textAlign: { xs: "left", md: "end" } }}>
+                            <Typography variant="custom" className={styles.sentText}>
+                                Paused: <span className={styles.sentDate}> {modifiedDate}</span>
                             </Typography>
                         </Grid>
                     )}
@@ -24,10 +51,19 @@ const CampaignStatusInfoCard = ({ icon: IconComponent, date, campaignStatus, cam
             </Box>
             <Box className={styles.cardDivider} />
             <Box className={styles.sentStatusBody}>
-                <SendBlast color="black" size="md" className={styles.mIcon} /> &nbsp;
+                {campaignType === "Event" && <SendTrigger size="md" className={styles.mIcon} />}
+                {campaignType !== "Event" && <SendBlast size="md" className={styles.mIcon} />}
+                &nbsp;
                 <Typography variant="body1">
-                    <span className={styles.sentText}>{campaignType}:</span>
-                    <span className={styles.sentMsg}>one-time send</span>
+                    <span className={styles.sentText}>{campaignType === "Event" ? "When" : campaignType}: </span>
+                    {campaignType === "Event" && (
+                        <span
+                            dangerouslySetInnerHTML={{
+                                __html: styleEventDescription(`${eventInfo}`),
+                            }}
+                        ></span>
+                    )}
+                    {campaignType !== "Event" && <span className={styles.sentMsg}>one-time send</span>}
                 </Typography>
             </Box>
         </Box>
@@ -35,7 +71,6 @@ const CampaignStatusInfoCard = ({ icon: IconComponent, date, campaignStatus, cam
 };
 
 CampaignStatusInfoCard.propTypes = {
-    icon: PropTypes.elementType.isRequired,
     date: PropTypes.string,
     campaignStatus: PropTypes.string,
     campaignType: PropTypes.string,

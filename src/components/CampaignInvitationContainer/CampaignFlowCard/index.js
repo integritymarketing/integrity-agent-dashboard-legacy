@@ -17,7 +17,7 @@ const channelOptions = [
     { optionText: "a text message", value: "Sms", icon: <TextIcon /> },
 ];
 
-const CampaignFlowContainer = ({ showPreview, allSelected }) => {
+const CampaignFlowContainer = ({ showPreview, allSelected, readOnly }) => {
     const {
         campaignChannel,
         setCampaignChannel,
@@ -37,8 +37,6 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
         resetThird,
         setAdvancedMode,
     } = useCampaignInvitation();
-
-    const readOnly = campaignStatus === campaignStatuses.COMPLETED;
 
     const [channelOptionOpen, setChannelOptionOpen] = useState(null);
     const [emailOptionsOpen, setEmailOptionsOpen] = useState(null);
@@ -155,8 +153,8 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
                     </Box>
                 )}
             </Box>
-            {showInvitationBar() && <InvitationBar />}
-            {((showPreview && !readOnly && allSelected) || readOnly) && <InvitationCountBar />}
+            {showInvitationBar() && <InvitationBar readOnly={readOnly} />}
+            {((showPreview && !readOnly && allSelected) || readOnly) && <InvitationCountBar readOnly={readOnly} />}
         </Box>
     );
 };
@@ -164,6 +162,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected }) => {
 CampaignFlowContainer.propTypes = {
     showPreview: PropTypes.bool, // Determines whether to show the preview
     allSelected: PropTypes.bool, // Checks if contact type is not selected
+    readOnly: PropTypes.bool, // Determines if the component is read only
 };
 
 export default CampaignFlowContainer;
