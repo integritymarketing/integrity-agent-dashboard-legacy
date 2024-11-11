@@ -60,7 +60,7 @@ export default function FilterSectionBox({
 
     const configData = useMemo(() => {
         if (section && section.root) {
-            const rootSection = filterSectionsConfig[section.root];
+            const rootSection = filterSectionsConfig?.tags?.find((item) => item.heading === section?.root);
             const data = rootSection?.options?.find((item) => item.value === section.sectionId);
             return data || {};
         } else {
