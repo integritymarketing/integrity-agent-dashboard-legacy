@@ -66,7 +66,7 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
                 pharmacy = pharmacyCosts?.find((rx) => rx?.pharmacyType === 2);
             }
 
-            const costs = pharmacy?.drugCosts?.[i] || {};
+            const costs = pharmacy?.drugCosts?.find(pres => pres.labelName === planDrugCoverage?.labelName) || {};
 
             rowData.gap[planIndex] = costs?.gap;
             rowData.copay[planIndex] = costs?.beforeGap;
