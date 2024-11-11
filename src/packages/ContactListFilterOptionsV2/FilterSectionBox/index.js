@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useState, useMemo } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -296,4 +297,5 @@ FilterSectionBox.propTypes = {
     isFilterSelectOpenForSection: PropTypes.bool,
     onChangeNextAndOrOption: PropTypes.func.isRequired,
     filterSectionsConfig: PropTypes.object.isRequired,
+    isSingleSelect: PropTypes.bool,
 };

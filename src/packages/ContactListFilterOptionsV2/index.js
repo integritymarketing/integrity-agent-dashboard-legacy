@@ -1,7 +1,8 @@
+/* eslint-disable max-lines-per-function */
 import { useState, useContext, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { ChevronLeft, Add } from "@mui/icons-material";
 import { Button } from "components/ui/Button";
-import styles from "./styles.module.scss";
 import { Box } from "@mui/material";
 import Close from "./icons/close.svg";
 import Icon from "components/Icon";
@@ -10,10 +11,9 @@ import FilterSectionBox from "./FilterSectionBox/index";
 import { styled } from "@mui/system";
 import { FILTER_ICONS, reminderFilters } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
 import useFetch from "hooks/useFetch";
-import stylesFilterSectionBox from "./FilterSectionBox/styles.module.scss";
 import StageStatusContext from "contexts/stageStatus";
 import useAnalytics from "hooks/useAnalytics";
-import Askintegrity from "components/icons/version-2/AskIntegrity";
+import styles from "./styles.module.scss";
 
 const StyledPopover = styled(Popover)(() => ({
     ".MuiPopover-paper": {
@@ -49,13 +49,6 @@ export default function ContactListFilterOptionsV2({
             isApiCallInitiated.current = true;
             const path = "Tag/TagsGroupByCategory?mappedLeadTagsOnly=true";
             const tagsData = await fetchLeadTags(null, false, path);
-
-            /**
-             * Helper function to format data by grouping based on parent-child relationships
-             * Ensures no duplicate parents in the final grouped tags list
-             * @param {Array} categories - List of categories to group
-             * @returns {Object} - Grouped tag sections
-             */
             const groupTagsByCategory = (categories) => {
                 const groupedTags = [];
                 const processedParents = new Set();
@@ -86,7 +79,7 @@ export default function ContactListFilterOptionsV2({
                                                     tag.tagIconUrl ||
                                                     FILTER_ICONS[tag.tagLabel] ||
                                                     FILTER_ICONS.default,
-                                                iconClassName: "menuItemIconMedium", // Use CSS class if available
+                                                iconClassName: "menuItemIconMedium",
                                             })),
                                         };
                                     }
@@ -129,8 +122,6 @@ export default function ContactListFilterOptionsV2({
 
             const groupedCategories = groupTagsByCategory(tagsData);
 
-            console.log("Grouped Categories", groupedCategories);
-
             // Set dynamic filter sections
             setFilterSectionsConfig({
                 reminders: {
@@ -155,8 +146,6 @@ export default function ContactListFilterOptionsV2({
             fetchData().catch((error) => console.log("Error fetching data:", error));
         }
     }, [statusOptions]);
-
-    console.log("Filter Sections Config", filterSectionsConfig);
 
     const handleOnClickAddNew = (event) => {
         setAnchorEl(event.currentTarget);
@@ -252,7 +241,7 @@ export default function ContactListFilterOptionsV2({
     };
 
     const renderDropdownOptions = () => {
-        if (!filterSectionsConfig || !filterSectionsConfig?.tags?.length) return null;
+        if (!filterSectionsConfig || !filterSectionsConfig?.tags?.length) {return null;}
         return filterSectionsConfig?.tags?.map((category, index) => (
             <Box key={index}>
                 <span className={styles.filterDropdownHeader}>{category.heading}</span>
@@ -275,14 +264,12 @@ export default function ContactListFilterOptionsV2({
         ));
     };
 
-    console.log("Selected Filter Sections", selectedFilterSections);
     const handleOnRemoveFilterSection = (sectionUUId) => {
         const newSelectedFilterSections = selectedFilterSections.filter((section) => section.id !== sectionUUId);
         setSelectedFilterSections([...newSelectedFilterSections]);
         setTimeout(() => resetData(newSelectedFilterSections), 100);
     };
     const hasUnfinishedFilterSections = selectedFilterSections.filter((item) => !item.selectedFilterOption).length;
-
     const hasReminderSection = selectedFilterSections.find((item) => item.sectionId === "reminders");
 
     return (
@@ -368,6 +355,38 @@ export default function ContactListFilterOptionsV2({
                     </Box>
                 </StyledPopover>
             </Box>
+            {!isSingleSelect && (
+                <Box className={styles.footer}>
+                    {selectedFilterSections.length > 0 && (
+                        <Button
+                            className={styles.footerCloseButton}
+                            icon={<Icon className={styles.footerCloseIcon} image={Close} />}
+                            iconPosition={"right"}
+                            label={"Clear All"}
+                            onClick={handleClearAllClick}
+                        />
+                    )}
+                </Box>
+            )}
         </Box>
     );
 }
+
+ContactListFilterOptionsV2.propTypes = {
+    setSelectedFilterSections: PropTypes.func.isRequired,
+    selectedFilterSections: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            sectionId: PropTypes.string.isRequired,
+            selectedFilterOption: PropTypes.string,
+            selectedIsOption: PropTypes.string,
+            nextAndOrOption: PropTypes.string,
+        })
+    ).isRequired,
+    resetData: PropTypes.func.isRequired,
+    filterSectionsConfig: PropTypes.object.isRequired,
+    setFilterSectionsConfig: PropTypes.func.isRequired,
+    fetchedFiltersSectionConfigFromApi: PropTypes.bool.isRequired,
+    setFetchedFiltersSectionConfigFromApi: PropTypes.func.isRequired,
+    isSingleSelect: PropTypes.bool.isRequired,
+};
