@@ -154,7 +154,7 @@ export default function LinkToContact() {
                 <title>Integrity - Link to Contact</title>
             </Helmet>
             <GlobalNav />
-            <FinalExpenseContactBar label="Link to Contact" />
+            <FinalExpenseContactBar label={callerName === "Text" ? "Link Text to Contact" : "Link Call to Contact"} />
             <div className={styles.outerContainer}>
                 <div className={styles.innerContainer}>
                     <Box marginBottom="8px">
