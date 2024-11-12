@@ -228,7 +228,6 @@ export default function ContactListFilterOptionsV2({
     };
 
     const handleFilterOptionClick = ({ root = "", sectionId = "", value = "" }) => {
-        debugger;
         const uuid = Math.random().toString(36).substring(7);
         const optionObject = { id: uuid, sectionId };
 
