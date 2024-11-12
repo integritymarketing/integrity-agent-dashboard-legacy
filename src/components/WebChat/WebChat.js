@@ -73,6 +73,15 @@ const WebChatComponent = () => {
         };
     }, [searchText, lastMessage]);
 
+    useEffect(() => {
+        if (lastMessage?.includes(WHICH_CONTACT_PART_STRING)) {
+            const inputElement = document.querySelector('[data-id="webchat-sendbox-input"]');
+            if (inputElement) {
+                inputElement.focus();
+            }
+        }
+    }, [lastMessage]);
+
     const fetchDirectLineToken = useCallback(async () => {
         try {
             const response = await fetch(process.env.REACT_APP_DIRECT_LINE, {
