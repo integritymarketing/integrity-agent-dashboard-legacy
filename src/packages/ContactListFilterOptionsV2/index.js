@@ -49,6 +49,7 @@ export default function ContactListFilterOptionsV2({
             isApiCallInitiated.current = true;
             const path = "Tag/TagsGroupByCategory?mappedLeadTagsOnly=true";
             const tagsData = await fetchLeadTags(null, false, path);
+
             const groupTagsByCategory = (categories) => {
                 const groupedTags = [];
                 const processedParents = new Set();
@@ -58,14 +59,13 @@ export default function ContactListFilterOptionsV2({
                 remainingCategories
                     .filter((category) => category.parentTagCategoryId === null)
                     .forEach((parentCategory) => {
-                        if (!processedParents.has(parentCategory.tagCategoryId)) {
-                            const childCategories = remainingCategories.filter(
-                                (category) => category.parentTagCategoryId === parentCategory.tagCategoryId
-                            );
+                        const childCategories = remainingCategories.filter(
+                            (category) => category.parentTagCategoryId === parentCategory.tagCategoryId
+                        );
 
+                        if (childCategories.length > 0) {
                             const childOptions = childCategories
                                 .map((childCategory) => {
-                                    // Only map child if it has tags
                                     if (childCategory.tags && childCategory.tags.length > 0) {
                                         return {
                                             label: childCategory.tagCategoryName,
@@ -83,11 +83,10 @@ export default function ContactListFilterOptionsV2({
                                             })),
                                         };
                                     }
-                                    return null; // Skip childCategory if it has no tags
+                                    return null;
                                 })
-                                .filter(Boolean); // Remove null values
+                                .filter(Boolean);
 
-                            // Only add parent if it has valid childOptions
                             if (childOptions.length > 0) {
                                 groupedTags.push({
                                     heading: parentCategory.tagCategoryName,
@@ -95,29 +94,51 @@ export default function ContactListFilterOptionsV2({
                                 });
                             }
 
-                            // Mark parent as processed and remove children from remainingCategories
                             processedParents.add(parentCategory.tagCategoryId);
                             remainingCategories = remainingCategories.filter(
                                 (category) => !childCategories.includes(category)
                             );
+                        } else if (parentCategory.tags && parentCategory.tags.length > 0) {
+                            // Handle parent categories with null parentTagCategoryId but no matching children
+                            groupedTags.push({
+                                heading:
+                                    parentCategory.tagCategoryName === "Other"
+                                        ? "Custom Tags"
+                                        : parentCategory.tagCategoryName,
+                                options: parentCategory.tags.map((tag) => ({
+                                    label: tag.tagLabel,
+                                    value: tag.tagId,
+                                    icon: tag.tagIconUrl || FILTER_ICONS.default,
+                                    iconClassName: "menuItemIconMedium",
+                                })),
+                            });
                         }
                     });
 
-                // Handle categories without parents or children
+                // Handle categories without parents or children (orphans)
                 remainingCategories.forEach((orphanCategory) => {
-                    if (!processedParents.has(orphanCategory.tagCategoryId) && orphanCategory.tags.length > 0) {
+                    if (
+                        !processedParents.has(orphanCategory.tagCategoryId) &&
+                        orphanCategory.tags &&
+                        orphanCategory.tags.length > 0
+                    ) {
                         groupedTags.push({
-                            header: orphanCategory.tagCategoryName,
-                            children: orphanCategory.tags.map((tag) => ({
+                            heading: orphanCategory.tagCategoryName,
+                            options: orphanCategory.tags.map((tag) => ({
                                 label: tag.tagLabel,
                                 value: tag.tagId,
                                 icon: tag.tagIconUrl || FILTER_ICONS.default,
+                                iconClassName: "menuItemIconMedium",
                             })),
                         });
                     }
                 });
 
-                return groupedTags;
+                // Remove any empty groups and prevent duplicate headings
+                return groupedTags.filter(
+                    (group, index, self) =>
+                        group.options.length > 0 && self.findIndex((g) => g.heading === group.heading) === index
+                );
             };
 
             const groupedCategories = groupTagsByCategory(tagsData);
@@ -207,6 +228,7 @@ export default function ContactListFilterOptionsV2({
     };
 
     const handleFilterOptionClick = ({ root = "", sectionId = "", value = "" }) => {
+        debugger;
         const uuid = Math.random().toString(36).substring(7);
         const optionObject = { id: uuid, sectionId };
 
@@ -216,7 +238,11 @@ export default function ContactListFilterOptionsV2({
             filterSection = rootConfig?.options?.find((item) => item.value === sectionId);
             optionObject.root = root;
         } else {
-            filterSection = filterSectionsConfig[sectionId];
+            if (sectionId === "Custom Tags") {
+                filterSection = filterSectionsConfig?.tags?.find((item) => item.heading === sectionId);
+            } else {
+                filterSection = filterSectionsConfig[sectionId];
+            }
         }
         if (!value && filterSection.option) {
             optionObject.selectedFilterOption = filterSection.option.value;
@@ -234,34 +260,39 @@ export default function ContactListFilterOptionsV2({
             selectedFilterSections[selectedFilterSections.length - 1].nextAndOrOption = "and";
         }
         setSelectedFilterSections([...selectedFilterSections, optionObject]);
-        if (sectionId !== "custom_tags" && sectionId !== "askIntegrity_tags") {
+        if (sectionId !== "Custom Tags") {
             setIsFilterSelectOpenForSection(uuid);
         }
         handleCloseFilterDropdown();
     };
 
     const renderDropdownOptions = () => {
-        if (!filterSectionsConfig || !filterSectionsConfig?.tags?.length) {return null;}
-        return filterSectionsConfig?.tags?.map((category, index) => (
-            <Box key={index}>
-                <span className={styles.filterDropdownHeader}>{category.heading}</span>
-                {category.options.map((subCategory) => (
-                    <Box key={subCategory.value}>
-                        <Box
-                            className={styles.dropdownOption}
-                            onClick={() =>
-                                handleFilterOptionClick({
-                                    root: category.heading,
-                                    sectionId: subCategory.value,
-                                })
-                            }
-                        >
-                            {subCategory.heading}
+        if (!filterSectionsConfig || !filterSectionsConfig?.tags?.length) {
+            return null;
+        }
+        return filterSectionsConfig?.tags?.map((category, index) => {
+            if (category?.heading === "Other") {return null;}
+            return (
+                <Box key={index}>
+                    <span className={styles.filterDropdownHeader}>{category?.heading}</span>
+                    {category?.options?.map((subCategory) => (
+                        <Box key={subCategory.value}>
+                            <Box
+                                className={styles.dropdownOption}
+                                onClick={() =>
+                                    handleFilterOptionClick({
+                                        root: category.heading,
+                                        sectionId: subCategory.value,
+                                    })
+                                }
+                            >
+                                {subCategory.heading}
+                            </Box>
                         </Box>
-                    </Box>
-                ))}
-            </Box>
-        ));
+                    ))}
+                </Box>
+            );
+        });
     };
 
     const handleOnRemoveFilterSection = (sectionUUId) => {
@@ -352,6 +383,28 @@ export default function ContactListFilterOptionsV2({
                             )}
                         </span>
                         {renderDropdownOptions()}
+                        {filterSectionsConfig?.tags?.find((item) => item.heading === "Other") && (
+                            <Box>
+                                <span className={styles.filterDropdownHeader}>Custom Tags</span>
+                                {filterSectionsConfig?.tags
+                                    ?.find((item) => item.heading === "Other")
+                                    ?.options?.map((subCategory) => (
+                                        <Box key={subCategory.value}>
+                                            <Box
+                                                className={styles.dropdownOption}
+                                                onClick={() =>
+                                                    handleFilterOptionClick({
+                                                        sectionId: "Custom Tags",
+                                                        value: subCategory.value,
+                                                    })
+                                                }
+                                            >
+                                                {subCategory.label}
+                                            </Box>
+                                        </Box>
+                                    ))}
+                            </Box>
+                        )}
                     </Box>
                 </StyledPopover>
             </Box>

@@ -65,7 +65,11 @@ export default function FilterSectionBox({
             const data = rootSection?.options?.find((item) => item.value === section.sectionId);
             return data || {};
         } else {
-            return filterSectionsConfig[section.sectionId];
+            if (section?.sectionId === "Custom Tags") {
+                return filterSectionsConfig?.tags?.find((item) => item.heading === section?.sectionId);
+            } else {
+                return filterSectionsConfig[section?.sectionId];
+            }
         }
     }, [section, filterSectionsConfig]);
     return (
