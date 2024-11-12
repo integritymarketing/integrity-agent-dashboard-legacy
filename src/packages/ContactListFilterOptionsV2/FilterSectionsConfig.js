@@ -92,4 +92,5 @@ export const FILTER_ICONS = {
     CUSTOM_TAG: CustomTagIcon,
     TITLE_DEFAULT: CampaignTitleDefault,
     ASK_INTEGRITY: Askintegrity,
+    default: CampaignSourceDefault,
 };

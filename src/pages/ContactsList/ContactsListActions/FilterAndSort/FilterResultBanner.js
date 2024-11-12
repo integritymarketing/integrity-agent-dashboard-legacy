@@ -47,7 +47,8 @@ function FilterResultBanner() {
             .map((item, index) => {
                 let section;
                 if (item && item?.root) {
-                    const rootSection = filterSectionsConfig[item.root];
+                    const rootSection = filterSectionsConfig?.tags?.find((tag) => tag.heading === item?.root);
+
                     section = rootSection?.options?.find((option) => option.value === item.sectionId);
                 } else {
                     section = filterSectionsConfig[item.sectionId];

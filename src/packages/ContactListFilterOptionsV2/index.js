@@ -1,21 +1,19 @@
+/* eslint-disable max-lines-per-function */
 import { useState, useContext, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { ChevronLeft, Add } from "@mui/icons-material";
 import { Button } from "components/ui/Button";
-import styles from "./styles.module.scss";
 import { Box } from "@mui/material";
 import Close from "./icons/close.svg";
 import Icon from "components/Icon";
 import Popover from "@mui/material/Popover";
-
 import FilterSectionBox from "./FilterSectionBox/index";
 import { styled } from "@mui/system";
 import { FILTER_ICONS, reminderFilters } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
 import useFetch from "hooks/useFetch";
-import stylesFilterSectionBox from "./FilterSectionBox/styles.module.scss";
 import StageStatusContext from "contexts/stageStatus";
-
 import useAnalytics from "hooks/useAnalytics";
-import Askintegrity from "components/icons/version-2/AskIntegrity";
+import styles from "./styles.module.scss";
 
 const StyledPopover = styled(Popover)(() => ({
     ".MuiPopover-paper": {
@@ -50,88 +48,81 @@ export default function ContactListFilterOptionsV2({
         async function fetchData() {
             isApiCallInitiated.current = true;
             const path = "Tag/TagsGroupByCategory?mappedLeadTagsOnly=true";
-            const data = await fetchLeadTags(null, false, path);
+            const tagsData = await fetchLeadTags(null, false, path);
+            const groupTagsByCategory = (categories) => {
+                const groupedTags = [];
+                const processedParents = new Set();
+                let remainingCategories = [...categories];
 
-            const campaignTitleObject = data?.find((item) => item.tagCategoryName === "Campaign Title");
-            const carrierTagsObject = data?.find((item) => item.tagCategoryName === "Carrier");
+                // Process parent categories and their children
+                remainingCategories
+                    .filter((category) => category.parentTagCategoryId === null)
+                    .forEach((parentCategory) => {
+                        if (!processedParents.has(parentCategory.tagCategoryId)) {
+                            const childCategories = remainingCategories.filter(
+                                (category) => category.parentTagCategoryId === parentCategory.tagCategoryId
+                            );
 
-            const productStatusObject = data?.find((item) => item.tagCategoryName === "Product Status");
-            const productTypeObject = data?.find((item) => item.tagCategoryName === "Product Type");
-            const healthSoAObject = data?.find((item) => item.tagCategoryName === "Health SOA");
+                            const childOptions = childCategories
+                                .map((childCategory) => {
+                                    // Only map child if it has tags
+                                    if (childCategory.tags && childCategory.tags.length > 0) {
+                                        return {
+                                            label: childCategory.tagCategoryName,
+                                            heading: childCategory.tagCategoryName,
+                                            value: childCategory.tagCategoryName,
+                                            icon: FILTER_ICONS[childCategory.tagCategoryName] || FILTER_ICONS.default,
+                                            options: childCategory.tags.map((tag) => ({
+                                                label: tag.tagLabel,
+                                                value: tag.tagId,
+                                                icon:
+                                                    tag.tagIconUrl ||
+                                                    FILTER_ICONS[tag.tagLabel] ||
+                                                    FILTER_ICONS.default,
+                                                iconClassName: "menuItemIconMedium",
+                                            })),
+                                        };
+                                    }
+                                    return null; // Skip childCategory if it has no tags
+                                })
+                                .filter(Boolean); // Remove null values
 
-            const campaignSourceObject = data?.find((item) => item.tagCategoryName === "Campaign Source");
-            const campaignTypeObject = data?.find((item) => item.tagCategoryName === "Campaign Type");
-            const campaignInterestObject = data?.find((item) => item.tagCategoryName === "Campaign Interest");
+                            // Only add parent if it has valid childOptions
+                            if (childOptions.length > 0) {
+                                groupedTags.push({
+                                    heading: parentCategory.tagCategoryName,
+                                    options: childOptions,
+                                });
+                            }
 
-            const askIntegrityObject = data?.find(
-                (item) => item.tagCategoryName === "Ask Integrity Suggests" && item.tags.length > 0
-            );
-            const sortedAskIntegrityTags = askIntegrityObject?.tags?.sort((a, b) => {
-                const regex = /\d+/;
-                const aHasNumber = regex.test(a.tagLabel);
-                const bHasNumber = regex.test(b.tagLabel);
-
-                if (!aHasNumber && !bHasNumber) {
-                    // Both a and b do not have numbers, sort alphabetically
-                    return a.tagLabel.localeCompare(b.tagLabel);
-                } else if (!aHasNumber) {
-                    // a does not have a number, b does, a comes first
-                    return -1;
-                } else if (!bHasNumber) {
-                    // b does not have a number, a does, b comes first
-                    return 1;
-                } else {
-                    // Both a and b have numbers, sort by the numerical value
-                    const aNumber = parseInt(a.tagLabel.match(regex)[0], 10);
-                    const bNumber = parseInt(b.tagLabel.match(regex)[0], 10);
-                    return aNumber - bNumber;
-                }
-            });
-
-            const customTagsObject = data?.find((item) => item.tagCategoryName === "Other");
-
-            const productTypeOptions =
-                productTypeObject?.tags
-                    ?.map((item) => {
-                        let label;
-                        if (item.tagLabel === "PDP") {
-                            label = "PDP";
-                        } else if (item.tagLabel === "MAPD") {
-                            label = "MAPD";
-                        } else if (item.tagLabel === "FINAL EXPENSE" || item.tagLabel === "FEXP") {
-                            label = "FINAL EXPENSE";
-                        } else if (item.tagLabel === "MEDICARE ADVANTAGE" || item.tagLabel === "HEALTH") {
-                            label = "MEDICARE ADVANTAGE";
+                            // Mark parent as processed and remove children from remainingCategories
+                            processedParents.add(parentCategory.tagCategoryId);
+                            remainingCategories = remainingCategories.filter(
+                                (category) => !childCategories.includes(category)
+                            );
                         }
-                        return {
-                            label: label,
-                            value: item.tagId,
-                            icon: item.tagIconUrl || FILTER_ICONS["MEDICARE"],
-                        };
-                    })
-                    ?.filter((item, index, self) => {
-                        return item?.label && index === self.findIndex((t) => t.label === item.label);
-                    }) || [];
+                    });
 
-            const healthSoaOptions = healthSoAObject?.tags
-                .filter(
-                    (item) =>
-                        (item.tagLabel === "SOA SIGNED" && item.tagIconUrl) ||
-                        (item.tagLabel === "SOA SENT" && item.tagIconUrl) ||
-                        item.tagLabel === "SOA COMPLETED"
-                )
-                .map((item) => ({
-                    label: item.tagLabel,
-                    value: item.tagId,
-                    icon: item.tagIconUrl || FILTER_ICONS["STARTED"],
-                }));
+                // Handle categories without parents or children
+                remainingCategories.forEach((orphanCategory) => {
+                    if (!processedParents.has(orphanCategory.tagCategoryId) && orphanCategory.tags.length > 0) {
+                        groupedTags.push({
+                            header: orphanCategory.tagCategoryName,
+                            children: orphanCategory.tags.map((tag) => ({
+                                label: tag.tagLabel,
+                                value: tag.tagId,
+                                icon: tag.tagIconUrl || FILTER_ICONS.default,
+                            })),
+                        });
+                    }
+                });
 
-            const campaignSourceOptions = campaignSourceObject?.tags?.map((item) => ({
-                label: item.tagLabel,
-                value: item.tagId,
-                icon: item.tagIconUrl || FILTER_ICONS["SOURCE_DEFAULT"],
-            }));
+                return groupedTags;
+            };
 
+            const groupedCategories = groupTagsByCategory(tagsData);
+
+            // Set dynamic filter sections
             setFilterSectionsConfig({
                 reminders: {
                     heading: "Reminders",
@@ -139,125 +130,20 @@ export default function ContactListFilterOptionsV2({
                 },
                 stage: {
                     heading: "Stage",
-                    options: statusOptions?.map((item) => ({
-                        value: item.statusId,
-                        label: item.label,
-                        color: item.color,
+                    options: statusOptions.map(({ statusId, label, color }) => ({
+                        value: statusId,
+                        label,
+                        color,
                     })),
                 },
-                product_tags: {
-                    heading: "Product Tags",
-                    options: [
-                        {
-                            label: "Product Status",
-                            heading: "Product Status",
-                            value: "product_status",
-                            icon: FILTER_ICONS["NONE"],
-                            options: productStatusObject?.tags?.map((item) => ({
-                                label: item.tagLabel,
-                                value: item.tagId,
-                                icon: item.tagIconUrl || FILTER_ICONS[item.tagLabel],
-                                iconClassName: stylesFilterSectionBox.menuItemIconMedium,
-                            })),
-                        },
-                        {
-                            label: "Product Type",
-                            heading: "Product Type",
-                            value: "product_type",
-                            icon: FILTER_ICONS["MEDICARE"],
-                            options: productTypeOptions,
-                        },
-                        {
-                            label: "Carrier",
-                            value: "carrier",
-                            heading: "Carrier",
-                            icon: FILTER_ICONS["CARRIER"],
-                            options:
-                                carrierTagsObject?.tags?.map((item) => ({
-                                    label: item.tagLabel,
-                                    value: item.tagId,
-                                    icon: item.tagIconUrl || FILTER_ICONS[item.tagLabel],
-                                })) || [],
-                        },
-                        {
-                            label: "Health SOA",
-                            value: "health_soa",
-                            heading: "Health SOA",
-                            icon: FILTER_ICONS["STARTED"],
-                            options: healthSoaOptions,
-                        },
-                    ],
-                },
-                campaign_tags: {
-                    heading: "Campaign Tags",
-                    options: [
-                        {
-                            label: "Campaign Source",
-                            value: "campaign_source",
-                            heading: "Campaign Source",
-                            icon: FILTER_ICONS["SOURCE_DEFAULT"],
-                            options: campaignSourceOptions,
-                        },
-                        {
-                            label: "Campaign Type",
-                            value: "campaign_type",
-                            heading: "Campaign Type",
-                            icon: FILTER_ICONS["TYPE_DEFAULT"],
-                            options: campaignTypeObject?.tags?.map((item) => ({
-                                label: item.tagLabel,
-                                value: item.tagId,
-                                icon: item.tagIconUrl || FILTER_ICONS[item.tagLabel],
-                            })),
-                        },
-                        {
-                            label: "Campaign Title",
-                            value: "campaign_title",
-                            heading: "Campaign Title",
-                            icon: FILTER_ICONS["TITLE_DEFAULT"],
-                            options: campaignTitleObject?.tags?.map((item) => ({
-                                label: item.tagLabel,
-                                value: item.tagId,
-                                icon: item.tagIconUrl || FILTER_ICONS["TITLE_DEFAULT"],
-                            })),
-                        },
-                        {
-                            label: "Campaign Interest",
-                            value: "campaign_interest",
-                            heading: "Campaign Interest",
-                            icon: FILTER_ICONS["INTEREST_DEFAULT"],
-                            options: campaignInterestObject?.tags?.map((item) => ({
-                                label: item.tagLabel,
-                                value: item.tagId,
-                                icon: item.tagIconUrl || FILTER_ICONS[item.tagLabel],
-                            })),
-                        },
-                    ],
-                },
-                askIntegrity_tags: {
-                    heading: "Ask Integrity Suggests",
-                    options: sortedAskIntegrityTags?.map((item) => ({
-                        label: item.tagLabel,
-                        value: item.tagId,
-                        icon: item.tagIconUrl || Askintegrity,
-                    })),
-                },
-                custom_tags: {
-                    heading: "Custom Tags",
-                    options: customTagsObject?.tags?.map((item) => ({
-                        label: item.tagLabel,
-                        value: item.tagId.toString(),
-                        icon: item.tagIconUrl || FILTER_ICONS["CUSTOM_TAG"],
-                    })),
-                },
+                tags: groupedCategories,
             });
+
             setFetchedFiltersSectionConfigFromApi(true);
         }
+
         if (!fetchedFiltersSectionConfigFromApi && statusOptions?.length && !isApiCallInitiated.current) {
-            try {
-                fetchData();
-            } catch (e) {
-                console.log("ERROR", e);
-            }
+            fetchData().catch((error) => console.log("Error fetching data:", error));
         }
     }, [statusOptions]);
 
@@ -269,46 +155,6 @@ export default function ContactListFilterOptionsV2({
     const handleCloseFilterDropdown = () => {
         setAnchorEl(null);
         setIsFilterDropdownOpen(false);
-    };
-
-    const handleFilterOptionClick = ({ root = "", sectionId = "", value = "" }) => {
-        const uuid = Math.random().toString(36).substring(7);
-        const optionObject = { id: uuid, sectionId };
-
-        let filterSection;
-        if (root) {
-            const rootConfig = filterSectionsConfig[root];
-            filterSection = rootConfig?.options?.find((item) => item.value === sectionId);
-            optionObject.root = root;
-        } else {
-            filterSection = filterSectionsConfig[sectionId];
-        }
-        if (!value && filterSection.option) {
-            optionObject.selectedFilterOption = filterSection.option.value;
-            setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
-        }
-
-        if (value) {
-            optionObject.selectedFilterOption = value;
-            const gotItem = filterSection.options.find((item) => item.value == value);
-            optionObject.option = { label: gotItem?.label, value: value };
-            setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
-        }
-
-        if ((sectionId === "reminders" || sectionId === "stage") && selectedFilterSections.length >= 1) {
-            selectedFilterSections[selectedFilterSections.length - 1].nextAndOrOption = "and";
-        }
-        setSelectedFilterSections([...selectedFilterSections, optionObject]);
-        if (sectionId !== "custom_tags" && sectionId !== "askIntegrity_tags") {
-            setIsFilterSelectOpenForSection(uuid);
-        }
-        handleCloseFilterDropdown();
-    };
-
-    const handleOnRemoveFilterSection = (sectionUUId) => {
-        const newSelectedFilterSections = selectedFilterSections.filter((section) => section.id !== sectionUUId);
-        setSelectedFilterSections([...newSelectedFilterSections]);
-        setTimeout(() => resetData(newSelectedFilterSections), 100);
     };
 
     const handleOnChangeFilterOption = (sectionUUId, value) => {
@@ -360,11 +206,72 @@ export default function ContactListFilterOptionsV2({
         setTimeout(() => resetData([]), 100);
     };
 
-    const id = open ? "simple-popover-dropdown" : undefined;
+    const handleFilterOptionClick = ({ root = "", sectionId = "", value = "" }) => {
+        const uuid = Math.random().toString(36).substring(7);
+        const optionObject = { id: uuid, sectionId };
 
+        let filterSection;
+        if (root) {
+            const rootConfig = filterSectionsConfig?.tags?.find((item) => item.heading === root);
+            filterSection = rootConfig?.options?.find((item) => item.value === sectionId);
+            optionObject.root = root;
+        } else {
+            filterSection = filterSectionsConfig[sectionId];
+        }
+        if (!value && filterSection.option) {
+            optionObject.selectedFilterOption = filterSection.option.value;
+            setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
+        }
+
+        if (value) {
+            optionObject.selectedFilterOption = value;
+            const gotItem = filterSection.options.find((item) => item.value == value);
+            optionObject.option = { label: gotItem?.label, value: value };
+            setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
+        }
+
+        if ((sectionId === "reminders" || sectionId === "stage") && selectedFilterSections.length >= 1) {
+            selectedFilterSections[selectedFilterSections.length - 1].nextAndOrOption = "and";
+        }
+        setSelectedFilterSections([...selectedFilterSections, optionObject]);
+        if (sectionId !== "custom_tags" && sectionId !== "askIntegrity_tags") {
+            setIsFilterSelectOpenForSection(uuid);
+        }
+        handleCloseFilterDropdown();
+    };
+
+    const renderDropdownOptions = () => {
+        if (!filterSectionsConfig || !filterSectionsConfig?.tags?.length) {return null;}
+        return filterSectionsConfig?.tags?.map((category, index) => (
+            <Box key={index}>
+                <span className={styles.filterDropdownHeader}>{category.heading}</span>
+                {category.options.map((subCategory) => (
+                    <Box key={subCategory.value}>
+                        <Box
+                            className={styles.dropdownOption}
+                            onClick={() =>
+                                handleFilterOptionClick({
+                                    root: category.heading,
+                                    sectionId: subCategory.value,
+                                })
+                            }
+                        >
+                            {subCategory.heading}
+                        </Box>
+                    </Box>
+                ))}
+            </Box>
+        ));
+    };
+
+    const handleOnRemoveFilterSection = (sectionUUId) => {
+        const newSelectedFilterSections = selectedFilterSections.filter((section) => section.id !== sectionUUId);
+        setSelectedFilterSections([...newSelectedFilterSections]);
+        setTimeout(() => resetData(newSelectedFilterSections), 100);
+    };
     const hasUnfinishedFilterSections = selectedFilterSections.filter((item) => !item.selectedFilterOption).length;
-
     const hasReminderSection = selectedFilterSections.find((item) => item.sectionId === "reminders");
+
     return (
         <Box overflowY={"scroll"} maxHeight={"400px"}>
             <Box padding={2}>
@@ -415,7 +322,6 @@ export default function ContactListFilterOptionsV2({
                     />
                 )}
                 <StyledPopover
-                    id={id}
                     open={isFilterDropdownOpen}
                     anchorEl={anchorEl}
                     onClose={handleCloseFilterDropdown}
@@ -445,77 +351,7 @@ export default function ContactListFilterOptionsV2({
                                 </Box>
                             )}
                         </span>
-                        {Boolean(filterSectionsConfig?.product_tags?.options?.length) && (
-                            <span>
-                                <span className={styles.filterDropdownHeader}>
-                                    {filterSectionsConfig?.product_tags?.heading}
-                                </span>
-
-                                {filterSectionsConfig?.product_tags?.options?.map((item) => (
-                                    <Box
-                                        key={item.value}
-                                        className={styles.dropdownOption}
-                                        onClick={() =>
-                                            handleFilterOptionClick({ root: "product_tags", sectionId: item.value })
-                                        }
-                                    >
-                                        {item.label}
-                                    </Box>
-                                ))}
-                            </span>
-                        )}
-
-                        {Boolean(filterSectionsConfig?.campaign_tags?.options?.length) && (
-                            <span>
-                                <span className={styles.filterDropdownHeader}>
-                                    {filterSectionsConfig?.campaign_tags?.heading}
-                                </span>
-
-                                {filterSectionsConfig?.campaign_tags?.options?.map((item) => (
-                                    <Box
-                                        key={item.value}
-                                        className={styles.dropdownOption}
-                                        onClick={() =>
-                                            handleFilterOptionClick({ root: "campaign_tags", sectionId: item.value })
-                                        }
-                                    >
-                                        {item.label}
-                                    </Box>
-                                ))}
-                            </span>
-                        )}
-
-                        <span className={styles.filterDropdownHeader}>Ask Integrity Suggests</span>
-                        <span>
-                            {filterSectionsConfig?.askIntegrity_tags?.options?.map((item) => (
-                                <Box
-                                    key={item.tagId}
-                                    className={styles.dropdownOption}
-                                    onClick={() =>
-                                        handleFilterOptionClick({ sectionId: `askIntegrity_tags`, value: item.value })
-                                    }
-                                >
-                                    {item.label}
-                                </Box>
-                            ))}
-                        </span>
-                        {Boolean(filterSectionsConfig?.custom_tags?.options?.length) && (
-                            <span className={styles.filterDropdownHeader}>Custom Tags</span>
-                        )}
-                        <span>
-                            {filterSectionsConfig?.custom_tags?.options?.map((tag) => (
-                                <Box
-                                    key={tag.tagId}
-                                    className={styles.dropdownOption}
-                                    onClick={() =>
-                                        handleFilterOptionClick({ sectionId: `custom_tags`, value: tag.value })
-                                    }
-                                >
-                                    <Icon className={styles.menuItemIcon} image={FILTER_ICONS["CUSTOM_TAG"]} />
-                                    {tag.label}
-                                </Box>
-                            ))}
-                        </span>
+                        {renderDropdownOptions()}
                     </Box>
                 </StyledPopover>
             </Box>
@@ -535,3 +371,22 @@ export default function ContactListFilterOptionsV2({
         </Box>
     );
 }
+
+ContactListFilterOptionsV2.propTypes = {
+    setSelectedFilterSections: PropTypes.func.isRequired,
+    selectedFilterSections: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            sectionId: PropTypes.string.isRequired,
+            selectedFilterOption: PropTypes.string,
+            selectedIsOption: PropTypes.string,
+            nextAndOrOption: PropTypes.string,
+        })
+    ).isRequired,
+    resetData: PropTypes.func.isRequired,
+    filterSectionsConfig: PropTypes.object.isRequired,
+    setFilterSectionsConfig: PropTypes.func.isRequired,
+    fetchedFiltersSectionConfigFromApi: PropTypes.bool.isRequired,
+    setFetchedFiltersSectionConfigFromApi: PropTypes.func.isRequired,
+    isSingleSelect: PropTypes.bool.isRequired,
+};

@@ -5,6 +5,7 @@ import Spinner from "components/ui/Spinner/index";
 import StageStatusContext from "contexts/stageStatus";
 
 import ContactListFilterOptionsV2 from "packages/ContactListFilterOptionsV2";
+import PropTypes from "prop-types";
 
 const DEFAULT_SORT = ["createDate:desc"];
 
@@ -156,3 +157,10 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
         />
     );
 }
+
+
+CustomContactListFilter.propTypes = {
+    handleSummaryBarInfo: PropTypes.func.isRequired,
+    searchId: PropTypes.string,
+    isSingleSelect: PropTypes.bool,
+};

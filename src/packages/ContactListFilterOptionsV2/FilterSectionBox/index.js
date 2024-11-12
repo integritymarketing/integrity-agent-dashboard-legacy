@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { useState, useMemo } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -60,7 +61,7 @@ export default function FilterSectionBox({
 
     const configData = useMemo(() => {
         if (section && section.root) {
-            const rootSection = filterSectionsConfig[section.root];
+            const rootSection = filterSectionsConfig?.tags?.find((item) => item.heading === section?.root);
             const data = rootSection?.options?.find((item) => item.value === section.sectionId);
             return data || {};
         } else {
@@ -296,4 +297,5 @@ FilterSectionBox.propTypes = {
     isFilterSelectOpenForSection: PropTypes.bool,
     onChangeNextAndOrOption: PropTypes.func.isRequired,
     filterSectionsConfig: PropTypes.object.isRequired,
+    isSingleSelect: PropTypes.bool,
 };
