@@ -53,12 +53,17 @@ const InvitationCountBar = ({ readOnly }) => {
                     </>
                 )}
 
-                {(campaignActionType === "contacts filtered by…" || campaignActionType === "a contact when") && (
+                {(campaignActionType === "contacts filtered by…" && 
                     <>
                         {sendText} <span className={styles.count}>{filteredCount}</span> of{" "}
                         <span className={styles.count}>{filteredEligibleCount}</span> contacts
                     </>
                 )}
+                {campaignActionType === "a contact when"  && (
+                    <>
+                        {sendText} contacts
+                    </>)}
+
                 {campaignActionType !== "contacts filtered by…" &&
                     campaignActionType !== "a contact when" &&
                     campaignActionType !== "a contact" &&
@@ -86,7 +91,7 @@ const InvitationCountBar = ({ readOnly }) => {
                 {campaignActionType === "a contact when" && filteredContentStatus && (
                     <span
                         dangerouslySetInnerHTML={{
-                            __html: styleEventDescription(`<span>when ${filteredContentStatus}</span>`),
+                            __html: styleEventDescription(`when<span> ${filteredContentStatus}</span>`),
                         }}
                     ></span>
                 )}

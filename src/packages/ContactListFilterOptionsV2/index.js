@@ -342,7 +342,7 @@ export default function ContactListFilterOptionsV2({
                             >
                                 Stage
                             </Box>
-                            {!hasReminderSection && (
+                            {!hasReminderSection && !isSingleSelect && (
                                 <Box
                                     className={`${styles.dropdownOption} ${styles.dropdownOptionWithBorderRadius}`}
                                     onClick={() => handleFilterOptionClick({ sectionId: "reminders" })}

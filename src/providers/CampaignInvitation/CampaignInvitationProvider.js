@@ -646,7 +646,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             id: campaignId,
             agentId: agentId,
             agentNpn: npn,
-            campaignType: channel === "Sms" || actionType === "a contact" ? "Individual" : "Blast",
+            campaignType: actionType === "a contact when" ? "Event" : (channel === "Sms" || actionType === "a contact" ? "Individual" : "Blast"),
             campaignStatus: campaign_Status ? campaign_Status : campaignStatus,
             customCampaignDescription: campaignName,
             campaignChannel: channel,
@@ -657,15 +657,6 @@ export const CampaignInvitationProvider = ({ children }) => {
                 selectedFilterSections?.length > 0
                     ? JSON.stringify(customFilterData)
                     : "",
-            eventTrigger: {
-                tags: [],
-                stage: {
-                    logicalOperator: "",
-                    value: "",
-                    condition: "",
-                },
-                trigger: {},
-            },
             requestPayload: {
                 agentId: agentId,
                 agentNPN: npn,
@@ -724,7 +715,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 },
                 requestPayload: {
                     ...payload.requestPayload,
-                    leads: filteredContactsList,
+                    leads: [],
                 },
             };
         } else if (selectedContact?.leadsId && payload?.campaignSelectedAction === "a contact") {
