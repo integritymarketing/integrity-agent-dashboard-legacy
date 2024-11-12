@@ -51,7 +51,11 @@ function FilterResultBanner() {
 
                     section = rootSection?.options?.find((option) => option.value === item.sectionId);
                 } else {
-                    section = filterSectionsConfig[item.sectionId];
+                    if (item?.sectionId === "Custom Tags") {
+                        section = filterSectionsConfig?.tags?.find((tag) => tag.heading === item?.sectionId);
+                    } else {
+                        section = filterSectionsConfig[item?.sectionId];
+                    }
                 }
                 let thisItemLabel = "";
                 let andOrLabel = "";
