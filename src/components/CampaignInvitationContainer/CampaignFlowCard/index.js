@@ -126,6 +126,9 @@ const CampaignFlowContainer = ({ showPreview, allSelected, readOnly }) => {
                         anchorEl={channelOptionOpen}
                         handleAction={handleChannelOptionsChange}
                         handleClose={() => setChannelOptionOpen(null)}
+                        selected={
+                            campaignChannel === "Email" ? "an email" : campaignChannel === "Sms" ? "a text message" : ""
+                        }
                     />
                 </Box>
 
@@ -149,6 +152,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected, readOnly }) => {
                             anchorEl={emailOptionsOpen}
                             handleAction={handleEmailChannelOptionsChange}
                             handleClose={() => setEmailOptionsOpen(null)}
+                            selected={campaignDescriptionType}
                         />
                     </Box>
                 )}

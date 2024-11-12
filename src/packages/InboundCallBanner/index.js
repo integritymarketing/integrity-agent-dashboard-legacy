@@ -44,13 +44,21 @@ export default function InboundCallBanner() {
         navigate(`/link-to-contact?${queryParams}`);
     };
 
+    const title = useMemo(() => {
+        return activeCallStatus?.callType === "outbound"
+            ? "Outgoing Call: "
+            : activeCallStatus?.callType === "inbound"
+            ? "Incoming Call: "
+            : "";
+    }, [activeCallStatus]);
+
     const renderBannerContent = () => {
         const tags = activeCallStatus?.callLogTags.map((tag) => tag.tag.tagLabel);
 
         return (
             <>
                 <div className={styles.inboundCallWrapper}>
-                    <Heading4 text="Incoming Call: " />
+                    <Heading4 text={title} />
                     <Typography color="#434A51" sx={{ mx: 1 }} variant="subtitle1">
                         {formatPhoneNumber(activeCallStatus?.from, true)}
                     </Typography>

@@ -113,6 +113,7 @@ const CampaignInnerContainer = () => {
                             campaign={campaign}
                             refresh={handleGetCampaignDetailsById}
                             advanceMode={advanceMode}
+                            campaignDescription={campaignDescriptionType}
                         />
                     )}
                 </Box>

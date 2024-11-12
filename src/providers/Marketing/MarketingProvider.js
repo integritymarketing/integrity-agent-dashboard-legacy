@@ -4,6 +4,7 @@ import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
 import { useNavigate } from "react-router-dom";
 import * as Sentry from "@sentry/react";
+import useAnalytics from "hooks/useAnalytics";
 
 import useFetch from "hooks/useFetch";
 
@@ -13,10 +14,11 @@ export const MarketingProvider = ({ children }) => {
     const { npn } = useUserProfile();
     const navigate = useNavigate();
     const showToast = useToast();
+    const { fireEvent } = useAnalytics();
 
     const [completedCampaignsList, setCompletedCampaignsList] = useState([]);
     const [allCampaignsList, setAllCampaignsList] = useState([]);
-    const [emailData,  setEmailData] = useState([]);
+    const [emailData, setEmailData] = useState([]);
     const [smsData, setSmsData] = useState([]);
 
     const URL = `${process.env.REACT_APP_COMMUNICATION_API}/CampaignLog/GetCampaignLog/${npn}`;
@@ -57,7 +59,9 @@ export const MarketingProvider = ({ children }) => {
                     const dateB = new Date(b.modifiedDateTime);
                     return dateB - dateA;
                 });
-                const filteredValidCampaigns = sortAllCampaignsList.filter((item) => item?.requestPayload?.templateId !== "sms-freeform");
+                const filteredValidCampaigns = sortAllCampaignsList.filter(
+                    (item) => item?.requestPayload?.templateId !== "sms-freeform"
+                );
                 setAllCampaignsList(filteredValidCampaigns);
                 const filteredData = resData.filter((item) => item.campaignStatus === "Completed");
                 setCompletedCampaignsList(filteredData);
@@ -74,7 +78,7 @@ export const MarketingProvider = ({ children }) => {
     }, [fetchCompletedCampaigns, showToast]);
 
     const handleAllCampaignActions = useCallback(
-        async ({ payload, method, refresh }) => {
+        async ({ payload, method, refresh, campaignDescription }) => {
             try {
                 let resData = null;
                 if (method === "put") {
@@ -91,6 +95,22 @@ export const MarketingProvider = ({ children }) => {
                     } else {
                         await getCompletedCampaigns();
                     }
+                    const fireEventPayload = {
+                        campaignName: payload.customCampaignDescription,
+                        campaignDescription: campaignDescription,
+                        mode: payload?.campaignType === "Event" ? "advanced" : "basic",
+                        scope:
+                            payload?.campaignSelectedAction === "contacts filtered by…"
+                                ? "filter contacts"
+                                : payload?.campaignSelectedAction === "all contacts"
+                                ? "all contacts"
+                                : payload?.campaignSelectedAction === "a contact"
+                                ? "a contact"
+                                : payload?.campaignSelectedAction === "a contact when"
+                                ? "a contact when"
+                                : payload?.campaignSelectedAction,
+                    };
+                    fireEvent("Campaign Started", fireEventPayload);
                     showToast({
                         type: "success",
                         message: "Campaign updated successfully",
@@ -124,7 +144,7 @@ export const MarketingProvider = ({ children }) => {
                 });
             }
         },
-        [deleteCampaign, updateCampaign, createCampaign, showToast, navigate],
+        [deleteCampaign, updateCampaign, createCampaign, showToast, navigate]
     );
 
     return <MarketingContext.Provider value={getContextValue()}>{children}</MarketingContext.Provider>;

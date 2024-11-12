@@ -161,6 +161,7 @@ const CampaignStatusCard = ({ campaign }) => {
                     <ActionPopoverContainer
                         campaign={campaign}
                         advanceMode={campaignSelectedAction === "a contact when"}
+                        campaignDescription={showCampaignInfo()}
                     />
                 </Box>
                 <Box className={styles.cardDivider} />

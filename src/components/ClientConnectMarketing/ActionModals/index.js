@@ -14,7 +14,7 @@ import {
 } from "@integritymarketing/icons";
 import styles from "./styles.module.scss";
 
-const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
+const ActionModal = ({ campaignAction, open, onClose, campaign, refresh, campaignDescription }) => {
     const { handleAllCampaignActions } = useMarketing();
     const { optionText, optionLabel } = campaignAction;
 
@@ -65,18 +65,22 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
                 break;
             case "Start":
                 payload = createPayload({ campaignStatus: "Submitted", campaignType: "Event" });
+                handleCustomFilter(payload);
                 method = "put";
                 break;
             case "Pause":
                 payload = createPayload({ campaignStatus: "Paused" });
+                handleCustomFilter(payload);
                 method = "put";
                 break;
             case "Resume":
                 payload = createPayload({ campaignStatus: "Active" });
+                handleCustomFilter(payload);
                 method = "put";
                 break;
             case "End":
                 payload = createPayload({ campaignStatus: "Completed" });
+                handleCustomFilter(payload);
                 method = "put";
                 break;
             case "Delete":
@@ -87,7 +91,7 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh }) => {
                 return;
         }
 
-        handleAllCampaignActions({ payload, method, refresh });
+        handleAllCampaignActions({ payload, method, refresh, campaignDescription });
         setCampaignName("");
         onClose();
     };
@@ -190,6 +194,7 @@ ActionModal.propTypes = {
     onClose: PropTypes.func.isRequired,
     campaign: PropTypes.object.isRequired,
     refresh: PropTypes.func.isRequired,
+    campaignDescription: PropTypes.string,
 };
 
 export default ActionModal;

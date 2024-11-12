@@ -56,7 +56,7 @@ const campaignOperations = [
     },
 ];
 
-const ActionPopover = ({ anchorEl, onClose, campaign, refresh, advanceMode }) => {
+const ActionPopover = ({ anchorEl, onClose, campaign, refresh, advanceMode, campaignDescription }) => {
     const open = Boolean(anchorEl);
     const id = anchorEl ? "simple-popover-actions" : undefined;
     const { campaignChannel, requestPayload, campaignSelectedAction, campaignStatus } = campaign;
@@ -116,7 +116,7 @@ const ActionPopover = ({ anchorEl, onClose, campaign, refresh, advanceMode }) =>
                         item.value === "rename" ||
                         item.value === "start" ||
                         item.value === "copy" ||
-                        item.value === "delete",
+                        item.value === "delete"
                 );
             } else {
                 return campaignOperations.filter(
@@ -124,18 +124,18 @@ const ActionPopover = ({ anchorEl, onClose, campaign, refresh, advanceMode }) =>
                         item.value === "rename" ||
                         item.value === "send" ||
                         item.value === "copy" ||
-                        item.value === "delete",
+                        item.value === "delete"
                 );
             }
         }
         if (campaignStatus === "Active") {
             return campaignOperations.filter(
-                (item) => item.value === "pause" || item.value === "copy" || item.value === "end",
+                (item) => item.value === "pause" || item.value === "copy" || item.value === "end"
             );
         }
         if (campaignStatus === "Paused") {
             return campaignOperations.filter(
-                (item) => item.value === "resume" || item.value === "copy" || item.value === "end",
+                (item) => item.value === "resume" || item.value === "copy" || item.value === "end"
             );
         }
         return [];
@@ -202,6 +202,7 @@ const ActionPopover = ({ anchorEl, onClose, campaign, refresh, advanceMode }) =>
                     campaignAction={campaignAction}
                     campaign={campaign}
                     refresh={refresh}
+                    campaignDescription={campaignDescription}
                 />
             )}
         </>
@@ -214,6 +215,7 @@ ActionPopover.propTypes = {
     campaign: PropTypes.object.isRequired,
     refresh: PropTypes.func.isRequired,
     advanceMode: PropTypes.bool,
+    campaignDescription: PropTypes.string,
 };
 
 export default ActionPopover;
