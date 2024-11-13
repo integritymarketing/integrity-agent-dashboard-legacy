@@ -9,15 +9,13 @@ import styles from "./styles.module.scss";
 function FilteredLeadIdsBanner() {
     const { refreshData } = useContactsListContext();
     const { filteredIds, removeFilteredLeadIds, filteredInfo } = useFilteredLeadIds();
-    const count = filteredIds?.length ?? 0;
-    const text = count > 1 ? "Policies" : "Policy";
 
     const onClickHandle = () => {
         removeFilteredLeadIds();
         refreshData();
     };
 
-    if (count === 0) {
+    if (!filteredIds?.length) {
         return <></>;
     }
 
@@ -25,7 +23,7 @@ function FilteredLeadIdsBanner() {
         <Box className={styles.banner}>
             <Box className={`${styles.colorBar} ${styles[filteredInfo?.status]}`}></Box>
             <Box>
-                {count} {filteredInfo?.status} {text}
+                {count} {filteredInfo?.status} {filteredIds?.length > 1 ? "Policies" : "Policy"}
             </Box>
             <Box onClick={onClickHandle} className={styles.clearIcon}>
                 <span>{'Clear Filter'}</span>

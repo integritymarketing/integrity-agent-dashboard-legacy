@@ -24,15 +24,15 @@ const removeMultipleItemsFromLocalStorage = (keys) => {
 
 function useFilteredLeadIds() {
     const removeFilteredLeadIds = useCallback(() => {
-        removeItemFromLocalStorage("filteredLeadIds");
-        removeItemFromLocalStorage("filteredLeadInfo");
+        removeItemFromLocalStorage("filterLeadIds");
+        removeItemFromLocalStorage("filterInfo");
         removeItemFromLocalStorage("duplicateLeadIds");
         removeItemFromLocalStorage("campaignsLeadIds");
         removeItemFromLocalStorage("campaignsLeadInfo");
     }, []);
 
-    const filteredInfo = getAndResetItemFromLocalStorage("filteredLeadInfo");
-    const filteredIds = getAndResetItemFromLocalStorage("filteredLeadIds");
+    const filteredInfo = getAndResetItemFromLocalStorage("filterInfo");
+    const filteredIds = getAndResetItemFromLocalStorage("filterLeadIds");
     const duplicateIds = getAndResetItemFromLocalStorage("duplicateLeadIds");
     const campaignsLeadIds = getAndResetItemFromLocalStorage("campaignsLeadIds");
     const campaignsLeadInfo = getAndResetItemFromLocalStorage("campaignsLeadInfo");
@@ -47,8 +47,8 @@ function useFilteredLeadIds() {
         if (key === "campaignsLeadIds") {
             removeMultipleItemsFromLocalStorage([
                 "duplicateLeadIds",
-                "filteredLeadIds",
-                "filteredLeadInfo",
+                "filterLeadIds",
+                "filterInfo",
                 "contactList_filterSectionsConfig",
                 "contactList_selectedFilterSections",
             ]);
@@ -56,12 +56,12 @@ function useFilteredLeadIds() {
             removeMultipleItemsFromLocalStorage([
                 "campaignsLeadIds",
                 "campaignsLeadInfo",
-                "filteredLeadIds",
-                "filteredLeadInfo",
+                "filterLeadIds",
+                "filterInfo",
                 "contactList_filterSectionsConfig",
                 "contactList_selectedFilterSections",
             ]);
-        } else if (key === "filteredLeadIds") {
+        } else if (key === "filterLeadIds") {
             removeMultipleItemsFromLocalStorage(["campaignsLeadIds", "campaignsLeadInfo", "duplicateLeadIds"]);
         }
     }, []);
