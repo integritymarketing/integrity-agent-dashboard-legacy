@@ -67,13 +67,15 @@ const CampaignStatusCard = ({ campaign }) => {
     };
 
     const showActionInfo = () => {
-        if (showCampaignInfo() === "...") return "";
+        if (showCampaignInfo() === "...") {
+            return "";
+        }
         if (campaignSelectedAction === "a contact" && requestPayload?.leads?.length > 0) {
             return ` to ${requestPayload?.leads[0]?.firstName} ${requestPayload?.leads[0]?.lastName}.`;
         } else if (campaignSelectedAction === "contacts filtered by…") {
             return " to Filtered contacts.";
         } else if (campaignSelectedAction === "a contact when") {
-            return " a contact when a tag is added.";
+            return " to a contact when a tag is added.";
         } else if (campaignSelectedAction !== "") {
             return ` to ${campaignSelectedAction}.`;
         } else {
@@ -120,7 +122,7 @@ const CampaignStatusCard = ({ campaign }) => {
         });
 
         const removeUnSubscribed = mergedData.filter(
-            (item) => !(item.statusName === "UnSubscribed" && item.count === null)
+            (item) => !(item.statusName === "UnSubscribed" && item.count === null),
         );
         return removeUnSubscribed;
     };
@@ -232,7 +234,7 @@ CampaignStatusCard.propTypes = {
                 PropTypes.shape({
                     firstName: PropTypes.string,
                     lastName: PropTypes.string,
-                })
+                }),
             ),
         }),
         statusCounts: PropTypes.arrayOf(
@@ -242,7 +244,7 @@ CampaignStatusCard.propTypes = {
                 showPercentage: PropTypes.string,
                 icon: PropTypes.elementType,
                 leadIds: PropTypes.arrayOf(PropTypes.string),
-            })
+            }),
         ),
         sentDate: PropTypes.string,
         trigger: PropTypes.string,

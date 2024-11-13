@@ -27,16 +27,13 @@ const CampaignStatusInfoCard = ({ campaignStatus, campaignType, runDate, created
                 <Grid container>
                     <Grid xs={12} md={6}>
                         <Typography variant="custom" className={styles.sentText}>
-                            Sent:{" "}
-                            <span className={styles.sentDate}>
-                                {campaignStatus === "Active" ? modifiedDate : runDate}
-                            </span>
+                            Sent: <span className={styles.sentDate}>{runDate}</span>
                         </Typography>
                     </Grid>
                     {campaignStatus === "Completed" && (
                         <Grid xs={12} md={6} sx={{ textAlign: { xs: "left", md: "end" } }}>
                             <Typography variant="custom" className={styles.sentText}>
-                                Completed <span className={styles.sentDate}> {modifiedDate}</span>
+                                Completed: <span className={styles.sentDate}> {runDate}</span>
                             </Typography>
                         </Grid>
                     )}
@@ -59,7 +56,7 @@ const CampaignStatusInfoCard = ({ campaignStatus, campaignType, runDate, created
                     {campaignType === "Event" && (
                         <span
                             dangerouslySetInnerHTML={{
-                                __html: styleEventDescription(`${eventInfo}`),
+                                __html: styleEventDescription(`${eventInfo}`, true),
                             }}
                         ></span>
                     )}

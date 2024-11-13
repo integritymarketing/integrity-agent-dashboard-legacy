@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState, useMemo } from "react";
 import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 import EmailContent from "../EmailContent";
 import styles from "./styles.module.scss";
@@ -12,14 +11,21 @@ import AdvancedModeToggle from "../AdvancedModeToggle";
 import SendCampaignModal from "../SendCampaignModal/SendCampaignModal";
 import TemplateDescriptionCard from "../TemplateDescriptionCard";
 import ActionPopoverContainer from "components/ClientConnectMarketing/ActionPopover";
-import StartIcon from "components/icons/Marketing/start";
+import { ActionsSend, ActionsPause, ActionsStart } from "@integritymarketing/icons";
+import { useMarketing } from "providers/Marketing";
+
+const STATUS_COLORS = {
+    Draft: { bgColor: "#DDDDDD", color: "#434A51" },
+    Active: { bgColor: "#009E15", color: "#FFFFFF" },
+    Paused: { bgColor: "#DDDDDD", color: "#434A51" },
+    Completed: { bgColor: "#49648B", color: "#FFFFFF" },
+};
 
 const CampaignInnerContainer = () => {
     const {
         campaign,
         campaignChannel,
         campaignDescriptionType,
-        handleCreateOrUpdateCampaign,
         selectedContact,
         filteredContactsList,
         allContactsList,
@@ -35,6 +41,8 @@ const CampaignInnerContainer = () => {
         filteredContentStatus,
         isAdvancedMode,
     } = useCampaignInvitation();
+
+    const { handleAllCampaignActions } = useMarketing();
 
     const readOnly = campaignStatus !== campaignStatuses.DRAFT;
     const advanceMode = isAdvancedMode && campaignActionType === "a contact when";
@@ -73,15 +81,15 @@ const CampaignInnerContainer = () => {
     };
 
     const buttonStyles = {
-        backgroundColor: readOnly ? "#49648B" : "#DDDDDD",
-        color: readOnly ? "#FFF" : "#434A51",
+        backgroundColor: STATUS_COLORS[campaignStatus]?.bgColor,
+        color: STATUS_COLORS[campaignStatus]?.color,
         borderRadius: "4px",
         boxShadow: "none",
         cursor: "auto",
         fontSize: "13px",
         fontWeight: "400",
         "&:hover": {
-            backgroundColor: readOnly ? "#49648B" : "#DDDDDD",
+            backgroundColor: STATUS_COLORS[campaignStatus]?.bgColor,
         },
     };
 
@@ -93,6 +101,85 @@ const CampaignInnerContainer = () => {
         ((campaignActionType === "contacts filtered by…" || campaignActionType === "a contact when") &&
             filteredContactsList?.length === 0) ||
         !allSelected;
+
+    const buttonName = useMemo(() => {
+        if (campaignStatus === campaignStatuses.DRAFT) {
+            if (advanceMode) {
+                return "Start";
+            } else {
+                return "Send";
+            }
+        } else if (campaignStatus === campaignStatuses.ACTIVE) {
+            return "Pause";
+        } else if (campaignStatus === campaignStatuses.PAUSED) {
+            return "Resume";
+        }
+        return "";
+    }, [campaignStatus, advanceMode]);
+
+    const handleActionButton = () => {
+        const createPayload = (overrides) => ({
+            ...campaign,
+            ...overrides,
+        });
+
+        const handleCustomFilter = (payload) => {
+            if (
+                (payload?.campaignSelectedAction === "contacts filtered by…" ||
+                    payload?.campaignSelectedAction === "a contact when") &&
+                payload?.customFilter !== ""
+            ) {
+                const data = JSON.parse(JSON.parse(payload?.customFilter));
+                payload.customFilter = data ? JSON.stringify(data) : "";
+            }
+        };
+
+        let payload;
+        let method;
+
+        switch (buttonName) {
+            case "Send":
+                payload = createPayload({ campaignStatus: "Submitted" });
+                handleCustomFilter(payload);
+                method = "put";
+                break;
+            case "Start":
+                payload = createPayload({ campaignStatus: "Submitted", campaignType: "Event" });
+                handleCustomFilter(payload);
+                method = "put";
+                break;
+            case "Pause":
+                payload = createPayload({ campaignStatus: "Paused" });
+                handleCustomFilter(payload);
+                method = "put";
+                break;
+            case "Resume":
+                payload = createPayload({ campaignStatus: "Active" });
+                handleCustomFilter(payload);
+                method = "put";
+                break;
+
+            default:
+                return;
+        }
+
+        handleAllCampaignActions({ payload, method, refresh: handleGetCampaignDetailsById, campaignDescriptionType });
+    };
+
+    const saveIcon = useMemo(() => {
+        switch (buttonName) {
+            case "Send":
+                return <ActionsSend color="#ffffff" />;
+            case "Pause":
+                return <ActionsPause color="#ffffff" />;
+            case "Start":
+                return <ActionsStart color="#ffffff" />;
+            case "Resume":
+                return <ActionsStart color="#ffffff" />;
+            default:
+                return null;
+        }
+    }, [buttonName]);
 
     return (
         <Box className={styles.container}>
@@ -174,29 +261,26 @@ const CampaignInnerContainer = () => {
                     </>
                 )}
 
-                {!readOnly && showPreview && allSelected && (
+                {((!readOnly && showPreview && allSelected) || readOnly) && (
                     <Box className={styles.startCampaignButton}>
                         <Button
                             size="medium"
                             variant="contained"
                             color="primary"
-                            endIcon={advanceMode ? <StartIcon /> : <img src={ArrowForwardCircle} alt="Arrow forward" />}
+                            endIcon={saveIcon}
                             onClick={() => {
                                 setIsSendCampaignModalOpen(true);
                             }}
                             disabled={saveButtonDisabled}
                         >
-                            {advanceMode ? "Start" : "Send"} Campaign
+                            {buttonName} Campaign
                         </Button>
                         <SendCampaignModal
                             isModalOpen={isSendCampaignModalOpen}
                             setIsModalOpen={setIsSendCampaignModalOpen}
-                            advanceMode={advanceMode}
-                            onSend={() => {
-                                handleCreateOrUpdateCampaign({
-                                    campaign_Status: campaignStatuses.SUBMITTED,
-                                });
-                            }}
+                            buttonName={buttonName}
+                            saveIcon={saveIcon}
+                            onSend={handleActionButton}
                         />
                     </Box>
                 )}

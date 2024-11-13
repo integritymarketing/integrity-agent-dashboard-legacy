@@ -23,8 +23,6 @@ const CampaignFlowContainer = ({ showPreview, allSelected, readOnly }) => {
         setCampaignChannel,
         allCampaignInvitationData,
         eligibleContactsLength,
-        campaignStatuses,
-        campaignStatus,
         getCampaignDetailsByEmail,
         getCampaignDetailsByText,
         isFetchCampaignDetailsByEmailLoading,
@@ -73,7 +71,7 @@ const CampaignFlowContainer = ({ showPreview, allSelected, readOnly }) => {
 
     const handleEmailChannelOptionsChange = (value) => {
         setEmailOptionsOpen(null);
-        handleTemplateData(value);
+        handleTemplateData(value, true);
         resetThird();
         handleCreateOrUpdateCampaign({
             template_Id: value?.templateId,

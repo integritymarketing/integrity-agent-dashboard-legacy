@@ -223,7 +223,11 @@ export const isHaveCarrierId = (url) => {
 };
 
 // Define the words to be styled in black
-const blackWords = ["if", "is", "not", "becomes\n", "when"]; // Replace with your specific words
+const blackWords = ["if", "is", "not", "becomes\n", "when", "becomes"]; // Replace with your specific words
+
+const blackWordStyle = "color: #434a51; font-size: 16px; font-style: italic; margin-right: 4px;";
+const blueWordStyle = "color: #052a63; font-weight: 600; font-size: 16px; margin-right: 4px;";
+const normalStyle = "color: #717171; font-weight: 400; font-size: 16px; margin-left: 4px;";
 
 // Function to style the actionDescription
 export const styleActionDescription = (description) => {
@@ -235,9 +239,9 @@ export const styleActionDescription = (description) => {
         ?.map((word, index) => {
             const cleanWord = word.replace(/[.,?!;:()]/g, ""); // Remove punctuation for accurate matching
             if (blackWords.includes(cleanWord.toLowerCase())) {
-                return `<span class="blackWord">${word}</span>`;
+                return `<span style="${blackWordStyle}">${word}</span>`;
             } else {
-                return `<span class="blueWord">${word}</span>`;
+                return `<span style="${blueWordStyle}">${word}</span>`;
             }
         })
         .join(" ");
@@ -248,7 +252,7 @@ const cleanDescription = (description) => {
     return description.replace(/<span>\s*<\/span>/g, "").replace(/<\/?span>/g, "<span>");
 };
 
-export const styleEventDescription = (description) => {
+export const styleEventDescription = (description, isNormal) => {
     if (!description) {
         return description;
     }
@@ -257,7 +261,7 @@ export const styleEventDescription = (description) => {
     const cleanedDescription = cleanDescription(description);
 
     // Convert description to plain text and replace "is" with "becomes"
-    let output = cleanedDescription
+    const output = cleanedDescription
         .replace(/<[^>]+>/g, "") // Remove HTML tags to get plain text
         .replace(/\bis\b/g, "becomes"); // Replace "is" with "becomes"
 
@@ -265,13 +269,15 @@ export const styleEventDescription = (description) => {
     return output
         .split(" ")
         .map((word) => {
-            if (!word) return word;
+            if (!word) {
+                return word;
+            }
             const cleanWord = word.replace(/[.,?!;:()]/g, ""); // Remove punctuation for matching
 
             if (blackWords.includes(cleanWord.toLowerCase())) {
-                return `<span class="blackWord">${word}</span>`;
+                return `<span style="${isNormal ? normalStyle : blackWordStyle}">${word}</span>`;
             } else {
-                return `<span class="blueWord">${word}</span>`;
+                return `<span style="${isNormal ? normalStyle : blueWordStyle}">${word}</span>`;
             }
         })
         .join(" ");

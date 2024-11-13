@@ -90,7 +90,14 @@ const InvitationBar = ({ readOnly }) => {
             }
             setContactOptionOpen(null);
         },
-        [contactOptionOpen, setSelectedContact, setCampaignActionType, setActionDescription, resetSecond, campaignActionType]
+        [
+            contactOptionOpen,
+            setSelectedContact,
+            setCampaignActionType,
+            setActionDescription,
+            resetSecond,
+            campaignActionType,
+        ],
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
@@ -110,16 +117,16 @@ const InvitationBar = ({ readOnly }) => {
         (event) => {
             setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
         },
-        [contactOptionOpen]
+        [contactOptionOpen],
     );
-
+    const isOptionsOpen = Boolean(contactOptionOpen);
     return (
         <Box className={styles.emailOptions}>
             <Typography variant="h3" className={styles.optionText}>
                 to
             </Typography>
             <Box
-                className={`${styles.bigOption} ${readOnly ? styles.disabled : ""}`}
+                className={`${styles.bigOption} ${readOnly ? styles.disabled : ""} ${isOptionsOpen ? styles.open : ""}`}
                 onClick={
                     readOnly ||
                     isUpdateCampaignLoading ||
