@@ -5,6 +5,7 @@ import { ContactDetailsProvider } from "providers/ContactDetails";
 import { FinalExpensePlansProvider } from "providers/FinalExpense";
 import { ContactsListProvider } from "pages/ContactsList/providers/ContactsListProvider";
 import { PharmacyProvider } from "providers/PharmacyProvider";
+import { ProductPreferenceDetailsProvider } from "providers/Life/ProductPreferenceDetailsProvider";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
 const AccountPage = lazy(() => import("pages/Account/AccountPage"));
@@ -326,7 +327,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
-                        <IulAccumulationProductPreferencesPage />
+                        <ProductPreferenceDetailsProvider>
+                            <IulAccumulationProductPreferencesPage />
+                        </ProductPreferenceDetailsProvider>
                     </FinalExpensePlansProvider>
                     <WebChatComponent />
                 </ContactDetailsProvider>

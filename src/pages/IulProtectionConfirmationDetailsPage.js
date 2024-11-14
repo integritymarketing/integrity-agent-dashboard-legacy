@@ -5,7 +5,7 @@ import { styled } from "@mui/system";
 
 import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
-import { IulProtectionConfirmationDetailForm } from "components/LifeForms";
+import { IulProtectionConfirmationDetail } from "components/LifeForms";
 
 const StyledBox = styled(Box)(() => ({
     display: "flex",
@@ -22,7 +22,7 @@ const IulProtectionConfirmationDetailsPage = () => {
             </Helmet>
             <GlobalNav />
             <StyledBox>
-                <IulProtectionConfirmationDetailForm />
+                <IulProtectionConfirmationDetail />
             </StyledBox>
             <GlobalFooter />
         </>

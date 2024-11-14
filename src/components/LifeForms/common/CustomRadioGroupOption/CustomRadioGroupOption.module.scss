@@ -1,0 +1,20 @@
+@import "src/scss/globalDefines.scss";
+
+.radioLabel {
+    display: flex;
+    flex: 1 0 0;
+    align-self: stretch;
+    padding: 14px 16px;
+    align-items: center;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    //background: #f1faff;
+    background-color: #fff;
+    justify-content: center;
+    text-align: center;
+}
+
+.isSelected {
+    background-color: #f1faff;
+}

@@ -10,7 +10,7 @@ import { IulAccumulationProductPreferenceForm } from "components/LifeForms";
 const StyledBox = styled(Box)(() => ({
     display: "flex",
     flexDirection: "column",
-    minHeight: "100vh",
+    flex: 1,
     backgroundColor: "#f1f1f1",
 }));
 
