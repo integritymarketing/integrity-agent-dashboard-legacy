@@ -60,6 +60,7 @@ function ReUseFilters({ anchorEl, handleClose, handleSummaryBarInfo, searchId, i
                         handleSummaryBarInfo={handleSummaryBarInfo}
                         searchId={searchId}
                         isSingleSelect={isSingleSelect}
+                        handleClose={handleClose}
                     />
                 </Box>
             </Box>

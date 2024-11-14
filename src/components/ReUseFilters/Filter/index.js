@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 
 const DEFAULT_SORT = ["createDate:desc"];
 
-export default function CustomContactListFilter({ handleSummaryBarInfo, searchId, isSingleSelect }) {
+export default function CustomContactListFilter({ handleSummaryBarInfo, searchId, isSingleSelect, handleClose }) {
     const [filterSectionsConfig, setFilterSectionsConfigState] = useState(
         JSON.parse(sessionStorage.getItem("campaign_contactList_filterSectionsConfig")) || {}
     );
@@ -31,6 +31,15 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
     const [fetchedFiltersSectionConfigFromApi, setFetchedFiltersSectionConfigFromApi] = useState(false);
 
     const [withoutFilterResponseSize, setWithoutFilterResponseSize] = useState(null);
+    const [newFiletersData, setNewFiletersData] = useState(null);
+
+    const handleSavingNewFilters = (data) => {
+        setNewFiletersData(data);
+    };
+
+    const handleResetData = () => {
+        resetData(newFiletersData);
+    };
 
     const {
         isLoading: isFetchingTableData,
@@ -48,10 +57,14 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
             ?.map((item, index) => {
                 let section;
                 if (item && item?.root) {
-                    const rootSection = filterSectionsConfig[item.root];
+                    const rootSection = filterSectionsConfig?.tags?.find((tag) => tag.heading === item?.root);
                     section = rootSection?.options?.find((option) => option.value === item.sectionId);
                 } else {
-                    section = filterSectionsConfig[item.sectionId];
+                    if (item?.sectionId === "Custom Tags") {
+                        section = filterSectionsConfig?.tags?.find((tag) => tag.heading === item?.sectionId);
+                    } else {
+                        section = filterSectionsConfig[item?.sectionId];
+                    }
                 }
                 let thisItemLabel = "";
                 let andOrLabel = "";
@@ -86,7 +99,7 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
             sessionStorage.getItem("campaign_contactList_selectedFilterSections")
         );
         if (selectedFilterSections?.length > 0 && tableData?.length === 0 && filteredEligibleCount === 0) {
-            resetData(selectedFilterSections);
+            setNewFiletersData(selectedFilterSections);
         }
     }, []);
 
@@ -103,10 +116,13 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
     }, [withoutFilterResponseSize, fetchTableDataWithoutFilters]);
 
     const resetData = useCallback(
-        (newSelectedFilterSections) => {
-            if (searchId) {
-                fetchAllListCount();
-                fetchTableData({
+        async (newSelectedFilterSections) => {
+            if (searchId && !isSingleSelect) {
+                sessionStorage.setItem(
+                    "campaign_contactList_selectedFilterSections",
+                    JSON.stringify(newSelectedFilterSections)
+                );
+                const filterData = await fetchTableData({
                     sort: DEFAULT_SORT,
                     searchString: undefined,
                     selectedFilterSections: newSelectedFilterSections,
@@ -115,9 +131,20 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
                     searchId,
                     statusOptionsMap,
                 });
+                if (filterData) {
+                    handleSummaryBarInfo(filterData?.tableData, filterLabel, filterData?.filteredEligibleCount);
+                    handleClose();
+                }
+            } else {
+                sessionStorage.setItem(
+                    "campaign_contactList_selectedFilterSections",
+                    JSON.stringify(newSelectedFilterSections)
+                );
+                handleSummaryBarInfo([], filterLabel, 0);
+                handleClose();
             }
         },
-        [searchId, , statusOptionsMap]
+        [searchId, statusOptionsMap, filterLabel]
     );
 
     const setFilterSectionsConfig = useCallback(
@@ -131,14 +158,9 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
     const setSelectedFilterSections = useCallback(
         (filters) => {
             setSelectedFilterSectionsState(filters);
-            sessionStorage.setItem("campaign_contactList_selectedFilterSections", JSON.stringify(filters));
         },
         [setSelectedFilterSectionsState]
     );
-
-    useEffect(() => {
-        handleSummaryBarInfo(tableData, filterLabel, filteredEligibleCount);
-    }, [tableData, filterLabel, filteredEligibleCount]);
 
     if (isFetchingTableData) {
         return <Spinner />;
@@ -148,16 +170,16 @@ export default function CustomContactListFilter({ handleSummaryBarInfo, searchId
         <ContactListFilterOptionsV2
             setSelectedFilterSections={setSelectedFilterSections}
             selectedFilterSections={selectedFilterSections}
-            resetData={resetData}
             filterSectionsConfig={filterSectionsConfig}
             setFilterSectionsConfig={setFilterSectionsConfig}
             fetchedFiltersSectionConfigFromApi={fetchedFiltersSectionConfigFromApi}
             setFetchedFiltersSectionConfigFromApi={setFetchedFiltersSectionConfigFromApi}
             isSingleSelect={isSingleSelect}
+            handleSaveButton={handleResetData}
+            resetData={handleSavingNewFilters}
         />
     );
 }
-
 
 CustomContactListFilter.propTypes = {
     handleSummaryBarInfo: PropTypes.func.isRequired,

@@ -44,8 +44,6 @@ const CampaignInnerContainer = () => {
 
     const { handleAllCampaignActions } = useMarketing();
 
-    const readOnly = campaignStatus !== campaignStatuses.DRAFT;
-    const advanceMode = isAdvancedMode && campaignActionType === "a contact when";
     const selectedFilters = JSON.parse(sessionStorage.getItem("campaign_contactList_selectedFilterSections"));
 
     const [showPreview, setShowPreview] = useState(false);
@@ -64,17 +62,37 @@ const CampaignInnerContainer = () => {
         }
     }, [campaignName, campaignActionType]);
 
-    const allSelected =
-        !isStartCampaignLoading &&
-        Boolean(campaignDescriptionType) &&
-        Boolean(campaignChannel) &&
-        Boolean(campaignActionType) &&
-        ((campaignActionType === "all contacts" && allContactsList?.length !== 0) ||
-            ((campaignActionType === "contacts filtered by…" || campaignActionType === "a contact when") &&
-                selectedFilters?.length !== 0 &&
-                filteredContentStatus) ||
-            (campaignActionType === "a contact" && selectedContact) ||
-            (campaignActionType !== "" && allContactsList?.length !== 0));
+    const readOnly = useMemo(() => {
+        return campaignStatus !== campaignStatuses.DRAFT;
+    }, [campaignStatus, campaignStatuses.DRAFT]);
+
+    const advanceMode = useMemo(() => {
+        return isAdvancedMode && campaignActionType === "a contact when";
+    }, [isAdvancedMode, campaignActionType]);
+
+    const allSelected = useMemo(() => {
+        return (
+            !isStartCampaignLoading &&
+            Boolean(campaignDescriptionType) &&
+            Boolean(campaignChannel) &&
+            Boolean(campaignActionType) &&
+            ((campaignActionType === "all contacts" && allContactsList?.length !== 0) ||
+                ((campaignActionType === "contacts filtered by…" || campaignActionType === "a contact when") &&
+                    selectedFilters?.length !== 0 &&
+                    filteredContentStatus) ||
+                (campaignActionType === "a contact" && selectedContact) ||
+                (campaignActionType !== "" && allContactsList?.length !== 0))
+        );
+    }, [
+        isStartCampaignLoading,
+        campaignDescriptionType,
+        campaignChannel,
+        campaignActionType,
+        allContactsList,
+        selectedFilters,
+        filteredContentStatus,
+        selectedContact,
+    ]);
 
     const handlePreviewClick = () => {
         setShowPreview(true);
@@ -93,14 +111,31 @@ const CampaignInnerContainer = () => {
         },
     };
 
-    const showPreviewButton = !readOnly && !showPreview && allSelected;
+    const showPreviewButton = useMemo(() => {
+        return !readOnly && !showPreview && allSelected;
+    }, [readOnly, showPreview, allSelected]);
 
-    const saveButtonDisabled =
-        isStartCampaignLoading ||
-        isUpdateCampaignLoading ||
-        ((campaignActionType === "contacts filtered by…" || campaignActionType === "a contact when") &&
-            filteredContactsList?.length === 0) ||
-        !allSelected;
+    const saveButtonDisabled = useMemo(() => {
+        return (
+            isStartCampaignLoading ||
+            isUpdateCampaignLoading ||
+            (campaignActionType === "contacts filtered by…" &&
+                (filteredContactsList?.length === 0 || !filteredContentStatus)) ||
+            (campaignActionType === "a contact when" && !filteredContentStatus) ||
+            !allSelected
+        );
+    }, [
+        isStartCampaignLoading,
+        isUpdateCampaignLoading,
+        campaignActionType,
+        filteredContactsList,
+        filteredContentStatus,
+        allSelected,
+    ]);
+
+    const showCampaignButton = useMemo(() => {
+        return (!readOnly && showPreview && allSelected) || (readOnly && campaignStatus !== campaignStatuses.COMPLETED);
+    }, [readOnly, showPreview, allSelected]);
 
     const buttonName = useMemo(() => {
         if (campaignStatus === campaignStatuses.DRAFT) {
@@ -197,10 +232,12 @@ const CampaignInnerContainer = () => {
                     </Typography>
                     {campaign && (
                         <ActionPopoverContainer
+                            buttonDisable={saveButtonDisabled}
                             campaign={campaign}
                             refresh={handleGetCampaignDetailsById}
                             advanceMode={advanceMode}
                             campaignDescription={campaignDescriptionType}
+                            page="campaign_details"
                         />
                     )}
                 </Box>
@@ -261,7 +298,7 @@ const CampaignInnerContainer = () => {
                     </>
                 )}
 
-                {((!readOnly && showPreview && allSelected) || readOnly) && (
+                {showCampaignButton && (
                     <Box className={styles.startCampaignButton}>
                         <Button
                             size="medium"

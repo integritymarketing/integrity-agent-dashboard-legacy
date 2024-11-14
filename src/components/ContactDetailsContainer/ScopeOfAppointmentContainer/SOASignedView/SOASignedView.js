@@ -12,7 +12,6 @@ export const SOASignedView = ({ onView, soa }) => {
     const [isMobile, setIsMobile] = useState(false);
     const { sentDate } = getSoaDatesFromSummary(soaSummary);
     const productsToDiscuss = soa?.soa?.leadSection?.products ?? [];
-    console.log("productsToDiscuss", { productsToDiscuss, soa });
 
     const Column = ({ style, label, data, products, subdata, dataStyle }) => (
         <div className={`${styles.boxColumn} ${style}`}>

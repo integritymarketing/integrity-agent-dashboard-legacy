@@ -97,7 +97,7 @@ const InvitationBar = ({ readOnly }) => {
             setActionDescription,
             resetSecond,
             campaignActionType,
-        ],
+        ]
     );
 
     const handleCloseFilterDropdown = useCallback(() => {
@@ -117,7 +117,7 @@ const InvitationBar = ({ readOnly }) => {
         (event) => {
             setContactOptionOpen(contactOptionOpen ? null : event.currentTarget);
         },
-        [contactOptionOpen],
+        [contactOptionOpen]
     );
     const isOptionsOpen = Boolean(contactOptionOpen);
     return (

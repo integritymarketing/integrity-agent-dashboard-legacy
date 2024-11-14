@@ -147,7 +147,7 @@ export const CampaignInvitationProvider = ({ children }) => {
 
         handleCampaignAction(
             campaignActionType === "all contacts" && allContactsList?.length > 0 && totalContactsCount > 0,
-            { campaign_ActionType: "all contacts" },
+            { campaign_ActionType: "all contacts" }
         );
 
         handleCampaignAction(campaignActionType === "a contact" && selectedContact, {
@@ -162,7 +162,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 allContactsList?.length > 0,
             {
                 campaign_ActionType: campaignActionType,
-            },
+            }
         );
     }, [filteredContactsList, campaignActionType, allContactsList, totalContactsCount, filteredCount, selectedContact]);
 
@@ -256,7 +256,7 @@ export const CampaignInvitationProvider = ({ children }) => {
         setAllCampaignActions(data?.campaignActions);
 
         const action = data?.campaignActions?.find(
-            (item) => (item?.actionFilter || item?.actionDescription) && item?.actionOrder === 1,
+            (item) => (item?.actionFilter || item?.actionDescription) && item?.actionOrder === 1
         );
         if (initial) {
             if (action) {
@@ -286,7 +286,7 @@ export const CampaignInvitationProvider = ({ children }) => {
 
             if (resData?.length) {
                 const filteredCampaigns = resData.filter(
-                    (item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName),
+                    (item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName)
                 );
                 const sortedCampaigns = filteredCampaigns.sort((a, b) => {
                     const orderA =
@@ -320,7 +320,7 @@ export const CampaignInvitationProvider = ({ children }) => {
 
                 if (resData?.length) {
                     const filteredCampaigns = resData.filter(
-                        (item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName),
+                        (item) => !HIDE_SHOPPERS_CAMPAIGNS.includes(item?.campaignName)
                     );
                     const sortedCampaigns = filteredCampaigns.sort((a, b) => {
                         const orderA =
@@ -352,7 +352,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             }
             return null;
         },
-        [fetchCampaignDetailsByEmail, fireEvent, showToast],
+        [fetchCampaignDetailsByEmail, fireEvent, showToast]
     );
 
     const handleCreateCampaignFromContact = async ({
@@ -474,6 +474,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                     if (resData?.campaignSelectedAction === "a contact when") {
                         setAdvancedMode(true);
                     }
+
                     if (resData?.campaignChannel === "Email") {
                         const emailCampaignsData = await getCampaignDetailsByEmail();
                         const templateData = emailCampaignsData?.find((item) => item?.templateId === templateId);
@@ -500,25 +501,32 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 if (customFilterData?.selectedFilterSections) {
                                     sessionStorage.setItem(
                                         "campaign_contactList_selectedFilterSections",
-                                        JSON.stringify(customFilterData.selectedFilterSections),
+                                        JSON.stringify(customFilterData.selectedFilterSections)
                                     );
                                 }
-                                const filterData = await fetchTableData({
-                                    sort: ["createDate:desc"],
-                                    searchString: undefined,
-                                    selectedFilterSections: customFilterData?.selectedFilterSections || [],
-                                    isSilent: true,
-                                    returnAll: true,
-                                    searchId: templateData?.id,
-                                    statusOptionsMap,
-                                });
-                                const filteredContentStatus = customFilterData?.filteredContentStatus || "";
+                                if (resData?.campaignSelectedAction === "a contact when") {
+                                    const filteredContentStatus = customFilterData?.filteredContentStatus || "";
 
-                                handleSummaryBarInfo(
-                                    filterData?.tableData,
-                                    filteredContentStatus,
-                                    filterData?.filteredEligibleCount,
-                                );
+                                    handleSummaryBarInfo([], filteredContentStatus, 0);
+                                }
+                                if (resData?.campaignSelectedAction === "contacts filtered by…") {
+                                    const filterData = await fetchTableData({
+                                        sort: ["createDate:desc"],
+                                        searchString: undefined,
+                                        selectedFilterSections: customFilterData?.selectedFilterSections || [],
+                                        isSilent: true,
+                                        returnAll: true,
+                                        searchId: templateData?.id,
+                                        statusOptionsMap,
+                                    });
+                                    const filteredContentStatus = customFilterData?.filteredContentStatus || "";
+
+                                    handleSummaryBarInfo(
+                                        filterData?.tableData,
+                                        filteredContentStatus,
+                                        filterData?.filteredEligibleCount
+                                    );
+                                }
                             } else {
                                 sessionStorage.removeItem("campaign_contactList_selectedFilterSections");
                             }
@@ -530,7 +538,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 resData?.campaignSelectedAction !== ""
                             ) {
                                 const actionData = templateData?.campaignActions?.find(
-                                    (item) => item?.actionName === resData?.campaignSelectedAction,
+                                    (item) => item?.actionName === resData?.campaignSelectedAction
                                 );
                                 if (actionData) {
                                     setActionDescription(actionData?.actionDescription);
@@ -570,7 +578,7 @@ export const CampaignInvitationProvider = ({ children }) => {
             }
             return null;
         },
-        [fetchCampaignDetailsById, fireEvent, showToast],
+        [fetchCampaignDetailsById, fireEvent, showToast]
     );
 
     const getAgentAccountInformation = useCallback(async () => {
@@ -630,7 +638,7 @@ export const CampaignInvitationProvider = ({ children }) => {
     }) => {
         // Retrieve and parse the JSON string from session storage
         const selectedFilterSections = JSON.parse(
-            sessionStorage.getItem("campaign_contactList_selectedFilterSections"),
+            sessionStorage.getItem("campaign_contactList_selectedFilterSections")
         );
 
         // Construct the customFilterData object
@@ -648,7 +656,12 @@ export const CampaignInvitationProvider = ({ children }) => {
             id: campaignId,
             agentId: agentId,
             agentNpn: npn,
-            campaignType: actionType === "a contact when" ? "Event" : (channel === "Sms" || actionType === "a contact" ? "Individual" : "Blast"),
+            campaignType:
+                actionType === "a contact when"
+                    ? "Event"
+                    : channel === "Sms" || actionType === "a contact"
+                    ? "Individual"
+                    : "Blast",
             campaignStatus: campaign_Status ? campaign_Status : campaignStatus,
             customCampaignDescription: campaignName,
             campaignChannel: channel,
@@ -695,11 +708,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                     leads: filteredContactsList,
                 },
             };
-        } else if (
-            payload?.campaignSelectedAction === "a contact when" &&
-            selectedFilterSections?.length > 0 &&
-            filteredContactsList?.length > 0
-        ) {
+        } else if (payload?.campaignSelectedAction === "a contact when" && selectedFilterSections?.length > 0) {
             const eventData = selectedFilterSections[0];
             let id = eventData?.selectedFilterOption;
             const triggerType = eventData?.sectionId;
@@ -707,13 +716,15 @@ export const CampaignInvitationProvider = ({ children }) => {
                 id = statusOptionsMap?.find((item) => item.value === id)?.label;
             }
 
+            const striginfiedId = id?.toString();
+
             return {
                 ...payload,
                 campaignType: "Event",
                 eventTrigger: {
                     triggerType: triggerType === "stage" ? "Lead" : "Tag",
-                    when: triggerType === "stage" ? "Status" : id,
-                    becomes: triggerType === "stage" ? id : undefined,
+                    when: triggerType === "stage" ? "Status" : striginfiedId,
+                    becomes: triggerType === "stage" ? striginfiedId : "",
                 },
                 requestPayload: {
                     ...payload.requestPayload,
@@ -738,7 +749,12 @@ export const CampaignInvitationProvider = ({ children }) => {
                     ],
                 },
             };
-        } else if (payload?.campaignSelectedAction !== "" && allContactsList?.length > 0) {
+        } else if (
+            payload?.campaignSelectedAction !== "" &&
+            allContactsList?.length > 0 &&
+            payload?.campaignSelectedAction !== "a contact when" &&
+            payload?.campaignSelectedAction !== "contacts filtered by…"
+        ) {
             return {
                 ...payload,
                 requestPayload: {
@@ -781,7 +797,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                             selectedCampaignId,
                             template_Description,
                         }),
-                        false,
+                        false
                     );
                 } else {
                     const requestPayload = payload ?? createCampaignRequestPayload(campaign_Status);
@@ -798,12 +814,12 @@ export const CampaignInvitationProvider = ({ children }) => {
                                 campaignActionType === "contacts filtered by…"
                                     ? "filter contacts"
                                     : campaignActionType === "all contacts"
-                                      ? "all contacts"
-                                      : campaignActionType === "a contact"
-                                        ? "a contact"
-                                        : campaignActionType === "a contact when"
-                                          ? "a contact when"
-                                          : campaignActionType,
+                                    ? "all contacts"
+                                    : campaignActionType === "a contact"
+                                    ? "a contact"
+                                    : campaignActionType === "a contact when"
+                                    ? "a contact when"
+                                    : campaignActionType,
                         };
                         fireEvent("Campaign Started", fireEventPayload);
                     }
@@ -846,7 +862,8 @@ export const CampaignInvitationProvider = ({ children }) => {
             agentAccountDetails,
             agentPurlURL,
             navigate,
-        ],
+            sessionStorage,
+        ]
     );
 
     return (

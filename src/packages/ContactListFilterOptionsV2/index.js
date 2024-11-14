@@ -2,8 +2,6 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { ChevronLeft, Add } from "@mui/icons-material";
-import { Button } from "components/ui/Button";
-import { Box } from "@mui/material";
 import Close from "./icons/close.svg";
 import Icon from "components/Icon";
 import Popover from "@mui/material/Popover";
@@ -13,6 +11,7 @@ import { FILTER_ICONS, reminderFilters } from "packages/ContactListFilterOptions
 import useFetch from "hooks/useFetch";
 import StageStatusContext from "contexts/stageStatus";
 import useAnalytics from "hooks/useAnalytics";
+import { Box, Button } from "@mui/material";
 import styles from "./styles.module.scss";
 
 const StyledPopover = styled(Popover)(() => ({
@@ -26,7 +25,7 @@ const StyledPopover = styled(Popover)(() => ({
 }));
 
 export default function ContactListFilterOptionsV2({
-    setSelectedFilterSections,
+    setSelectedFilterSections = () => {},
     selectedFilterSections,
     resetData,
     filterSectionsConfig,
@@ -34,6 +33,7 @@ export default function ContactListFilterOptionsV2({
     fetchedFiltersSectionConfigFromApi,
     setFetchedFiltersSectionConfigFromApi,
     isSingleSelect,
+    handleSaveButton,
 }) {
     const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`;
     const { Get: fetchLeadTags } = useFetch(URL);
@@ -178,6 +178,15 @@ export default function ContactListFilterOptionsV2({
         setIsFilterDropdownOpen(false);
     };
 
+    const handleResetOrSave = (newSelectedFilterSections, isEmpty) => {
+        if (handleSaveButton) {
+            setSelectedFilterSections(isEmpty ? [] : [...newSelectedFilterSections]);
+            resetData(newSelectedFilterSections);
+        } else {
+            setTimeout(() => resetData(newSelectedFilterSections), 100);
+        }
+    };
+
     const handleOnChangeFilterOption = (sectionUUId, value) => {
         const newSelectedFilterSections = selectedFilterSections.map((section) => {
             if (section.id === sectionUUId) {
@@ -189,8 +198,7 @@ export default function ContactListFilterOptionsV2({
             }
             return section;
         });
-        setSelectedFilterSections([...newSelectedFilterSections]);
-        setTimeout(() => resetData(newSelectedFilterSections), 100);
+        handleResetOrSave(newSelectedFilterSections);
     };
 
     const handleOnChangeIsOption = (sectionUUId, value) => {
@@ -203,8 +211,7 @@ export default function ContactListFilterOptionsV2({
             }
             return section;
         });
-        setSelectedFilterSections([...newSelectedFilterSections]);
-        setTimeout(() => resetData(newSelectedFilterSections), 10);
+        handleResetOrSave(newSelectedFilterSections);
     };
 
     const handleOnChangeNextAndOrOption = (sectionUUId, value) => {
@@ -217,14 +224,12 @@ export default function ContactListFilterOptionsV2({
             }
             return section;
         });
-        setSelectedFilterSections([...newSelectedFilterSections]);
-        setTimeout(() => resetData(newSelectedFilterSections), 100);
+        handleResetOrSave(newSelectedFilterSections);
     };
 
     const handleClearAllClick = () => {
-        setSelectedFilterSections([]);
         fireEvent("Closed Tag Filter");
-        setTimeout(() => resetData([]), 100);
+        handleResetOrSave([], true);
     };
 
     const handleFilterOptionClick = ({ root = "", sectionId = "", value = "" }) => {
@@ -245,14 +250,14 @@ export default function ContactListFilterOptionsV2({
         }
         if (!value && filterSection.option) {
             optionObject.selectedFilterOption = filterSection.option.value;
-            setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
+            handleResetOrSave([...selectedFilterSections, optionObject]);
         }
 
         if (value) {
             optionObject.selectedFilterOption = value;
             const gotItem = filterSection.options.find((item) => item.value == value);
             optionObject.option = { label: gotItem?.label, value: value };
-            setTimeout(() => resetData([...selectedFilterSections, optionObject]), 100);
+            handleResetOrSave([...selectedFilterSections, optionObject]);
         }
 
         if ((sectionId === "reminders" || sectionId === "stage") && selectedFilterSections.length >= 1) {
@@ -270,7 +275,9 @@ export default function ContactListFilterOptionsV2({
             return null;
         }
         return filterSectionsConfig?.tags?.map((category, index) => {
-            if (category?.heading === "Other") {return null;}
+            if (category?.heading === "Other") {
+                return null;
+            }
             return (
                 <Box key={index}>
                     <span className={styles.filterDropdownHeader}>{category?.heading}</span>
@@ -296,8 +303,7 @@ export default function ContactListFilterOptionsV2({
 
     const handleOnRemoveFilterSection = (sectionUUId) => {
         const newSelectedFilterSections = selectedFilterSections.filter((section) => section.id !== sectionUUId);
-        setSelectedFilterSections([...newSelectedFilterSections]);
-        setTimeout(() => resetData(newSelectedFilterSections), 100);
+        handleResetOrSave(newSelectedFilterSections);
     };
     const hasUnfinishedFilterSections = selectedFilterSections.filter((item) => !item.selectedFilterOption).length;
     const hasReminderSection = selectedFilterSections.find((item) => item.sectionId === "reminders");
@@ -338,18 +344,16 @@ export default function ContactListFilterOptionsV2({
                     (selectedFilterSections?.length < 3 && !isSingleSelect)) && (
                     <Button
                         data-gtm="contacts-add-new"
-                        icon={<ChevronLeft className={styles.chevronIcon} />}
-                        disabled={Boolean(hasUnfinishedFilterSections)}
-                        iconPosition={"right"}
-                        label={
-                            <span className={styles.buttonText}>
-                                <Add /> Add Filter
-                            </span>
-                        }
-                        type="primary"
-                        className={styles.addNewButton}
+                        size="medium"
+                        variant="contained"
+                        color="primary"
+                        endIcon={<ChevronLeft className={styles.chevronIcon} />}
+                        startIcon={<Add />}
                         onClick={handleOnClickAddNew}
-                    />
+                        disabled={Boolean(hasUnfinishedFilterSections)}
+                    >
+                        Add Filter
+                    </Button>
                 )}
                 <StyledPopover
                     open={isFilterDropdownOpen}
@@ -407,17 +411,32 @@ export default function ContactListFilterOptionsV2({
                     </Box>
                 </StyledPopover>
             </Box>
-            {!isSingleSelect && (
+            {!isSingleSelect && !handleSaveButton && (
                 <Box className={styles.footer}>
                     {selectedFilterSections.length > 0 && (
                         <Button
-                            className={styles.footerCloseButton}
-                            icon={<Icon className={styles.footerCloseIcon} image={Close} />}
-                            iconPosition={"right"}
-                            label={"Clear All"}
+                            size="medium"
+                            variant="outlined"
+                            color="primary"
+                            endIcon={<Icon className={styles.footerCloseIcon} image={Close} />}
                             onClick={handleClearAllClick}
-                        />
+                        >
+                            Clear All
+                        </Button>
                     )}
+                </Box>
+            )}
+            {handleSaveButton && (
+                <Box className={styles.footer}>
+                    <Button
+                        size="medium"
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSaveButton}
+                        disabled={Boolean(hasUnfinishedFilterSections) || selectedFilterSections?.length === 0}
+                    >
+                        Save
+                    </Button>
                 </Box>
             )}
         </Box>

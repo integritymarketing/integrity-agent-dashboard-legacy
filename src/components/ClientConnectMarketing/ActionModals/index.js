@@ -31,56 +31,59 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh, campaig
         setCampaignName(event.target.value);
     };
 
-    const handleActionButton = () => {
-        const createPayload = (overrides) => ({
-            ...campaign,
-            customCampaignDescription: campaignName,
-            ...overrides,
-        });
+    const createPayload = (campaign, campaignName, overrides) => ({
+        ...campaign,
+        customCampaignDescription: campaignName,
+        ...overrides,
+    });
 
-        const handleCustomFilter = (payload) => {
-            if (payload?.campaignSelectedAction === "contacts filtered by…" && payload?.customFilter !== "") {
-                const data = JSON.parse(JSON.parse(payload?.customFilter));
+    const handleCustomFilter = (payload) => {
+        if (
+            (payload?.campaignSelectedAction === "contacts filtered by…" ||
+                payload?.campaignSelectedAction === "a contact when") &&
+            payload?.customFilter !== ""
+        ) {
+            try {
+                const parsedFilter = JSON.parse(payload.customFilter);
+                const data = parsedFilter ? JSON.parse(parsedFilter) : null;
                 payload.customFilter = data ? JSON.stringify(data) : "";
+            } catch (error) {
+                payload.customFilter = "";
             }
-        };
+        }
+    };
 
+    const getPayloadAndMethod = (optionText, campaign, campaignName) => {
         let payload;
         let method;
 
         switch (optionText) {
             case "Copy":
-                payload = createPayload({ campaignStatus: "Draft", id: 0 });
-                handleCustomFilter(payload);
+                payload = createPayload(campaign, campaignName, { campaignStatus: "Draft", id: 0 });
                 method = "post";
                 break;
             case "Rename":
-                payload = createPayload();
+                payload = createPayload(campaign, campaignName);
                 method = "put";
                 break;
             case "Send":
-                payload = createPayload({ campaignStatus: "Submitted" });
-                handleCustomFilter(payload);
+                payload = createPayload(campaign, campaignName, { campaignStatus: "Submitted" });
                 method = "put";
                 break;
             case "Start":
-                payload = createPayload({ campaignStatus: "Submitted", campaignType: "Event" });
-                handleCustomFilter(payload);
+                payload = createPayload(campaign, campaignName, { campaignStatus: "Submitted", campaignType: "Event" });
                 method = "put";
                 break;
             case "Pause":
-                payload = createPayload({ campaignStatus: "Paused" });
-                handleCustomFilter(payload);
+                payload = createPayload(campaign, campaignName, { campaignStatus: "Paused" });
                 method = "put";
                 break;
             case "Resume":
-                payload = createPayload({ campaignStatus: "Active" });
-                handleCustomFilter(payload);
+                payload = createPayload(campaign, campaignName, { campaignStatus: "Active" });
                 method = "put";
                 break;
             case "End":
-                payload = createPayload({ campaignStatus: "Completed" });
-                handleCustomFilter(payload);
+                payload = createPayload(campaign, campaignName, { campaignStatus: "Completed" });
                 method = "put";
                 break;
             case "Delete":
@@ -88,8 +91,17 @@ const ActionModal = ({ campaignAction, open, onClose, campaign, refresh, campaig
                 method = "delete";
                 break;
             default:
-                return;
+                return {};
         }
+
+        handleCustomFilter(payload);
+        return { payload, method };
+    };
+
+    const handleActionButton = () => {
+        const { payload, method } = getPayloadAndMethod(optionText, campaign, campaignName);
+
+        if (!payload || !method) return;
 
         handleAllCampaignActions({ payload, method, refresh, campaignDescription });
         setCampaignName("");

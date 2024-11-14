@@ -56,7 +56,16 @@ const campaignOperations = [
     },
 ];
 
-const ActionPopover = ({ anchorEl, onClose, campaign, refresh, advanceMode, campaignDescription }) => {
+const ActionPopover = ({
+    anchorEl,
+    onClose,
+    campaign,
+    refresh,
+    advanceMode,
+    campaignDescription,
+    buttonDisable,
+    page,
+}) => {
     const open = Boolean(anchorEl);
     const id = anchorEl ? "simple-popover-actions" : undefined;
     const { campaignChannel, requestPayload, campaignSelectedAction, campaignStatus } = campaign;
@@ -74,8 +83,23 @@ const ActionPopover = ({ anchorEl, onClose, campaign, refresh, advanceMode, camp
         onClose();
     };
 
-    const isCampaignCanStarted =
-        campaignChannel && campaignSelectedAction && requestPayload?.templateId && requestPayload?.leads?.length > 0;
+    const isCampaignCanStarted = useMemo(() => {
+        return page === "campaign_details"
+            ? !buttonDisable
+            : campaignChannel &&
+                  campaignSelectedAction &&
+                  requestPayload?.templateId &&
+                  ((campaignSelectedAction === "a contact when" && campaign?.eventTrigger) ||
+                      (campaignSelectedAction !== "a contact when" && requestPayload?.leads?.length > 0));
+    }, [
+        page,
+        buttonDisable,
+        campaignChannel,
+        campaignSelectedAction,
+        requestPayload?.templateId,
+        campaign?.eventTrigger,
+        requestPayload?.leads?.length,
+    ]);
 
     const showIcon = (optionText, disable) => {
         if (optionText === "Copy") {
@@ -216,6 +240,8 @@ ActionPopover.propTypes = {
     refresh: PropTypes.func.isRequired,
     advanceMode: PropTypes.bool,
     campaignDescription: PropTypes.string,
+    buttonDisable: PropTypes.bool,
+    page: PropTypes.string,
 };
 
 export default ActionPopover;

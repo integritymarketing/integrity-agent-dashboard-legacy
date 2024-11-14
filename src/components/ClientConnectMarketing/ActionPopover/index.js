@@ -7,7 +7,7 @@ import styles from "./styles.module.scss";
 import { CampaignActionsEllipsis } from "@integritymarketing/icons";
 import ActionPopover from "./ActionPopover";
 
-const ActionPopoverContainer = ({ campaign, refresh, advanceMode, campaignDescription }) => {
+const ActionPopoverContainer = ({ campaign, refresh, advanceMode, campaignDescription, buttonDisable, page }) => {
     const [actionPopOver, setActionPopOver] = useState(null);
 
     const handleClick = (event) => {
@@ -31,6 +31,8 @@ const ActionPopoverContainer = ({ campaign, refresh, advanceMode, campaignDescri
                 refresh={refresh}
                 advanceMode={advanceMode}
                 campaignDescription={campaignDescription}
+                buttonDisable={buttonDisable}
+                page={page}
             />
         </>
     );
@@ -41,6 +43,8 @@ ActionPopoverContainer.propTypes = {
     refresh: PropTypes.func.isRequired,
     advanceMode: PropTypes.bool,
     campaignDescription: PropTypes.string,
+    buttonDisable: PropTypes.bool,
+    page: PropTypes.string,
 };
 
 export default ActionPopoverContainer;
