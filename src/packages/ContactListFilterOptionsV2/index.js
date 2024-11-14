@@ -275,7 +275,7 @@ export default function ContactListFilterOptionsV2({
             return null;
         }
         return filterSectionsConfig?.tags?.map((category, index) => {
-            if (category?.heading === "Other") {
+            if (category?.heading === "Custom Tags" || category?.heading === "Other") {
                 return null;
             }
             return (
@@ -386,11 +386,11 @@ export default function ContactListFilterOptionsV2({
                             )}
                         </span>
                         {renderDropdownOptions()}
-                        {filterSectionsConfig?.tags?.find((item) => item.heading === "Other") && (
+                        {filterSectionsConfig?.tags?.find((item) => item.heading === "Custom Tags") && (
                             <Box>
                                 <span className={styles.filterDropdownHeader}>Custom Tags</span>
                                 {filterSectionsConfig?.tags
-                                    ?.find((item) => item.heading === "Other")
+                                    ?.find((item) => item.heading === "Custom Tags")
                                     ?.options?.map((subCategory) => (
                                         <Box key={subCategory.value}>
                                             <Box
@@ -402,6 +402,8 @@ export default function ContactListFilterOptionsV2({
                                                     })
                                                 }
                                             >
+                                                <Icon className={styles.menuItemIcon} image={subCategory?.icon} />
+
                                                 {subCategory.label}
                                             </Box>
                                         </Box>

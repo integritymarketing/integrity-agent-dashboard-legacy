@@ -87,6 +87,7 @@
     cursor: pointer;
     display: flex;
     gap: 7px;
+    word-break: break-all;
 }
 
 .dropdownOption:hover {

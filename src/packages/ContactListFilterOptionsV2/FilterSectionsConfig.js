@@ -1,4 +1,3 @@
-import styles from "./FilterSectionBox/styles.module.scss";
 import ReminderIcon from "images/Reminder.svg";
 import Reminder_Overdue from "images/Reminder_Overdue.svg";
 import Reminder_Add from "images/Reminder_Add.svg";
@@ -92,5 +91,5 @@ export const FILTER_ICONS = {
     CUSTOM_TAG: CustomTagIcon,
     TITLE_DEFAULT: CampaignTitleDefault,
     ASK_INTEGRITY: Askintegrity,
-    default: CampaignSourceDefault,
+    default: CustomTagIcon,
 };
