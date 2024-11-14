@@ -152,6 +152,13 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
 
             const totalData = monthtransformData.concat(drugCostsConvertList);
 
+            const columnData = Array.from(Array(3), (_, index) => {
+                if (filterData[index]) {
+                    return filterData[index];
+                }
+                return null;
+            });
+
             return (
                 <div
                     className={className}
@@ -163,8 +170,8 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
                         setExpandedMonths(newExpandedMonths);
                     }}
                 >
-                    <div className="cost-monthly-header">
-                        <div className="compare-cost-month-container">
+                    <div className="cost-monthly-header-grid">
+                        <div className="compare-cost-month-container column">
                             {expandedMonths[MIndex] ? <ArrowDown /> : <ArrowDown className="cost-arrow-side" />}
                             <div>
                                 <span className={"final-value"}>{months[MIndex + parseInt(monthNumber) - 1]}</span>
@@ -172,15 +179,21 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
                         </div>
                         {!isMobile && (
                             <>
-                                {filterData?.map((m, index) => (
-                                    <div className="cost-monthly-header-item" key={index}>
-                                        <span style={{ display: "flex", alignItems: "center" }}>
-                                            <span className={"value"}>Phase:</span>{" "}
-                                            <span className="costPhases">{m?.costPhases?.toLowerCase() || ""}</span>
-                                        </span>
-                                        <span className="value">{m?.totalEstimatedCost || ""}</span>
-                                    </div>
-                                ))}
+                                {columnData.map((column, index) => {
+                                    return column ? (
+                                        <div className="cost-monthly-header-item column" key={index}>
+                                            <span style={{ display: "flex", alignItems: "center" }}>
+                                                <span className={"value"}>Phase:</span>{" "}
+                                                <span className="costPhases">
+                                                    {column?.costPhases?.toLowerCase() || ""}
+                                                </span>
+                                            </span>
+                                            <span className="value">{column?.totalEstimatedCost || ""}</span>
+                                        </div>
+                                    ) : (
+                                        <div className="column" aria-hidden="true"></div>
+                                    );
+                                })}
                             </>
                         )}
                     </div>
