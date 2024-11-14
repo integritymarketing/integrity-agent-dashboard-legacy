@@ -5,7 +5,7 @@ import { styleEventDescription } from "utils/shared-utils/sharedUtility";
 import styles from "./styles.module.scss";
 import { useMemo } from "react";
 
-const CampaignStatusInfoCard = ({ campaignStatus, campaignType, runDate, createdDate, modifiedDate, customFilter }) => {
+const CampaignStatusInfoCard = ({ campaignStatus, campaignType, runDate, modifiedDate, customFilter }) => {
     const eventInfo = useMemo(() => {
         let customFilterData;
         try {
@@ -68,9 +68,11 @@ const CampaignStatusInfoCard = ({ campaignStatus, campaignType, runDate, created
 };
 
 CampaignStatusInfoCard.propTypes = {
-    date: PropTypes.string,
     campaignStatus: PropTypes.string,
     campaignType: PropTypes.string,
+    runDate: PropTypes.string.isRequired,
+    modifiedDate: PropTypes.string.isRequired,
+    customFilter: PropTypes.string.isRequired,
 };
 
 export default CampaignStatusInfoCard;

@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { debounce } from "lodash";
 import ChevronRight from "components/icons/Marketing/chevronRight";
 import ChevronLeft from "components/icons/Marketing/chevronLeft";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, styled } from "@mui/material";
 import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 
@@ -13,11 +13,31 @@ export function ScrollerCard({ children }) {
 }
 
 ScrollerCard.propTypes = {
-    /** Content of the card */
     children: PropTypes.node.isRequired,
 };
 
-const Scroller = ({ cards, cardRenderer }) => {
+const CustomBox = styled(Box)(({ isHovered }) => ({
+    "&::-webkit-scrollbar": {
+        width: "12px",
+        height: "10px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+        backgroundColor: isHovered ? "#bdbdbd" : "white",
+        borderRadius: "10px",
+        cursor: "pointer",
+    },
+    "&::-webkit-scrollbar-track": {
+        backgroundColor: "#fff",
+        borderRadius: "10px",
+    },
+    "@media (max-width: 480px)": {
+        "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#bdbdbd",
+        },
+    },
+}));
+
+const Scroller = ({ cards, cardRenderer, isHovered }) => {
     const cardsContainerRef = useRef(null);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showLeftScrollButton, setShowLeftScrollButton] = useState(false);
@@ -29,7 +49,9 @@ const Scroller = ({ cards, cardRenderer }) => {
 
     const scrollerButtonHandler = useCallback(
         (direction) => {
-            if (!cardsContainerRef.current || !cardsContainerRef.current.children[0]) return;
+            if (!cardsContainerRef.current || !cardsContainerRef.current.children[0]) {
+                return;
+            }
             const { width: scrollerCardWidth } = cardsContainerRef.current.children[0].getBoundingClientRect();
             const newIndex = currentIndex + direction;
             const maxIndex = Math.max(Math.min(cards.length - 1, newIndex), 0);
@@ -40,12 +62,14 @@ const Scroller = ({ cards, cardRenderer }) => {
                 behavior: "smooth",
             });
         },
-        [currentIndex, cards.length]
+        [currentIndex, cards.length],
     );
 
     useEffect(() => {
         const debouncedHandleResize = debounce(() => {
-            if (!cardsContainerRef.current) return;
+            if (!cardsContainerRef.current) {
+                return;
+            }
             const { height, width } = cardsContainerRef.current.getBoundingClientRect();
             setDimensions({ height, width });
         }, 1000);
@@ -57,16 +81,20 @@ const Scroller = ({ cards, cardRenderer }) => {
     }, []);
 
     useEffect(() => {
-        if (!cardsContainerRef.current || !cardsContainerRef.current.children[0]) return;
+        if (!cardsContainerRef.current || !cardsContainerRef.current.children[0]) {
+            return;
+        }
         const { width: scrollerCardWidth } = cardsContainerRef.current.children[0].getBoundingClientRect();
         setShowLeftScrollButton(currentIndex * scrollerCardWidth > 0);
         setShowRightScrollButton(
-            (cards.length - currentIndex) * (scrollerCardWidth + cardGap) >= dimensions.width + cardGap
+            (cards.length - currentIndex) * (scrollerCardWidth + cardGap) >= dimensions.width + cardGap,
         );
-    }, [dimensions.width, currentIndex, cards.length]);
+    }, [dimensions.width, currentIndex, cards.length, isHovered]);
 
     const handleScroll = () => {
-        if (!cardsContainerRef.current || !cardsContainerRef.current.children[0]) return;
+        if (!cardsContainerRef.current || !cardsContainerRef.current.children[0]) {
+            return;
+        }
         const { scrollLeft, clientWidth, scrollWidth } = cardsContainerRef.current;
         const { width: scrollerCardWidth } = cardsContainerRef.current.children[0].getBoundingClientRect();
         const newIndex = Math.round(scrollLeft / (scrollerCardWidth + cardGap));
@@ -87,9 +115,14 @@ const Scroller = ({ cards, cardRenderer }) => {
                     </IconButton>
                 </Box>
             )}
-            <Box className={styles.scrollerCards} ref={cardsContainerRef} onScroll={handleScroll}>
-                {cards.map((card, index) => cardRenderer(card))}
-            </Box>
+            <CustomBox
+                className={styles.scrollerCards}
+                ref={cardsContainerRef}
+                onScroll={handleScroll}
+                isHovered={isHovered}
+            >
+                {cards.map((card, index) => cardRenderer(card, index))}
+            </CustomBox>
             {showRightScrollButton && (
                 <Box
                     className={`${styles.scrollButton} ${styles.scrollButtonRight}`}
@@ -105,10 +138,9 @@ const Scroller = ({ cards, cardRenderer }) => {
 };
 
 Scroller.propTypes = {
-    /** Array of card data objects to render */
     cards: PropTypes.arrayOf(PropTypes.object).isRequired,
-    /** Function to render each card component */
     cardRenderer: PropTypes.func.isRequired,
+    isHovered: PropTypes.bool.isRequired,
 };
 
 export default Scroller;

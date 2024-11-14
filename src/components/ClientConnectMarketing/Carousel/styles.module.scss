@@ -6,27 +6,10 @@
 .scrollerCards {
     display: flex;
     flex-direction: row;
-    overflow: hidden;
+    overflow: scroll;
     gap: 24px;
     padding: 5px 0;
-    overflow: auto;
 }
-.scrollerCards::-webkit-scrollbar {
-    width: 12px;
-    height: 10px;
-}
-
-.scrollerCards::-webkit-scrollbar-thumb {
-    background-color: #bdbdbd;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.scrollerCards::-webkit-scrollbar-track {
-    background-color: #fff;
-    border-radius: 10px;
-}
-
 .scrollButton {
     background: rgb(255, 255, 255);
     border: none;
@@ -34,7 +17,7 @@
     cursor: pointer;
     position: absolute;
     z-index: 1;
-    height: calc(100% - 20px);
+    height: calc(100% - 10px);
     display: flex;
     align-items: center;
     width: 50px;

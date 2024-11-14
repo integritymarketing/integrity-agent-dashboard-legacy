@@ -4,14 +4,14 @@ import CampaignStatusCard from "../CampaignStatusCard";
 import styles from "./styles.module.scss";
 import Scroller from "../Carousel";
 
-const CampaignsList = ({ campaigns }) => {
+const CampaignsList = ({ campaigns, isHovered }) => {
     const cardRenderer = (campaign) => <CampaignStatusCard campaign={campaign} />;
 
     return (
         <Box className={styles.campaignsList}>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={12}>
-                    <Scroller cards={campaigns} cardRenderer={cardRenderer} />
+                    <Scroller cards={campaigns} cardRenderer={cardRenderer} isHovered={isHovered} />
                 </Grid>
             </Grid>
         </Box>
@@ -32,7 +32,7 @@ CampaignsList.propTypes = {
                     count: PropTypes.number,
                     statusName: PropTypes.string,
                     leadIds: PropTypes.arrayOf(),
-                })
+                }),
             ),
             stats: PropTypes.shape({
                 recipients: PropTypes.number,
@@ -40,8 +40,9 @@ CampaignsList.propTypes = {
                 clicks: PropTypes.number,
                 unsubscribes: PropTypes.number,
             }),
-        })
+        }),
     ).isRequired,
+    isHovered: PropTypes.bool,
 };
 
 export default CampaignsList;
