@@ -23,7 +23,7 @@ function FilteredLeadIdsBanner() {
         <Box className={styles.banner}>
             <Box className={`${styles.colorBar} ${styles[filteredInfo?.status]}`}></Box>
             <Box>
-                {count} {filteredInfo?.status} {filteredIds?.length > 1 ? "Policies" : "Policy"}
+                {filteredIds.length} {filteredInfo?.status} {filteredIds?.length > 1 ? "Policies" : "Policy"}
             </Box>
             <Box onClick={onClickHandle} className={styles.clearIcon}>
                 <span>{'Clear Filter'}</span>
