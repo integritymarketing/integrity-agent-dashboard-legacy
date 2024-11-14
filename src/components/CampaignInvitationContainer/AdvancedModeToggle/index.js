@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Switch, Typography, IconButton, Box } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useCampaignInvitation } from "providers/CampaignInvitation";
@@ -5,6 +6,7 @@ import PropTypes from "prop-types";
 
 const AdvancedModeToggle = () => {
     const { isAdvancedMode, handleAdvanceToggleMode } = useCampaignInvitation();
+    const [showInfoIcon] = useState(false);
 
     return (
         <>
@@ -21,9 +23,11 @@ const AdvancedModeToggle = () => {
                 </Typography>
             </Box>
             {/* Info Icon */}
-            <IconButton size="small" aria-label="information about advanced mode" color="primary">
-                <InfoOutlinedIcon />
-            </IconButton>
+            {showInfoIcon && (
+                <IconButton size="small" aria-label="information about advanced mode" color="primary">
+                    <InfoOutlinedIcon />
+                </IconButton>
+            )}
         </>
     );
 };
