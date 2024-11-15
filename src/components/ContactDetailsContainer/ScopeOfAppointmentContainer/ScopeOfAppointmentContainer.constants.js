@@ -47,6 +47,10 @@ export const PHONE_NO = "Phone Number";
 export const PHONE = "Phone";
 export const BENEFICIARY_SUBMITTED = "Beneficiary Submitted";
 
+export const AUTHORIZED_REPRESENTATIVE_FNAME = "Authorized Representative’s First Name";
+export const AUTHORIZED_REPRESENTATIVE_MIDDLE_INITIAL = "Authorized Representative’s Middle Initial";
+export const AUTHORIZED_REPRESENTATIVE_LNAME = "Authorized Representative’s Last Name";
+
 export const AGENT_FNAME = "Agent First Name";
 export const AGENT_LNAME = "Agent Last Name";
 export const AGENT_PHONE = "Agent Phone (Optional)";
