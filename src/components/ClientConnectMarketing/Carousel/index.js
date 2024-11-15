@@ -32,7 +32,7 @@ const CustomBox = styled(Box)(({ isHovered }) => ({
     },
     "@media (max-width: 480px)": {
         "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#bdbdbd",
+            display: "none",
         },
     },
 }));
