@@ -198,7 +198,12 @@ const CampaignInnerContainer = () => {
                 return;
         }
 
-        handleAllCampaignActions({ payload, method, refresh: handleGetCampaignDetailsById, campaignDescriptionType });
+        handleAllCampaignActions({
+            payload,
+            method,
+            refresh: handleGetCampaignDetailsById,
+            campaignDescription: campaignDescriptionType,
+        });
     };
 
     const saveIcon = useMemo(() => {

@@ -27,13 +27,14 @@ const CampaignStatusInfoCard = ({ campaignStatus, campaignType, runDate, modifie
                 <Grid container>
                     <Grid xs={12} md={6}>
                         <Typography variant="custom" className={styles.sentText}>
-                            Sent: <span className={styles.sentDate}>{runDate}</span>
+                            {runDate ? "Sent" : "Started"}:{" "}
+                            <span className={styles.sentDate}>{runDate ? runDate : modifiedDate}</span>
                         </Typography>
                     </Grid>
                     {campaignStatus === "Completed" && (
                         <Grid xs={12} md={6} sx={{ textAlign: { xs: "left", md: "end" } }}>
                             <Typography variant="custom" className={styles.sentText}>
-                                Completed: <span className={styles.sentDate}> {runDate}</span>
+                                Completed: <span className={styles.sentDate}> {modifiedDate}</span>
                             </Typography>
                         </Grid>
                     )}

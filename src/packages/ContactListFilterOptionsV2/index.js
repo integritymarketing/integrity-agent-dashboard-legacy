@@ -179,8 +179,8 @@ export default function ContactListFilterOptionsV2({
     };
 
     const handleResetOrSave = (newSelectedFilterSections, isEmpty) => {
+        setSelectedFilterSections(isEmpty ? [] : [...newSelectedFilterSections]);
         if (handleSaveButton) {
-            setSelectedFilterSections(isEmpty ? [] : [...newSelectedFilterSections]);
             resetData(newSelectedFilterSections);
         } else {
             setTimeout(() => resetData(newSelectedFilterSections), 100);
