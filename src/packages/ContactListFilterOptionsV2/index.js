@@ -7,11 +7,12 @@ import Icon from "components/Icon";
 import Popover from "@mui/material/Popover";
 import FilterSectionBox from "./FilterSectionBox/index";
 import { styled } from "@mui/system";
-import { FILTER_ICONS, reminderFilters } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
+import { reminderFilters } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
 import useFetch from "hooks/useFetch";
 import StageStatusContext from "contexts/stageStatus";
 import useAnalytics from "hooks/useAnalytics";
 import { Box, Button } from "@mui/material";
+import CustomTagIcon from "./icons/custom_tag.svg";
 import styles from "./styles.module.scss";
 
 const StyledPopover = styled(Popover)(() => ({
@@ -71,14 +72,11 @@ export default function ContactListFilterOptionsV2({
                                             label: childCategory.tagCategoryName,
                                             heading: childCategory.tagCategoryName,
                                             value: childCategory.tagCategoryName,
-                                            icon: FILTER_ICONS[childCategory.tagCategoryName] || FILTER_ICONS.default,
+                                            icon: CustomTagIcon,
                                             options: childCategory.tags.map((tag) => ({
                                                 label: tag.tagLabel,
                                                 value: tag.tagId,
-                                                icon:
-                                                    tag.tagIconUrl ||
-                                                    FILTER_ICONS[tag.tagLabel] ||
-                                                    FILTER_ICONS.default,
+                                                icon: tag?.tagIconUrl ? tag?.tagIconUrl : CustomTagIcon,
                                                 iconClassName: "menuItemIconMedium",
                                             })),
                                         };
@@ -108,7 +106,7 @@ export default function ContactListFilterOptionsV2({
                                 options: parentCategory.tags.map((tag) => ({
                                     label: tag.tagLabel,
                                     value: tag.tagId,
-                                    icon: tag.tagIconUrl || FILTER_ICONS.default,
+                                    icon: tag?.tagIconUrl ? tag?.tagIconUrl : CustomTagIcon,
                                     iconClassName: "menuItemIconMedium",
                                 })),
                             });
@@ -127,7 +125,7 @@ export default function ContactListFilterOptionsV2({
                             options: orphanCategory.tags.map((tag) => ({
                                 label: tag.tagLabel,
                                 value: tag.tagId,
-                                icon: tag.tagIconUrl || FILTER_ICONS.default,
+                                icon: tag?.tagIconUrl ? tag?.tagIconUrl : CustomTagIcon,
                                 iconClassName: "menuItemIconMedium",
                             })),
                         });
