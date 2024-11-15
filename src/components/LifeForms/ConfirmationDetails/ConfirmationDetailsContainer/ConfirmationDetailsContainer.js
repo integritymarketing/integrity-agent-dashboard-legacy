@@ -50,7 +50,7 @@ export const ConfirmationDetailsContainer = ({ contactId, quoteType }) => {
         const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
 
         const city = addressData && addressData.city ? addressData.city : "";
-        const stateCode = addressData && addressData.stateCode ? addressData.stateCode : "";
+        const stateCode = addressData && addressData.stateCode ? addressData.stateCode : formData.stateCode;
         const address1 = addressData && addressData.address1 ? addressData.address1 : "";
         const address2 = addressData && addressData.address2 ? addressData.address2 : "";
         const county = addressData && addressData.county ? addressData.county : "";
