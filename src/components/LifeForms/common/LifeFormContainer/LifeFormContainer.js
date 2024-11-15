@@ -21,7 +21,7 @@ export const LifeFormContainer = ({ children, cardHeaderTitle, cardTitle, cardSu
                                 </Typography>
                             </Stack>
                             <Stack>
-                                <Typography variant="body1" className={styles.fontColor}>
+                                <Typography variant="body1" className={styles.cardSubTitleColor}>
                                     {cardSubTitle}
                                 </Typography>
                             </Stack>

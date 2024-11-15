@@ -19,10 +19,11 @@ export const ProductPreferenceDetailsProvider = ({ children }) => {
         error: createProductPreferenceError,
     } = useFetch(`${productPreferenceUrl}quotes`);
 
-
     const updateProductPreferenceDetails = useCallback(async (payloadData) => {
         const { birthdate, gender, addresses, healthClasses, faceAmounts, payPeriods, illustratedRate, loanType } =
             payloadData;
+
+        const stateCode = addresses && addresses[0] ? addresses[0].stateCode : null;
 
         const reqData = {
             inputs: [
@@ -30,7 +31,7 @@ export const ProductPreferenceDetailsProvider = ({ children }) => {
                     birthDate: birthdate,
                     gender: gender === "female" ? "F" : "M",
                     healthClasses: [healthClasses],
-                    state: addresses[0].stateCode,
+                    state: stateCode,
                     faceAmounts: [String(faceAmounts)],
                     payPeriods: [payPeriods],
                     solves: ["EndowAtAge100"],
@@ -56,7 +57,7 @@ export const ProductPreferenceDetailsProvider = ({ children }) => {
                 }
             );
             return result;
-        } catch {
+        } catch (error) {
             showToast({
                 type: "error",
                 message: `Failed to update Product Preference`,
