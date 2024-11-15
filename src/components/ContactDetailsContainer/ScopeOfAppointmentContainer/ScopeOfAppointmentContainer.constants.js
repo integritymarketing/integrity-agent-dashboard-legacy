@@ -46,7 +46,7 @@ export const ZIP_CODE = "Zip Code";
 export const PHONE_NO = "Phone Number";
 export const PHONE = "Phone";
 export const BENEFICIARY_SUBMITTED = "Beneficiary Submitted";
-
+export const RELATION_TO_BENEFICIARY = "Relation to Beneficiary";
 export const AUTHORIZED_REPRESENTATIVE_FNAME = "Authorized Representative’s First Name";
 export const AUTHORIZED_REPRESENTATIVE_MIDDLE_INITIAL = "Authorized Representative’s Middle Initial";
 export const AUTHORIZED_REPRESENTATIVE_LNAME = "Authorized Representative’s Last Name";

@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
 import {
     ADDRESS_LINE,
+    CITY,
+    STATE,
+    ZIP_CODE,
     BENEFICIARY_SUBMITTED,
     BENEFICIARY_FNAME,
     BENEFICIARY_LNAME,
@@ -10,6 +13,7 @@ import {
     AUTHORIZED_REPRESENTATIVE_FNAME,
     AUTHORIZED_REPRESENTATIVE_MIDDLE_INITIAL,
     AUTHORIZED_REPRESENTATIVE_LNAME,
+    RELATION_TO_BENEFICIARY,
 } from "../ScopeOfAppointmentContainer.constants";
 import styles from "./SOAContactDetails.module.scss";
 import { Checked } from "../Icons";
@@ -22,13 +26,21 @@ export const SOAContactDetails = ({ leadSection }) => {
         lastName = "",
         address1 = "",
         phone = "",
+        city = "",
+        state = "",
+        zip = "",
+
     } = leadSection?.beneficiary || {};
     const {
         firstName: auth_firstName = "",
         middleName: auth_middleName = "_",
         lastName: auth_lastName = "",
         address1: auth_address1 = "",
+        city: auth_city = "",
+        state: auth_state = "",
+        zip: auth_zip = "",
         phone: auth_phone = "",
+        relationshipToBeneficiary = "",
     } = leadSection?.authorizedRepresentative || {};
 
     return (
@@ -38,14 +50,20 @@ export const SOAContactDetails = ({ leadSection }) => {
             <Field label={BENEFICIARY_LNAME} content={lastName} />
             <Field label={ADDRESS_LINE} content={address1} />
             <Field label={PHONE} content={phone} />
-
+            <Field label={CITY} content={city} />
+            <Field label={STATE} content={state} />
+            <Field label={ZIP_CODE} content={zip} />
             {leadSection?.hasAuthorizedRepresentative && (
                 <>
                     <Field label={AUTHORIZED_REPRESENTATIVE_FNAME} content={auth_firstName} />
                     <Field label={AUTHORIZED_REPRESENTATIVE_MIDDLE_INITIAL} content={auth_middleName} />
                     <Field label={AUTHORIZED_REPRESENTATIVE_LNAME} content={auth_lastName} />
                     <Field label={ADDRESS_LINE} content={auth_address1} />
+                    <Field label={CITY} content={auth_city} />
+                    <Field label={STATE} content={auth_state} />
+                    <Field label={ZIP_CODE} content={auth_zip} />
                     <Field label={PHONE} content={auth_phone} />
+                    <Field label={RELATION_TO_BENEFICIARY} content={relationshipToBeneficiary} />
                 </>
             )}
             <div className={styles.consentWrapper}>
