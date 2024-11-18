@@ -34,7 +34,7 @@ export const PAY_PERIOD_OPTS = [
 ];
 export const LOANS_OPTS = [
     { label: "Fixed", value: "LoansFixed" },
-    { label: "Participating", value: "LoansParticipating" },
+    { label: "Participating", value: "LoansParticipation" },
 ];
 
 export const ILLUSTRATED_RATE_OPTS = [
