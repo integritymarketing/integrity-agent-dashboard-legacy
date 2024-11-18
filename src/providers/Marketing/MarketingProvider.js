@@ -95,22 +95,24 @@ export const MarketingProvider = ({ children }) => {
                     } else {
                         await getCompletedCampaigns();
                     }
-                    const fireEventPayload = {
-                        campaignName: payload.customCampaignDescription,
-                        campaignDescription: campaignDescription,
-                        mode: payload?.campaignType === "Event" ? "advanced" : "basic",
-                        scope:
-                            payload?.campaignSelectedAction === "contacts filtered by…"
-                                ? "filter contacts"
-                                : payload?.campaignSelectedAction === "all contacts"
-                                ? "all contacts"
-                                : payload?.campaignSelectedAction === "a contact"
-                                ? "a contact"
-                                : payload?.campaignSelectedAction === "a contact when"
-                                ? "a contact when"
-                                : payload?.campaignSelectedAction,
-                    };
-                    fireEvent("Campaign Started", fireEventPayload);
+                    if (payload?.campaignStatus === "Submitted") {
+                        const fireEventPayload = {
+                            campaignName: payload.customCampaignDescription,
+                            campaignDescription: campaignDescription,
+                            mode: payload?.campaignType === "Event" ? "advanced" : "basic",
+                            scope:
+                                payload?.campaignSelectedAction === "contacts filtered by…"
+                                    ? "filter contacts"
+                                    : payload?.campaignSelectedAction === "all contacts"
+                                    ? "all contacts"
+                                    : payload?.campaignSelectedAction === "a contact"
+                                    ? "a contact"
+                                    : payload?.campaignSelectedAction === "a contact when"
+                                    ? "a contact when"
+                                    : payload?.campaignSelectedAction,
+                        };
+                        fireEvent("Campaign Started", fireEventPayload);
+                    }
                     showToast({
                         type: "success",
                         message: "Campaign updated successfully",
