@@ -307,7 +307,7 @@ const CampaignInnerContainer = () => {
                             size="medium"
                             variant="contained"
                             color="primary"
-                            endIcon={!isSendingCampaign && saveIcon}
+                            endIcon={isSendingCampaign ? <CircularProgress size={24} /> : saveIcon}
                             onClick={() => {
                                 setIsSendCampaignModalOpen(true);
                             }}
