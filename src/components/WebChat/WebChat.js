@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import { useEffect, useState, useMemo, useRef, useCallback } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ReactWebChat, { createDirectLine, createStore } from "botframework-webchat";
 import * as Sentry from "@sentry/react";
 import cx from "classnames";
@@ -121,21 +121,48 @@ const WebChatComponent = () => {
         await fetchDirectLineToken();
     }, [clearChat, fetchDirectLineToken]);
 
-    const clearChatAndSendContact = useCallback((contactFullName) => {
+    const directLine = useMemo(() => createDirectLine({token: directLineToken}), [directLineToken]);
+
+    const clearChatAndSendContact = useCallback((contactFullName, leadsId) => {
         setSuggestedContacts([]);
         setLastMessage("");
         setSearchText("");
 
         store.dispatch({
             type: "WEB_CHAT/SET_SEND_BOX",
-            payload: {text: ""},
+            payload: { text: "" },
         });
 
         store.dispatch({
-            type: "WEB_CHAT/SEND_MESSAGE",
-            payload: {text: contactFullName},
+            type: "DIRECT_LINE/INCOMING_ACTIVITY",
+            payload: {
+                activity: {
+                    type: "message",
+                    from: { role: "user" },
+                    text: `${contactFullName}`,
+                },
+            },
         });
-    }, []);
+
+        directLine
+            .postActivity({
+                name: "mc_Contact_Selected",
+                type: "event",
+                value: {
+                    data: {
+                        text: `You selected ${contactFullName}!`,
+                        leadId: Number(leadsId),
+                        contactName: contactFullName,
+                        dialogId: "ContactSummary",
+                        name: "mc_Contact_Selected",
+                    },
+                    appId: "mcweb",
+                },
+                channelId: "webchat",
+            })
+            .subscribe();
+    }, [directLine]);
+
 
     const closeChat = useCallback(() => {
         clearChat();
@@ -189,8 +216,6 @@ const WebChatComponent = () => {
         };
     }, [isChatActive]);
 
-    const directLine = useMemo(() => createDirectLine({token: directLineToken}), [directLineToken]);
-
     const overrideLocalizedStrings = {TEXT_INPUT_PLACEHOLDER: showSelectContactPrompt() ? " Search for Contact..." : " Ask Integrity..."};
 
     const openChat = useCallback(async () => {
@@ -234,7 +259,6 @@ const WebChatComponent = () => {
                     setSkipFeedbackInfo(true);
                     setIsChatActive(false);
                 } else if (activityValue.name === "mc_Ask_Something_Else") {
-                    clearChat();
                     dispatch({
                         type: "WEB_CHAT/SEND_MESSAGE",
                         payload: {text: "Ask something else"},
@@ -452,6 +476,7 @@ const WebChatComponent = () => {
                                     suggestedContacts={suggestedContacts}
                                     isContactsLoading={isContactsLoading}
                                     onContactSelect={clearChatAndSendContact}
+                                    initiateChat={openChat}
                                 />
 
                                 <div>
