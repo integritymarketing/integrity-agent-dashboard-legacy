@@ -326,6 +326,7 @@ export default function ContactListFilterOptionsV2({
                     return (
                         <FilterSectionBox
                             section={section}
+                            isSingleSelect={isSingleSelect}
                             freezeAndOption={hasStageAndReminderNext}
                             filterSectionsConfig={filterSectionsConfig}
                             key={section.id + section.nextAndOrOption}
