@@ -14,16 +14,16 @@ const CounterInput = ({
     initialValue = 10000,
     min = 0,
     max = 100000,
+    incrementOrDecrementValue = 10000,
     onValueChange,
     currencySymbol = "$",
     inputStyles = {},
 }) => {
     const [value, setValue] = useState(initialValue);
 
-
     const handleIncrement = useCallback(() => {
         setValue((prevValue) => {
-            const newValue = Math.min(prevValue + 10000, max);
+            const newValue = Math.min(prevValue + incrementOrDecrementValue, max);
 
             if (onValueChange) {
                 onValueChange(newValue);
@@ -31,12 +31,11 @@ const CounterInput = ({
 
             return newValue;
         });
-    }, [max, onValueChange]);
-
+    }, [max, onValueChange, incrementOrDecrementValue]);
 
     const handleDecrement = useCallback(() => {
         setValue((prevValue) => {
-            const newValue = Math.max(prevValue - 10000, min);
+            const newValue = Math.max(prevValue - incrementOrDecrementValue, min);
 
             if (onValueChange) {
                 onValueChange(newValue);
@@ -44,21 +43,19 @@ const CounterInput = ({
 
             return newValue;
         });
-    }, [min, onValueChange]);
-
+    }, [min, onValueChange, incrementOrDecrementValue]);
 
     const handleInputChange = (event) => {
         const inputValue = event.target.value.replace(/[^0-9]/g, "");
         const numericValue = inputValue ? parseInt(inputValue, 10) : 0;
 
 
-        if (numericValue >= min && numericValue <= max) {
-            setValue(numericValue);
+        setValue(numericValue);
 
-            if (onValueChange) {
-                onValueChange(numericValue);
-            }
+        if (onValueChange) {
+            onValueChange(numericValue);
         }
+
     };
 
     return (
@@ -107,6 +104,7 @@ CounterInput.propTypes = {
     onValueChange: PropTypes.func,
     currencySymbol: PropTypes.string,
     inputStyles: PropTypes.object,
+    incrementOrDecrementValue: PropTypes.number,
 };
 
 export default React.memo(CounterInput);

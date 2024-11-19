@@ -28,7 +28,6 @@ export const ProductPreferenceForm = () => {
         faceAmounts: "2000",
     });
 
-
     const { updateProductPreferenceDetails } = useProductPreferenceDetails();
     const { leadDetails } = useLeadDetails();
 
@@ -166,6 +165,7 @@ export const ProductPreferenceForm = () => {
                                             min={2000}
                                             max={2000000}
                                             initialValue={2000}
+                                            incrementOrDecrementValue={50}
                                             inputStyles={{ padding: "23.1px 14px" }}
                                         />
                                     </Stack>
