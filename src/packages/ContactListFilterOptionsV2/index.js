@@ -349,6 +349,7 @@ export default function ContactListFilterOptionsV2({
                         startIcon={<Add />}
                         onClick={handleOnClickAddNew}
                         disabled={Boolean(hasUnfinishedFilterSections)}
+                        className={styles.addNewButton}
                     >
                         Add Filter
                     </Button>
