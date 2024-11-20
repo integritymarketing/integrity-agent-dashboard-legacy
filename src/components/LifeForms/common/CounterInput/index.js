@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import PropTypes from "prop-types";
 import { TextField, IconButton, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,51 +11,57 @@ import RemoveIcon from "@mui/icons-material/Remove";
  */
 
 const CounterInput = ({
-    initialValue = 10000,
+    initialValue = 2000,
     min = 0,
     max = 100000,
     incrementOrDecrementValue = 10000,
+    initialIncrementValue = 2000,
     onValueChange,
     currencySymbol = "$",
     inputStyles = {},
 }) => {
     const [value, setValue] = useState(initialValue);
+    const firstIncrement = useRef(true);
 
     const handleIncrement = useCallback(() => {
         setValue((prevValue) => {
-            const newValue = Math.min(prevValue + incrementOrDecrementValue, max);
+            const incrementValue = firstIncrement.current ? initialIncrementValue : incrementOrDecrementValue;
+            const numericValue = prevValue === "" ? 0 : prevValue;
+            const newValue = Math.min(numericValue + incrementValue, max);
 
             if (onValueChange) {
                 onValueChange(newValue);
             } // Notify parent
 
+            firstIncrement.current = false;
             return newValue;
         });
-    }, [max, onValueChange, incrementOrDecrementValue]);
+    }, [max, onValueChange, incrementOrDecrementValue, initialIncrementValue]);
 
     const handleDecrement = useCallback(() => {
         setValue((prevValue) => {
-            const newValue = Math.max(prevValue - incrementOrDecrementValue, min);
+            const decrementValue = firstIncrement.current ? initialIncrementValue : incrementOrDecrementValue;
+            const numericValue = prevValue === "" ? 0 : prevValue;
+            const newValue = Math.max(numericValue - decrementValue, min);
 
             if (onValueChange) {
                 onValueChange(newValue);
             } // Notify parent
 
+            firstIncrement.current = false;
             return newValue;
         });
-    }, [min, onValueChange, incrementOrDecrementValue]);
+    }, [min, onValueChange, incrementOrDecrementValue, initialIncrementValue]);
 
     const handleInputChange = (event) => {
         const inputValue = event.target.value.replace(/[^0-9]/g, "");
-        const numericValue = inputValue ? parseInt(inputValue, 10) : 0;
-
+        const numericValue = inputValue === "" ? "" : parseInt(inputValue, 10);
 
         setValue(numericValue);
 
         if (onValueChange) {
             onValueChange(numericValue);
         }
-
     };
 
     return (
@@ -69,13 +75,13 @@ const CounterInput = ({
                     },
                 }}
                 onClick={handleDecrement}
-                disabled={value <= min}
+                disabled={value === "" || value <= min}
             >
                 <RemoveIcon />
             </IconButton>
             <TextField
                 variant="outlined"
-                value={(currencySymbol ? currencySymbol : "") + value.toLocaleString()}
+                value={value === 0 ? "" : (currencySymbol ? currencySymbol : "") + value.toLocaleString()}
                 onChange={handleInputChange}
                 inputProps={{ style: { ...inputStyles, textAlign: "center" } }}
                 fullWidth
@@ -89,7 +95,7 @@ const CounterInput = ({
                     },
                 }}
                 onClick={handleIncrement}
-                disabled={value >= max}
+                disabled={value !== "" && value >= max}
             >
                 <AddIcon />
             </IconButton>
@@ -98,13 +104,14 @@ const CounterInput = ({
 };
 
 CounterInput.propTypes = {
-    initialValue: PropTypes.number,
+    initialValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     min: PropTypes.number,
     max: PropTypes.number,
+    incrementOrDecrementValue: PropTypes.number,
+    initialIncrementValue: PropTypes.number,
     onValueChange: PropTypes.func,
     currencySymbol: PropTypes.string,
     inputStyles: PropTypes.object,
-    incrementOrDecrementValue: PropTypes.number,
 };
 
 export default React.memo(CounterInput);

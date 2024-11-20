@@ -25,7 +25,7 @@ export const ProductPreferenceForm = () => {
         loanType: "LoansFixed",
         illustratedRate: "5",
         healthClasses: "",
-        faceAmounts: "2000",
+        faceAmounts: "",
     });
 
     const { updateProductPreferenceDetails } = useProductPreferenceDetails();
@@ -51,7 +51,17 @@ export const ProductPreferenceForm = () => {
                 handleSubmitData(values);
             }}
         >
-            {({ values, errors, isValid, dirty, handleChange, handleSubmit, setFieldValue }) => {
+            {({
+                values,
+                errors,
+                isValid,
+                dirty,
+                touched,
+                handleChange,
+                handleSubmit,
+                setFieldValue,
+                setFieldTouched,
+            }) => {
                 return (
                     <>
                         <Grid container direction={"row"} rowSpacing={2} columnSpacing={{ xs: 0, md: 3 }} style={{}}>
@@ -127,7 +137,7 @@ export const ProductPreferenceForm = () => {
                             <Grid item md={6} xs={12}>
                                 <CustomFieldContainer
                                     label="Health Classification*"
-                                    error={dirty && errors.healthClasses}
+                                    error={touched.healthClasses && errors.healthClasses}
                                 >
                                     <Grid item xs={12} container spacing={1}>
                                         {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
@@ -145,7 +155,10 @@ export const ProductPreferenceForm = () => {
                                                         value={option.value}
                                                         label={option.label}
                                                         stateValue={values.healthClasses}
-                                                        onChange={handleChange}
+                                                        onChange={(e) => {
+                                                            setFieldTouched("healthClasses", true);
+                                                            handleChange(e);
+                                                        }}
                                                     />
                                                 </Grid>
                                             );
@@ -156,15 +169,18 @@ export const ProductPreferenceForm = () => {
                             <Grid item md={6} xs={12}>
                                 <CustomFieldContainer
                                     label="Fixed Annual Premium*"
-                                    error={errors.faceAmounts}
+                                    error={touched.faceAmounts && errors.faceAmounts}
                                     style={{ height: "100%" }}
                                 >
                                     <Stack flex alignItems={"stretch"} flexGrow={1} justifyContent="center">
                                         <CounterInput
-                                            onValueChange={(value) => handleFaceAmountChange(value, setFieldValue)}
+                                            onValueChange={(value) => {
+                                                setFieldTouched("faceAmounts", true);
+                                                handleFaceAmountChange(value, setFieldValue);
+                                            }}
                                             min={2000}
                                             max={2000000}
-                                            initialValue={2000}
+                                            initialValue={0}
                                             incrementOrDecrementValue={50}
                                             inputStyles={{ padding: "23.1px 14px" }}
                                         />

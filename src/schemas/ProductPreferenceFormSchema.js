@@ -8,7 +8,7 @@ export const ProductPreferenceFormSchema = yup.object().shape({
     healthClasses: yup.string().required("Health Classification is required"),
     faceAmounts: yup
         .number()
-        .nullable()
+        .required("Please enter a value between 2000 and 2000000.")
         .typeError("Fixed Annual Premium must be a number")
         .min(2000, "Minimum value for Fixed Annual Premium is 2000")
         .max(2000000, "Maximum value for Fixed Annual Premium is 2000000"),
