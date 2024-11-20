@@ -48,8 +48,22 @@ const WebChatComponent = () => {
         `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads?Search=${searchText}&IncludeContactPreference=true&Sort=CreateDate:desc`
     );
 
+    function focusInputBox() {
+        const inputElement = document.querySelector('[data-id="webchat-sendbox-input"]');
+        if (inputElement) {
+            inputElement.setAttribute("maxLength", "100");
+            if (isDesktop) {
+                inputElement.focus();
+            }
+        }
+    }
+
     const showSelectContactPrompt = useCallback(() => {
-        return lastMessage?.includes(WHICH_CONTACT_PART_STRING) || searchForContactBtnClick;
+        const showPrompt = lastMessage?.includes(WHICH_CONTACT_PART_STRING) || searchForContactBtnClick;
+        if(showPrompt) {
+            focusInputBox();
+        }
+        return showPrompt;
     }, [lastMessage, searchForContactBtnClick, setSearchForContactBtnClick]);
 
     useEffect(() => {
@@ -224,14 +238,8 @@ const WebChatComponent = () => {
         let intervalId;
         if (isChatActive) {
             intervalId = setInterval(() => {
-                const inputElement = document.querySelector('[data-id="webchat-sendbox-input"]');
-                if (inputElement) {
-                    inputElement.setAttribute("maxLength", "100");
-                    if (isDesktop) {
-                        inputElement.focus();
-                    }
-                    clearInterval(intervalId);
-                }
+                focusInputBox();
+                clearInterval(intervalId);
             }, 500);
         }
         return () => clearInterval(intervalId);
@@ -293,10 +301,7 @@ const WebChatComponent = () => {
                         type: "WEB_CHAT/SEND_MESSAGE",
                         payload: {text: "Ask something else"},
                     });
-                    const inputElement = document.querySelector('[data-id="webchat-sendbox-input"]');
-                    if (inputElement) {
-                        inputElement.focus();
-                    }
+                    focusInputBox();
                 }
             }
 
