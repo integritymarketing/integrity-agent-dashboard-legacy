@@ -40,47 +40,74 @@ const WebChatComponent = () => {
     const [isContactsLoading, setIsContactsLoading] = useState(false);
     const [suggestedContacts, setSuggestedContacts] = useState([]);
     const [lastMessage, setLastMessage] = useState(null);
+    const [dialogId, setDialogId] = useState("ContactSummary");
     const [skipFeedbackInfo, setSkipFeedbackInfo] = useState(false);
+    const [searchForContactBtnClick, setSearchForContactBtnClick] = useState(false);
 
-    const {Get: getSuggestedContacts} = useFetch(
+    const { Get: getSuggestedContacts } = useFetch(
         `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads?Search=${searchText}&IncludeContactPreference=true&Sort=CreateDate:desc`
     );
 
     const showSelectContactPrompt = useCallback(() => {
-        return lastMessage?.includes(WHICH_CONTACT_PART_STRING);
-    }, [lastMessage]);
+        return lastMessage?.includes(WHICH_CONTACT_PART_STRING) || searchForContactBtnClick;
+    }, [lastMessage, searchForContactBtnClick, setSearchForContactBtnClick]);
 
     useEffect(() => {
-        const debouncedFetch = debounce(async () => {
-            if (searchText.length > 1 && showSelectContactPrompt()) {
-                setIsContactsLoading(true);
-                try {
-                    const suggestedContactsResponse = await getSuggestedContacts();
-                    setSuggestedContacts(suggestedContactsResponse?.result || []);
-                } finally {
-                    setIsContactsLoading(false);
-                }
-            } else {
-                setSuggestedContacts([]);
-                setIsContactsLoading(false);
-            }
-        }, 500);
-
-        debouncedFetch();
-
-        return () => {
-            debouncedFetch.cancel();
-        };
-    }, [searchText, lastMessage]);
-
-    useEffect(() => {
-        if (lastMessage?.includes(WHICH_CONTACT_PART_STRING)) {
-            const inputElement = document.querySelector('[data-id="webchat-sendbox-input"]');
-            if (inputElement) {
-                inputElement.focus();
-            }
+        if(lastMessage?.toLowerCase().includes("call summary")){
+            setDialogId("CallSummary");
+        }else {
+            setDialogId("ContactSummary");
         }
     }, [lastMessage]);
+
+    const debouncedFetchContacts = useMemo(
+        () =>
+            debounce(async () => {
+                if (searchText.length > 1 && showSelectContactPrompt()) {
+                    setIsContactsLoading(true);
+                    try {
+                        const suggestedContactsResponse = await getSuggestedContacts();
+                        setSuggestedContacts(suggestedContactsResponse?.result || []);
+                    } finally {
+                        setIsContactsLoading(false);
+                    }
+                } else {
+                    setSuggestedContacts([]);
+                    setIsContactsLoading(false);
+                }
+            }, 500),
+        [searchText, showSelectContactPrompt, getSuggestedContacts]
+    );
+
+    useEffect(() => {
+        debouncedFetchContacts();
+        return () => {
+            debouncedFetchContacts.cancel();
+        };
+    }, [searchText, lastMessage, debouncedFetchContacts]);
+
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            const buttons = document.querySelectorAll(
+                'button[title="Search for a Contact"]'
+            );
+
+            buttons.forEach((button) => {
+                if (!button.dataset.clickBound) {
+                    button.addEventListener("click", () => {
+                        setSearchForContactBtnClick(true);
+                    });
+                    button.dataset.clickBound = "true";
+                }
+            });
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [setSearchForContactBtnClick]);
 
     const fetchDirectLineToken = useCallback(async () => {
         try {
@@ -109,6 +136,7 @@ const WebChatComponent = () => {
         }
         setSuggestedContacts([]);
         setLastMessage("");
+        setSearchForContactBtnClick(false);
         setSearchText("");
         store.dispatch({
             type: "WEB_CHAT/SET_SEND_BOX",
@@ -124,8 +152,10 @@ const WebChatComponent = () => {
     const directLine = useMemo(() => createDirectLine({token: directLineToken}), [directLineToken]);
 
     const clearChatAndSendContact = useCallback((contactFullName, leadsId) => {
+        setSearchForContactBtnClick(false);
         setSuggestedContacts([]);
         setLastMessage("");
+        setSearchForContactBtnClick(false);
         setSearchText("");
 
         store.dispatch({
@@ -153,7 +183,7 @@ const WebChatComponent = () => {
                         text: `You selected ${contactFullName}!`,
                         leadId: Number(leadsId),
                         contactName: contactFullName,
-                        dialogId: "ContactSummary",
+                        dialogId: dialogId,
                         name: "mc_Contact_Selected",
                     },
                     appId: "mcweb",
@@ -161,7 +191,7 @@ const WebChatComponent = () => {
                 channelId: "webchat",
             })
             .subscribe();
-    }, [directLine]);
+    }, [directLine, dialogId]);
 
 
     const closeChat = useCallback(() => {
