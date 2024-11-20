@@ -29,7 +29,6 @@ export const SOAContactDetails = ({ leadSection }) => {
         city = "",
         state = "",
         zip = "",
-
     } = leadSection?.beneficiary || {};
     const {
         firstName: auth_firstName = "",
@@ -45,25 +44,25 @@ export const SOAContactDetails = ({ leadSection }) => {
 
     return (
         <div className={styles.formWrapper}>
-            <Field label={BENEFICIARY_FNAME} content={firstName} />
-            <Field label={BENEFICIARY_MIDDLE_INITIAL} content={middleName} />
-            <Field label={BENEFICIARY_LNAME} content={lastName} />
-            <Field label={ADDRESS_LINE} content={address1} />
-            <Field label={PHONE} content={phone} />
-            <Field label={CITY} content={city} />
-            <Field label={STATE} content={state} />
-            <Field label={ZIP_CODE} content={zip} />
+            {firstName && <Field label={BENEFICIARY_FNAME} content={firstName} />}
+            {middleName && <Field label={BENEFICIARY_MIDDLE_INITIAL} content={middleName} />}
+            {lastName && <Field label={BENEFICIARY_LNAME} content={lastName} />}
+            {address1 && <Field label={ADDRESS_LINE} content={address1} />}
+            {city && <Field label={CITY} content={city} />}
+            {state && <Field label={STATE} content={state} />}
+            {zip && <Field label={ZIP_CODE} content={zip} />}
+            {phone && <Field label={PHONE} content={phone} />}
             {leadSection?.hasAuthorizedRepresentative && (
                 <>
-                    <Field label={AUTHORIZED_REPRESENTATIVE_FNAME} content={auth_firstName} />
-                    <Field label={AUTHORIZED_REPRESENTATIVE_MIDDLE_INITIAL} content={auth_middleName} />
-                    <Field label={AUTHORIZED_REPRESENTATIVE_LNAME} content={auth_lastName} />
-                    <Field label={ADDRESS_LINE} content={auth_address1} />
-                    <Field label={CITY} content={auth_city} />
-                    <Field label={STATE} content={auth_state} />
-                    <Field label={ZIP_CODE} content={auth_zip} />
-                    <Field label={PHONE} content={auth_phone} />
-                    <Field label={RELATION_TO_BENEFICIARY} content={relationshipToBeneficiary} />
+                    {auth_firstName && <Field label={AUTHORIZED_REPRESENTATIVE_FNAME} content={auth_firstName} />}
+                    {auth_middleName && <Field label={AUTHORIZED_REPRESENTATIVE_MIDDLE_INITIAL} content={auth_middleName} />}
+                    {auth_lastName && <Field label={AUTHORIZED_REPRESENTATIVE_LNAME} content={auth_lastName} />}
+                    {auth_address1 && <Field label={ADDRESS_LINE} content={auth_address1} />}
+                    {auth_city && <Field label={CITY} content={auth_city} />}
+                    {auth_state && <Field label={STATE} content={auth_state} />}
+                    {auth_zip && <Field label={ZIP_CODE} content={auth_zip} />}
+                    {auth_phone && <Field label={PHONE} content={auth_phone} />}
+                    {relationshipToBeneficiary && <Field label={RELATION_TO_BENEFICIARY} content={relationshipToBeneficiary} />}
                 </>
             )}
             <div className={styles.consentWrapper}>
@@ -101,6 +100,9 @@ SOAContactDetails.propTypes = {
             middleName: PropTypes.string,
             lastName: PropTypes.string,
             address1: PropTypes.string,
+            city: PropTypes.string,
+            state: PropTypes.string,
+            zip: PropTypes.string,
             phone: PropTypes.string,
         }),
         authorizedRepresentative: PropTypes.shape({
@@ -108,7 +110,11 @@ SOAContactDetails.propTypes = {
             middleName: PropTypes.string,
             lastName: PropTypes.string,
             address1: PropTypes.string,
+            city: PropTypes.string,
+            state: PropTypes.string,
+            zip: PropTypes.string,
             phone: PropTypes.string,
+            relationshipToBeneficiary: PropTypes.string,
         }),
         hasAuthorizedRepresentative: PropTypes.bool,
         submittedDateTime: PropTypes.string,

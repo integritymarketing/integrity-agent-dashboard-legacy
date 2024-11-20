@@ -827,6 +827,7 @@ const PlansPage = () => {
                                             {!isMobile && (
                                                 <div className={`${styles["sort-select"]}`}>
                                                     <Select
+                                                        inputBoxClassName={`${styles["sort-select-box"]}`}
                                                         mobileLabel={<SortIcon />}
                                                         initialValue={"total-asc"}
                                                         onChange={(value) => setSort(value)}

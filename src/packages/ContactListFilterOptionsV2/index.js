@@ -326,6 +326,7 @@ export default function ContactListFilterOptionsV2({
                     return (
                         <FilterSectionBox
                             section={section}
+                            isSingleSelect={isSingleSelect}
                             freezeAndOption={hasStageAndReminderNext}
                             filterSectionsConfig={filterSectionsConfig}
                             key={section.id + section.nextAndOrOption}
@@ -349,6 +350,7 @@ export default function ContactListFilterOptionsV2({
                         startIcon={<Add />}
                         onClick={handleOnClickAddNew}
                         disabled={Boolean(hasUnfinishedFilterSections)}
+                        className={styles.addNewButton}
                     >
                         Add Filter
                     </Button>

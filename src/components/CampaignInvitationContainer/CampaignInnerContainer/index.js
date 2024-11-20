@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material";
 import EmailContent from "../EmailContent";
 import styles from "./styles.module.scss";
@@ -48,6 +48,7 @@ const CampaignInnerContainer = () => {
 
     const [showPreview, setShowPreview] = useState(false);
     const [isSendCampaignModalOpen, setIsSendCampaignModalOpen] = useState(false);
+    const [isSendingCampaign, setIsSendingCampaign] = useState(false);
 
     useEffect(() => {
         getAgentAccountInformation();
@@ -62,13 +63,12 @@ const CampaignInnerContainer = () => {
         }
     }, [campaignName, campaignActionType]);
 
-    const readOnly = useMemo(() => {
-        return campaignStatus !== campaignStatuses.DRAFT;
-    }, [campaignStatus, campaignStatuses.DRAFT]);
+    const readOnly = useMemo(() => campaignStatus !== campaignStatuses.DRAFT, [campaignStatus, campaignStatuses.DRAFT]);
 
-    const advanceMode = useMemo(() => {
-        return isAdvancedMode && campaignActionType === "a contact when";
-    }, [isAdvancedMode, campaignActionType]);
+    const advanceMode = useMemo(
+        () => isAdvancedMode && campaignActionType === "a contact when",
+        [isAdvancedMode, campaignActionType]
+    );
 
     const allSelected = useMemo(() => {
         return (
@@ -111,9 +111,7 @@ const CampaignInnerContainer = () => {
         },
     };
 
-    const showPreviewButton = useMemo(() => {
-        return !readOnly && !showPreview && allSelected;
-    }, [readOnly, showPreview, allSelected]);
+    const showPreviewButton = useMemo(() => !readOnly && !showPreview && allSelected, [readOnly, showPreview, allSelected]);
 
     const saveButtonDisabled = useMemo(() => {
         return (
@@ -133,17 +131,14 @@ const CampaignInnerContainer = () => {
         allSelected,
     ]);
 
-    const showCampaignButton = useMemo(() => {
-        return (!readOnly && showPreview && allSelected) || (readOnly && campaignStatus !== campaignStatuses.COMPLETED);
-    }, [readOnly, showPreview, allSelected]);
+    const showCampaignButton = useMemo(
+        () => (!readOnly && showPreview && allSelected) || (readOnly && campaignStatus !== campaignStatuses.COMPLETED),
+        [readOnly, showPreview, allSelected]
+    );
 
     const buttonName = useMemo(() => {
         if (campaignStatus === campaignStatuses.DRAFT) {
-            if (advanceMode) {
-                return "Start";
-            } else {
-                return "Send";
-            }
+            return advanceMode ? "Start" : "Send";
         } else if (campaignStatus === campaignStatuses.ACTIVE) {
             return "Pause";
         } else if (campaignStatus === campaignStatuses.PAUSED) {
@@ -152,7 +147,8 @@ const CampaignInnerContainer = () => {
         return "";
     }, [campaignStatus, advanceMode]);
 
-    const handleActionButton = () => {
+    const handleActionButton = async () => {
+        setIsSendingCampaign(true);
         const createPayload = (overrides) => ({
             ...campaign,
             ...overrides,
@@ -193,17 +189,19 @@ const CampaignInnerContainer = () => {
                 handleCustomFilter(payload);
                 method = "put";
                 break;
-
             default:
+                setIsSendingCampaign(false);
                 return;
         }
 
-        handleAllCampaignActions({
+        await handleAllCampaignActions({
             payload,
             method,
             refresh: handleGetCampaignDetailsById,
             campaignDescription: campaignDescriptionType,
         });
+
+        setIsSendingCampaign(false);
     };
 
     const saveIcon = useMemo(() => {
@@ -309,13 +307,13 @@ const CampaignInnerContainer = () => {
                             size="medium"
                             variant="contained"
                             color="primary"
-                            endIcon={saveIcon}
+                            endIcon={isSendingCampaign ? <CircularProgress size={24} /> : saveIcon}
                             onClick={() => {
                                 setIsSendCampaignModalOpen(true);
                             }}
-                            disabled={saveButtonDisabled}
+                            disabled={saveButtonDisabled || isSendingCampaign}
                         >
-                            {buttonName} Campaign
+                            {isSendingCampaign ? "Sending ..." : `${buttonName} Campaign`}
                         </Button>
                         <SendCampaignModal
                             isModalOpen={isSendCampaignModalOpen}

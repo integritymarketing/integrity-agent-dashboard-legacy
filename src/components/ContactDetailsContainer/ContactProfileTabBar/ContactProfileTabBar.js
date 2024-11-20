@@ -101,7 +101,7 @@ export const ContactProfileTabBar = ({ contactId, showTabs = true }) => {
         <Box className={styles.navWrapper}>
             <Box className={styles.contactProfileTabBar}>
                 <Box className={styles.backToContacts}>
-                    <BackButton label="Back to Contacts" showInMobile={true} />
+                    <BackButton label="Back to Contacts" showInMobile={true} route={"/contacts/list"} />
                 </Box>
 
                 <Box className={styles.profileMenu}>
@@ -196,4 +196,5 @@ export const ContactProfileTabBar = ({ contactId, showTabs = true }) => {
 
 ContactProfileTabBar.propTypes = {
     contactId: PropTypes.string,
+    showTabs: PropTypes.bool,
 };
