@@ -257,6 +257,7 @@ const WebChatComponent = () => {
                 ].includes(activityValue.name)
             ) {
                 activity.channelData.postBack = true;
+                return true;
             }
 
             if (
@@ -273,9 +274,10 @@ const WebChatComponent = () => {
                         },
                     },
                 });
+                return true;
             }
         },
-        [goToContactDetailPage],
+        [clearChat, goToContactDetailPage],
     );
 
     const handleEventActivity = useCallback((activity) => {
@@ -317,9 +319,9 @@ const WebChatComponent = () => {
             const activity = action.payload.activity;
 
             if (activity.type === "message") {
-                handleMessageActivity(activity, accessToken, dispatch);
+                return handleMessageActivity(activity, accessToken, dispatch);
             } else if (activity.type === "event") {
-                handleEventActivity(activity);
+               return handleEventActivity(activity);
             }
         },
         [fireEvent, getAccessTokenSilently, handleMessageActivity, handleEventActivity],
@@ -374,10 +376,13 @@ const WebChatComponent = () => {
                         break;
                     }
 
-                    case "DIRECT_LINE/POST_ACTIVITY":
-                        handlePostActivity(action, dispatch);
+                    case "DIRECT_LINE/POST_ACTIVITY": {
+                            const shouldPreventDefault = await handlePostActivity(action, dispatch);
+                            if (shouldPreventDefault) {
+                                return;
+                            }
+                        }
                         break;
-
                     case "DIRECT_LINE/INCOMING_ACTIVITY":
                         handleIncomingActivity(action);
                         if (action.payload?.activity?.text) {
@@ -388,7 +393,7 @@ const WebChatComponent = () => {
                     default:
                         break;
                 }
-                return next(action);
+                 next(action);
             }),
         [fullName, npn, fireEvent, getAccessTokenSilently, handlePostActivity, handleIncomingActivity],
     );
