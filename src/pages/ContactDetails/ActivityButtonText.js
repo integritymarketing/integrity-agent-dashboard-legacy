@@ -35,7 +35,12 @@ const ActivityButtonText = ({ activity, leadsId }) => {
     const handleClick = useCallback(async () => {
         try {
             if (activityInteractionLabel) {
-                window.open(activityInteractionURL, "_blank");
+                if (activityInteractionLabel === "View Message") {
+                    const url = new URL(activityInteractionURL);
+                    navigate(url.pathname);
+                } else {
+                    window.open(activityInteractionURL, "_blank");
+                }
             } else {
                 switch (activitySubject) {
                     case "Scope of Appointment Signed":
