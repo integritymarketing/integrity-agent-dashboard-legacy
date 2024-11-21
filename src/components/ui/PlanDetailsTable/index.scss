@@ -426,6 +426,10 @@
 
         .final-value {
             color: #4178ff;
+
+             @media screen and (min-width: 320px) and (max-width: 480px) {
+                font-size: 12px;
+            }
         }
 
         .cost-monthly-header,
@@ -441,7 +445,7 @@
             cursor: pointer;
 
             > div {
-                padding: 10px;
+                padding: 5px;
             }
 
             .cost-phases {
@@ -480,7 +484,7 @@
                 align-items: center;
                 text-align: center;
                 justify-content: flex-start;
-                padding-left: 15px;
+                padding-left: 10px;
 
                 div {
                     padding-left: 10px;
