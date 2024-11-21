@@ -54,7 +54,7 @@ const PolicyCard = ({ callData }) => {
     const [isMobile, setIsMobile] = useState(false);
     const navigate = useNavigate();
 
-    const healthPolicyTypes = ["Medicare Advantage", "PDP"];
+    const healthPolicyTypes = ["Medicare Advantage", "Part D"];
     const isHealthPolicy = Boolean(
         healthPolicyTypes.some((type) => type.toLowerCase() == callData.productType.toLowerCase()),
     );
