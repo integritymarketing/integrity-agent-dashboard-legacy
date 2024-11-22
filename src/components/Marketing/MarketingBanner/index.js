@@ -25,19 +25,24 @@ const MarketingBanner = ({ page, leadDetails = null }) => {
         setCurrentPage(page);
         if (leadDetails) {
             let campaignChannel = "";
+            let destination = "";
             if (leadDetails?.contactPreferences?.primary === "email" && leadDetails?.emails[0]?.leadEmail) {
                 campaignChannel = "Email";
+                destination = leadDetails?.emails[0]?.leadEmail;
             } else if (leadDetails?.contactPreferences?.primary === "phone" && leadDetails?.phones[0]?.leadPhone) {
                 campaignChannel = "Sms";
+                destination = leadDetails?.phones[0]?.leadPhone;
             } else {
                 campaignChannel = "Email";
+                destination = leadDetails?.emails[0]?.leadEmail || leadDetails?.phones[0]?.leadPhone;
             }
+        
             const campaignTitle = `${leadDetails?.firstName} ${leadDetails?.lastName} Get Sync`;
             const lead = {
                 leadsId: leadDetails?.leadsId,
                 firstName: leadDetails?.firstName,
                 lastName: leadDetails?.lastName,
-                destination: leadDetails?.emails[0]?.leadEmail,
+                destination: destination,
             };
             handleCreateCampaignFromContact({
                 campaignChannel,
