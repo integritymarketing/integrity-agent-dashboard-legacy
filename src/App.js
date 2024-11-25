@@ -1,7 +1,7 @@
 import { lazy, useEffect } from "react";
 
 import Media from "react-media";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import { appProtectedRoutes, appRoutes } from "routeConfigs/AppRouteConfig";
 import { useAgentAvailability } from "hooks/useAgentAvailability";
@@ -9,6 +9,7 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useRemoveLeadIdsOnRouteChange from "hooks/useRemoveLeadIdsOnRouteChange";
 
 import { ProtectedRoute, UnProtectedRoute } from "components/functional/auth-routes";
+import useUserProfile from "hooks/useUserProfile";
 
 const LandingPage = lazy(() => import("mobile/landing/LandingPage"));
 const MaintenancePage = lazy(() => import("pages/MaintenancePage"));
@@ -17,12 +18,47 @@ const Welcome = lazy(() => import("pages/welcome"));
 const App = () => {
     const [, setIsAvailable] = useAgentAvailability();
     const { agentInformation } = useAgentInformationByID();
+    const { firstName, lastName, email, phone } = useUserProfile();
     useRemoveLeadIdsOnRouteChange();
     const isMaintainanceMode = process.env.REACT_APP_MAINTENANCE_MODE;
+    const location = useLocation();
 
     useEffect(() => {
         setIsAvailable(agentInformation?.isAvailable);
     }, [agentInformation?.isAvailable, setIsAvailable]);
+
+    useEffect(() => {
+        if (window.fcWidget && firstName) {
+            window.fcWidget.on("widget:closed", function () {
+                if (location.pathname === "/help") {
+                    const fcFrame = document.getElementById("fc_frame");
+                    if (fcFrame) {
+                        fcFrame.style.display = "none";
+                    }
+                }
+            });
+            window.fcWidget.user.setProperties({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phone: phone,
+            });
+        }
+    }, [firstName, lastName, email, phone, location.pathname]);
+
+    useEffect(() => {
+        const fcFrame = document.getElementById("fc_frame");
+        if (location.pathname === "/help") {
+            // Hide the floating icon when on the /help page
+            if (fcFrame) {
+                fcFrame.style.display = "none";
+            }
+        } else {
+            if (fcFrame) {
+                fcFrame.style.display = "block";
+            }
+        }
+    }, [location.pathname]);
 
     if (isMaintainanceMode) {
         return (

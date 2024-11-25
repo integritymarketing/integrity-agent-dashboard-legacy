@@ -1,126 +1,134 @@
 @import "src/scss/globalDefines.scss";
 
 .layout {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
 }
 
 .headerLayoutContainer {
-  background: $white;
-  box-shadow: inset 0px -1px 0px $gray-6;
-  display: flex;
-  justify-content: center;
-  position: relative;
+    background: $white;
+    box-shadow: inset 0px -1px 0px $gray-6;
+    display: flex;
+    justify-content: center;
+    position: relative;
 }
 
 .headerLayout {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  display: flex;
-  justify-content: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    justify-content: center;
 
-  .headerLayoutText {
-    font-weight: normal;
-  }
+    .headerLayoutText {
+        font-weight: normal;
+    }
 }
 
 .outerContainer {
-  background-color: #f1f1f1;
-  min-height: 45vh;
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    background-color: #f1f1f1;
+    min-height: 45vh;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .centerContainer {
-  padding: 5px;
-  margin: 10px;
-  width: 392px;
-  height: 229px;
-  text-align: center;
+    padding: 5px;
+    margin: 10px;
+    width: 392px;
+    height: 229px;
+    text-align: center;
 
-  @include small() {
-    width: 350px;
-  }
+    @include small() {
+        width: 350px;
+    }
 
-  .sectionRoundedTop {
-    box-shadow: inset 0px -1px 0px $grayish-blue;
-    height: 48px;
-    border-radius: 8px 8px 0 0;
-    background-color: $white;
-    margin-top: 5px;
-    margin-bottom: 1px;
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    color: $black;
-    padding-left: 16px;
-  }
+    .sectionRoundedTop {
+        box-shadow: inset 0px -1px 0px $grayish-blue;
+        height: 48px;
+        border-radius: 8px 8px 0 0;
+        background-color: $white;
+        margin-top: 5px;
+        margin-bottom: 1px;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        color: $black;
+        padding-left: 16px;
+    }
 
-  .sectionRoundedBottom {
-    box-shadow: inset 0px -1px 0px $grayish-blue;
-    height: 48px;
-    border-radius: 0 0 8px 8px;
-    background-color: $white;
-    margin-top: 1px;
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    color: $black;
-    padding-left: 16px;
-  }
+    .sectionRoundedBottom {
+        box-shadow: inset 0px -1px 0px $grayish-blue;
+        height: 48px;
+        border-radius: 0 0 8px 8px;
+        background-color: $white;
+        margin-top: 1px;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        color: $black;
+        padding-left: 16px;
 
-  .iconBg {
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    background-color: #2175f41a;
-    margin-right: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+        &.sectionMiddle {
+            border-radius: 0px;
+        }
+    }
+
+    .iconBg {
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        background-color: #2175f41a;
+        margin-right: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .subHeadingOverride {
-  font-weight: inherit;
-  color: $cyan-blue;
+    font-weight: inherit;
+    color: $cyan-blue;
 }
 
 .footer {
-  padding-top: 0;
+    padding-top: 0;
 }
 
 .cta {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 .helpText {
-  color: #052a63;
+    color: #052a63;
 }
 
 .backButtonText {
-  color: #4178ff;
-  margin-left: 10px;
+    color: #4178ff;
+    margin-left: 10px;
+}
+
+.iconColor {
+    color: #4178ff;
 }
 
 .backButton {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  width: fit-content;
-  height: 40px;
-  width: 90px;
-  justify-content: center;
-  cursor: pointer;
-  left: 50px;
-  top: 35px;
-  border-radius: 20px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    height: 40px;
+    width: 90px;
+    justify-content: center;
+    cursor: pointer;
+    left: 50px;
+    top: 35px;
+    border-radius: 20px;
 
-  &:hover {
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
-  }
+    &:hover {
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
+    }
 }

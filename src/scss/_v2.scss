@@ -8,6 +8,7 @@
       color: var(--v2-main-text-color);
       width: 172px;
     }
+
     .ils-logo {
       width: 125px;
     }
@@ -51,6 +52,7 @@
       font-size: 0.875rem;
       line-height: 1.25rem;
     }
+
     &-xl {
       font-size: 1.875rem;
       line-height: 3rem;
@@ -69,6 +71,7 @@
       color: var(--v2-main-gray);
     }
   }
+
   .layout-sm {
     display: flex;
     justify-content: center;
@@ -76,10 +79,12 @@
     flex-direction: column;
     margin: auto;
   }
+
   .form {
     &.form-width {
       width: 268px;
     }
+
     .label {
       font-weight: bold;
       font-size: 16px;
@@ -105,7 +110,7 @@
       }
 
       &--readonly {
-        & > .form-input__input {
+        &>.form-input__input {
           border-color: var(--v2-disabled-gray-border);
 
           input {
@@ -161,7 +166,7 @@
     }
   }
 
-  .form__fields > * + .form__submit {
+  .form__fields>*+.form__submit {
     margin-top: 2rem;
   }
 }
@@ -172,10 +177,12 @@
   align-items: flex-start;
   background: #f1f8ff;
   border-radius: 2px;
+
   svg {
     width: 2rem;
     margin: 0.25rem 0.625rem 0 0;
   }
+
   p {
     font-size: 14px;
   }

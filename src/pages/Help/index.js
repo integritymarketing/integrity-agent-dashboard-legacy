@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import Media from "react-media";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { Box } from "@mui/material";
 
@@ -20,14 +20,25 @@ import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
 import styles from "./styles.module.scss";
+import LiveChat from "components/icons/version-2/LiveChat";
+import useUserProfile from "hooks/useUserProfile";
+import useCustomLiveChat from "hooks/useCustomLiveChat";
+import { useOnClickOutside } from "hooks/useOnClickOutside";
 
 const HelpPage = () => {
     const [isMobile, setIsMobile] = useState(false);
-
-    const handleMediaQueryChange = useCallback((isMobile) => {
-        setIsMobile(isMobile);
-    }, []);
+    const { firstName, lastName, email, phone } = useUserProfile();
     const navigate = useNavigate();
+    const location = useLocation();
+    const fcFrameRef = useRef(null);
+
+    const { handleOpenLiveChat, handleCloseLiveChat } = useCustomLiveChat(firstName, lastName, email, phone, location);
+
+    const handleMediaQueryChange = useCallback((matches) => {
+        setIsMobile(matches);
+    }, []);
+
+    useOnClickOutside(fcFrameRef, handleCloseLiveChat);
 
     return (
         <React.Fragment>
@@ -67,7 +78,7 @@ const HelpPage = () => {
                                 <Paragraph className={styles.helpText} text={"888-818-3760"} />
                             </a>
                         </Box>
-                        <Box className={styles.sectionRoundedBottom}>
+                        <Box className={`${styles.sectionRoundedBottom} ${styles.sectionMiddle}`}>
                             <div className={styles.iconBg}>
                                 <MailIcon />
                             </div>
@@ -75,9 +86,18 @@ const HelpPage = () => {
                                 <Paragraph className={styles.helpText} text={"support@clients.integrity.com"} />
                             </a>
                         </Box>
+                        <Box className={styles.sectionRoundedBottom} sx={{ cursor: "pointer" }}>
+                            <div className={styles.iconBg}>
+                                <LiveChat />
+                            </div>
+                            <div className={styles.cta} onClick={handleOpenLiveChat}>
+                                <Paragraph className={styles.helpText} text={"Live chat"} />
+                            </div>
+                        </Box>
                     </div>
                 </div>
             </div>
+
             <GlobalFooter />
         </React.Fragment>
     );
