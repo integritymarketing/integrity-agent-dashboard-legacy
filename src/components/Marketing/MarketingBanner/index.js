@@ -32,12 +32,13 @@ const MarketingBanner = ({ page, leadDetails = null }) => {
             } else {
                 campaignChannel = "Email";
             }
+        
             const campaignTitle = `${leadDetails?.firstName} ${leadDetails?.lastName} Get Sync`;
             const lead = {
                 leadsId: leadDetails?.leadsId,
                 firstName: leadDetails?.firstName,
                 lastName: leadDetails?.lastName,
-                destination: leadDetails?.emails[0]?.leadEmail,
+                destination: campaignChannel === "Email" ? leadDetails?.emails[0]?.leadEmail : leadDetails?.phones[0]?.leadPhone,
             };
             handleCreateCampaignFromContact({
                 campaignChannel,
