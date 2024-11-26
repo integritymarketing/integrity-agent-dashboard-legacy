@@ -7,7 +7,8 @@ import styles from "./styles.module.scss";
 import { CampaignActionsEllipsis } from "@integritymarketing/icons";
 import ActionPopover from "./ActionPopover";
 
-const ActionPopoverContainer = ({ campaign, refresh, advanceMode, campaignDescription, buttonDisable, page }) => {
+const ActionPopoverContainer = ({ campaign, refresh, advanceMode, campaignDescription, buttonDisable, page, iconDisable }) => {
+    debugger
     const [actionPopOver, setActionPopOver] = useState(null);
 
     const handleClick = (event) => {
@@ -19,9 +20,9 @@ const ActionPopoverContainer = ({ campaign, refresh, advanceMode, campaignDescri
 
     return (
         <>
-            <Box onClick={(event) => handleClick(event)}>
-                <IconButton size="lg" className={styles.roundedIcon}>
-                    <CampaignActionsEllipsis size="lg" className={styles.mIcon} />
+            <Box onClick={(event) => iconDisable && handleClick(event)}>
+                <IconButton size="lg" className={iconDisable && styles.roundedIcon} disabled={!iconDisable}>
+                    <CampaignActionsEllipsis color={iconDisable && "gray"} size="lg" className={styles.mIcon} />
                 </IconButton>
             </Box>
             <ActionPopover

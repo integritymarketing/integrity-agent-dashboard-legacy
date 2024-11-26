@@ -219,6 +219,10 @@ const CampaignInnerContainer = () => {
         }
     }, [buttonName]);
 
+    const isValidStatus = useMemo(() => {
+        return ["Draft", "Active", "Paused", "Completed"].includes(campaignStatus);
+    }, [campaignStatus]);
+
     return (
         <Box className={styles.container}>
             <Box className={styles.header}>
@@ -235,12 +239,13 @@ const CampaignInnerContainer = () => {
                     </Typography>
                     {campaign && (
                         <ActionPopoverContainer
-                            buttonDisable={saveButtonDisabled}
+                            buttonDisable={!isValidStatus}
                             campaign={campaign}
                             refresh={handleGetCampaignDetailsById}
                             advanceMode={advanceMode}
                             campaignDescription={campaignDescriptionType}
                             page="campaign_details"
+                            iconDisable={isValidStatus}
                         />
                     )}
                 </Box>
@@ -301,7 +306,7 @@ const CampaignInnerContainer = () => {
                     </>
                 )}
 
-                {showCampaignButton && (
+                {isValidStatus && showCampaignButton && (
                     <Box className={styles.startCampaignButton}>
                         <Button
                             size="medium"
@@ -311,7 +316,7 @@ const CampaignInnerContainer = () => {
                             onClick={() => {
                                 setIsSendCampaignModalOpen(true);
                             }}
-                            disabled={saveButtonDisabled || isSendingCampaign}
+                            disabled={saveButtonDisabled}
                         >
                             {isSendingCampaign ? "Sending ..." : `${buttonName} Campaign`}
                         </Button>
