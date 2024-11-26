@@ -1,13 +1,10 @@
 import { lazy, useEffect } from "react";
-
 import Media from "react-media";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-
 import { appProtectedRoutes, appRoutes } from "routeConfigs/AppRouteConfig";
 import { useAgentAvailability } from "hooks/useAgentAvailability";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useRemoveLeadIdsOnRouteChange from "hooks/useRemoveLeadIdsOnRouteChange";
-
 import { ProtectedRoute, UnProtectedRoute } from "components/functional/auth-routes";
 import useUserProfile from "hooks/useUserProfile";
 
@@ -29,21 +26,28 @@ const App = () => {
 
     useEffect(() => {
         if (window.fcWidget && firstName) {
-            window.fcWidget.on("widget:closed", function () {
-                if (location.pathname === "/help") {
-                    const fcFrame = document.getElementById("fc_frame");
-                    if (fcFrame) {
-                        fcFrame.style.display = "none";
-                    }
+            const handleWidgetClosed = () => {
+                const fcFrame = document.getElementById("fc_frame");
+                if (fcFrame) {
+                    fcFrame.style.display = "block"; //  floating icon is shown after closing the widget
                 }
-            });
+            };
+
+            window.fcWidget.on("widget:closed", handleWidgetClosed);
+
             window.fcWidget.user.setProperties({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                phone: phone,
+                firstName,
+                lastName,
+                email,
+                phone,
             });
+
+            return () => {
+                window.fcWidget.off("widget:closed", handleWidgetClosed);
+            };
         }
+
+        return () => { };
     }, [firstName, lastName, email, phone, location.pathname]);
 
     useEffect(() => {

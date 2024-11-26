@@ -3,20 +3,25 @@ import { useEffect, useCallback } from "react";
 const useCustomLiveChat = (firstName, lastName, email, phone, location, page = "/help") => {
     useEffect(() => {
         if (window.fcWidget && firstName) {
-            window.fcWidget.on("widget:closed", function () {
-                if (location.pathname === page) {
-                    const fcFrame = document.getElementById("fc_frame");
-                    if (fcFrame) {
-                        fcFrame.style.display = "none";
-                    }
+            const handleWidgetClosed = () => {
+                const fcFrame = document.getElementById("fc_frame");
+                if (fcFrame) {
+                    fcFrame.style.display = "none";
                 }
-            });
+            };
+
+            window.fcWidget.on("widget:closed", handleWidgetClosed);
+
             window.fcWidget.user.setProperties({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                phone: phone,
+                firstName,
+                lastName,
+                email,
+                phone,
             });
+
+            return () => {
+                window.fcWidget.off("widget:closed", handleWidgetClosed);
+            };
         }
     }, [firstName, lastName, email, phone, location.pathname, page]);
 
@@ -39,16 +44,14 @@ const useCustomLiveChat = (firstName, lastName, email, phone, location, page = "
         if (fcFrame) {
             fcFrame.style.display = "block";
         }
-        window.fcWidget.open();
+        if (window.fcWidget) {
+            window.fcWidget.open();
+        }
     }, []);
 
     const handleCloseLiveChat = useCallback(() => {
-        const fcFrame = document.getElementById("fc_frame");
         if (window.fcWidget) {
             window.fcWidget.close();
-            if (fcFrame) {
-                fcFrame.style.display = "none";
-            }
         }
     }, []);
 
