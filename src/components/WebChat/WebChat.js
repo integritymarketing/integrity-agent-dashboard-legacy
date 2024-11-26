@@ -67,6 +67,16 @@ const WebChatComponent = () => {
     }, [lastMessage, searchForContactBtnClick, setSearchForContactBtnClick]);
 
     useEffect(() => {
+        const fcFrame = document.getElementById("fc_frame");
+            if (fcFrame && chatRef.current && isChatActive) {
+                fcFrame.style.display = "none";
+            } else {
+                fcFrame.style.display = "block";
+            }
+         
+    }, [isChatActive]);
+
+    useEffect(() => {
         if(lastMessage?.toLowerCase().includes("call summary")){
             setDialogId("CallSummary");
         }else {
