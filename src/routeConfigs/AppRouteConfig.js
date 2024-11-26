@@ -1,4 +1,4 @@
-import { StrictMode, lazy } from "react";
+import { lazy, StrictMode } from "react";
 import { Navigate } from "react-router-dom";
 
 import { ContactDetailsProvider } from "providers/ContactDetails";
@@ -45,8 +45,11 @@ const PolicySnapshotMobileLayout = lazy(
 );
 
 const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
+const SimplifiedIULPlansPage = lazy(() => import("pages/SimplifiedIULPlansPage"));
 const FinalExpenseCreateQuotePage = lazy(() => import("pages/FinalExpenseCreateQuotePage"));
+const SimplifiedIULCreateQuotePage = lazy(() => import("pages/SimplifiedIULCreateQuotePage"));
 const FinalExpenseHealthConditionsPage = lazy(() => import("pages/FinalExpenseHealthConditionsPage"));
+const SimplifiedIULHealthConditionsPage = lazy(() => import("pages/SimplifiedIULHealthConditionsPage"));
 
 const AddZipPage = lazy(() => import("pages/AddZipPage"));
 const ContactProfile = lazy(() => import("pages/ContactProfilePage"));
@@ -230,19 +233,6 @@ const appProtectedRoutes = [
         ),
     },
     {
-        path: "/finalexpenses/create/:contactId",
-        component: (
-            <StrictMode>
-                <ContactDetailsProvider>
-                    <FinalExpensePlansProvider>
-                        <FinalExpenseCreateQuotePage />
-                    </FinalExpensePlansProvider>
-                    <WebChatComponent />
-                </ContactDetailsProvider>
-            </StrictMode>
-        ),
-    },
-    {
         path: "/finalexpenses/healthconditions/:contactId",
         component: (
             <StrictMode>
@@ -260,6 +250,56 @@ const appProtectedRoutes = [
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
                         <FinalExpensePlansPage />
+                    </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/finalexpenses/create/:contactId",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <FinalExpensePlansProvider>
+                        <FinalExpenseCreateQuotePage />
+                    </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/simplified-iul/create/:contactId",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <FinalExpensePlansProvider>
+                        <SimplifiedIULCreateQuotePage />
+                    </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/simplified-iul/healthconditions/:contactId",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <SimplifiedIULHealthConditionsPage />
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/simplified-iul/plans/:contactId",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <FinalExpensePlansProvider>
+                        <SimplifiedIULPlansPage />
                     </FinalExpensePlansProvider>
                     <WebChatComponent />
                 </ContactDetailsProvider>

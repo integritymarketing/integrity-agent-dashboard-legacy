@@ -1,5 +1,5 @@
-import { useMemo, useRef, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useLeadDetails } from "providers/ContactDetails";
 
@@ -11,9 +11,9 @@ import useAnalytics from "hooks/useAnalytics";
 import PlanCardLoader from "components/ui/PlanCard/loader";
 import WithLoader from "components/ui/WithLoader";
 
-
 import FinalExpenseContactDetailsForm from "./FinalExpenseContactDetailsForm";
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
+import { useCreateNewQuote } from "../../providers/CreateNewQuote";
 
 export const FinalExpensePlansContainer = () => {
     const { contactId } = useParams();
@@ -23,6 +23,7 @@ export const FinalExpensePlansContainer = () => {
     const { fireEvent } = useAnalytics();
 
     const { leadDetails, updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
+    const { isSimplifiedIUL } = useCreateNewQuote();
 
     useEffect(() => {
         fireEvent("Final Expense Intake Viewed", {
@@ -30,99 +31,106 @@ export const FinalExpensePlansContainer = () => {
         });
     }, [contactId]);
 
-    const onSave = async (formData) => {
-        const {
-            modifyDate,
-            addresses,
-            contactPreferences,
-            emails,
-            phones,
-            firstName,
-            lastName,
-            middleName,
-            leadsId,
-            contactRecordType,
-            leadStatusId,
-            notes,
-            medicareBeneficiaryID,
-            partA,
-            partB,
-        } = leadDetails;
+    const onSave = useCallback(
+        async (formData) => {
+            const {
+                modifyDate,
+                addresses,
+                contactPreferences,
+                emails,
+                phones,
+                firstName,
+                lastName,
+                middleName,
+                leadsId,
+                contactRecordType,
+                leadStatusId,
+                notes,
+                medicareBeneficiaryID,
+                partA,
+                partB,
+            } = leadDetails;
 
-        const code = JSON.stringify({ stateCode: formData.stateCode });
-        sessionStorage.setItem(contactId, code);
+            const code = JSON.stringify({ stateCode: formData.stateCode });
+            sessionStorage.setItem(contactId, code);
 
-        const email = emails.length > 0 ? emails[0].leadEmail : null;
-        const phoneData = phones.length > 0 ? phones[0] : null;
-        const addressData = addresses.length > 0 ? addresses?.[0] : null;
-        const emailID = emails.length > 0 ? emails[0].emailID : 0;
-        const leadAddressId = addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
-        const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
+            const email = emails.length > 0 ? emails[0].leadEmail : null;
+            const phoneData = phones.length > 0 ? phones[0] : null;
+            const addressData = addresses.length > 0 ? addresses?.[0] : null;
+            const emailID = emails.length > 0 ? emails[0].emailID : 0;
+            const leadAddressId = addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
+            const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
 
-        const city = addressData && addressData.city ? addressData.city : "";
-        const stateCode = addressData && addressData.stateCode ? addressData.stateCode : "";
-        const address1 = addressData && addressData.address1 ? addressData.address1 : "";
-        const address2 = addressData && addressData.address2 ? addressData.address2 : "";
-        const county = addressData && addressData.county ? addressData.county : "";
-        const countyFips = addressData && addressData.countyFips ? addressData.countyFips : "";
-        const postalCode = addressData && addressData.postalCode ? addressData.postalCode : "";
-        const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
-        const phoneLabel = phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "mobile";
+            const city = addressData && addressData.city ? addressData.city : "";
+            const stateCode = addressData && addressData.stateCode ? addressData.stateCode : "";
+            const address1 = addressData && addressData.address1 ? addressData.address1 : "";
+            const address2 = addressData && addressData.address2 ? addressData.address2 : "";
+            const county = addressData && addressData.county ? addressData.county : "";
+            const countyFips = addressData && addressData.countyFips ? addressData.countyFips : "";
+            const postalCode = addressData && addressData.postalCode ? addressData.postalCode : "";
+            const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : "";
+            const phoneLabel = phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : "mobile";
 
-        const isPrimary = contactPreferences?.primary ? contactPreferences?.primary : "email";
+            const isPrimary = contactPreferences?.primary ? contactPreferences?.primary : "email";
 
-        const initialValues = {
-            firstName: firstName,
-            lastName: lastName,
-            middleName: middleName,
-            email: email,
-            birthdate: leadDetails?.birthdate ? formatDate(leadDetails?.birthdate) : "",
-            address: {
-                address1: address1,
-                address2: address2,
-                city: city,
-                stateCode: stateCode,
-                postalCode: postalCode,
-                county: county || "",
-                countyFips: countyFips,
-            },
-            primaryCommunication: isPrimary,
-            contactRecordType: contactRecordType?.toLowerCase(),
-            emailID,
-            leadAddressId,
-            phoneId,
-            leadStatusId,
-            leadsId,
-            modifyDate,
-            notes,
-            medicareBeneficiaryID: medicareBeneficiaryID ? formatMbiNumber(medicareBeneficiaryID) : "",
-            partA: partA ?? "",
-            partB: partB ?? "",
-            ...formData,
-        };
-
-        if (phone) {
-            initialValues.phones = {
-                leadPhone: phone,
-                phoneLabel: phoneLabel?.toLowerCase(),
+            const initialValues = {
+                firstName: firstName,
+                lastName: lastName,
+                middleName: middleName,
+                email: email,
+                birthdate: leadDetails?.birthdate ? formatDate(leadDetails?.birthdate) : "",
+                address: {
+                    address1: address1,
+                    address2: address2,
+                    city: city,
+                    stateCode: stateCode,
+                    postalCode: postalCode,
+                    county: county || "",
+                    countyFips: countyFips,
+                },
+                primaryCommunication: isPrimary,
+                contactRecordType: contactRecordType?.toLowerCase(),
+                emailID,
+                leadAddressId,
+                phoneId,
+                leadStatusId,
+                leadsId,
+                modifyDate,
+                notes,
+                medicareBeneficiaryID: medicareBeneficiaryID ? formatMbiNumber(medicareBeneficiaryID) : "",
+                partA: partA ?? "",
+                partB: partB ?? "",
+                ...formData,
             };
-        }
 
-        const payload = {
-            ...leadDetails,
-            ...initialValues,
-        };
+            if (phone) {
+                initialValues.phones = {
+                    leadPhone: phone,
+                    phoneLabel: phoneLabel?.toLowerCase(),
+                };
+            }
 
-        const response = await updateLeadDetails(payload);
+            const payload = {
+                ...leadDetails,
+                ...initialValues,
+            };
 
-        contactFormDataRef.current = { ...formData };
-        fireEvent("Final Expense Intake Completed", {
-            leadid: contactId,
-        });
-        if (response) {
-            navigate(`/finalexpenses/healthconditions/${contactId}`);
-        }
-    };
+            const response = await updateLeadDetails(payload);
+
+            contactFormDataRef.current = { ...formData };
+            fireEvent("Final Expense Intake Completed", {
+                leadid: contactId,
+            });
+            if (response) {
+                if (isSimplifiedIUL()) {
+                    navigate(`/simplified-iul/healthconditions/${contactId}`);
+                } else {
+                    navigate(`/finalexpenses/healthconditions/${contactId}`);
+                }
+            }
+        },
+        [isSimplifiedIUL, leadDetails, updateLeadDetails, contactId, navigate, fireEvent],
+    );
 
     const renderContactDetailsLoader = useMemo(() => <PlanCardLoader />, []);
 

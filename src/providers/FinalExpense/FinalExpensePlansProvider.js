@@ -1,10 +1,10 @@
 import React, { createContext, useCallback, useState } from "react";
-import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import useFetch from "hooks/useFetch";
 import { QUOTES_API_VERSION } from "services/clientsService";
 import performAsyncOperation from "utilities/performAsyncOperation";
 import useToast from "hooks/useToast";
+import { useCreateNewQuote } from "../CreateNewQuote";
 
 /**
  * FinalExpensePlanListProvider component to provide final expenses plan context.
@@ -21,6 +21,8 @@ export const FinalExpensePlansProvider = ({ children }) => {
     const URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/plans`;
     const QUOTE_URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/quotes/Lead`;
     const CARRIERS_URL = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/selfattest/carriers`;
+
+    const { isSimplifiedIUL } = useCreateNewQuote();
 
     const {
         Get: fetchFinalExpensePlans,
@@ -44,7 +46,7 @@ export const FinalExpensePlansProvider = ({ children }) => {
             const data = await fetchFinalExpensePlans(null, false, quoteId);
             setFinalExpensePlans(data?.Results || []);
         },
-        [fetchFinalExpensePlans]
+        [fetchFinalExpensePlans],
     );
 
     const fetchAndSetFilteredExpensePlans = useCallback(
@@ -53,16 +55,18 @@ export const FinalExpensePlansProvider = ({ children }) => {
             const data = await fetchFinalExpensePlans(filteredURL);
             setFinalExpensePlans(data?.Results || []);
         },
-        [fetchFinalExpensePlans]
+        [fetchFinalExpensePlans],
     );
 
     const getFinalExpenseQuotePlans = useCallback(
         async (body, leadsId) => {
-            const path = `${leadsId}`;
-            const data = await fetchFinalExpenseQuotePlans(body, false, path);
-            return data;
+            let path = `${leadsId}`;
+            if (isSimplifiedIUL()) {
+                path += `?product=iul`;
+            }
+            return await fetchFinalExpenseQuotePlans(body, false, path);
         },
-        [fetchFinalExpensePlans]
+        [fetchFinalExpensePlans, isSimplifiedIUL, fetchFinalExpenseQuotePlans],
     );
 
     const getCarriersInfo = async () => {
@@ -70,13 +74,13 @@ export const FinalExpensePlansProvider = ({ children }) => {
             () => fetchCarriersInfo(null, false),
             () => {},
             async (data) => {
-                setCarrierInfo(data);
+                await setCarrierInfo(data);
             },
             (err) =>
                 showToast({
                     type: "error",
                     message: `Failed to get Carriers info`,
-                })
+                }),
         );
     };
 

@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback, useMemo } from "react";
+import { createContext, useCallback, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { useAgentAccountContext } from "providers/AgentAccountProvider";
 import useUserProfile from "hooks/useUserProfile";
@@ -6,6 +6,7 @@ import useToast from "hooks/useToast";
 import { useNavigate } from "react-router-dom";
 import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
+import { LIFE_QUESTION_CARD_LIST } from "../../components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants";
 
 export const CreateNewQuoteContext = createContext();
 
@@ -199,13 +200,14 @@ export const CreateNewQuoteProvider = ({ children }) => {
             setSelectedLifeProductType(productType);
 
             switch (productType) {
-                case "Final Expense":
+                case LIFE_QUESTION_CARD_LIST.FINAL_EXPENSE:
+                case LIFE_QUESTION_CARD_LIST.SIMPLIFIED_INDEXED_UNIVERSAL_LIFE:
                     setQuoteModalStage("finalExpenseIntakeFormCard");
                     break;
-                case "Indexed Universal Life":
+                case LIFE_QUESTION_CARD_LIST.INDEXED_UNIVERSAL_LIFE:
                     setQuoteModalStage("iulGoalCard");
                     break;
-                case "Term":
+                case LIFE_QUESTION_CARD_LIST.TERM:
                     navigate(`/life/term/${selectedLead.leadsId}/confirm-details`);
                     setShowStartQuoteModal(false);
                     break;
@@ -213,7 +215,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                     break;
             }
         },
-        [navigate, selectedLead],
+        [navigate, selectedLead, setSelectedLifeProductType],
     );
 
     const handleSelectIulGoalType = useCallback(
@@ -258,6 +260,10 @@ export const CreateNewQuoteProvider = ({ children }) => {
         setQuoteModalStage("finalExpenseIntakeFormCard");
     }, []);
 
+    const isSimplifiedIUL = useCallback(() => {
+        return selectedLifeProductType === LIFE_QUESTION_CARD_LIST.SIMPLIFIED_INDEXED_UNIVERSAL_LIFE;
+    }, [selectedLifeProductType]);
+
     return <CreateNewQuoteContext.Provider value={getContextValue()}>{children}</CreateNewQuoteContext.Provider>;
 
     function getContextValue() {
@@ -301,6 +307,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             fetchCountiesData,
             countiesData,
             handleSelectIulGoalType,
+            isSimplifiedIUL,
         };
     }
 };

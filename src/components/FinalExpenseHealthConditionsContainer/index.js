@@ -12,18 +12,28 @@ import {
 } from "./FinalExpenseHealthConditionsContainer.constants";
 import styles from "./FinalExpenseHealthConditionsContainer.module.scss";
 import FinalExpenseHealthTableSection from "./FinalExpenseHealthTableSection";
+import { useCreateNewQuote } from "../../providers/CreateNewQuote";
 
 const FinalExpenseHealthConditionsContainer = () => {
     const { contactId } = useParams();
     const navigate = useNavigate();
+    const { isSimplifiedIUL } = useCreateNewQuote();
 
     const onClickViewQuote = () => {
-        navigate(`/finalexpenses/plans/${contactId}`);
+        navigate(plansUrl());
+    };
+
+    const plansUrl = () => {
+        if (isSimplifiedIUL()) {
+            return `/simplified-iul/plans/${contactId}`;
+        } else {
+            return `/finalexpenses/plans/${contactId}`;
+        }
     };
 
     return (
         <div>
-            <FinalExpenseContactBar backLink={`/finalexpenses/plans/${contactId}`} label={HEADER_TITLE} />
+            <FinalExpenseContactBar backLink={plansUrl()} label={HEADER_TITLE} />
             <div className={styles.pageContainerWrapper}>
                 <div className={styles.pageContainer}>
                     <h3 className={styles.conditionsLabel}>{CARD_TITLE}</h3>

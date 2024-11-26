@@ -1,22 +1,24 @@
 /* eslint-disable max-lines-per-function */
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import Media from "react-media";
-import { useParams, useNavigate } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
 import PropTypes from "prop-types";
-import { useFinalExpensePlans } from "providers/FinalExpense";
+import {useFinalExpensePlans} from "providers/FinalExpense";
 
-import { formatDate, formatServerDate, getAgeFromBirthDate } from "utils/dates";
-import { scrollTop } from "utils/shared-utils/sharedUtility";
+import {formatDate, formatServerDate, getAgeFromBirthDate} from "utils/dates";
+import {scrollTop} from "utils/shared-utils/sharedUtility";
 
 import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
 
-import { Button } from "components/ui/Button";
+import {Button} from "components/ui/Button";
 
-import { HEALTH_CONDITION_API } from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthConditionsContainer.constants";
+import {
+    HEALTH_CONDITION_API
+} from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthConditionsContainer.constants";
 import {
     COVERAGE_AMOUNT,
     COVERAGE_TYPE_FINALOPTION,
@@ -25,24 +27,25 @@ import {
     NO_PLANS_ERROR,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 
-import { COVERAGE_TYPE } from "../FinalExpensePlansResultContainer.constants";
-import { AlertIcon } from "components/icons/alertIcon";
-import { BackToTop } from "components/ui/BackToTop";
+import {COVERAGE_TYPE} from "../FinalExpensePlansResultContainer.constants";
+import {AlertIcon} from "components/icons/alertIcon";
+import {BackToTop} from "components/ui/BackToTop";
 import Pagination from "components/ui/Pagination/pagination";
 import PlanCardLoader from "components/ui/PlanCard/loader";
 
-import { useLeadDetails } from "providers/ContactDetails";
+import {useLeadDetails} from "providers/ContactDetails";
 
-import { PlanCard } from "./PlanCard";
+import {PlanCard} from "./PlanCard";
 import useFinalExpenseErrorMessage from "./hooks/useFinalExpenseErrorMessage";
 
 import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
 
 import styles from "./PlanDetailsContainer.module.scss";
 
-import { ACTIVE_SELLING_PERMISSIONS_REQUIRED, VIEW_SELLING_PERMISSIONS } from "./PlanDetailsContainer.constants";
+import {ACTIVE_SELLING_PERMISSIONS_REQUIRED, VIEW_SELLING_PERMISSIONS} from "./PlanDetailsContainer.constants";
 
 import ArrowRightIcon from "components/icons/arrowRightLight";
+import {useCreateNewQuote} from "../../../../providers/CreateNewQuote";
 
 export const PlanDetailsContainer = ({
     selectedTab,
@@ -64,6 +67,7 @@ export const PlanDetailsContainer = ({
     const healthConditionsDataRef = useRef(null);
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
     const { getFinalExpenseQuotePlans } = useFinalExpensePlans();
+    const { isSimplifiedIUL } = useCreateNewQuote();
     const [isLoadingHealthConditions, setIsLoadingHealthConditions] = useState(true);
     const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] = useState(true);
     const [conditionsListState, setConditionsListState] = useState([]);
@@ -114,7 +118,7 @@ export const PlanDetailsContainer = ({
             tobacco: Boolean(isTobaccoUser),
             desiredFaceValue: selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
             desiredMonthlyRate: selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
-            coverageTypes: covType || [COVERAGE_TYPE[4].value],
+            coverageTypes: isSimplifiedIUL() ? ["SIMPLIFIED_IUL"] : (covType || [COVERAGE_TYPE[4].value]),
             effectiveDate: todayDate,
             underWriting: {
                 user: { height: height || 0, weight: weight || 0 },
@@ -166,6 +170,7 @@ export const PlanDetailsContainer = ({
         monthlyPremium,
         selectedTab,
         updateErrorMesssage,
+        isSimplifiedIUL,
     ]);
 
     useEffect(() => {
