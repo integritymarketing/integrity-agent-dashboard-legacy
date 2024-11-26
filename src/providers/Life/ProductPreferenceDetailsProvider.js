@@ -34,7 +34,6 @@ export const ProductPreferenceDetailsProvider = ({ children }) => {
                     state: stateCode,
                     faceAmounts: [String(faceAmounts)],
                     payPeriods: [payPeriods],
-                    solves: ["EndowAtAge100"],
                     props: {
                         illustratedRate: illustratedRate,
                         loanType: loanType,
