@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
-import { Typography, Box, Grid, Button, InputAdornment } from "@mui/material";
+import { Box, Button, Grid, InputAdornment, Typography } from "@mui/material";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 import { useLeadDetails } from "providers/ContactDetails";
 import { SelectStateField } from "components/SharedFormFields";
@@ -23,6 +23,8 @@ const FinalExpenseIntakeFormCard = () => {
     const { fireEvent } = useAnalytics();
     const { handleClose, selectedLead: leadDetails, newLeadDetails } = useCreateNewQuote();
     const { updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
+    const { isSimplifiedIUL } = useCreateNewQuote();
+
     const leadId = leadDetails?.leadsId;
     const isContactType = newLeadDetails?.firstName ? "New Contact" : "Existing Contact";
 
@@ -77,7 +79,11 @@ const FinalExpenseIntakeFormCard = () => {
                         line_of_business: "Life",
                         contactType: isContactType,
                     });
-                    navigate(`/finalexpenses/plans/${leadId}`, { replace: true });
+                    if (isSimplifiedIUL()) {
+                        navigate(`/simplified-iul/plans/${leadId}`, { replace: true });
+                    } else {
+                        navigate(`/finalexpenses/plans/${leadId}`, { replace: true });
+                    }
                     handleClose();
                 }
             } catch (error) {
@@ -86,7 +92,7 @@ const FinalExpenseIntakeFormCard = () => {
                 setSubmitting(false);
             }
         },
-        [leadDetails, updateLeadDetails, handleClose, fireEvent, isContactType, navigate, leadId]
+        [leadDetails, updateLeadDetails, handleClose, fireEvent, isContactType, navigate, leadId, isSimplifiedIUL],
     );
 
     const ErrorInfoIcon = () => (

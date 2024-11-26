@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Divider, Checkbox, FormControlLabel } from "@mui/material";
+import { Checkbox, Divider, FormControlLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 
@@ -140,6 +140,11 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                     setShowLifeQuestionCard(false);
                     setShowIulGoalQuestionCard(true);
                     break;
+
+                case LIFE_QUESTION_CARD_LIST.SIMPLIFIED_INDEXED_UNIVERSAL_LIFE:
+                    navigate(`/simplified-iul/create/${leadId}`);
+                    break;
+
                 case LIFE_QUESTION_CARD_LIST.TERM:
                     navigate(`/life/term/${leadId}/confirm-details`);
                     break;
@@ -150,8 +155,11 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
 
     const handleSelectIulGoal = useCallback(
         (item) => {
-            if (item == "Accumulation") { navigate(`/life/iul-accumulation/${leadId}/confirm-details`); }
-            else { navigate(`/life/iul-protection/${leadId}/confirm-details`); }
+            if (item == "Accumulation") {
+                navigate(`/life/iul-accumulation/${leadId}/confirm-details`);
+            } else {
+                navigate(`/life/iul-protection/${leadId}/confirm-details`);
+            }
         },
         [leadId, navigate],
     );

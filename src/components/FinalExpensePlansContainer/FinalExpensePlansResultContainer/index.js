@@ -25,6 +25,7 @@ import {
     COVERAGE_TYPE,
     COVERAGE_TYPE_HEADING,
     DEFAULT_COVERAGE_AMOUNT,
+    DEFAULT_COVERAGE_AMOUNT_SIMPLIFIED_IUL,
     DEFAULT_MONTHLY_PREMIUM,
     EXCLUDE_LABEL,
     MONTHLY_PREMIUM_VALIDATION,
@@ -34,6 +35,7 @@ import {
 } from "./FinalExpensePlansResultContainer.constants";
 import styles from "./FinalExpensePlansResultContainer.module.scss";
 import { PlanDetailsContainer } from "./PlanDetailsContainer/PlanDetailsContainer";
+import { useCreateNewQuote } from "../../../providers/CreateNewQuote";
 
 const FinalExpensePlansResultContainer = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -55,7 +57,7 @@ const FinalExpensePlansResultContainer = () => {
             contactId: contactId || null, // Fallback to null if contactId is undefined
             preferenceFlag: false,
         }),
-        [contactId]
+        [contactId],
     );
 
     const [coverageAmount, setCoverageAmount] = usePreferences(DEFAULT_COVERAGE_AMOUNT, "coverage");
@@ -63,11 +65,12 @@ const FinalExpensePlansResultContainer = () => {
     const [coverageType, setCoverageType] = usePreferences(COVERAGE_TYPE[4].value, "sessionCoverageType");
     const [isMyAppointedProducts, setIsMyAppointedProducts] = usePreferences(
         defaultIsMyAppointedProducts,
-        "sessionIsMyAppointedProducts"
+        "sessionIsMyAppointedProducts",
     );
     const [appointmentSession, setAppointmentSession] = usePreferences(false, "appointmentSession");
     const [isShowExcludedProducts, setIsShowExcludedProducts] = usePreferences(false, "sessionIsShowExcludedProducts");
     const [sessionLead, setSessionLead] = usePreferences(null, "sessionLead");
+    const { isSimplifiedIUL } = useCreateNewQuote();
 
     useEffect(() => {
         const handleFinalExpensePlanClick = async () => {
@@ -93,6 +96,14 @@ const FinalExpensePlansResultContainer = () => {
             resetToDefaultPreferences();
         }
     }, [contactId, sessionLead, setSessionLead]);
+
+    useEffect(() => {
+        if (isSimplifiedIUL()) {
+            setCoverageAmount(DEFAULT_COVERAGE_AMOUNT_SIMPLIFIED_IUL);
+        } else {
+            setCoverageAmount(DEFAULT_COVERAGE_AMOUNT);
+        }
+    }, [isSimplifiedIUL]);
 
     // Functions
     const resetToDefaultPreferences = () => {

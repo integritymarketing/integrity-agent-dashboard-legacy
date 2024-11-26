@@ -59,3 +59,4 @@
 [context.production.environment]
   REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442"
   REACT_APP_SENTRY_AUTH_DSN = "https://788e98ba6d4b4114adaa443bbf8a49bc@o417296.ingest.sentry.io/5408350"
+  

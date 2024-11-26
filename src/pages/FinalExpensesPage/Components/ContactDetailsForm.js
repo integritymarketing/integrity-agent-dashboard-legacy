@@ -1,36 +1,37 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
-    StyledDescription,
-    StyledElementName,
-    StyledFormWrapper,
-    StyledTitle,
-    StyledFormRow,
-    StyledFormItem,
-    StyledForm,
     StyledButton,
     StyledButtonFormElement,
+    StyledDatePicker,
+    StyledDescription,
+    StyledElementName,
+    StyledErrorText,
+    StyledErrorWrapper,
+    StyledForm,
+    StyledFormItem,
+    StyledFormRow,
+    StyledFormWrapper,
     StyledGenderFormElements,
     StyledHeightFormContainer,
     StyledNumberInputContainer,
     StyledNumberInputField,
-    StyledUnitSpan,
     StyledSubText,
-    StyledErrorText,
-    StyledDatePicker,
-    StyledErrorWrapper,
+    StyledTitle,
+    StyledUnitSpan,
 } from "./StyledComponents";
 import { Select } from "components/ui/Select";
 import { INITIAL_FORM_DATA, STATES } from "./constants";
 import EnrollBack from "images/enroll-btn-back.svg";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "utils/dates";
 import DatePickerMUI from "components/DatePicker";
 import { useLeadDetails } from "providers/ContactDetails";
 import { useLife } from "contexts/Life";
 import useToast from "hooks/useToast";
-import { onlyNumbersBetween1And8, onlyNumbersBetween0And11 } from "utils/shared-utils/sharedUtility";
+import { onlyNumbersBetween0And11, onlyNumbersBetween1And8 } from "utils/shared-utils/sharedUtility";
 
 import moment from "moment";
+import { DEFAULT_COVERAGE_AMOUNT } from "../../../components/FinalExpensePlansContainer/FinalExpensePlansResultContainer/FinalExpensePlansResultContainer.constants";
 
 const FormComponent = () => {
     const { contactId } = useParams();
@@ -153,7 +154,7 @@ const FormComponent = () => {
         if (isValidForm()) {
             let payload = {
                 age: moment().diff(moment(dateOfBirth, "YYYY"), "years"),
-                desiredFaceValue: 15000,
+                desiredFaceValue: DEFAULT_COVERAGE_AMOUNT,
                 desiredMonthlyRate: null,
                 amount_type: "face",
                 coverageType: "LEVEL",
@@ -217,8 +218,12 @@ const FormComponent = () => {
     }
 
     function formatGender(gender) {
-        if (gender === "M") {return "Male";}
-        if (gender === "F") {return "Female";}
+        if (gender === "M") {
+            return "Male";
+        }
+        if (gender === "F") {
+            return "Female";
+        }
         return null;
     }
 
