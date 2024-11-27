@@ -239,13 +239,13 @@ const CampaignInnerContainer = () => {
                     </Typography>
                     {campaign && (
                         <ActionPopoverContainer
-                            buttonDisable={!isValidStatus}
+                            buttonDisable={saveButtonDisabled}
                             campaign={campaign}
                             refresh={handleGetCampaignDetailsById}
                             advanceMode={advanceMode}
                             campaignDescription={campaignDescriptionType}
                             page="campaign_details"
-                            iconDisable={isValidStatus}
+                            iconDisable={!isValidStatus}
                         />
                     )}
                 </Box>
