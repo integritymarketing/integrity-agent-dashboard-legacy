@@ -68,12 +68,13 @@ const WebChatComponent = () => {
 
     useEffect(() => {
         const fcFrame = document.getElementById("fc_frame");
-            if (fcFrame && chatRef.current && isChatActive) {
+        if (fcFrame) {
+            if (chatRef.current && isChatActive) {
                 fcFrame.style.display = "none";
             } else {
                 fcFrame.style.display = "block";
             }
-         
+        }
     }, [isChatActive]);
 
     useEffect(() => {
