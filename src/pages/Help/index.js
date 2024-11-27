@@ -22,17 +22,28 @@ import GlobalNav from "partials/global-nav-v2";
 import styles from "./styles.module.scss";
 import LiveChat from "components/icons/version-2/LiveChat";
 import useUserProfile from "hooks/useUserProfile";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useCustomLiveChat from "hooks/useCustomLiveChat";
 import { useOnClickOutside } from "hooks/useOnClickOutside";
 
 const HelpPage = () => {
     const [isMobile, setIsMobile] = useState(false);
-    const { firstName, lastName, email, phone } = useUserProfile();
+    const { firstName, lastName, email, phone, npn } = useUserProfile();
+    const { agentInformation } = useAgentInformationByID();
     const navigate = useNavigate();
     const location = useLocation();
     const fcFrameRef = useRef(null);
 
-    const { handleOpenLiveChat, handleCloseLiveChat } = useCustomLiveChat(firstName, lastName, email, phone, location);
+
+    const { handleOpenLiveChat, handleCloseLiveChat } = useCustomLiveChat(
+        firstName,
+        lastName,
+        email,
+        phone,
+        npn,
+        agentInformation?.agentVirtualPhoneNumber,
+        location
+    );
 
     const handleMediaQueryChange = useCallback((matches) => {
         setIsMobile(matches);
@@ -87,7 +98,7 @@ const HelpPage = () => {
                             </a>
                         </Box>
                         <Box className={styles.sectionRoundedBottom} sx={{ cursor: "pointer" }}>
-                            <div className={styles.iconBg}>
+                            <div className={styles.iconBg} onClick={handleOpenLiveChat}>
                                 <LiveChat />
                             </div>
                             <div className={styles.cta} onClick={handleOpenLiveChat}>

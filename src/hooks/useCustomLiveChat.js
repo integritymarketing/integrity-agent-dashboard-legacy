@@ -1,12 +1,12 @@
 import { useEffect, useCallback } from "react";
 
-const useCustomLiveChat = (firstName, lastName, email, phone, location, page = "/help") => {
+const useCustomLiveChat = (firstName, lastName, email, phone, npn, agentVirtualPhoneNumber, location, page = "/help") => {
     useEffect(() => {
         if (window.fcWidget && firstName) {
             const handleWidgetClosed = () => {
                 const fcFrame = document.getElementById("fc_frame");
                 if (fcFrame) {
-                    fcFrame.style.display = "none";
+                    fcFrame.style.display = "block";
                 }
             };
 
@@ -16,14 +16,16 @@ const useCustomLiveChat = (firstName, lastName, email, phone, location, page = "
                 firstName,
                 lastName,
                 email,
-                phone,
+                callForwardNumber: phone,
+                externalId: npn,
+                twilioNumber: agentVirtualPhoneNumber,
             });
 
             return () => {
                 window.fcWidget.off("widget:closed", handleWidgetClosed);
             };
         }
-    }, [firstName, lastName, email, phone, location.pathname, page]);
+    }, [firstName, lastName, email, phone, npn, agentVirtualPhoneNumber, location.pathname]);
 
     useEffect(() => {
         const fcFrame = document.getElementById("fc_frame");

@@ -15,7 +15,7 @@ const Welcome = lazy(() => import("pages/welcome"));
 const App = () => {
     const [, setIsAvailable] = useAgentAvailability();
     const { agentInformation } = useAgentInformationByID();
-    const { firstName, lastName, email, phone } = useUserProfile();
+    const { firstName, lastName, email, phone, npn } = useUserProfile();
     useRemoveLeadIdsOnRouteChange();
     const isMaintainanceMode = process.env.REACT_APP_MAINTENANCE_MODE;
     const location = useLocation();
@@ -25,21 +25,24 @@ const App = () => {
     }, [agentInformation?.isAvailable, setIsAvailable]);
 
     useEffect(() => {
-        if (window.fcWidget && firstName) {
+        if (window.fcWidget && firstName && agentInformation) {
             const handleWidgetClosed = () => {
                 const fcFrame = document.getElementById("fc_frame");
                 if (fcFrame) {
-                    fcFrame.style.display = "block"; //  floating icon is shown after closing the widget
+                    fcFrame.style.display = "block";
                 }
             };
 
             window.fcWidget.on("widget:closed", handleWidgetClosed);
 
+
             window.fcWidget.user.setProperties({
                 firstName,
                 lastName,
                 email,
-                phone,
+                callForwardNumber: phone,
+                externalId: npn,
+                twilioNumber: agentInformation?.agentVirtualPhoneNumber
             });
 
             return () => {
@@ -48,7 +51,7 @@ const App = () => {
         }
 
         return () => { };
-    }, [firstName, lastName, email, phone, location.pathname]);
+    }, [firstName, lastName, email, phone, agentInformation, location.pathname, npn, agentInformation?.agentVirtualPhoneNumber]);
 
     useEffect(() => {
         const fcFrame = document.getElementById("fc_frame");
