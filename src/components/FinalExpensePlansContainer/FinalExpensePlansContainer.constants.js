@@ -4,6 +4,7 @@ export const AGENT_SERVICE_NON_RTS = `${process.env.REACT_APP_AGENTS_URL}/api/${
 export const ENROLLEMENT_SERVICE = `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/FinalExpense/lead/`;
 export const BACK = "Back";
 export const CONTACT_DETAILS = "Final Expense";
+export const SIMPLIFIED_IUL_TITLE = "Simplified IUL";
 export const CONTACT_FORM_TITLE = "Let's confirm a few details";
 export const CONTACT_FORM_SUBTITLE = "Just a few quick and easy questions to get your quote";
 export const CONTACT_FORM_SUBTITLE_MOBILE = "Just a few questions on client's health details.";
@@ -24,7 +25,7 @@ export const SMOKER = "Smoker";
 export const TOBACCO_USE = "Tobacco Use";
 export const GENDER_OPTS = [
     { label: "Male", value: "male" },
-    { label: "Female", value: "female" }
+    { label: "Female", value: "female" },
 ];
 export const SMOKER_OPTS = [
     { label: "Yes", value: true },

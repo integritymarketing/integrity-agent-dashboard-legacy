@@ -2,9 +2,14 @@ export const STEPPER_FILTER = {
     "Coverage Amount": { step: 5000, min: 1000, max: 999999, value: "face" },
     "Monthly Premium": { step: 20, min: 10, max: 999, value: "premium" },
 };
+export const STEPPER_FILTER_SIMPLIFIED_IUL = {
+    "Coverage Amount": { step: 5000, min: 25000, max: 300000, value: "face" },
+    "Monthly Premium": { step: 20, min: 10, max: 300, value: "premium" },
+};
 export const DEFAULT_COVERAGE_AMOUNT = 15000;
 export const DEFAULT_COVERAGE_AMOUNT_SIMPLIFIED_IUL = 50000;
 export const DEFAULT_MONTHLY_PREMIUM = 40;
+export const DEFAULT_MONTHLY_PREMIUM_SIMPLIFIED_IUL = 50;
 export const COVERAGE_TYPE = [
     { label: "Level", value: "LEVEL" },
     { label: "Graded/Modified", value: "GRADED_MODIFIED" },
@@ -22,7 +27,9 @@ export const MY_APPOINTED_LABEL = "My Appointed Products";
 export const EXCLUDE_LABEL = "Show Only Excluded Products";
 
 export const COVERAGE_AMT_VALIDATION = "Coverage amount must be between $1,000 and $999,999.";
+export const COVERAGE_AMT_VALIDATION_SIMPLIFIED_IUL = "Coverage amount must be between $25,000 and $300,000.";
 export const MONTHLY_PREMIUM_VALIDATION = "Monthly premium must be between $10 and $999.";
+export const MONTHLY_PREMIUM_VALIDATION_SIMPLIFIED_IUL = "Monthly premium must be between $10 and $300.";
 export const PRESCREEN_AVAILABLE = "Prescreen Available";
 export const ELIGIBILTY_NOTES = "Eligibility Notes";
 export const PRESCREEN_AVAILABLE_NOTES = "The applicant may be eligible for coverage based on identified conditions.";

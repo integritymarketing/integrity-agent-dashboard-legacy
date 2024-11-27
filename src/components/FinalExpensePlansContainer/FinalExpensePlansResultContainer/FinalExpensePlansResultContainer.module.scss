@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines.scss";
+@import "../../../scss/globalDefines.scss";
 
 .contentWrapper {
     display: flex;
@@ -88,4 +88,16 @@
 .inActive {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.pageHeading {
+    display: flex;
+    justify-content: center;
+    padding-top: 56px;
+    background-color: #f1f1f1;
+   
+    @include small {
+        font-size: 32px;
+        padding-top: 24px;
+    }
 }

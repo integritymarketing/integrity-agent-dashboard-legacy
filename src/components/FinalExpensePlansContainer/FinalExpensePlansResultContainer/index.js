@@ -15,6 +15,7 @@ import {
     AGENT_SERVICE_NON_RTS,
     COVERAGE_AMOUNT,
     MONTHLY_PREMIUM,
+    SIMPLIFIED_IUL_TITLE,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 import CheckedIcon from "components/icons/CheckedIcon";
 import UnCheckedIcon from "components/icons/unChecked";
@@ -22,20 +23,25 @@ import { Select } from "components/ui/Select";
 
 import {
     COVERAGE_AMT_VALIDATION,
+    COVERAGE_AMT_VALIDATION_SIMPLIFIED_IUL,
     COVERAGE_TYPE,
     COVERAGE_TYPE_HEADING,
     DEFAULT_COVERAGE_AMOUNT,
     DEFAULT_COVERAGE_AMOUNT_SIMPLIFIED_IUL,
     DEFAULT_MONTHLY_PREMIUM,
+    DEFAULT_MONTHLY_PREMIUM_SIMPLIFIED_IUL,
     EXCLUDE_LABEL,
     MONTHLY_PREMIUM_VALIDATION,
+    MONTHLY_PREMIUM_VALIDATION_SIMPLIFIED_IUL,
     MY_APPOINTED_LABEL,
     PLAN_OPTIONS_HEADING,
     STEPPER_FILTER,
+    STEPPER_FILTER_SIMPLIFIED_IUL,
 } from "./FinalExpensePlansResultContainer.constants";
 import styles from "./FinalExpensePlansResultContainer.module.scss";
 import { PlanDetailsContainer } from "./PlanDetailsContainer/PlanDetailsContainer";
 import { useCreateNewQuote } from "../../../providers/CreateNewQuote";
+import Typography from "@mui/material/Typography";
 
 const FinalExpensePlansResultContainer = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -44,24 +50,39 @@ const FinalExpensePlansResultContainer = () => {
     const [isRTS, setIsRTS] = useState();
 
     const { agentInformation } = useAgentInformationByID();
+    const { isSimplifiedIUL } = useCreateNewQuote();
+
     const agentNPN = agentInformation?.agentNPN;
 
     const { Get: getAgentNonRTS, loading: getAgentNonRTSLoading } = useFetch(`${AGENT_SERVICE_NON_RTS}${agentNPN}`);
 
     const [selectedTab, setSelectedTab] = useState(COVERAGE_AMOUNT);
-    const { min: covMin, max: covMax, step: covStep } = STEPPER_FILTER[COVERAGE_AMOUNT];
-    const { min, max, step } = STEPPER_FILTER[MONTHLY_PREMIUM];
+
+    const stepperFilter = useMemo(() => {
+        return isSimplifiedIUL() ? STEPPER_FILTER_SIMPLIFIED_IUL : STEPPER_FILTER;
+    }, [isSimplifiedIUL]);
+
+    const { min: covMin, max: covMax, step: covStep } = stepperFilter[COVERAGE_AMOUNT];
+    const { min, max, step } = stepperFilter[MONTHLY_PREMIUM];
 
     const defaultIsMyAppointedProducts = useMemo(
         () => ({
-            contactId: contactId || null, // Fallback to null if contactId is undefined
+            contactId: contactId || null,
             preferenceFlag: false,
         }),
         [contactId],
     );
 
-    const [coverageAmount, setCoverageAmount] = usePreferences(DEFAULT_COVERAGE_AMOUNT, "coverage");
-    const [monthlyPremiumAmount, setMonthlyPremiumAmount] = usePreferences(DEFAULT_MONTHLY_PREMIUM, "monthlyPremium");
+    const defaultCoverageAmount = useMemo(() => {
+        return isSimplifiedIUL() ? DEFAULT_COVERAGE_AMOUNT_SIMPLIFIED_IUL : DEFAULT_COVERAGE_AMOUNT;
+    }, [isSimplifiedIUL]);
+
+    const defaultMonthlyPremium = useMemo(() => {
+        return isSimplifiedIUL() ? DEFAULT_MONTHLY_PREMIUM_SIMPLIFIED_IUL : DEFAULT_MONTHLY_PREMIUM;
+    }, [isSimplifiedIUL]);
+
+    const [coverageAmount, setCoverageAmount] = usePreferences(defaultCoverageAmount, "coverage");
+    const [monthlyPremiumAmount, setMonthlyPremiumAmount] = usePreferences(defaultMonthlyPremium, "monthlyPremium");
     const [coverageType, setCoverageType] = usePreferences(COVERAGE_TYPE[4].value, "sessionCoverageType");
     const [isMyAppointedProducts, setIsMyAppointedProducts] = usePreferences(
         defaultIsMyAppointedProducts,
@@ -70,7 +91,6 @@ const FinalExpensePlansResultContainer = () => {
     const [appointmentSession, setAppointmentSession] = usePreferences(false, "appointmentSession");
     const [isShowExcludedProducts, setIsShowExcludedProducts] = usePreferences(false, "sessionIsShowExcludedProducts");
     const [sessionLead, setSessionLead] = usePreferences(null, "sessionLead");
-    const { isSimplifiedIUL } = useCreateNewQuote();
 
     useEffect(() => {
         const handleFinalExpensePlanClick = async () => {
@@ -98,17 +118,12 @@ const FinalExpensePlansResultContainer = () => {
     }, [contactId, sessionLead, setSessionLead]);
 
     useEffect(() => {
-        if (isSimplifiedIUL()) {
-            setCoverageAmount(DEFAULT_COVERAGE_AMOUNT_SIMPLIFIED_IUL);
-        } else {
-            setCoverageAmount(DEFAULT_COVERAGE_AMOUNT);
-        }
+        setCoverageAmount(isSimplifiedIUL() ? DEFAULT_COVERAGE_AMOUNT_SIMPLIFIED_IUL : DEFAULT_COVERAGE_AMOUNT);
     }, [isSimplifiedIUL]);
 
-    // Functions
     const resetToDefaultPreferences = () => {
-        setCoverageAmount(DEFAULT_COVERAGE_AMOUNT);
-        setMonthlyPremiumAmount(DEFAULT_MONTHLY_PREMIUM);
+        setCoverageAmount(defaultCoverageAmount);
+        setMonthlyPremiumAmount(defaultMonthlyPremium);
         setCoverageType(COVERAGE_TYPE[4].value);
         setIsMyAppointedProducts(defaultIsMyAppointedProducts);
         setIsShowExcludedProducts(false);
@@ -125,48 +140,32 @@ const FinalExpensePlansResultContainer = () => {
 
     const increment = () => {
         if (selectedTab === COVERAGE_AMOUNT) {
-            if (coverageAmount !== covMin) {
-                if (coverageAmount + covStep < covMax) {
-                    updateCoverageAmount(coverageAmount + covStep);
-                } else {
-                    setCoverageAmount(covMax);
-                }
+            if (coverageAmount + covStep <= covMax) {
+                updateCoverageAmount(coverageAmount + covStep);
             } else {
-                setCoverageAmount(5000);
+                setCoverageAmount(covMax);
             }
         } else {
-            if (monthlyPremiumAmount !== min) {
-                if (monthlyPremiumAmount + step < max) {
-                    updateMonthlyPremiumAmount(monthlyPremiumAmount + step);
-                } else {
-                    setMonthlyPremiumAmount(max);
-                }
+            if (monthlyPremiumAmount + step <= max) {
+                updateMonthlyPremiumAmount(monthlyPremiumAmount + step);
             } else {
-                setMonthlyPremiumAmount(20);
+                setMonthlyPremiumAmount(max);
             }
         }
     };
 
     const decrement = () => {
         if (selectedTab === COVERAGE_AMOUNT) {
-            if (coverageAmount !== covMax) {
-                if (coverageAmount - covStep > covMin) {
-                    updateCoverageAmount(coverageAmount - covStep);
-                } else {
-                    setCoverageAmount(covMin);
-                }
+            if (coverageAmount - covStep >= covMin) {
+                updateCoverageAmount(coverageAmount - covStep);
             } else {
-                setCoverageAmount(995000);
+                setCoverageAmount(covMin);
             }
         } else {
-            if (monthlyPremiumAmount !== max) {
-                if (monthlyPremiumAmount - step > min) {
-                    updateMonthlyPremiumAmount(monthlyPremiumAmount - step);
-                } else {
-                    setMonthlyPremiumAmount(min);
-                }
+            if (monthlyPremiumAmount - step >= min) {
+                updateMonthlyPremiumAmount(monthlyPremiumAmount - step);
             } else {
-                setMonthlyPremiumAmount(980);
+                setMonthlyPremiumAmount(min);
             }
         }
     };
@@ -215,7 +214,12 @@ const FinalExpensePlansResultContainer = () => {
                     setIsMobile(isMobile);
                 }}
             />
-            <ContactProfileTabBar contactId={contactId} />
+            <ContactProfileTabBar contactId={contactId} showTabs={false} />
+            {isSimplifiedIUL() && (
+                <div className={styles.pageHeading}>
+                   <Typography variant="h2" color="#052A63">{SIMPLIFIED_IUL_TITLE}</Typography>
+                </div>
+            )}
             <div className={`${styles.contentWrapper} ${isMobile ? styles.column : ""}`}>
                 <div className={styles.filterContent}>
                     <CurrencyAdjuster
@@ -233,21 +237,27 @@ const FinalExpensePlansResultContainer = () => {
                         }
                     />
                     {selectedTab === COVERAGE_AMOUNT && covAmtError && (
-                        <div className={styles.error}>{COVERAGE_AMT_VALIDATION}</div>
+                        <div className={styles.error}>
+                            {isSimplifiedIUL() ? COVERAGE_AMT_VALIDATION_SIMPLIFIED_IUL : COVERAGE_AMT_VALIDATION}
+                        </div>
                     )}
                     {selectedTab === MONTHLY_PREMIUM && monthlyPremError && (
-                        <div className={styles.error}>{MONTHLY_PREMIUM_VALIDATION}</div>
+                        <div className={styles.error}>
+                            {isSimplifiedIUL() ? MONTHLY_PREMIUM_VALIDATION_SIMPLIFIED_IUL : MONTHLY_PREMIUM_VALIDATION}
+                        </div>
                     )}
                     <div className={styles.planOptionsBox}>
                         <Heading4 className={styles.planOptionsHeader} text={PLAN_OPTIONS_HEADING} />
-                        <Text className={styles.planOptionsText} text={COVERAGE_TYPE_HEADING} />
-                        <Select
-                            initialValue={coverageType}
-                            onChange={handleCoverageTypeChange}
-                            options={COVERAGE_TYPE}
-                            selectContainerClassName={styles.selectCoverageType}
-                            showValueAlways
-                        />
+                        {!isSimplifiedIUL() && <Text className={styles.planOptionsText} text={COVERAGE_TYPE_HEADING} />}
+                        {!isSimplifiedIUL() && (
+                            <Select
+                                initialValue={coverageType}
+                                onChange={handleCoverageTypeChange}
+                                options={COVERAGE_TYPE}
+                                selectContainerClassName={styles.selectCoverageType}
+                                showValueAlways
+                            />
+                        )}
                         <div className={styles.checkboxesWrapper}>
                             <div
                                 className={`${styles.checkbox} ${

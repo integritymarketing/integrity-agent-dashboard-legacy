@@ -14,6 +14,9 @@ import WithLoader from "components/ui/WithLoader";
 import FinalExpenseContactDetailsForm from "./FinalExpenseContactDetailsForm";
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 import { useCreateNewQuote } from "../../providers/CreateNewQuote";
+import styles from "./index.module.scss";
+import { SIMPLIFIED_IUL_TITLE } from "./FinalExpensePlansContainer.constants";
+import Typography from "@mui/material/Typography";
 
 export const FinalExpensePlansContainer = () => {
     const { contactId } = useParams();
@@ -121,22 +124,24 @@ export const FinalExpensePlansContainer = () => {
             fireEvent("Final Expense Intake Completed", {
                 leadid: contactId,
             });
-            if (response) {
-                if (isSimplifiedIUL()) {
-                    navigate(`/simplified-iul/healthconditions/${contactId}`);
-                } else {
-                    navigate(`/finalexpenses/healthconditions/${contactId}`);
-                }
+
+            // Ensure isSimplifiedIUL() is reevaluated correctly
+            if (await isSimplifiedIUL()) {
+                navigate(`/simplified-iul/healthconditions/${contactId}`);
+            } else {
+                navigate(`/finalexpenses/healthconditions/${contactId}`);
             }
         },
         [isSimplifiedIUL, leadDetails, updateLeadDetails, contactId, navigate, fireEvent],
     );
 
     const renderContactDetailsLoader = useMemo(() => <PlanCardLoader />, []);
-
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
             <ContactProfileTabBar contactId={contactId} showTabs={false} />
+            <div className={styles.pageHeading}>{isSimplifiedIUL() && <Typography variant="h2" color="#052A63">
+    {SIMPLIFIED_IUL_TITLE}
+</Typography>}</div>
             {isLoadingLeadDetails ? (
                 renderContactDetailsLoader
             ) : (
@@ -145,3 +150,4 @@ export const FinalExpensePlansContainer = () => {
         </WithLoader>
     );
 };
+ 

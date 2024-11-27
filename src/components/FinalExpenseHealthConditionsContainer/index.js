@@ -1,6 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-
-import FinalExpenseContactBar from "components/FinalExpensePlansContainer/FinalExpenseContactBar";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import { Button } from "components/ui/Button";
 
@@ -13,6 +11,9 @@ import {
 import styles from "./FinalExpenseHealthConditionsContainer.module.scss";
 import FinalExpenseHealthTableSection from "./FinalExpenseHealthTableSection";
 import { useCreateNewQuote } from "../../providers/CreateNewQuote";
+import { ContactProfileTabBar } from "../ContactDetailsContainer";
+import { SIMPLIFIED_IUL_TITLE } from "../FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
+import Typography from "@mui/material/Typography";
 
 const FinalExpenseHealthConditionsContainer = () => {
     const { contactId } = useParams();
@@ -32,10 +33,18 @@ const FinalExpenseHealthConditionsContainer = () => {
     };
 
     return (
-        <div>
-            <FinalExpenseContactBar backLink={plansUrl()} label={HEADER_TITLE} />
+        <>
+            <ContactProfileTabBar contactId={contactId} showTabs={false} />
+            {isSimplifiedIUL() && (
+                <div className={styles.pageHeading}>
+                    <Typography variant="h2" color="#052A63"> {SIMPLIFIED_IUL_TITLE}</Typography>
+                </div>
+            )}
             <div className={styles.pageContainerWrapper}>
                 <div className={styles.pageContainer}>
+                    <div className={styles.headerTitle}>
+                        <h4>{HEADER_TITLE}</h4>
+                    </div>
                     <h3 className={styles.conditionsLabel}>{CARD_TITLE}</h3>
                     <FinalExpenseHealthTableSection contactId={contactId} />
                     <div className={styles.disclaimerText}>{DISCLAIMER_TEXT}</div>
@@ -51,7 +60,7 @@ const FinalExpenseHealthConditionsContainer = () => {
                     />
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

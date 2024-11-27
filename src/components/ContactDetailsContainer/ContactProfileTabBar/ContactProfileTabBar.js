@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, useEffect } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Avatar, Box, Typography, useMediaQuery, useTheme } from "@mui/material";
@@ -149,7 +149,7 @@ export const ContactProfileTabBar = ({ contactId, showTabs = true }) => {
                             </Box>
                         </Box>
                     </Box>
-                    {showTabs ? <Box className={styles.profileTabs}>{TABS.map(renderTab)}</Box> : ""}
+                    {showTabs && <Box className={styles.profileTabs}>{TABS.map(renderTab)}</Box>}
                     {isContactDetailsPage && (
                         <Button
                             onClick={handleStartQuote}

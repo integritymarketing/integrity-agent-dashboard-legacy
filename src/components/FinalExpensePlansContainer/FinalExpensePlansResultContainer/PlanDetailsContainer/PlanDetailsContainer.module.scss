@@ -80,7 +80,7 @@
     padding: 24px;
     border-radius: 8px;
     margin-bottom: 24px;
-
+    
     .header {
         font-size: 24px;
         color: #052a63;
@@ -88,12 +88,14 @@
         justify-content: space-between;
         padding-bottom: 22px;
         gap: 2rem;
+        line-height: 32px;
 
 
         div {
             @include small {
                 width: 60%;
                 word-break: break-word;
+                line-height: normal
             }
         }
 

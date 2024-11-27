@@ -2,6 +2,7 @@
 
 .activitiesContainer {
     border-radius: 8px;
+    background-color: #f1f1f1;
 
     >div {
         box-shadow: none !important;
@@ -32,13 +33,16 @@
 }
 
 .conditionsLabel {
-    color: #052a63;
-    font-size: 20px;
+    color: #434a51;
     margin-bottom: 5px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
 
     @include small {
         color: #434a51;
-        font-size: 16px;
+        font-size: 12px;
     }
 }
 
@@ -125,12 +129,32 @@
     margin: auto;
     max-width: 100%;
     padding: 10px;
-    padding-top: 100px;
+    padding-top: 36px;
     width: 700px;
 
     @include small {
         padding: 40px 20px;
     }
+}
+
+.headerTitle h4 {
+    font-size: 24px;
+    line-height: 32px;
+    color: #052a63;
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+
+    @include small {
+        font-size: 18px;
+    }
+}
+
+.pageHeading {
+    display: flex;
+    justify-content: center;
+    padding-top: 12px;
+    padding-bottom: 24px;
+    background-color: #f1f1f1;
 }
 
 .tickCircle,
