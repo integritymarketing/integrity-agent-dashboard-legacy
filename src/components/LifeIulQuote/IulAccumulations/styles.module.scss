@@ -1,0 +1,19 @@
+.countSortContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.tabs {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    width: min(100%, 840px);
+    margin-inline: auto;
+}
+
+.countSortText {
+    color: #434a51;
+    line-height: 24px !important;
+}
