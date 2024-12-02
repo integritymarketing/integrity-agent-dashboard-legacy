@@ -4,6 +4,7 @@ import { IulQuoteHeader } from "../IulQuoteHeader";
 import { useParams } from "react-router-dom";
 import WithLoader from "components/ui/WithLoader";
 import { useLeadDetails } from "providers/ContactDetails";
+import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 
 export const IulQuoteContainer = ({ title, children }) => {
@@ -24,4 +25,9 @@ export const IulQuoteContainer = ({ title, children }) => {
             </Box>
         </WithLoader>
     );
+};
+
+IulQuoteContainer.propTypes = {
+    title: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
 };
