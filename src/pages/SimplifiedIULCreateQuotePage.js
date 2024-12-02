@@ -8,8 +8,8 @@ import { FinalExpensePlansContainer } from "components/FinalExpensePlansContaine
 import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 import { useEffect } from "react";
-import { useCreateNewQuote } from "../providers/CreateNewQuote";
-import { LIFE_QUESTION_CARD_LIST } from "../components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants";
+import { useCreateNewQuote } from "providers/CreateNewQuote";
+import { LIFE_QUESTION_CARD_LIST } from "components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants";
 
 const StyledBox = styled(Box)(() => ({
     display: "flex",

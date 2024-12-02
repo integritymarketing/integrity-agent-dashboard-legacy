@@ -8,11 +8,14 @@ import {
     COVERAGE_AMOUNT,
     MONTHLY_PREMIUM,
 } from "../FinalExpensePlansContainer/FinalexpensePlanOptioncard/FinalexpensePlanOptioncard.constants";
+import PropTypes from "prop-types";
 
 const CurrencyAdjuster = ({
     selectedTab,
     setSelectedTab,
     stepperValue,
+    disableMin,
+    disableMax,
     increment,
     decrement,
     onChange,
@@ -36,7 +39,7 @@ const CurrencyAdjuster = ({
                 </div>
             </div>
             <div className={styles.stepper}>
-                <StyledCTA onClick={decrement}>
+                <StyledCTA disabled={disableMin} onClick={decrement}>
                     <MinusIcon />
                 </StyledCTA>
                 <input
@@ -46,12 +49,25 @@ const CurrencyAdjuster = ({
                     className={`${styles.input} ${inputErrorStyle}`}
                     value={`$${stepperValue.toLocaleString()}`}
                 />
-                <StyledCTA onClick={increment}>
+                <StyledCTA disabled={disableMax} onClick={increment}>
                     <PlusIcon />
                 </StyledCTA>
             </div>
         </>
     );
+};
+
+CurrencyAdjuster.propTypes = {
+    selectedTab: PropTypes.string,
+    setSelectedTab: PropTypes.func,
+    stepperValue: PropTypes.number,
+    disableMin: PropTypes.bool,
+    disableMax: PropTypes.bool,
+    increment: PropTypes.func,
+    decrement: PropTypes.func,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    inputErrorStyle: PropTypes.string,
 };
 
 export default CurrencyAdjuster;

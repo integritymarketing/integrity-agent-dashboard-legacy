@@ -217,7 +217,9 @@ const FinalExpensePlansResultContainer = () => {
             <ContactProfileTabBar contactId={contactId} showTabs={false} />
             {isSimplifiedIUL() && (
                 <div className={styles.pageHeading}>
-                   <Typography variant="h2" color="#052A63">{SIMPLIFIED_IUL_TITLE}</Typography>
+                    <Typography variant="h2" color="#052A63">
+                        {SIMPLIFIED_IUL_TITLE}
+                    </Typography>
                 </div>
             )}
             <div className={`${styles.contentWrapper} ${isMobile ? styles.column : ""}`}>
@@ -226,6 +228,12 @@ const FinalExpensePlansResultContainer = () => {
                         stepperValue={selectedTab === COVERAGE_AMOUNT ? coverageAmount : monthlyPremiumAmount}
                         selectedTab={selectedTab}
                         setSelectedTab={handleTabSelect}
+                        disableMin={
+                            selectedTab === COVERAGE_AMOUNT ? coverageAmount <= covMin : monthlyPremiumAmount <= min
+                        }
+                        disableMax={
+                            selectedTab === COVERAGE_AMOUNT ? coverageAmount >= covMax : monthlyPremiumAmount >= max
+                        }
                         increment={increment}
                         decrement={decrement}
                         onChange={handleInputChange}

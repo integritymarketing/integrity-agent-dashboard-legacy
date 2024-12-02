@@ -10,4 +10,4 @@ export const OUTDATED = "Outdated";
 export const EDIT = "Edit";
 export const HEADER_TITLE = "Health Conditions";
 export const CONDITIONS = "Conditions";
-export const VIEW_QUOTE = "View Quote";
+export const CONTINUE_TO_QUOTE = "Continue to Quote";

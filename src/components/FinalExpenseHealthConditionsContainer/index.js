@@ -6,7 +6,7 @@ import {
     CARD_TITLE,
     DISCLAIMER_TEXT,
     HEADER_TITLE,
-    VIEW_QUOTE,
+    CONTINUE_TO_QUOTE,
 } from "./FinalExpenseHealthConditionsContainer.constants";
 import styles from "./FinalExpenseHealthConditionsContainer.module.scss";
 import FinalExpenseHealthTableSection from "./FinalExpenseHealthTableSection";
@@ -35,11 +35,14 @@ const FinalExpenseHealthConditionsContainer = () => {
     return (
         <>
             <ContactProfileTabBar contactId={contactId} showTabs={false} />
-            {isSimplifiedIUL() && (
-                <div className={styles.pageHeading}>
-                    <Typography variant="h2" color="#052A63"> {SIMPLIFIED_IUL_TITLE}</Typography>
-                </div>
-            )}
+            <div className={styles.pageHeading}>
+                {isSimplifiedIUL() && (
+                    <Typography variant="h2" color="#052A63">
+                        {" "}
+                        {SIMPLIFIED_IUL_TITLE}
+                    </Typography>
+                )}
+            </div>
             <div className={styles.pageContainerWrapper}>
                 <div className={styles.pageContainer}>
                     <div className={styles.headerTitle}>
@@ -49,7 +52,7 @@ const FinalExpenseHealthConditionsContainer = () => {
                     <FinalExpenseHealthTableSection contactId={contactId} />
                     <div className={styles.disclaimerText}>{DISCLAIMER_TEXT}</div>
                     <Button
-                        label={VIEW_QUOTE}
+                        label={CONTINUE_TO_QUOTE}
                         onClick={onClickViewQuote}
                         type="primary"
                         icon={<ButtonCircleArrow />}
