@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { IulQuoteContainer, IulAccumulationQuoteFilter} from "../CommonComponents";
+import { IulQuoteContainer, IulAccumulationQuoteFilter, IulQuoteCard } from "../CommonComponents";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import { useLifeIulQuote } from "providers/Life";
 import styles from "./styles.module.scss";
@@ -71,9 +71,40 @@ const IulAccumulationQuote = () => {
                     <WithLoader isLoading={isLoadingLifeIulQuote}>
                         <Grid container gap={3}>
                             {lifeIulQuoteResults?.map((plan, index) => {
+                                const {
+                                    productName,
+                                    companyName,
+                                    amBest,
+                                    companyLogoImageUrl,
+                                    cashValueYear10,
+                                    cashValueYear20,
+                                    cashValueAge65,
+                                    maxIllustratedRate,
+                                    indexStrategyType,
+                                    distribution,
+                                    deathBenefit,
+                                    targetPremium,
+                                } = plan;
                                 return (
                                     <Grid item md={12} key={`iul-accumulation-${index}`}>
-{/* CARD COMPONENT  */}
+                                        <IulQuoteCard
+                                            quoteType="IUL Accumulation"
+                                            cardTitle={productName}
+                                            companyName={companyName}
+                                            rating={amBest}
+                                            logo={companyLogoImageUrl}
+                                            cashValueYear10={cashValueYear10}
+                                            cashValueYear20={cashValueYear20}
+                                            cashValueAge65={cashValueAge65}
+                                            maxIllustratedRate={maxIllustratedRate}
+                                            indexStrategyType={indexStrategyType}
+                                            isTobaccoUser={isTobaccoUser}
+                                            targetPremium={targetPremium}
+                                            deathBenefit={deathBenefit}
+                                            distribution={distribution}
+                                            age={plan?.input?.actualAge}
+                                            healthClass={plan?.input?.healthClass}
+                                        />
                                     </Grid>
                                 );
                             })}
