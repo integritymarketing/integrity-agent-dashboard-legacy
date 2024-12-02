@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import { Grid, Stack } from "@mui/material";
 import {
     HEALTH_CLASSIFICATION_OPTS,
@@ -16,7 +17,6 @@ import { Formik } from "formik";
 import { ProductPreferenceFormSchema } from "schemas/ProductPreferenceFormSchema";
 import FullWidthButton from "components/ui/FullWidthButton";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
-import { useProductPreferenceDetails } from "providers/Life";
 import { useLeadDetails } from "providers/ContactDetails";
 
 export const ProductPreferenceForm = () => {
@@ -28,14 +28,33 @@ export const ProductPreferenceForm = () => {
         faceAmounts: "",
     });
 
-    const { updateProductPreferenceDetails } = useProductPreferenceDetails();
+    const navigate = useNavigate();
+
     const { leadDetails } = useLeadDetails();
 
     const handleSubmitData = useCallback(
         async (value) => {
-            const response = await updateProductPreferenceDetails({ ...leadDetails, ...value });
+            const { healthClasses, faceAmounts, payPeriods, illustratedRate, loanType } = value;
+
+            const stateCode =
+                leadDetails?.addresses && leadDetails?.addresses[0] ? leadDetails?.addresses[0]?.stateCode : null;
+
+            const sessionData = {
+                birthDate: leadDetails?.birthdate,
+                isTobaccoUser: leadDetails?.isTobaccoUser,
+                gender: leadDetails?.gender === "female" ? "F" : "M",
+                healthClasses: healthClasses,
+                state: stateCode,
+                faceAmounts: faceAmounts,
+                payPeriods: payPeriods,
+                illustratedRate: illustratedRate,
+                loanType: loanType,
+            };
+
+            sessionStorage.setItem("lifeQuoteAccumulationDetails", JSON.stringify(sessionData));
+            navigate(`/life/iul-accumulation/${leadDetails?.leadsId}/quote`);
         },
-        [leadDetails, updateProductPreferenceDetails],
+        [leadDetails, navigate]
     );
 
     const handleFaceAmountChange = useCallback((value, setFieldValue) => {
