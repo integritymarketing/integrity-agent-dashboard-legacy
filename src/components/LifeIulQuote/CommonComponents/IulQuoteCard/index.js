@@ -16,7 +16,7 @@ const getHealthClassFullForm = (healthClass) => {
             return "Preferred";
         case "SP":
             return "Standard Plus";
-        case "PB":
+        case "PP":
             return "Preferred Best";
         default:
             return "";
