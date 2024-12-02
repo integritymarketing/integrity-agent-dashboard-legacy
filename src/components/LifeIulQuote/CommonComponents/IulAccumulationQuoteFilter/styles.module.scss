@@ -1,0 +1,31 @@
+.filterTitle {
+    margin-bottom: 16px;
+}
+.filterContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    gap: 24px;
+
+    .label {
+        font-size: 16px;
+        color: #052a63;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        margin-bottom: 6px;
+    }
+
+    .radioOption {
+        label {
+            margin: 0px 0px 8px 0px;
+        }
+    }
+}
+
+.filterButton {
+    width: 100%;
+}

@@ -1,0 +1,39 @@
+export const PAY_PERIOD_OPTS = [
+    { label: "10 Pay", value: "10" },
+    { label: "Pay to Age 65", value: "65" },
+];
+export const LOANS_OPTS = [
+    { label: "Fixed", value: "LoansFixed" },
+    { label: "Participating", value: "LoansParticipation" },
+];
+
+export const ILLUSTRATED_RATE_OPTS = [
+    { label: "Max", value: "0" },
+    { label: "5%", value: "5" },
+    { label: "6%", value: "6" },
+];
+
+export const HEALTH_CLASSIFICATION_OPTS = [
+    { label: "Std", value: "S" },
+    { label: "Std Plus", value: "SP" },
+    { label: "Pref", value: "P" },
+    { label: "Pref Best", value: "PP" },
+];
+
+export const PROTECTION_PAY_PERIOD_OPTS = [
+    { label: "Full Pay", value: "10" },
+    { label: "Single Pay", value: "1" },
+    { label: "10 Pay", value: "10" },
+];
+
+export const PROTECTION_ILLUSTRATED_RATE_OPTS = [
+    { label: "Max", value: "0" },
+    { label: "4%", value: "4" },
+    { label: "5%", value: "5" },
+    { label: "6%", value: "6" },
+];
+
+export const PROTECTION_PRODUCT_SOLVES = [
+    { label: "$1 CSV at age 121", value: "$1 CSV at age 121" },
+    { label: "Endow at age 100", value: "Endow at age 100" },
+];

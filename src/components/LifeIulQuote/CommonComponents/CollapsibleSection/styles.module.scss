@@ -1,0 +1,27 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .label {
+        font-size: 16px;
+        color: #052a63;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        margin-bottom: 6px;
+    }
+
+    .icon {
+        cursor: pointer;
+    }
+
+    .iconRotate {
+        svg {
+            transform: rotate(-180deg);
+        }
+    }
+
+    svg {
+        transition: 300ms ease-out;
+    }
+}

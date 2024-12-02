@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { IulQuoteContainer } from "../CommonComponents";
+import { IulQuoteContainer, IulAccumulationQuoteFilter} from "../CommonComponents";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import { useLifeIulQuote } from "providers/Life";
 import styles from "./styles.module.scss";
@@ -57,7 +57,7 @@ const IulAccumulationQuote = () => {
                         </Typography>
                     </Box>
                 )}
-                {/* FILTER COMPONENT */}
+                <IulAccumulationQuoteFilter />
             </Grid>
             {!showFilters && (
                 <Grid item md={8} spacing={2}>
@@ -73,7 +73,7 @@ const IulAccumulationQuote = () => {
                             {lifeIulQuoteResults?.map((plan, index) => {
                                 return (
                                     <Grid item md={12} key={`iul-accumulation-${index}`}>
-                                        {/* CARD COMPONENT  */}
+{/* CARD COMPONENT  */}
                                     </Grid>
                                 );
                             })}
