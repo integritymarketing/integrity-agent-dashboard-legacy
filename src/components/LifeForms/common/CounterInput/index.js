@@ -73,11 +73,14 @@ const CounterInput = ({
                     "&.Mui-disabled": {
                         backgroundColor: "#F1F1F1",
                     },
+                    "&:hover": {
+                        backgroundColor: "#F1FAFF",
+                    },
                 }}
                 onClick={handleDecrement}
                 disabled={value === "" || value <= min}
             >
-                <RemoveIcon />
+                <RemoveIcon sx={{ fill: "#4178FF" }} />
             </IconButton>
             <TextField
                 variant="outlined"
@@ -93,11 +96,14 @@ const CounterInput = ({
                     "& .Mui-disabled": {
                         backgroundColor: "#F1F1F1",
                     },
+                    "&:hover": {
+                        backgroundColor: "#F1FAFF",
+                    },
                 }}
                 onClick={handleIncrement}
                 disabled={value !== "" && value >= max}
             >
-                <AddIcon />
+                <AddIcon sx={{ fill: "#4178FF" }} />
             </IconButton>
         </Stack>
     );

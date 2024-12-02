@@ -5,7 +5,7 @@ import styles from "./CustomFieldContainer.module.scss";
 function CustomFieldContainer({ label, error, children, style }) {
     return (
         <>
-            <Stack spacing={1} style={style}>
+            <Stack spacing={1} style={style} flex={1}>
                 <Stack flex>
                     <Typography className={styles.fieldHeaderLabel}>{label}</Typography>
                 </Stack>

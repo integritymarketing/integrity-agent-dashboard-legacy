@@ -410,7 +410,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
-                        <IulProtectionProductPreferencesPage />
+                        <ProductPreferenceDetailsProvider>
+                            <IulProtectionProductPreferencesPage />
+                        </ProductPreferenceDetailsProvider>
                     </FinalExpensePlansProvider>
                     <WebChatComponent />
                 </ContactDetailsProvider>

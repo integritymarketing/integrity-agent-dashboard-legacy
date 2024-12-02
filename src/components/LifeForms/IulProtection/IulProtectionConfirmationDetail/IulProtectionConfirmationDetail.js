@@ -10,7 +10,7 @@ export const IulProtectionConfirmationDetail = () => {
 
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
-            <ConfirmationDetailsContainer contactId={contactId} quoteType={LIFE_FORM_TYPES.IUL_ACCUMULATION} />
+            <ConfirmationDetailsContainer contactId={contactId} quoteType={LIFE_FORM_TYPES.IUL_PROTECTION} />
         </WithLoader>
     );
 };

@@ -56,4 +56,27 @@ export const LIFE_FORM_TITLE = {
         CARD_TITLE: "Set your product preferences.",
         CARD_SUB_TITLE: "Just a few quick and easy questions to get your quote",
     },
+    [LIFE_FORM_TYPES.IUL_PROTECTION]: {
+        HEADER_TITLE: "IUL Protection",
+        CARD_TITLE: "Set your product preferences.",
+        CARD_SUB_TITLE: "Just a few quick and easy questions to get your quote",
+    },
 };
+
+export const IUL_PROTECTION_PAY_PERIOD_OPTS = [
+    { label: "Full Pay", value: "0" },
+    { label: "Single Pay", value: "1" },
+    { label: "10 Pay", value: "10" },
+];
+
+export const PRODUCT_SOLVES_OPTS = [
+    { label: "$1 CSV at age 121", value: "$1CSVAtAge121" },
+    { label: "Endow at age 100*", value: "EndowAtAge100" },
+];
+
+export const IUL_PROTECTION_ILLUSTRATED_RATE_OPTS = [
+    { label: "Max", value: "0" },
+    { label: "4%", value: "4" },
+    { label: "5%", value: "5" },
+    { label: "6%", value: "6" },
+];
