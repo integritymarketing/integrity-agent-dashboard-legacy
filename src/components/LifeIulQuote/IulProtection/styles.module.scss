@@ -1,0 +1,13 @@
+.countSortContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tabs {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    width: min(100%, 840px);
+    margin-inline: auto;
+}

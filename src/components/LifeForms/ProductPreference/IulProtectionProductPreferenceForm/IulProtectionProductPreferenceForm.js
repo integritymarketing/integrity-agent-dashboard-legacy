@@ -16,9 +16,9 @@ import CustomRadioGroupOption from "components/LifeForms/common/CustomRadioGroup
 import { Formik } from "formik";
 import FullWidthButton from "components/ui/FullWidthButton";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
-import { useProductPreferenceDetails } from "providers/Life";
 import { useLeadDetails } from "providers/ContactDetails";
 import { IulProtectionProductPreferenceFormSchema } from "schemas/IulProtectionProductPreferenceFormSchema";
+import { useNavigate } from "react-router-dom";
 
 export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
     const [formData, setFormData] = useState({
@@ -31,16 +31,34 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
         faceAmounts3: "",
     });
 
-    const { updateProductPreferenceDetails } = useProductPreferenceDetails();
     const { leadDetails } = useLeadDetails();
+    const navigate = useNavigate();
 
     const handleSubmitData = useCallback(
-        async (value) => {
-            const response = await updateProductPreferenceDetails({ ...leadDetails, ...value, quoteType });
-        },
-        [leadDetails, updateProductPreferenceDetails],
-    );
+        (value) => {
+            const { healthClasses, faceAmounts, faceAmounts2, faceAmounts3, payPeriods, illustratedRate, solves } =
+                value;
 
+            const stateCode =
+                leadDetails?.addresses && leadDetails?.addresses[0] ? leadDetails?.addresses[0]?.stateCode : null;
+
+            const sessionData = {
+                birthDate: leadDetails?.birthdate,
+                isTobaccoUser: leadDetails?.isTobaccoUser,
+                gender: leadDetails?.gender === "female" ? "F" : "M",
+                healthClasses: healthClasses,
+                state: stateCode,
+                faceAmounts: [String(faceAmounts), String(faceAmounts2), String(faceAmounts3)],
+                payPeriods: payPeriods,
+                illustratedRate: illustratedRate,
+                solves: solves,
+            };
+
+            sessionStorage.setItem("lifeQuoteProtectionDetails", JSON.stringify(sessionData));
+            navigate(`/life/iul-protection/${leadDetails?.leadsId}/quote`);
+        },
+        [leadDetails, navigate],
+    );
     return (
         <Formik
             initialValues={formData}
