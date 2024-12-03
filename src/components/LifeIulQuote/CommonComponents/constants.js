@@ -21,7 +21,7 @@ export const HEALTH_CLASSIFICATION_OPTS = [
 ];
 
 export const PROTECTION_PAY_PERIOD_OPTS = [
-    { label: "Full Pay", value: "10" },
+    { label: "Full Pay", value: "0" },
     { label: "Single Pay", value: "1" },
     { label: "10 Pay", value: "10" },
 ];
@@ -34,6 +34,6 @@ export const PROTECTION_ILLUSTRATED_RATE_OPTS = [
 ];
 
 export const PROTECTION_PRODUCT_SOLVES = [
-    { label: "$1 CSV at age 121", value: "$1 CSV at age 121" },
-    { label: "Endow at age 100", value: "Endow at age 100" },
+    { label: "$1 CSV at age 121", value: "$1CSVAtAge121" },
+    { label: "Endow at age 100", value: "EndowAtAge100" },
 ];

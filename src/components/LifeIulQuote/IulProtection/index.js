@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { IulQuoteContainer, IulQuoteCard } from "../CommonComponents";
+import { IulQuoteContainer, IulQuoteCard, IulProtectionQuoteFilter } from "../CommonComponents";
 import { Grid, Typography, Box, Tab, Tabs, useTheme, useMediaQuery } from "@mui/material";
 import { useLifeIulQuote } from "providers/Life";
 import WithLoader from "components/ui/WithLoader";
@@ -77,7 +77,7 @@ const IulProtectionQuote = () => {
                         </Typography>
                     </Box>
                 )}
-                {/* FILTER COMPONENT */}
+                <IulProtectionQuoteFilter />
             </Grid>
             {!showFilters && (
                 <Grid item md={8} xs={12}>

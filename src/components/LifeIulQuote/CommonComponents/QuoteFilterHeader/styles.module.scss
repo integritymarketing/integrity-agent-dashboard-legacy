@@ -1,9 +1,16 @@
-.subHeader {
-    padding: 24px;
+.quoteFilterHeader {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid #cccccc;
     background-color: #ffffff;
+    padding: 16px 8px;
     position: relative;
+
+    .backButtonContainer {
+        position: absolute;
+        left: 20px;
+        cursor: pointer;
+    }
 }

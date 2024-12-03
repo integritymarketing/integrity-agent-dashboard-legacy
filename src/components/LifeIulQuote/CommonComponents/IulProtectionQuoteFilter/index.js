@@ -1,15 +1,20 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Box, Typography, Grid, useTheme, useMediaQuery, Button } from "@mui/material";
 import CounterInput from "components/LifeForms/common/CounterInput";
-import { HEALTH_CLASSIFICATION_OPTS, ILLUSTRATED_RATE_OPTS, LOANS_OPTS, PAY_PERIOD_OPTS } from "../constants";
+import {
+    PROTECTION_PAY_PERIOD_OPTS,
+    PROTECTION_ILLUSTRATED_RATE_OPTS,
+    PROTECTION_PRODUCT_SOLVES,
+    HEALTH_CLASSIFICATION_OPTS,
+} from "../constants";
 import CustomRadioGroupOption from "components/LifeForms/common/CustomRadioGroupOption/CustomRadioGroupOption";
-import CustomCheckboxGroupOption from "components/LifeForms/common/CustomCheckboxGroupOption/CustomCheckboxGroupOption";
 import CollapsibleSection from "components/LifeIulQuote/CommonComponents/CollapsibleSection";
+import CustomCheckboxGroupOption from "components/LifeForms/common/CustomCheckboxGroupOption/CustomCheckboxGroupOption";
 import { useLifeIulQuote } from "providers/Life";
 import Filter from "components/icons/LifeIul/filter";
 import styles from "./styles.module.scss";
 
-export const IulAccumulationQuoteFilter = () => {
+export const IulProtectionQuoteFilter = () => {
     const {
         fetchLifeIulQuoteResults,
         tempUserDetails,
@@ -19,14 +24,14 @@ export const IulAccumulationQuoteFilter = () => {
         setShowFilters,
     } = useLifeIulQuote();
 
-    const lifeQuoteAccumulationDetails = sessionStorage.getItem("lifeQuoteAccumulationDetails");
+    const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const resetQuoteResults = useCallback(
         async (updatedSessionData) => {
-            const { birthDate, gender, state, healthClasses, faceAmounts, payPeriods, illustratedRate, loanType } =
+            const { birthDate, gender, state, healthClasses, faceAmounts, payPeriods, illustratedRate, solves } =
                 updatedSessionData;
 
             const payload = {
@@ -36,40 +41,45 @@ export const IulAccumulationQuoteFilter = () => {
                         gender: gender,
                         healthClasses: [healthClasses],
                         state: state,
-                        faceAmounts: [String(faceAmounts)],
+                        faceAmounts: faceAmounts,
+                        solves: [solves],
                         payPeriods: [payPeriods],
                         props: {
                             illustratedRate: illustratedRate,
-                            loanType: loanType,
                         },
                     },
                 ],
-                quoteType: "IULACCU-SOLVE",
+                quoteType: "IULPROT-SOLVE",
             };
             await fetchLifeIulQuoteResults(payload);
         },
         [fetchLifeIulQuoteResults]
     );
 
-    const handleFiltersChange = (filterName, value) => {
-        const parsedLifeQuoteAccumulationDetails = JSON.parse(lifeQuoteAccumulationDetails);
-        const updatedSessionData = {
-            ...parsedLifeQuoteAccumulationDetails,
-            [filterName]: value,
-        };
-        sessionStorage.setItem("lifeQuoteAccumulationDetails", JSON.stringify(updatedSessionData));
-        resetQuoteResults(updatedSessionData);
+    const handleFiltersChange = (filterName, value, index) => {
+        let parsedLifeQuoteProtectionDetails = JSON.parse(lifeQuoteProtectionDetails);
+        if (filterName === "faceAmounts") {
+            parsedLifeQuoteProtectionDetails[filterName][index] = value.toString();
+        } else {
+            parsedLifeQuoteProtectionDetails = {
+                ...parsedLifeQuoteProtectionDetails,
+                [filterName]: value,
+            };
+        }
+        sessionStorage.setItem("lifeQuoteProtectionDetails", JSON.stringify(parsedLifeQuoteProtectionDetails));
+        resetQuoteResults(parsedLifeQuoteProtectionDetails);
     };
 
-    const { faceAmounts, payPeriods, loanType, illustratedRate, healthClasses } = useMemo(() => {
-        if (lifeQuoteAccumulationDetails) {
-            const parsedLifeQuoteAccumulationDetails = JSON.parse(lifeQuoteAccumulationDetails);
+    const { faceAmounts, payPeriods, illustratedRate, healthClasses, solves } = useMemo(() => {
+        if (lifeQuoteProtectionDetails) {
+            const parsedLifeQuoteProtectionDetails = JSON.parse(lifeQuoteProtectionDetails);
             return {
-                faceAmounts: parsedLifeQuoteAccumulationDetails.faceAmounts,
-                payPeriods: parsedLifeQuoteAccumulationDetails.payPeriods,
-                loanType: parsedLifeQuoteAccumulationDetails.loanType,
-                illustratedRate: parsedLifeQuoteAccumulationDetails.illustratedRate,
-                healthClasses: parsedLifeQuoteAccumulationDetails.healthClasses,
+                faceAmounts: parsedLifeQuoteProtectionDetails.faceAmounts,
+                payPeriods: parsedLifeQuoteProtectionDetails.payPeriods,
+                loanType: parsedLifeQuoteProtectionDetails.loanType,
+                illustratedRate: parsedLifeQuoteProtectionDetails.illustratedRate,
+                healthClasses: parsedLifeQuoteProtectionDetails.healthClasses,
+                solves: parsedLifeQuoteProtectionDetails.solves,
             };
         }
         return {
@@ -79,7 +89,7 @@ export const IulAccumulationQuoteFilter = () => {
             illustratedRate: "0",
             healthClasses: "S",
         };
-    }, [lifeQuoteAccumulationDetails]);
+    }, [lifeQuoteProtectionDetails]);
 
     const carriers = useMemo(() => {
         if (tempUserDetails) {
@@ -121,24 +131,47 @@ export const IulAccumulationQuoteFilter = () => {
                             </Typography>
                         )}
                     </Box>
+
                     <Box className={styles.filterContainer}>
                         <Grid container gap={3}>
                             <Grid item md={12} xs={12}>
-                                <Typography className={styles.label}> Fixed Annual Premium* </Typography>
-                                <CounterInput
-                                    onValueChange={(value) => handleFiltersChange("faceAmounts", value)}
-                                    min={2000}
-                                    max={2000000}
-                                    initialValue={faceAmounts}
-                                    incrementOrDecrementValue={50}
-                                    inputStyles={{ padding: "23.1px 14px" }}
-                                />
+                                <Typography className={styles.label}> Death Benefits </Typography>
+                                <Box marginBottom={1}>
+                                    <CounterInput
+                                        onValueChange={(value) => handleFiltersChange("faceAmounts", value, 0)}
+                                        min={2000}
+                                        max={2000000}
+                                        initialValue={faceAmounts[0]}
+                                        incrementOrDecrementValue={50}
+                                        inputStyles={{ padding: "23.1px 14px" }}
+                                    />
+                                </Box>
+                                <Box marginBottom={1}>
+                                    <CounterInput
+                                        onValueChange={(value) => handleFiltersChange("faceAmounts", value, 1)}
+                                        min={2000}
+                                        max={2000000}
+                                        initialValue={faceAmounts[1]}
+                                        incrementOrDecrementValue={50}
+                                        inputStyles={{ padding: "23.1px 14px" }}
+                                    />
+                                </Box>
+                                <Box marginBottom={1}>
+                                    <CounterInput
+                                        onValueChange={(value) => handleFiltersChange("faceAmounts", value, 2)}
+                                        min={2000}
+                                        max={2000000}
+                                        initialValue={faceAmounts[2]}
+                                        incrementOrDecrementValue={50}
+                                        inputStyles={{ padding: "23.1px 14px" }}
+                                    />
+                                </Box>
                             </Grid>
 
                             <Grid item md={12} xs={12}>
                                 <CollapsibleSection title="Pay Periods">
                                     <Box className={styles.radioOption}>
-                                        {PAY_PERIOD_OPTS?.map((option, index) => {
+                                        {PROTECTION_PAY_PERIOD_OPTS?.map((option, index) => {
                                             return (
                                                 <CustomRadioGroupOption
                                                     name="payPeriods"
@@ -154,17 +187,17 @@ export const IulAccumulationQuoteFilter = () => {
                             </Grid>
 
                             <Grid item md={12} xs={12}>
-                                <CollapsibleSection title="Loans">
+                                <CollapsibleSection title="Product Solves">
                                     <Box className={styles.radioOption}>
-                                        {LOANS_OPTS.map((option, index) => {
+                                        {PROTECTION_PRODUCT_SOLVES.map((option, index) => {
                                             return (
                                                 <CustomRadioGroupOption
-                                                    name="loanType"
+                                                    name="solves"
                                                     value={option.value}
                                                     label={option.label}
-                                                    stateValue={loanType}
-                                                    key={`loanType-${index}`}
-                                                    onChange={(e) => handleFiltersChange("loanType", e.target.value)}
+                                                    stateValue={solves}
+                                                    onChange={(e) => handleFiltersChange("solves", e.target.value)}
+                                                    key={`productSolves-${index}`}
                                                 />
                                             );
                                         })}
@@ -175,9 +208,9 @@ export const IulAccumulationQuoteFilter = () => {
                                 <CollapsibleSection title="Illustrated Rate">
                                     <Box className={styles.radioOption}>
                                         <Grid container spacing={"8px"}>
-                                            {ILLUSTRATED_RATE_OPTS.map((option, index) => {
+                                            {PROTECTION_ILLUSTRATED_RATE_OPTS.map((option, index) => {
                                                 return (
-                                                    <Grid item md={4} xs={4} key={`illustratedRate-${index}`}>
+                                                    <Grid item md={3} xs={6} key={`illustratedRate-${index}`}>
                                                         <CustomRadioGroupOption
                                                             name="illustratedRate"
                                                             value={option.value}
