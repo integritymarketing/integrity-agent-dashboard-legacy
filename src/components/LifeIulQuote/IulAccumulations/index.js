@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IulQuoteContainer, IulAccumulationQuoteFilter, IulQuoteCard } from "../CommonComponents";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import { useLifeIulQuote } from "providers/Life";
