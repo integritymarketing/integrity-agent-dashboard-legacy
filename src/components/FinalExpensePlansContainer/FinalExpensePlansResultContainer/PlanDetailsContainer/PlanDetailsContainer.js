@@ -1,24 +1,22 @@
 /* eslint-disable max-lines-per-function */
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Media from "react-media";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
 import PropTypes from "prop-types";
-import {useFinalExpensePlans} from "providers/FinalExpense";
+import { useFinalExpensePlans } from "providers/FinalExpense";
 
-import {formatDate, formatServerDate, getAgeFromBirthDate} from "utils/dates";
-import {scrollTop} from "utils/shared-utils/sharedUtility";
+import { formatDate, formatServerDate, getAgeFromBirthDate } from "utils/dates";
+import { scrollTop } from "utils/shared-utils/sharedUtility";
 
 import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
 
-import {Button} from "components/ui/Button";
+import { Button } from "components/ui/Button";
 
-import {
-    HEALTH_CONDITION_API
-} from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthConditionsContainer.constants";
+import { HEALTH_CONDITION_API } from "components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthConditionsContainer.constants";
 import {
     COVERAGE_AMOUNT,
     COVERAGE_TYPE_FINALOPTION,
@@ -27,25 +25,29 @@ import {
     NO_PLANS_ERROR,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 
-import {COVERAGE_TYPE} from "../FinalExpensePlansResultContainer.constants";
-import {AlertIcon} from "components/icons/alertIcon";
-import {BackToTop} from "components/ui/BackToTop";
+import {
+    COVERAGE_TYPE,
+    STEPPER_FILTER,
+    STEPPER_FILTER_SIMPLIFIED_IUL,
+} from "../FinalExpensePlansResultContainer.constants";
+import { AlertIcon } from "components/icons/alertIcon";
+import { BackToTop } from "components/ui/BackToTop";
 import Pagination from "components/ui/Pagination/pagination";
 import PlanCardLoader from "components/ui/PlanCard/loader";
 
-import {useLeadDetails} from "providers/ContactDetails";
+import { useLeadDetails } from "providers/ContactDetails";
 
-import {PlanCard} from "./PlanCard";
+import { PlanCard } from "./PlanCard";
 import useFinalExpenseErrorMessage from "./hooks/useFinalExpenseErrorMessage";
 
 import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
 
 import styles from "./PlanDetailsContainer.module.scss";
 
-import {ACTIVE_SELLING_PERMISSIONS_REQUIRED, VIEW_SELLING_PERMISSIONS} from "./PlanDetailsContainer.constants";
+import { ACTIVE_SELLING_PERMISSIONS_REQUIRED, VIEW_SELLING_PERMISSIONS } from "./PlanDetailsContainer.constants";
 
 import ArrowRightIcon from "components/icons/arrowRightLight";
-import {useCreateNewQuote} from "../../../../providers/CreateNewQuote";
+import { useCreateNewQuote } from "../../../../providers/CreateNewQuote";
 
 export const PlanDetailsContainer = ({
     selectedTab,
@@ -78,10 +80,17 @@ export const PlanDetailsContainer = ({
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
     const { updateErrorMesssage, errorMessage, actionLink } = useFinalExpenseErrorMessage(
         handleMyAppointedProductsCheck,
-        handleIsShowExcludedProductsCheck
+        handleIsShowExcludedProductsCheck,
     );
     const navigate = useNavigate();
     const leadDetailsData = leadDetails ? true : false;
+
+    const stepperFilter = useMemo(() => {
+        return isSimplifiedIUL() ? STEPPER_FILTER_SIMPLIFIED_IUL : STEPPER_FILTER;
+    }, [isSimplifiedIUL]);
+
+    const { min: covMin, max: covMax, step: covStep } = stepperFilter[COVERAGE_AMOUNT];
+    const { min, max, step } = stepperFilter[MONTHLY_PREMIUM];
 
     const fetchPlans = useCallback(async () => {
         setFetchPlansError(false);
@@ -118,7 +127,7 @@ export const PlanDetailsContainer = ({
             tobacco: Boolean(isTobaccoUser),
             desiredFaceValue: selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
             desiredMonthlyRate: selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
-            coverageTypes: isSimplifiedIUL() ? ["SIMPLIFIED_IUL"] : (covType || [COVERAGE_TYPE[4].value]),
+            coverageTypes: isSimplifiedIUL() ? ["SIMPLIFIED_IUL"] : covType || [COVERAGE_TYPE[4].value],
             effectiveDate: todayDate,
             underWriting: {
                 user: { height: height || 0, weight: weight || 0 },
@@ -203,8 +212,8 @@ export const PlanDetailsContainer = ({
 
     useEffect(() => {
         const coverageAmountValue =
-            coverageAmount >= 1000 && coverageAmount <= 999999 && selectedTab === COVERAGE_AMOUNT;
-        const monthlyPremiumValue = monthlyPremium >= 10 && monthlyPremium <= 999 && selectedTab === MONTHLY_PREMIUM;
+            coverageAmount >= covMin && coverageAmount <= covMax && selectedTab === COVERAGE_AMOUNT;
+        const monthlyPremiumValue = monthlyPremium >= min && monthlyPremium <= max && selectedTab === MONTHLY_PREMIUM;
         if ((coverageAmountValue || monthlyPremiumValue) && !isLoadingHealthConditions && leadDetailsData) {
             fetchPlans();
         }
@@ -227,10 +236,10 @@ export const PlanDetailsContainer = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                        ? ["My Appointed Products"]
-                        : isShowExcludedProducts
-                            ? ["Show Excluded Products"]
-                            : [],
+                      ? ["My Appointed Products"]
+                      : isShowExcludedProducts
+                        ? ["Show Excluded Products"]
+                        : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -375,7 +384,7 @@ export const PlanDetailsContainer = ({
                             if (reason?.categoryReasons?.length > 0) {
                                 conditionList = reason?.categoryReasons?.map(({ categoryId, lookBackPeriod }) => {
                                     const condition = healthConditionsDataRef.current.find(
-                                        (item) => item.conditionId == categoryId
+                                        (item) => item.conditionId == categoryId,
                                     );
                                     if (condition) {
                                         return { name: condition?.conditionName, lookBackPeriod };
@@ -386,10 +395,10 @@ export const PlanDetailsContainer = ({
                                 return rate.toFixed(2);
                             };
                             const monthlyRate = formatRate(
-                                parseFloat(modalRates.find((rate) => rate.type === "month")?.totalPremium || 0)
+                                parseFloat(modalRates.find((rate) => rate.type === "month")?.totalPremium || 0),
                             );
                             const product_monthly_premium = formatRate(
-                                parseFloat(modalRates.find((rate) => rate.type === "month")?.rate || 0)
+                                parseFloat(modalRates.find((rate) => rate.type === "month")?.rate || 0),
                             );
 
                             return (
