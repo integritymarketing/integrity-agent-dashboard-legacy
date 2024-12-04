@@ -9,7 +9,7 @@ import { formatDate } from "utils/dates";
 import { TextInput } from "components/MuiComponents";
 import DatePickerMUI from "components/DatePicker";
 import ErrorIcon from "@mui/icons-material/Error";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { FinalExpenseIntakeForm } from "schemas";
 import WithLoader from "components/ui/WithLoader";
@@ -25,6 +25,7 @@ const FinalExpenseIntakeFormCard = () => {
     const { updateLeadDetails, isLoadingLeadDetails } = useLeadDetails();
     const { isSimplifiedIUL } = useCreateNewQuote();
 
+    const loc = useLocation();
     const leadId = leadDetails?.leadsId;
     const isContactType = newLeadDetails?.firstName ? "New Contact" : "Existing Contact";
 
@@ -80,9 +81,12 @@ const FinalExpenseIntakeFormCard = () => {
                         contactType: isContactType,
                     });
                     if (isSimplifiedIUL()) {
-                        navigate(`/simplified-iul/plans/${leadId}`, { replace: true });
+                        navigate(`/simplified-iul/plans/${leadId}`, { replace: true, state: { from: loc?.pathname } });
                     } else {
-                        navigate(`/finalexpenses/plans/${leadId}`, { replace: true });
+                        navigate(`/finalexpenses/plans/${leadId}`, {
+                            replace: true,
+                            state: { from: loc?.pathname },
+                        });
                     }
                     handleClose();
                 }

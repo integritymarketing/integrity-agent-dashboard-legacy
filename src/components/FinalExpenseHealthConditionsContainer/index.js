@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import { Button } from "components/ui/Button";
 
@@ -18,23 +18,17 @@ import Typography from "@mui/material/Typography";
 const FinalExpenseHealthConditionsContainer = () => {
     const { contactId } = useParams();
     const navigate = useNavigate();
+    const loc = useLocation();
     const { isSimplifiedIUL } = useCreateNewQuote();
-
-    const onClickViewQuote = () => {
-        navigate(plansUrl());
-    };
-
-    const plansUrl = () => {
-        if (isSimplifiedIUL()) {
-            return `/simplified-iul/plans/${contactId}`;
-        } else {
-            return `/finalexpenses/plans/${contactId}`;
-        }
-    };
 
     return (
         <>
-            <ContactProfileTabBar contactId={contactId} showTabs={false} />
+            <ContactProfileTabBar
+                contactId={contactId}
+                showTabs={false}
+                backButtonLabel={"Back"}
+                backButtonRoute={`${isSimplifiedIUL() ? "/simplified-iul" : "/finalexpenses"}/create/${contactId}`}
+            />
             <div className={styles.pageHeading}>
                 {isSimplifiedIUL() && (
                     <Typography variant="h2" color="#052A63">
@@ -53,7 +47,9 @@ const FinalExpenseHealthConditionsContainer = () => {
                     <div className={styles.disclaimerText}>{DISCLAIMER_TEXT}</div>
                     <Button
                         label={CONTINUE_TO_QUOTE}
-                        onClick={onClickViewQuote}
+                        onClick={() =>
+                            navigate(`${isSimplifiedIUL() ? "/simplified-iul" : "/finalexpenses"}/plans/${contactId}`, { state: {from: loc?.pathname} })
+                        }
                         type="primary"
                         icon={<ButtonCircleArrow />}
                         fullWidth={true}

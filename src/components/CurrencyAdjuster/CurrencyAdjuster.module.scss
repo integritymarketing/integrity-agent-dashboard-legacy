@@ -3,19 +3,19 @@
 .amountStepperWrapper {
     font-size: 16px;
     color: #717171;
-    width: 288px;
-    display: flex;
+    width: 144px;
+    display: inline-flex;
     margin-bottom: 15px;
 
     div {
         padding: 8px;
         cursor: pointer;
-        width: 50%;
+        width: 98%;
         border-bottom: 2px solid #cccccc;
     }
 
     .selected {
-        color: #052a63;
+        color: #4178ff;
         border-bottom: 4px solid #4178ff;
     }
 }
@@ -39,6 +39,6 @@
 
 @include small {
     .amountStepperWrapper {
-        width: 100%;
+        width: 50%;
     }
 }

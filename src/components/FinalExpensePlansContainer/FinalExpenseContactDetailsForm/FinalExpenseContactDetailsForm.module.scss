@@ -3,7 +3,8 @@
 .finalExpenseContactDetailsForm {
     width: 900px;
     max-width: 90%;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .contactCard {
@@ -18,6 +19,7 @@
 }
 
 .contactForm {
+    margin-top: 15px;
     @include small {
         display: none;
     }

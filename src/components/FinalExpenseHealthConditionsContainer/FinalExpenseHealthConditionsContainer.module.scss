@@ -135,15 +135,14 @@
     border-radius: 8px;
     padding: 56px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    max-width: 90%;
+    width: 900px;
 
     @include small {
         padding: 16px;
     }
-
     margin-left: auto;
     margin-right: auto;
-    max-width: 100%;
-    width: 700px;
 }
 
 .headerTitle h4 {
@@ -161,7 +160,7 @@
 .pageHeading {
     display: flex;
     justify-content: center;
-    padding-top: 56px;
+    padding-top: 24px;
     padding-bottom: 24px;
     background-color: #f1f1f1;
 }

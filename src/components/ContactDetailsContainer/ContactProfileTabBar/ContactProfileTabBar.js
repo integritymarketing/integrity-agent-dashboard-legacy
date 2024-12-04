@@ -23,7 +23,12 @@ const TABS = [
 
 const isTruthyOrZero = (value) => value || value === 0;
 
-export const ContactProfileTabBar = ({ contactId, showTabs = true }) => {
+export const ContactProfileTabBar = ({
+    contactId,
+    showTabs = true,
+    backButtonLabel = "Back to Contacts",
+    backButtonRoute = "/contacts/list",
+}) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { leadId: leadIdParam } = useParams();
@@ -38,7 +43,7 @@ export const ContactProfileTabBar = ({ contactId, showTabs = true }) => {
 
     const isContactDetailsPage = currentPath?.toLowerCase().includes("contact");
     const leadName =
-        leadDetails?.firstName && leadDetails?.lastName && leadId == leadDetails?.leadsId
+        leadDetails?.firstName && leadDetails?.lastName && leadId === `${leadDetails?.leadsId}`
             ? [leadDetails?.firstName, leadDetails?.middleName, leadDetails?.lastName].filter(Boolean).join(" ")
             : "";
 
@@ -101,7 +106,7 @@ export const ContactProfileTabBar = ({ contactId, showTabs = true }) => {
         <Box className={styles.navWrapper}>
             <Box className={styles.contactProfileTabBar}>
                 <Box className={styles.backToContacts}>
-                    <BackButton label="Back to Contacts" showInMobile={true} route={"/contacts/list"} />
+                    <BackButton label={backButtonLabel} showInMobile={true} route={backButtonRoute} />
                 </Box>
 
                 <Box className={styles.profileMenu}>
@@ -197,4 +202,6 @@ export const ContactProfileTabBar = ({ contactId, showTabs = true }) => {
 ContactProfileTabBar.propTypes = {
     contactId: PropTypes.string,
     showTabs: PropTypes.bool,
+    backButtonLabel: PropTypes.string,
+    backButtonRoute: PropTypes.string,
 };

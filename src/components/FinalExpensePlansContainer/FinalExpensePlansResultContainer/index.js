@@ -1,6 +1,8 @@
+
+
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Media from "react-media";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import { Text } from "@integritymarketing/ui-text-components";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
@@ -64,6 +66,7 @@ const FinalExpensePlansResultContainer = () => {
 
     const { min: covMin, max: covMax, step: covStep } = stepperFilter[COVERAGE_AMOUNT];
     const { min, max, step } = stepperFilter[MONTHLY_PREMIUM];
+    const location = useLocation();
 
     const defaultIsMyAppointedProducts = useMemo(
         () => ({
@@ -210,11 +213,16 @@ const FinalExpensePlansResultContainer = () => {
         <>
             <Media
                 query={"(max-width: 800px)"}
-                onChange={(isMobile) => {
-                    setIsMobile(isMobile);
+                onChange={(val) => {
+                    setIsMobile(val);
                 }}
             />
-            <ContactProfileTabBar contactId={contactId} showTabs={false} />
+            <ContactProfileTabBar
+                contactId={contactId}
+                showTabs={false}
+                backButtonLabel={"Back"}
+                backButtonRoute={location.state?.from}
+            />
             {isSimplifiedIUL() && (
                 <div className={styles.pageHeading}>
                     <Typography variant="h2" color="#052A63">

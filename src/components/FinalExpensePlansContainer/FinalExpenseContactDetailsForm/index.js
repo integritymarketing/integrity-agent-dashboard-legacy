@@ -28,11 +28,14 @@ import {
     WT_PLACEHOLDER,
 } from "../FinalExpensePlansContainer.constants";
 import { useFormik } from "formik";
-import { FinalExpenseIntakeForm } from "schemas";
+import { FinalExpenseIntakeForm, FinalExpenseIntakeFormMobileStep0, FinalExpenseIntakeFormMobileStep1 } from "schemas";
+import Media from "react-media";
 
 const FinalExpenseContactDetailsForm = ({ contactId, onSave }) => {
+    const [isMobile, setIsMobile] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-    const [mobileStepNumber, setMobileStepNumber] = useState(0);
+    const [mobileStepNumber, setMobileStepNumber] = useState(null);
+    const [currentSchema, setCurrentSchema] = useState(FinalExpenseIntakeForm);
 
     const [formData, setFormData] = useState({
         stateCode: null,
@@ -68,12 +71,30 @@ const FinalExpenseContactDetailsForm = ({ contactId, onSave }) => {
     const formik = useFormik({
         validateOnMount: true,
         initialValues: formData,
-        validationSchema: FinalExpenseIntakeForm,
+        validationSchema: currentSchema,
         enableReinitialize: true,
         onSubmit: handleNext,
     });
 
-    const { values, dirty, isValid, setFieldValue, handleSubmit } = formik;
+    const { values, dirty, isValid, setFieldValue, handleSubmit, validateForm } = formik;
+
+    useEffect(() => {
+        if (isMobile) {
+            setMobileStepNumber(0);
+        }
+    }, [isMobile]);
+
+    useEffect(() => {
+        if (mobileStepNumber === 0) {
+            setCurrentSchema(FinalExpenseIntakeFormMobileStep0);
+        } else if (mobileStepNumber === 1) {
+            setCurrentSchema(FinalExpenseIntakeFormMobileStep1);
+        }
+    }, [mobileStepNumber]);
+
+    useEffect(() => {
+        validateForm();
+    }, [currentSchema, validateForm]);
 
     useEffect(() => {
         if (leadDetails) {
@@ -106,7 +127,6 @@ const FinalExpenseContactDetailsForm = ({ contactId, onSave }) => {
         const numericValue = Number(value);
 
         if (value === "" || (Number.isInteger(numericValue) && numericValue >= 0 && numericValue <= 11)) {
-
             if (numericValue === 0 && value.length > 1) {
                 setFieldValue("inch", "0");
             } else {
@@ -224,10 +244,12 @@ const FinalExpenseContactDetailsForm = ({ contactId, onSave }) => {
 
     return (
         <div className={styles.finalExpenseContactDetailsForm}>
+            <Media query={"(max-width: 500px)"} onChange={(val) => setIsMobile(val)} />
             <div className={styles.contactCard}>
                 <div className={styles.contactCardHeading}>
-                    <h4>{mobileStepNumber === 0 ? CONTACT_FORM_TITLE : CONTACT_FORM_SUBTITLE_MOBILE}</h4>
-                    {mobileStepNumber === 0 && <p>{CONTACT_FORM_SUBTITLE}</p>}
+                    <h4>{!mobileStepNumber && CONTACT_FORM_TITLE}</h4>
+                    <h4>{mobileStepNumber === 1 && CONTACT_FORM_SUBTITLE_MOBILE}</h4>
+                    {(!mobileStepNumber || mobileStepNumber === 0) && <p>{CONTACT_FORM_SUBTITLE}</p>}
                 </div>
                 <div className={styles.contactForm}>
                     <div className={styles.contactFormRow}>

@@ -27,12 +27,16 @@ import {
     WT_PLACEHOLDER,
 } from "../../LifeForm.constants";
 import { useFormik } from "formik";
-import { FinalExpenseIntakeForm } from "schemas";
+import { FinalExpenseIntakeForm, FinalExpenseIntakeFormMobileStep0, FinalExpenseIntakeFormMobileStep1 } from "schemas";
 import FullWidthButton from "components/ui/FullWidthButton";
+import useDeviceType from "../../../../hooks/useDeviceType";
+import Media from "react-media";
 
 export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
+    const [isMobile, setIsMobile] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-    const [mobileStepNumber, setMobileStepNumber] = useState(0);
+    const [mobileStepNumber, setMobileStepNumber] = useState(null);
+    const [currentSchema, setCurrentSchema] = useState(FinalExpenseIntakeForm);
 
     const [formData, setFormData] = useState({
         stateCode: null,
@@ -49,14 +53,26 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
     const formik = useFormik({
         validateOnMount: true,
         initialValues: formData,
-        validationSchema: FinalExpenseIntakeForm,
+        validationSchema: currentSchema,
         enableReinitialize: true,
-        onSubmit: () => {
-            handleNext();
-        },
+        onSubmit: handleNext,
     });
 
     const { values, dirty, isValid, setFieldValue, handleSubmit } = formik;
+
+    useEffect(() => {
+        if (isMobile) {
+            setMobileStepNumber(0);
+        }
+    }, [isMobile]);
+
+    useEffect(() => {
+        if (mobileStepNumber === 0) {
+            setCurrentSchema(FinalExpenseIntakeFormMobileStep0);
+        } else if (mobileStepNumber === 1) {
+            setCurrentSchema(FinalExpenseIntakeFormMobileStep1);
+        }
+    }, [mobileStepNumber]);
 
     const onSaveHealthInfo = useCallback(async () => {
         const dateOfBirth = values.dateOfBirth ? formatDate(values.dateOfBirth) : "";
@@ -76,8 +92,6 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
     const handleNext = useCallback(async () => {
         await onSaveHealthInfo();
     }, [onSaveHealthInfo]);
-
-
 
     useEffect(() => {
         if (leadDetails) {
@@ -100,30 +114,39 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
         }
     }, [leadDetails, contactId]);
 
-    const updateFeet = useCallback((value) => {
-        if (!value || (value > 0 && value <= 8 && !value.includes("."))) {
-            setFieldValue("feet", value);
-        }
-    }, [setFieldValue]);
-
-    const updateInch = useCallback((value) => {
-        const numericValue = Number(value);
-
-        if (value === "" || (Number.isInteger(numericValue) && numericValue >= 0 && numericValue <= 11)) {
-            // Prevent multiple zeros
-            if (numericValue === 0 && value.length > 1) {
-                setFieldValue("inch", "0");
-            } else {
-                setFieldValue("inch", value);
+    const updateFeet = useCallback(
+        (value) => {
+            if (!value || (value > 0 && value <= 8 && !value.includes("."))) {
+                setFieldValue("feet", value);
             }
-        }
-    }, [setFieldValue]);
+        },
+        [setFieldValue],
+    );
 
-    const updateWeight = useCallback((value) => {
-        if (!value || (value > 0 && value < 999)) {
-            setFieldValue("weight", value);
-        }
-    }, [setFieldValue]);
+    const updateInch = useCallback(
+        (value) => {
+            const numericValue = Number(value);
+
+            if (value === "" || (Number.isInteger(numericValue) && numericValue >= 0 && numericValue <= 11)) {
+                // Prevent multiple zeros
+                if (numericValue === 0 && value.length > 1) {
+                    setFieldValue("inch", "0");
+                } else {
+                    setFieldValue("inch", value);
+                }
+            }
+        },
+        [setFieldValue],
+    );
+
+    const updateWeight = useCallback(
+        (value) => {
+            if (!value || (value > 0 && value < 999)) {
+                setFieldValue("weight", value);
+            }
+        },
+        [setFieldValue],
+    );
 
     const genderOptions = useMemo(
         () =>
@@ -228,10 +251,12 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
 
     return (
         <div className={styles.finalExpenseContactDetailsForm}>
+            <Media query={"(max-width: 500px)"} onChange={(val) => setIsMobile(val)} />
             <div className={styles.contactCard}>
                 <div className={styles.contactCardHeading}>
-                    <h4>{mobileStepNumber === 0 ? CONTACT_FORM_TITLE : CONTACT_FORM_SUBTITLE_MOBILE}</h4>
-                    {mobileStepNumber === 0 && <p>{CONTACT_FORM_SUBTITLE}</p>}
+                    <h4>{!mobileStepNumber && CONTACT_FORM_TITLE}</h4>
+                    <h4>{mobileStepNumber === 1 && CONTACT_FORM_SUBTITLE_MOBILE}</h4>
+                    {(!mobileStepNumber || mobileStepNumber === 0) && <p>{CONTACT_FORM_SUBTITLE}</p>}
                 </div>
                 <div className={styles.contactForm}>
                     <div className={styles.contactFormRow}>

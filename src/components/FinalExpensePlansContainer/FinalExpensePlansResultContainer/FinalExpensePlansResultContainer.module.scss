@@ -93,11 +93,10 @@
 .pageHeading {
     display: flex;
     justify-content: center;
-    padding-top: 56px;
+    padding-top: 24px;
     background-color: #f1f1f1;
    
     @include small {
         font-size: 32px;
-        padding-top: 24px;
     }
 }

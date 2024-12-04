@@ -138,10 +138,19 @@ export const FinalExpensePlansContainer = () => {
     const renderContactDetailsLoader = useMemo(() => <PlanCardLoader />, []);
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
-            <ContactProfileTabBar contactId={contactId} showTabs={false} />
-            <div className={styles.pageHeading}>{isSimplifiedIUL() && <Typography variant="h2" color="#052A63">
-    {SIMPLIFIED_IUL_TITLE}
-</Typography>}</div>
+            <ContactProfileTabBar
+                contactId={contactId}
+                showTabs={false}
+                backButtonLabel={"Back to Contact"}
+                backButtonRoute={`/contact/${contactId}/overview`}
+            />
+            <div className={styles.pageHeading}>
+                {isSimplifiedIUL() && (
+                    <Typography variant="h2" color="#052A63">
+                        {SIMPLIFIED_IUL_TITLE}
+                    </Typography>
+                )}
+            </div>
             {isLoadingLeadDetails ? (
                 renderContactDetailsLoader
             ) : (
@@ -150,4 +159,3 @@ export const FinalExpensePlansContainer = () => {
         </WithLoader>
     );
 };
- 

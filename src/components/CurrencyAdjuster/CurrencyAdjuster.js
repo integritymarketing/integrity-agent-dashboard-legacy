@@ -31,6 +31,8 @@ const CurrencyAdjuster = ({
                 >
                     {COVERAGE_AMOUNT}
                 </div>
+            </div>
+            <div className={styles.amountStepperWrapper}>
                 <div
                     className={selectedTab === MONTHLY_PREMIUM ? styles.selected : ""}
                     onClick={() => setSelectedTab(MONTHLY_PREMIUM)}
