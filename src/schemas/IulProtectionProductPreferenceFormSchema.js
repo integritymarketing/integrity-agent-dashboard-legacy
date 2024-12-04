@@ -12,13 +12,22 @@ export const IulProtectionProductPreferenceFormSchema = yup.object().shape({
         .typeError("Fixed Annual Premium must be a number")
         .test("combined-errors", function (value) {
             const { faceAmounts2, faceAmounts3 } = this.parent; // Access the other field (field2)
-            if (!value || !faceAmounts2 || !faceAmounts3) {
+
+            if (!value && !faceAmounts2 && !faceAmounts3) {
                 return this.createError({ message: "Death Benefits are required" });
             }
-            if (value == faceAmounts2 || value == faceAmounts3 || faceAmounts2 == faceAmounts3) {
+            if (
+                (value && faceAmounts2 && value === faceAmounts2) ||
+                (value && faceAmounts3 && value === faceAmounts3) ||
+                (faceAmounts2 && faceAmounts3 && faceAmounts2 === faceAmounts3)
+            ) {
                 return this.createError({ message: "Death Benefits cannot be duplicate" });
             }
-            if (value < 2000 || faceAmounts2 < 2000 || faceAmounts3 < 2000) {
+            if (
+                (value && value < 2000) ||
+                (faceAmounts2 && faceAmounts2 < 2000) ||
+                (faceAmounts3 && faceAmounts3 < 2000)
+            ) {
                 return this.createError({ message: "Minimum value form Death Benefits is 2000" });
             }
             if (value > 200000) {
@@ -30,6 +39,4 @@ export const IulProtectionProductPreferenceFormSchema = yup.object().shape({
             }
             return true;
         }),
-    faceAmounts2: yup.number().required("Please enter a value between 2000 and 2000000."),
-    faceAmounts3: yup.number().required("Please enter a value between 2000 and 2000000."),
 });
