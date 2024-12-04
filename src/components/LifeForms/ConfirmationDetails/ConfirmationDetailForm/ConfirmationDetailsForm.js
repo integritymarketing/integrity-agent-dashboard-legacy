@@ -29,7 +29,6 @@ import {
 import { useFormik } from "formik";
 import { FinalExpenseIntakeForm, FinalExpenseIntakeFormMobileStep0, FinalExpenseIntakeFormMobileStep1 } from "schemas";
 import FullWidthButton from "components/ui/FullWidthButton";
-import useDeviceType from "../../../../hooks/useDeviceType";
 import Media from "react-media";
 
 export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
@@ -55,7 +54,9 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
         initialValues: formData,
         validationSchema: currentSchema,
         enableReinitialize: true,
-        onSubmit: handleNext,
+        onSubmit: () => {
+            handleNext();
+        },
     });
 
     const { values, dirty, isValid, setFieldValue, handleSubmit } = formik;

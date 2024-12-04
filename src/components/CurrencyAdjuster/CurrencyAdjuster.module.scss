@@ -12,11 +12,13 @@
         cursor: pointer;
         width: 98%;
         border-bottom: 2px solid #cccccc;
+        white-space: nowrap;
     }
 
     .selected {
         color: #4178ff;
         border-bottom: 4px solid #4178ff;
+        white-space: nowrap;
     }
 }
 

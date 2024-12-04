@@ -4,7 +4,7 @@
     display: flex;
     padding: 2rem 4.5rem;
     background-color: #f1f1f1;
-    gap: 4.5rem;
+    gap: 2.5rem;
     justify-content: center;
 }
 
@@ -58,6 +58,9 @@
         display: flex;
         align-items: flex-start;
         gap: 4px;
+        border: 1px solid var(--Integrity-gray-light-2, #DDD);
+        border-radius: 4px;
+        
     }
 
     .selectedCheckbox {
@@ -74,14 +77,16 @@
 @include small {
     .contentWrapper {
         display: flex;
-        padding: 2rem;
-        background-color: #f1f1f1;
-        gap: 2.5rem;
-        justify-content: center;
+        padding: var(--padding-gap-xx-big-56, 24px) var(--gap-lg-24, 24px);
+        flex-direction: column;
+        align-items: center;
+        gap: var(--gap-lg-24, 0px);
     }
 
     .filterContent {
         width: 100%;
+        max-width: 100%;
+        gap:10px;
     }
 }
 
