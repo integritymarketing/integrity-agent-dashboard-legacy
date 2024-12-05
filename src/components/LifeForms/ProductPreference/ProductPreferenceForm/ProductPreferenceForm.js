@@ -24,7 +24,7 @@ export const ProductPreferenceForm = ({ quoteType }) => {
         payPeriods: "65",
         loanType: "LoansFixed",
         illustratedRate: "5",
-        healthClasses: "",
+        healthClasses: "S",
         faceAmounts: "",
     });
 
@@ -84,6 +84,60 @@ export const ProductPreferenceForm = ({ quoteType }) => {
                 return (
                     <>
                         <Grid container direction={"row"} rowSpacing={2} columnSpacing={{ xs: 0, md: 3 }} style={{}}>
+                            <Grid item md={6} xs={12}>
+                                <CustomFieldContainer
+                                    label="Fixed Annual Premium*"
+                                    error={touched.faceAmounts && errors.faceAmounts}
+                                    style={{ height: "100%" }}
+                                >
+                                    <Stack flex alignItems={"stretch"} flexGrow={1} justifyContent="center">
+                                        <CounterInput
+                                            onValueChange={(value) => {
+                                                setFieldTouched("faceAmounts", true);
+                                                handleFaceAmountChange(value, setFieldValue);
+                                            }}
+                                            min={2000}
+                                            max={2000000}
+                                            initialValue={0}
+                                            incrementOrDecrementValue={50}
+                                            inputStyles={{ padding: "23.1px 14px" }}
+                                        />
+                                    </Stack>
+                                </CustomFieldContainer>
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                                <CustomFieldContainer
+                                    label="Health Classification*"
+                                    error={touched.healthClasses && errors.healthClasses}
+                                >
+                                    <Grid item xs={12} container spacing={1}>
+                                        {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
+                                            return (
+                                                <Grid
+                                                    item
+                                                    md={3}
+                                                    xs={6}
+                                                    display={"flex"}
+                                                    className={styles.radioOptionGrid}
+                                                    key={index}
+                                                >
+                                                    <CustomRadioGroupOption
+                                                        name="healthClasses"
+                                                        value={option.value}
+                                                        label={option.label}
+                                                        stateValue={values.healthClasses}
+                                                        onChange={(e) => {
+                                                            setFieldTouched("healthClasses", true);
+                                                            handleChange(e);
+                                                        }}
+                                                    />
+                                                </Grid>
+                                            );
+                                        })}
+                                    </Grid>
+                                </CustomFieldContainer>
+                            </Grid>
+
                             <Grid item md={6} xs={12}>
                                 <CustomFieldContainer label="Pay Period*">
                                     <Grid item xs={12} container spacing={1}>
@@ -151,59 +205,6 @@ export const ProductPreferenceForm = ({ quoteType }) => {
                                             );
                                         })}
                                     </Grid>
-                                </CustomFieldContainer>
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                                <CustomFieldContainer
-                                    label="Health Classification*"
-                                    error={touched.healthClasses && errors.healthClasses}
-                                >
-                                    <Grid item xs={12} container spacing={1}>
-                                        {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
-                                            return (
-                                                <Grid
-                                                    item
-                                                    md={3}
-                                                    xs={6}
-                                                    display={"flex"}
-                                                    className={styles.radioOptionGrid}
-                                                    key={index}
-                                                >
-                                                    <CustomRadioGroupOption
-                                                        name="healthClasses"
-                                                        value={option.value}
-                                                        label={option.label}
-                                                        stateValue={values.healthClasses}
-                                                        onChange={(e) => {
-                                                            setFieldTouched("healthClasses", true);
-                                                            handleChange(e);
-                                                        }}
-                                                    />
-                                                </Grid>
-                                            );
-                                        })}
-                                    </Grid>
-                                </CustomFieldContainer>
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                                <CustomFieldContainer
-                                    label="Fixed Annual Premium*"
-                                    error={touched.faceAmounts && errors.faceAmounts}
-                                    style={{ height: "100%" }}
-                                >
-                                    <Stack flex alignItems={"stretch"} flexGrow={1} justifyContent="center">
-                                        <CounterInput
-                                            onValueChange={(value) => {
-                                                setFieldTouched("faceAmounts", true);
-                                                handleFaceAmountChange(value, setFieldValue);
-                                            }}
-                                            min={2000}
-                                            max={2000000}
-                                            initialValue={0}
-                                            incrementOrDecrementValue={50}
-                                            inputStyles={{ padding: "23.1px 14px" }}
-                                        />
-                                    </Stack>
                                 </CustomFieldContainer>
                             </Grid>
                         </Grid>

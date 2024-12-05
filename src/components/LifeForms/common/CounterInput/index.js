@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { TextField, IconButton, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -20,38 +20,42 @@ const CounterInput = ({
     currencySymbol = "$",
     inputStyles = {},
 }) => {
-    const [value, setValue] = useState(initialValue);
-    const firstIncrement = useRef(true);
+    const [value, setValue] = useState(0);
+
+    useEffect(() => {
+        setValue(initialValue);
+    }, [initialValue]);
 
     const handleIncrement = useCallback(() => {
         setValue((prevValue) => {
-            const incrementValue = firstIncrement.current ? initialIncrementValue : incrementOrDecrementValue;
             const numericValue = prevValue === "" ? 0 : prevValue;
-            const newValue = Math.min(numericValue + incrementValue, max);
-
-            if (onValueChange) {
-                onValueChange(newValue);
-            } // Notify parent
-
-            firstIncrement.current = false;
-            return newValue;
+            const newValue = Math.min(numericValue + incrementOrDecrementValue, max);
+            if (newValue >= min) {
+                if (onValueChange) {
+                    onValueChange(newValue);
+                }
+                return newValue;
+            } else {
+                if (onValueChange) {
+                    onValueChange(initialIncrementValue);
+                }
+                return initialIncrementValue;
+            }
         });
-    }, [max, onValueChange, incrementOrDecrementValue, initialIncrementValue]);
+    }, [max, onValueChange, incrementOrDecrementValue]);
 
     const handleDecrement = useCallback(() => {
         setValue((prevValue) => {
-            const decrementValue = firstIncrement.current ? initialIncrementValue : incrementOrDecrementValue;
             const numericValue = prevValue === "" ? 0 : prevValue;
-            const newValue = Math.max(numericValue - decrementValue, min);
+            const newValue = Math.max(numericValue - incrementOrDecrementValue, min);
 
             if (onValueChange) {
                 onValueChange(newValue);
-            } // Notify parent
+            }
 
-            firstIncrement.current = false;
             return newValue;
         });
-    }, [min, onValueChange, incrementOrDecrementValue, initialIncrementValue]);
+    }, [min, onValueChange, incrementOrDecrementValue]);
 
     const handleInputChange = (event) => {
         const inputValue = event.target.value.replace(/[^0-9]/g, "");
@@ -83,6 +87,7 @@ const CounterInput = ({
                 <RemoveIcon sx={{ fill: "#4178FF" }} />
             </IconButton>
             <TextField
+                size="medium"
                 variant="outlined"
                 value={value === 0 ? "" : (currencySymbol ? currencySymbol : "") + value.toLocaleString()}
                 onChange={handleInputChange}

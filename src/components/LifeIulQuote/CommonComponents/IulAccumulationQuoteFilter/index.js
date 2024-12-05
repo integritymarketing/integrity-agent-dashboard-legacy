@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Typography, Grid, useTheme, useMediaQuery, Button } from "@mui/material";
 import CounterInput from "components/LifeForms/common/CounterInput";
 import { HEALTH_CLASSIFICATION_OPTS, ILLUSTRATED_RATE_OPTS, LOANS_OPTS, PAY_PERIOD_OPTS } from "../constants";
@@ -7,7 +7,18 @@ import CustomCheckboxGroupOption from "components/LifeForms/common/CustomCheckbo
 import CollapsibleSection from "components/LifeIulQuote/CommonComponents/CollapsibleSection";
 import { useLifeIulQuote } from "providers/Life";
 import Filter from "components/icons/LifeIul/filter";
+import { debounce } from "lodash";
+import * as yup from "yup";
 import styles from "./styles.module.scss";
+
+const validationSchema = yup.object().shape({
+    faceAmounts: yup
+        .number()
+        .required("Please enter a value between 2000 and 2000000.")
+        .typeError("Fixed Annual Premium must be a number")
+        .min(2000, "Minimum value for Fixed Annual Premium is 2000")
+        .max(2000000, "Maximum value for Fixed Annual Premium is 2000000"),
+});
 
 export const IulAccumulationQuoteFilter = () => {
     const {
@@ -20,6 +31,7 @@ export const IulAccumulationQuoteFilter = () => {
     } = useLifeIulQuote();
 
     const lifeQuoteAccumulationDetails = sessionStorage.getItem("lifeQuoteAccumulationDetails");
+    const [faceAmountsState, setFaceAmountsState] = useState(0);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -58,14 +70,21 @@ export const IulAccumulationQuoteFilter = () => {
             [filterName]: value,
         };
         sessionStorage.setItem("lifeQuoteAccumulationDetails", JSON.stringify(updatedSessionData));
+
         resetQuoteResults(updatedSessionData);
     };
 
-    const { faceAmounts, payPeriods, loanType, illustratedRate, healthClasses } = useMemo(() => {
+    useEffect(() => {
+        if (lifeQuoteAccumulationDetails) {
+            const parsedLifeQuoteAccumulationDetails = JSON.parse(lifeQuoteAccumulationDetails);
+            setFaceAmountsState(parsedLifeQuoteAccumulationDetails.faceAmounts);
+        }
+    }, [lifeQuoteAccumulationDetails]);
+
+    const { payPeriods, loanType, illustratedRate, healthClasses } = useMemo(() => {
         if (lifeQuoteAccumulationDetails) {
             const parsedLifeQuoteAccumulationDetails = JSON.parse(lifeQuoteAccumulationDetails);
             return {
-                faceAmounts: parsedLifeQuoteAccumulationDetails.faceAmounts,
                 payPeriods: parsedLifeQuoteAccumulationDetails.payPeriods,
                 loanType: parsedLifeQuoteAccumulationDetails.loanType,
                 illustratedRate: parsedLifeQuoteAccumulationDetails.illustratedRate,
@@ -73,7 +92,6 @@ export const IulAccumulationQuoteFilter = () => {
             };
         }
         return {
-            faceAmounts: 2000,
             payPeriods: "65",
             loanType: "LoansFixed",
             illustratedRate: "0",
@@ -95,6 +113,23 @@ export const IulAccumulationQuoteFilter = () => {
             return [{ value: "All carriers", label: "All carriers" }, ...uniqueCarriers];
         }
     }, [tempUserDetails]);
+
+    const getErrorMessage = (value) => {
+        try {
+            validationSchema.validateSync({ faceAmounts: value });
+            return "";
+        } catch (error) {
+            return error.message;
+        }
+    };
+
+    const handleFaceAmountsChange = debounce((value) => {
+        setFaceAmountsState(value);
+
+        if (!getErrorMessage(value)) {
+            handleFiltersChange("faceAmounts", value);
+        }
+    }, 2000);
 
     return (
         <>
@@ -125,14 +160,18 @@ export const IulAccumulationQuoteFilter = () => {
                         <Grid container gap={3}>
                             <Grid item md={12} xs={12}>
                                 <Typography className={styles.label}> Fixed Annual Premium* </Typography>
+
                                 <CounterInput
-                                    onValueChange={(value) => handleFiltersChange("faceAmounts", value)}
+                                    onValueChange={(value) => handleFaceAmountsChange(value)}
                                     min={2000}
                                     max={2000000}
-                                    initialValue={faceAmounts}
+                                    initialValue={faceAmountsState}
                                     incrementOrDecrementValue={50}
-                                    inputStyles={{ padding: "23.1px 14px" }}
                                 />
+
+                                <Typography variant="caption" color="red">
+                                    {getErrorMessage(faceAmountsState)}
+                                </Typography>
                             </Grid>
 
                             <Grid item md={12} xs={12}>

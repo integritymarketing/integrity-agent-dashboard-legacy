@@ -5,6 +5,8 @@ import Award from "components/icons/LifeIul/award";
 import Medal from "components/icons/LifeIul/medal";
 import FullWidthButton from "components/ui/FullWidthButton";
 import { useNavigate } from "react-router-dom";
+import { formatCurrency } from "utils/shared-utils/sharedUtility";
+import Tooltip from "@mui/material/Tooltip";
 import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 
@@ -80,25 +82,28 @@ const CardContent = ({
 }) => (
     <Grid container className={styles.cardInnerContent} gap={1}>
         <Grid item container className={styles.cardContent} gap={1} md={8.5} sm={7} xs={12}>
-            <AmoutInfo label="CSV yr 10" value={`$${cashValueYear10}`} />
-            <AmoutInfo label="CSV yr 20" value={`$${cashValueYear20}`} />
-            <AmoutInfo label="CSV yr A65" value={`$${cashValueAge65}`} />
+            <AmoutInfo label="CSV yr 10" value={`$${formatCurrency(cashValueYear10)}`} />
+            <AmoutInfo label="CSV yr 20" value={`$${formatCurrency(cashValueYear20)}`} />
+            <AmoutInfo label="CSV A65" value={`$${formatCurrency(cashValueAge65)}`} />
             <AmoutInfo label="Rate" value={`${maxIllustratedRate}%`} />
-            <AmoutInfo label="Index" value={indexStrategyType === "carrierBest" ? <Award /> : <Medal />} />
+
+            <Tooltip arrow title={indexStrategyType === "carrierBest" ? "Best" : "S&P 500"} placement="bottom">
+                <AmoutInfo label="Index" value={indexStrategyType === "carrierBest" ? <Award /> : <Medal />} />
+            </Tooltip>
         </Grid>
         <Grid item md={3} sm={4.5} xs={12}>
             <Box className={styles.maxDistInfo}>
                 <Box className={styles.label}> {quoteType === "IUL Accumulation" ? "Max Dist" : "Premium"}</Box>
                 <Typography variant="h2" color="#052A63">
-                    ${quoteType === "IUL Accumulation" ? distribution : premium}
+                    ${quoteType === "IUL Accumulation" ? formatCurrency(distribution) : formatCurrency(premium)}
                 </Typography>
                 {quoteType === "IUL Accumulation" && (
                     <Typography variant="body1" color="#434A51">
-                        Initial DB: ${deathBenefit}
+                        Initial DB: ${formatCurrency(deathBenefit)}
                     </Typography>
                 )}
                 <Typography variant="body1" color="#434A51">
-                    Target: ${targetPremium}
+                    Target: ${formatCurrency(targetPremium)}
                 </Typography>
             </Box>
         </Grid>
@@ -220,6 +225,7 @@ export const IulQuoteCard = ({
                             icon={<ButtonCircleArrow />}
                             iconPosition="right"
                             style={{ border: "none" }}
+                            className={styles.applyButton}
                         />
                     </Box>
                 )}

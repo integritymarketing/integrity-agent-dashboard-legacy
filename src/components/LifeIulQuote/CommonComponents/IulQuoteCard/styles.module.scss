@@ -102,3 +102,14 @@
 .noBorderRadius {
     border-radius: 0px;
 }
+
+.applyButton {
+    width: 100%;
+    justify-content: space-between;
+    background-color: #4178ff;
+    border-radius: 100px;
+
+    svg {
+        margin-left: 100px;
+    }
+}

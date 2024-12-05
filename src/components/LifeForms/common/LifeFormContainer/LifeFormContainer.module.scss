@@ -2,8 +2,7 @@
 
 .productPreferenceContainer {
     display: flex;
-    width: 900px;
-    max-width: 90%;
+    width: 65%;
     margin: 0px auto;
     padding: 56px 24px;
     justify-content: center;
@@ -14,7 +13,7 @@
     flex-wrap: wrap;
 
     @include small {
-        max-width: 100%;
+        width: 100%;
     }
 
     .card_container {
