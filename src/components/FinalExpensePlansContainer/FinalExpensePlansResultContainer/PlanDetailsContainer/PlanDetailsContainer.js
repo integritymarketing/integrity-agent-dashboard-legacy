@@ -23,6 +23,7 @@ import {
     FETCH_PLANS_ERROR,
     MONTHLY_PREMIUM,
     NO_PLANS_ERROR,
+    SIMPLIFIED_IUL_NO_RTS_FETCH_PLANS_ERROR,
 } from "components/FinalExpensePlansContainer/FinalExpensePlansContainer.constants";
 
 import {
@@ -38,7 +39,7 @@ import PlanCardLoader from "components/ui/PlanCard/loader";
 import { useLeadDetails } from "providers/ContactDetails";
 
 import { PlanCard } from "./PlanCard";
-import useFinalExpenseErrorMessage from "./hooks/useFinalExpenseErrorMessage";
+import useFinalExpenseErrorMessage, { ERROR_1 } from "./hooks/useFinalExpenseErrorMessage";
 
 import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
 
@@ -76,6 +77,10 @@ export const PlanDetailsContainer = ({
     const { leadDetails } = useLeadDetails();
     const [fetchPlansError, setFetchPlansError] = useState(false);
     const initialRender = useRef(true);
+    const [hasNoIULPlansAvailable, setHasNoIULPlansAvailable] = useState(false);
+    const [rtsPlans, setRtsPlans] = useState([]);
+    const [rtsPlansWithExclusions, setRtsPlansWithExclusions] = useState([]);
+
     const noPlanResults = pagedResults.length === 0;
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
     const { updateErrorMesssage, errorMessage, actionLink } = useFinalExpenseErrorMessage(
@@ -137,6 +142,15 @@ export const PlanDetailsContainer = ({
 
         try {
             const result = await getFinalExpenseQuotePlans(quotePlansPostBody, contactId);
+            if (isSimplifiedIUL()) {
+                if (result?.hasNoIULPlansAvailable) {
+                    setHasNoIULPlansAvailable(true);
+                } else {
+                    setHasNoIULPlansAvailable(false);
+                }
+                setRtsPlans(result?.rtsPlans || []);
+                setRtsPlansWithExclusions(result?.rtsPlansWithExclusions || []);
+            }
 
             // Update error message based on business logic
             updateErrorMesssage(result, isMyAppointedProducts, isShowExcludedProducts);
@@ -236,10 +250,10 @@ export const PlanDetailsContainer = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                      ? ["My Appointed Products"]
-                      : isShowExcludedProducts
-                        ? ["Show Excluded Products"]
-                        : [],
+                        ? ["My Appointed Products"]
+                        : isShowExcludedProducts
+                            ? ["Show Excluded Products"]
+                            : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -286,20 +300,58 @@ export const PlanDetailsContainer = ({
     }, []);
 
     const renderNoPlansMessage = useCallback(() => {
-        // Case 1: Display error message
-        if (errorMessage) {
-            return renderAlertMessage(errorMessage, actionLink);
+        // Case 1: No available RTS plans for Simplified IUL
+        if (isSimplifiedIUL() && hasNoIULPlansAvailable) {
+            if (rtsPlans.length === 0 && noPlanResults) {
+                return renderAlertMessage(SIMPLIFIED_IUL_NO_RTS_FETCH_PLANS_ERROR, [
+                    {
+                        text: "Edit Quote Details",
+                        callbackFunc: () => navigate(`/simplified-iul/create/${contactId}`),
+                    },
+                    {
+                        text: "Show Excluded plans",
+                        callbackFunc: () => {
+                            handleIsShowExcludedProductsCheck(true);
+                            handleMyAppointedProductsCheck(true);
+                        },
+                    },
+                ]);
+            }
+
+            if (rtsPlans.length) {
+                return renderAlertMessage(ERROR_1, [
+                    {
+                        text: "View available plans",
+                        callbackFunc: () => navigate(`/finalexpenses/plans/${contactId}`),
+                    },
+                ]);
+            }
         }
-        // Case 2: Display fetch plans error or default message
+
+        // Case 2: Error fetching plans or default message
+        if (errorMessage) {
+            return renderAlertMessage(errorMessage, [actionLink]);
+        }
+
         if (noPlanResults) {
             const plansErrorMessage = fetchPlansError ? NO_PLANS_ERROR : FETCH_PLANS_ERROR;
-            return renderAlertMessage(plansErrorMessage);
+            return renderAlertMessage(plansErrorMessage, []);
         }
+
         // Default: No message to display
         return null;
-    }, [errorMessage, noPlanResults, fetchPlansError, actionLink]);
+    }, [
+        errorMessage,
+        noPlanResults,
+        fetchPlansError,
+        actionLink,
+        rtsPlans,
+        isShowExcludedProducts,
+        isMyAppointedProducts,
+        rtsPlansWithExclusions,
+    ]);
 
-    const renderAlertMessage = (message, _actionLink) => (
+    const renderAlertMessage = (message, actions = []) => (
         <Box className={styles.noPlans}>
             <Box display="flex" gap="10px">
                 <Box className={styles.alertIcon}>
@@ -307,11 +359,13 @@ export const PlanDetailsContainer = ({
                 </Box>
                 <Box>{message}</Box>
             </Box>
-            {_actionLink && (
-                <Box onClick={_actionLink.callbackFunc} className={styles.link}>
-                    {_actionLink.text}
-                </Box>
-            )}
+            {actions.length
+                ? actions.map((_actionLink, index) => (
+                    <Box key={index} onClick={_actionLink.callbackFunc} className={styles.link}>
+                        {_actionLink.text}
+                    </Box>
+                ))
+                : ""}
         </Box>
     );
 
@@ -355,7 +409,7 @@ export const PlanDetailsContainer = ({
                         {renderNoPlansMessage()}
                     </>
                 )}
-                {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
+                {pagedResults.length > 0 && !rtsPlans.length && !isLoadingFinalExpensePlans && (
                     <>
                         {pagedResults.map((plan, index) => {
                             // Ensure that carrier and product are not null before destructuring

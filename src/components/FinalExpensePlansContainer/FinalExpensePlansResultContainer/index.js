@@ -1,5 +1,3 @@
-
-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useLocation, useParams } from "react-router-dom";
@@ -190,15 +188,15 @@ const FinalExpensePlansResultContainer = () => {
         setSelectedTab(tab);
     };
 
-    const handleMyAppointedProductsCheck = useCallback(() => {
+    const handleMyAppointedProductsCheck = useCallback((isChecked = false) => {
         if (!isRTS) {
             return;
         }
-        setIsMyAppointedProducts(!isMyAppointedProducts);
+        setIsMyAppointedProducts(isChecked || !isMyAppointedProducts);
     }, [isRTS, isMyAppointedProducts]);
 
-    const handleIsShowExcludedProductsCheck = useCallback(() => {
-        setIsShowExcludedProducts(!isShowExcludedProducts);
+    const handleIsShowExcludedProductsCheck = useCallback((isChecked = false) => {
+        setIsShowExcludedProducts(isChecked || !isShowExcludedProducts);
     }, [isShowExcludedProducts]);
 
     const covAmtError = useMemo(() => {
@@ -247,7 +245,7 @@ const FinalExpensePlansResultContainer = () => {
                         onChange={handleInputChange}
                         inputErrorStyle={
                             (covAmtError && selectedTab === COVERAGE_AMOUNT) ||
-                            (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
+                                (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
                                 ? styles.inputError
                                 : ""
                         }
@@ -276,19 +274,17 @@ const FinalExpensePlansResultContainer = () => {
                         )}
                         <div className={styles.checkboxesWrapper}>
                             <div
-                                className={`${styles.checkbox} ${
-                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
-                                } ${!isRTS ? styles.inActive : ""}`}
-                                onClick={handleMyAppointedProductsCheck}
+                                className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                    } ${!isRTS ? styles.inActive : ""}`}
+                                onClick={() => handleMyAppointedProductsCheck(!isMyAppointedProducts)}
                             >
                                 {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
-                                className={`${styles.checkbox} ${
-                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                }`}
-                                onClick={handleIsShowExcludedProductsCheck}
+                                className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                    }`}
+                                onClick={() => handleIsShowExcludedProductsCheck(!isShowExcludedProducts)}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{EXCLUDE_LABEL}</span>
@@ -301,6 +297,7 @@ const FinalExpensePlansResultContainer = () => {
                         coverageAmount={coverageAmount}
                         monthlyPremium={monthlyPremiumAmount}
                         coverageType={coverageType}
+                        handleTabSelect={handleTabSelect}
                         selectedTab={selectedTab}
                         isMyAppointedProducts={isMyAppointedProducts}
                         isShowExcludedProducts={isShowExcludedProducts}

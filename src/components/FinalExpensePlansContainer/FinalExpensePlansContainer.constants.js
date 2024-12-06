@@ -49,3 +49,4 @@ export const UPDATE_PERMISSIONS = "Update my Permissions";
 export const FETCH_PLANS_ERROR = "No Final Expense products available. Review the selected filters and retry.";
 export const NO_PLANS_ERROR = "Final Expense data is temporarily unavailable. Please try again later.";
 export const COVERAGE_TYPE_FINALOPTION = ["LEVEL", "GRADED_MODIFIED", "GUARANTEED"];
+export const SIMPLIFIED_IUL_NO_RTS_FETCH_PLANS_ERROR = "No eligible policies match your quote details.";
