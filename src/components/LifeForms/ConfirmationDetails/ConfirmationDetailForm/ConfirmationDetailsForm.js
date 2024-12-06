@@ -54,12 +54,9 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
         initialValues: formData,
         validationSchema: currentSchema,
         enableReinitialize: true,
-        onSubmit: () => {
-            handleNext();
-        },
     });
 
-    const { values, dirty, isValid, setFieldValue, handleSubmit } = formik;
+    const { values, dirty, isValid, setFieldValue } = formik;
 
     useEffect(() => {
         if (isMobile) {
@@ -277,7 +274,7 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
                     <FullWidthButton
                         disabled={isDisabled}
                         label={isSaving ? SAVING : NEXT}
-                        onClick={handleSubmit}
+                        onClick={handleNext}
                         type="primary"
                         icon={<ButtonCircleArrow />}
                         iconPosition="right"
@@ -317,7 +314,7 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
                             <FullWidthButton
                                 disabled={isDisabled || isSaving}
                                 label={isSaving ? SAVING : NEXT}
-                                onClick={handleSubmit}
+                                onClick={handleNext}
                                 type="primary"
                                 icon={<ButtonCircleArrow />}
                                 iconPosition="right"
