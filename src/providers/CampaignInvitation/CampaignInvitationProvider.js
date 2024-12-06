@@ -6,6 +6,7 @@ import useToast from "hooks/useToast";
 import useFetchCampaignLeads from "pages/ContactsList/hooks/useFetchCampaignLeads";
 import * as Sentry from "@sentry/react";
 import useUserProfile from "hooks/useUserProfile";
+import { useProfessionalProfileContext } from "providers/ProfessionalProfileProvider";
 import { useNavigate } from "react-router-dom";
 import useFetch from "hooks/useFetch";
 import useAnalytics from "hooks/useAnalytics";
@@ -56,9 +57,12 @@ export const CampaignInvitationProvider = ({ children }) => {
     const [actionDescription, setActionDescription] = useState("");
     const [actionOrderedId, setActionOrderedId] = useState(0);
     const [isAdvancedMode, setAdvancedMode] = useState(false);
+    const [professionalInfo, setProfessionalInfo] = useState({});
 
     const contactName = selectedContact ? `${selectedContact?.firstName} ${selectedContact?.lastName}` : null;
     const { agentId, npn, firstName, lastName, email, phone } = useUserProfile();
+    const { getAgentProfessionalInfo } = useProfessionalProfileContext();
+
     const { statusOptions } = useContext(StageStatusContext);
     const navigate = useNavigate();
     const showToast = useToast();
@@ -108,6 +112,17 @@ export const CampaignInvitationProvider = ({ children }) => {
     const { Get: fetchAgentAccountDetails } = useFetch(AGENT_ACCOUNT_DETAILS_URL);
 
     const formattedPhoneNumber = agentAccountDetails?.agentVirtualPhoneNumber?.replace(/^\+1/, "");
+
+    const fetchAgentProfessionalInfo = useCallback(async () => {
+        try {
+            const response = await getAgentProfessionalInfo();
+            if (response) {
+                setProfessionalInfo(response || {});
+            }
+        } catch (error) {
+            Sentry.captureException(error);
+        }
+    }, [getAgentProfessionalInfo]);
 
     const statusOptionsMap = useMemo(() => {
         return statusOptions.map((item) => ({
@@ -462,6 +477,7 @@ export const CampaignInvitationProvider = ({ children }) => {
     const handleGetCampaignDetailsById = useCallback(
         async (campaignId) => {
             reset();
+            fetchAgentProfessionalInfo();
             try {
                 const resData = await fetchCampaignDetailsById(null, false, campaignId);
                 if (resData) {
@@ -689,6 +705,7 @@ export const CampaignInvitationProvider = ({ children }) => {
                 custom5: agentAccountDetails?.caLicense,
                 custom6: agentAccountDetails?.profileImageUrl,
                 custom7: `${firstName.charAt(0)} ${lastName.charAt(0)}`,
+                custom8: professionalInfo?.agentOfficeLocation?.agencyName,
             },
         };
 

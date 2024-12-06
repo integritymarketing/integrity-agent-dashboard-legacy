@@ -73,8 +73,8 @@ root.render(
                                                                         <BackNavProvider>
                                                                             <StageSummaryProvider>
                                                                                 <TaskListProvider>
-                                                                                    <CampaignInvitationProvider>
-                                                                                        <ProfessionalProfileProvider>
+                                                                                    <ProfessionalProfileProvider>
+                                                                                        <CampaignInvitationProvider>
                                                                                             <ContactDetailsProvider>
                                                                                                 <CreateNewQuoteProvider>
                                                                                                     <MarketingProvider>
@@ -104,8 +104,8 @@ root.render(
                                                                                                     </MarketingProvider>
                                                                                                 </CreateNewQuoteProvider>
                                                                                             </ContactDetailsProvider>
-                                                                                        </ProfessionalProfileProvider>
-                                                                                    </CampaignInvitationProvider>
+                                                                                        </CampaignInvitationProvider>
+                                                                                    </ProfessionalProfileProvider>
                                                                                 </TaskListProvider>
                                                                             </StageSummaryProvider>
                                                                         </BackNavProvider>
