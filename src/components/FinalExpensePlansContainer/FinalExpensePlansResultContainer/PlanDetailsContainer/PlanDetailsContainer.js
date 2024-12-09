@@ -148,7 +148,12 @@ export const PlanDetailsContainer = ({
                 } else {
                     setHasNoIULPlansAvailable(false);
                 }
-                setRtsPlans(result?.rtsPlans || []);
+                if (isMyAppointedProducts && !isShowExcludedProducts) {
+                    setRtsPlans(result?.rtsPlans || []);
+                } else {
+                    setRtsPlans([]);
+                }
+
                 setRtsPlansWithExclusions(result?.rtsPlansWithExclusions || []);
             }
 
