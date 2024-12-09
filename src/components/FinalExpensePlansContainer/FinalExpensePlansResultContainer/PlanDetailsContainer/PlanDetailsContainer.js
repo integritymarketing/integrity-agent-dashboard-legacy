@@ -149,7 +149,7 @@ export const PlanDetailsContainer = ({
                 } else {
                     setHasNoIULPlansAvailable(false);
                 }
-                   if (isMyAppointedProducts && !isShowExcludedProducts) {
+                if (isMyAppointedProducts && !isShowExcludedProducts) {
                     setRtsPlans(result?.rtsPlans || []);
                 } else {
                     setRtsPlans([]);
@@ -209,8 +209,10 @@ export const PlanDetailsContainer = ({
     );
 
     useEffect(() => {
-        setFinalExpensePlansFromResult(finalExpenseQuoteAPIResponse);
-    }, [isShowExcludedProducts, isMyAppointedProducts, finalExpenseQuoteAPIResponse, isRTS]);
+        if ((isSimplifiedIUL() && !hasNoIULPlansAvailable) || !isSimplifiedIUL()) {
+            setFinalExpensePlansFromResult(finalExpenseQuoteAPIResponse);
+        }
+    }, [isShowExcludedProducts, isMyAppointedProducts, finalExpenseQuoteAPIResponse, isRTS, hasNoIULPlansAvailable]);
 
     useEffect(() => {
         const fetchHealthConditionsListData = async () => {
@@ -258,10 +260,10 @@ export const PlanDetailsContainer = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                        ? ["My Appointed Products"]
-                        : isShowExcludedProducts
-                            ? ["Show Excluded Products"]
-                            : [],
+                      ? ["My Appointed Products"]
+                      : isShowExcludedProducts
+                        ? ["Show Excluded Products"]
+                        : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -369,10 +371,10 @@ export const PlanDetailsContainer = ({
             </Box>
             {actions.length
                 ? actions.map((_actionLink, index) => (
-                    <Box key={index} onClick={_actionLink.callbackFunc} className={styles.link}>
-                        {_actionLink.text}
-                    </Box>
-                ))
+                      <Box key={index} onClick={_actionLink.callbackFunc} className={styles.link}>
+                          {_actionLink.text}
+                      </Box>
+                  ))
                 : ""}
         </Box>
     );
@@ -417,7 +419,7 @@ export const PlanDetailsContainer = ({
                         {renderNoPlansMessage()}
                     </>
                 )}
-                {pagedResults.length > 0 && !rtsPlans.length && !isLoadingFinalExpensePlans && (
+                {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
                     <>
                         {pagedResults.map((plan, index) => {
                             // Ensure that carrier and product are not null before destructuring
