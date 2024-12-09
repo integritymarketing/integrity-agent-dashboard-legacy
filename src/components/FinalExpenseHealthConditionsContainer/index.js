@@ -30,12 +30,12 @@ const FinalExpenseHealthConditionsContainer = () => {
                 backButtonRoute={`${isSimplifiedIUL() ? "/simplified-iul" : "/finalexpenses"}/create/${contactId}`}
             />
             <div className={styles.pageHeading}>
-                {isSimplifiedIUL() && (
-                    <Typography variant="h2" color="#052A63">
-                        {" "}
-                        {SIMPLIFIED_IUL_TITLE}
-                    </Typography>
-                )}
+
+                <Typography variant="h2" color="#052A63">
+                    {" "}
+                    {isSimplifiedIUL() ? SIMPLIFIED_IUL_TITLE : "Final Expense"}
+                </Typography>
+
             </div>
             <div className={styles.pageContainerWrapper}>
                 <div className={styles.pageContainer}>
@@ -48,7 +48,7 @@ const FinalExpenseHealthConditionsContainer = () => {
                     <Button
                         label={CONTINUE_TO_QUOTE}
                         onClick={() =>
-                            navigate(`${isSimplifiedIUL() ? "/simplified-iul" : "/finalexpenses"}/plans/${contactId}`, { state: {from: loc?.pathname} })
+                            navigate(`${isSimplifiedIUL() ? "/simplified-iul" : "/finalexpenses"}/plans/${contactId}`, { state: { from: loc?.pathname } })
                         }
                         type="primary"
                         icon={<ButtonCircleArrow />}

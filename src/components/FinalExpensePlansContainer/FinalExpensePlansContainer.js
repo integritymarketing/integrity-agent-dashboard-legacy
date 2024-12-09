@@ -145,11 +145,10 @@ export const FinalExpensePlansContainer = () => {
                 backButtonRoute={`/contact/${contactId}/overview`}
             />
             <div className={styles.pageHeading}>
-                {isSimplifiedIUL() && (
-                    <Typography variant="h2" color="#052A63">
-                        {SIMPLIFIED_IUL_TITLE}
-                    </Typography>
-                )}
+                <Typography variant="h2" color="#052A63">
+                    {" "}
+                    {isSimplifiedIUL() ? SIMPLIFIED_IUL_TITLE : "Final Expense"}
+                </Typography>
             </div>
             {isLoadingLeadDetails ? (
                 renderContactDetailsLoader

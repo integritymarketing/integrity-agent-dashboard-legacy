@@ -221,13 +221,12 @@ const FinalExpensePlansResultContainer = () => {
                 backButtonLabel={"Back"}
                 backButtonRoute={location.state?.from}
             />
-            {isSimplifiedIUL() && (
-                <div className={styles.pageHeading}>
-                    <Typography variant="h2" color="#052A63">
-                        {SIMPLIFIED_IUL_TITLE}
-                    </Typography>
-                </div>
-            )}
+            <div className={styles.pageHeading}>
+                <Typography variant="h2" color="#052A63">
+                    {" "}
+                    {isSimplifiedIUL() ? SIMPLIFIED_IUL_TITLE : "Final Expense"}
+                </Typography>
+            </div>
             <div className={`${styles.contentWrapper} ${isMobile ? styles.column : ""}`}>
                 <div className={styles.filterContent}>
                     <CurrencyAdjuster
