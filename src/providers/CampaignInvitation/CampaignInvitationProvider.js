@@ -705,9 +705,14 @@ export const CampaignInvitationProvider = ({ children }) => {
                 custom5: agentAccountDetails?.caLicense,
                 custom6: agentAccountDetails?.profileImageUrl,
                 custom7: `${firstName.charAt(0)} ${lastName.charAt(0)}`,
-                custom8: professionalInfo?.agentOfficeLocation?.agencyName,
+                custom8:null,
             },
         };
+        if( professionalInfo?.agentOfficeLocation?.agencyName){
+            payload.requestPayload.custom8 = professionalInfo?.agentOfficeLocation?.agencyName;
+        } else {
+            delete payload.requestPayload.custom8; 
+        }
 
         if (payload?.campaignSelectedAction === "all contacts") {
             return {
