@@ -68,6 +68,7 @@ export const PlanDetailsContainer = ({
     const { contactId } = useParams();
     const { fireEvent } = useAnalytics();
     const healthConditionsDataRef = useRef(null);
+    const [finalExpenseQuoteAPIResponse, setFinalExpenseQuoteAPIResponse] = useState([]);
     const [finalExpensePlans, setFinalExpensePlans] = useState([]);
     const { getFinalExpenseQuotePlans } = useFinalExpensePlans();
     const { isSimplifiedIUL } = useCreateNewQuote();
@@ -88,14 +89,14 @@ export const PlanDetailsContainer = ({
         handleIsShowExcludedProductsCheck,
     );
     const navigate = useNavigate();
-    const leadDetailsData = leadDetails ? true : false;
+    const leadDetailsData = Boolean(leadDetails);
 
     const stepperFilter = useMemo(() => {
         return isSimplifiedIUL() ? STEPPER_FILTER_SIMPLIFIED_IUL : STEPPER_FILTER;
     }, [isSimplifiedIUL]);
 
-    const { min: covMin, max: covMax, step: covStep } = stepperFilter[COVERAGE_AMOUNT];
-    const { min, max, step } = stepperFilter[MONTHLY_PREMIUM];
+    const { min: covMin, max: covMax } = stepperFilter[COVERAGE_AMOUNT];
+    const { min, max } = stepperFilter[MONTHLY_PREMIUM];
 
     const fetchPlans = useCallback(async () => {
         setFetchPlansError(false);
@@ -148,7 +149,7 @@ export const PlanDetailsContainer = ({
                 } else {
                     setHasNoIULPlansAvailable(false);
                 }
-                if (isMyAppointedProducts && !isShowExcludedProducts) {
+                   if (isMyAppointedProducts && !isShowExcludedProducts) {
                     setRtsPlans(result?.rtsPlans || []);
                 } else {
                     setRtsPlans([]);
@@ -159,27 +160,7 @@ export const PlanDetailsContainer = ({
 
             // Update error message based on business logic
             updateErrorMesssage(result, isMyAppointedProducts, isShowExcludedProducts);
-
-            if (!isRTS) {
-                if (isShowExcludedProducts) {
-                    setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
-                } else {
-                    setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts false
-                }
-            }
-
-            // Life RTS Experience (My Appointed Products checked by default)
-            if (isRTS) {
-                if (isMyAppointedProducts && isShowExcludedProducts) {
-                    setFinalExpensePlans(result?.rtsPlansWithExclusions); // Condition 1
-                } else if (!isMyAppointedProducts && !isShowExcludedProducts) {
-                    setFinalExpensePlans(result?.nonRTSPlans); // Condition 2
-                } else if (isMyAppointedProducts && !isShowExcludedProducts) {
-                    setFinalExpensePlans(result?.rtsPlans); // Condition 3
-                } else if (!isMyAppointedProducts && isShowExcludedProducts) {
-                    setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // Condition 4
-                }
-            }
+            setFinalExpenseQuoteAPIResponse(result);
         } catch (error) {
             setIsLoadingFinalExpensePlans(false);
             setFetchPlansError(true);
@@ -200,6 +181,36 @@ export const PlanDetailsContainer = ({
         updateErrorMesssage,
         isSimplifiedIUL,
     ]);
+
+    const setFinalExpensePlansFromResult = useCallback(
+        (result) => {
+            if (!isRTS) {
+                if (isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
+                } else {
+                    setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts false
+                }
+            }
+
+            // Life RTS Experience (My Appointed Products checked by default)
+            if (isRTS) {
+                if (isMyAppointedProducts && isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.rtsPlansWithExclusions); // Condition 1
+                } else if (!isMyAppointedProducts && !isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.nonRTSPlans); // Condition 2
+                } else if (isMyAppointedProducts && !isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.rtsPlans); // Condition 3
+                } else if (!isMyAppointedProducts && isShowExcludedProducts) {
+                    setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // Condition 4
+                }
+            }
+        },
+        [isMyAppointedProducts, isRTS, isShowExcludedProducts],
+    );
+
+    useEffect(() => {
+        setFinalExpensePlansFromResult(finalExpenseQuoteAPIResponse);
+    }, [isShowExcludedProducts, isMyAppointedProducts, finalExpenseQuoteAPIResponse, isRTS]);
 
     useEffect(() => {
         const fetchHealthConditionsListData = async () => {
@@ -233,18 +244,10 @@ export const PlanDetailsContainer = ({
         const coverageAmountValue =
             coverageAmount >= covMin && coverageAmount <= covMax && selectedTab === COVERAGE_AMOUNT;
         const monthlyPremiumValue = monthlyPremium >= min && monthlyPremium <= max && selectedTab === MONTHLY_PREMIUM;
-        if ((coverageAmountValue || monthlyPremiumValue) && !isLoadingHealthConditions && leadDetailsData) {
+        if ((coverageAmountValue || monthlyPremiumValue) && !isLoadingHealthConditions && leadDetailsData && isRTS) {
             fetchPlans();
         }
-    }, [
-        coverageAmount,
-        monthlyPremium,
-        selectedTab,
-        isLoadingHealthConditions,
-        leadDetailsData,
-        isMyAppointedProducts,
-        isShowExcludedProducts,
-    ]);
+    }, [coverageAmount, monthlyPremium, selectedTab, coverageType, isLoadingHealthConditions, leadDetailsData]);
 
     const lifeQuoteEvent = (eventName) => {
         fireEvent(eventName, {
@@ -401,8 +404,8 @@ export const PlanDetailsContainer = ({
         <>
             <Media
                 query={"(max-width: 1130px)"}
-                onChange={(isMobile) => {
-                    setIsMobile(isMobile);
+                onChange={(value) => {
+                    setIsMobile(value);
                 }}
             />
             <div className={`${styles.planContainer} ${noPlanResults ? styles.alignCenter : ""}`}>
@@ -517,4 +520,10 @@ PlanDetailsContainer.propTypes = {
     coverageType: PropTypes.string.isRequired,
     coverageAmount: PropTypes.string.isRequired,
     monthlyPremium: PropTypes.string.isRequired,
+    isShowExcludedProducts: PropTypes.bool.isRequired,
+    isMyAppointedProducts: PropTypes.bool.isRequired,
+    isRTS: PropTypes.bool.isRequired,
+    setIsRTS: PropTypes.func.isRequired,
+    handleMyAppointedProductsCheck: PropTypes.func.isRequired,
+    handleIsShowExcludedProductsCheck: PropTypes.func.isRequired,
 };
