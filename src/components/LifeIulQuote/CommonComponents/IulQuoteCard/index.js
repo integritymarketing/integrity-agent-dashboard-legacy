@@ -4,7 +4,6 @@ import IulPlanCardLogo from "components/icons/LifeIul/logo";
 import Award from "components/icons/LifeIul/award";
 import Medal from "components/icons/LifeIul/medal";
 import FullWidthButton from "components/ui/FullWidthButton";
-import { useNavigate } from "react-router-dom";
 import { formatCurrency } from "utils/shared-utils/sharedUtility";
 import Tooltip from "@mui/material/Tooltip";
 import PropTypes from "prop-types";
@@ -27,7 +26,7 @@ const getHealthClassFullForm = (healthClass) => {
 
 const CardInnerHeader = ({ title, companyName, rating, logo }) => (
     <Grid container className={styles.cardInnerHeader} gap={1}>
-        <Grid item>
+        <Grid item md={8.5} xs={12}>
             <Box>
                 <Typography variant="h4" color="#052A63">
                     {title}
@@ -43,7 +42,7 @@ const CardInnerHeader = ({ title, companyName, rating, logo }) => (
                 </Typography>
             </Box>
         </Grid>
-        <Grid item>{logo ? <img className={styles.planLogo} src={logo} alt="iul-logo" /> : <IulPlanCardLogo />}</Grid>
+        <Grid md={3} xs={12} sx={{ display: "flex", justifyContent: { md: "flex-end", xs: "flex-start" } }} item>{logo ? <img className={styles.planLogo} src={logo} alt="iul-logo" /> : <IulPlanCardLogo />}</Grid>
     </Grid>
 );
 
@@ -55,7 +54,7 @@ CardInnerHeader.propTypes = {
 };
 
 const AmoutInfo = ({ label, value }) => (
-    <Grid item className={styles.amountInfo}>
+    <Grid item className={styles.amountInfo} md={2} sm={3} xs={4}>
         <Box className={styles.label}>{label}</Box>
         <Typography variant="body1" color="#717171">
             {value}
@@ -86,10 +85,14 @@ const CardContent = ({
             <AmoutInfo label="CSV yr 20" value={`$${formatCurrency(cashValueYear20)}`} />
             <AmoutInfo label="CSV A65" value={`$${formatCurrency(cashValueAge65)}`} />
             <AmoutInfo label="Rate" value={`${maxIllustratedRate}%`} />
-
+            <Grid item md={2} sm={3} xs={3}>
             <Tooltip arrow title={indexStrategyType === "carrierBest" ? "Best" : "S&P 500"} placement="bottom">
-                <AmoutInfo label="Index" value={indexStrategyType === "carrierBest" ? <Award /> : <Medal />} />
+                <Box sx={{ cursor: "pointer" }} className={styles.amountInfo}>
+                    <Box className={styles.label}>Index</Box>
+                    {indexStrategyType === "carrierBest" ? <Award /> : <Medal />}
+                </Box>
             </Tooltip>
+            </Grid>
         </Grid>
         <Grid item md={3} sm={4.5} xs={12}>
             <Box className={styles.maxDistInfo}>
@@ -145,13 +148,23 @@ CardFooter.propTypes = {
     healthClass: PropTypes.string.isRequired,
 };
 
-const CardActions = ({ isMobile, navigateToPlanDetailsPage }) => (
+const CardActions = ({ isMobile, handlePlanDetailsClick, handleComparePlanSelect, disableCompare, isChecked }) => (
     <Box className={styles.cardFooterActions}>
         <Box>
-            <FormControlLabel value="end" control={<Checkbox />} label="Compare" labelPlacement="end" />
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={isChecked ? true : false}
+                        onChange={handleComparePlanSelect}
+                        disabled={disableCompare}
+                    />
+                }
+                label="Compare"
+                labelPlacement="end"
+            />
         </Box>
-        <Box item>
-            <Button variant="text" color="primary" size="small" onClick={navigateToPlanDetailsPage}>
+        <Box>
+            <Button variant="text" color="primary" size="small" onClick={handlePlanDetailsClick}>
                 Policy Details
             </Button>
         </Box>
@@ -167,7 +180,7 @@ const CardActions = ({ isMobile, navigateToPlanDetailsPage }) => (
 
 CardActions.propTypes = {
     isMobile: PropTypes.bool.isRequired,
-    navigateToPlanDetailsPage: PropTypes.func,
+    handlePlanDetailsClick: PropTypes.func,
 };
 
 export const IulQuoteCard = ({
@@ -188,13 +201,13 @@ export const IulQuoteCard = ({
     healthClass,
     quoteType,
     premium,
+    handleComparePlanSelect,
+    handlePlanDetailsClick,
+    disableCompare,
+    isChecked,
 }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-    const navigate = useNavigate();
-    const navigateToPlanDetailsPage = () => {
-        navigate("/life/iul-accumulation/12345/quote-details");
-    };
 
     return (
         <Box className={styles.cardOuterContainer}>
@@ -216,7 +229,13 @@ export const IulQuoteCard = ({
                 <CardFooter isTobaccoUser={isTobaccoUser} age={age} healthClass={healthClass} />
             </Box>
             <Box className={styles.cardFooter}>
-                <CardActions isMobile={isMobile} navigateToPlanDetailsPage={navigateToPlanDetailsPage} />
+                <CardActions
+                    isMobile={isMobile}
+                    handlePlanDetailsClick={handlePlanDetailsClick}
+                    handleComparePlanSelect={handleComparePlanSelect}
+                    disableCompare={disableCompare}
+                    isChecked={isChecked}
+                />
                 {isMobile && (
                     <Box marginTop="8px" width="100%">
                         <FullWidthButton
@@ -251,4 +270,67 @@ IulQuoteCard.propTypes = {
     healthClass: PropTypes.string,
     quoteType: PropTypes.string,
     premium: PropTypes.number,
+};
+
+export const IulQuoteDetailsCard = ({
+    cardTitle = "Indexed Universal Life Express",
+    companyName = "United of Omaha",
+    rating = "A+",
+    logo = null,
+    cashValueYear10 = "93464",
+    cashValueYear20 = "93464",
+    cashValueAge65 = "93464",
+    maxIllustratedRate = "5.75",
+    indexStrategyType = "carrierBest",
+    isTobaccoUser = false,
+    targetPremium = "93464",
+    deathBenefit = "93464",
+    distribution = "93464",
+    age = "30",
+    healthClass = "P",
+    quoteType = "IUL Accumulation details",
+    premium = "93464",
+}) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+    return (
+        <Box className={styles.cardOuterContainer}>
+            <Box
+                className={`${styles.cardInnerContainer} ${
+                    quoteType === "IUL Accumulation details" ? styles.noBorderRadius : ""
+                }`}
+            >
+                <CardInnerHeader title={cardTitle} companyName={companyName} rating={rating} logo={logo} />
+                <CardContent
+                    cashValueYear10={cashValueYear10}
+                    cashValueYear20={cashValueYear20}
+                    cashValueAge65={cashValueAge65}
+                    maxIllustratedRate={maxIllustratedRate}
+                    indexStrategyType={indexStrategyType}
+                    targetPremium={targetPremium}
+                    distribution={distribution}
+                    deathBenefit={deathBenefit}
+                    quoteType={quoteType}
+                    premium={premium}
+                />
+
+                <CardFooter isTobaccoUser={isTobaccoUser} age={age} healthClass={healthClass} />
+            </Box>
+            <Box className={styles.cardFooter}>
+                <CardActions isMobile={isMobile} />
+                {isMobile && (
+                    <Box marginTop="8px" width="100%">
+                        <FullWidthButton
+                            label="Apply"
+                            type="primary"
+                            icon={<ButtonCircleArrow />}
+                            iconPosition="right"
+                            style={{ border: "none" }}
+                        />
+                    </Box>
+                )}
+            </Box>
+        </Box>
+    );
 };

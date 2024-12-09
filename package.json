@@ -15,7 +15,7 @@
         "@integritymarketing/ui-container-components": "^0.0.5",
         "@integritymarketing/ui-header": "^0.0.13",
         "@integritymarketing/ui-text-components": "^0.0.24",
-        "@integritymarketing/clients-ui-kit": "^1.0.2",
+        "@integritymarketing/clients-ui-kit": "^1.0.7",
         "@microsoft/signalr": "^8.0.0",
         "@mui/icons-material": "^5.14.1",
         "@mui/material": "^5.14.2",

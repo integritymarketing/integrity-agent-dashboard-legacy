@@ -4,13 +4,23 @@ import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import { useLifeIulQuote } from "providers/Life";
 import styles from "./styles.module.scss";
 import WithLoader from "components/ui/WithLoader";
+import { useParams, useNavigate } from "react-router-dom";
 
 const IulAccumulationQuote = () => {
-    const { fetchLifeIulQuoteResults, isLoadingLifeIulQuote, lifeIulQuoteResults, showFilters } = useLifeIulQuote();
+    const {
+        fetchLifeIulQuoteResults,
+        isLoadingLifeIulQuote,
+        lifeIulQuoteResults,
+        showFilters,
+        handleComparePlanSelect,
+        selectedPlans,
+    } = useLifeIulQuote();
     const [isTobaccoUser, setIsTobaccoUser] = useState(false);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const { contactId } = useParams();
+    const navigate = useNavigate();
 
     const getQuoteResults = useCallback(async () => {
         const lifeQuoteAccumulationDetails = sessionStorage.getItem("lifeQuoteAccumulationDetails");
@@ -47,13 +57,17 @@ const IulAccumulationQuote = () => {
         getQuoteResults();
     }, []);
 
+    const handlePlanDetailsClick = (id) => {
+        navigate(`/life/iul-accumulation/${id}/${contactId}/quote-details`);
+    };
+
     return (
         <IulQuoteContainer title="IUL Accumulation">
             <Grid item md={3} xs={12}>
                 {isMobile && showFilters && (
                     <Box className={styles.countSortContainer}>
                         <Typography variant="body1" className={styles.countSortText}>
-                            {lifeIulQuoteResults?.length} IUL Accumulation Policies
+                            {lifeIulQuoteResults?.length || 0} IUL Accumulation Policies
                         </Typography>
                     </Box>
                 )}
@@ -84,6 +98,7 @@ const IulAccumulationQuote = () => {
                                     distribution,
                                     deathBenefit,
                                     targetPremium,
+                                    rowId,
                                 } = plan;
                                 return (
                                     <Grid item md={12} key={`iul-accumulation-${index}`}>
@@ -104,6 +119,13 @@ const IulAccumulationQuote = () => {
                                             distribution={distribution}
                                             age={plan?.input?.actualAge}
                                             healthClass={plan?.input?.healthClass}
+                                            handleComparePlanSelect={() => handleComparePlanSelect(plan)}
+                                            handlePlanDetailsClick={() => handlePlanDetailsClick(rowId)}
+                                            disableCompare={
+                                                selectedPlans?.length === 3 &&
+                                                !selectedPlans?.find((p) => p.rowId === rowId)
+                                            }
+                                            isChecked={selectedPlans?.find((p) => p.rowId === rowId)}
                                         />
                                     </Grid>
                                 );

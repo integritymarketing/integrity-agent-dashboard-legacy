@@ -14,6 +14,7 @@ const IulProtectionQuote = () => {
         tabSelected,
         setTabSelected,
         showFilters,
+        tempUserDetails,
     } = useLifeIulQuote();
 
     const theme = useTheme();
@@ -31,7 +32,7 @@ const IulProtectionQuote = () => {
             setTabSelected(null);
             const { birthDate, gender, state, healthClasses, faceAmounts, payPeriods, illustratedRate, solves } =
                 parsedLifeQuoteProtectionDetails;
-
+            const filteredFaceAmounts = faceAmounts.filter((amount) => Boolean(amount));
             const payload = {
                 inputs: [
                     {
@@ -39,7 +40,7 @@ const IulProtectionQuote = () => {
                         gender: gender,
                         healthClasses: [healthClasses],
                         state: state,
-                        faceAmounts: faceAmounts,
+                        faceAmounts: filteredFaceAmounts,
                         payPeriods: [payPeriods],
                         solves: [solves],
                         props: {
@@ -65,15 +66,16 @@ const IulProtectionQuote = () => {
         return faceAmounts;
     }, [sessionStorage.getItem("lifeQuoteProtectionDetails")]);
 
-    const selectedTabIndex = tabInputs.findIndex((tab) => tab === tabSelected);
-
+    const filteredTabInputs = tabInputs.filter((tab) => Boolean(tab));
+    const selectedTabIndex = filteredTabInputs.findIndex((tab) => tab === tabSelected);
+    
     return (
         <IulQuoteContainer title="IUL Protection">
             <Grid item md={3} xs={12}>
                 {isMobile && showFilters && (
                     <Box className={styles.countSortContainer}>
                         <Typography variant="body1" className={styles.countSortText}>
-                            {lifeIulQuoteResults?.length} IUL Accumulation Policies
+                            {lifeIulQuoteResults?.length || 0} IUL Protection Policies
                         </Typography>
                     </Box>
                 )}
@@ -83,27 +85,27 @@ const IulProtectionQuote = () => {
                 <Grid item md={8} xs={12}>
                     <Box className={styles.countSortContainer}>
                         {!isMobile && (
-                            <Box className={styles.countSortContainer}>
+                            <Box>
                                 <Typography variant="body1" className={styles.countSortText}>
                                     {lifeIulQuoteResults?.length} IUL Protection Policies
                                 </Typography>
                             </Box>
                         )}
-                        <Box width={isMobile ? "100%" : "60%"}>
-                            {tabInputs.length > 1 && lifeIulQuoteResults?.length > 0 && (
+                        <Box width={isMobile ? "100%" : "60%"} marginBottom="16px">
+                            {filteredTabInputs?.length > 1 && (
                                 <Tabs
-                                    value={parseInt(selectedTabIndex) !== -1 ? parseInt(selectedTabIndex) : false}
+                                    value={parseInt(selectedTabIndex) !== -1 ? parseInt(selectedTabIndex) : 0}
                                     aria-label="communications-tabs"
                                     variant="fullWidth"
                                     className={styles.tabs}
                                 >
-                                    {tabInputs.map((faceAmount, index) => (
+                                    {filteredTabInputs.map((faceAmount, index) => (
                                         <Tab
                                             key={`faceAmount-${index}`}
                                             active={tabSelected === faceAmount}
                                             activeColor="primary"
                                             label={`$${faceAmount}`}
-                                            onClick={() => handleTabSelection(faceAmount)}
+                                            onClick={() => handleTabSelection(faceAmount, tempUserDetails)}
                                         />
                                     ))}
                                 </Tabs>

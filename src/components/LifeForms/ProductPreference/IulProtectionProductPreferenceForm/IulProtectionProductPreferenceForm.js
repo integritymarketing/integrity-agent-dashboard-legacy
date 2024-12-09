@@ -96,9 +96,10 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                                                 setFieldValue("faceAmounts", value);
                                             }}
                                             min={2000}
-                                            max={300000}
+                                            max={2000000}
                                             initialValue={0}
                                             incrementOrDecrementValue={10000}
+                                            initialIncrementValue={2000}
                                         />
                                         <CounterInput
                                             onValueChange={(value) => {
@@ -106,9 +107,10 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                                                 setFieldValue("faceAmounts2", value);
                                             }}
                                             min={2000}
-                                            max={400000}
+                                            max={3000000}
                                             initialValue={0}
                                             incrementOrDecrementValue={10000}
+                                            initialIncrementValue={2000}
                                         />
                                         <CounterInput
                                             onValueChange={(value) => {
@@ -116,9 +118,10 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                                                 setFieldValue("faceAmounts3", value);
                                             }}
                                             min={2000}
-                                            max={500000}
+                                            max={4000000}
                                             initialValue={0}
                                             incrementOrDecrementValue={10000}
+                                            initialIncrementValue={2000}
                                         />
                                     </Stack>
                                 </CustomFieldContainer>

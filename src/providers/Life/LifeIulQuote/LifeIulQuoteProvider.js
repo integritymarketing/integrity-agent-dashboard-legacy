@@ -1,4 +1,4 @@
-import { useEffect, useState , createContext, useMemo, useCallback } from "react";
+import { useEffect, useState, createContext, useMemo, useCallback } from "react";
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 import PropTypes from "prop-types";
@@ -14,8 +14,9 @@ export const LifeIulQuoteProvider = ({ children }) => {
     const [lifeIulQuoteResults, setLifeIulQuoteResults] = useState(null);
     const [tempUserDetails, setTempUserDetails] = useState(null);
     const [selectedCarriers, setSelectedCarriers] = useState(["All carriers"]);
-    const [tabSelected, setTabSelected] = useState("");
+    const [tabSelected, setTabSelected] = useState(0);
     const [showFilters, setShowFilters] = useState(false);
+    const [selectedPlans, setSelectedPlans] = useState([]);
 
     const {
         Post: getLifeIulQuoteDetails,
@@ -23,8 +24,16 @@ export const LifeIulQuoteProvider = ({ children }) => {
         error: getLifeIulQuoteError,
     } = useFetch(getLifeIulQuoteUrl);
 
+    const reset = () => {
+        setLifeIulQuoteResults(null);
+        setTempUserDetails(null);
+        setTabSelected(0);
+        setSelectedPlans([]);
+    };
+
     const fetchLifeIulQuoteResults = useCallback(
         async (reqData) => {
+            reset();
             const payload = removeNullAndEmptyFields(reqData);
             try {
                 const response = await getLifeIulQuoteDetails(payload, false);
@@ -38,8 +47,11 @@ export const LifeIulQuoteProvider = ({ children }) => {
                     } else {
                         setLifeIulQuoteResults(response.result);
                     }
-
                     setTempUserDetails(response.result);
+                    if (reqData?.quoteType === "IULPROT-SOLVE") {
+                        const faceAmounts = reqData?.inputs[0]?.faceAmounts;
+                        handleTabSelection(faceAmounts[0], response.result);
+                    }
                     showToast({
                         message: `get quote successfully`,
                     });
@@ -76,10 +88,23 @@ export const LifeIulQuoteProvider = ({ children }) => {
         }
     };
 
-    const handleTabSelection = (tab) => {
+    const handleTabSelection = (tab, list) => {
         setTabSelected(tab);
-        const updatedResults = tempUserDetails.filter((result) => result.input.faceAmount === parseInt(tab));
+        const updatedResults = list?.filter((result) => result.input.faceAmount === parseInt(tab));
         setLifeIulQuoteResults(updatedResults);
+    };
+
+    const handleComparePlanSelect = (plan) => {
+        const isPlanSelected = selectedPlans?.filter((selectedPlan) => selectedPlan.rowId === plan.rowId);
+        if (isPlanSelected?.length > 0) {
+            const updatedPlans = selectedPlans.filter((selectedPlan) => selectedPlan.rowId !== plan.rowId);
+            setSelectedPlans(updatedPlans);
+        } else {
+            setSelectedPlans([
+                ...selectedPlans,
+                { logo: plan.companyLogoImageUrl, name: plan.productName, rowId: plan.rowId },
+            ]);
+        }
     };
 
     useEffect(() => {
@@ -105,6 +130,8 @@ export const LifeIulQuoteProvider = ({ children }) => {
             setTabSelected,
             showFilters,
             setShowFilters,
+            handleComparePlanSelect,
+            selectedPlans,
         }),
         [
             fetchLifeIulQuoteResults,
@@ -119,6 +146,8 @@ export const LifeIulQuoteProvider = ({ children }) => {
             setTabSelected,
             showFilters,
             setShowFilters,
+            handleComparePlanSelect,
+            selectedPlans,
         ]
     );
 

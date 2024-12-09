@@ -167,6 +167,7 @@ export const IulAccumulationQuoteFilter = () => {
                                     max={2000000}
                                     initialValue={faceAmountsState}
                                     incrementOrDecrementValue={50}
+                                    initialIncrementValue={2000}
                                 />
 
                                 <Typography variant="caption" color="red">

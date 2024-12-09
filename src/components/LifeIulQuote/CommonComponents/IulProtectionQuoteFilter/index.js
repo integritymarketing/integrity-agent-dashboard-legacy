@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { Box, Typography, Grid, useTheme, useMediaQuery, Button } from "@mui/material";
 import CounterInput from "components/LifeForms/common/CounterInput";
 import {
@@ -8,11 +8,12 @@ import {
     HEALTH_CLASSIFICATION_OPTS,
 } from "../constants";
 import CustomRadioGroupOption from "components/LifeForms/common/CustomRadioGroupOption/CustomRadioGroupOption";
-import CollapsibleSection from "components/LifeIulQuote/CommonComponents/CollapsibleSection";
+import { CollapsibleSection } from "@integritymarketing/clients-ui-kit";
 import CustomCheckboxGroupOption from "components/LifeForms/common/CustomCheckboxGroupOption/CustomCheckboxGroupOption";
 import { useLifeIulQuote } from "providers/Life";
 import Filter from "components/icons/LifeIul/filter";
 import styles from "./styles.module.scss";
+import { debounce } from "lodash";
 
 export const IulProtectionQuoteFilter = () => {
     const {
@@ -28,11 +29,37 @@ export const IulProtectionQuoteFilter = () => {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const [faceAmount1, setFaceAmount1] = useState(0);
+    const [faceAmount2, setFaceAmount2] = useState(0);
+    const [faceAmount3, setFaceAmount3] = useState(0);
+    const [commonError, setCommonError] = useState("");
+
+    const validateFaceAmounts = (amount1, amount2, amount3) => {
+        if (!amount1 && !amount2 && !amount3) {
+            return "At least one Death Benefit is required.";
+        }
+        const amounts = [amount1, amount2, amount3].filter((val) => val > 0);
+        if (new Set(amounts).size !== amounts.length) {
+            return "Death Benefits cannot be duplicate.";
+        }
+        if (amount1 && (amount1 < 2000 || amount1 > 2000000)) {
+            return "Death Benefit 1 must be between 2000 and 2000000.";
+        }
+        if (amount2 && (amount2 < 2000 || amount2 > 3000000)) {
+            return "Death Benefit 2 must be between 2000 and 3000000.";
+        }
+        if (amount3 && (amount3 < 2000 || amount3 > 4000000)) {
+            return "Death Benefit 3 must be between 2000 and 4000000.";
+        }
+        return "";
+    };
 
     const resetQuoteResults = useCallback(
         async (updatedSessionData) => {
             const { birthDate, gender, state, healthClasses, faceAmounts, payPeriods, illustratedRate, solves } =
                 updatedSessionData;
+
+            const filteredFaceAmounts = faceAmounts.filter((amount) => Boolean(amount));
 
             const payload = {
                 inputs: [
@@ -41,7 +68,7 @@ export const IulProtectionQuoteFilter = () => {
                         gender: gender,
                         healthClasses: [healthClasses],
                         state: state,
-                        faceAmounts: faceAmounts,
+                        faceAmounts: filteredFaceAmounts,
                         solves: [solves],
                         payPeriods: [payPeriods],
                         props: {
@@ -70,11 +97,22 @@ export const IulProtectionQuoteFilter = () => {
         resetQuoteResults(parsedLifeQuoteProtectionDetails);
     };
 
-    const { faceAmounts, payPeriods, illustratedRate, healthClasses, solves } = useMemo(() => {
+    useEffect(() => {
+        if (lifeQuoteProtectionDetails) {
+            const parsedLifeQuoteProtectionDetails = JSON.parse(lifeQuoteProtectionDetails);
+            const amount1 = parsedLifeQuoteProtectionDetails.faceAmounts[0] || 0;
+            const amount2 = parsedLifeQuoteProtectionDetails.faceAmounts[1] || 0;
+            const amount3 = parsedLifeQuoteProtectionDetails.faceAmounts[2] || 0;
+            setFaceAmount1(parseInt(amount1));
+            setFaceAmount2(parseInt(amount2));
+            setFaceAmount3(parseInt(amount3));
+        }
+    }, [lifeQuoteProtectionDetails]);
+
+    const { payPeriods, illustratedRate, healthClasses, solves } = useMemo(() => {
         if (lifeQuoteProtectionDetails) {
             const parsedLifeQuoteProtectionDetails = JSON.parse(lifeQuoteProtectionDetails);
             return {
-                faceAmounts: parsedLifeQuoteProtectionDetails.faceAmounts,
                 payPeriods: parsedLifeQuoteProtectionDetails.payPeriods,
                 loanType: parsedLifeQuoteProtectionDetails.loanType,
                 illustratedRate: parsedLifeQuoteProtectionDetails.illustratedRate,
@@ -105,6 +143,26 @@ export const IulProtectionQuoteFilter = () => {
             return [{ value: "All carriers", label: "All carriers" }, ...uniqueCarriers];
         }
     }, [tempUserDetails]);
+
+    const handleFaceAmountsChange = debounce((value, index) => {
+        const updatedValues = {
+            faceAmounts1: index === 0 ? value : faceAmount1,
+            faceAmounts2: index === 1 ? value : faceAmount2,
+            faceAmounts3: index === 2 ? value : faceAmount3,
+        };
+
+        const { faceAmounts1, faceAmounts2, faceAmounts3 } = updatedValues;
+        setFaceAmount1(faceAmounts1);
+        setFaceAmount2(faceAmounts2);
+        setFaceAmount3(faceAmounts3);
+
+        const error = validateFaceAmounts(faceAmounts1, faceAmounts2, faceAmounts3);
+        setCommonError(error);
+
+        if (!error) {
+            handleFiltersChange("faceAmounts", value, index);
+        }
+    }, 2000);
 
     return (
         <>
@@ -138,34 +196,39 @@ export const IulProtectionQuoteFilter = () => {
                                 <Typography className={styles.label}> Death Benefits </Typography>
                                 <Box marginBottom={1}>
                                     <CounterInput
-                                        onValueChange={(value) => handleFiltersChange("faceAmounts", value, 0)}
+                                        onValueChange={(value) => handleFaceAmountsChange(value, 0)}
                                         min={2000}
                                         max={2000000}
-                                        initialValue={faceAmounts[0]}
-                                        incrementOrDecrementValue={50}
-                                        inputStyles={{ padding: "23.1px 14px" }}
+                                        initialValue={faceAmount1}
+                                        incrementOrDecrementValue={10000}
+                                        initialIncrementValue={2000}
                                     />
                                 </Box>
                                 <Box marginBottom={1}>
                                     <CounterInput
-                                        onValueChange={(value) => handleFiltersChange("faceAmounts", value, 1)}
+                                        onValueChange={(value) => handleFaceAmountsChange(value, 1)}
                                         min={2000}
-                                        max={2000000}
-                                        initialValue={faceAmounts[1]}
-                                        incrementOrDecrementValue={50}
-                                        inputStyles={{ padding: "23.1px 14px" }}
+                                        max={3000000}
+                                        initialValue={faceAmount2}
+                                        incrementOrDecrementValue={10000}
+                                        initialIncrementValue={2000}
                                     />
                                 </Box>
                                 <Box marginBottom={1}>
                                     <CounterInput
-                                        onValueChange={(value) => handleFiltersChange("faceAmounts", value, 2)}
+                                        onValueChange={(value) => handleFaceAmountsChange(value, 2)}
                                         min={2000}
-                                        max={2000000}
-                                        initialValue={faceAmounts[2]}
-                                        incrementOrDecrementValue={50}
-                                        inputStyles={{ padding: "23.1px 14px" }}
+                                        max={4000000}
+                                        initialValue={faceAmount3}
+                                        incrementOrDecrementValue={10000}
+                                        initialIncrementValue={2000}
                                     />
                                 </Box>
+                                {commonError && (
+                                    <Typography variant="caption" color="red">
+                                        {commonError}
+                                    </Typography>
+                                )}
                             </Grid>
 
                             <Grid item md={12} xs={12}>
