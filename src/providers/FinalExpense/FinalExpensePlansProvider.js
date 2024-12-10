@@ -60,11 +60,7 @@ export const FinalExpensePlansProvider = ({ children }) => {
 
     const getFinalExpenseQuotePlans = useCallback(
         async (body, leadsId) => {
-            let path = `${leadsId}`;
-            if (isSimplifiedIUL()) {
-                path += `?product=iul`;
-            }
-            return await fetchFinalExpenseQuotePlans(body, false, path);
+            return await fetchFinalExpenseQuotePlans(body, false, `${leadsId}`);
         },
         [fetchFinalExpensePlans, isSimplifiedIUL, fetchFinalExpenseQuotePlans],
     );

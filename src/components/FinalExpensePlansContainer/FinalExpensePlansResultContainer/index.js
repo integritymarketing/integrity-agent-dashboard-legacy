@@ -98,6 +98,7 @@ const FinalExpensePlansResultContainer = () => {
             const isAgentNonRTS = await getAgentNonRTS();
             if (isAgentNonRTS === "True") {
                 setIsMyAppointedProducts(false);
+                setIsRTS(false);
             } else {
                 if (!appointmentSession) {
                     setIsRTS(true);
@@ -188,16 +189,22 @@ const FinalExpensePlansResultContainer = () => {
         setSelectedTab(tab);
     };
 
-    const handleMyAppointedProductsCheck = useCallback((isChecked = false) => {
-        if (!isRTS) {
-            return;
-        }
-        setIsMyAppointedProducts(isChecked || !isMyAppointedProducts);
-    }, [isRTS, isMyAppointedProducts]);
+    const handleMyAppointedProductsCheck = useCallback(
+        (isChecked = false) => {
+            if (!isRTS) {
+                return;
+            }
+            setIsMyAppointedProducts(isChecked || !isMyAppointedProducts);
+        },
+        [isRTS, isMyAppointedProducts],
+    );
 
-    const handleIsShowExcludedProductsCheck = useCallback((isChecked = false) => {
-        setIsShowExcludedProducts(isChecked || !isShowExcludedProducts);
-    }, [isShowExcludedProducts]);
+    const handleIsShowExcludedProductsCheck = useCallback(
+        (isChecked = false) => {
+            setIsShowExcludedProducts(isChecked || !isShowExcludedProducts);
+        },
+        [isShowExcludedProducts],
+    );
 
     const covAmtError = useMemo(() => {
         return coverageAmount < covMin || coverageAmount > covMax;
@@ -244,7 +251,7 @@ const FinalExpensePlansResultContainer = () => {
                         onChange={handleInputChange}
                         inputErrorStyle={
                             (covAmtError && selectedTab === COVERAGE_AMOUNT) ||
-                                (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
+                            (monthlyPremError && selectedTab === MONTHLY_PREMIUM)
                                 ? styles.inputError
                                 : ""
                         }
@@ -273,16 +280,18 @@ const FinalExpensePlansResultContainer = () => {
                         )}
                         <div className={styles.checkboxesWrapper}>
                             <div
-                                className={`${styles.checkbox} ${isMyAppointedProducts ? styles.selectedCheckbox : ""
-                                    } ${!isRTS ? styles.inActive : ""}`}
+                                className={`${styles.checkbox} ${
+                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                } ${!isRTS ? styles.inActive : ""}`}
                                 onClick={() => handleMyAppointedProductsCheck(!isMyAppointedProducts)}
                             >
                                 {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
                                 <span>{MY_APPOINTED_LABEL}</span>
                             </div>
                             <div
-                                className={`${styles.checkbox} ${isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                    }`}
+                                className={`${styles.checkbox} ${
+                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                }`}
                                 onClick={() => handleIsShowExcludedProductsCheck(!isShowExcludedProducts)}
                             >
                                 {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}

@@ -141,25 +141,12 @@ export const PlanDetailsContainer = ({
             },
         };
 
+        if (isSimplifiedIUL()) {
+            quotePlansPostBody.showOnlyExcludedProducts = isShowExcludedProducts;
+        }
+
         try {
             const result = await getFinalExpenseQuotePlans(quotePlansPostBody, contactId);
-            if (isSimplifiedIUL()) {
-                if (result?.hasNoIULPlansAvailable) {
-                    setHasNoIULPlansAvailable(true);
-                } else {
-                    setHasNoIULPlansAvailable(false);
-                }
-                if (isMyAppointedProducts && !isShowExcludedProducts) {
-                    setRtsPlans(result?.rtsPlans || []);
-                } else {
-                    setRtsPlans([]);
-                }
-
-                setRtsPlansWithExclusions(result?.rtsPlansWithExclusions || []);
-            }
-
-            // Update error message based on business logic
-            updateErrorMesssage(result, isMyAppointedProducts, isShowExcludedProducts);
             setFinalExpenseQuoteAPIResponse(result);
         } catch (error) {
             setIsLoadingFinalExpensePlans(false);
@@ -184,6 +171,23 @@ export const PlanDetailsContainer = ({
 
     const setFinalExpensePlansFromResult = useCallback(
         (result) => {
+            if (isSimplifiedIUL()) {
+                if (result?.hasNoIULPlansAvailable) {
+                    setHasNoIULPlansAvailable(true);
+                } else {
+                    setHasNoIULPlansAvailable(false);
+                }
+                if (isMyAppointedProducts && !isShowExcludedProducts) {
+                    setRtsPlans(result?.rtsPlans || []);
+                } else {
+                    setRtsPlans([]);
+                }
+                setRtsPlansWithExclusions(result?.rtsPlansWithExclusions || []);
+            }
+
+            // Update error message based on business logic
+            updateErrorMesssage(result, isMyAppointedProducts, isShowExcludedProducts);
+
             if (!isRTS) {
                 if (isShowExcludedProducts) {
                     setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
@@ -205,11 +209,11 @@ export const PlanDetailsContainer = ({
                 }
             }
         },
-        [isMyAppointedProducts, isRTS, isShowExcludedProducts],
+        [isMyAppointedProducts, isRTS, isShowExcludedProducts, isSimplifiedIUL],
     );
 
     useEffect(() => {
-         setFinalExpensePlansFromResult(finalExpenseQuoteAPIResponse);
+        setFinalExpensePlansFromResult(finalExpenseQuoteAPIResponse);
     }, [isShowExcludedProducts, isMyAppointedProducts, finalExpenseQuoteAPIResponse, isRTS]);
 
     useEffect(() => {
@@ -244,10 +248,23 @@ export const PlanDetailsContainer = ({
         const coverageAmountValue =
             coverageAmount >= covMin && coverageAmount <= covMax && selectedTab === COVERAGE_AMOUNT;
         const monthlyPremiumValue = monthlyPremium >= min && monthlyPremium <= max && selectedTab === MONTHLY_PREMIUM;
-        if ((coverageAmountValue || monthlyPremiumValue) && !isLoadingHealthConditions && leadDetailsData && isRTS) {
+        if (
+            (coverageAmountValue || monthlyPremiumValue) &&
+            !isLoadingHealthConditions &&
+            leadDetailsData &&
+            isRTS !== undefined
+        ) {
             fetchPlans();
         }
-    }, [coverageAmount, monthlyPremium, selectedTab, coverageType, isLoadingHealthConditions, leadDetailsData]);
+    }, [
+        coverageAmount,
+        monthlyPremium,
+        selectedTab,
+        coverageType,
+        isLoadingHealthConditions,
+        leadDetailsData,
+        isShowExcludedProducts,
+    ]);
 
     const lifeQuoteEvent = (eventName) => {
         fireEvent(eventName, {
@@ -417,99 +434,101 @@ export const PlanDetailsContainer = ({
                         {renderNoPlansMessage()}
                     </>
                 )}
-                {pagedResults.length > 0 && !rtsPlans.length && !isLoadingFinalExpensePlans && (
-                    <>
-                        {pagedResults.map((plan, index) => {
-                            // Ensure that carrier and product are not null before destructuring
-                            const carrier = plan.carrier || {};
-                            const product = plan.product || {};
-                            const { logoUrl, naic, resource_url } = carrier;
-                            const isFeatured = plan?.isFeatured || false;
+                {pagedResults.length > 0 &&
+                    ((hasNoIULPlansAvailable && !rtsPlans.length) || !hasNoIULPlansAvailable) &&
+                    !isLoadingFinalExpensePlans && (
+                        <>
+                            {pagedResults.map((plan, index) => {
+                                // Ensure that carrier and product are not null before destructuring
+                                const carrier = plan.carrier || {};
+                                const product = plan.product || {};
+                                const { logoUrl, naic, resource_url } = carrier;
+                                const isFeatured = plan?.isFeatured || false;
 
-                            const { name, benefits, limits } = product;
+                                const { name, benefits, limits } = product;
 
-                            // Ensure other destructured properties are safely accessed
-                            const {
-                                coverageType: apiCoverageType = "",
-                                faceValue = "",
-                                modalRates = [],
-                                eligibility = {},
-                                reason = {},
-                                type = "",
-                                writingAgentNumber = "",
-                                isRTS: isRTSPlan = false,
-                                policyFee = 0,
-                                uwType = "",
-                            } = plan || {};
+                                // Ensure other destructured properties are safely accessed
+                                const {
+                                    coverageType: apiCoverageType = "",
+                                    faceValue = "",
+                                    modalRates = [],
+                                    eligibility = {},
+                                    reason = {},
+                                    type = "",
+                                    writingAgentNumber = "",
+                                    isRTS: isRTSPlan = false,
+                                    policyFee = 0,
+                                    uwType = "",
+                                } = plan || {};
 
-                            let conditionList = [];
-                            if (reason?.categoryReasons?.length > 0) {
-                                conditionList = reason?.categoryReasons?.map(({ categoryId, lookBackPeriod }) => {
-                                    const condition = healthConditionsDataRef.current.find(
-                                        (item) => item.conditionId == categoryId,
-                                    );
-                                    if (condition) {
-                                        return { name: condition?.conditionName, lookBackPeriod };
-                                    }
-                                });
-                            }
-                            const formatRate = (rate) => {
-                                return rate.toFixed(2);
-                            };
-                            const monthlyRate = formatRate(
-                                parseFloat(modalRates.find((rate) => rate.type === "month")?.totalPremium || 0),
-                            );
-                            const product_monthly_premium = formatRate(
-                                parseFloat(modalRates.find((rate) => rate.type === "month")?.rate || 0),
-                            );
+                                let conditionList = [];
+                                if (reason?.categoryReasons?.length > 0) {
+                                    conditionList = reason?.categoryReasons?.map(({ categoryId, lookBackPeriod }) => {
+                                        const condition = healthConditionsDataRef.current.find(
+                                            (item) => item.conditionId == categoryId,
+                                        );
+                                        if (condition) {
+                                            return { name: condition?.conditionName, lookBackPeriod };
+                                        }
+                                    });
+                                }
+                                const formatRate = (rate) => {
+                                    return rate.toFixed(2);
+                                };
+                                const monthlyRate = formatRate(
+                                    parseFloat(modalRates.find((rate) => rate.type === "month")?.totalPremium || 0),
+                                );
+                                const product_monthly_premium = formatRate(
+                                    parseFloat(modalRates.find((rate) => rate.type === "month")?.rate || 0),
+                                );
 
-                            return (
-                                <PlanCard
-                                    key={`${name}-${index}`}
-                                    isMobile={isMobile}
-                                    planName={name}
-                                    benefits={benefits}
-                                    logoUrl={logoUrl}
-                                    coverageType={apiCoverageType}
-                                    coverageAmount={faceValue}
-                                    monthlyPremium={monthlyRate}
-                                    eligibility={eligibility}
-                                    conditionList={conditionList}
-                                    isRTSPlan={isRTSPlan}
-                                    naic={naic}
-                                    contactId={contactId}
-                                    resource_url={resource_url}
-                                    writingAgentNumber={writingAgentNumber}
-                                    selectedTab={selectedTab}
-                                    carrierInfo={plan.carrier}
-                                    planType={type}
-                                    fetchPlans={fetchPlans}
-                                    reason={reason}
-                                    limits={limits}
-                                    setIsRTS={setIsRTS}
-                                    isShowExcludedProducts={isShowExcludedProducts}
-                                    isMyAppointedProducts={isMyAppointedProducts}
-                                    conditionsListState={conditionsListState}
-                                    product_monthly_premium={product_monthly_premium}
-                                    policyFee={policyFee}
-                                    uwType={uwType}
-                                    selectedCoverageType={coverageType}
-                                    isFeatured={isFeatured}
-                                />
-                            );
-                        })}
-                        <BackToTop />
+                                return (
+                                    <PlanCard
+                                        key={`${name}-${index}`}
+                                        isMobile={isMobile}
+                                        planName={name}
+                                        benefits={benefits}
+                                        logoUrl={logoUrl}
+                                        coverageType={apiCoverageType}
+                                        coverageAmount={faceValue}
+                                        monthlyPremium={monthlyRate}
+                                        eligibility={eligibility}
+                                        conditionList={conditionList}
+                                        isRTSPlan={isRTSPlan}
+                                        naic={naic}
+                                        contactId={contactId}
+                                        resource_url={resource_url}
+                                        writingAgentNumber={writingAgentNumber}
+                                        selectedTab={selectedTab}
+                                        carrierInfo={plan.carrier}
+                                        planType={type}
+                                        fetchPlans={fetchPlans}
+                                        reason={reason}
+                                        limits={limits}
+                                        setIsRTS={setIsRTS}
+                                        isShowExcludedProducts={isShowExcludedProducts}
+                                        isMyAppointedProducts={isMyAppointedProducts}
+                                        conditionsListState={conditionsListState}
+                                        product_monthly_premium={product_monthly_premium}
+                                        policyFee={policyFee}
+                                        uwType={uwType}
+                                        selectedCoverageType={coverageType}
+                                        isFeatured={isFeatured}
+                                    />
+                                );
+                            })}
+                            <BackToTop />
 
-                        <Pagination
-                            currentPage={currentPage}
-                            resultName="products"
-                            totalPages={Math.ceil(finalExpensePlans?.length / 10)}
-                            totalResults={finalExpensePlans?.length}
-                            pageSize={pageSize}
-                            onPageChange={(page) => setCurrentPage(page)}
-                        />
-                    </>
-                )}
+                            <Pagination
+                                currentPage={currentPage}
+                                resultName="products"
+                                totalPages={Math.ceil(finalExpensePlans?.length / 10)}
+                                totalResults={finalExpensePlans?.length}
+                                pageSize={pageSize}
+                                onPageChange={(page) => setCurrentPage(page)}
+                            />
+                        </>
+                    )}
             </div>
         </>
     );
