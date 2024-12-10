@@ -30,7 +30,7 @@ const CounterInput = ({
         setValue((prevValue) => {
             const numericValue = prevValue === "" ? 0 : prevValue;
             const newValue = Math.min(numericValue + incrementOrDecrementValue, max);
-            if (newValue >= min) {
+            if (prevValue == min) {
                 if (onValueChange) {
                     onValueChange(newValue);
                 }
