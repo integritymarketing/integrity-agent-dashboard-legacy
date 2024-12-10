@@ -209,10 +209,8 @@ export const PlanDetailsContainer = ({
     );
 
     useEffect(() => {
-        if ((isSimplifiedIUL() && !hasNoIULPlansAvailable) || !isSimplifiedIUL()) {
-            setFinalExpensePlansFromResult(finalExpenseQuoteAPIResponse);
-        }
-    }, [isShowExcludedProducts, isMyAppointedProducts, finalExpenseQuoteAPIResponse, isRTS, hasNoIULPlansAvailable]);
+         setFinalExpensePlansFromResult(finalExpenseQuoteAPIResponse);
+    }, [isShowExcludedProducts, isMyAppointedProducts, finalExpenseQuoteAPIResponse, isRTS]);
 
     useEffect(() => {
         const fetchHealthConditionsListData = async () => {
@@ -419,7 +417,7 @@ export const PlanDetailsContainer = ({
                         {renderNoPlansMessage()}
                     </>
                 )}
-                {pagedResults.length > 0 && !isLoadingFinalExpensePlans && (
+                {pagedResults.length > 0 && !rtsPlans.length && !isLoadingFinalExpensePlans && (
                     <>
                         {pagedResults.map((plan, index) => {
                             // Ensure that carrier and product are not null before destructuring
