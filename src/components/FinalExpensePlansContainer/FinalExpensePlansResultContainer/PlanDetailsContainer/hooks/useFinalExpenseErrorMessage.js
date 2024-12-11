@@ -1,14 +1,17 @@
 import { useState, useCallback } from "react";
+import { useCreateNewQuote } from "providers/CreateNewQuote";
 
 export const ERROR_1 = "Products are available for your quote but not in your appointed products.";
 export const ERROR_2 = "Products are available for your quote but were excluded based on underwriting prescreening.";
 export const ERROR_3 =
     "Products are available for your quote but were excluded based on underwriting prescreening and selling preferences.";
 export const ERROR_4 = "No products were excluded from your results.";
+export const ERROR_5 = "No eligible policies match your quote details, but other products may be available.";
 
 function useFinalExpenseErrorMessage(handleMyAppointedProductsCheck, handleIsShowExcludedProductsCheck) {
     const [actionLink, setActionLink] = useState(null);
     const [errorMessage, setErrorMessage] = useState("");
+    const { isSimplifiedIUL } = useCreateNewQuote();
 
     const updateErrorMesssage = useCallback(
         (result, isMyAppointedProducts, isShowExcludedProducts) => {
@@ -38,7 +41,7 @@ function useFinalExpenseErrorMessage(handleMyAppointedProductsCheck, handleIsSho
                         (plan) => plan.reason && plan.reason.categoryReasons && plan.reason.categoryReasons.length > 0
                     );
                     if (hasPlanWithCategoryReason) {
-                        setErrorMessage(ERROR_2);
+                        setErrorMessage(isSimplifiedIUL() ? ERROR_5 : ERROR_2);
                     } else {
                         setErrorMessage(ERROR_3);
                     }
@@ -50,10 +53,10 @@ function useFinalExpenseErrorMessage(handleMyAppointedProductsCheck, handleIsSho
             } else if (!isMyAppointedProducts && !isShowExcludedProducts) {
                 if (!hasRtsPlans && !hasNonRtsPlans && hasNonRTSPlansWithExclusions) {
                     const hasPlanWithCategoryReason = nonRTSPlansWithExclusions.some(
-                        (plan) => plan.reason && plan.reason.categoryReasons && plan.reason.categoryReasons.length > 0
+                        (plan) => plan.reason && plan.reason.categoryReasons && plan.reason.categoryReasons.length > 0,
                     );
                     if (hasPlanWithCategoryReason) {
-                        setErrorMessage(ERROR_2);
+                        setErrorMessage(isSimplifiedIUL() ? ERROR_5 : ERROR_2);
                     } else {
                         setErrorMessage(ERROR_3);
                     }
@@ -80,7 +83,7 @@ function useFinalExpenseErrorMessage(handleMyAppointedProductsCheck, handleIsSho
                 }
             }
         },
-        [handleIsShowExcludedProductsCheck, handleMyAppointedProductsCheck]
+        [handleIsShowExcludedProductsCheck, handleMyAppointedProductsCheck],
     );
 
     return { errorMessage, updateErrorMesssage, actionLink };

@@ -39,7 +39,7 @@ import PlanCardLoader from "components/ui/PlanCard/loader";
 import { useLeadDetails } from "providers/ContactDetails";
 
 import { PlanCard } from "./PlanCard";
-import useFinalExpenseErrorMessage, { ERROR_1 } from "./hooks/useFinalExpenseErrorMessage";
+import useFinalExpenseErrorMessage, { ERROR_5 } from "./hooks/useFinalExpenseErrorMessage";
 
 import PersonalisedQuoteBox from "../PersonalisedQuoteBox/PersonalisedQuoteBox";
 
@@ -142,7 +142,7 @@ export const PlanDetailsContainer = ({
         };
 
         if (isSimplifiedIUL()) {
-            quotePlansPostBody.showOnlyExcludedProducts = isShowExcludedProducts;
+            quotePlansPostBody.showOnlyExcludedProducts = !isMyAppointedProducts || isShowExcludedProducts;
         }
 
         try {
@@ -264,6 +264,7 @@ export const PlanDetailsContainer = ({
         isLoadingHealthConditions,
         leadDetailsData,
         isShowExcludedProducts,
+        isMyAppointedProducts,
     ]);
 
     const lifeQuoteEvent = (eventName) => {
@@ -344,7 +345,7 @@ export const PlanDetailsContainer = ({
             }
 
             if (rtsPlans.length) {
-                return renderAlertMessage(ERROR_1, [
+                return renderAlertMessage(ERROR_5, [
                     {
                         text: "View available plans",
                         callbackFunc: () => navigate(`/finalexpenses/plans/${contactId}`),
