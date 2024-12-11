@@ -4,6 +4,7 @@ import { Grid, Typography, Box, Tab, Tabs, useTheme, useMediaQuery } from "@mui/
 import { useLifeIulQuote } from "providers/Life";
 import WithLoader from "components/ui/WithLoader";
 import styles from "./styles.module.scss";
+import { useParams, useNavigate } from "react-router-dom";
 
 const IulProtectionQuote = () => {
     const {
@@ -15,11 +16,14 @@ const IulProtectionQuote = () => {
         setTabSelected,
         showFilters,
         tempUserDetails,
+        handleComparePlanSelect,
+        selectedPlans,
     } = useLifeIulQuote();
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+    const { contactId } = useParams();
+    const navigate = useNavigate();
     const [isTobaccoUser, setIsTobaccoUser] = useState(false);
 
     const getQuoteResults = useCallback(async () => {
@@ -59,6 +63,10 @@ const IulProtectionQuote = () => {
         getQuoteResults();
     }, []);
 
+    const handlePlanDetailsClick = (id) => {
+        navigate(`/life/iul-protection/${id}/${contactId}/quote-details`);
+    };
+
     const tabInputs = useMemo(() => {
         const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
         const parsedLifeQuoteProtectionDetails = JSON.parse(lifeQuoteProtectionDetails);
@@ -68,7 +76,7 @@ const IulProtectionQuote = () => {
 
     const filteredTabInputs = tabInputs.filter((tab) => Boolean(tab));
     const selectedTabIndex = filteredTabInputs.findIndex((tab) => tab === tabSelected);
-    
+
     return (
         <IulQuoteContainer title="IUL Protection">
             <Grid item md={3} xs={12}>
@@ -129,6 +137,7 @@ const IulProtectionQuote = () => {
                                     deathBenefit,
                                     targetPremium,
                                     premium,
+                                    rowId,
                                 } = plan;
                                 return (
                                     <Grid item md={12} key={`iul-accumulation-${index}`}>
@@ -150,6 +159,15 @@ const IulProtectionQuote = () => {
                                             age={plan?.input?.actualAge}
                                             healthClass={plan?.input?.healthClass}
                                             premium={premium}
+                                            handleComparePlanSelect={() => {
+                                                handleComparePlanSelect(plan);
+                                            }}
+                                            handlePlanDetailsClick={() => handlePlanDetailsClick(rowId)}
+                                            disableCompare={
+                                                selectedPlans?.length === 3 &&
+                                                !selectedPlans?.find((p) => p.rowId === rowId)
+                                            }
+                                            isChecked={selectedPlans?.find((p) => p.rowId === rowId)}
                                         />
                                     </Grid>
                                 );

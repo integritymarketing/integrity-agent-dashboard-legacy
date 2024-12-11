@@ -28,10 +28,9 @@
         border: 1px dashed #64748b;
         background: #f1f5f9;
         border-radius: 8px;
-    }
-
-    @include small {
-        margin-bottom: 16px;
+        @include small {
+            margin-bottom: 16px;
+        }
     }
 
     .planBox {
