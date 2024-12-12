@@ -33,7 +33,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         fontSize: "16px",
         lineHeight: "20px",
         maxWidth: 250,
-        cursor: "pointer",
         color: "#434A51",
         padding: "20px 10px",
     },
@@ -100,7 +99,7 @@ function Table(props) {
             data,
             initialState,
         },
-        useSortBy
+        useSortBy,
     );
 
     // Render the UI for table
