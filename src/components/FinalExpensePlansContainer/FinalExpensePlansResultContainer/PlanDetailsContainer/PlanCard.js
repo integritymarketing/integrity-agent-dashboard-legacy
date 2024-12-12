@@ -50,7 +50,7 @@ export const PlanCard = ({
     isShowExcludedProducts,
     isMyAppointedProducts,
     conditionsListState,
-    product_monthly_premium,
+    productMonthlyPremium,
     policyFee,
     uwType,
     selectedCoverageType,
@@ -97,10 +97,10 @@ export const PlanCard = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                        ? ["My Appointed Products"]
-                        : isShowExcludedProducts
-                            ? ["Show Excluded Products"]
-                            : [],
+                      ? ["My Appointed Products"]
+                      : isShowExcludedProducts
+                        ? ["Show Excluded Products"]
+                        : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -111,7 +111,7 @@ export const PlanCard = ({
             carrier: carrierInfo?.name,
             product_coverage_type: coverageType?.toLowerCase(),
             product_coverage_amount: coverageAmount,
-            product_monthly_premium: product_monthly_premium,
+            product_monthly_premium: productMonthlyPremium,
             product_total_monthly_premium: monthlyPremium,
             product_monthly_policy_fee: policyFee,
             pre_screening_status: eligibility,
@@ -142,7 +142,7 @@ export const PlanCard = ({
     };
 
     const onApply = async (producerId, apiErrorState = false) => {
-        let writingAgentNumberToSend = writingAgentNumber;
+        let writingAgentNumberToSend;
         setIsLoadingEnroll(true);
         if (!apiErrorState) {
             writingAgentNumberToSend = writingAgentNumber ?? producerId;
@@ -159,7 +159,7 @@ export const PlanCard = ({
             resource_url,
             contactId,
             planType,
-            uwType
+            uwType,
         );
         const response = await enrollLeadFinalExpensePlan(body);
         setIsLoadingEnroll(false);
@@ -207,7 +207,7 @@ export const PlanCard = ({
 
     return (
         <div className={styles.planBoxWrapper}>
-            {isFeatured == true && <div className={styles.planBoxFeatureHeader}>Featured Product</div>}
+            {isFeatured && <div className={styles.planBoxFeatureHeader}>Featured Product</div>}
             <div className={styles.planBox}>
                 <div className={styles.header}>
                     <div>{planName}</div>
@@ -227,8 +227,14 @@ export const PlanCard = ({
                         <div>
                             <div>{MONTHLY_PREMIUM}</div>
                             <div className={styles.amount}>
-                                ${monthlyPremium}
-                                <span className={styles.unit}>/mo</span>
+                                {monthlyPremium !== "N/A" ? (
+                                    <>
+                                        ${monthlyPremium}
+                                        <span className={styles.unit}>/mo</span>
+                                    </>
+                                ) : (
+                                    monthlyPremium
+                                )}
                             </div>
                         </div>
                     </div>
@@ -332,13 +338,21 @@ PlanCard.propTypes = {
     isRTSPlan: PropTypes.bool,
     planType: PropTypes.string.isRequired,
     fetchPlans: PropTypes.func,
+    isShowExcludedProducts: PropTypes.bool,
+    isMyAppointedProducts: PropTypes.bool,
+    conditionsListState: PropTypes.array,
+    productMonthlyPremium: PropTypes.number,
+    policyFee: PropTypes.number,
+    uwType: PropTypes.string,
+    selectedCoverageType: PropTypes.string,
+    conditionList: PropTypes.arrayOf(PropTypes.string),
     limits: PropTypes.arrayOf(
         PropTypes.shape({
             maxAge: PropTypes.number,
             maxAmount: PropTypes.number,
             minAge: PropTypes.number,
             minAmount: PropTypes.number,
-        })
+        }),
     ),
     reason: PropTypes.shape({
         MaxAgeExceeded: PropTypes.bool,

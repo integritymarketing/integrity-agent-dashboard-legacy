@@ -474,14 +474,25 @@ export const PlanDetailsContainer = ({
                                     });
                                 }
                                 const formatRate = (rate) => {
-                                    return rate.toFixed(2);
+                                    return `${rate.toFixed(2)}`;
                                 };
-                                const monthlyRate = formatRate(
-                                    parseFloat(modalRates.find((rate) => rate.type === "month")?.totalPremium || 0),
-                                );
-                                const product_monthly_premium = formatRate(
-                                    parseFloat(modalRates.find((rate) => rate.type === "month")?.rate || 0),
-                                );
+                                const monthlyRate =
+                                    Array.isArray(modalRates) && modalRates.length > 0
+                                        ? formatRate(
+                                              parseFloat(
+                                                  modalRates.find((rate) => rate?.type === "month")?.totalPremium ||
+                                                      "0",
+                                              ),
+                                          )
+                                        : "N/A";
+                                const productMonthlyPremium =
+                                    Array.isArray(modalRates) && modalRates.length > 0
+                                        ? formatRate(
+                                              parseFloat(
+                                                  modalRates.find((rate) => rate?.type === "month")?.rate || "0",
+                                              ),
+                                          )
+                                        : "N/A";
 
                                 return (
                                     <PlanCard
@@ -510,7 +521,7 @@ export const PlanDetailsContainer = ({
                                         isShowExcludedProducts={isShowExcludedProducts}
                                         isMyAppointedProducts={isMyAppointedProducts}
                                         conditionsListState={conditionsListState}
-                                        product_monthly_premium={product_monthly_premium}
+                                        productMonthlyPremium={productMonthlyPremium}
                                         policyFee={policyFee}
                                         uwType={uwType}
                                         selectedCoverageType={coverageType}
