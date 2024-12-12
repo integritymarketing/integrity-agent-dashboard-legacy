@@ -503,7 +503,6 @@ export const PlanDetailsContainer = ({
                                         logoUrl={logoUrl}
                                         coverageType={apiCoverageType}
                                         coverageAmount={faceValue || "N/A"}
-                                        
                                         monthlyPremium={monthlyRate}
                                         eligibility={eligibility}
                                         conditionList={conditionList}
