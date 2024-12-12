@@ -202,9 +202,6 @@ export const PlanCard = ({
         </table>
     );
 
-    // Safely rendering coverageAmount using optional chaining and nullish coalescing
-    const safeCoverageAmount = coverageAmount?.toLocaleString() ?? "N/A";
-
     return (
         <div className={styles.planBoxWrapper}>
             {isFeatured && <div className={styles.planBoxFeatureHeader}>Featured Product</div>}
@@ -221,7 +218,10 @@ export const PlanCard = ({
                     <div className={styles.amountInfo}>
                         <div className={styles.coverageAmount}>
                             <div>{COVERAGE_AMOUNT}</div>
-                            <div className={styles.amount}>${safeCoverageAmount}</div>
+                            <div className={styles.amount}>
+                                {coverageAmount !== "N/A" && "$"}
+                                {coverageAmount}
+                            </div>
                         </div>
                         <div className={styles.separator}></div>
                         <div>
