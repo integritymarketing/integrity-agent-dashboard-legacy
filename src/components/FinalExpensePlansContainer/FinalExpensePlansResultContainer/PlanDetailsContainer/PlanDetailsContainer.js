@@ -64,7 +64,8 @@ export const PlanDetailsContainer = ({
 }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [pagedResults, setPagedResults] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const firstPage = 1;
+    const [currentPage, setCurrentPage] = useState(firstPage);
     const { contactId } = useParams();
     const { fireEvent } = useAnalytics();
     const healthConditionsDataRef = useRef(null);
@@ -213,6 +214,7 @@ export const PlanDetailsContainer = ({
     );
 
     useEffect(() => {
+        setCurrentPage(firstPage);
         setFinalExpensePlansFromResult(finalExpenseQuoteAPIResponse);
     }, [isShowExcludedProducts, isMyAppointedProducts, finalExpenseQuoteAPIResponse, isRTS]);
 
@@ -502,7 +504,7 @@ export const PlanDetailsContainer = ({
                                         benefits={benefits}
                                         logoUrl={logoUrl}
                                         coverageType={apiCoverageType}
-                                        coverageAmount={faceValue || "N/A"} 
+                                        coverageAmount={faceValue || "N/A"}
                                         monthlyPremium={monthlyRate}
                                         eligibility={eligibility}
                                         conditionList={conditionList}
