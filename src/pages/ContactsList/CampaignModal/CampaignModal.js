@@ -40,7 +40,7 @@ const CampaignModal = ({ open, onClose, campaignList, leadData, view }) => {
             open={open}
             onClose={onClose}
             title={
-                <Box display="flex">
+                <Box display="flex" alignItems={"center"}>
                     <span className={Styles.campaignTitleIcon}>
                         <AnnouncementIcon />
                     </span>
