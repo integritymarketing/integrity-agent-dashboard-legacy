@@ -278,10 +278,10 @@ export const PlanDetailsContainer = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                      ? ["My Appointed Products"]
-                      : isShowExcludedProducts
-                        ? ["Show Excluded Products"]
-                        : [],
+                        ? ["My Appointed Products"]
+                        : isShowExcludedProducts
+                            ? ["Show Excluded Products"]
+                            : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -389,10 +389,10 @@ export const PlanDetailsContainer = ({
             </Box>
             {actions.length
                 ? actions.map((_actionLink, index) => (
-                      <Box key={index} onClick={_actionLink.callbackFunc} className={styles.link}>
-                          {_actionLink.text}
-                      </Box>
-                  ))
+                    <Box key={index} onClick={_actionLink.callbackFunc} className={styles.link}>
+                        {_actionLink.text}
+                    </Box>
+                ))
                 : ""}
         </Box>
     );
@@ -475,27 +475,37 @@ export const PlanDetailsContainer = ({
                                         }
                                     });
                                 }
+
                                 const formatRate = (rate) => {
-                                    return `${rate.toFixed(2)}`;
+                                    if (rate === null || rate === undefined || rate === "") {
+                                        return "N/A";
+                                    }
+                                    if (rate === 0) {
+                                        return "0.00";
+                                    }
+                                    return rate.toLocaleString();
                                 };
                                 const monthlyRate =
                                     Array.isArray(modalRates) && modalRates.length > 0
                                         ? formatRate(
-                                              parseFloat(
-                                                  modalRates.find((rate) => rate?.type === "month")?.totalPremium ||
-                                                      "0",
-                                              ),
-                                          )
+                                            parseFloat(
+                                                modalRates.find((rate) => rate?.type === "month")?.totalPremium ||
+                                                "0",
+                                            ),
+                                        )
                                         : "N/A";
+
                                 const productMonthlyPremium =
                                     Array.isArray(modalRates) && modalRates.length > 0
                                         ? formatRate(
-                                              parseFloat(
-                                                  modalRates.find((rate) => rate?.type === "month")?.rate || "0",
-                                              ),
-                                          )
+                                            parseFloat(
+                                                modalRates.find((rate) => rate?.type === "month")?.rate || "0",
+                                            ),
+                                        )
                                         : "N/A";
 
+                                const formattedCoverageAmount = faceValue === null || faceValue === undefined || faceValue === ""
+            ? "N/A" : formatRate(parseFloat(faceValue));
                                 return (
                                     <PlanCard
                                         key={`${name}-${index}`}
@@ -504,7 +514,7 @@ export const PlanDetailsContainer = ({
                                         benefits={benefits}
                                         logoUrl={logoUrl}
                                         coverageType={apiCoverageType}
-                                        coverageAmount={faceValue || "N/A"}
+                                        coverageAmount={formattedCoverageAmount}
                                         monthlyPremium={monthlyRate}
                                         eligibility={eligibility}
                                         conditionList={conditionList}
