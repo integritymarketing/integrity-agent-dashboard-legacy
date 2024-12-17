@@ -1,62 +1,66 @@
 @import "../../../../scss/globalDefines";
 
 .container {
-  display: flex;
-  gap: 8px;
-  background-color: #f1f1f1;
-  border-radius: 8px;
-  padding: 8px;
-  margin: 8px 0;
-
-  .content {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    gap: 8px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 8px 0;
 
-    .heading {
-      font-size: 16px;
-      color: #052a63;
-      font-weight: bold;
-    }
-
-    .pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-
-      .pill {
+    .content {
         display: flex;
-        border-radius: 4px;
-        justify-content: center;
-        align-items: center;
-        width: fit-content;
-        font-size: 15px;
-        background-color: white;
-        color: #717171;
-        padding: 6px 8px;
-        border-radius: 6px;
-      }
+        flex-direction: column;
+        gap: 4px;
+
+        .heading {
+            font-size: 16px;
+            color: #052a63;
+            font-weight: bold;
+        }
+
+        .pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+
+            .pill {
+                display: flex;
+                border-radius: 4px;
+                justify-content: center;
+                align-items: center;
+                width: fit-content;
+                font-size: 15px;
+                background-color: white;
+                color: #717171;
+                padding: 6px 8px;
+                border-radius: 6px;
+            }
+        }
     }
-  }
 }
 
-    @include small {
-  .container {
-    gap: 4px;
-    padding: 10px;
-    margin: 6px 0;
-  }
-
-  .content {
-    .pills {
-      flex-direction: row;
-      margin-top: 5px;
-
-      .pill {
-        padding: 4px 6px;
-        word-wrap: break-word;
-        white-space: normal;
-      }
+@include small {
+    .container {
+        gap: 4px;
+        padding: 10px;
+        margin: 6px 0;
     }
-  }
+
+    .content {
+        .pills {
+            flex-direction: row;
+            margin-top: 5px;
+
+            .pill {
+                padding: 4px 6px;
+                word-wrap: break-word;
+                white-space: normal;
+            }
+        }
+    }
+}
+
+.imageStyles {
+    border-radius: 20px;
 }

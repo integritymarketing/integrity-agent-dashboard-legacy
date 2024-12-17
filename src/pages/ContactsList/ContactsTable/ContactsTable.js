@@ -305,7 +305,11 @@ function ContactsTable() {
                 accessor: "lifePolicyCount",
                 Cell: ({ value, row }) => {
                     if (value === 0 || !value) {
-                        return <HeartInactive />;
+                        return (
+                            <Box position="relative" display="inline-block" sx={{ right: "6px" }}>
+                                <HeartInactive />
+                            </Box>
+                        );
                     } else {
                         const leadDetails = row?.original;
                         const { firstName, lastName, leadsId } = leadDetails;
@@ -313,6 +317,7 @@ function ContactsTable() {
                             <Box
                                 position="relative"
                                 display="inline-block"
+                                sx={{ left: "12px", cursor: "pointer" }}
                                 onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "LIFE" })}
                             >
                                 <CardBadge
@@ -331,7 +336,11 @@ function ContactsTable() {
                 accessor: "healthPolicyCount",
                 Cell: ({ value, row }) => {
                     if (value === 0 || !value) {
-                        return <HealthInactive />;
+                        return (
+                            <Box position="relative" display="inline-block" sx={{ left: "6px" }}>
+                                <HealthInactive />
+                            </Box>
+                        );
                     } else {
                         const leadDetails = row?.original;
                         const { firstName, lastName, leadsId } = leadDetails;
@@ -339,6 +348,7 @@ function ContactsTable() {
                             <Box
                                 position="relative"
                                 display="inline-block"
+                                sx={{ left: "12px", cursor: "pointer" }}
                                 onClick={() => openPolicyModal({ firstName, lastName, leadsId, policy: "HEALTH" })}
                             >
                                 <CardBadge

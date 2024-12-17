@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { IulQuoteContainer, IulQuoteCard, IulProtectionQuoteFilter } from "../CommonComponents";
+import { IulQuoteContainer, IulProtectionQuoteFilter } from "../CommonComponents";
+import { IulQuoteCard } from "@integritymarketing/clients-ui-kit";
 import { Grid, Typography, Box, Tab, Tabs, useTheme, useMediaQuery } from "@mui/material";
 import { useLifeIulQuote } from "providers/Life";
 import WithLoader from "components/ui/WithLoader";
@@ -82,7 +83,7 @@ const IulProtectionQuote = () => {
             <Grid item md={3} xs={12}>
                 {isMobile && showFilters && (
                     <Box className={styles.countSortContainer}>
-                        <Typography variant="body1" className={styles.countSortText}>
+                        <Typography variant="body1" color="#434A51">
                             {lifeIulQuoteResults?.length || 0} IUL Protection Policies
                         </Typography>
                     </Box>
@@ -94,12 +95,12 @@ const IulProtectionQuote = () => {
                     <Box className={styles.countSortContainer}>
                         {!isMobile && (
                             <Box>
-                                <Typography variant="body1" className={styles.countSortText}>
+                                <Typography variant="body1" color="#434A51">
                                     {lifeIulQuoteResults?.length} IUL Protection Policies
                                 </Typography>
                             </Box>
                         )}
-                        <Box width={isMobile ? "100%" : "60%"} marginBottom="16px">
+                        <Box width={isMobile ? "100%" : "60%"}>
                             {filteredTabInputs?.length > 1 && (
                                 <Tabs
                                     value={parseInt(selectedTabIndex) !== -1 ? parseInt(selectedTabIndex) : 0}

@@ -7,6 +7,7 @@ import FinalExpenseIntakeFormCard from "../FinalExpenseIntakeFormCard";
 import ZipCodeInputCard from "../ZipCodeInputCard";
 import LifeQuestionCard from "../LifeQuestionCard";
 import IulGoalQuestionCard from "../IulGoalQuestionCard";
+import { useLeadDetails } from "providers/ContactDetails";
 
 const StartQuoteModal = () => {
     const {
@@ -22,6 +23,8 @@ const StartQuoteModal = () => {
         isMultipleCounties,
         handleSelectIulGoalType,
     } = useCreateNewQuote();
+
+    const { isLoadingLeadDetails } = useLeadDetails();
 
     useEffect(() => {
         if (!selectedLead?.addresses?.[0]?.county) {
@@ -72,7 +75,7 @@ const StartQuoteModal = () => {
             {quoteModalStage === "finalExpenseIntakeFormCard" && (
                 <QuoteModalCard
                     action={
-                        showUpArrow
+                        showUpArrow && !isLoadingLeadDetails
                             ? () => setQuoteModalStage(IUL_FEATURE_FLAG ? "lifeQuestionCard" : "selectProductTypeCard")
                             : null
                     }
@@ -82,7 +85,11 @@ const StartQuoteModal = () => {
             )}
 
             {quoteModalStage === "zipCodeInputCard" && (
-                <QuoteModalCard action={showUpArrow ? () => setQuoteModalStage("selectProductTypeCard") : null}>
+                <QuoteModalCard
+                    action={
+                        showUpArrow && !isLoadingLeadDetails ? () => setQuoteModalStage("selectProductTypeCard") : null
+                    }
+                >
                     <ZipCodeInputCard />
                 </QuoteModalCard>
             )}

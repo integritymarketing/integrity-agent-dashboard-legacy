@@ -1,58 +1,59 @@
 @import "../../scss/globalDefines.scss";
 
 .activityDataCell {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
 .headerWithFilter {
-  display: flex;
-  justify-content: space-between;
-
-  .title {
     display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
+    justify-content: space-between;
 
-  .icon {
-    padding: 10px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #f1faff;
-      border-radius: 40px;
+    .title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
     }
-  }
 
-  .iconReverse {
-    transform: rotate(180deg);
-  }
+    .icon {
+        padding: 10px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #f1faff;
+            border-radius: 40px;
+        }
+    }
+
+    .iconReverse {
+        transform: rotate(180deg);
+    }
 }
 
 .recentActivity {
-  @include small() {
-    margin-left: 10px;
-  }
+    @include small() {
+        margin-left: 10px;
+    }
 
-  font-size: 32px;
-  font-weight: normal;
+    font-size: 32px;
+    font-weight: normal;
 }
 
 .filterButton {
-  top: 90px;
-  position: relative;
+    top: 90px;
+    position: relative;
 
-  @include small() {
-    top: 0;
-  }
+    @include small() {
+        top: 0;
+    }
 }
 
 .segregator {
-  border-bottom: 1px solid #CCCCCC;
-  max-width: none;
+    border-bottom: 1px solid #cccccc;
+    max-width: none;
 }
 
 .content {
-  padding: 1.5rem;
+    padding: 1.5rem;
 }
