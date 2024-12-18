@@ -22,12 +22,12 @@ export const IulProtectionProductPreferenceFormSchema = yup.object().shape({
         if ((value && value < 2000) || (faceAmounts2 && faceAmounts2 < 2000) || (faceAmounts3 && faceAmounts3 < 2000)) {
             return this.createError({ message: "Minimum value form Death Benefits is 2000" });
         }
-        if (value > 200000) {
-            return this.createError({ message: "Maximum value for first Death Benefits is 2,00,000" });
-        } else if (faceAmounts2 > 300000) {
-            return this.createError({ message: "Maximum value for second Death Benefits is 3,00,000" });
-        } else if (faceAmounts3 > 400000) {
-            return this.createError({ message: "Maximum value for third Death Benefits is 4,00,000" });
+        if (value > 2000000) {
+            return this.createError({ message: "Maximum value for first Death Benefits is 2,000,000" });
+        } else if (faceAmounts2 > 2000000) {
+            return this.createError({ message: "Maximum value for second Death Benefits is 2,000,000" });
+        } else if (faceAmounts3 > 2000000) {
+            return this.createError({ message: "Maximum value for third Death Benefits is 2,000,000" });
         }
         return true;
     }),
