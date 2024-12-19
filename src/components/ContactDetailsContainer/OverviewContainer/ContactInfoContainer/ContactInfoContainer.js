@@ -320,7 +320,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
                                     <Typography className={styles.specialAssistanceHeader} variant="custom">
                                         Special Assistance
                                     </Typography>
-                                    {hasMedicAid > 0 && <Typography variant="body1" color="#434A51">Medicaid</Typography>}
+                                    {hasMedicAid === 1 && <Typography variant="body1" color="#434A51">Medicaid</Typography>}
                                     {subsidyLevel === "Yes" && <Typography variant="body1" color="#434A51">LIS</Typography>}
                                     {!hasMedicAid && subsidyLevel != "Yes" && <Typography variant="body1" color="#434A51">None</Typography>}
                                 </Stack>
