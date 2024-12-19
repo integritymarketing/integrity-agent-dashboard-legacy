@@ -8,7 +8,7 @@ import "./WebChat.scss";
 import useUserProfile from "hooks/useUserProfile";
 import useToast from "hooks/useToast";
 import useAnalytics from "hooks/useAnalytics";
-import {useAuth0} from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import ChatIcon from "./askintegrity-logo.jpg";
 import HideIcon from "./hide-icon.png";
 import openAudio from "./open.mp3";
@@ -21,18 +21,18 @@ import SearchIcon from "@mui/icons-material/Search";
 import debounce from "lodash.debounce";
 import styleOptions from "./webChatStyleOptions";
 import SuggestedContacts from "./AutoComplete/SuggestedContacts";
+import { convertUTCDateToLocalDate } from "utils/dates";
 
 const WebChatComponent = () => {
-
     const WHICH_CONTACT_PART_STRING = "Which contact would you like for your";
-    const {getAccessTokenSilently} = useAuth0();
-    const {npn, fullName} = useUserProfile();
+    const { getAccessTokenSilently } = useAuth0();
+    const { npn, fullName } = useUserProfile();
     const showToast = useToast();
     const audioRefOpen = useRef(null);
     const audioRefClose = useRef(null);
     const chatRef = useRef(null);
-    const {fireEvent} = useAnalytics();
-    const {isDesktop} = useDeviceType();
+    const { fireEvent } = useAnalytics();
+    const { isDesktop } = useDeviceType();
     const [directLineToken, setDirectLineToken] = useState(null);
     const [showAskIntegrityFeedback, setShowAskIntegrityFeedback] = useState(false);
     const [isChatActive, setIsChatActive] = useState(false);
@@ -45,7 +45,7 @@ const WebChatComponent = () => {
     const [searchForContactBtnClick, setSearchForContactBtnClick] = useState(false);
 
     const { Get: getSuggestedContacts } = useFetch(
-        `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads?Search=${searchText}&IncludeContactPreference=true&Sort=CreateDate:desc`
+        `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads?Search=${searchText}&IncludeContactPreference=true&Sort=CreateDate:desc`,
     );
 
     function focusInputBox() {
@@ -60,7 +60,7 @@ const WebChatComponent = () => {
 
     const showSelectContactPrompt = useCallback(() => {
         const showPrompt = lastMessage?.includes(WHICH_CONTACT_PART_STRING) || searchForContactBtnClick;
-        if(showPrompt) {
+        if (showPrompt) {
             focusInputBox();
         }
         return showPrompt;
@@ -78,9 +78,9 @@ const WebChatComponent = () => {
     }, [isChatActive]);
 
     useEffect(() => {
-        if(lastMessage?.toLowerCase().includes("call summary")){
+        if (lastMessage?.toLowerCase().includes("call summary")) {
             setDialogId("CallSummary");
-        }else {
+        } else {
             setDialogId("ContactSummary");
         }
     }, [lastMessage]);
@@ -101,7 +101,7 @@ const WebChatComponent = () => {
                     setIsContactsLoading(false);
                 }
             }, 500),
-        [searchText, showSelectContactPrompt, getSuggestedContacts]
+        [searchText, showSelectContactPrompt, getSuggestedContacts],
     );
 
     useEffect(() => {
@@ -113,9 +113,7 @@ const WebChatComponent = () => {
 
     useEffect(() => {
         const observer = new MutationObserver(() => {
-            const buttons = document.querySelectorAll(
-                'button[title="Search for a Contact"]'
-            );
+            const buttons = document.querySelectorAll('button[title="Search for a Contact"]');
 
             buttons.forEach((button) => {
                 if (!button.dataset.clickBound) {
@@ -138,7 +136,7 @@ const WebChatComponent = () => {
         try {
             const response = await fetch(process.env.REACT_APP_DIRECT_LINE, {
                 method: "POST",
-                body: JSON.stringify({marketerId: npn}),
+                body: JSON.stringify({ marketerId: npn }),
             });
 
             if (response.ok) {
@@ -165,7 +163,7 @@ const WebChatComponent = () => {
         setSearchText("");
         store.dispatch({
             type: "WEB_CHAT/SET_SEND_BOX",
-            payload: {text: ""},
+            payload: { text: "" },
         });
     }, []);
 
@@ -174,50 +172,52 @@ const WebChatComponent = () => {
         await fetchDirectLineToken();
     }, [clearChat, fetchDirectLineToken]);
 
-    const directLine = useMemo(() => createDirectLine({token: directLineToken}), [directLineToken]);
+    const directLine = useMemo(() => createDirectLine({ token: directLineToken }), [directLineToken]);
 
-    const clearChatAndSendContact = useCallback((contactFullName, leadsId) => {
-        setSearchForContactBtnClick(false);
-        setSuggestedContacts([]);
-        setLastMessage("");
-        setSearchForContactBtnClick(false);
-        setSearchText("");
+    const clearChatAndSendContact = useCallback(
+        (contactFullName, leadsId) => {
+            setSearchForContactBtnClick(false);
+            setSuggestedContacts([]);
+            setLastMessage("");
+            setSearchForContactBtnClick(false);
+            setSearchText("");
 
-        store.dispatch({
-            type: "WEB_CHAT/SET_SEND_BOX",
-            payload: { text: "" },
-        });
+            store.dispatch({
+                type: "WEB_CHAT/SET_SEND_BOX",
+                payload: { text: "" },
+            });
 
-        store.dispatch({
-            type: "DIRECT_LINE/INCOMING_ACTIVITY",
-            payload: {
-                activity: {
-                    type: "message",
-                    from: { role: "user" },
-                    text: `${contactFullName}`,
-                },
-            },
-        });
-
-        directLine
-            .postActivity({
-                name: "mc_Contact_Selected",
-                type: "event",
-                value: {
-                    data: {
-                        text: `You selected ${contactFullName}!`,
-                        leadId: Number(leadsId),
-                        contactName: contactFullName,
-                        dialogId: dialogId,
-                        name: "mc_Contact_Selected",
+            store.dispatch({
+                type: "DIRECT_LINE/INCOMING_ACTIVITY",
+                payload: {
+                    activity: {
+                        type: "message",
+                        from: { role: "user" },
+                        text: `${contactFullName}`,
                     },
-                    appId: "mcweb",
                 },
-                channelId: "webchat",
-            })
-            .subscribe();
-    }, [directLine, dialogId]);
+            });
 
+            directLine
+                .postActivity({
+                    name: "mc_Contact_Selected",
+                    type: "event",
+                    value: {
+                        data: {
+                            text: `You selected ${contactFullName}!`,
+                            leadId: Number(leadsId),
+                            contactName: contactFullName,
+                            dialogId: dialogId,
+                            name: "mc_Contact_Selected",
+                        },
+                        appId: "mcweb",
+                    },
+                    channelId: "webchat",
+                })
+                .subscribe();
+        },
+        [directLine, dialogId],
+    );
 
     const closeChat = useCallback(() => {
         clearChat();
@@ -265,7 +265,9 @@ const WebChatComponent = () => {
         };
     }, [isChatActive]);
 
-    const overrideLocalizedStrings = {TEXT_INPUT_PLACEHOLDER: showSelectContactPrompt() ? " Search for Contact..." : " Ask Integrity..."};
+    const overrideLocalizedStrings = {
+        TEXT_INPUT_PLACEHOLDER: showSelectContactPrompt() ? " Search for Contact..." : " Ask Integrity...",
+    };
 
     const openChat = useCallback(async () => {
         fireEvent("AI - Ask Integrity Global Icon Clicked");
@@ -287,13 +289,20 @@ const WebChatComponent = () => {
         [clearChat],
     );
 
-    const goToLinkToContactPage = useCallback(
-        () => {
-            window.location.href = `${window.location.origin}/link-to-contact`;
-            clearChat();
-        },
-        [clearChat],
-    );
+    const goToLinkToContactPage = useCallback((data) => {
+        const { CallLogId, From, Duration, CallStartTime } = data;
+        const callStartTime = convertUTCDateToLocalDate(CallStartTime);
+    
+        const queryParams = new URLSearchParams({
+            id: CallLogId,
+            phoneNumber: From,
+            duration: Duration,
+            date: callStartTime,
+        }).toString();
+    
+        window.location.href = `${window.location.origin}/link-to-contact?${queryParams}`;
+        clearChat();
+    }, [clearChat]);
 
     const handleMessageActivity = useCallback(
         (activity, accessToken, dispatch) => {
@@ -318,24 +327,24 @@ const WebChatComponent = () => {
                 } else if (activityValue.name === "mc_Ask_Something_Else") {
                     dispatch({
                         type: "WEB_CHAT/SEND_MESSAGE",
-                        payload: {text: "Ask something else"},
+                        payload: { text: "Ask something else" },
                     });
                     focusInputBox();
                 } else if (activityValue.name === "mc_Link_Contact") {
-                    goToLinkToContactPage();
+                    goToLinkToContactPage(activityValue?.data);
+                } else if (activityValue.name === "mc_View_Transcript") {
+                    dispatch({
+                        type: "WEB_CHAT/SEND_MESSAGE",
+                        payload: { text: "View transcript" },
+                    });
                 }
             }
 
             if (
                 activityValue &&
-                [
-                    "mc_View_Call_Summary",
-                    "mc_View_Transcript",
-                    "mc_View_Contact",
-                    "mc_Link_Contact",
-                    "mc_Ask_Something_Else",
-                    "mc_Search_Contact_Call",
-                ].includes(activityValue.name)
+                ["mc_View_Call_Summary", "mc_View_Contact", "mc_Ask_Something_Else", "mc_Search_Contact_Call"].includes(
+                    activityValue.name,
+                )
             ) {
                 activity.channelData.postBack = true;
                 return true;
@@ -343,7 +352,9 @@ const WebChatComponent = () => {
 
             if (
                 activityValue &&
-                ["mc_Contact_Selected", "mc_Call_Selected", "mc_Search_Contact_Call", "mc_View_Call_Summary"].includes(activityValue.name)
+                ["mc_Contact_Selected", "mc_Call_Selected", "mc_Search_Contact_Call", "mc_View_Call_Summary"].includes(
+                    activityValue.name,
+                )
             ) {
                 dispatch({
                     type: "WEB_CHAT/SEND_EVENT",
@@ -402,7 +413,7 @@ const WebChatComponent = () => {
             if (activity.type === "message") {
                 return handleMessageActivity(activity, accessToken, dispatch);
             } else if (activity.type === "event") {
-               return handleEventActivity(activity);
+                return handleEventActivity(activity);
             }
         },
         [fireEvent, getAccessTokenSilently, handleMessageActivity, handleEventActivity],
@@ -428,13 +439,13 @@ const WebChatComponent = () => {
 
     const store = useMemo(
         () =>
-            createStore({}, ({dispatch}) => (next) => async (action) => {
+            createStore({}, ({ dispatch }) => (next) => async (action) => {
                 switch (action.type) {
                     case "WEB_CHAT/SET_SEND_BOX":
                         setSearchText(action.payload?.text || "");
                         break;
                     case "WEB_CHAT/SUBMIT_SEND_BOX":
-                        fireEvent("AI - Ask Integrity Input Sent", {input_type: "text"});
+                        fireEvent("AI - Ask Integrity Input Sent", { input_type: "text" });
                         break;
 
                     case "DIRECT_LINE/CONNECT_FULFILLED": {
@@ -457,7 +468,8 @@ const WebChatComponent = () => {
                         break;
                     }
 
-                    case "DIRECT_LINE/POST_ACTIVITY": {
+                    case "DIRECT_LINE/POST_ACTIVITY":
+                        {
                             const shouldPreventDefault = await handlePostActivity(action, dispatch);
                             if (shouldPreventDefault) {
                                 return;
@@ -474,7 +486,7 @@ const WebChatComponent = () => {
                     default:
                         break;
                 }
-                 next(action);
+                next(action);
             }),
         [fullName, npn, fireEvent, getAccessTokenSilently, handlePostActivity, handleIncomingActivity],
     );
@@ -511,8 +523,8 @@ const WebChatComponent = () => {
                 id="webchat"
                 className={cx(
                     styles.chatSidebar,
-                    {[styles.active]: isChatActive},
-                    {[styles.feedbackInfoSidebar]: showAskIntegrityFeedback},
+                    { [styles.active]: isChatActive },
+                    { [styles.feedbackInfoSidebar]: showAskIntegrityFeedback },
                 )}
             >
                 {!showAskIntegrityFeedback && (
@@ -527,10 +539,10 @@ const WebChatComponent = () => {
                             <p className={styles.headerText}>
                                 <span>Ask Integrity</span>
                                 <span className={styles.infoLogo} onClick={handleOpenAskIntegrityFeedback}>
-                                    <Info/>
+                                    <Info />
                                 </span>
                             </p>
-                            <img onClick={closeChat} className={styles.hideIcon} src={HideIcon} alt="Hide Icon"/>
+                            <img onClick={closeChat} className={styles.hideIcon} src={HideIcon} alt="Hide Icon" />
                         </div>
                         {directLineToken && (
                             <div>
@@ -542,8 +554,11 @@ const WebChatComponent = () => {
                                 />
 
                                 <div>
-                                    <SearchIcon className="webchat-searchbox-icon" aria-label="search"
-                                                edge="end"></SearchIcon>
+                                    <SearchIcon
+                                        className="webchat-searchbox-icon"
+                                        aria-label="search"
+                                        edge="end"
+                                    ></SearchIcon>
                                     {directLine && (
                                         <ReactWebChat
                                             directLine={directLine}
@@ -561,11 +576,11 @@ const WebChatComponent = () => {
             {!isChatActive && (
                 <div onClick={openChat} className={styles.chatIconWrapper}>
                     <p className={styles.chatIconText}>Ask Integrity</p>
-                    <img className={styles.chatIcon} src={ChatIcon} alt="Chat Icon"/>
+                    <img className={styles.chatIcon} src={ChatIcon} alt="Chat Icon" />
                 </div>
             )}
-            <audio ref={audioRefOpen} src={openAudio}/>
-            <audio ref={audioRefClose} src={closeAudio}/>
+            <audio ref={audioRefOpen} src={openAudio} />
+            <audio ref={audioRefClose} src={closeAudio} />
         </div>
     );
 };
