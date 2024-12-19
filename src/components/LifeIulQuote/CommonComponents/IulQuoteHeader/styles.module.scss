@@ -1,6 +1,12 @@
+@import "../../../../scss/globalDefines.scss";
+
 .headerContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 48px;
+    margin-bottom: 24px;
+
+    @include small {
+        margin-bottom: 0px;
+    }
 }
