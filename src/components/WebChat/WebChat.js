@@ -287,6 +287,14 @@ const WebChatComponent = () => {
         [clearChat],
     );
 
+    const goToLinkToContactPage = useCallback(
+        () => {
+            window.location.href = `${window.location.origin}/link-to-contact`;
+            clearChat();
+        },
+        [clearChat],
+    );
+
     const handleMessageActivity = useCallback(
         (activity, accessToken, dispatch) => {
             activity.text = activity.text || activity.value?.dropDownInfo || activity.value?.text;
@@ -313,6 +321,8 @@ const WebChatComponent = () => {
                         payload: {text: "Ask something else"},
                     });
                     focusInputBox();
+                } else if (activityValue.name === "mc_Link_Contact") {
+                    goToLinkToContactPage();
                 }
             }
 
@@ -322,6 +332,7 @@ const WebChatComponent = () => {
                     "mc_View_Call_Summary",
                     "mc_View_Transcript",
                     "mc_View_Contact",
+                    "mc_Link_Contact",
                     "mc_Ask_Something_Else",
                     "mc_Search_Contact_Call",
                 ].includes(activityValue.name)
@@ -347,7 +358,7 @@ const WebChatComponent = () => {
                 return true;
             }
         },
-        [clearChat, goToContactDetailPage],
+        [goToContactDetailPage, focusInputBox, goToLinkToContactPage],
     );
 
     const handleEventActivity = useCallback((activity) => {
