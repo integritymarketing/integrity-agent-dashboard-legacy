@@ -19,9 +19,10 @@ import BadgeIcon from "./BadgeIcon";
 import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import AskIntegrity from "components/icons/version-2/AskIntegrity";
 import PropTypes from "prop-types";
+import WithLoader from "components/ui/WithLoader";
 
 function ContactsCard({ cardWrapperClassName = "", isMapPage }) {
-    const { tableData } = useContactsListContext();
+    const { tableData, isfetchingTableData } = useContactsListContext();
     const { width: windowWidth } = useWindowSize();
 
     const [showRemindersListModal, setShowRemindersListModal] = useState(false);
@@ -86,6 +87,7 @@ function ContactsCard({ cardWrapperClassName = "", isMapPage }) {
         const askIntegrityLength = askIntegrityTags?.length;
 
         return (
+            <WithLoader isLoading={isfetchingTableData}>
             <Box key={item?.leadsId} className={styles.card}>
                 <CardHeader item={item} />
                 <Divider />
@@ -177,6 +179,7 @@ function ContactsCard({ cardWrapperClassName = "", isMapPage }) {
                     />
                 </Box>
             </Box>
+            </WithLoader>
         );
     };
 

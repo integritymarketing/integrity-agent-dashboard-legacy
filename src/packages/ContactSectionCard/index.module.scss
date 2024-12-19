@@ -6,10 +6,12 @@
     border-radius: 8px 8px 0px 0px;
     display: flex;
     width: 100%;
+    padding: 0rem 1.7rem 0rem 0.7rem;
 
     @include small {
         background: none;
         box-shadow: none;
+        padding: 1rem;
     }
 
     .iconWithTitle {
@@ -24,10 +26,9 @@
     }
 
     .iconRotate {
-        margin-left: 10px;
-    svg {
-        transform: rotate(-180deg);
-    }
+        svg {
+            transform: rotate(-180deg);
+        }
     }
 
     svg {
@@ -36,13 +37,13 @@
 }
 
 .heading {
-    color: #052A63;
+    color: #052a63;
     font-size: 24px;
     letter-spacing: 0.24px;
     margin-top: 6px;
 
     @include small {
-        font-size: 24px;
+        font-size: 20px;
         letter-spacing: 0.2px;
     }
 }

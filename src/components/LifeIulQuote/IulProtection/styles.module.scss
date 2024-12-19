@@ -1,8 +1,9 @@
 .countSortContainer {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
-    margin-bottom: 16px;
+    padding-bottom: 16px;
+    height: 60px;
 }
 
 .tabs {
@@ -11,4 +12,9 @@
     align-self: stretch;
     width: min(100%, 840px);
     margin-inline: auto;
+    min-height: 40px !important;
+}
+.countSortText {
+    color: #434a51;
+    line-height: 24px !important;
 }

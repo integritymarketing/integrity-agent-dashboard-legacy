@@ -7,9 +7,11 @@ import {
     PROTECTION_PRODUCT_SOLVES,
     HEALTH_CLASSIFICATION_OPTS,
 } from "../constants";
-import CustomRadioGroupOption from "components/LifeForms/common/CustomRadioGroupOption/CustomRadioGroupOption";
-import { CollapsibleSection } from "@integritymarketing/clients-ui-kit";
-import CustomCheckboxGroupOption from "components/LifeForms/common/CustomCheckboxGroupOption/CustomCheckboxGroupOption";
+import {
+    CollapsibleSection,
+    CustomCheckboxGroupOption,
+    CustomRadioGroupOption,
+} from "@integritymarketing/clients-ui-kit";
 import { useLifeIulQuote } from "providers/Life";
 import Filter from "components/icons/LifeIul/filter";
 import styles from "./styles.module.scss";

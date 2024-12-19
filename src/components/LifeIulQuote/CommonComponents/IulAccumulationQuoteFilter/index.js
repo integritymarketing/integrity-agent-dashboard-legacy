@@ -2,9 +2,11 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Typography, Grid, useTheme, useMediaQuery, Button } from "@mui/material";
 import CounterInput from "components/LifeForms/common/CounterInput";
 import { HEALTH_CLASSIFICATION_OPTS, ILLUSTRATED_RATE_OPTS, LOANS_OPTS, PAY_PERIOD_OPTS } from "../constants";
-import CustomRadioGroupOption from "components/LifeForms/common/CustomRadioGroupOption/CustomRadioGroupOption";
-import CustomCheckboxGroupOption from "components/LifeForms/common/CustomCheckboxGroupOption/CustomCheckboxGroupOption";
-import CollapsibleSection from "components/LifeIulQuote/CommonComponents/CollapsibleSection";
+import {
+    CollapsibleSection,
+    CustomCheckboxGroupOption,
+    CustomRadioGroupOption,
+} from "@integritymarketing/clients-ui-kit";
 import { useLifeIulQuote } from "providers/Life";
 import Filter from "components/icons/LifeIul/filter";
 import { debounce } from "lodash";

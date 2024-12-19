@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { IulQuoteContainer, IulAccumulationQuoteFilter, IulQuoteCard } from "../CommonComponents";
+import { IulQuoteContainer, IulAccumulationQuoteFilter } from "../CommonComponents";
+import { IulQuoteCard } from "@integritymarketing/clients-ui-kit";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import { useLifeIulQuote } from "providers/Life";
 import styles from "./styles.module.scss";

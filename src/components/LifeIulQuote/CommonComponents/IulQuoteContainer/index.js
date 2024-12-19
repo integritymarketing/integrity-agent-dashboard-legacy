@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import WithLoader from "components/ui/WithLoader";
 import { useLeadDetails } from "providers/ContactDetails";
 import { useLifeIulQuote } from "providers/Life";
-import ComparePlansFooter from "../ComparePlanFooter";
+import { ComparePlanFooter } from "@integritymarketing/clients-ui-kit";
 import styles from "./styles.module.scss";
 
 export const IulQuoteContainer = ({ title, children }) => {
@@ -28,7 +28,7 @@ export const IulQuoteContainer = ({ title, children }) => {
                     {children}
                 </Grid>
             </Box>
-            {selectedPlans.length > 0 && <ComparePlansFooter plans={selectedPlans} onClose={handleComparePlanSelect} />}
+            {selectedPlans.length > 0 && <ComparePlanFooter plans={selectedPlans} onClose={handleComparePlanSelect} />}
         </WithLoader>
     );
 };

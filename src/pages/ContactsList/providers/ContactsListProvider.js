@@ -6,8 +6,6 @@ import * as Sentry from "@sentry/react";
 
 import useFetchTableData from "../hooks/useFetchTableData";
 
-import Spinner from "components/ui/Spinner/index";
-import { filterSectionsConfig as filterSectionsConfigOriginal } from "packages/ContactListFilterOptionsV2/FilterSectionsConfig";
 import useFilteredLeadIds from "pages/ContactsList/hooks/useFilteredLeadIds";
 
 const DEFAULT_PAGE_SIZE = 12;
@@ -168,6 +166,7 @@ export const ContactsListProvider = ({ children }) => {
             filterConditions,
             setFilterConditions,
             setSelectAllContacts,
+            isfetchingTableData,
         }),
         [
             tableData,
@@ -188,6 +187,7 @@ export const ContactsListProvider = ({ children }) => {
             setFilterSectionsConfig,
             fetchedFiltersSectionConfigFromApi,
             setFetchedFiltersSectionConfigFromApi,
+            isfetchingTableData,
         ],
     );
 
@@ -213,9 +213,6 @@ export const ContactsListProvider = ({ children }) => {
         }
     }, [fetchTableData, searchString, location.search, sort, layout]);
 
-    if (isfetchingTableData || isLoading) {
-        return <Spinner />;
-    }
 
     return <ContactsListContext.Provider value={contextValue}>{children}</ContactsListContext.Provider>;
 };
