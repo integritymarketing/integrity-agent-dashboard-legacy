@@ -107,7 +107,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                                                 setFieldValue("faceAmounts2", value);
                                             }}
                                             min={2000}
-                                            max={3000000}
+                                            max={2000000}
                                             initialValue={0}
                                             incrementOrDecrementValue={10000}
                                             initialIncrementValue={2000}
@@ -118,7 +118,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                                                 setFieldValue("faceAmounts3", value);
                                             }}
                                             min={2000}
-                                            max={4000000}
+                                            max={2000000}
                                             initialValue={0}
                                             incrementOrDecrementValue={10000}
                                             initialIncrementValue={2000}
@@ -152,7 +152,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                                 </CustomFieldContainer>
                             </Grid>
                             <Grid item md={12} xs={12}>
-                                <CustomFieldContainer label="Pay Period*">
+                                <CustomFieldContainer label={<span className={styles.payPeriodLabel}>Pay Period*</span>}>
                                     <Grid item xs={12} container spacing={1}>
                                         {IUL_PROTECTION_PAY_PERIOD_OPTS.map((option, index) => {
                                             return (
