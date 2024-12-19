@@ -358,7 +358,7 @@ const WebChatComponent = () => {
                 return true;
             }
         },
-        [goToContactDetailPage, focusInputBox, goToLinkToContactPage],
+        [goToContactDetailPage, goToLinkToContactPage, clearChat],
     );
 
     const handleEventActivity = useCallback((activity) => {
