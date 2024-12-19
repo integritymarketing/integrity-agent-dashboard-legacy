@@ -141,7 +141,7 @@ const IulProtectionQuote = () => {
                                     rowId,
                                 } = plan;
                                 return (
-                                    <Grid item md={12} key={`iul-accumulation-${index}`}>
+                                    <Grid item md={12} key={`iul-protection-${index}`}>
                                         <IulQuoteCard
                                             quoteType="IUL Protection"
                                             cardTitle={productName}
