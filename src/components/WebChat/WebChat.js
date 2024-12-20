@@ -45,7 +45,7 @@ const WebChatComponent = () => {
     const [searchForContactBtnClick, setSearchForContactBtnClick] = useState(false);
 
     const { Get: getSuggestedContacts } = useFetch(
-        `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads?Search=${searchText}&IncludeContactPreference=true&Sort=CreateDate:desc`,
+        `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads?Search=${searchText}&IncludeContactPreference=true&Sort=CreateDate:desc`
     );
 
     function focusInputBox() {
@@ -101,7 +101,7 @@ const WebChatComponent = () => {
                     setIsContactsLoading(false);
                 }
             }, 500),
-        [searchText, showSelectContactPrompt, getSuggestedContacts],
+        [searchText, showSelectContactPrompt, getSuggestedContacts]
     );
 
     useEffect(() => {
@@ -216,7 +216,7 @@ const WebChatComponent = () => {
                 })
                 .subscribe();
         },
-        [directLine, dialogId],
+        [directLine, dialogId]
     );
 
     const closeChat = useCallback(() => {
@@ -286,36 +286,33 @@ const WebChatComponent = () => {
             window.location.href = `${window.location.origin}/contact/${leadId}`;
             clearChat();
         },
-        [clearChat],
+        [clearChat]
     );
 
-    const goToLinkToContactPage = useCallback((data) => {
-        const { CallLogId, From, Duration, CallStartTime } = data;
-        const callStartTime = convertUTCDateToLocalDate(CallStartTime);
-    
-        const queryParams = new URLSearchParams({
-            id: CallLogId,
-            phoneNumber: From,
-            duration: Duration,
-            date: callStartTime,
-        }).toString();
-    
-        window.location.href = `${window.location.origin}/link-to-contact?${queryParams}`;
-        clearChat();
-    }, [clearChat]);
+    const goToLinkToContactPage = useCallback(
+        (data) => {
+            const { CallLogId, From, Duration, CallStartTime } = data;
+            const callStartTime = convertUTCDateToLocalDate(CallStartTime);
+
+            const queryParams = new URLSearchParams({
+                id: CallLogId,
+                phoneNumber: From,
+                duration: Duration,
+                date: callStartTime,
+            }).toString();
+
+            window.location.href = `${window.location.origin}/link-to-contact?${queryParams}`;
+            clearChat();
+        },
+        [clearChat]
+    );
 
     const handleMessageActivity = useCallback(
-        (activity, accessToken, dispatch) => {
+        (activity, dispatch) => {
             activity.text = activity.text || activity.value?.dropDownInfo || activity.value?.text;
-
-            const channelData = activity.channelData || {};
-            channelData.authToken = `Bearer ${accessToken}`;
-            channelData.data = channelData.data || [];
-            activity.channelData = channelData;
 
             const activityValue = activity.value;
             if (activityValue) {
-                activity.channelData.postBack = false;
                 if (activityValue.name === "mc_View_Contact") {
                     goToContactDetailPage(activityValue.leadId);
                 } else if (activityValue.name === "mc_Redirect_Page") {
@@ -324,36 +321,15 @@ const WebChatComponent = () => {
                     setShowAskIntegrityFeedback(true);
                     setSkipFeedbackInfo(true);
                     setIsChatActive(false);
-                } else if (activityValue.name === "mc_Ask_Something_Else") {
-                    dispatch({
-                        type: "WEB_CHAT/SEND_MESSAGE",
-                        payload: { text: "Ask something else" },
-                    });
-                    focusInputBox();
                 } else if (activityValue.name === "mc_Link_Contact") {
                     goToLinkToContactPage(activityValue?.data);
-                } else if (activityValue.name === "mc_View_Transcript") {
-                    dispatch({
-                        type: "WEB_CHAT/SEND_MESSAGE",
-                        payload: { text: "View transcript" },
-                    });
                 }
             }
 
             if (
                 activityValue &&
-                ["mc_View_Call_Summary", "mc_View_Contact", "mc_Ask_Something_Else", "mc_Search_Contact_Call"].includes(
-                    activityValue.name,
-                )
-            ) {
-                activity.channelData.postBack = true;
-                return true;
-            }
-
-            if (
-                activityValue &&
                 ["mc_Contact_Selected", "mc_Call_Selected", "mc_Search_Contact_Call", "mc_View_Call_Summary"].includes(
-                    activityValue.name,
+                    activityValue.name
                 )
             ) {
                 dispatch({
@@ -369,7 +345,7 @@ const WebChatComponent = () => {
                 return true;
             }
         },
-        [goToContactDetailPage, goToLinkToContactPage, clearChat],
+        [goToContactDetailPage, goToLinkToContactPage, clearChat]
     );
 
     const handleEventActivity = useCallback((activity) => {
@@ -410,13 +386,27 @@ const WebChatComponent = () => {
             const accessToken = await getAccessTokenSilently();
             const activity = action.payload.activity;
 
+            const channelData = activity.channelData || {};
+            channelData.authToken = `Bearer ${accessToken}`;
+            channelData.data = channelData.data || [];
+            activity.channelData = channelData;
+            activity.channelData.postBack = false;
+            if (
+                activity.value &&
+                ["mc_View_Call_Summary", "mc_View_Contact", "mc_Ask_Something_Else", "mc_Search_Contact_Call"].includes(
+                    activity.value.name
+                )
+            ) {
+                activity.channelData.postBack = true;
+            }
+
             if (activity.type === "message") {
-                return handleMessageActivity(activity, accessToken, dispatch);
+                return handleMessageActivity(activity, dispatch);
             } else if (activity.type === "event") {
                 return handleEventActivity(activity);
             }
         },
-        [fireEvent, getAccessTokenSilently, handleMessageActivity, handleEventActivity],
+        [fireEvent, getAccessTokenSilently, handleMessageActivity, handleEventActivity]
     );
 
     const handleIncomingActivity = useCallback(
@@ -434,7 +424,7 @@ const WebChatComponent = () => {
                 goToContactDetailPage(activity.value.leadId);
             }
         },
-        [fireEvent, goToContactDetailPage],
+        [fireEvent, goToContactDetailPage]
     );
 
     const store = useMemo(
@@ -488,7 +478,7 @@ const WebChatComponent = () => {
                 }
                 next(action);
             }),
-        [fullName, npn, fireEvent, getAccessTokenSilently, handlePostActivity, handleIncomingActivity],
+        [fullName, npn, fireEvent, getAccessTokenSilently, handlePostActivity, handleIncomingActivity]
     );
 
     const handleOpenAskIntegrityFeedback = () => {
@@ -524,7 +514,7 @@ const WebChatComponent = () => {
                 className={cx(
                     styles.chatSidebar,
                     { [styles.active]: isChatActive },
-                    { [styles.feedbackInfoSidebar]: showAskIntegrityFeedback },
+                    { [styles.feedbackInfoSidebar]: showAskIntegrityFeedback }
                 )}
             >
                 {!showAskIntegrityFeedback && (
