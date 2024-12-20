@@ -17,7 +17,7 @@ export const IulQuoteContainer = ({ title, children }) => {
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
             {!showFilters && <ContactProfileTabBar contactId={contactId} showTabs={false} />}
-            {showFilters && <IulFilterHeader title={title} onClick={() => setShowFilters(false)} />}
+            {showFilters && <IulFilterHeader title={"Filters"} onClick={() => setShowFilters(false)} />}
             <Box className={styles.iulQuoteContainer}>
                 <Grid container gap={3}>
                     {!showFilters && (
