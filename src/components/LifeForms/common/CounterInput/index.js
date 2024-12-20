@@ -98,7 +98,7 @@ const CounterInput = ({
                 sx={{
                     backgroundColor: "#F1FAFF",
                     alignSelf: "center",
-                    "& .Mui-disabled": {
+                    "&.Mui-disabled": {
                         backgroundColor: "#F1F1F1",
                     },
                     "&:hover": {

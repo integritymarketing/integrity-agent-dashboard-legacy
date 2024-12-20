@@ -45,16 +45,23 @@ export const IulProtectionQuoteFilter = () => {
             return "Death Benefits cannot be duplicate.";
         }
         if (amount1 && (amount1 < 2000 || amount1 > 2000000)) {
-            return "Death Benefit 1 must be between 2000 and 2000000.";
+            return "Death Benefit 1 must be between 2,000 and 2,000,000.";
         }
-        if (amount2 && (amount2 < 2000 || amount2 > 3000000)) {
-            return "Death Benefit 2 must be between 2000 and 3000000.";
+        if (amount2 && (amount2 < 2000 || amount2 > 2000000)) {
+            return "Death Benefit 2 must be between 2,000 and 2,000,000.";
         }
-        if (amount3 && (amount3 < 2000 || amount3 > 4000000)) {
-            return "Death Benefit 3 must be between 2000 and 4000000.";
+        if (amount3 && (amount3 < 2000 || amount3 > 2000000)) {
+            return "Death Benefit 3 must be between 2,000 and 2,000,000.";
         }
         return "";
     };
+
+    const debouncedResetQuoteResults = useCallback(
+        debounce((updatedSessionData) => {
+            resetQuoteResults(updatedSessionData);
+        }, 1000),
+        []
+    );
 
     const resetQuoteResults = useCallback(
         async (updatedSessionData) => {
@@ -146,7 +153,7 @@ export const IulProtectionQuoteFilter = () => {
         }
     }, [tempUserDetails]);
 
-    const handleFaceAmountsChange = debounce((value, index) => {
+    const handleFaceAmountsChange = (value, index) => {
         const updatedValues = {
             faceAmounts1: index === 0 ? value : faceAmount1,
             faceAmounts2: index === 1 ? value : faceAmount2,
@@ -162,9 +169,13 @@ export const IulProtectionQuoteFilter = () => {
         setCommonError(error);
 
         if (!error) {
-            handleFiltersChange("faceAmounts", value, index);
+            const parsedLifeQuoteProtectionDetails = JSON.parse(lifeQuoteProtectionDetails);
+            parsedLifeQuoteProtectionDetails["faceAmounts"][index] = value.toString();
+            sessionStorage.setItem("lifeQuoteProtectionDetails", JSON.stringify(parsedLifeQuoteProtectionDetails));
+            // Debounce the resetQuoteResults function call
+            debouncedResetQuoteResults(parsedLifeQuoteProtectionDetails);
         }
-    }, 2000);
+    };
 
     return (
         <>
@@ -210,7 +221,7 @@ export const IulProtectionQuoteFilter = () => {
                                     <CounterInput
                                         onValueChange={(value) => handleFaceAmountsChange(value, 1)}
                                         min={2000}
-                                        max={3000000}
+                                        max={2000000}
                                         initialValue={faceAmount2}
                                         incrementOrDecrementValue={10000}
                                         initialIncrementValue={2000}
@@ -220,7 +231,7 @@ export const IulProtectionQuoteFilter = () => {
                                     <CounterInput
                                         onValueChange={(value) => handleFaceAmountsChange(value, 2)}
                                         min={2000}
-                                        max={4000000}
+                                        max={2000000}
                                         initialValue={faceAmount3}
                                         incrementOrDecrementValue={10000}
                                         initialIncrementValue={2000}
@@ -234,7 +245,7 @@ export const IulProtectionQuoteFilter = () => {
                             </Grid>
 
                             <Grid item md={12} xs={12}>
-                                <CollapsibleSection title="Pay Periods">
+                                <CollapsibleSection title="Pay Period">
                                     <Box className={styles.radioOption}>
                                         {PROTECTION_PAY_PERIOD_OPTS?.map((option, index) => {
                                             return (
@@ -244,6 +255,7 @@ export const IulProtectionQuoteFilter = () => {
                                                     label={option.label}
                                                     stateValue={payPeriods}
                                                     onChange={(e) => handleFiltersChange("payPeriods", e.target.value)}
+                                                    key={`payPeriods-${index}`}
                                                 />
                                             );
                                         })}
