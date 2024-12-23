@@ -129,9 +129,9 @@ const IulProtectionQuote = () => {
                                     companyName,
                                     amBest,
                                     companyLogoImageUrl,
-                                    cashValueYear10,
+                                    guaranteedYears,
                                     cashValueYear20,
-                                    cashValueAge65,
+                                    cashValueYear30,
                                     maxIllustratedRate,
                                     indexStrategyType,
                                     distribution,
@@ -148,9 +148,9 @@ const IulProtectionQuote = () => {
                                             companyName={companyName}
                                             rating={amBest}
                                             logo={companyLogoImageUrl}
-                                            cashValueYear10={cashValueYear10}
+                                            guaranteedYears={guaranteedYears}
                                             cashValueYear20={cashValueYear20}
-                                            cashValueAge65={cashValueAge65}
+                                            cashValueYear30={cashValueYear30}
                                             maxIllustratedRate={maxIllustratedRate}
                                             indexStrategyType={indexStrategyType}
                                             isTobaccoUser={isTobaccoUser}
