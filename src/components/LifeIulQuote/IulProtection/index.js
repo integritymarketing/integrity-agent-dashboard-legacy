@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { IulQuoteContainer, IulProtectionQuoteFilter } from "../CommonComponents";
-import { IulQuoteCard } from "@integritymarketing/clients-ui-kit";
+import { IulQuoteCard, NoQuoteResult } from "@integritymarketing/clients-ui-kit";
 import { Grid, Typography, Box, Tab, Tabs, useTheme, useMediaQuery } from "@mui/material";
 import { useLifeIulQuote } from "providers/Life";
 import WithLoader from "components/ui/WithLoader";
@@ -68,6 +68,10 @@ const IulProtectionQuote = () => {
         navigate(`/life/iul-protection/${id}/${contactId}/quote-details`);
     };
 
+    const handleNavigateToLearningCenter = () => {
+        window.open("/learning-center", "_blank");
+    };
+
     const tabInputs = useMemo(() => {
         const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
         const parsedLifeQuoteProtectionDetails = JSON.parse(lifeQuoteProtectionDetails);
@@ -83,7 +87,7 @@ const IulProtectionQuote = () => {
             <Grid item md={3} xs={12}>
                 {isMobile && showFilters && (
                     <Box className={styles.countSortContainer}>
-                        <Typography variant="body1" color="#434A51">
+                        <Typography variant="body1" className={styles.countSortText}>
                             {lifeIulQuoteResults?.length || 0} IUL Protection Policies
                         </Typography>
                     </Box>
@@ -95,12 +99,12 @@ const IulProtectionQuote = () => {
                     <Box className={styles.countSortContainer}>
                         {!isMobile && (
                             <Box>
-                                <Typography variant="body1" color="#434A51">
+                                <Typography variant="body1" className={styles.countSortText}>
                                     {lifeIulQuoteResults?.length} IUL Protection Policies
                                 </Typography>
                             </Box>
                         )}
-                        <Box width={isMobile ? "100%" : "60%"}>
+                        <Box width={isMobile ? "100%" : "60%"} marginBottom="16px">
                             {filteredTabInputs?.length > 1 && (
                                 <Tabs
                                     value={parseInt(selectedTabIndex) !== -1 ? parseInt(selectedTabIndex) : 0}
@@ -123,56 +127,62 @@ const IulProtectionQuote = () => {
                     </Box>
                     <WithLoader isLoading={isLoadingLifeIulQuote}>
                         <Grid container gap={3}>
-                            {lifeIulQuoteResults?.map((plan, index) => {
-                                const {
-                                    productName,
-                                    companyName,
-                                    amBest,
-                                    companyLogoImageUrl,
-                                    guaranteedYears,
-                                    cashValueYear20,
-                                    cashValueYear30,
-                                    maxIllustratedRate,
-                                    indexStrategyType,
-                                    distribution,
-                                    deathBenefit,
-                                    targetPremium,
-                                    premium,
-                                    rowId,
-                                } = plan;
-                                return (
-                                    <Grid item md={12} key={`iul-protection-${index}`}>
-                                        <IulQuoteCard
-                                            quoteType="IUL Protection"
-                                            cardTitle={productName}
-                                            companyName={companyName}
-                                            rating={amBest}
-                                            logo={companyLogoImageUrl}
-                                            guaranteedYears={guaranteedYears}
-                                            cashValueYear20={cashValueYear20}
-                                            cashValueYear30={cashValueYear30}
-                                            maxIllustratedRate={maxIllustratedRate}
-                                            indexStrategyType={indexStrategyType}
-                                            isTobaccoUser={isTobaccoUser}
-                                            targetPremium={targetPremium}
-                                            deathBenefit={deathBenefit}
-                                            distribution={distribution}
-                                            age={plan?.input?.actualAge}
-                                            healthClass={plan?.input?.healthClass}
-                                            premium={premium}
-                                            handleComparePlanSelect={() => {
-                                                handleComparePlanSelect(plan);
-                                            }}
-                                            handlePlanDetailsClick={() => handlePlanDetailsClick(rowId)}
-                                            disableCompare={
-                                                selectedPlans?.length === 3 &&
-                                                !selectedPlans?.find((p) => p.rowId === rowId)
-                                            }
-                                            isChecked={selectedPlans?.find((p) => p.rowId === rowId)}
-                                        />
-                                    </Grid>
-                                );
-                            })}
+                            {lifeIulQuoteResults?.length > 0 && !isLoadingLifeIulQuote ? (
+                                <>
+                                    {lifeIulQuoteResults?.map((plan, index) => {
+                                        const {
+                                            productName,
+                                            companyName,
+                                            amBest,
+                                            companyLogoImageUrl,
+                                            guaranteedYears,
+                                            cashValueYear20,
+                                            cashValueYear30,
+                                            maxIllustratedRate,
+                                            indexStrategyType,
+                                            distribution,
+                                            deathBenefit,
+                                            targetPremium,
+                                            premium,
+                                            rowId,
+                                        } = plan;
+                                        return (
+                                            <Grid item md={12} key={`iul-protection-${index}`}>
+                                                <IulQuoteCard
+                                                    quoteType="IUL Protection"
+                                                    cardTitle={productName}
+                                                    companyName={companyName}
+                                                    rating={amBest}
+                                                    logo={companyLogoImageUrl}
+                                                    guaranteedYears={guaranteedYears}
+                                                    cashValueYear20={cashValueYear20}
+                                                    cashValueYear30={cashValueYear30}
+                                                    maxIllustratedRate={maxIllustratedRate}
+                                                    indexStrategyType={indexStrategyType}
+                                                    isTobaccoUser={isTobaccoUser}
+                                                    targetPremium={targetPremium}
+                                                    deathBenefit={deathBenefit}
+                                                    distribution={distribution}
+                                                    age={plan?.input?.actualAge}
+                                                    healthClass={plan?.input?.healthClass}
+                                                    premium={premium}
+                                                    handleComparePlanSelect={() => {
+                                                        handleComparePlanSelect(plan);
+                                                    }}
+                                                    handlePlanDetailsClick={() => handlePlanDetailsClick(rowId)}
+                                                    disableCompare={
+                                                        selectedPlans?.length === 3 &&
+                                                        !selectedPlans?.find((p) => p.rowId === rowId)
+                                                    }
+                                                    isChecked={selectedPlans?.find((p) => p.rowId === rowId)}
+                                                />
+                                            </Grid>
+                                        );
+                                    })}
+                                </>
+                            ) : (
+                                <NoQuoteResult navigateLearningCenter={handleNavigateToLearningCenter} />
+                            )}
                         </Grid>
                     </WithLoader>
                 </Grid>

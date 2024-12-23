@@ -178,7 +178,7 @@ export const IulAccumulationQuoteFilter = () => {
                             </Grid>
 
                             <Grid item md={12} xs={12}>
-                                <CollapsibleSection title="Pay Periods">
+                                <CollapsibleSection title="Pay Period">
                                     <Box className={styles.radioOption}>
                                         {PAY_PERIOD_OPTS?.map((option, index) => {
                                             return (
@@ -188,6 +188,7 @@ export const IulAccumulationQuoteFilter = () => {
                                                     label={option.label}
                                                     stateValue={payPeriods}
                                                     onChange={(e) => handleFiltersChange("payPeriods", e.target.value)}
+                                                    key={`payPeriods-${index}`}
                                                 />
                                             );
                                         })}
