@@ -1,22 +1,17 @@
 import { useMemo } from "react";
 import PropTypes from "prop-types";
-import ApplicationSubmitted from "components/icons/ApplicationSubmitted";
 import Activity from "components/icons/activities/Activity";
-import CallRecording from "components/icons/activities/CallRecording";
 import ContactUpdated from "components/icons/activities/Contacts";
-import List from "components/icons/activities/List";
 import LOCATION from "components/icons/activities/LocationIcon";
 import MEDICAID from "components/icons/activities/MedicaId";
 import PHARMACY from "components/icons/activities/Pharmacy";
 import PRESCRIPTION from "components/icons/activities/PrescriptionIcon";
 import PROVIDER from "components/icons/activities/ProviderIcon";
-import Reminder from "components/icons/activities/Reminder";
-import SOA from "components/icons/activities/SOA";
 import styles from "./ActivitySubjectWithIcon.module.scss";
-import share from "../../images/Plans-Shared.png";
-import MeetingRecord from "../../images/MeetingRecording.png";
-import LegacySafeguard from "../../images/LegacySafeguard.png";
 import AskIntegritySuggests from "components/icons/activities/AskIntegritySuggests";
+import { faFileLines, faBell, faFilePen } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+import { faMeetingRecording, faArrowShare, faUserContactOverview, faCallRecording, faShieldLegacySafeguard, faList } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const ImageToIcon = ({ src, alt }) => <img src={src} alt={alt} />;
 
@@ -28,23 +23,23 @@ ImageToIcon.propTypes = {
 const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId, showOnlyFilterIcon, interactionIconUrl }) => {
     const iconComponent = useMemo(() => {
         const iconMapping = {
-            "Contact Updated": <ContactUpdated />,
-            "Contact Created": <ContactUpdated />,
-            "Contact Imported": <ContactUpdated />,
-            "Stage Change": <List />,
-            "Incoming Call": <CallRecording />,
-            "Call Recording": <CallRecording />,
-            "Outbound Call Recorded": <CallRecording />,
-            "Incoming Call Recorded": <CallRecording />,
-            "Reminder Added": <Reminder />,
-            "Reminder Complete": <Reminder />,
-            "Scope of Appointment Sent": <SOA />,
-            "Scope of Appointment Signed": <SOA />,
-            "Scope of Appointment Completed": <SOA />,
-            "Plan Shared": <ImageToIcon src={share} alt="Plan Shared" />,
-            "Contact's new call log created": <CallRecording />,
-            "Application Submitted": <ApplicationSubmitted />,
-            "Meeting Recorded": <ImageToIcon src={MeetingRecord} alt="Meeting Recorded" />,
+            "Contact Updated": <FontAwesomeIcon icon={faUserContactOverview} color="#0052cf" size={"lg"} />,
+            "Contact Created": <FontAwesomeIcon icon={faUserContactOverview} color="#0052cf" size={"lg"} />,
+            "Contact Imported": <FontAwesomeIcon icon={faUserContactOverview} color="#0052cf" size={"lg"} />,
+            "Stage Change":  <FontAwesomeIcon icon={faList} color="#0052cf" size={"lg"} />,
+            "Incoming Call": <FontAwesomeIcon icon={faCallRecording} color="#0052cf" size={"lg"} />,
+            "Call Recording": <FontAwesomeIcon icon={faCallRecording} color="#0052cf" size={"lg"} />,
+            "Outbound Call Recorded": <FontAwesomeIcon icon={faCallRecording} color="#0052cf" size={"lg"} />,
+            "Incoming Call Recorded": <FontAwesomeIcon icon={faCallRecording} color="#0052cf" size={"lg"} />,
+            "Reminder Added": <FontAwesomeIcon icon={faBell} color="#0052cf" size={"lg"} style={{ marginLeft: '7px' }}/>,
+            "Reminder Complete":<FontAwesomeIcon icon={faBell} color="#0052cf" size={"lg"} style={{ marginLeft: '7px' }}/>,
+            "Scope of Appointment Sent": <FontAwesomeIcon icon={faFilePen} color="#0052cf" size={"lg"} />,
+            "Scope of Appointment Signed": <FontAwesomeIcon icon={faFilePen} color="#0052cf" size={"lg"} />,
+            "Scope of Appointment Completed": <FontAwesomeIcon icon={faFilePen} color="#0052cf" size={"lg"} />,
+            "Plan Shared": <FontAwesomeIcon icon={faArrowShare} color="#0052cf" size={"lg"} />,
+            "Contact's new call log created": <FontAwesomeIcon icon={faCallRecording} color="#0052cf" size={"lg"} />,
+            "Application Submitted": <FontAwesomeIcon icon={faFileLines} color="#0052cf" size={"lg"} style={{ marginLeft: '7px' }} />,
+            "Meeting Recorded": <FontAwesomeIcon icon={faMeetingRecording} color="#0052cf" size={"lg"} />,
             "Medicare ID Updated by Client": <ContactUpdated />,
             "ZipCode Updated by Client": <LOCATION />,
             "Pharmacy Updated by Client": <PHARMACY />,
@@ -74,7 +69,7 @@ const ActivitySubjectWithIcon = ({ activitySubject, iconURL, activityId, showOnl
             "Shopper Priority 4 - Plan Review Suggested": <AskIntegritySuggests color="#666666" bgColor="#F1F1F1" />,
             "Shopper Priority 5 - Plan Review Optional": <AskIntegritySuggests color="#999999" bgColor="#F1F1F1" />,
             "Legacy Safeguard Eligible": showOnlyFilterIcon ? (
-                <ImageToIcon src={LegacySafeguard} alt="Legacy Safeguard Eligible" />
+                <FontAwesomeIcon icon={faShieldLegacySafeguard} color="#0052cf" size={"lg"} />
             ) : interactionIconUrl ? (
                 <ImageToIcon src={interactionIconUrl} alt={activityId} />
             ) : (

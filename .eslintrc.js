@@ -84,5 +84,6 @@ module.exports = {
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-react": "off",
         "react-hooks/exhaustive-deps": "warn",
+        "import/no-unresolved": "off",
     },
 };
