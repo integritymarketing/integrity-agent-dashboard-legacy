@@ -10,12 +10,12 @@ const LifeHealthProducts = ({ handleLifePlanClick, handleHealthPlanClick }) => {
     return (
         <Box className={styles.container}>
             <ProductOption
-                label="Life"
+                label="LifeCENTER"
                 icon={<LifeIcon />}
                 onClick={handleLifePlanClick}
             />
             <ProductOption
-                label="Health"
+                label="MedicareCENTER"
                 icon={<HealthIcon />}
                 onClick={handleHealthPlanClick}
             />

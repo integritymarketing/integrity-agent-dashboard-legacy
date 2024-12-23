@@ -200,13 +200,13 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                                     <Box className={styles.icon}>
                                         <LifeIcon />
                                     </Box>
-                                    <Box className={styles.title}>Life</Box>
+                                    <Box className={styles.title}>LifeCENTER</Box>
                                 </Box>
                                 <Box className={styles.plan} onClick={handleHealthPlanClick}>
                                     <Box className={styles.icon}>
                                         <HealthIcon />
                                     </Box>
-                                    <Box className={styles.title}>Health</Box>
+                                    <Box className={styles.title}>MedicareCENTER</Box>
                                 </Box>
                             </Box>
                             <Divider />
