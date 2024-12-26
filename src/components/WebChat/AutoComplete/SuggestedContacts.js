@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Spinner from "../../ui/Spinner";
 import { capitalizeFirstLetter } from "utils/shared-utils/sharedUtility";
@@ -8,12 +8,7 @@ import "./SuggestedContacts.scss";
 import { formatAddress } from "utils/addressFormatter";
 import ChatIconPrompt from "../chat-icon-prompt.png";
 
-const SuggestedContacts = ({
-  suggestedContacts,
-  isContactsLoading,
-  onContactSelect,
-    initiateChat
-}) => {
+const SuggestedContacts = ({ suggestedContacts, isContactsLoading, onContactSelect, initiateChat }) => {
     const mainRef = useRef(null);
     const [calculatedHeight, setCalculatedHeight] = useState("auto");
     const DEFAULT_PROMPT_ICON_HEIGHT = "75px";
@@ -47,114 +42,126 @@ const SuggestedContacts = ({
         };
     }, [isContactsLoading, suggestedContacts]);
 
-
-    const showPromptIcon = () => <div className="webchatCenterIconWrapper"
-                                      style={{bottom: promptIconCalculatedHeight}}
-                                      onClick={initiateChat}>
-        <div className="webchatCenterIcon">
-            <img className="webchatCenterIconImage" src={ChatIconPrompt} alt="Integrity Icon"/>
+    const showPromptIcon = () => (
+        <div className="webchatCenterIconWrapper" style={{ bottom: promptIconCalculatedHeight }}>
+            <div className="webchatCenterIcon">
+                <img
+                    className="webchatCenterIconImage"
+                    src={ChatIconPrompt}
+                    onClick={initiateChat}
+                    alt="Integrity Icon"
+                />
+            </div>
         </div>
-    </div>;
+    );
 
-    return <>
- {showPromptIcon()}
-   {isContactsLoading ? (
-      <div className="suggestedContactsMain" ref={mainRef}>
-        <div className="suggestedContactsContainer">
-          <div className="spinnerContainer">
-            <Spinner />
-          </div>
-        </div>
-      </div>
-    ) :
-      suggestedContacts?.length > 0 ? (
-        <div className="suggestedContactsMain"
-                    ref={mainRef}
-                >
-          <div className="suggestedContactsContainer" style={{height: calculatedHeight}}>
-            {suggestedContacts.map(
-              (
-                {
-                  leadsId,
-                  firstName,
-                  lastName,
-                  addresses,
-                  birthdate,
-                  primaryCommunication,
-                  phones,
-                  emails,
-                },
-                index
-              ) => {
-                const contact =
-                  primaryCommunication === "email"
-                    ? emails[0]?.leadEmail
-                    : formatPhoneNumber(phones[0]?.leadPhone) || "";
-                const address = addresses[0];
-
-                return (
-                  <div
-                    className="contactEntry"
-                    key={index}
-                    onClick={() =>
-                      onContactSelect(
-                       `${capitalizeFirstLetter(firstName)} ${capitalizeFirstLetter(lastName)}`, `${leadsId}`
-                      )
-                    }
-                  >
-                    <div className="contactDetails">
-                      <div className="contactName">
-                        <p className="contactNameText">{`${capitalizeFirstLetter(firstName)} ${capitalizeFirstLetter(lastName)}`}</p>
-                      </div>
-                      {address && (
-                        <div className="contactAddress">
-                          <p className="contactAddressText">
-                            <span className="contactLabel">Address:</span>
-                            <span className="contactValue">{formatAddress({
-                              city: address.city,
-                              stateCode: address.stateCode,
-                              postalCode: address.postalCode,
-                            })}</span>
-                          </p>
+    return (
+        <>
+            {showPromptIcon()}
+            {isContactsLoading ? (
+                <div className="suggestedContactsMain" ref={mainRef}>
+                    <div className="suggestedContactsContainer">
+                        <div className="spinnerContainer">
+                            <Spinner />
                         </div>
-                      )}
-                      {birthdate && (
-                        <div className="contactBirthdate">
-                          <p className="contactBirthdateText">
-                            <span className="contactLabel">Birthdate:</span>{" "} <span className="contactValue">{formatDate(birthdate)}</span>
-                          </p>
-                        </div>
-                      )}
-                      {contact && (
-                        <div className="contactContact">
-                          <p className="contactContactText">
-                            <span className="contactLabel">Contact:</span>{" "} <span className="contactValue">{contact}</span>
-                          </p>
-                        </div>
-                      )}
                     </div>
-                    <div className="iconWrapper">
-                      <img
-                        className="continueIcon"
-                        src="https://askintegrityasset.blob.core.windows.net/images/mc-arrow-list.png"
-                        alt="continue-icon"
-                      />
+                </div>
+            ) : suggestedContacts?.length > 0 ? (
+                <div className="suggestedContactsMain" ref={mainRef}>
+                    <div className="suggestedContactsContainer" style={{ height: calculatedHeight }}>
+                        {suggestedContacts.map(
+                            (
+                                {
+                                    leadsId,
+                                    firstName,
+                                    lastName,
+                                    addresses,
+                                    birthdate,
+                                    primaryCommunication,
+                                    phones,
+                                    emails,
+                                },
+                                index
+                            ) => {
+                                const contact =
+                                    primaryCommunication === "email"
+                                        ? emails[0]?.leadEmail
+                                        : formatPhoneNumber(phones[0]?.leadPhone) || "";
+                                const address = addresses[0];
+
+                                return (
+                                    <div
+                                        className="contactEntry"
+                                        key={index}
+                                        onClick={() =>
+                                            onContactSelect(
+                                                `${capitalizeFirstLetter(firstName)} ${capitalizeFirstLetter(
+                                                    lastName
+                                                )}`,
+                                                `${leadsId}`
+                                            )
+                                        }
+                                    >
+                                        <div className="contactDetails">
+                                            <div className="contactName">
+                                                <p className="contactNameText">{`${capitalizeFirstLetter(
+                                                    firstName
+                                                )} ${capitalizeFirstLetter(lastName)}`}</p>
+                                            </div>
+                                            {address && (
+                                                <div className="contactAddress">
+                                                    <p className="contactAddressText">
+                                                        <span className="contactLabel">Address:</span>
+                                                        <span className="contactValue">
+                                                            {formatAddress({
+                                                                city: address.city,
+                                                                stateCode: address.stateCode,
+                                                                postalCode: address.postalCode,
+                                                            })}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            )}
+                                            {birthdate && (
+                                                <div className="contactBirthdate">
+                                                    <p className="contactBirthdateText">
+                                                        <span className="contactLabel">Birthdate:</span>{" "}
+                                                        <span className="contactValue">{formatDate(birthdate)}</span>
+                                                    </p>
+                                                </div>
+                                            )}
+                                            {contact && (
+                                                <div className="contactContact">
+                                                    <p className="contactContactText">
+                                                        <span className="contactLabel">Contact:</span>{" "}
+                                                        <span className="contactValue">{contact}</span>
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="iconWrapper">
+                                            <img
+                                                className="continueIcon"
+                                                src="https://askintegrityasset.blob.core.windows.net/images/mc-arrow-list.png"
+                                                alt="continue-icon"
+                                            />
+                                        </div>
+                                    </div>
+                                );
+                            }
+                        )}
                     </div>
-                  </div>
-                );
-              }
-            )}
-          </div>
-        </div>
-      ) : null}
-    </>
+                </div>
+            ) : null}
+        </>
+    );
 };
 
 SuggestedContacts.propTypes = {
-  suggestedContacts: PropTypes.array.isRequired,
-  isContactsLoading: PropTypes.bool.isRequired,
-  onContactSelect: PropTypes.func.isRequired,
-  initiateChat: PropTypes.func.isRequired,
+    suggestedContacts: PropTypes.array.isRequired,
+    isContactsLoading: PropTypes.bool.isRequired,
+    onContactSelect: PropTypes.func.isRequired,
+    initiateChat: PropTypes.func.isRequired,
 };
 
 export default SuggestedContacts;
