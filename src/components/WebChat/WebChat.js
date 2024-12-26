@@ -22,6 +22,7 @@ import debounce from "lodash.debounce";
 import styleOptions from "./webChatStyleOptions";
 import SuggestedContacts from "./AutoComplete/SuggestedContacts";
 import { convertUTCDateToLocalDate } from "utils/dates";
+import moment from "moment";
 
 const WebChatComponent = () => {
     const WHICH_CONTACT_PART_STRING = "Which contact would you like for your";
@@ -452,6 +453,7 @@ const WebChatComponent = () => {
                                     host: process.env.REACT_APP_BOT_HOST_NAME,
                                     hostUrl: process.env.REACT_APP_HOST_URL,
                                     appId: "mcweb",
+                                    userTimezone: moment().utcOffset(),
                                 },
                             },
                         });
