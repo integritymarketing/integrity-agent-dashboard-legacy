@@ -1,21 +1,15 @@
 import React, { useMemo, useState } from "react";
-
 import { Box } from "@mui/system";
-
 import { useLeadDetails } from "providers/ContactDetails";
-
 import calculateAgeFromBirthdate from "utils/calculateAgeFromBirthdate";
 import { formatDate, getLocalDateTime } from "utils/dates";
 import { formatFullName } from "utils/formatFullName";
 import { formatPhoneNumber } from "utils/phones";
 import { formatAddress } from "utils/addressFormatter";
 import { formatMBID } from "utils/shared-utils/sharedUtility";
-
 import WithLoader from "components/ui/WithLoader";
-
 import styles from "./ContactInfoContainer.module.scss";
 import ContactInfoForm from "./ContactInfoForm";
-
 import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
 import { EditWithIcon, Favorite } from "../Icons";
@@ -173,6 +167,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
         leadsId,
         notes,
         leadCreatedDate,
+
     };
 
     const editLeadDetails = (data) => {
@@ -320,9 +315,15 @@ export const ContactInfoContainer = ({ isMobile }) => {
                                     <Typography className={styles.specialAssistanceHeader} variant="custom">
                                         Special Assistance
                                     </Typography>
-                                    {hasMedicAid === 1 && <Typography variant="body1" color="#434A51">Medicaid</Typography>}
-                                    {subsidyLevel === "Yes" && <Typography variant="body1" color="#434A51">LIS</Typography>}
-                                    {!hasMedicAid && subsidyLevel != "Yes" && <Typography variant="body1" color="#434A51">None</Typography>}
+                                    {subsidyLevel === "Yes" && (
+                                        <Typography variant="body1" color="#434A51">LIS</Typography>
+                                    )}
+                                    {hasMedicAid === 1 && (
+                                        <Typography variant="body1" color="#434A51">Medicaid</Typography>
+                                    )}
+                                    {subsidyLevel !== "Yes" && hasMedicAid !== 1 && (
+                                        <Typography variant="body1" color="#434A51">None</Typography>
+                                    )}
                                 </Stack>
                             </Paper>
                         </SectionContainer>
