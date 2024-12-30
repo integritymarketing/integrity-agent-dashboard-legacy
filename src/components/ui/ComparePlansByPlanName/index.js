@@ -19,7 +19,8 @@ import { Button } from "../Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
 
 import EnrollBack from "images/enroll-btn-back.svg";
-import NewShareIcon from "images/new-share-icon.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowShare } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
 
 import { PLAN_TYPE_ENUMS } from "constants";
 
@@ -134,7 +135,7 @@ export default function ComparePlansByPlanName({
 
                                         <Button
                                             label="Share"
-                                            icon={<img src={NewShareIcon} alt="share" />}
+                                            icon={<FontAwesomeIcon icon={faArrowShare} />}
                                             onClick={() => setComparePlanModalOpen(true)}
                                             type="secondary"
                                             className={`${styles["share-btn"]} ${styles["mobile"]}`}
