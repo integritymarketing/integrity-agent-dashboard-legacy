@@ -1,156 +1,155 @@
 .plan-details-page {
-  font-family: Lato;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #f1f1f1;
+    font-family: Lato;
+    font-weight: normal;
+    font-style: normal;
+    background-color: #f1f1f1;
 
-  .back-button {
-    color: #4178ff;
-    margin-left: 10px;
-
-    span {
-      margin-left: 10px;
-    }
-
-    @media screen and (min-width: 320px) and (max-width: 480px) {
-      color: white !important;
-
-      svg {
-        color: #ffff;
-      }
-
-      span {
+    .back-button {
         color: #4178ff;
-      }
-    }
-  }
+        margin-left: 10px;
 
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 96px;
-    background-color: var(--v2-white);
-    box-shadow: var(--shadow-default);
-    position: sticky;
-    top: 0;
-    z-index: 5;
-
-    .back {
-      svg {
-        transform: rotate(90deg);
-      }
-
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        flex: 0.3;
-      }
-    }
-
-    .header-text {
-      font-size: 32px;
-      font-family: Lato;
-      font-style: normal;
-      color: #052a63;
-
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        color: white;
-        position: relative;
-        left: -30%;
-        font-size: 18px;
-        flex: 0.3;
-      }
-    }
-
-    .header-callscript {
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        display: none;
-        flex: 0.2;
-      }
-
-      svg {
-        width: 40px;
-        position: relative;
-        left: 12px;
-      }
-    }
-
-    .plan-details-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      height: 80px;
-      padding: 0px 20px;
-
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        // padding: 0px 18px;
-        padding: 0;
-      }
-    }
-
-    @media screen and (min-width: 320px) and (max-width: 480px) {
-      // padding: 18px 0px 18px 24px;
-      background-color: var(--v2-dark-blue);
-      height: 60px;
-
-      span.label {
-        color: #ffffff;
-      }
-    }
-  }
-
-  .body {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    margin-top: 51px;
-
-    @media screen and (min-width: 320px) and (max-width: 480px) {
-      margin-top: 0px;
-    }
-
-    .left {
-      width: 262px;
-      flex-grow: 1;
-
-      >div {
-        top: 120px;
-        position: sticky;
-      }
-
-      ul {
-        padding-left: 18px;
-        margin-top: 0;
-      }
-
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        display: none;
-      }
-    }
-
-    .main {
-      flex-grow: 3;
-      width: 100%;
-
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        background-color: #e7e9ed;
-        width: 100%;
-        padding: 48px 18px 0px 18px;
-      }
-
-      .card-container {
-        margin-bottom: 48px;
+        span {
+            margin-left: 10px;
+        }
 
         @media screen and (min-width: 320px) and (max-width: 480px) {
-          max-height: none;
-          margin-bottom: none;
-        }
-      }
+            color: white !important;
 
-      >div {
-        margin-bottom: 24px;
-        scroll-margin-top: 90px;
-      }
+            svg {
+                color: #ffff;
+            }
+
+            span {
+                color: #4178ff;
+            }
+        }
     }
-  }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 96px;
+        background-color: var(--v2-white);
+        box-shadow: var(--shadow-default);
+        position: sticky;
+        top: 0;
+        z-index: 5;
+
+        .back {
+            svg {
+                transform: rotate(90deg);
+            }
+
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+                flex: 0.3;
+            }
+        }
+
+        .header-text {
+            font-size: 32px;
+            font-family: Lato;
+            font-style: normal;
+            color: #052a63;
+
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+                color: white;
+                position: relative;
+                left: -30%;
+                font-size: 18px;
+                flex: 0.3;
+            }
+        }
+
+        .header-callscript {
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+                display: none;
+                flex: 0.2;
+            }
+
+            svg {
+                width: 40px;
+                position: relative;
+                left: 12px;
+            }
+        }
+
+        .plan-details-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 80px;
+            padding: 0px 20px;
+
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+                // padding: 0px 18px;
+                padding: 0;
+            }
+        }
+
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+            // padding: 18px 0px 18px 24px;
+            background-color: var(--v2-dark-blue);
+            height: 60px;
+
+            span.label {
+                color: #ffffff;
+            }
+        }
+    }
+
+    .body {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+
+        @media screen and (min-width: 320px) and (max-width: 480px) {
+            margin-top: 0px;
+        }
+
+        .left {
+            width: 262px;
+            flex-grow: 1;
+
+            > div {
+                top: 120px;
+                position: sticky;
+            }
+
+            ul {
+                padding-left: 18px;
+                margin-top: 0;
+            }
+
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+                display: none;
+            }
+        }
+
+        .main {
+            flex-grow: 3;
+            width: 100%;
+
+            @media screen and (min-width: 320px) and (max-width: 480px) {
+                background-color: #e7e9ed;
+                width: 100%;
+                padding: 48px 18px 0px 18px;
+            }
+
+            .card-container {
+                margin-bottom: 48px;
+
+                @media screen and (min-width: 320px) and (max-width: 480px) {
+                    max-height: none;
+                    margin-bottom: none;
+                }
+            }
+
+            > div {
+                margin-bottom: 24px;
+                scroll-margin-top: 90px;
+            }
+        }
+    }
 }

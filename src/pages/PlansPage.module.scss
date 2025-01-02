@@ -12,12 +12,12 @@
         margin-bottom: 20px;
     }
 
+
     .search-container {
         display: flex;
         justify-content: space-between;
         flex-direction: row;
         padding-bottom: 80px;
-        margin-top: 40px;
 
         .filter-section {
             border: 1px solid #cbd5e1;
@@ -68,6 +68,7 @@
                         width: 275px;
                     }
                 }
+
                 .sort-select-box {
                     padding-right: 10px;
                 }

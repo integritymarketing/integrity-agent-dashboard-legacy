@@ -35,8 +35,8 @@ const AddZipPage = () => {
             <Helmet>
                 <title>Integrity - Add Zip </title>
             </Helmet>
-            <GlobalNav />
-            <PageHeader isMobile={isMobile} contactId={contactId} pageName={HEALTH_POLICIES} />
+            <GlobalNav showMedicareCenter={true} />
+            {/* <PageHeader isMobile={isMobile} contactId={contactId} pageName={HEALTH_POLICIES} /> */}
             <StyledBox>
                 <AddZipContainer isMobile={isMobile} contactId={contactId} />
             </StyledBox>

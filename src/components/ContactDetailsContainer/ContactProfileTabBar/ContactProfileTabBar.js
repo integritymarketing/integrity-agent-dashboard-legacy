@@ -155,7 +155,7 @@ export const ContactProfileTabBar = ({
                         </Box>
                     </Box>
                     {showTabs && <Box className={styles.profileTabs}>{TABS.map(renderTab)}</Box>}
-                    {isContactDetailsPage && (
+                    {isContactDetailsPage && showTabs && (
                         <Button
                             onClick={handleStartQuote}
                             label="Start a Quote"

@@ -223,7 +223,7 @@ export default function DashboardActivityTable({
                     break;
             }
         },
-        [navigate, npn]
+        [navigate, npn],
     );
 
     const saveReminder = (payload) => {
@@ -258,7 +258,7 @@ export default function DashboardActivityTable({
             });
             setSelectedActivity(row.activities[0]);
         },
-        [setSelectedActivity, setSelectedLead]
+        [setSelectedActivity, setSelectedLead],
     );
 
     const columns = useMemo(
@@ -376,7 +376,7 @@ export default function DashboardActivityTable({
             },
         ],
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [navigate, showAddModal, showAddNewModal, setShowAddNewModal]
+        [navigate, showAddModal, showAddNewModal, setShowAddNewModal],
     );
 
     const mobileColumns = useMemo(
@@ -471,14 +471,14 @@ export default function DashboardActivityTable({
                     }
                     return (
                         <>
-                            <ActionsDropdown
+                            {/* <ActionsDropdown
                                 options={options}
                                 id={row.original.leadsId}
                                 onClick={handleDropdownActions(row.original)}
                             >
                                 <MoreHorizOutlinedIcon />
-                            </ActionsDropdown>
-
+                            </ActionsDropdown> */}
+                            <ActionsCell row={row} refreshData={realoadActivityData} />
                             {showAddNewModal && (
                                 <AddReminderModal
                                     open={showAddNewModal}
@@ -493,7 +493,7 @@ export default function DashboardActivityTable({
             },
         ],
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [navigate, showAddModal, showAddNewModal, setShowAddNewModal]
+        [navigate, showAddModal, showAddNewModal, setShowAddNewModal],
     );
 
     const onFilterApply = (selectedValues) => {
@@ -532,7 +532,7 @@ export default function DashboardActivityTable({
                 Sentry.captureException(e);
             }
         },
-        [setSelectedActivity, showToast, selectedLead, realoadActivityData]
+        [setSelectedActivity, showToast, selectedLead, realoadActivityData],
     );
 
     const handleSortUpdate = (value) => {

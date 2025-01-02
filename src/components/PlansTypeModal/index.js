@@ -37,8 +37,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
     const [showSellingPermissionModal, setShowSellingPermissionModal] = useState(false);
     const [showLifeQuestionCard, setShowLifeQuestionCard] = useState(false);
     const [showIulGoalQuestionCard, setShowIulGoalQuestionCard] = useState(false);
-    const [isAgentNonRTS, setIsAgentNonRTS] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate();
     const showToast = useToast();
@@ -56,7 +55,6 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
         async (type) => {
             try {
                 if (checked) {
-                    setChecked(false);
                     const updatedType = type === LIFE ? HEALTH : LIFE;
                     const payload = {
                         agentID: agentId,
@@ -75,7 +73,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                 });
             }
         },
-        [agentId, checked, leadPreference, showToast, updateAgentPreferences],
+        [agentId, checked, leadPreference, showToast, updateAgentPreferences]
     );
 
     const handleSellingPermissionModalContinue = () => {
@@ -100,17 +98,11 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
 
     const handleFinalExpensePlanClick = useCallback(async () => {
         setIsLoading(true);
-        let isAgentNonRTSResponse = null;
-        if (isAgentNonRTS) {
-            isAgentNonRTSResponse = isAgentNonRTS;
-        } else {
-            isAgentNonRTSResponse = await getAgentNonRTS();
-            setIsAgentNonRTS(isAgentNonRTSResponse);
-        }
-        if (isAgentNonRTSResponse === "True") {
+        const isAgentNonRTS = await getAgentNonRTS();
+        if (isAgentNonRTS === "True") {
             setShowSellingPermissionModal(true);
         } else {
-            await onSelectHandle(LIFE);
+            onSelectHandle(LIFE);
             fireEvent("Quote Type Selected", {
                 leadid: leadId,
                 line_of_business: "Life",
@@ -158,7 +150,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                     break;
             }
         },
-        [leadId, navigate],
+        [leadId, navigate]
     );
 
     const handleSelectIulGoal = useCallback(
@@ -169,7 +161,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                 navigate(`/life/iul-protection/${leadId}/confirm-details`);
             }
         },
-        [leadId, navigate],
+        [leadId, navigate]
     );
 
     /**
@@ -186,6 +178,8 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
             } else {
                 handleFinalExpensePlanClick();
             }
+        } else {
+            setIsLoading(false);
         }
     }, [
         shouldShowPlanTypeModal,

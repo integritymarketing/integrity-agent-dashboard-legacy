@@ -11,13 +11,26 @@
     background-color: #052a63;
 
     &__title {
+        display: flex;
+        align-items: center;
         margin-right: auto;
         flex-shrink: 1;
-        padding-left: 5rem;
 
         a {
             display: flex;
             max-width: calc(170px);
+
+            &.show-medicare-center {
+                margin-right: 1.5rem;
+                border-right: 1px solid #a9905f;
+                padding-right: 1.5rem;
+                max-width: none;
+
+                @media (max-width: 480px) {
+                    margin-right: 0.5rem;
+                    padding-right: 0.5rem;
+                }
+            }
 
             svg {
                 color: white;
@@ -26,7 +39,7 @@
 
         @media (max-width: 480px) {
             position: absolute;
-            top: 70px;
+            top: 40%;
             margin: unset;
             padding: unset;
         }
@@ -34,10 +47,17 @@
 
     &__links {
         display: flex;
-        align-items: center;
+        align-items: baseline;
+
+        @media (max-width: 480px) {
+            bottom: 0px;
+            position: absolute;
+            width: 100%;
+            padding: 0px 1.5rem;
+        }
     }
 
-    &__links > ul {
+    &__links>ul {
         line-height: math.div(24, 16);
     }
 
@@ -45,18 +65,20 @@
         margin-right: -0.5rem;
 
         @media (max-width: 480px) {
-            bottom: 12px;
             position: absolute;
+            gap: 1rem;
             right: 8px;
         }
     }
 
     &__taskList-mobile {
         margin-right: 20px;
+
         @media (max-width: 480px) {
             top: 57px;
             position: absolute;
             right: 8px;
+
             button {
                 margin-left: 8px;
             }
@@ -92,7 +114,7 @@
 .dropdown-menu {
     position: relative;
 
-    &__trigger > svg {
+    &__trigger>svg {
         margin-left: 0.5rem;
     }
 
@@ -119,17 +141,17 @@
             width: calc(100% + 5rem);
             z-index: 6;
 
-            > li {
+            >li {
                 padding: 1rem;
                 box-shadow: inset 0px -1px 0px #cdd0d5;
             }
 
-            > li:hover {
+            >li:hover {
                 background-color: var(--v2-secondary-blue-200);
                 color: var(--v2-royal-blue);
             }
 
-            > li a:hover {
+            >li a:hover {
                 color: var(--v2-royal-blue);
             }
 
@@ -232,7 +254,7 @@
     text-align: left;
     font-size: 0.875rem;
 
-    & > div {
+    &>div {
         width: 100%;
         display: flex;
         justify-content: center;
@@ -406,6 +428,7 @@
 
 .taskListTitle {
     display: none;
+
     @media (max-width: 480px) {
         display: block;
         color: #ffffff;

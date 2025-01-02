@@ -16,7 +16,7 @@ import ContactInfo from "partials/contact-info";
 import analyticsService from "services/analyticsService";
 import { useClientServiceContext } from "services/clientServiceProvider";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import ProfileMenu from "./ProfileMenu/ProfileMenu";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 
@@ -67,8 +67,7 @@ const SiteNotification = ({ showPhoneNotification, showMaintenaceNotification })
     return null;
 };
 
-// eslint-disable-next-line max-lines-per-function
-const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props }) => {
+const GlobalNavV2 = ({ showMedicareCenter = false, menuHidden = false, className = "", page, title, ...props }) => {
     const auth = useAuth0();
     const { clientsService } = useClientServiceContext();
     const navigate = useNavigate();
@@ -93,49 +92,49 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
         setNavOpen,
         ...(auth.isAuthenticated && !menuHidden
             ? {
-                  primary: [
-                      {
-                          component: Link,
-                          props: {
-                              to: "/dashboard",
-                              className: analyticsService.clickClass("dashbaord-header"),
-                          },
-                          label: "Dashboard",
-                      },
-                      {
-                          component: Link,
-                          props: {
-                              to: "/contacts",
-                              className: analyticsService.clickClass("contacts-header"),
-                          },
-                          label: "Contacts",
-                      },
-                      {
-                          component: Link,
-                          props: {
-                              to: "/marketing/client-connect-marketing",
-                              className: analyticsService.clickClass("marketing-header"),
-                          },
-                          label: "Marketing",
-                      },
-                      {
-                          component: Link,
-                          props: {
-                              to: "#",
-                              onClick: (e) => {
-                                  e.preventDefault();
-                                  setContactSearchModalOpen(true);
-                              },
-                              className: analyticsService.clickClass("quick-quote-header"),
-                          },
-                          label: "Quick Quote",
-                      },
-                  ],
-              }
+                primary: [
+                    {
+                        component: Link,
+                        props: {
+                            to: "/dashboard",
+                            className: analyticsService.clickClass("dashbaord-header"),
+                        },
+                        label: "Dashboard",
+                    },
+                    {
+                        component: Link,
+                        props: {
+                            to: "/contacts",
+                            className: analyticsService.clickClass("contacts-header"),
+                        },
+                        label: "Contacts",
+                    },
+                    {
+                        component: Link,
+                        props: {
+                            to: "/marketing/client-connect-marketing",
+                            className: analyticsService.clickClass("marketing-header"),
+                        },
+                        label: "Marketing",
+                    },
+                    {
+                        component: Link,
+                        props: {
+                            to: "#",
+                            onClick: (e) => {
+                                e.preventDefault();
+                                setContactSearchModalOpen(true);
+                            },
+                            className: analyticsService.clickClass("quick-quote-header"),
+                        },
+                        label: "Quick Quote",
+                    },
+                ],
+            }
             : {
-                  primary: [],
-                  secondary: [],
-              }),
+                primary: [],
+                secondary: [],
+            }),
     };
 
     useEffect(() => {
@@ -171,7 +170,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     return (
         <WithLoader isLoading={auth.isLoading}>
             <Media
-                query={"(max-width: 883px)"}
+                query={"(max-width: 1330px)"}
                 onChange={(isMobile) => {
                     setIsMobile(isMobile);
                 }}
@@ -185,7 +184,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
 
             <header
                 className={`global-nav-v2 ${analyticsService.clickClass(
-                    "nav-wrapper"
+                    "nav-wrapper",
                 )} ${className} ${headernotificationClass}`}
                 {...props}
             >
@@ -210,18 +209,29 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                     </>
                 ) : (
                     <div className={`global-nav-v2__title ${analyticsService.clickClass("nav-logo")}`}>
-                        {isMobile && leadPreference && (
+                        {/* {isMobile && leadPreference && (
                             <MyButton
                                 leadPreference={leadPreference}
                                 page={page}
                                 hasActiveCampaign={agentInformation?.hasActiveCampaign}
                             />
-                        )}
+                        )} */}
 
-                        <Link to={auth.isAuthenticated ? "/dashboard" : "/welcome"}>
+                        <Link
+                            to={auth.isAuthenticated ? "/dashboard" : "/welcome"}
+                            className={`${showMedicareCenter ? "show-medicare-center" : ""}`}
+                        >
                             {isMobile ? <IntegrityMobileLogo /> : <IntegrityLogo />}
                             <span className="visually-hidden">Integrity</span>
                         </Link>
+
+                        {showMedicareCenter ? (
+                            <Typography variant="body1" color={"#FFFFFF"}>
+                                MedicareCENTER
+                            </Typography>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 )}
 
@@ -232,7 +242,14 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
           Causes console error in dev env only due to this issue
           https://github.com/ReactTraining/react-media/issues/139
         */}
-                        {isMobile && <SmallFormatMenu {...mobileMenuProps} page={page} />}
+                        {isMobile && (
+                            <SmallFormatMenu
+                                {...mobileMenuProps}
+                                page={page}
+                                leadPreference={leadPreference}
+                                agentInformation={agentInformation}
+                            />
+                        )}
                         <div className="onlyWeb flex">
                             {!isMobile && <LargeFormatMenu {...menuProps} />}
                             {!isMobile && user?.firstName && leadPreference && (

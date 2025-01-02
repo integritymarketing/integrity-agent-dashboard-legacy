@@ -36,6 +36,9 @@ import PharmacyFilter from "components/ui/PharmacyFilter";
 import MailOrderNotApplicable from "components/MailOrderNotApplicable";
 import { useLeadDetails } from "providers/ContactDetails";
 import { usePharmacyContext } from "../providers/PharmacyProvider";
+import { ContactProfileTabBar } from "components/ContactDetailsContainer";
+import { Box, Typography } from "@mui/material";
+import { MEDICARE_ADVANTAGE } from "components/AddZipContainer/AddZipContainer.constants";
 
 const ComparePlansPage = (props) => {
     const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
@@ -69,7 +72,8 @@ const ComparePlansPage = (props) => {
         agentNPN,
         agentInfo,
     }) {
-        const primaryPharmacy = pharmaciesList.length > 0 ? pharmaciesList.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
+        const primaryPharmacy =
+            pharmaciesList.length > 0 ? pharmaciesList.find((pharmacy) => pharmacy.isPrimary)?.pharmacyId : null;
         const pharmacyId = selectedPharmacy?.pharmacyId || primaryPharmacy;
 
         return Promise.all(
@@ -78,7 +82,14 @@ const ComparePlansPage = (props) => {
                 .map((planId) =>
                     !isComingFromEmail
                         ? plansService.getPlan(contactId, planId, contactData, effectiveDate, pharmacyId)
-                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN, pharmacyId),
+                        : comparePlansService.getPlan(
+                            contactId,
+                            planId,
+                            agentInfo,
+                            effectiveDate,
+                            agentNPN,
+                            pharmacyId,
+                        ),
                 ),
         );
     }
@@ -154,10 +165,16 @@ const ComparePlansPage = (props) => {
         if (results && results.length) {
             setComparePlans(results?.filter((plan) => planIds.includes(plan?.id)));
             const mailOrdrNotApplicable = results?.every((plan) => {
-                if (!plan) { return false; }
+                if (!plan) {
+                    return false;
+                }
                 const { hasMailDrugBenefits, estimatedAnnualMailOrderDrugCostPartialYear } = plan;
-                return (selectedPharmacy?.name === "Mail Order") && Boolean(
-                    (hasMailDrugBenefits && estimatedAnnualMailOrderDrugCostPartialYear === null) || !hasMailDrugBenefits,
+                return (
+                    selectedPharmacy?.name === "Mail Order" &&
+                    Boolean(
+                        (hasMailDrugBenefits && estimatedAnnualMailOrderDrugCostPartialYear === null) ||
+                        !hasMailDrugBenefits,
+                    )
                 );
             });
             setMailOrderNotApplicable(mailOrdrNotApplicable);
@@ -213,14 +230,22 @@ const ComparePlansPage = (props) => {
                     <Helmet>
                         <title>Integrity - Plans</title>
                     </Helmet>
-                    {!isComingFromEmail && <GlobalNav />}
+                    {!isComingFromEmail && <GlobalNav showMedicareCenter={true} />}
                     {!isComingFromEmail && (
-                        <div className={`${styles["header"]}`} style={{ height: "100%" }}>
-                            <Container>
-                                <BackButton label="Back to Plans List" route={`/plans/${id}?preserveSelected=true`} />
-                            </Container>
-                        </div>
+                        <ContactProfileTabBar
+                            contactId={id}
+                            showTabs={false}
+                            backButtonLabel={"Back"}
+                            backButtonRoute={`/plans/${id}`}
+                        />
                     )}
+                    <Box sx={{ padding: "56px 24px", pb: 0 }}>
+                        <Box sx={{ pb: 3 }} display={"flex"} justifyContent={"center"}>
+                            <Typography variant="h2" gutterBottom color={"#052a63"}>
+                                {MEDICARE_ADVANTAGE}
+                            </Typography>
+                        </Box>
+                    </Box>
                     {isNonRTS_User && <NonRTSBanner />}
                     {isComingFromEmail && (
                         <div className={styles["welcome-user-header"]}>
@@ -233,6 +258,7 @@ const ComparePlansPage = (props) => {
                             </Container>
                         </div>
                     )}
+
                     <ComparePlansByPlanName {...getComparePlansByPlanNamesProps()} />
                     <Container>
                         {plansLoading ? (
