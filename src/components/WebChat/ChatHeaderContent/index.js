@@ -5,7 +5,7 @@ import { faCircleInfo, faCircleArrowLeft} from "@awesome.me/kit-7ab3488df1/icons
 import styles from "./ChatHeaderContent.module.scss";
 
 const ChatHeaderContent = ({
-    contactFullName,
+    headerContent,
     clearChatAndFetchToken,
     closeChat,
     handleOpenAskIntegrityFeedback,
@@ -13,7 +13,7 @@ const ChatHeaderContent = ({
     HideIcon,
 }) => (
     <>
-    {!contactFullName ? (
+    {!headerContent ? (
             <div className={styles.header}>
                 <img className={styles.logoIcon} onClick={clearChatAndFetchToken} src={ChatIcon} alt="Chat Icon" />
                 <p className={styles.headerText}>
@@ -35,7 +35,7 @@ const ChatHeaderContent = ({
                     Back
                 </Button>
                 <Typography variant="h4" color="#FFFFFF">
-                {contactFullName}
+                {headerContent}
                 </Typography>
                 <FontAwesomeIcon className={styles.infoLogo} onClick={handleOpenAskIntegrityFeedback} icon={faCircleInfo} color="#4178FF" size={"lg"} />
             </div>
@@ -45,7 +45,7 @@ const ChatHeaderContent = ({
 );
 
 ChatHeaderContent.propTypes = {
-    contactFullName: PropTypes.string,
+    headerContent: PropTypes.string,
     clearChatAndFetchToken: PropTypes.func.isRequired,
     closeChat: PropTypes.func.isRequired,
     handleOpenAskIntegrityFeedback: PropTypes.func.isRequired,

@@ -40,7 +40,7 @@ const WebChatComponent = () => {
     const [searchText, setSearchText] = useState("");
     const [isContactsLoading, setIsContactsLoading] = useState(false);
     const [suggestedContacts, setSuggestedContacts] = useState([]);
-    const [contactFullName, setContactFullName] = useState("");
+    const [headerContent, setHeaderContent] = useState("");
     const [lastMessage, setLastMessage] = useState(null);
     const [dialogId, setDialogId] = useState("ContactSummary");
     const [skipFeedbackInfo, setSkipFeedbackInfo] = useState(false);
@@ -163,7 +163,7 @@ const WebChatComponent = () => {
         setLastMessage("");
         setSearchForContactBtnClick(false);
         setSearchText("");
-        setContactFullName("");
+        setHeaderContent("");
         store.dispatch({
             type: "WEB_CHAT/SET_SEND_BOX",
             payload: { text: "" },
@@ -184,7 +184,7 @@ const WebChatComponent = () => {
             setLastMessage("");
             setSearchForContactBtnClick(false);
             setSearchText("");
-            setContactFullName(contactFullName);
+            setHeaderContent(contactFullName);
 
             store.dispatch({
                 type: "WEB_CHAT/SET_SEND_BOX",
@@ -327,6 +327,8 @@ const WebChatComponent = () => {
                     setIsChatActive(false);
                 } else if (activityValue.name === "mc_Link_Contact") {
                     goToLinkToContactPage(activityValue?.data);
+                } else if(activityValue.name === "mc_View_Recent_Calls") {
+                    setHeaderContent("Call History");
                 }
             }
 
@@ -524,7 +526,7 @@ const WebChatComponent = () => {
             >
                 {!showAskIntegrityFeedback && (
                     <>
-                    <ChatHeaderContent contactFullName={contactFullName} clearChatAndFetchToken={clearChatAndFetchToken} closeChat={closeChat} handleOpenAskIntegrityFeedback={handleOpenAskIntegrityFeedback} ChatIcon={ChatIcon} HideIcon={HideIcon} />
+                    <ChatHeaderContent headerContent={headerContent} clearChatAndFetchToken={clearChatAndFetchToken} closeChat={closeChat} handleOpenAskIntegrityFeedback={handleOpenAskIntegrityFeedback} ChatIcon={ChatIcon} HideIcon={HideIcon} />
                         {directLineToken && (
                             <div>
                                 <SuggestedContacts
