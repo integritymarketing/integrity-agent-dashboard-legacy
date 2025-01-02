@@ -4,7 +4,7 @@ import { Button } from "components/ui/Button";
 import BackBtn from "images/new-back-btn.svg";
 import styles from "./PageHeader.module.scss";
 
-const PageHeader = ({ isMobile, contactId, pageName }) => {
+const PageHeader = ({ isMobile, backPath, pageName }) => {
     return (
         <div className={`${styles.headerContainer} ${isMobile ? styles.Mview : styles.Dview}`}>
             <Button
@@ -12,7 +12,7 @@ const PageHeader = ({ isMobile, contactId, pageName }) => {
                 icon={<img src={BackBtn} alt="Back" style={{ marginRight: "5px" }} />}
                 label={"Back"}
                 onClick={() => {
-                    window.location = `/contact/${contactId}/overview`;
+                    window.location = backPath;
                 }}
                 type="tertiary"
             />
@@ -23,8 +23,8 @@ const PageHeader = ({ isMobile, contactId, pageName }) => {
 
 PageHeader.propTypes = {
     isMobile: PropTypes.bool.isRequired,
-    contactId: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    backPath: PropTypes.string.isRequired,
+    pageName: PropTypes.string.isRequired,
 };
 
 export default PageHeader;
