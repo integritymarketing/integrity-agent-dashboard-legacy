@@ -13,7 +13,6 @@ import ChatIcon from "./askintegrity-logo.jpg";
 import HideIcon from "./hide-icon.png";
 import openAudio from "./open.mp3";
 import closeAudio from "./close.mp3";
-import Info from "components/icons/info-blue";
 import useDeviceType from "hooks/useDeviceType";
 import AskIntegrityFeedback from "./AskIntegrityInfoContainer/AskIntegrityFeedback";
 import useFetch from "hooks/useFetch";
@@ -23,6 +22,7 @@ import styleOptions from "./webChatStyleOptions";
 import SuggestedContacts from "./AutoComplete/SuggestedContacts";
 import { convertUTCDateToLocalDate } from "utils/dates";
 import moment from "moment";
+import ChatHeaderContent from "./ChatHeaderContent";
 
 const WebChatComponent = () => {
     const WHICH_CONTACT_PART_STRING = "Which contact would you like for your";
@@ -40,6 +40,7 @@ const WebChatComponent = () => {
     const [searchText, setSearchText] = useState("");
     const [isContactsLoading, setIsContactsLoading] = useState(false);
     const [suggestedContacts, setSuggestedContacts] = useState([]);
+    const [contactFullName, setContactFullName] = useState("");
     const [lastMessage, setLastMessage] = useState(null);
     const [dialogId, setDialogId] = useState("ContactSummary");
     const [skipFeedbackInfo, setSkipFeedbackInfo] = useState(false);
@@ -162,6 +163,7 @@ const WebChatComponent = () => {
         setLastMessage("");
         setSearchForContactBtnClick(false);
         setSearchText("");
+        setContactFullName("");
         store.dispatch({
             type: "WEB_CHAT/SET_SEND_BOX",
             payload: { text: "" },
@@ -182,6 +184,7 @@ const WebChatComponent = () => {
             setLastMessage("");
             setSearchForContactBtnClick(false);
             setSearchText("");
+            setContactFullName(contactFullName);
 
             store.dispatch({
                 type: "WEB_CHAT/SET_SEND_BOX",
@@ -521,21 +524,7 @@ const WebChatComponent = () => {
             >
                 {!showAskIntegrityFeedback && (
                     <>
-                        <div className={styles.header}>
-                            <img
-                                className={styles.logoIcon}
-                                onClick={clearChatAndFetchToken}
-                                src={ChatIcon}
-                                alt="Chat Icon"
-                            />
-                            <p className={styles.headerText}>
-                                <span>Ask Integrity</span>
-                                <span className={styles.infoLogo} onClick={handleOpenAskIntegrityFeedback}>
-                                    <Info />
-                                </span>
-                            </p>
-                            <img onClick={closeChat} className={styles.hideIcon} src={HideIcon} alt="Hide Icon" />
-                        </div>
+                    <ChatHeaderContent contactFullName={contactFullName} clearChatAndFetchToken={clearChatAndFetchToken} closeChat={closeChat} handleOpenAskIntegrityFeedback={handleOpenAskIntegrityFeedback} ChatIcon={ChatIcon} HideIcon={HideIcon} />
                         {directLineToken && (
                             <div>
                                 <SuggestedContacts
