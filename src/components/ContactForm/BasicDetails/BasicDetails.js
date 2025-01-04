@@ -9,7 +9,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 
 const BasicDetails = ({ formik, fieldSet }) => {
     const { values, errors, touched, submitCount, handleChange, handleBlur, setFieldValue } = formik;
@@ -77,6 +77,8 @@ const BasicDetails = ({ formik, fieldSet }) => {
                     onChange={(value) => {
                         setFieldValue("birthdate", formatDate(value));
                     }}
+                    endAdornment={<FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />}
+                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#0052cf" size={"2xl"} />}
                     className={styles.datePicker}
                 />
 
@@ -92,14 +94,25 @@ const BasicDetails = ({ formik, fieldSet }) => {
                 </Typography>
                 <FormControl fullWidth variant="outlined">
                     <Select
-                        value={"None"}
+                        value={values.prefix}
                         IconComponent={() => (
                             <Box mr={1}>
                                 <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
                             </Box>
                         )}
+                        renderValue={(selected) => {
+                            if (!selected || selected.length === 0) {
+                                return "Select";
+                            }
+                            return selected;
+                        }}
+                        displayEmpty
                     >
-                        <MenuItem value="None">None</MenuItem>
+                        {["Mr.", "Mrs.", "Ms.", "Miss"].map((option) => (
+                            <MenuItem key={option} value={option}>
+                                {option}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
             </Grid>
@@ -109,14 +122,24 @@ const BasicDetails = ({ formik, fieldSet }) => {
                 </Typography>
                 <FormControl fullWidth variant="outlined">
                     <Select
-                        value={"None"}
+                        value={values.suffix}
                         IconComponent={() => (
                             <Box mr={1}>
                                 <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
                             </Box>
                         )}
+                        renderValue={(selected) => {
+                            if (!selected || selected.length === 0) {
+                                return "Select";
+                            }
+                            return selected;
+                        }}
+                        displayEmpty
                     >
-                        <MenuItem value="None">None</MenuItem>
+                        <MenuItem value="Jr.">Jr.</MenuItem>
+                        <MenuItem value="Sr.">Sr.</MenuItem>
+                        <MenuItem value="II">II</MenuItem>
+                        <MenuItem value="III">III</MenuItem>
                     </Select>
                 </FormControl>
             </Grid>
@@ -126,13 +149,16 @@ const BasicDetails = ({ formik, fieldSet }) => {
                 </Typography>
                 <FormControl fullWidth variant="outlined">
                     <Select
-                        value={""}
+                        value={values.maritalStatus}
                         IconComponent={() => (
                             <Box mr={1}>
                                 <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
                             </Box>
                         )}
                         renderValue={(selected) => {
+                            if (!selected || selected?.toLowerCase() === "not answered") {
+                                return "Unknown";
+                            }
                             if (selected.length === 0) {
                                 return "Select";
                             }
@@ -140,11 +166,14 @@ const BasicDetails = ({ formik, fieldSet }) => {
                         }}
                         displayEmpty
                     >
-                        {[].map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
+                        {["Single", "Married", "Domestic Partner", "Divorced", "Widow"].map((option) => (
+                            <MenuItem key={option.toLowerCase()} value={option.toLowerCase()}>
+                                {option}
                             </MenuItem>
                         ))}
+                        <MenuItem key={"unknown"} value={null}>
+                            Unknown
+                        </MenuItem>
                     </Select>
                 </FormControl>
             </Grid>

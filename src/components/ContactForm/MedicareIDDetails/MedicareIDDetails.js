@@ -4,6 +4,8 @@ import styles from "./MedicareIDDetails.module.scss";
 import { formatMbiNumber } from "../../../utils/shared-utils/sharedUtility";
 import DatePickerMUI from "../../DatePicker";
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 
 const MedicareIDDetails = ({ formik }) => {
     const { errors, values, handleChange, handleBlur, setFieldValue } = formik;
@@ -42,7 +44,9 @@ const MedicareIDDetails = ({ formik }) => {
                     onChange={(value) => {
                         setFieldValue("partA", value);
                     }}
-                    className={styles.disableDatePickerError}
+                    endAdornment={<FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />}
+                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#0052cf" size={"2xl"} />}
+                    className={styles.datePicker}
                 />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -54,6 +58,8 @@ const MedicareIDDetails = ({ formik }) => {
                     onChange={(value) => {
                         setFieldValue("partB", value);
                     }}
+                    endAdornment={<FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />}
+                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#0052cf" size={"2xl"} />}
                     className={styles.datePicker}
                 />
             </Grid>

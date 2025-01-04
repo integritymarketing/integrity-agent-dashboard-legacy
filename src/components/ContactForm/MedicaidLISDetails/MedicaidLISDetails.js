@@ -3,7 +3,7 @@ import { Grid, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material
 import PropTypes from "prop-types";
 
 const MedicaidLISDetails = ({ formik }) => {
-    const { values, handleChange } = formik;
+    const { values, setFieldValue } = formik;
     const toggleButtonSelectedStyle = {
         "&.Mui-selected": {
             backgroundColor: "#4178FF",
@@ -17,11 +17,16 @@ const MedicaidLISDetails = ({ formik }) => {
                 <Typography variant="h5" color="#052a63">
                     Medicaid
                 </Typography>
-                <ToggleButtonGroup value={values.medicaid} exclusive onChange={handleChange} fullWidth>
-                    <ToggleButton value="yes" sx={toggleButtonSelectedStyle} name="medicaid">
+                <ToggleButtonGroup
+                    value={values.hasMedicAid}
+                    exclusive
+                    onChange={(ev, newValue) => setFieldValue("hasMedicAid", newValue)}
+                    fullWidth
+                >
+                    <ToggleButton value={1} sx={toggleButtonSelectedStyle} name="medicaid">
                         Yes
                     </ToggleButton>
-                    <ToggleButton value="no" sx={toggleButtonSelectedStyle} name="medicaid">
+                    <ToggleButton value={0} sx={toggleButtonSelectedStyle} name="medicaid">
                         No
                     </ToggleButton>
                 </ToggleButtonGroup>
@@ -30,7 +35,12 @@ const MedicaidLISDetails = ({ formik }) => {
                 <Typography variant="h5" color="#052a63">
                     LIS
                 </Typography>
-                <ToggleButtonGroup value={values.lis} exclusive onChange={handleChange} fullWidth>
+                <ToggleButtonGroup
+                    value={values.lis}
+                    exclusive
+                    onChange={(ev, newValue) => setFieldValue("lis", newValue)}
+                    fullWidth
+                >
                     <ToggleButton value="yes" name="lis" sx={toggleButtonSelectedStyle}>
                         Yes
                     </ToggleButton>

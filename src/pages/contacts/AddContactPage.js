@@ -10,12 +10,13 @@ import "./contactRecordInfo/contactRecordInfo.scss";
 import Media from "react-media";
 import { PageHeader } from "../../components/PageHeader";
 
-import ContactForm from "./ContactForm";
+import ContactForm from "../../components/ContactForm/ContactForm";
+import { useLeadDetails } from "../../providers/ContactDetails";
 
 export default function AddContactPage() {
     const { callLogId } = useParams();
     const [isMobile, setIsMobile] = useState(false);
-
+    const { leadDetails, getLeadDetails } = useLeadDetails();
     const { state, search } = useLocation();
 
     const searchParams = new URLSearchParams(search);
@@ -25,6 +26,10 @@ export default function AddContactPage() {
     const { policyHolder } = state?.state ?? {};
     let firstName = "";
     let lastName = "";
+    const prefix = "";
+    const suffix = "";
+    const maritalStatus = "";
+    const hasMedicAid = null;
 
     if (policyHolder) {
         const splitName = policyHolder?.split(" ");
@@ -57,6 +62,10 @@ export default function AddContactPage() {
                 lastName={lastName}
                 state={state}
                 tags={tags}
+                prefix={prefix}
+                suffix={suffix}
+                maritalStatus={maritalStatus}
+                hasMedicAid={hasMedicAid}
             />
             <GlobalFooter />
         </>

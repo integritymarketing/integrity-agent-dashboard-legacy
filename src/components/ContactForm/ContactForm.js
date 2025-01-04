@@ -1,5 +1,5 @@
 import useQueryParams from "../../hooks/useQueryParams";
-import useFilteredLeadIds from "../ContactsList/hooks/useFilteredLeadIds";
+import useFilteredLeadIds from "../../pages/ContactsList/hooks/useFilteredLeadIds";
 import React, { useContext, useRef, useState } from "react";
 import useAnalytics from "hooks/useAnalytics";
 import { Link, useNavigate } from "react-router-dom";
@@ -31,8 +31,12 @@ import { Box } from "@mui/system";
 
 const ContactForm = ({
     callLogId,
+    prefix,
     firstName,
     lastName,
+    suffix,
+    maritalStatus,
+    hasMedicAid,
     state,
     partA = "",
     partB = "",
@@ -54,9 +58,13 @@ const ContactForm = ({
     const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
 
     const initialFormValues = {
+        prefix,
         firstName,
         lastName,
+        suffix,
         middleName: "",
+        maritalStatus,
+        hasMedicAid,
         email: "",
         birthdate: "",
         phones: {
@@ -269,8 +277,12 @@ const ContactForm = ({
 
 ContactForm.propTypes = {
     callLogId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    prefix: PropTypes.string,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
+    suffix: PropTypes.string,
+    maritalStatus: PropTypes.string,
+    hasMedicAid: PropTypes.oneOfType([null, PropTypes.number]),
     state: PropTypes.object.isRequired,
     partA: PropTypes.string,
     partB: PropTypes.string,

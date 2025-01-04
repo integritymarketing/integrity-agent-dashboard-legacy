@@ -2,18 +2,26 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { isValid } from "date-fns";
 import Box from "@mui/material/Box";
-import { LocalizationProvider, DesktopDatePicker } from "@mui/x-date-pickers";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import TextField from "@mui/material/TextField";
 import CalendarIcon from "components/icons/version-2/Calendar";
 import ArrowDownIcon from "components/icons/version-2/ArrowDownBig";
- 
-function DatePickerMUI({ disableFuture, value, onChange, className, minDate }) {
+
+function DatePickerMUI({
+    disableFuture,
+    value,
+    onChange,
+    className,
+    minDate,
+    startAdornment = <CalendarIcon />,
+    endAdornment = <ArrowDownIcon />,
+}) {
     const [open, setOpen] = useState(false);
- 
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
- 
+
     const handleDateChange = (newValue) => {
         if (!newValue || isNaN(newValue.getTime()) || !isValid(newValue)) {
             onChange(null);
@@ -21,13 +29,13 @@ function DatePickerMUI({ disableFuture, value, onChange, className, minDate }) {
             onChange(newValue);
         }
     };
- 
+
     useEffect(() => {
         if (value && isValid(new Date(value))) {
             onChange(value);
         }
     }, [value]);
- 
+
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
@@ -53,21 +61,21 @@ function DatePickerMUI({ disableFuture, value, onChange, className, minDate }) {
                     textField: {
                         InputProps: {
                             endAdornment: (
-                                <Box onClick={handleOpen}>
-                                    <ArrowDownIcon />
+                                <Box mx={1} onClick={handleOpen}>
+                                    {endAdornment}
                                 </Box>
                             ),
                             startAdornment: (
-                                <Box onClick={handleOpen}>
-                                    <CalendarIcon />
+                                <Box mx={1} onClick={handleOpen}>
+                                    {startAdornment}
                                 </Box>
                             ),
                             sx: {
-                                padding: "0 5px 0 0",
                                 lineHeight: "1 !important",
                                 ".MuiInputBase-input": {
                                     paddingLeft: "0 !important",
                                 },
+                                padding: 0,
                             },
                         },
                     },
@@ -76,7 +84,7 @@ function DatePickerMUI({ disableFuture, value, onChange, className, minDate }) {
         </LocalizationProvider>
     );
 }
- 
+
 DatePickerMUI.propTypes = {
     /** Disable selecting future dates */
     disableFuture: PropTypes.bool,
@@ -88,7 +96,8 @@ DatePickerMUI.propTypes = {
     className: PropTypes.string,
     /** Minimum date that can be selected */
     minDate: PropTypes.instanceOf(Date),
+    startAdornment: PropTypes.node,
+    endAdornment: PropTypes.node,
 };
- 
+
 export default DatePickerMUI;
- 
