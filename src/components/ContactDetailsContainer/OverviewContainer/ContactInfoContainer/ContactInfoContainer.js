@@ -294,8 +294,8 @@ export const ContactInfoContainer = ({ isMobile }) => {
                                     size="16px"
                                 />
                                 <span onClick={() => setShowBeneficiaryId(!isShowBeneficiaryId)}>
-                                    {isShowBeneficiaryId ? <Hide /> : <Show />}
-                                    {isShowBeneficiaryId ? "Hide" : "Show"}
+                                    {isShowBeneficiaryId ? <Show /> : <Hide />}
+                                    {isShowBeneficiaryId ? "Show" : "Hide"}
                                 </span>
                             </div>
                             <Box className={`${styles.horizontalLayout} ${styles.dateAlignment}`}>
