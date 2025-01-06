@@ -11,9 +11,9 @@ import "./index.scss";
 import { Button } from "../Button";
 import Rating from "../Rating";
 
-import EnrollBack from "images/enroll-btn-back.svg";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowShare} from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
+import {faCircleArrowRight} from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -53,7 +53,7 @@ const CompactPlanCardNew = ({ planData, onEnrollClick, onShareClick, isMobile, o
                 <Button
                     label={"Apply"}
                     onClick={() => setPreCheckListPdfModal(true)}
-                    icon={<img src={EnrollBack} alt="enroll" />}
+                    icon={<FontAwesomeIcon icon={faCircleArrowRight} size={"xl"}/>}
                     className={"enroll-btn"}
                     iconPosition={"right"}
                 />

@@ -21,7 +21,6 @@ import {
 } from "./StyledComponents";
 import { Select } from "components/ui/Select";
 import { INITIAL_FORM_DATA, STATES } from "./constants";
-import EnrollBack from "images/enroll-btn-back.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "utils/dates";
 import DatePickerMUI from "components/DatePicker";
@@ -32,6 +31,9 @@ import { onlyNumbersBetween0And11, onlyNumbersBetween1And8 } from "utils/shared-
 
 import moment from "moment";
 import { DEFAULT_COVERAGE_AMOUNT } from "../../../components/FinalExpensePlansContainer/FinalExpensePlansResultContainer/FinalExpensePlansResultContainer.constants";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleArrowRight } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 
 const FormComponent = () => {
     const { contactId } = useParams();
@@ -262,7 +264,7 @@ const FormComponent = () => {
     return (
         <div>
             <StyledFormWrapper>
-                <StyledTitle>Let's confirm a few details</StyledTitle>
+                <StyledTitle>Let's confirm a few Stephens</StyledTitle>
                 <StyledDescription>Just a few quick and easy questions to get your quote</StyledDescription>
                 <StyledForm>
                     <StyledFormRow>
@@ -398,7 +400,7 @@ const FormComponent = () => {
                 </StyledForm>
                 <StyledButton onClick={onSubmit} disabled={!isValidSaveData}>
                     <span>Next</span>
-                    <img src={EnrollBack} alt="enroll" />
+                    <FontAwesomeIcon icon={faCircleArrowRight} size={"xl"}/>
                 </StyledButton>
             </StyledFormWrapper>
         </div>

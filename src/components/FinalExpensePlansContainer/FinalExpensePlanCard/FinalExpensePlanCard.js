@@ -7,7 +7,10 @@ import { FinalExpensePlanCostDetails } from "../FinalExpensePlanCostDetails";
 import { FinalExpensePlanHeader } from "../FinalExpensePlanHeader";
 import styles from "./FinalExpensePlanCard.module.scss";
 import { Button } from "components/ui/Button";
-import EnrollBack from "images/enroll-btn-back.svg";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleArrowRight } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+import React from "react";
 
 const FinalExpensePlanCard = ({
     company,
@@ -32,7 +35,7 @@ const FinalExpensePlanCard = ({
                 <Box className={styles.applyButtonContainer}>
                     <Button
                         label="Apply"
-                        icon={<img src={EnrollBack} alt="Apply" />}
+                        icon={<FontAwesomeIcon icon={faCircleArrowRight} size={"xl"}/>}
                         className={styles.applyButton}
                         iconPosition="right"
                     />
