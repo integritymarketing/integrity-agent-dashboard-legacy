@@ -10,7 +10,6 @@ import { Button } from "components/ui/Button";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowRight } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
-import React from "react";
 
 const FinalExpensePlanCard = ({
     company,

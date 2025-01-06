@@ -264,7 +264,7 @@ const FormComponent = () => {
     return (
         <div>
             <StyledFormWrapper>
-                <StyledTitle>Let's confirm a few Stephens</StyledTitle>
+                <StyledTitle>Let's confirm a few details</StyledTitle>
                 <StyledDescription>Just a few quick and easy questions to get your quote</StyledDescription>
                 <StyledForm>
                     <StyledFormRow>
