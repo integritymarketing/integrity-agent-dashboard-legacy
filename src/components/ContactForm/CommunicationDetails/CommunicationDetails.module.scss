@@ -1,0 +1,19 @@
+.nonSelectedOption {
+  padding: 10px;
+  text-align: left;
+  color: #434A51;
+  &:hover {
+    border-color: #434A51;
+  }
+}
+
+.selectedOption {
+  background-color: #4178FF;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+  &:hover {
+    color: #434A51;
+    border-color: #434A51;
+  }
+}

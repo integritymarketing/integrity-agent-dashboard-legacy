@@ -7,7 +7,7 @@ import useToast from "hooks/useToast";
 import { Formik, useFormik } from "formik";
 import { formatMbiNumber, scrollTop } from "utils/shared-utils/sharedUtility";
 import analyticsService from "services/analyticsService";
-import stylesNew from "./ContactForm.module.scss";
+import styles from "./ContactForm.module.scss";
 import Warning from "components/icons/warning";
 import BasicDetails from "components/ContactForm/BasicDetails/BasicDetails";
 import AddressDetails from "components/ContactForm/AddressDetails/AddressDetails";
@@ -200,9 +200,9 @@ const ContactForm = ({
         return (
             <>
                 {duplicateLeadIds?.length > 0 && (
-                    <div className={stylesNew.duplicateMessageContainer}>
+                    <div className={styles.duplicateMessageContainer}>
                         <Warning />
-                        <div className={stylesNew.duplicateMessage}>
+                        <div className={styles.duplicateMessage}>
                             You can create this contact, but the entry is a potential duplicate to{" "}
                             {duplicateLeadIds.length === 1 ? (
                                 <a href={getContactLink(duplicateLeadIds[0])} target="_blank" rel="noopener noreferrer">
@@ -235,43 +235,45 @@ const ContactForm = ({
         (values.address.postalCode > 0 && values.address.postalCode.length < 5);
 
     return (
-        <Formik {...formik}>
-            <form onSubmit={handleSubmit} className={stylesNew.formContainer}>
-                <Box className={stylesNew.subContainer}>
-                    <BasicDetails formik={formik} fieldSet={addNewDuplicateErrorRef} />
-                </Box>
-                <Box className={stylesNew.subContainer}>
-                    <AddressDetails formik={formik} />
-                </Box>
-                <Box className={stylesNew.subContainer}>
-                    <CommunicationDetails formik={formik} />
-                </Box>
-                <Box className={stylesNew.subContainer}>
-                    <MedicareIDDetails formik={formik} />
-                </Box>
-                <Box className={stylesNew.subContainer}>
-                    <MedicaidLISDetails formik={formik} />
-                </Box>
-                <div className={stylesNew.requiredFieldLabel}>*Required fields</div>
-                {showDuplicateContactSection()}
-                <div>
-                    <div className={stylesNew.footer}>
-                        <Button data-gtm="new-contact-cancel-button" type="button" onClick={goToContactPage}>
-                            Cancel
-                        </Button>
-                        <Button
-                            data-gtm="new-contact-create-button"
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            disabled={!dirty || !isValid || isInvalidZip || !emailPhoneValid || isSubmitting}
-                        >
-                            Create Contact
-                        </Button>
+        <Box className={styles.formSection}>
+            <Formik {...formik}>
+                <form onSubmit={handleSubmit} className={styles.formContainer}>
+                    <Box className={styles.subContainer}>
+                        <BasicDetails formik={formik} fieldSet={addNewDuplicateErrorRef} />
+                    </Box>
+                    <Box className={styles.subContainer}>
+                        <AddressDetails formik={formik} />
+                    </Box>
+                    <Box className={styles.subContainer}>
+                        <CommunicationDetails formik={formik} />
+                    </Box>
+                    <Box className={styles.subContainer}>
+                        <MedicareIDDetails formik={formik} />
+                    </Box>
+                    <Box className={styles.subContainer}>
+                        <MedicaidLISDetails formik={formik} />
+                    </Box>
+                    <div className={styles.requiredFieldLabel}>*Required fields</div>
+                    {showDuplicateContactSection()}
+                    <div>
+                        <div className={styles.footer}>
+                            <Button data-gtm="new-contact-cancel-button" type="button" onClick={goToContactPage}>
+                                Cancel
+                            </Button>
+                            <Button
+                                data-gtm="new-contact-create-button"
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                disabled={!dirty || !isValid || isInvalidZip || !emailPhoneValid || isSubmitting}
+                            >
+                                Create Contact
+                            </Button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </Formik>
+                </form>
+            </Formik>
+        </Box>
     );
 };
 

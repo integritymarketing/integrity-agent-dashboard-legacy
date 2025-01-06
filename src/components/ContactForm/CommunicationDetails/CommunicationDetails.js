@@ -1,17 +1,14 @@
 import React from "react";
-import { Grid, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Grid, TextField, Typography } from "@mui/material";
 import { formatPhoneNumber } from "../../../utils/phones";
 import PropTypes from "prop-types";
+import { SelectableButtonGroup } from "@integritymarketing/clients-ui-kit";
+import styles from "./CommunicationDetails.module.scss";
 
 const CommunicationDetails = ({ formik }) => {
-    const { touched, errors, values, handleChange, handleBlur, submitCount } = formik;
-    const toggleButtonSelectedStyle = {
-        "&.Mui-selected": {
-            backgroundColor: "#4178FF",
-            color: "#fff",
-            borderColor: "#052a63",
-        },
-    };
+    const { touched, errors, values, handleChange, handleBlur, submitCount, setFieldValue } = formik;
+    const valueOptions = { Email: "email", Phone: "phone" };
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
@@ -58,14 +55,17 @@ const CommunicationDetails = ({ formik }) => {
                 <Typography variant="h5" color="#052a63">
                     Preferred Communication*
                 </Typography>
-                <ToggleButtonGroup value={values.primaryCommunication} exclusive onChange={handleChange} fullWidth>
-                    <ToggleButton value="email" name="primaryCommunication" sx={toggleButtonSelectedStyle}>
-                        Email
-                    </ToggleButton>
-                    <ToggleButton value="phone" name="primaryCommunication" sx={toggleButtonSelectedStyle}>
-                        Phone
-                    </ToggleButton>
-                </ToggleButtonGroup>
+                <SelectableButtonGroup
+                    buttonOptions={Object.keys(valueOptions)}
+                    buttonClassNames={Object.keys(valueOptions).map((option) =>
+                        valueOptions[option] === values.primaryCommunication
+                            ? styles.selectedOption
+                            : styles.nonSelectedOption,
+                    )}
+                    onSelect={(selected) => {
+                        setFieldValue("primaryCommunication", valueOptions[selected]);
+                    }}
+                />
                 {(touched.primaryCommunication || submitCount > 0) && errors.primaryCommunication && (
                     <Typography variant="body2" color="error" mt={0.5}>
                         {errors.primaryCommunication}
