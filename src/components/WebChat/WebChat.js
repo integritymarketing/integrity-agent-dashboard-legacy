@@ -334,7 +334,7 @@ const WebChatComponent = () => {
 
             if (
                 activityValue &&
-                ["mc_Contact_Selected", "mc_Call_Selected", "mc_Search_Contact_Call", "mc_View_Call_Summary"].includes(
+                ["mc_Contact_Selected", "mc_Call_Selected", "mc_Search_Contact_Call"].includes(
                     activityValue.name
                 )
             ) {
