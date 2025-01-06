@@ -187,7 +187,9 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
 
     return (
         <>
-            <ContactProfileTabBar contactId={contactId} showTabs={false} backButtonLabel={"Back"} />
+            {pageName !== "Quick Quote" && (
+                <ContactProfileTabBar contactId={contactId} showTabs={false} backButtonLabel={"Back"} />
+            )}
             <div className={styles.addZipContainer}>
                 <Box sx={{ pb: 3 }} display={"flex"} justifyContent={"center"}>
                     <Typography variant="h2" gutterBottom color={"#052a63"}>

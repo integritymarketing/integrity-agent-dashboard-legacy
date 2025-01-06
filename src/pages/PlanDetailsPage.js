@@ -140,7 +140,12 @@ const PlanDetailsPage = () => {
                             <p className={`${styles["header-callscript"]}`}>{isMobile ? <CallScript /> : null}</p>
                         </Container>
                     </div> */}
-                    <ContactProfileTabBar contactId={contactId} showTabs={false} backButtonLabel={"Back"} />
+                    <ContactProfileTabBar
+                        contactId={contactId}
+                        showTabs={false}
+                        backButtonLabel={"Back"}
+                        backButtonRoute=""
+                    />
                     <Box sx={{ padding: "56px 24px", pb: 0 }}>
                         <Box sx={{ pb: 3 }} display={"flex"} justifyContent={"center"}>
                             <Typography variant="h2" gutterBottom color={"#052a63"}>

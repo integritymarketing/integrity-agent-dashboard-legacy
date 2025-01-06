@@ -237,6 +237,7 @@ const ComparePlansPage = (props) => {
                             showTabs={false}
                             backButtonLabel={"Back"}
                             backButtonRoute={`/plans/${id}`}
+                            stickyHeader={true}
                         />
                     )}
                     <Box sx={{ padding: "56px 24px", pb: 0 }}>

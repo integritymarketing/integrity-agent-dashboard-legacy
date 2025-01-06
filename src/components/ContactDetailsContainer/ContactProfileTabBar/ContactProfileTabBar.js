@@ -28,6 +28,7 @@ export const ContactProfileTabBar = ({
     showTabs = true,
     backButtonLabel = "Back to Contacts",
     backButtonRoute = "/contacts/list",
+    stickyHeader = false,
 }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -102,11 +103,19 @@ export const ContactProfileTabBar = ({
         return (leadDetails?.firstName[0] + leadDetails?.lastName[0]).toUpperCase();
     }, [leadDetails]);
 
+    const handleBackButtonClick = () => {
+        if (backButtonRoute) {
+            navigate(backButtonRoute);
+        } else {
+            navigate(-1);
+        }
+    };
+
     return (
-        <Box className={styles.navWrapper}>
+        <Box className={`${styles.navWrapper} ${stickyHeader && styles.stickyHeader}`}>
             <Box className={styles.contactProfileTabBar}>
                 <Box className={styles.backToContacts}>
-                    <BackButton label={backButtonLabel} showInMobile={true} route={backButtonRoute} />
+                    <BackButton label={backButtonLabel} showInMobile={true} onClick={handleBackButtonClick} />
                 </Box>
 
                 <Box className={styles.profileMenu}>
@@ -204,4 +213,5 @@ ContactProfileTabBar.propTypes = {
     showTabs: PropTypes.bool,
     backButtonLabel: PropTypes.string,
     backButtonRoute: PropTypes.string,
+    stickyHeader: PropTypes.bool,
 };
