@@ -197,7 +197,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
 
     return (
         <>
-            <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Choose Quote Type">
+            <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Select a Product Category">
                 <WithLoader isLoading={isLoading}>
                     {!showLifeQuestionCard && !showIulGoalQuestionCard && (
                         <>
