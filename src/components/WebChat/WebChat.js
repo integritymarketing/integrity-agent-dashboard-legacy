@@ -314,7 +314,7 @@ const WebChatComponent = () => {
     const handleMessageActivity = useCallback(
         (activity, dispatch) => {
             activity.text = activity.text || activity.value?.dropDownInfo || activity.value?.text;
-
+            setHeaderContent("");
             const activityValue = activity.value;
             if (activityValue) {
                 if (activityValue.name === "mc_View_Contact") {
@@ -542,14 +542,14 @@ const WebChatComponent = () => {
                                         aria-label="search"
                                         edge="end"
                                     ></SearchIcon>
-                                    {directLine && (
+                                    {directLine && (<div className={headerContent ? 'has-header-content' : ''}>
                                         <ReactWebChat
                                             directLine={directLine}
                                             store={store}
                                             styleOptions={styleOptions}
                                             overrideLocalizedStrings={overrideLocalizedStrings}
                                         />
-                                    )}
+                                    </div>)}
                                 </div>
                             </div>
                         )}

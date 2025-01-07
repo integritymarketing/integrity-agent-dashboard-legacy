@@ -69,10 +69,8 @@ export const Select = ({
 
     useOnClickOutside(ref, () => {
         setIsOpen(false);
-        if (isOpen) {
-            if (onBlur) {
+        if (isOpen && value && onBlur) {
                 onBlur();
-            }
         }
     });
 

@@ -71,3 +71,11 @@
         cursor: pointer;
     }
 }
+.backButton {
+    min-width: 88;
+}
+.infoIcon {
+    min-width: 88px;
+    display: flex;
+    justify-content: flex-end;
+}

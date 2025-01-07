@@ -13,7 +13,33 @@ const ChatHeaderContent = ({
     HideIcon,
 }) => (
     <>
-    {!headerContent ? (
+    {headerContent ? (
+            <div className={styles.contactHeader}>
+            <div className={styles.customHeaderContent}>
+                <div className={styles.backButton}>
+                    <Button
+                        startIcon={<FontAwesomeIcon icon={faCircleArrowLeft} color="#4178FF" />}
+                        onClick={closeChat}
+                        variant="text"
+                        color="primary"
+                        size="small"
+                    >
+                        Back
+                    </Button>
+                </div>
+                <Typography textAlign={'center'} variant="h4" color="#FFFFFF">{headerContent}</Typography>
+                <div className={styles.infoIcon}>
+                    <FontAwesomeIcon 
+                        className={styles.infoLogo} 
+                        onClick={handleOpenAskIntegrityFeedback} 
+                        icon={faCircleInfo} 
+                        color="#4178FF" 
+                        size={"lg"} 
+                    />
+                </div>
+            </div>
+            </div>
+        ) : (
             <div className={styles.header}>
                 <img className={styles.logoIcon} onClick={clearChatAndFetchToken} src={ChatIcon} alt="Chat Icon" />
                 <p className={styles.headerText}>
@@ -21,24 +47,6 @@ const ChatHeaderContent = ({
                     <FontAwesomeIcon className={styles.infoLogo} onClick={handleOpenAskIntegrityFeedback} icon={faCircleInfo} color="#4178FF" size={"lg"} />
                 </p>
                 <img onClick={closeChat} className={styles.hideIcon} src={HideIcon} alt="Hide Icon" />
-            </div>
-        ) : (
-            <div className={styles.contactHeader }>
-            <div className={styles.customHeaderContent}>
-                <Button
-                    startIcon={<FontAwesomeIcon icon={faCircleArrowLeft} color="#4178FF" />}
-                    onClick={closeChat}
-                    variant="text"
-                    color="primary"
-                    size="small"
-                >
-                    Back
-                </Button>
-                <Typography variant="h4" color="#FFFFFF">
-                {headerContent}
-                </Typography>
-                <FontAwesomeIcon className={styles.infoLogo} onClick={handleOpenAskIntegrityFeedback} icon={faCircleInfo} color="#4178FF" size={"lg"} />
-            </div>
             </div>
         )}
     </>

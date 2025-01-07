@@ -29,7 +29,16 @@
             max-height: calc(100vh - 230px);
         }
     }
+    .has-header-content {
+        .webchat__basic-transcript {
+            max-height: calc(100vh - 170px);
+            background-color: #1d3e71;
 
+            @include small {
+                max-height: calc(100vh - 110px);
+            }
+        }
+    }
     .webchat__basic-transcript__focus-indicator,
     .webchat__connectivityStatus {
         display: none !important;
@@ -386,6 +395,10 @@
                 font-size: 24px;
             }
         }
+    }
+
+    p:nth-of-type(2) {
+        margin-top: 20px;
     }
 
     .webchat-searchbox-icon {
