@@ -4,6 +4,7 @@ import GlobalNav from "partials/global-nav-v2";
 import IulProtectionQuote from "components/LifeIulQuote/IulProtection";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/system";
+import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const StyledBox = styled(Box)(() => ({
     display: "flex",
@@ -18,7 +19,7 @@ const IulProtectionQuotePage = () => {
             <Helmet>
                 <title>Integrity - IUL Protection Quote Page</title>
             </Helmet>
-            <GlobalNav />
+            <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.LIFE} />
             <StyledBox>
                 <IulProtectionQuote />
             </StyledBox>

@@ -7,7 +7,7 @@ import GlobalNav from "partials/global-nav-v2";
 import { useEffect } from "react";
 import { LIFE_QUESTION_CARD_LIST } from "components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
-
+import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 const SimplifiedIULHealthConditionsPage = () => {
     const { setSelectedLifeProductType } = useCreateNewQuote();
 
@@ -20,7 +20,7 @@ const SimplifiedIULHealthConditionsPage = () => {
             <Helmet>
                 <title>Integrity - Simplified IUL Health Conditions</title>
             </Helmet>
-            <GlobalNav />
+            <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.LIFE} />
             <FinalExpenseHealthConditionsContainer />
             <GlobalFooter />
         </>

@@ -39,6 +39,7 @@ import { usePharmacyContext } from "../providers/PharmacyProvider";
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 import { Box, Typography } from "@mui/material";
 import { MEDICARE_ADVANTAGE } from "components/AddZipContainer/AddZipContainer.constants";
+import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const ComparePlansPage = (props) => {
     const { contactId: id, planIds: comparePlanIds, effectiveDate } = useParams();
@@ -83,13 +84,13 @@ const ComparePlansPage = (props) => {
                     !isComingFromEmail
                         ? plansService.getPlan(contactId, planId, contactData, effectiveDate, pharmacyId)
                         : comparePlansService.getPlan(
-                            contactId,
-                            planId,
-                            agentInfo,
-                            effectiveDate,
-                            agentNPN,
-                            pharmacyId,
-                        ),
+                              contactId,
+                              planId,
+                              agentInfo,
+                              effectiveDate,
+                              agentNPN,
+                              pharmacyId,
+                          ),
                 ),
         );
     }
@@ -173,7 +174,7 @@ const ComparePlansPage = (props) => {
                     selectedPharmacy?.name === "Mail Order" &&
                     Boolean(
                         (hasMailDrugBenefits && estimatedAnnualMailOrderDrugCostPartialYear === null) ||
-                        !hasMailDrugBenefits,
+                            !hasMailDrugBenefits,
                     )
                 );
             });
@@ -225,12 +226,12 @@ const ComparePlansPage = (props) => {
                 />
             )}
             <div className={styles.comparePage}>
-                <Media query={"(max-width: 500px)"} onChange={(isMobile) => { }} />
+                <Media query={"(max-width: 500px)"} onChange={(isMobile) => {}} />
                 <WithLoader isLoading={isLoading}>
                     <Helmet>
                         <title>Integrity - Plans</title>
                     </Helmet>
-                    {!isComingFromEmail && <GlobalNav showMedicareCenter={true} />}
+                    {!isComingFromEmail && <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE} />}
                     {!isComingFromEmail && (
                         <ContactProfileTabBar
                             contactId={id}

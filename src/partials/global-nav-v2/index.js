@@ -29,6 +29,7 @@ import IntegrityMobileLogo from "components/HeaderWithLogin/integrity-mobile-log
 import NewBackBtn from "images/new-back-btn.svg";
 import PlusMenu from "./plusMenu";
 import AbcBanner from "components/AbcBanner";
+import { QUOTE_TYPE } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const SiteNotification = ({ showPhoneNotification, showMaintenaceNotification }) => {
     const notificationClass = [
@@ -67,7 +68,7 @@ const SiteNotification = ({ showPhoneNotification, showMaintenaceNotification })
     return null;
 };
 
-const GlobalNavV2 = ({ showMedicareCenter = false, menuHidden = false, className = "", page, title, ...props }) => {
+const GlobalNavV2 = ({ showQuoteType = "", menuHidden = false, className = "", page, title, ...props }) => {
     const auth = useAuth0();
     const { clientsService } = useClientServiceContext();
     const navigate = useNavigate();
@@ -92,49 +93,49 @@ const GlobalNavV2 = ({ showMedicareCenter = false, menuHidden = false, className
         setNavOpen,
         ...(auth.isAuthenticated && !menuHidden
             ? {
-                primary: [
-                    {
-                        component: Link,
-                        props: {
-                            to: "/dashboard",
-                            className: analyticsService.clickClass("dashbaord-header"),
-                        },
-                        label: "Dashboard",
-                    },
-                    {
-                        component: Link,
-                        props: {
-                            to: "/contacts",
-                            className: analyticsService.clickClass("contacts-header"),
-                        },
-                        label: "Contacts",
-                    },
-                    {
-                        component: Link,
-                        props: {
-                            to: "/marketing/client-connect-marketing",
-                            className: analyticsService.clickClass("marketing-header"),
-                        },
-                        label: "Marketing",
-                    },
-                    {
-                        component: Link,
-                        props: {
-                            to: "#",
-                            onClick: (e) => {
-                                e.preventDefault();
-                                setContactSearchModalOpen(true);
-                            },
-                            className: analyticsService.clickClass("quick-quote-header"),
-                        },
-                        label: "Quick Quote",
-                    },
-                ],
-            }
+                  primary: [
+                      {
+                          component: Link,
+                          props: {
+                              to: "/dashboard",
+                              className: analyticsService.clickClass("dashbaord-header"),
+                          },
+                          label: "Dashboard",
+                      },
+                      {
+                          component: Link,
+                          props: {
+                              to: "/contacts",
+                              className: analyticsService.clickClass("contacts-header"),
+                          },
+                          label: "Contacts",
+                      },
+                      {
+                          component: Link,
+                          props: {
+                              to: "/marketing/client-connect-marketing",
+                              className: analyticsService.clickClass("marketing-header"),
+                          },
+                          label: "Marketing",
+                      },
+                      {
+                          component: Link,
+                          props: {
+                              to: "#",
+                              onClick: (e) => {
+                                  e.preventDefault();
+                                  setContactSearchModalOpen(true);
+                              },
+                              className: analyticsService.clickClass("quick-quote-header"),
+                          },
+                          label: "Quick Quote",
+                      },
+                  ],
+              }
             : {
-                primary: [],
-                secondary: [],
-            }),
+                  primary: [],
+                  secondary: [],
+              }),
     };
 
     useEffect(() => {
@@ -219,15 +220,15 @@ const GlobalNavV2 = ({ showMedicareCenter = false, menuHidden = false, className
 
                         <Link
                             to={auth.isAuthenticated ? "/dashboard" : "/welcome"}
-                            className={`${showMedicareCenter ? "show-medicare-center" : ""}`}
+                            className={`${showQuoteType ? "show-medicare-center" : ""}`}
                         >
                             {isMobile ? <IntegrityMobileLogo /> : <IntegrityLogo />}
                             <span className="visually-hidden">Integrity</span>
                         </Link>
 
-                        {showMedicareCenter ? (
+                        {showQuoteType ? (
                             <Typography variant="body1" color={"#FFFFFF"}>
-                                MedicareCENTER
+                                {QUOTE_TYPE[showQuoteType]}
                             </Typography>
                         ) : (
                             ""

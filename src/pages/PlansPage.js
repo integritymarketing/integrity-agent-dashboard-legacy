@@ -56,6 +56,7 @@ import styles from "./PlansPage.module.scss";
 import { PLAN_SORT_OPTIONS, PLAN_TYPE_ENUMS } from "../constants";
 import { Box, Typography } from "@mui/material";
 import { MEDICARE_ADVANTAGE } from "components/AddZipContainer/AddZipContainer.constants";
+import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const buildSortOptions = (dictionary) => {
     const labels = Object.values(dictionary);
@@ -530,14 +531,14 @@ const PlansPage = () => {
 
         const rebatePlans = rebatesFilter
             ? [...specialNeedsPlans].filter((plan) => {
-                if (plan.planDataFields && plan.planDataFields.length > 0) {
-                    return plan.planDataFields.find((detail) =>
-                        detail.name.toLowerCase().includes("part b giveback"),
-                    );
-                } else {
-                    return false;
-                }
-            })
+                  if (plan.planDataFields && plan.planDataFields.length > 0) {
+                      return plan.planDataFields.find((detail) =>
+                          detail.name.toLowerCase().includes("part b giveback"),
+                      );
+                  } else {
+                      return false;
+                  }
+              })
             : specialNeedsPlans;
 
         const sortedResults = [...rebatePlans]?.sort(sortFunction);
@@ -659,7 +660,7 @@ const PlansPage = () => {
                     <Helmet>
                         <title>Integrity - Plans</title>
                     </Helmet>
-                    <GlobalNav showMedicareCenter={true} />
+                    <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE} />
                     {!isEdit || (isEdit && isMobile)}
                     {(isEdit || (isMobile && filtersOpen)) && (
                         <FocusedNav
@@ -771,7 +772,7 @@ const PlansPage = () => {
                                             {effectiveDate && (
                                                 <AdditionalFilters
                                                     planType={planType}
-                                                    onChange={() => { }}
+                                                    onChange={() => {}}
                                                     toggleAppointedPlans={toggleAppointedPlans}
                                                     carriers={carrierList}
                                                     policyTypes={subTypeList}

@@ -13,6 +13,7 @@ import WebChatComponent from "components/WebChat/WebChat";
 
 import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
+import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const StyledBox = styled(Box)(() => ({
     display: "flex",
@@ -35,7 +36,7 @@ const AddZipPage = () => {
             <Helmet>
                 <title>Integrity - Add Zip </title>
             </Helmet>
-            <GlobalNav showMedicareCenter={true} />
+            <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE} />
             {/* <PageHeader isMobile={isMobile} backPath={`/contact/${contactId}/overview`} contactId={contactId} pageName={HEALTH_POLICIES} /> */}
             <StyledBox>
                 <AddZipContainer isMobile={isMobile} contactId={contactId} />

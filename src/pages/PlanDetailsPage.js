@@ -36,6 +36,7 @@ import { usePharmacyContext } from "providers/PharmacyProvider";
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 import { Box, Typography } from "@mui/material";
 import { MEDICARE_ADVANTAGE } from "components/AddZipContainer/AddZipContainer.constants";
+import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const PlanDetailsPage = () => {
     const showToast = useToast();
@@ -126,7 +127,7 @@ const PlanDetailsPage = () => {
                     <Helmet>
                         <title>Integrity - Plans</title>
                     </Helmet>
-                    <GlobalNav showMedicareCenter={true} />
+                    <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE} />
 
                     {/* <div className={`${styles["header"]}`} style={{ height: "auto" }}>
                         <Container className={`${styles["plan-details-container"]}`}>

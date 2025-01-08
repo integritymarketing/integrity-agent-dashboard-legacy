@@ -128,7 +128,7 @@ export const ConfirmationDetailsContainer = ({ contactId, quoteType }) => {
 
     return (
         <>
-            <ContactProfileTabBar contactId={contactId} showTabs={false} />
+            <ContactProfileTabBar contactId={contactId} showTabs={false} backButtonRoute="" />
             {isLoadingLeadDetails ? (
                 renderContactDetailsLoader
             ) : (
@@ -140,9 +140,6 @@ export const ConfirmationDetailsContainer = ({ contactId, quoteType }) => {
 
 ConfirmationDetailsContainer.propTypes = {
     contactId: PropTypes.string.isRequired,
-    quoteType: PropTypes.oneOf([
-        LIFE_FORM_TYPES.IUL_ACCUMULATION,
-        LIFE_FORM_TYPES.IUL_PROTECTION,
-        LIFE_FORM_TYPES.TERM,
-    ]).isRequired,
+    quoteType: PropTypes.oneOf([LIFE_FORM_TYPES.IUL_ACCUMULATION, LIFE_FORM_TYPES.IUL_PROTECTION, LIFE_FORM_TYPES.TERM])
+        .isRequired,
 };
