@@ -1,4 +1,5 @@
 export const QUOTES_API_VERSION = "v1.0";
+import moment from "moment";
 
 export class EnrollPlansService {
     constructor(getAccessToken) {
@@ -16,7 +17,10 @@ export class EnrollPlansService {
     };
 
     getPolicySnapShotList = async (npn, dateRange, status) => {
-        const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}/summary/${npn}/${dateRange}/${status}`);
+        const offset = moment().utcOffset();
+        const url = new URL(
+            `${process.env.REACT_APP_BOOKOFBUSINESS_API}/summary/${npn}/${dateRange}/${status}/${offset}`
+        );
 
         const response = await this._clientAPIRequest(url, "GET");
 
@@ -24,7 +28,8 @@ export class EnrollPlansService {
     };
 
     getPolicySnapShotCount = async (npn, dateRange) => {
-        const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}/policycount/${npn}/${dateRange}`);
+        const offset = moment().utcOffset();
+        const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}/policycount/${npn}/${dateRange}/${offset}`);
 
         try {
             const response = await this._clientAPIRequest(url, "GET");
