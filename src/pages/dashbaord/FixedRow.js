@@ -8,9 +8,11 @@ import { formatPhoneNumber } from "utils/phones";
 import IconWithText from "packages/IconWithText";
 import DownloadCallRecording from "packages/DownloadCallRecording";
 import InboundCall from "components/icons/activities/InboundCall";
-import Link from "images/link-svg.svg";
 import { convertUTCDateToLocalDate } from "utils/dates";
 import { callDuration } from "utils/dates";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 
 const StyledTableCell = styled(TableCell)(() => ({
     "&:hover": {
@@ -56,7 +58,8 @@ export default function FixedRow({ unAssosiatedCallRecord, onSelect }) {
                 {<IconWithText text={isIncommingCall ? "Incoming Call" : "Inbound Call"} icon={<InboundCall />} />}
             </TableCell>
             <StyledTableCell onClick={() => goTolinkToContact()}>
-                {<IconWithText text="Link to Contact" icon={<img src={Link} alt="Link to Contact" />} />}
+
+                {<IconWithText text="Link to Contact" icon={<FontAwesomeIcon icon={faLink} size={"sm"} alt="Link to Contact" />} />}
             </StyledTableCell>
             <StyledTableCell>{<DownloadCallRecording url={unAssosiatedCallRecord.url} />}</StyledTableCell>
             <TableCell></TableCell>
