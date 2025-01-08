@@ -45,7 +45,7 @@ import { getShoppersColorScheme } from "utils/shared-utils/sharedUtility";
 import WithLoader from "components/ui/WithLoader";
 
 function ContactsTable() {
-    const { tableData, policyCounts, refreshData, isfetchingTableData } = useContactsListContext();
+    const { tableData, policyCounts, refreshData, isfetchingTableData, isStartedSearching } = useContactsListContext();
     const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(DeleteLeadContext);
 
     const { width: windowWidth } = useWindowSize();
@@ -392,12 +392,11 @@ function ContactsTable() {
 
     return (
         <>
-         <WithLoader isLoading={isfetchingTableData}>
             {isMobile ? (
                 <TableMobile />
             ) : (
                 <Box className={styles.tableWrapper}>
-                    <Table columns={columns} />
+                    <Table columns={columns} isLoading={isfetchingTableData || isStartedSearching} />
                     <LoadMoreButton />
                 </Box>
             )}
@@ -435,7 +434,6 @@ function ContactsTable() {
                     view="List"
                 />
             )}
-            </WithLoader>
         </>
     );
 }

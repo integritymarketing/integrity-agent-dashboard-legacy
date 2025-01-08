@@ -19,10 +19,11 @@ import BadgeIcon from "./BadgeIcon";
 import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import AskIntegrity from "components/icons/version-2/AskIntegrity";
 import PropTypes from "prop-types";
-import WithLoader from "components/ui/WithLoader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinnerThird } from "@awesome.me/kit-7ab3488df1/icons/duotone/solid";
 
 function ContactsCard({ cardWrapperClassName = "", isMapPage }) {
-    const { tableData, isfetchingTableData } = useContactsListContext();
+    const { tableData, isfetchingTableData, isStartedSearching } = useContactsListContext();
     const { width: windowWidth } = useWindowSize();
 
     const [showRemindersListModal, setShowRemindersListModal] = useState(false);
@@ -87,7 +88,6 @@ function ContactsCard({ cardWrapperClassName = "", isMapPage }) {
         const askIntegrityLength = askIntegrityTags?.length;
 
         return (
-            <WithLoader isLoading={isfetchingTableData}>
             <Box key={item?.leadsId} className={styles.card}>
                 <CardHeader item={item} />
                 <Divider />
@@ -179,7 +179,6 @@ function ContactsCard({ cardWrapperClassName = "", isMapPage }) {
                     />
                 </Box>
             </Box>
-            </WithLoader>
         );
     };
 
@@ -189,6 +188,23 @@ function ContactsCard({ cardWrapperClassName = "", isMapPage }) {
     const clientsWithoutAddress = useMemo(() => {
         return tableData.filter((item) => !item.addresses?.length) || [];
     }, [tableData]);
+
+    if (isfetchingTableData || isStartedSearching) {
+        return (
+            <Box className={styles.container}>
+                <Box className={styles.loaderContainer}>
+                    <FontAwesomeIcon
+                        icon={faSpinnerThird}
+                        color="#4178FF"
+                        secondaryColor="#C4C8CF"
+                        size="10x"
+                        spin
+                        secondaryOpacity={0.5}
+                    />
+                </Box>
+            </Box>
+        );
+    }
 
     return (
         <Box className={styles.container}>
