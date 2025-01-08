@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { formatAddress } from "utils/address";
 import styles from "./styles.module.scss";
-import star from "images/icons-star.png";
 import { formatDate } from "utils/dates";
 import PasswordRevealIcon from "components/icons/password-reveal";
 import PasswordHideIcon from "components/icons/password-hide";
 import { formatMBID } from "utils/shared-utils/sharedUtility";
+
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faStar} from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 
 const notAvailable = "-";
 
@@ -36,7 +38,7 @@ const Info = ({ setDisplay, personalInfo, isEdit, ...rest }) => {
         if (value !== isPrimary) return false;
         return (
             <span className={styles.starIcon}>
-                <img src={star} alt="primary" />
+                <FontAwesomeIcon icon={faStar} size={"lg"}/>
             </span>
         );
     };

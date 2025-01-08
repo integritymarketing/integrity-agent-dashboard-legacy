@@ -18,8 +18,9 @@ import styles from "../../../pages/PlansPage.module.scss";
 import { Button } from "../Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
 
-import EnrollBack from "images/enroll-btn-back.svg";
-import NewShareIcon from "images/new-share-icon.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowShare } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
+import { faCircleArrowRight } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 
 import { PLAN_TYPE_ENUMS } from "constants";
 
@@ -134,7 +135,7 @@ export default function ComparePlansByPlanName({
 
                                         <Button
                                             label="Share"
-                                            icon={<img src={NewShareIcon} alt="share" />}
+                                            icon={<FontAwesomeIcon icon={faArrowShare} />}
                                             onClick={() => setComparePlanModalOpen(true)}
                                             type="secondary"
                                             className={`${styles["share-btn"]} ${styles["mobile"]}`}
@@ -182,7 +183,7 @@ export default function ComparePlansByPlanName({
                                                     setEnrollingPlan(plan);
                                                     setPreCheckListPdfModal(true);
                                                 }}
-                                                icon={<img src={EnrollBack} alt="enroll" />}
+                                                icon={<FontAwesomeIcon icon={faCircleArrowRight} size={"xl"}/>}
                                                 className={styles["enroll-btn"]}
                                                 iconPosition={"right"}
                                                 disabled={disableEnroll}
@@ -204,7 +205,7 @@ export default function ComparePlansByPlanName({
                                             <Button
                                                 label={"Apply"}
                                                 onClick={() => setPreCheckListPdfModal(true)}
-                                                icon={<img src={EnrollBack} alt="enroll" />}
+                                                icon={<FontAwesomeIcon icon={faCircleArrowRight} size={"xl"}/>}
                                                 className={styles["enroll-btn"]}
                                                 iconPosition={"right"}
                                                 disabled={disableEnroll}

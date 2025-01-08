@@ -16,9 +16,10 @@ import Spinner from "components/ui/Spinner";
 
 import { StyledButton } from "pages/FinalExpensesPage/Components/StyledComponents";
 
-import EnrollBack from "images/enroll-btn-back.svg";
-
 import styles from "./index.module.scss";
+
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCircleArrowRight} from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 
 const AGENTS_API_VERSION = "v1.0";
 
@@ -156,7 +157,7 @@ export const SingleSignOnModal = ({
                             </Box>
                             <StyledButton onClick={onContinueWithIdHandle} disabled={shouldDisable}>
                                 <span>Continue with Producers ID</span>
-                                <img src={EnrollBack} alt="arrow" />
+                                <FontAwesomeIcon icon={faCircleArrowRight} size={"xl"}/>
                             </StyledButton>
                             <Box className={styles.link} onClick={onContinueWithoutIdHandle}>
                                 Continue without Producer ID

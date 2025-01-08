@@ -16,7 +16,10 @@ import useAnalytics from "hooks/useAnalytics";
 import { PLAN_TYPE_ENUMS } from "../../../constants";
 import { Button } from "../Button";
 import Rating from "../Rating";
-import EnrollBack from "images/enroll-btn-back.svg";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleArrowRight } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+
 import { usePharmacyContext } from "providers/PharmacyProvider/usePharmacyContext";
 import CommissionableInfo from "./commissionableInfo";
 import Box from "@mui/material/Box";
@@ -236,7 +239,7 @@ export default function PlanCard({
                                     product_type: PLAN_TYPE_ENUMS[planData?.planType]?.toLowerCase(),
                                 });
                             }}
-                            icon={<img src={EnrollBack} alt="enroll" />}
+                            icon={<FontAwesomeIcon icon={faCircleArrowRight} size={"lg"}/>}
                             className={"enroll-btn"}
                             disabled={disableEnroll}
                             style={disableEnroll ? { opacity: 0.5, pointerEvent: "none" } : null}
@@ -280,7 +283,7 @@ export default function PlanCard({
                                             product_type: PLAN_TYPE_ENUMS[planData?.planType]?.toLowerCase(),
                                         });
                                     }}
-                                    icon={<img src={EnrollBack} alt="enroll" />}
+                                    icon={<FontAwesomeIcon icon={faCircleArrowRight} size={"lg"}/>}
                                     className={"enroll-btn"}
                                     disabled={disableEnroll}
                                     style={disableEnroll ? { opacity: 0.5, pointerEvent: "none" } : null}

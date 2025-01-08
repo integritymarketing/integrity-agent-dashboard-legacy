@@ -14,8 +14,10 @@ import { convertUTCDateToLocalDate, callDuration } from "utils/dates";
 
 import styles from "./styles.module.scss";
 
-import LinkIcon from "images/link-svg.svg";
 import CallScriptIcon from "components/icons/script";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 
 const IN_PROGRESS = "in-progress";
 
@@ -67,7 +69,7 @@ export default function InboundCallBanner() {
                     <IconWithText text="Call Script" icon={<CallScriptIcon />} />
                 </div>
                 <div onClick={navigateToLinkToContact}>
-                    <IconWithText text="Link to Contact" icon={<img src={LinkIcon} alt="Link to Contact" />} />
+                    <IconWithText text="Link to Contact" icon={<FontAwesomeIcon icon={faLink} size={"sm"} alt="Link to Contact" />} />
                 </div>
                 {tags?.length > 0 && <Tags className="header-tag" words={tags} />}
             </>

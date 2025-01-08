@@ -15,7 +15,8 @@ import Spinner from "components/ui/Spinner";
 
 import { StyledButton, StyledButton2 } from "pages/FinalExpensesPage/Components/StyledComponents";
 
-import EnrollBack from "images/enroll-btn-back.svg";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCircleArrowRight} from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 
 import styles from "./index.module.scss";
 
@@ -155,12 +156,12 @@ export const SingleSignOnModal = ({
                             </Box>
                             <StyledButton onClick={onContinueWithIdHandle} disabled={shouldDisable}>
                                 <span>Continue with Producers ID</span>
-                                <img src={EnrollBack} alt="arrow" />
+                                <FontAwesomeIcon icon={faCircleArrowRight} size={"xl"}/>
                             </StyledButton>
 
                             <StyledButton2 onClick={onContinueWithoutIdHandle} width="60%">
                                 <span>View Carrier Website</span>
-                                <img src={EnrollBack} alt="arrow" />
+                                <FontAwesomeIcon icon={faCircleArrowRight} size={"xl"}/>
                             </StyledButton2>
                             <Box className={styles.link} onClick={handleClose}>
                                 Cancel
