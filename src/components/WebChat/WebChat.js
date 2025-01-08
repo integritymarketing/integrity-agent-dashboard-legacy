@@ -184,7 +184,6 @@ const WebChatComponent = () => {
             setLastMessage("");
             setSearchForContactBtnClick(false);
             setSearchText("");
-            setHeaderContent(contactFullName);
 
             store.dispatch({
                 type: "WEB_CHAT/SET_SEND_BOX",
@@ -314,7 +313,6 @@ const WebChatComponent = () => {
     const handleMessageActivity = useCallback(
         (activity, dispatch) => {
             activity.text = activity.text || activity.value?.dropDownInfo || activity.value?.text;
-            setHeaderContent("");
             const activityValue = activity.value;
             if (activityValue) {
                 if (activityValue.name === "mc_View_Contact") {
@@ -327,8 +325,6 @@ const WebChatComponent = () => {
                     setIsChatActive(false);
                 } else if (activityValue.name === "mc_Link_Contact") {
                     goToLinkToContactPage(activityValue?.data);
-                } else if(activityValue.name === "mc_View_Recent_Calls") {
-                    setHeaderContent("Call History");
                 }
             }
 
@@ -418,20 +414,45 @@ const WebChatComponent = () => {
     const handleIncomingActivity = useCallback(
         (action) => {
             const activity = action.payload.activity;
-
-            if (activity?.attachments?.[0]) {
-                fireEvent("AI - Ask Integrity Playback Received", {
-                    leadid: activity.attachments[0]?.content?.actions?.[0]?.data?.leadId,
-                    message_card_id: activity.attachments[0]?.content?.id,
-                });
-            }
-
-            if (activity.type === "event" && activity.name === "mc_View_Contact") {
-                goToContactDetailPage(activity.value.leadId);
+    
+            if (!activity) return;
+    
+            const { type, name, value, attachments } = activity;
+    
+            switch (type) {
+                case "event":
+                    handleIncomingEventActivity(name, value);
+                    break;
+                default:
+                    handleIncomingAttachmentActivity(attachments);
+                    break;
             }
         },
         [fireEvent, goToContactDetailPage]
     );
+    
+    const handleIncomingEventActivity = (name, value) => {
+        switch (name) {
+            case "mc_Call_List_Header":
+                setHeaderContent(value.text);
+                break;
+            case "mc_View_Contact":
+                goToContactDetailPage(value.leadId);
+                break;
+            default:
+                break;
+        }
+    };
+    
+    const handleIncomingAttachmentActivity = (attachments) => {
+        if (attachments?.[0]) {
+            const { content } = attachments[0];
+            fireEvent("AI - Ask Integrity Playback Received", {
+                leadid: content?.actions?.[0]?.data?.leadId,
+                message_card_id: content?.id,
+            });
+        }
+    };
 
     const store = useMemo(
         () =>
