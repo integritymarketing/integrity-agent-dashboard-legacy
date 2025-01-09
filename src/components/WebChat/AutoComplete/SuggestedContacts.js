@@ -44,7 +44,7 @@ const SuggestedContacts = ({ suggestedContacts, isContactsLoading, onContactSele
 
     const showPromptIcon = () => (
         <div className="webchatCenterIconWrapper" style={{ bottom: promptIconCalculatedHeight }}>
-            <div className="webchatCenterIcon" oncClick={initiateChat}> 
+            <div className="webchatCenterIcon" onClick={initiateChat}> 
                 <img
                     className="webchatCenterIconImage"
                     src={ChatIconPrompt}
