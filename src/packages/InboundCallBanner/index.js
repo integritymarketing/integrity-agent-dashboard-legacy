@@ -69,7 +69,14 @@ export default function InboundCallBanner() {
                     <IconWithText text="Call Script" icon={<CallScriptIcon />} />
                 </div>
                 <div onClick={navigateToLinkToContact}>
-                    <IconWithText text="Link to Contact" icon={<FontAwesomeIcon icon={faLink} size={"sm"} alt="Link to Contact" />} />
+                    <IconWithText
+                        text="Link to Contact"
+                        icon={<FontAwesomeIcon
+                            icon={faLink}
+                            size={"sm"}
+                            color={"#0052ce"}
+                            alt="Link to Contact" />}
+                    />
                 </div>
                 {tags?.length > 0 && <Tags className="header-tag" words={tags} />}
             </>
