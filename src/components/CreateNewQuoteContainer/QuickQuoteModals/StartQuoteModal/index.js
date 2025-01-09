@@ -38,7 +38,7 @@ const StartQuoteModal = () => {
 
     return (
         <CustomModal
-            title="Select a Product"
+            title="Select a Product Category"
             open={open}
             handleClose={onClose}
             showCloseButton

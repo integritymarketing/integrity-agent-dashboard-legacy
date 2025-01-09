@@ -54,6 +54,9 @@ import { PlanPageFooter } from "./PlanPageFooter";
 import styles from "./PlansPage.module.scss";
 
 import { PLAN_SORT_OPTIONS, PLAN_TYPE_ENUMS } from "../constants";
+import { Box, Typography } from "@mui/material";
+import { MEDICARE_ADVANTAGE } from "components/AddZipContainer/AddZipContainer.constants";
+import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const buildSortOptions = (dictionary) => {
     const labels = Object.values(dictionary);
@@ -244,9 +247,11 @@ const PlansPage = () => {
     const [showCurrentCarrierSummary, setShowCurrentCarrierSummary] = useState(false);
 
     const checkForCurrentCarrierSummary = (contactData) => {
-        const currentCarrierTag = contactData.leadTags.find(t => {
+        const currentCarrierTag = contactData.leadTags.find((t) => {
             const labelMatches = t.interactionUrlLabel?.toLowerCase() === "current carrier plans";
-            if (!labelMatches) {return false;}
+            if (!labelMatches) {
+                return false;
+            }
             const [, currentCarrierQuery] = t.interactionUrl.split("?");
             const urlMatches = `?${currentCarrierQuery}` === window.location.search;
             return labelMatches && urlMatches;
@@ -265,7 +270,7 @@ const PlansPage = () => {
                 setShowCurrentCarrierSummary(true);
             }
         }
-    }
+    };
 
     const handleClearSummaryBanner = () => {
         setMyAppointedPlans(MY_APPOINTED_PLANS);
@@ -277,7 +282,7 @@ const PlansPage = () => {
         history.pushState(null, "", window.location.href.split("?")[0]);
         setShowCurrentCarrierSummary(false);
         refreshPlans();
-    }
+    };
 
     const [currentPage, setCurrentPage] = useState(1);
     const [planType, setPlanType] = useState((showSelected ? initialPlanType : null) || location.state?.planType || 2);
@@ -430,7 +435,7 @@ const PlansPage = () => {
                     ShowPharmacy: true,
                     PlanType: planType,
                     effectiveDate: `${effectiveDate.getFullYear()}-${effectiveDate.getMonth() + 1}-01`,
-                }
+                };
                 const plansData = await plansService.getPlans(contact.leadsId, params);
                 setPlansAvailableCount(plansData?.medicarePlans?.length);
                 setCurrentPage(1);
@@ -448,11 +453,10 @@ const PlansPage = () => {
     }, [contact, effectiveDate, planType, myAppointedPlans, pharmacies]);
 
     useEffect(() => {
-        if (pharmacies?.length > 0 && pharmacies.find(pharmacy => pharmacy.isPrimary)) {
+        if (pharmacies?.length > 0 && pharmacies.find((pharmacy) => pharmacy.isPrimary)) {
             refreshPlans();
         }
     }, [refreshPlans, pharmacies]);
-
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -486,7 +490,7 @@ const PlansPage = () => {
                     ShowPharmacy: true,
                     PlanType: planType,
                     effectiveDate: `${effectiveDate.getFullYear()}-${effectiveDate.getMonth() + 1}-01`,
-                }
+                };
                 const plansData = await plansService.getPlans(contact.leadsId, params);
                 setPlansAvailableCount(plansData?.medicarePlans?.length);
                 setCurrentPage(1);
@@ -525,17 +529,16 @@ const PlansPage = () => {
             ? policyGroup.filter((plan) => plan?.planName.includes("SNP"))
             : policyGroup.filter((plan) => (planType === 2 ? !plan?.planName.includes("SNP") : true));
 
-
         const rebatePlans = rebatesFilter
             ? [...specialNeedsPlans].filter((plan) => {
-                if (plan.planDataFields && plan.planDataFields.length > 0) {
-                    return plan.planDataFields.find((detail) =>
-                        detail.name.toLowerCase().includes("part b giveback"),
-                    );
-                } else {
-                    return false;
-                }
-            })
+                  if (plan.planDataFields && plan.planDataFields.length > 0) {
+                      return plan.planDataFields.find((detail) =>
+                          detail.name.toLowerCase().includes("part b giveback"),
+                      );
+                  } else {
+                      return false;
+                  }
+              })
             : specialNeedsPlans;
 
         const sortedResults = [...rebatePlans]?.sort(sortFunction);
@@ -657,7 +660,7 @@ const PlansPage = () => {
                     <Helmet>
                         <title>Integrity - Plans</title>
                     </Helmet>
-                    <GlobalNav />
+                    <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE} />
                     {!isEdit || (isEdit && isMobile)}
                     {(isEdit || (isMobile && filtersOpen)) && (
                         <FocusedNav
@@ -673,7 +676,7 @@ const PlansPage = () => {
                         />
                     )}
                     {((contact && !isEdit && !isMobile) || (isMobile && !filtersOpen && !isEdit)) && (
-                        <ContactProfileTabBar contactId={id} />
+                        <ContactProfileTabBar contactId={id} showTabs={false} backButtonLabel="Back" />
                     )}
 
                     {isMobile && !filtersOpen && !isEdit && (
@@ -688,7 +691,15 @@ const PlansPage = () => {
 
                     {!isEdit && (
                         <>
+                            <Box sx={{ padding: "56px 24px", pb: 0 }}>
+                                <Box sx={{ pb: 3 }} display={"flex"} justifyContent={"center"}>
+                                    <Typography variant="h2" gutterBottom color={"#052a63"}>
+                                        {MEDICARE_ADVANTAGE}
+                                    </Typography>
+                                </Box>
+                            </Box>
                             {isNonRTS_User && <NonRTSBanner />}
+
                             <Container className={`${styles["search-container"]}`}>
                                 {(!isMobile || (isMobile && filtersOpen)) && (
                                     <div className={`${styles["filters"]}`}>
@@ -761,7 +772,7 @@ const PlansPage = () => {
                                             {effectiveDate && (
                                                 <AdditionalFilters
                                                     planType={planType}
-                                                    onChange={() => { }}
+                                                    onChange={() => {}}
                                                     toggleAppointedPlans={toggleAppointedPlans}
                                                     carriers={carrierList}
                                                     policyTypes={subTypeList}
@@ -801,13 +812,14 @@ const PlansPage = () => {
                                 )}
                                 {((isMobile && !filtersOpen) || !isMobile) && (
                                     <div className={`${styles["results"]}`}>
-                                        {!isNonRTS_User && ((isMobile && showCurrentCarrierSummary) || !showCurrentCarrierSummary) && (
-                                            <CMSCompliance
-                                                leadId={contact?.leadsId}
-                                                countyFips={contact?.addresses?.[0]?.countyFips}
-                                                postalCode={contact?.addresses?.[0]?.postalCode}
-                                            />
-                                        )}
+                                        {!isNonRTS_User &&
+                                            ((isMobile && showCurrentCarrierSummary) || !showCurrentCarrierSummary) && (
+                                                <CMSCompliance
+                                                    leadId={contact?.leadsId}
+                                                    countyFips={contact?.addresses?.[0]?.countyFips}
+                                                    postalCode={contact?.addresses?.[0]?.postalCode}
+                                                />
+                                            )}
                                         {results.length > 0 && showCurrentCarrierSummary && (
                                             <CurrentCarrierSummaryBanner
                                                 plans={results}

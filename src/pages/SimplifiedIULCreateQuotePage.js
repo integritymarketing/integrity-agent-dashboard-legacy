@@ -10,6 +10,7 @@ import GlobalNav from "partials/global-nav-v2";
 import { useEffect } from "react";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 import { LIFE_QUESTION_CARD_LIST } from "components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants";
+import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const StyledBox = styled(Box)(() => ({
     display: "flex",
@@ -30,7 +31,7 @@ const SimplifiedIULCreateQuotePage = () => {
             <Helmet>
                 <title>Integrity - Simplified IUL Create Quote</title>
             </Helmet>
-            <GlobalNav />
+            <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.LIFE} />
             <StyledBox>
                 <FinalExpensePlansContainer />
             </StyledBox>

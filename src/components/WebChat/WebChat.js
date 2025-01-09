@@ -13,7 +13,6 @@ import ChatIcon from "./askintegrity-logo.jpg";
 import HideIcon from "./hide-icon.png";
 import openAudio from "./open.mp3";
 import closeAudio from "./close.mp3";
-import Info from "components/icons/info-blue";
 import useDeviceType from "hooks/useDeviceType";
 import AskIntegrityFeedback from "./AskIntegrityInfoContainer/AskIntegrityFeedback";
 import useFetch from "hooks/useFetch";
@@ -23,6 +22,7 @@ import styleOptions from "./webChatStyleOptions";
 import SuggestedContacts from "./AutoComplete/SuggestedContacts";
 import { convertUTCDateToLocalDate } from "utils/dates";
 import moment from "moment";
+import ChatHeaderContent from "./ChatHeaderContent";
 
 const WebChatComponent = () => {
     const WHICH_CONTACT_PART_STRING = "Which contact would you like for your";
@@ -40,6 +40,7 @@ const WebChatComponent = () => {
     const [searchText, setSearchText] = useState("");
     const [isContactsLoading, setIsContactsLoading] = useState(false);
     const [suggestedContacts, setSuggestedContacts] = useState([]);
+    const [headerContent, setHeaderContent] = useState("");
     const [lastMessage, setLastMessage] = useState(null);
     const [dialogId, setDialogId] = useState("ContactSummary");
     const [skipFeedbackInfo, setSkipFeedbackInfo] = useState(false);
@@ -162,6 +163,7 @@ const WebChatComponent = () => {
         setLastMessage("");
         setSearchForContactBtnClick(false);
         setSearchText("");
+        setHeaderContent("");
         store.dispatch({
             type: "WEB_CHAT/SET_SEND_BOX",
             payload: { text: "" },
@@ -311,7 +313,6 @@ const WebChatComponent = () => {
     const handleMessageActivity = useCallback(
         (activity, dispatch) => {
             activity.text = activity.text || activity.value?.dropDownInfo || activity.value?.text;
-
             const activityValue = activity.value;
             if (activityValue) {
                 if (activityValue.name === "mc_View_Contact") {
@@ -329,7 +330,7 @@ const WebChatComponent = () => {
 
             if (
                 activityValue &&
-                ["mc_Contact_Selected", "mc_Call_Selected", "mc_Search_Contact_Call", "mc_View_Call_Summary"].includes(
+                ["mc_Contact_Selected", "mc_Call_Selected", "mc_Search_Contact_Call"].includes(
                     activityValue.name
                 )
             ) {
@@ -358,6 +359,7 @@ const WebChatComponent = () => {
 
     const handlePostActivity = useCallback(
         async (action, dispatch) => {
+            setHeaderContent("");
             if (action?.meta === "imBack") {
                 fireEvent("AI - Ask Integrity Playback Received", {
                     intent_name: action?.payload?.activity?.text,
@@ -413,20 +415,45 @@ const WebChatComponent = () => {
     const handleIncomingActivity = useCallback(
         (action) => {
             const activity = action.payload.activity;
-
-            if (activity?.attachments?.[0]) {
-                fireEvent("AI - Ask Integrity Playback Received", {
-                    leadid: activity.attachments[0]?.content?.actions?.[0]?.data?.leadId,
-                    message_card_id: activity.attachments[0]?.content?.id,
-                });
-            }
-
-            if (activity.type === "event" && activity.name === "mc_View_Contact") {
-                goToContactDetailPage(activity.value.leadId);
+    
+            if (!activity) {return;}
+    
+            const { type, name, value, attachments } = activity;
+    
+            switch (type) {
+                case "event":
+                    handleIncomingEventActivity(name, value);
+                    break;
+                default:
+                    handleIncomingAttachmentActivity(attachments);
+                    break;
             }
         },
         [fireEvent, goToContactDetailPage]
     );
+    
+    const handleIncomingEventActivity = (name, value) => {
+        switch (name) {
+            case "mc_Call_List_Header":
+                setHeaderContent(value.text);
+                break;
+            case "mc_View_Contact":
+                goToContactDetailPage(value.leadId);
+                break;
+            default:
+                break;
+        }
+    };
+    
+    const handleIncomingAttachmentActivity = (attachments) => {
+        if (attachments?.[0]) {
+            const { content } = attachments[0];
+            fireEvent("AI - Ask Integrity Playback Received", {
+                leadid: content?.actions?.[0]?.data?.leadId,
+                message_card_id: content?.id,
+            });
+        }
+    };
 
     const store = useMemo(
         () =>
@@ -521,21 +548,7 @@ const WebChatComponent = () => {
             >
                 {!showAskIntegrityFeedback && (
                     <>
-                        <div className={styles.header}>
-                            <img
-                                className={styles.logoIcon}
-                                onClick={clearChatAndFetchToken}
-                                src={ChatIcon}
-                                alt="Chat Icon"
-                            />
-                            <p className={styles.headerText}>
-                                <span>Ask Integrity</span>
-                                <span className={styles.infoLogo} onClick={handleOpenAskIntegrityFeedback}>
-                                    <Info />
-                                </span>
-                            </p>
-                            <img onClick={closeChat} className={styles.hideIcon} src={HideIcon} alt="Hide Icon" />
-                        </div>
+                    <ChatHeaderContent headerContent={headerContent} clearChatAndFetchToken={clearChatAndFetchToken} closeChat={closeChat} handleOpenAskIntegrityFeedback={handleOpenAskIntegrityFeedback} ChatIcon={ChatIcon} HideIcon={HideIcon} />
                         {directLineToken && (
                             <div>
                                 <SuggestedContacts
@@ -551,14 +564,14 @@ const WebChatComponent = () => {
                                         aria-label="search"
                                         edge="end"
                                     ></SearchIcon>
-                                    {directLine && (
+                                    {directLine && (<div className={headerContent ? 'has-header-content' : ''}>
                                         <ReactWebChat
                                             directLine={directLine}
                                             store={store}
                                             styleOptions={styleOptions}
                                             overrideLocalizedStrings={overrideLocalizedStrings}
                                         />
-                                    )}
+                                    </div>)}
                                 </div>
                             </div>
                         )}

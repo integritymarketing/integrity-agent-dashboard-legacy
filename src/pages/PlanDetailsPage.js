@@ -33,6 +33,10 @@ import { PLAN_TYPE_ENUMS } from "../constants";
 
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import { usePharmacyContext } from "providers/PharmacyProvider";
+import { ContactProfileTabBar } from "components/ContactDetailsContainer";
+import { Box, Typography } from "@mui/material";
+import { MEDICARE_ADVANTAGE } from "components/AddZipContainer/AddZipContainer.constants";
+import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const PlanDetailsPage = () => {
     const showToast = useToast();
@@ -70,7 +74,8 @@ const PlanDetailsPage = () => {
         try {
             const updatedData = await fetchPharmacies(contactId);
             const contactData = await clientsService.getContactInfo(contactId);
-            const pharmacyId = updatedData.length > 0 ? updatedData.find(pharmacy => pharmacy.isPrimary)?.pharmacyId : null;
+            const pharmacyId =
+                updatedData.length > 0 ? updatedData.find((pharmacy) => pharmacy.isPrimary)?.pharmacyId : null;
             await getPlanDetails(pharmacyId, contactData);
             analyticsService.fireEvent("event-content-load", {
                 pagePath: "/:contactId/plan/:planId",
@@ -84,10 +89,20 @@ const PlanDetailsPage = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [contactId, planId, showToast, effectiveDate, fetchPharmacies, clientsService, plansService, pharmacies, selectedPharmacy]);
+    }, [
+        contactId,
+        planId,
+        showToast,
+        effectiveDate,
+        fetchPharmacies,
+        clientsService,
+        plansService,
+        pharmacies,
+        selectedPharmacy,
+    ]);
 
     useEffect(() => {
-        if(filterPharmacyId !== selectedPharmacy?.pharmacyId) {
+        if (filterPharmacyId !== selectedPharmacy?.pharmacyId) {
             getPlanDetails(selectedPharmacy?.pharmacyId, contact).then(() => {
                 setFilterPharmacyId(selectedPharmacy?.pharmacyId);
             });
@@ -112,18 +127,33 @@ const PlanDetailsPage = () => {
                     <Helmet>
                         <title>Integrity - Plans</title>
                     </Helmet>
-                    <GlobalNav />
+                    <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE} />
 
-                    <div className={`${styles["header"]}`} style={{ height: "auto" }}>
+                    {/* <div className={`${styles["header"]}`} style={{ height: "auto" }}>
                         <Container className={`${styles["plan-details-container"]}`}>
                             <div className={`${styles["back"]}`}>
-                                <BackButton label={isMobile ? "Back" : "Back to Plans"} route={`/plans/${contactId}?preserveSelected=true`} />
+                                <BackButton
+                                    label={isMobile ? "Back" : "Back to Plans"}
+                                    route={`/plans/${contactId}?preserveSelected=true`}
+                                />
                             </div>
                             <p className={`${styles["header-text"]}`}>Plan Details</p>
                             <p className={`${styles["header-callscript"]}`}>{isMobile ? <CallScript /> : null}</p>
                         </Container>
-                    </div>
-
+                    </div> */}
+                    <ContactProfileTabBar
+                        contactId={contactId}
+                        showTabs={false}
+                        backButtonLabel={"Back"}
+                        backButtonRoute=""
+                    />
+                    <Box sx={{ padding: "56px 24px", pb: 0 }}>
+                        <Box sx={{ pb: 3 }} display={"flex"} justifyContent={"center"}>
+                            <Typography variant="h2" gutterBottom color={"#052a63"}>
+                                {MEDICARE_ADVANTAGE}
+                            </Typography>
+                        </Box>
+                    </Box>
                     {isNonRTS_User && <NonRTSBanner />}
 
                     <Container className={`${styles["body"]}`}>
@@ -163,6 +193,7 @@ const PlanDetailsPage = () => {
                             />
                         )}
                     </Container>
+
                     <ContactFooter />
                     <BackToTop />
                     {!isLoading && (

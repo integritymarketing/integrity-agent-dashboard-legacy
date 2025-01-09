@@ -1,13 +1,19 @@
 @import "../../scss/globalDefines.scss";
 
+.addZipContainer {
+    padding: 56px 24px;
+    color: #052a63;
+}
+
 .detailsMContainer {
-    margin: 40px 24px;
+    margin: 0px 24px;
 }
 
 .quickQuote {
     background: #fff;
     padding: 20px 18px;
     border-radius: 8px;
+
     @include small {
         padding: 24px;
         margin: 0px;
@@ -18,7 +24,7 @@
 .detailsDContainer {
     width: 520px;
     background: #fff;
-    margin: 56px auto;
+    margin: auto;
     padding: 56px 96px;
     border-radius: 8px;
 }

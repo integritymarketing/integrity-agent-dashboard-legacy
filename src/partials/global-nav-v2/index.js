@@ -16,7 +16,7 @@ import ContactInfo from "partials/contact-info";
 import analyticsService from "services/analyticsService";
 import { useClientServiceContext } from "services/clientServiceProvider";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import ProfileMenu from "./ProfileMenu/ProfileMenu";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 
@@ -29,6 +29,7 @@ import IntegrityMobileLogo from "components/HeaderWithLogin/integrity-mobile-log
 import NewBackBtn from "images/new-back-btn.svg";
 import PlusMenu from "./plusMenu";
 import AbcBanner from "components/AbcBanner";
+import { QUOTE_TYPE } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const SiteNotification = ({ showPhoneNotification, showMaintenaceNotification }) => {
     const notificationClass = [
@@ -67,8 +68,7 @@ const SiteNotification = ({ showPhoneNotification, showMaintenaceNotification })
     return null;
 };
 
-// eslint-disable-next-line max-lines-per-function
-const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props }) => {
+const GlobalNavV2 = ({ showQuoteType = "", menuHidden = false, className = "", page, title, ...props }) => {
     const auth = useAuth0();
     const { clientsService } = useClientServiceContext();
     const navigate = useNavigate();
@@ -171,7 +171,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
     return (
         <WithLoader isLoading={auth.isLoading}>
             <Media
-                query={"(max-width: 883px)"}
+                query={"(max-width: 1330px)"}
                 onChange={(isMobile) => {
                     setIsMobile(isMobile);
                 }}
@@ -185,7 +185,7 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
 
             <header
                 className={`global-nav-v2 ${analyticsService.clickClass(
-                    "nav-wrapper"
+                    "nav-wrapper",
                 )} ${className} ${headernotificationClass}`}
                 {...props}
             >
@@ -210,18 +210,29 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
                     </>
                 ) : (
                     <div className={`global-nav-v2__title ${analyticsService.clickClass("nav-logo")}`}>
-                        {isMobile && leadPreference && (
+                        {/* {isMobile && leadPreference && (
                             <MyButton
                                 leadPreference={leadPreference}
                                 page={page}
                                 hasActiveCampaign={agentInformation?.hasActiveCampaign}
                             />
-                        )}
+                        )} */}
 
-                        <Link to={auth.isAuthenticated ? "/dashboard" : "/welcome"}>
+                        <Link
+                            to={auth.isAuthenticated ? "/dashboard" : "/welcome"}
+                            className={`${showQuoteType ? "show-medicare-center" : ""}`}
+                        >
                             {isMobile ? <IntegrityMobileLogo /> : <IntegrityLogo />}
                             <span className="visually-hidden">Integrity</span>
                         </Link>
+
+                        {showQuoteType ? (
+                            <Typography variant="body1" color={"#FFFFFF"}>
+                                {QUOTE_TYPE[showQuoteType]}
+                            </Typography>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 )}
 
@@ -232,7 +243,14 @@ const GlobalNavV2 = ({ menuHidden = false, className = "", page, title, ...props
           Causes console error in dev env only due to this issue
           https://github.com/ReactTraining/react-media/issues/139
         */}
-                        {isMobile && <SmallFormatMenu {...mobileMenuProps} page={page} />}
+                        {isMobile && (
+                            <SmallFormatMenu
+                                {...mobileMenuProps}
+                                page={page}
+                                leadPreference={leadPreference}
+                                agentInformation={agentInformation}
+                            />
+                        )}
                         <div className="onlyWeb flex">
                             {!isMobile && <LargeFormatMenu {...menuProps} />}
                             {!isMobile && user?.firstName && leadPreference && (

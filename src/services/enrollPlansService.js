@@ -1,4 +1,5 @@
 export const QUOTES_API_VERSION = "v1.0";
+import moment from "moment";
 
 export class EnrollPlansService {
     constructor(getAccessToken) {
@@ -16,18 +17,24 @@ export class EnrollPlansService {
     };
 
     getPolicySnapShotList = async (npn, dateRange, status) => {
-        const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}/summary/${npn}/${dateRange}/${status}`);
+        const offset = moment().utcOffset();
+        const url =
+            `${process.env.REACT_APP_BOOKOFBUSINESS_API}/summary/${npn}/${dateRange}/${status}`;
 
-        const response = await this._clientAPIRequest(url, "GET");
+        const query = { utcOffsetInMinutes: offset };
+
+        const response = await this._clientAPIRequest(url, "GET", query);
 
         return response?.json();
     };
 
     getPolicySnapShotCount = async (npn, dateRange) => {
-        const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}/policycount/${npn}/${dateRange}`);
+        const offset = moment().utcOffset();
+        const url = `${process.env.REACT_APP_BOOKOFBUSINESS_API}/policycount/${npn}/${dateRange}`;
+        const query = { utcOffsetInMinutes: offset };
 
         try {
-            const response = await this._clientAPIRequest(url, "GET");
+            const response = await this._clientAPIRequest(url, "GET", query);
 
             if (response.ok) {
                 return await response.json();
@@ -95,7 +102,9 @@ export class EnrollPlansService {
         };
         // Convert the URL string to a URL object
         const urlObject = new URL(url);
-        urlObject.search = new URLSearchParams(query).toString();
+        if (query) {
+            urlObject.search = new URLSearchParams(query).toString();
+        }
 
         if (body) {
             opts.body = JSON.stringify(body);

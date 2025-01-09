@@ -8,17 +8,23 @@ import WithLoader from "components/ui/WithLoader";
 import { useLeadDetails } from "providers/ContactDetails";
 import { formatDate } from "utils/dates";
 import { formatMbiNumber } from "utils/shared-utils/sharedUtility";
-import { CONFIRM_DETAILS_SUBTEXT, CONFIRM_DETAILS_TEXT, GET_COUNTIES } from "./AddZipContainer.constants";
+import {
+    MEDICARE_ADVANTAGE,
+    CONFIRM_DETAILS_SUBTEXT,
+    CONFIRM_DETAILS_TEXT,
+    GET_COUNTIES,
+} from "./AddZipContainer.constants";
 import styles from "./AddZipContainer.module.scss";
 import { getTransformedCounties } from "./AddZipContainer.utils";
 import { ContinueCTA } from "./ContinueCTA/ContinueCTA";
 import { CopyAddress } from "./CopyAddress/CopyAddress";
 import { SelectCounty } from "./SelectCounty/SelectCounty";
 import { ZipCodeInput } from "./ZipCodeInput/ZipCodeInput";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
+import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 
-const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => {}, pageName = "" }) => {
+const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => { }, pageName = "" }) => {
     const navigate = useNavigate();
     const { leadDetails, updateLeadDetails, getLeadDetails } = useLeadDetails();
 
@@ -181,31 +187,41 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
 
     return (
         <>
-            <div
-                className={
-                    pageName === "Quick Quote"
-                        ? styles.quickQuote
-                        : isMobile
-                          ? styles.detailsMContainer
-                          : styles.detailsDContainer
-                }
-            >
-                <div className={styles.detailsTitle}>{CONFIRM_DETAILS_TEXT}</div>
-                <div className={styles.detailsSubTitle}>{CONFIRM_DETAILS_SUBTEXT}</div>
-                <ZipCodeInput defaultValue={zipCode} handleZipCode={handleZipCode} zipError={zipError} />
-                <WithLoader isLoading={isLoading}>
-                    {zipCode && allCounties.length > 0 && (
-                        <SelectCounty counties={allCounties} isMobile={isMobile} onSelectCounty={onSelectCounty} />
-                    )}
-                    {address && <CopyAddress isMobile={isMobile} address={address} />}
-                    {pageName !== "Quick Quote" && (
-                        <ContinueCTA
-                            isMobile={isMobile}
-                            isDisabled={isSubmitDisabled}
-                            handleContinue={handleContinue}
-                        />
-                    )}
-                </WithLoader>
+            {pageName !== "Quick Quote" && (
+                <ContactProfileTabBar contactId={contactId} showTabs={false} backButtonLabel={"Back"} />
+            )}
+            <div className={styles.addZipContainer}>
+                <Box sx={{ pb: 3 }} display={"flex"} justifyContent={"center"}>
+                    <Typography variant="h2" gutterBottom color={"#052a63"}>
+                        {MEDICARE_ADVANTAGE}
+                    </Typography>
+                </Box>
+                <div
+                    className={
+                        pageName === "Quick Quote"
+                            ? styles.quickQuote
+                            : isMobile
+                                ? styles.detailsMContainer
+                                : styles.detailsDContainer
+                    }
+                >
+                    <div className={styles.detailsTitle}>{CONFIRM_DETAILS_TEXT}</div>
+                    <div className={styles.detailsSubTitle}>{CONFIRM_DETAILS_SUBTEXT}</div>
+                    <ZipCodeInput defaultValue={zipCode} handleZipCode={handleZipCode} zipError={zipError} />
+                    <WithLoader isLoading={isLoading}>
+                        {zipCode && allCounties.length > 0 && (
+                            <SelectCounty counties={allCounties} isMobile={isMobile} onSelectCounty={onSelectCounty} />
+                        )}
+                        {address && <CopyAddress isMobile={isMobile} address={address} />}
+                        {pageName !== "Quick Quote" && (
+                            <ContinueCTA
+                                isMobile={isMobile}
+                                isDisabled={isSubmitDisabled}
+                                handleContinue={handleContinue}
+                            />
+                        )}
+                    </WithLoader>
+                </div>
             </div>
             {pageName === "Quick Quote" && (
                 <Box className={styles.submitButtonContainer}>

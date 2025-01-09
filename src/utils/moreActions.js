@@ -4,8 +4,8 @@ export const MORE_ACTIONS = [
         value: "contact",
     },
     {
-        label: "Send Scope of Appointment",
-        value: "new-soa",
+        label: "Start a Quote",
+        value: "startAQuote",
     },
     {
         label: "Contact",

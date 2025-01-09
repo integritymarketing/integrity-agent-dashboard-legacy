@@ -9,8 +9,8 @@ const NonRTSBanner = (props) => {
 
   return (
     <>
-      <div className={styles.bannerContainer} onClick={() => setOpen(true)}>
-        <div className={styles.nonRTS_Banner}>
+      <div className={styles.bannerContainer}>
+        <div className={styles.nonRTS_Banner} onClick={() => setOpen(true)}>
           <div className={styles.title}>{title}</div>
           <div className={styles.content}>{description}</div>
         </div>

@@ -8,6 +8,7 @@ import { useLeadDetails } from "providers/ContactDetails";
 import { useLifeIulQuote } from "providers/Life";
 import { ComparePlanFooter } from "@integritymarketing/clients-ui-kit";
 import styles from "./styles.module.scss";
+import PropTypes from "prop-types";
 
 export const IulQuoteContainer = ({ title, children }) => {
     const { contactId } = useParams();
@@ -16,7 +17,14 @@ export const IulQuoteContainer = ({ title, children }) => {
 
     return (
         <WithLoader isLoading={isLoadingLeadDetails}>
-            {!showFilters && <ContactProfileTabBar contactId={contactId} showTabs={false} />}
+            {!showFilters && (
+                <ContactProfileTabBar
+                    contactId={contactId}
+                    showTabs={false}
+                    backButtonRoute=""
+                    backButtonLabel="Back"
+                />
+            )}
             {showFilters && <IulFilterHeader title={"Filters"} onClick={() => setShowFilters(false)} />}
             <Box className={styles.iulQuoteContainer}>
                 <Grid container gap={3}>
@@ -32,3 +40,10 @@ export const IulQuoteContainer = ({ title, children }) => {
         </WithLoader>
     );
 };
+
+IulQuoteContainer.propTypes = {
+    title: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+};
+
+export default IulQuoteContainer;

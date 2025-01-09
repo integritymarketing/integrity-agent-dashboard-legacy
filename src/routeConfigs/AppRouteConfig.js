@@ -11,6 +11,7 @@ import { LifeIulQuoteProvider } from "providers/Life";
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
 const AccountPage = lazy(() => import("pages/Account/AccountPage"));
 const AddNewContactPage = lazy(() => import("pages/contacts/AddNewContactPage"));
+const AddContactPage = lazy(() => import("pages/contacts/AddContactPage"));
 const AuthSigninCallback = lazy(() => import("components/functional/auth-signin-callback"));
 const AuthSigninRedirectPage = lazy(() => import("pages/auth/SigninRedirectPage"));
 const AuthSignoutCallback = lazy(() => import("components/functional/auth-signout-callback"));
@@ -169,6 +170,7 @@ const appProtectedRoutes = [
     },
     { path: "/contact/add-new/:callLogId", component: <AddNewContactPage /> },
     { path: "/contact/add-new", component: <AddNewContactPage /> },
+    { path: "/contact/new", component: <AddContactPage /> },
     {
         path: "/contact/:leadId/duplicate/:duplicateLeadId",
         component: (

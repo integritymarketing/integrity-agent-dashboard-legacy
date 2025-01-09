@@ -7,6 +7,7 @@ import GlobalNav from "partials/global-nav-v2";
 import { useCreateNewQuote } from "providers/CreateNewQuote";
 import { useEffect } from "react";
 import { LIFE_QUESTION_CARD_LIST } from "components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants";
+import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const FinalExpensePlansPage = () => {
     const { setSelectedLifeProductType } = useCreateNewQuote();
@@ -20,7 +21,7 @@ const FinalExpensePlansPage = () => {
             <Helmet>
                 <title>Integrity - Final Expenses Plans</title>
             </Helmet>
-            <GlobalNav />
+            <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.LIFE} />
             <FinalExpensePlansResultContainer />
             <GlobalFooter />
         </>

@@ -14,7 +14,7 @@ export const ProductPreferenceContainer = ({ contactId, quoteType }) => {
 
     return (
         <>
-            <ContactProfileTabBar contactId={contactId} showTabs={false} />
+            <ContactProfileTabBar contactId={contactId} showTabs={false} backButtonLabel="Back" backButtonRoute="" />
             {isLoadingLeadDetails ? (
                 renderContactDetailsLoader
             ) : (

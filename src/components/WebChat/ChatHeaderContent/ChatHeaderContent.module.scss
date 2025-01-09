@@ -1,0 +1,81 @@
+@import "../../../scss/globalDefines.scss";
+
+.headerStyle {
+    position: relative;
+    flex-direction: column;
+    color: white;
+    background-color: #052a63;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    z-index: 9;
+    box-shadow: 2px 12px 8px 0px #072a6396;
+
+    .headerText {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        .infoLogo {
+            position: absolute;
+            right: 0;
+            cursor: pointer;
+        }
+    }
+
+    .logoIcon {
+        max-width: 120px;
+        max-height: 120px;
+    }
+
+    img {
+        cursor: pointer;
+    }
+
+    @include small {
+        padding: 1rem;
+        padding-top: 0;
+    }
+
+    .hideIcon {
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        cursor: pointer;
+        transform: scale(1.2);
+    }
+}
+
+.header {
+    @extend .headerStyle;
+    padding: 0rem 1.5rem 2rem 1.5rem;
+}
+
+.contactHeader {
+    @extend .headerStyle;
+}
+
+.customHeaderContent {
+    height: 6.5rem;
+    width: 100%;
+    background: var(--Integrity-navy-default, #052a63);
+    padding: 3rem 2rem 1rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .infoLogo {
+        flex-shrink: 0;
+        cursor: pointer;
+    }
+}
+.backButton {
+    min-width: 88;
+}
+.infoIcon {
+    min-width: 88px;
+    display: flex;
+    justify-content: flex-end;
+}

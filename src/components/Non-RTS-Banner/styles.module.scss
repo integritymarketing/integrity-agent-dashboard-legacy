@@ -1,29 +1,30 @@
 .bannerContainer {
   margin-top: 20px;
   margin-bottom: 20px;
-  cursor: pointer;
+
   .nonRTS_Banner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: auto;
-    width: 42%;
-    background-color: #002d72;
-    padding: 25px 20px;
-    border-radius: 8px;
-    @media (max-width: 480px) {
-      width: 90%;
-    }
-    .title {
-      font-size: 24px;
-      color: #ffffff;
-      text-align: center;
-    }
-    .content {
-      font-size: 16px;
-      color: #ffffff;
-      margin-top: 10px;
-    }
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: auto;
+      width: 42%;
+      background-color: #002d72;
+      padding: 25px 20px;
+      border-radius: 8px;
+      @media (max-width: 480px) {
+          width: 90%;
+      }
+      .title {
+          font-size: 24px;
+          color: #ffffff;
+          text-align: center;
+      }
+      .content {
+          font-size: 16px;
+          color: #ffffff;
+          margin-top: 10px;
+      }
   }
 }

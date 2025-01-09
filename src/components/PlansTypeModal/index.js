@@ -158,7 +158,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                     break;
             }
         },
-        [leadId, navigate],
+        [leadId, navigate]
     );
 
     const handleSelectIulGoal = useCallback(
@@ -169,7 +169,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
                 navigate(`/life/iul-protection/${leadId}/confirm-details`);
             }
         },
-        [leadId, navigate],
+        [leadId, navigate]
     );
 
     /**
@@ -197,7 +197,7 @@ const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClos
 
     return (
         <>
-            <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Choose Quote Type">
+            <Modal open={showPlanTypeModal} onClose={handleModalClose} hideFooter title="Select a Product Category">
                 <WithLoader isLoading={isLoading}>
                     {!showLifeQuestionCard && !showIulGoalQuestionCard && (
                         <>

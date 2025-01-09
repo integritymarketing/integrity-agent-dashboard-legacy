@@ -89,7 +89,7 @@ const CounterInput = ({
             <TextField
                 size="medium"
                 variant="outlined"
-                value={value === 0 ? "" : (currencySymbol ? currencySymbol : "") + value.toLocaleString()}
+                value={!value ? "" : (currencySymbol ? currencySymbol : "") + value.toLocaleString()}
                 onChange={handleInputChange}
                 inputProps={{ style: { ...inputStyles, textAlign: "center" } }}
                 fullWidth
