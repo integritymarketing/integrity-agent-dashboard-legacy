@@ -44,11 +44,10 @@ const SuggestedContacts = ({ suggestedContacts, isContactsLoading, onContactSele
 
     const showPromptIcon = () => (
         <div className="webchatCenterIconWrapper" style={{ bottom: promptIconCalculatedHeight }}>
-            <div className="webchatCenterIcon">
+            <div className="webchatCenterIcon" oncClick={initiateChat}> 
                 <img
                     className="webchatCenterIconImage"
                     src={ChatIconPrompt}
-                    onClick={initiateChat}
                     alt="Integrity Icon"
                 />
             </div>
