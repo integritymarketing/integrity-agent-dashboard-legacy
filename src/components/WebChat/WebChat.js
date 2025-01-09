@@ -359,6 +359,7 @@ const WebChatComponent = () => {
 
     const handlePostActivity = useCallback(
         async (action, dispatch) => {
+            setHeaderContent("");
             if (action?.meta === "imBack") {
                 fireEvent("AI - Ask Integrity Playback Received", {
                     intent_name: action?.payload?.activity?.text,
@@ -415,7 +416,7 @@ const WebChatComponent = () => {
         (action) => {
             const activity = action.payload.activity;
     
-            if (!activity) return;
+            if (!activity) {return;}
     
             const { type, name, value, attachments } = activity;
     
