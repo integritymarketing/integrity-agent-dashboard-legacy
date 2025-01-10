@@ -132,7 +132,9 @@ export const ConfirmationDetailsContainer = ({ contactId, quoteType }) => {
             {isLoadingLeadDetails ? (
                 renderContactDetailsLoader
             ) : (
-                <ConfirmationDetailsForm contactId={contactId} onSave={onSave} />
+                <>
+                    <ConfirmationDetailsForm contactId={contactId} onSave={onSave} quoteType={quoteType} />
+                </>
             )}
         </>
     );

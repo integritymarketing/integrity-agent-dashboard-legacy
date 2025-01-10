@@ -255,7 +255,7 @@
 .datepicker {
     width: 100%;
 
-    > div {
+    >div {
         height: 46px;
         width: 100%;
     }
@@ -275,4 +275,16 @@ input[type="number"]::-webkit-outer-spin-button {
     -moz-appearance: none;
     appearance: none;
     margin: 0;
+}
+
+.fontColor {
+    color: #052a63;
+}
+
+.card_header {
+    display: flex;
+    padding-bottom: 24px;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
 }

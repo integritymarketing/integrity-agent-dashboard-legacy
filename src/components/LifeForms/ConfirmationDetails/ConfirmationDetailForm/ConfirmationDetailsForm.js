@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
-import { InputAdornment, OutlinedInput } from "@mui/material";
+import { Box, InputAdornment, OutlinedInput, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import { useLeadDetails } from "providers/ContactDetails";
 import { formatDate } from "utils/dates";
@@ -17,6 +17,8 @@ import {
     GENDER_OPTS,
     HEIGHT,
     INCH_PLACEHOLDER,
+    LIFE_FORM_TITLE,
+    LIFE_FORM_TYPES,
     NEXT,
     REQUIRED_FIELDS,
     SAVING,
@@ -31,7 +33,7 @@ import { FinalExpenseIntakeForm, FinalExpenseIntakeFormMobileStep0, FinalExpense
 import FullWidthButton from "components/ui/FullWidthButton";
 import Media from "react-media";
 
-export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
+export const ConfirmationDetailsForm = ({ contactId, onSave, quoteType }) => {
     const [isMobile, setIsMobile] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [mobileStepNumber, setMobileStepNumber] = useState(null);
@@ -249,6 +251,15 @@ export const ConfirmationDetailsForm = ({ contactId, onSave }) => {
 
     return (
         <div className={styles.finalExpenseContactDetailsForm}>
+            {quoteType != LIFE_FORM_TYPES.TERM ? (
+                <Box className={styles.card_header}>
+                    <Typography variant="h2" className={styles.fontColor} gutterBottom={true}>
+                        {LIFE_FORM_TITLE[quoteType].HEADER_TITLE}
+                    </Typography>
+                </Box>
+            ) : (
+                ""
+            )}
             <Media query={"(max-width: 500px)"} onChange={(val) => setIsMobile(val)} />
             <div className={styles.contactCard}>
                 <div className={styles.contactCardHeading}>
@@ -342,4 +353,6 @@ ConfirmationDetailsForm.propTypes = {
     feet: PropTypes.number,
     inch: PropTypes.number,
     isTobaccoUser: PropTypes.bool,
+    quoteType: PropTypes.oneOf([LIFE_FORM_TYPES.IUL_ACCUMULATION, LIFE_FORM_TYPES.IUL_PROTECTION, LIFE_FORM_TYPES.TERM])
+        .isRequired,
 };

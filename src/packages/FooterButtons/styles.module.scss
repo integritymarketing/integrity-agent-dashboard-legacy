@@ -1,22 +1,18 @@
 .buttons {
-  display: flex;
-  flex: 1;
-  justify-content: space-around;
-  width: 100%;
-  margin-top: 15px;
-  button {
-    height: 40px;
-    width: 43%;
-  }
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 15px;
 }
 
 .helpTxt {
-  text-align: center;
-  font-size: 12px;
-  margin-top: 12px;
-  margin-bottom: 6px;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 12px;
+    margin-bottom: 6px;
 }
 
 .container {
-  width: 100%;
+    width: 100%;
 }
