@@ -47,7 +47,7 @@ const HealthLifeCell = ({ row }) => {
 
     return (
         <>
-            <Box display="flex" gap="20px">
+            <Box display="flex" gap="20px" alignItems="center">
                 {lifePolicyCount > 0 ? renderLifeIcon() : <HeartInactive />}
                 {healthPolicyCount > 0 ? renderHealthIcon() : <HealthInactive />}
             </Box>
