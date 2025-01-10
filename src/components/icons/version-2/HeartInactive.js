@@ -1,6 +1,6 @@
 const HeartInactive = () => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="44" viewBox="0 0 40 36">
             <g id="Group_8861" data-name="Group 8861" transform="translate(-4098 200)">
                 <g id="IconCircleBG" transform="translate(4098 -200)">
                     <circle id="Ellipse_299" data-name="Ellipse 299" cx="20" cy="20" r="20" fill="#f1f1f1" />
