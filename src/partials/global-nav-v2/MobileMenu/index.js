@@ -15,7 +15,7 @@ import styles from "./styles.module.scss";
 const MobileMenu = ({ onClose }) => {
     const { logout, getAccessTokenSilently } = useAuth0();
     const navigate = useNavigate();
-    const { npn, email, firstName, lastName } = useUserProfile();
+    const { npn, email } = useUserProfile();
     const menuRef = useRef(null);
 
     useOnClickOutside(menuRef, onClose);
@@ -120,15 +120,15 @@ const MobileMenu = ({ onClose }) => {
                     logoutParams: {
                         returnTo: window.location.origin,
                     },
-                }),
-                    onClose();
+                });
+                onClose();
             },
             icon: <SignOut />,
         },
     ];
 
     return (
-        <Box className={styles.innerContainer}>
+        <Box className={styles.innerContainer} ref={menuRef}>
             <Box className={styles.closeButton}>
                 <Box onClick={onClose}>
                     <MenuOpen />
@@ -190,7 +190,6 @@ const MobileMenu = ({ onClose }) => {
 
 MobileMenu.propTypes = {
     onClose: PropTypes.func,
-    isOpen: PropTypes.string,
 };
 
 export default MobileMenu;
