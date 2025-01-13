@@ -85,6 +85,7 @@ const useStyles = makeStyles(() => ({
         gap: "10px !important",
         fontWeight: "normal !important",
         height: "46px",
+        fontFamily: "Lato, sans-serif",
     },
     selectedTab: {
         backgroundColor: "#F1FAFF !important",
