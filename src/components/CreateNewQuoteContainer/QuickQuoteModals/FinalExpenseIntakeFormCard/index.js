@@ -160,6 +160,9 @@ const FinalExpenseIntakeFormCard = () => {
                     </Grid>
                     <Grid container className={styles.gridContainer}>
                         <Grid item md={6} xs={6}>
+                        <Typography variant="h5" color={"#052a63"}>
+                                Height
+                            </Typography>
                             <Box className={styles.heightContainer}>
                                 <TextInput
                                     name="feet"
@@ -169,7 +172,6 @@ const FinalExpenseIntakeFormCard = () => {
                                     onBlur={handleBlur}
                                     error={touched.feet && Boolean(errors.feet)}
                                     fullWidth
-                                    label="Height"
                                     size="medium"
                                     helperText={touched.feet && errors.feet}
                                     InputProps={{
@@ -205,7 +207,6 @@ const FinalExpenseIntakeFormCard = () => {
                                                 <HelpText text="in" />
                                             ),
                                     }}
-                                    marginTop={"20px"}
                                 />
                             </Box>
                         </Grid>
