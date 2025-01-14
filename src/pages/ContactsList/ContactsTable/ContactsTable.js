@@ -103,10 +103,8 @@ function ContactsTable() {
     };
 
     const contactsListResultsEvent = () => {
-        const contacts_with_health_policies_count = policyCounts.filter(
-            (contact) => contact.healthPolicyCount > 0
-        ).length;
-        const contacts_with_life_policies_count = policyCounts.filter((contact) => contact.lifePolicyCount > 0).length;
+        const contacts_with_health_policies_count = Array.isArray(policyCounts) ? policyCounts.filter((contact) => contact.healthPolicyCount > 0).length : 0;
+        const contacts_with_life_policies_count = Array.isArray(policyCounts) ? policyCounts.filter((contact) => contact.lifePolicyCount > 0).length : 0;
 
         const contacts_without_policies_count = tableData?.length - policyCounts?.length;
 
@@ -118,6 +116,7 @@ function ContactsTable() {
         });
     };
 
+    // Timer is set in the occasion an API GET call fails
     useEffect(() => {
         const timer = setTimeout(() => {
             contactsListResultsEvent();
