@@ -34,6 +34,9 @@ export const ContactInfoContainer = ({ isMobile }) => {
         firstName = "",
         middleName = "",
         lastName = "",
+        suffix = "",
+        prefix = "",
+        maritalStatus = "",
         birthdate,
         emails = [],
         phones = [],
@@ -141,6 +144,9 @@ export const ContactInfoContainer = ({ isMobile }) => {
         firstName,
         middleName,
         lastName,
+        suffix,
+        prefix,
+        maritalStatus,
         birthdate,
         leadPhone,
         leadEmail,
@@ -167,7 +173,6 @@ export const ContactInfoContainer = ({ isMobile }) => {
         leadsId,
         notes,
         leadCreatedDate,
-
     };
 
     const editLeadDetails = (data) => {
@@ -227,11 +232,18 @@ export const ContactInfoContainer = ({ isMobile }) => {
                         <SectionContainer>
                             <Label value="Full Name" color="#717171" size="14px" />
                             <Label
-                                value={formatFullName(firstName, middleName, lastName)}
+                                value={formatFullName({ prefix, firstName, middleName, lastName, suffix })}
                                 color="#052A63"
                                 size="20px"
                             />
+                            {maritalStatus && (
+                                <Box sx={{ pt: 2 }}>
+                                    <Label value="Marital Status" color="#717171" size="14px" />
+                                    <Label value={maritalStatus} color="#052A63" size="20px" />
+                                </Box>
+                            )}
                         </SectionContainer>
+
                         <Box className={styles.miniContainer}>
                             <Box className={styles.miniCard}>
                                 <SectionContainer>
@@ -294,8 +306,8 @@ export const ContactInfoContainer = ({ isMobile }) => {
                                     size="16px"
                                 />
                                 <span onClick={() => setShowBeneficiaryId(!isShowBeneficiaryId)}>
-                                    {isShowBeneficiaryId ? <Show /> : <Hide />}
-                                    {isShowBeneficiaryId ? "Show" : "Hide"}
+                                    {isShowBeneficiaryId ? <Hide /> : <Show />}
+                                    {isShowBeneficiaryId ? "Hide" : "Show"}
                                 </span>
                             </div>
                             <Box className={`${styles.horizontalLayout} ${styles.dateAlignment}`}>
@@ -316,13 +328,19 @@ export const ContactInfoContainer = ({ isMobile }) => {
                                         Special Assistance
                                     </Typography>
                                     {subsidyLevel === "Yes" && (
-                                        <Typography variant="body1" color="#434A51">LIS</Typography>
+                                        <Typography variant="body1" color="#434A51">
+                                            LIS
+                                        </Typography>
                                     )}
                                     {hasMedicAid === 1 && (
-                                        <Typography variant="body1" color="#434A51">Medicaid</Typography>
+                                        <Typography variant="body1" color="#434A51">
+                                            Medicaid
+                                        </Typography>
                                     )}
                                     {subsidyLevel !== "Yes" && hasMedicAid !== 1 && (
-                                        <Typography variant="body1" color="#434A51">None</Typography>
+                                        <Typography variant="body1" color="#434A51">
+                                            None
+                                        </Typography>
                                     )}
                                 </Stack>
                             </Paper>

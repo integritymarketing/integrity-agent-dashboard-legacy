@@ -60,6 +60,7 @@ export const Select = ({
     containerHeight = 0,
     page = "",
     selectClassName = "",
+    showEmptyOption = false,
 }) => {
     const [isOpen, setIsOpen] = useState(isDefaultOpen);
     const [value, setValue] = useState(initialValue);
@@ -68,9 +69,11 @@ export const Select = ({
     const { height: windowHeight } = useWindowSize();
 
     useOnClickOutside(ref, () => {
-        setIsOpen(false);
-        if (isOpen && value && onBlur) {
+        if (isOpen) {
+            setIsOpen(false);
+            if (onBlur) {
                 onBlur();
+            }
         }
     });
 
@@ -145,29 +148,28 @@ export const Select = ({
         const top = isOpen ? ref?.current?.getBoundingClientRect().top + 40 : 40;
         return containerHeight || windowHeight
             ? {
-                  maxHeight:
-                      containerHeight ||
-                      Math.max(
-                          Math.min(windowHeight - top, (memoizedSelectableOptions.length + 1) * 40),
-                          Math.min(memoizedSelectableOptions.length + 1, 3) * 40,
-                      ) + 2,
-              }
+                maxHeight:
+                    containerHeight ||
+                    Math.max(
+                        Math.min(windowHeight - top, (memoizedSelectableOptions.length + 1) * 40),
+                        Math.min(memoizedSelectableOptions.length + 1, 3) * 40,
+                    ) + 2,
+            }
             : {
-                  maxHeight: 0,
-              };
+                maxHeight: 0,
+            };
     }, [memoizedSelectableOptions.length, isOpen, containerHeight, windowHeight]);
 
     const inputBox = (
         <div
-            className={`${error ? "has-error" : ""} ${
-                showValueAlways ? "show-always" : ""
-            } inputbox ${inputBoxClassName}`}
+            className={`${error ? "has-error" : ""} ${showValueAlways ? "show-always" : ""
+                } inputbox ${inputBoxClassName}`}
             tabIndex="0"
             role="menu"
             onClick={toggleOptionsMenu}
             onKeyUp={toggleOptionsMenuKeyUp}
         >
-            {value ? (
+            {value || (showEmptyOption && value == "") ? (
                 <Option prefix={prefix} {...selectedOption} showValueAsLabel={showValueAsLabel} />
             ) : (
                 <span className={`placeholder ${disabled && "disabled"}`}>{placeholder}</span>
@@ -203,14 +205,12 @@ export const Select = ({
         <div
             ref={ref}
             style={style}
-            className={`select ${contactsPage && "contacts-dd"} ${providerModal && "pr-select"} ${
-                !isOpen && showValueAsLabel && page !== "editDetails" ? "short-label" : ""
-            } ${selectContainerClassName}`}
+            className={`select ${contactsPage && "contacts-dd"} ${providerModal && "pr-select"} ${!isOpen && showValueAsLabel && page !== "editDetails" ? "short-label" : ""
+                } ${selectContainerClassName}`}
         >
             <div
-                className={`select-container ${isOpen ? "opened" : "closed"} ${
-                    disabled ? "disabled" : ""
-                } ${selectClassName}`}
+                className={`select-container ${isOpen ? "opened" : "closed"} ${disabled ? "disabled" : ""
+                    } ${selectClassName}`}
                 style={heightStyle}
             >
                 {inputBox}
@@ -250,6 +250,7 @@ Select.propTypes = {
     containerHeight: PropTypes.number,
     page: PropTypes.string,
     selectClassName: PropTypes.string,
+    showEmptyOption: PropTypes.bool,
 };
 
 Select.defaultProps = {
@@ -261,8 +262,9 @@ Select.defaultProps = {
     style: {},
     isDefaultOpen: false,
     disabled: false,
-    onBlur: () => {},
+    onBlur: () => { },
     error: false,
+    showEmptyOption: false,
 };
 
 export default Select;

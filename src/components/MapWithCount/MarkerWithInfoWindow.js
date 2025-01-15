@@ -166,7 +166,7 @@ export const MarkerWithInfoWindow = ({ contactGroupItem, selectedAgent, handleMa
                     </div>
                     <div className={styles.infoWindowBody}>
                         <div className={styles.nameColumn}>
-                            <h2 className={styles.agentName}>{formatFullName(firstName, null, lastName)}</h2>
+                            <h2 className={styles.agentName}>{formatFullName({ firstName, lastName })}</h2>
                             <div className={styles.agentDetailsRow}>
                                 {isMobile ? (
                                     <>
