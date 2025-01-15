@@ -3,7 +3,11 @@ import React, { Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { ParallaxProvider } from "react-scroll-parallax";
-import { useLocation, useNavigationType, createRoutesFromChildren, matchRoutes, BrowserRouter as Router } from "react-router-dom";
+import { useLocation,
+    useNavigationType,
+    createRoutesFromChildren,
+    matchRoutes,
+    BrowserRouter as Router } from "react-router-dom";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
@@ -55,6 +59,8 @@ if (process.env.REACT_APP_SENTRY_DSN) {
                 useNavigationType,
                 createRoutesFromChildren,
                 matchRoutes,
+            }),
+            Sentry.feedbackIntegration({
             }),
         ],
         tracesSampleRate: isProduction ? 0.1 : 1.0, // Adjust to control how much tracing data is sent
