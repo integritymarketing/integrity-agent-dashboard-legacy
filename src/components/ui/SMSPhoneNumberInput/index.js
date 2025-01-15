@@ -6,6 +6,9 @@ import ErrorIcon from "@mui/icons-material/Error";
 import { debounce } from "lodash";
 import * as yup from "yup";
 import useFetch from "hooks/useFetch";
+import { faMobile } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import styles from "./styles.module.scss";
 
 const warningMessage =
@@ -40,7 +43,9 @@ const SMSPhoneNumberInput = ({ label, onValidation }) => {
 
     const checkSMSCompatibility = useCallback(
         debounce(async (phoneNumber) => {
-            if (!phoneNumber) {return;}
+            if (!phoneNumber) {
+                return;
+            }
             try {
                 setIsLoading(true);
                 setMessage(null);
@@ -67,7 +72,9 @@ const SMSPhoneNumberInput = ({ label, onValidation }) => {
     );
 
     const formatInput = (input) => {
-        if (!input) {return "";}
+        if (!input) {
+            return "";
+        }
         const digits = input.replace(/\D/g, "").slice(0, 10);
         const formatted =
             digits.length <= 3
@@ -112,11 +119,11 @@ const SMSPhoneNumberInput = ({ label, onValidation }) => {
                     endAdornment: (
                         <InputAdornment position="end">
                             {isLoading ? (
-                                <CircularProgress size={24} className={styles.loadingSpinner} /> 
+                                <CircularProgress size={24} className={styles.loadingSpinner} />
                             ) : isSMSCompatible === true ? (
                                 <Box>
                                     <Chip
-                                        icon={<MobileSvg color="#434A51" />}
+                                        icon={<FontAwesomeIcon icon={faMobile} color="#434A51" size={"lg"} />}
                                         label="SMS"
                                         sx={{
                                             backgroundColor: "#F1F1F1",
