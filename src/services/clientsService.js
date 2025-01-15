@@ -1509,9 +1509,8 @@ export class ClientsService {
     };
 
     getTaskList = async (npn, dateRange, status) => {
-        const offset = moment().utcOffset();
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/tasks/${npn}/${dateRange}/${status}?utcOffsetInMinutes=${offset}`,
+            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/tasks/${npn}/${dateRange}/${status}`,
             "GET"
         );
 
@@ -1519,9 +1518,8 @@ export class ClientsService {
     };
 
     getTaskListCount = async (npn, dateRange) => {
-        const offset = moment().utcOffset();
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v3.0/Leads/taskcount/${npn}/${dateRange}?utcOffsetInMinutes=${offset}`,
+            `${process.env.REACT_APP_LEADS_URL}/api/v3.0/Leads/taskcount/${npn}/${dateRange}`,
             "GET"
         );
 
