@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { Grid, Stack } from "@mui/material";
 import {
-    HEALTH_CLASSIFICATION_OPTS,
+    HEALTH_CLASSIFICATION_NON_SMOKER_OPTS,
+    HEALTH_CLASSIFICATION_SMOKER_OPTS,
     ILLUSTRATED_RATE_OPTS,
     LIFE_FORM_TYPES,
     LOANS_OPTS,
@@ -60,6 +61,11 @@ export const ProductPreferenceForm = ({ quoteType }) => {
     const handleFaceAmountChange = useCallback((value, setFieldValue) => {
         setFieldValue("faceAmounts", value);
     }, []);
+
+    const HEALTH_CLASSIFICATION_OPTS = leadDetails?.isTobaccoUser
+        ? HEALTH_CLASSIFICATION_SMOKER_OPTS
+        : HEALTH_CLASSIFICATION_NON_SMOKER_OPTS;
+
     return (
         <Formik
             initialValues={formData}
@@ -115,7 +121,7 @@ export const ProductPreferenceForm = ({ quoteType }) => {
                                             return (
                                                 <Grid
                                                     item
-                                                    md={3}
+                                                    md={12 / HEALTH_CLASSIFICATION_OPTS.length}
                                                     xs={6}
                                                     display={"flex"}
                                                     className={styles.radioOptionGrid}

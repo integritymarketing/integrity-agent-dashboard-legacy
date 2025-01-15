@@ -92,7 +92,7 @@ const IulProtectionQuote = () => {
                         </Typography>
                     </Box>
                 )}
-                <IulProtectionQuoteFilter />
+                <IulProtectionQuoteFilter isTobaccoUser={isTobaccoUser} />
             </Grid>
             {!showFilters && (
                 <Grid item md={8} xs={12}>
