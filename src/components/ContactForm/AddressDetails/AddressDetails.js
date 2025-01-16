@@ -64,7 +64,7 @@ const AddressDetails = ({ formik }) => {
             </Grid>
             <Grid item xs={12} md={6}>
                 <Typography variant="h5" color="#052a63">
-                    Apt, Suite, Unit
+                    Apt, Suite, Unit, etc.
                 </Typography>
                 <TextField
                     fullWidth
@@ -105,6 +105,7 @@ const AddressDetails = ({ formik }) => {
                 <TextField
                     fullWidth
                     name="address.postalCode"
+                    placeholder="#####"
                     inputprops={{ maxLength: 5 }}
                     value={values.address.postalCode}
                     onChange={(e) => {
@@ -148,6 +149,7 @@ const AddressDetails = ({ formik }) => {
                             }
                             return selected;
                         }}
+                        readOnly
                         displayEmpty
                         IconComponent={() => (
                             <Box mr={1}>
@@ -183,6 +185,7 @@ const AddressDetails = ({ formik }) => {
                             return selected;
                         }}
                         displayEmpty
+                        readOnly
                         IconComponent={() => (
                             <Box mr={1}>
                                 <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />

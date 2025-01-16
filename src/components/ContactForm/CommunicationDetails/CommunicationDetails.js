@@ -38,7 +38,7 @@ const CommunicationDetails = ({ formik }) => {
                 <TextField
                     fullWidth
                     type="tel"
-                    placeholder="(XXX) XXX-XXXX"
+                    placeholder="(###) ###-####"
                     name="phones.leadPhone"
                     value={formatPhoneNumber(values.phones.leadPhone) || ""}
                     onChange={handleChange}
@@ -53,7 +53,7 @@ const CommunicationDetails = ({ formik }) => {
             </Grid>
             <Grid item xs={12}>
                 <Typography variant="h5" color="#052a63">
-                    Preferred Communication*
+                    Primary Contact Method*
                 </Typography>
                 <SelectableButtonGroup
                     buttonOptions={Object.keys(valueOptions)}

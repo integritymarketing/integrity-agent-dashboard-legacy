@@ -58,12 +58,12 @@ const ContactForm = ({
     const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
 
     const initialFormValues = {
-        prefix,
+        prefix: null,
         firstName,
         lastName,
-        suffix,
+        suffix: null,
         middleName: "",
-        maritalStatus,
+        maritalStatus: null,
         hasMedicAid,
         email: "",
         birthdate: "",

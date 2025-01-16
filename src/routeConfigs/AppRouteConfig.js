@@ -168,8 +168,8 @@ const appProtectedRoutes = [
             </>
         ),
     },
-    { path: "/contact/add-new/:callLogId", component: <AddNewContactPage /> },
-    { path: "/contact/add-new", component: <AddNewContactPage /> },
+    { path: "/contact/add-new/:callLogId", component: <AddContactPage /> },
+    { path: "/contact/add-new", component: <AddContactPage /> },
     { path: "/contact/new", component: <AddContactPage /> },
     {
         path: "/contact/:leadId/duplicate/:duplicateLeadId",

@@ -34,7 +34,7 @@ const MedicaidLISDetails = ({ formik }) => {
                         valueOptions[option] === values.lis ? styles.selectedOption : styles.nonSelectedOption,
                     )}
                     onSelect={(selected) => {
-                        setFieldValue("lis", valueOptions[selected]);
+                        setFieldValue("lis", selected);
                     }}
                 />
             </Grid>
