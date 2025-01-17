@@ -13,3 +13,31 @@
         }
     }
 }
+
+.popper {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+    margin-left: 0px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.divider {
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.optionItem {
+    display: flex;
+    align-items: center;
+    padding: 24px 24px 24px 36px;
+    width: 310px;
+    height: 52px;
+    cursor: pointer;
+    &:hover {
+        background-color: #f1faff;
+    }
+}

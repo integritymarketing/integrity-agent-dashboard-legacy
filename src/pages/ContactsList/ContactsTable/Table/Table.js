@@ -9,7 +9,7 @@ import styles from "./styles.module.scss";
 import { TableBody } from "../TableBody";
 import { TableHeader } from "../TableHeader";
 
-function Table({ columns }) {
+function Table({ columns, isLoading }) {
     const { setSelectedContacts, tableData } = useContactsListContext();
 
     const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows, selectedFlatRows } = useTable(
@@ -33,6 +33,7 @@ function Table({ columns }) {
                 rows={rows}
                 prepareRow={prepareRow}
                 getRowKey={(row) => row.original.leadsId}
+                isLoading={isLoading}
             />
         </table>
     );

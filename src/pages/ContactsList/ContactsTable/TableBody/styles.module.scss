@@ -1,11 +1,19 @@
 .customBody {
-  background: var(--v2-white);
-  tr {
-    border-bottom: 2px solid #F1F1F1;
-  }
+    background: var(--v2-white);
+    tr {
+        border-bottom: 2px solid #f1f1f1;
+    }
 }
 
-.customBodyRow { 
-  padding: 15px;
-  padding-right: 0;
+.customBodyRow {
+    padding: 15px;
+    padding-right: 0;
+}
+
+.loaderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    width: 100%;
 }
