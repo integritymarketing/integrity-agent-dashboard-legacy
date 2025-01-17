@@ -3,7 +3,11 @@ import React, { Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { ParallaxProvider } from "react-scroll-parallax";
-import { BrowserRouter as Router } from "react-router-dom";
+import { useLocation,
+    useNavigationType,
+    createRoutesFromChildren,
+    matchRoutes,
+    BrowserRouter as Router } from "react-router-dom";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
@@ -42,10 +46,24 @@ import { ContactMapMarkersDataProvider } from "providers/ContactMapMarkersDataPr
 // error logging disabled for netlify deploy-preview and branch-deploy builds
 // DSN only defined in production apps.  see netlify.toml
 if (process.env.REACT_APP_SENTRY_DSN) {
+    const isProduction = (process.env.REACT_APP_BUILD_ENV || "Development") === "Production";
+
     Sentry.init({
         dsn: process.env.REACT_APP_SENTRY_DSN,
         environment: process.env.REACT_APP_BUILD_ENV || "Development",
         release: `portal-app@${process.env.REACT_APP_VERSION}`,
+        integrations: [
+            Sentry.reactRouterV6BrowserTracingIntegration({
+                useEffect: React.useEffect,
+                useLocation,
+                useNavigationType,
+                createRoutesFromChildren,
+                matchRoutes,
+            }),
+            Sentry.feedbackIntegration({
+            }),
+        ],
+        tracesSampleRate: isProduction ? 0.1 : 1.0, // Adjust to control how much tracing data is sent
     });
 }
 

@@ -7,12 +7,14 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useRemoveLeadIdsOnRouteChange from "hooks/useRemoveLeadIdsOnRouteChange";
 import { ProtectedRoute, UnProtectedRoute } from "components/functional/auth-routes";
 import useUserProfile from "hooks/useUserProfile";
+import * as Sentry from "@sentry/react";
 
 const LandingPage = lazy(() => import("mobile/landing/LandingPage"));
 const MaintenancePage = lazy(() => import("pages/MaintenancePage"));
 const Welcome = lazy(() => import("pages/welcome"));
 
 const App = () => {
+    const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
     const [, setIsAvailable] = useAgentAvailability();
     const { agentInformation } = useAgentInformationByID();
     const { firstName, lastName, email, phone, npn } = useUserProfile();
@@ -69,15 +71,17 @@ const App = () => {
 
     if (isMaintainanceMode) {
         return (
+            <SentryRoutes>
             <Routes>
                 <Route path="/maintenance" element={<MaintenancePage />} />
                 <Route path="*" element={<Navigate to="/maintenance" />} />
             </Routes>
+            </SentryRoutes>
         );
     }
 
     return (
-        <Routes>
+        <SentryRoutes>
             <Route
                 path="/welcome"
                 element={
@@ -102,7 +106,7 @@ const App = () => {
             {appRoutes.map((route) => (
                 <Route key={route.path} path={route.path} element={route.component} />
             ))}
-        </Routes>
+        </SentryRoutes>
     );
 };
 
