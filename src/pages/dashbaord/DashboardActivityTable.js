@@ -2,8 +2,6 @@ import * as Sentry from "@sentry/react";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useNavigate } from "react-router-dom";
-
-import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import Typography from "@mui/material/Typography";
 
 import { useLeadDetails } from "providers/ContactDetails";
@@ -26,7 +24,6 @@ import { ConnectModal } from "components/ContactDetailsContainer/ConnectModal";
 import { AddReminderModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddReminderModal/AddReminderModal";
 import ActiveFilter from "components/icons/activities/ActiveFilter";
 import FilterIcon from "components/icons/activities/Filter";
-import ActionsDropdown from "components/ui/ActionsDropdown";
 
 import ContactContext from "contexts/contacts";
 import { ActionsCell } from "../ContactsList/ContactsTable/ActionsCell";
@@ -287,6 +284,11 @@ export default function DashboardActivityTable({
                             fontWeight="bold"
                             fontSize="16px"
                             color="#0052CE"
+                            sx={{
+                                "&:hover": {
+                                    textDecoration: "underline",
+                                },
+                            }}
                             onClick={(event) => {
                                 event.stopPropagation();
                                 navigate(`/contact/${row?.original?.leadsId}`);
