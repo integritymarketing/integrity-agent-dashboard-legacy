@@ -1,0 +1,19 @@
+.inputContainer {
+    margin-bottom: 1rem;
+
+    .iconSuccess {
+        color: #4caf50; // Green for success
+    }
+
+    .iconError {
+        color: #f44336; // Red for error
+    }
+
+    .iconWarning {
+        color: #f44336; // Orange for warnings
+    }
+}
+
+.loadingSpinner {
+    color: #3f51b5; // Primary color
+}

@@ -71,15 +71,17 @@ const App = () => {
 
     if (isMaintainanceMode) {
         return (
+            <SentryRoutes>
             <Routes>
                 <Route path="/maintenance" element={<MaintenancePage />} />
                 <Route path="*" element={<Navigate to="/maintenance" />} />
             </Routes>
+            </SentryRoutes>
         );
     }
 
     return (
-        <Routes>
+        <SentryRoutes>
             <Route
                 path="/welcome"
                 element={
@@ -104,7 +106,7 @@ const App = () => {
             {appRoutes.map((route) => (
                 <Route key={route.path} path={route.path} element={route.component} />
             ))}
-        </Routes>
+        </SentryRoutes>
     );
 };
 

@@ -41,16 +41,11 @@ export const PLAN_SORT_OPTIONS = {
 };
 
 export const DASHBOARD_SORT_OPTIONS = [
-    { label: "Today", value: 0 },
-    { label: "Yesterday", value: 1 },
-    { label: "This Week", value: 2 },
-    { label: "This Month", value: 3 },
-    { label: "Current Year", value: 4 },
-    { label: "Last Week", value: 5 },
-    { label: "Last Month", value: 6 },
-    { label: "Last Year", value: 7 },
-    { label: "Past 365 Days", value: 8 },
-    { label: "All Time", value: 9 },
+    { label: "Current Year to Date", value: 0 },
+    { label: "Last Week", value: 1 },
+    { label: "Last Month", value: 2 },
+    { label: "Last Year", value: 3 },
+    { label: "All Time", value: 4 },
 ];
 
 export const PLAN_TYPE_ENUMS = {

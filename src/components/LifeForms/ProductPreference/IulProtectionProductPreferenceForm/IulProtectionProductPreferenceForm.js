@@ -2,8 +2,8 @@ import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import { Grid, Stack } from "@mui/material";
 import {
-    HEALTH_CLASSIFICATION_OPTS,
-    ILLUSTRATED_RATE_OPTS,
+    HEALTH_CLASSIFICATION_NON_SMOKER_OPTS,
+    HEALTH_CLASSIFICATION_SMOKER_OPTS,
     IUL_PROTECTION_ILLUSTRATED_RATE_OPTS,
     IUL_PROTECTION_PAY_PERIOD_OPTS,
     LIFE_FORM_TYPES,
@@ -57,8 +57,12 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
             sessionStorage.setItem("lifeQuoteProtectionDetails", JSON.stringify(sessionData));
             navigate(`/life/iul-protection/${leadDetails?.leadsId}/quote`);
         },
-        [leadDetails, navigate],
+        [leadDetails, navigate]
     );
+
+    const HEALTH_CLASSIFICATION_OPTS = leadDetails?.isTobaccoUser
+        ? HEALTH_CLASSIFICATION_SMOKER_OPTS
+        : HEALTH_CLASSIFICATION_NON_SMOKER_OPTS;
     return (
         <Formik
             initialValues={formData}
@@ -134,7 +138,13 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                                     <Grid item xs={12} container spacing={1}>
                                         {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
                                             return (
-                                                <Grid item md={6} xs={6} display={"flex"} key={index}>
+                                                <Grid
+                                                    item
+                                                    md={24 / HEALTH_CLASSIFICATION_OPTS.length}
+                                                    xs={6}
+                                                    display={"flex"}
+                                                    key={index}
+                                                >
                                                     <CustomRadioGroupOption
                                                         name="healthClasses"
                                                         value={option.value}
@@ -152,7 +162,9 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                                 </CustomFieldContainer>
                             </Grid>
                             <Grid item md={12} xs={12}>
-                                <CustomFieldContainer label={<span className={styles.payPeriodLabel}>Pay Period*</span>}>
+                                <CustomFieldContainer
+                                    label={<span className={styles.payPeriodLabel}>Pay Period*</span>}
+                                >
                                     <Grid item xs={12} container spacing={1}>
                                         {IUL_PROTECTION_PAY_PERIOD_OPTS.map((option, index) => {
                                             return (

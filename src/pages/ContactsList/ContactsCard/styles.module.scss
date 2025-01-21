@@ -60,3 +60,11 @@
     font-weight: bold;
     margin-bottom: 30px;
 }
+
+.loaderContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    width: 100%;
+}

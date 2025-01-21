@@ -76,7 +76,7 @@ const IulAccumulationQuote = () => {
                         </Typography>
                     </Box>
                 )}
-                <IulAccumulationQuoteFilter />
+                <IulAccumulationQuoteFilter isTobaccoUser={isTobaccoUser} />
             </Grid>
             {!showFilters && (
                 <Grid item md={8} spacing={2}>

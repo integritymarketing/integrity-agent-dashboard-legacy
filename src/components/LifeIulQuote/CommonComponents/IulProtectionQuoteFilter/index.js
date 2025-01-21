@@ -5,7 +5,8 @@ import {
     PROTECTION_PAY_PERIOD_OPTS,
     PROTECTION_ILLUSTRATED_RATE_OPTS,
     PROTECTION_PRODUCT_SOLVES,
-    HEALTH_CLASSIFICATION_OPTS,
+    HEALTH_CLASSIFICATION_NON_SMOKER_OPTS,
+    HEALTH_CLASSIFICATION_SMOKER_OPTS,
 } from "../constants";
 import {
     CollapsibleSection,
@@ -17,7 +18,7 @@ import Filter from "components/icons/LifeIul/filter";
 import styles from "./styles.module.scss";
 import { debounce } from "lodash";
 
-export const IulProtectionQuoteFilter = () => {
+export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
     const {
         fetchLifeIulQuoteResults,
         tempUserDetails,
@@ -177,6 +178,10 @@ export const IulProtectionQuoteFilter = () => {
         }
     };
 
+    const HEALTH_CLASSIFICATION_OPTS = isTobaccoUser
+        ? HEALTH_CLASSIFICATION_SMOKER_OPTS
+        : HEALTH_CLASSIFICATION_NON_SMOKER_OPTS;
+
     return (
         <>
             {isMobile && !showFilters && (
@@ -310,7 +315,12 @@ export const IulProtectionQuoteFilter = () => {
                                         <Grid container spacing={"8px"}>
                                             {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
                                                 return (
-                                                    <Grid item md={6} xs={6} key={`healthClasses-${index}`}>
+                                                    <Grid
+                                                        item
+                                                        md={24 / HEALTH_CLASSIFICATION_OPTS.length}
+                                                        xs={6}
+                                                        key={`healthClasses-${index}`}
+                                                    >
                                                         <CustomRadioGroupOption
                                                             name="healthClasses"
                                                             value={option.value}

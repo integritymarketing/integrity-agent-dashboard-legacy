@@ -34,6 +34,7 @@ import SelectableButtonGroup from "components/SelectableButtonGroup";
 import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
 import { ArrowForwardWithCircle } from "../Icons";
+import { contactFormMaritalStatusOptions, contactFormPrefixOptions, contactFormSuffixOptions } from "utils/contactForm";
 
 function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
     const { leadDetails } = useLeadDetails();
@@ -42,6 +43,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
         firstName = "",
         middleName = "",
         lastName = "",
+        suffix = "",
+        prefix = "",
+        maritalStatus = "",
         birthdate,
         emails = [],
         phones = [],
@@ -55,7 +59,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
         partA,
         partB,
         hasMedicAid,
-        subsidyLevel
+        subsidyLevel,
     } = leadDetails;
 
     const {
@@ -143,7 +147,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 };
             }
         },
-        [showToast]
+        [showToast],
     );
 
     return (
@@ -152,6 +156,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 firstName: firstName,
                 lastName: lastName,
                 middleName: middleName,
+                suffix: suffix,
+                prefix: prefix,
+                maritalStatus: maritalStatus,
                 email: email,
                 birthdate: birthdate ? formatDate(birthdate) : "",
                 phones: {
@@ -179,7 +186,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 partA: partA ?? "",
                 partB: partB ?? "",
                 hasMedicAid,
-                subsidyLevel
+                subsidyLevel,
             }}
             validate={async (values) => {
                 return validationService.validateMultiple(
@@ -237,7 +244,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                             args: ["Medicare Beneficiary ID Number"],
                         },
                     ],
-                    values
+                    values,
                 );
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
@@ -336,6 +343,46 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 <li className="error-msg-red">{errors.lastName}</li>
                                             </ul>
                                         )}
+                                    </StyledFormItem>
+                                    <StyledFormItem>
+                                        <StyledElementName>Prefix</StyledElementName>
+
+                                        <Select
+                                            // error={isInvalid("state")}
+                                            options={contactFormPrefixOptions}
+                                            initialValue={values.prefix}
+                                            onChange={(value) => {
+                                                setFieldValue("prefix", value);
+                                            }}
+                                            showValueAlways={true}
+                                            showEmptyOption={true}
+                                        />
+                                    </StyledFormItem>
+                                    <StyledFormItem>
+                                        <StyledElementName>Suffix</StyledElementName>
+
+                                        <Select
+                                            // error={isInvalid("state")}
+                                            options={contactFormSuffixOptions}
+                                            initialValue={values.suffix}
+                                            onChange={(value) => {
+                                                setFieldValue("suffix", value);
+                                            }}
+                                            showValueAlways={true}
+                                        />
+                                    </StyledFormItem>
+                                    <StyledFormItem>
+                                        <StyledElementName>Marital Status</StyledElementName>
+
+                                        <Select
+                                            // error={isInvalid("state")}
+                                            options={contactFormMaritalStatusOptions}
+                                            initialValue={values.maritalStatus}
+                                            onChange={(value) => {
+                                                setFieldValue("maritalStatus", value);
+                                            }}
+                                            showEmptyOption={true}
+                                        />
                                     </StyledFormItem>
                                 </SectionContainer>
 
@@ -564,7 +611,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             onChange={(value) => {
                                                 setFieldValue("address.county", value);
                                                 const { key: fip, state } = allCounties.filter(
-                                                    (item) => item.value === value
+                                                    (item) => item.value === value,
                                                 )[0];
                                                 setFieldValue("address.countyFips", fip);
                                                 if (allCounties.length > 1) {
@@ -591,7 +638,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 handleBlur(e);
                                                 setFieldValue(
                                                     "medicareBeneficiaryID",
-                                                    formatMbiNumber(values.medicareBeneficiaryID)
+                                                    formatMbiNumber(values.medicareBeneficiaryID),
                                                 );
                                             }}
                                         />
@@ -646,36 +693,50 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 Special Assistance
                                             </Typography>
                                             <Stack className={styles.specialAssistanceOptions}>
-                                                <Typography variant="body1" color="#434A51">Y</Typography>
-                                                <Typography variant="body1" color="#434A51">N</Typography>
-                                                <Typography variant="body1" color="#434A51">IDK</Typography>
+                                                <Typography variant="body1" color="#434A51">
+                                                    Y
+                                                </Typography>
+                                                <Typography variant="body1" color="#434A51">
+                                                    N
+                                                </Typography>
+                                                <Typography variant="body1" color="#434A51">
+                                                    IDK
+                                                </Typography>
                                             </Stack>
                                             <Stack className={styles.specialAssistanceContainer}>
                                                 <Stack direction="row" className={styles.specialAssistanceRadios}>
-                                                    <Typography variant="body1" color="#434A51">Medicaid</Typography>
+                                                    <Typography variant="body1" color="#434A51">
+                                                        Medicaid
+                                                    </Typography>
                                                     <RadioGroup
                                                         row
                                                         name="hasMedicAid"
                                                         value={values.hasMedicAid}
-                                                        onChange={evt => {
+                                                        onChange={(evt) => {
                                                             setFieldValue("hasMedicAid", evt.target.value);
                                                         }}
                                                     >
-                                                        {[1, 0].map(option => <FormControlLabel value={option} control={<Radio />} />)}
+                                                        {[1, 0].map((option) => (
+                                                            <FormControlLabel value={option} control={<Radio />} />
+                                                        ))}
                                                     </RadioGroup>
                                                 </Stack>
                                                 <Divider />
                                                 <Stack direction="row" className={styles.specialAssistanceRadios}>
-                                                    <Typography variant="body1" color="#434A51">LIS</Typography>
+                                                    <Typography variant="body1" color="#434A51">
+                                                        LIS
+                                                    </Typography>
                                                     <RadioGroup
                                                         row
                                                         name="subsidyLevel"
                                                         value={values.subsidyLevel}
-                                                        onChange={evt => {
+                                                        onChange={(evt) => {
                                                             setFieldValue("subsidyLevel", evt.target.value);
                                                         }}
                                                     >
-                                                        {["Yes", "No", "I Don't Know"].map(option => <FormControlLabel value={option} control={<Radio />} />)}
+                                                        {["Yes", "No", "I Don't Know"].map((option) => (
+                                                            <FormControlLabel value={option} control={<Radio />} />
+                                                        ))}
                                                     </RadioGroup>
                                                 </Stack>
                                             </Stack>

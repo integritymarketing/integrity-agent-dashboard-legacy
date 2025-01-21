@@ -13,11 +13,16 @@ export const ILLUSTRATED_RATE_OPTS = [
     { label: "6%", value: "6" },
 ];
 
-export const HEALTH_CLASSIFICATION_OPTS = [
-    { label: "Std", value: "S" },
-    { label: "Std Plus", value: "SP" },
-    { label: "Pref", value: "P" },
-    { label: "Pref Best", value: "PP" },
+export const HEALTH_CLASSIFICATION_SMOKER_OPTS = [
+    { label: "Standard", value: "S" },
+    { label: "Preferred", value: "P" },
+];
+
+export const HEALTH_CLASSIFICATION_NON_SMOKER_OPTS = [
+    { label: "Standard", value: "S" },
+    { label: "Standard +", value: "SP" },
+    { label: "Preferred", value: "P" },
+    { label: "Preferred +", value: "PP" },
 ];
 
 export const PROTECTION_PAY_PERIOD_OPTS = [

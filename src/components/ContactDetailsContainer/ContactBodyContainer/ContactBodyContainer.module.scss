@@ -9,7 +9,7 @@
     padding: 60px 0px;
 
     @include small() {
-        padding: 1rem 0;
+        padding: 1rem;
         overflow-x: hidden;
     }
 }

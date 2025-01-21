@@ -18,7 +18,7 @@ const MedicareIDDetails = ({ formik }) => {
                 <TextField
                     fullWidth
                     type="text"
-                    placeholder="MBI Number"
+                    placeholder="####-###-####"
                     name="medicareBeneficiaryID"
                     value={values.medicareBeneficiaryID}
                     onChange={handleChange}

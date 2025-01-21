@@ -77,8 +77,12 @@ const BasicDetails = ({ formik, fieldSet }) => {
                     onChange={(value) => {
                         setFieldValue("birthdate", formatDate(value));
                     }}
-                    endAdornment={<FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />}
-                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#0052cf" size={"2xl"} />}
+                    endAdornment={
+                            <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
+                    }
+                    startAdornment={
+                            <FontAwesomeIcon icon={faCalendarDays} color="#0052cf" size={"2xl"} />
+                    }
                     className={styles.datePicker}
                 />
 
@@ -101,13 +105,19 @@ const BasicDetails = ({ formik, fieldSet }) => {
                             </Box>
                         )}
                         renderValue={(selected) => {
-                            if (!selected || selected.length === 0) {
+                            if (selected == null) {
                                 return "Select";
+                            } else if (selected == "") {
+                                return "None";
                             }
                             return selected;
                         }}
+                        name="prefix"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                         displayEmpty
                     >
+                        <MenuItem value="">None</MenuItem>
                         {["Mr.", "Mrs.", "Ms.", "Miss"].map((option) => (
                             <MenuItem key={option} value={option}>
                                 {option}
@@ -129,13 +139,19 @@ const BasicDetails = ({ formik, fieldSet }) => {
                             </Box>
                         )}
                         renderValue={(selected) => {
-                            if (!selected || selected.length === 0) {
+                            if (selected === null) {
                                 return "Select";
+                            } else if (selected === "") {
+                                return "None";
                             }
                             return selected;
                         }}
                         displayEmpty
+                        name="suffix"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                     >
+                        <MenuItem value="">None</MenuItem>
                         <MenuItem value="Jr.">Jr.</MenuItem>
                         <MenuItem value="Sr.">Sr.</MenuItem>
                         <MenuItem value="II">II</MenuItem>
@@ -156,23 +172,25 @@ const BasicDetails = ({ formik, fieldSet }) => {
                             </Box>
                         )}
                         renderValue={(selected) => {
-                            if (!selected || selected?.toLowerCase() === "not answered") {
-                                return "Unknown";
-                            }
-                            if (selected.length === 0) {
+                            if (selected === null) {
                                 return "Select";
+                            } else if (selected === "") {
+                                return "None";
                             }
                             return selected;
                         }}
                         displayEmpty
+                        name="maritalStatus"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                     >
-                        {["Single", "Married", "Domestic Partner", "Divorced", "Widow"].map((option) => (
+                        {["Single", "Married", "Domestic Partner", "Divorced", "Widow", "Unknown"].map((option) => (
                             <MenuItem key={option.toLowerCase()} value={option.toLowerCase()}>
                                 {option}
                             </MenuItem>
                         ))}
-                        <MenuItem key={"unknown"} value={null}>
-                            Unknown
+                        <MenuItem key={"none"} value={""}>
+                            None
                         </MenuItem>
                     </Select>
                 </FormControl>

@@ -1,7 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Typography, Grid, useTheme, useMediaQuery, Button } from "@mui/material";
 import CounterInput from "components/LifeForms/common/CounterInput";
-import { HEALTH_CLASSIFICATION_OPTS, ILLUSTRATED_RATE_OPTS, LOANS_OPTS, PAY_PERIOD_OPTS } from "../constants";
+import {
+    HEALTH_CLASSIFICATION_NON_SMOKER_OPTS,
+    HEALTH_CLASSIFICATION_SMOKER_OPTS,
+    ILLUSTRATED_RATE_OPTS,
+    LOANS_OPTS,
+    PAY_PERIOD_OPTS,
+} from "../constants";
 import {
     CollapsibleSection,
     CustomCheckboxGroupOption,
@@ -22,7 +28,7 @@ const validationSchema = yup.object().shape({
         .max(2000000, "Maximum value for Fixed Annual Premium is 2000000"),
 });
 
-export const IulAccumulationQuoteFilter = () => {
+export const IulAccumulationQuoteFilter = ({ isTobaccoUser }) => {
     const {
         fetchLifeIulQuoteResults,
         tempUserDetails,
@@ -132,6 +138,10 @@ export const IulAccumulationQuoteFilter = () => {
             handleFiltersChange("faceAmounts", value);
         }
     }, 2000);
+
+    const HEALTH_CLASSIFICATION_OPTS = isTobaccoUser
+        ? HEALTH_CLASSIFICATION_SMOKER_OPTS
+        : HEALTH_CLASSIFICATION_NON_SMOKER_OPTS;
 
     return (
         <>
@@ -243,7 +253,12 @@ export const IulAccumulationQuoteFilter = () => {
                                         <Grid container spacing={"8px"}>
                                             {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
                                                 return (
-                                                    <Grid item md={6} xs={6} key={`healthClasses-${index}`}>
+                                                    <Grid
+                                                        item
+                                                        md={24 / HEALTH_CLASSIFICATION_OPTS.length}
+                                                        xs={6}
+                                                        key={`healthClasses-${index}`}
+                                                    >
                                                         <CustomRadioGroupOption
                                                             name="healthClasses"
                                                             value={option.value}

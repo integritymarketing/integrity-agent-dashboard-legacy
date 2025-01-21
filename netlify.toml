@@ -40,6 +40,9 @@
   REACT_APP_AUTH_RESPONSE_TYPE = "code"
   REACT_APP_RESOURCES_URL = "https://learningcenter.tawebhost.com"
   CI = "false"
+  SONAR_TOKEN = "c5b57574634c68650a60ad457028606ce8adcbd3"
+  SONAR_PROJECT_KEY = "ae-consumer-platform"
+  SONAR_ORG_KEY = "integritymarketing"
 
 # Custom prebuild plugin to set version number ENV var from package.json
 [[plugins]]

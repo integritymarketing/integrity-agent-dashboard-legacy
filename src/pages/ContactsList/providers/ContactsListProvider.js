@@ -31,6 +31,9 @@ export const ContactsListProvider = ({ children }) => {
     const [selectedFilterSections, setSelectedFilterSectionsState] = useState(
         JSON.parse(localStorage.getItem("contactList_selectedFilterSections")) || []
     );
+    const [isStartedSearching, setIsStartedSearching] = useState(false);
+    const [tableData, setTableData] = useState([]);
+    const [selectedSearchLead, setSelectedSearchLead] = useState(null);
     const { removeFilteredLeadIds, filteredInfo } = useFilteredLeadIds();
 
     const setFilterSectionsConfig = useCallback(
@@ -38,7 +41,7 @@ export const ContactsListProvider = ({ children }) => {
             setFilterSectionsConfigOriginal(newValue);
             localStorage.setItem("contactList_filterSectionsConfig", JSON.stringify(newValue));
         },
-        [setFilterSectionsConfigOriginal],
+        [setFilterSectionsConfigOriginal]
     );
 
     const setSelectedFilterSections = useCallback(
@@ -46,12 +49,12 @@ export const ContactsListProvider = ({ children }) => {
             setSelectedFilterSectionsState(filters);
             localStorage.setItem("contactList_selectedFilterSections", JSON.stringify(filters));
         },
-        [setSelectedFilterSectionsState],
+        [setSelectedFilterSectionsState]
     );
 
     const location = useLocation();
     const {
-        tableData,
+        tableData: tableDataFromHook,
         isLoading: isfetchingTableData,
         fetchTableData,
         allLeads,
@@ -126,7 +129,7 @@ export const ContactsListProvider = ({ children }) => {
                 isSilent: true,
             });
         },
-        [fetchAllListCount, fetchTableData, searchString, filterSectionsConfig],
+        [fetchAllListCount, fetchTableData, searchString, filterSectionsConfig]
     );
 
     const setSelectAllContacts = (status) => {
@@ -136,6 +139,16 @@ export const ContactsListProvider = ({ children }) => {
             setSelectedContacts([]);
         }
     };
+
+    useEffect(() => {
+        if (tableDataFromHook && !isStartedSearching) {
+            if (selectedSearchLead) {
+                setTableData([selectedSearchLead]);
+            } else {
+                setTableData(tableDataFromHook);
+            }
+        }
+    }, [tableDataFromHook, isStartedSearching, selectedSearchLead]);
 
     const contextValue = useMemo(
         () => ({
@@ -167,28 +180,49 @@ export const ContactsListProvider = ({ children }) => {
             setFilterConditions,
             setSelectAllContacts,
             isfetchingTableData,
+            setIsStartedSearching,
+            isStartedSearching,
+            tableDataFromHook,
+            setTableData,
+            setSelectedSearchLead,
+            selectedSearchLead,
         }),
         [
             tableData,
             fetchTableData,
+            withoutFilterResponseSize,
+            setWithoutFilterResponseSize,
+            setIsLoading,
             searchString,
+            setSearchString,
+            fetchMoreContactsByPage,
             sort,
+            setSort,
             layout,
+            setLayout,
             resetData,
             selectedContacts,
+            setSelectedContacts,
             allLeads,
             refreshData,
-            withoutFilterResponseSize,
             pageResult,
-            fetchMoreContactsByPage,
             selectedFilterSections,
             setSelectedFilterSections,
             filterSectionsConfig,
             setFilterSectionsConfig,
             fetchedFiltersSectionConfigFromApi,
             setFetchedFiltersSectionConfigFromApi,
+            filterConditions,
+            setFilterConditions,
+            setSelectAllContacts,
             isfetchingTableData,
-        ],
+            setIsStartedSearching,
+            isStartedSearching,
+            tableDataFromHook,
+            setTableData,
+            setSelectedSearchLead,
+            selectedSearchLead,
+        ]
     );
 
     useEffect(() => {
@@ -212,7 +246,6 @@ export const ContactsListProvider = ({ children }) => {
                 });
         }
     }, [fetchTableData, searchString, location.search, sort, layout]);
-
 
     return <ContactsListContext.Provider value={contextValue}>{children}</ContactsListContext.Provider>;
 };

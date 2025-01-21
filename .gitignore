@@ -12,7 +12,7 @@ yarn.lock
 
 # testing
 /coverage
-/.scannerwork
+.scannerwork/
 
 # production
 /build

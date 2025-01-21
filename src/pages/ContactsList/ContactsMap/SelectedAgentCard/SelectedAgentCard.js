@@ -135,7 +135,7 @@ function SelectedAgentCard({ selectedAgent, setSelectedAgent }) {
                 </Avatar>
             </div>
             <h2 className={styles.agentName}>
-                {formatFullName(firstName, null, lastName)}
+                {formatFullName({ firstName, lastName })}
             </h2>
             <div className={styles.stageContainer}>
                 <StageCell initialValue={statusName} customWidth={"80%"} originalData={selectedAgent} />

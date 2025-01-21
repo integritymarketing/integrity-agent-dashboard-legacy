@@ -43,11 +43,16 @@ export const ILLUSTRATED_RATE_OPTS = [
     { label: "6%", value: "6" },
 ];
 
-export const HEALTH_CLASSIFICATION_OPTS = [
+export const HEALTH_CLASSIFICATION_SMOKER_OPTS = [
     { label: "Standard", value: "S" },
-    { label: "Standard Plus", value: "SP" },
     { label: "Preferred", value: "P" },
-    { label: "Preferred Best", value: "PP" },
+];
+
+export const HEALTH_CLASSIFICATION_NON_SMOKER_OPTS = [
+    { label: "Standard", value: "S" },
+    { label: "Standard +", value: "SP" },
+    { label: "Preferred", value: "P" },
+    { label: "Preferred +", value: "PP" },
 ];
 
 export const LIFE_FORM_TITLE = {
