@@ -36,8 +36,15 @@ HighlightedText.propTypes = {
 };
 
 const Search = () => {
-    const { setSearchString, tableDataFromHook, setIsStartedSearching, setTableData, setSelectedSearchLead } =
-        useContactsListContext();
+    const {
+        setSearchString,
+        searchString,
+        tableDataFromHook,
+        setIsStartedSearching,
+        setTableData,
+        setSelectedSearchLead,
+        isfetchingTableData,
+    } = useContactsListContext();
 
     const inputRef = useRef(null);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -46,20 +53,25 @@ const Search = () => {
     // Debounced search input handler
     const debouncedOnChangeHandle = useMemo(() => {
         return debounce((value) => {
-            if (value.length >= 3) {
-                setIsStartedSearching(true);
-                setSearchString(value);
-                setSelectedSearchLead(null);
-            } else {
-                handleClear();
-            }
+            setIsStartedSearching(true);
+            setSearchString(value);
+            setSelectedSearchLead(null);
         }, 1000);
     }, [setIsStartedSearching, setSearchString, setSelectedSearchLead]);
 
     const onChangeHandle = (e) => {
         const value = e.target.value.trim();
         setInputValue(value);
-        debouncedOnChangeHandle(value);
+        if (value.length < 3) {
+            setIsStartedSearching(false);
+            setSelectedSearchLead(null);
+            setAnchorEl(null);
+            if (searchString?.length) {
+                setSearchString("");
+            }
+        } else {
+            debouncedOnChangeHandle(value);
+        }
         setAnchorEl(e.currentTarget);
     };
 
@@ -89,25 +101,29 @@ const Search = () => {
         setSelectedSearchLead(null);
         setIsStartedSearching(false);
         setAnchorEl(null);
-        setInputValue("");
         setSearchString("");
-        inputRef.current?.focus();
+        setInputValue("");
     };
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
-            handleClear();
+            handleClickOutside();
         }
+    };
+
+    const handleClickOutside = () => {
+        setAnchorEl(null);
+        setSelectedSearchLead(null);
+        setIsStartedSearching(false);
     };
 
     const open = Boolean(anchorEl);
     const popperRef = useRef();
-    useOnClickOutside(popperRef, () => open && handleClear());
+    useOnClickOutside(popperRef, () => handleClickOutside());
 
     return (
-        <>
+        <Box ref={inputRef} width={"35%"}>
             <Textfield
-                ref={inputRef}
                 type="search"
                 name="search"
                 onKeyDown={handleKeyDown}
@@ -120,29 +136,40 @@ const Search = () => {
                 onClear={handleClear}
                 autoComplete="off"
             />
-            {open && inputValue.length >= 3 && leadNames.length > 0 && (
+            {open && inputValue.length >= 3 && (
                 <Popper open={open} anchorEl={anchorEl} placement="bottom" ref={popperRef}>
                     <Paper className={styles.popper}>
-                        {leadNames.map((option) => (
-                            <Box
-                                key={option.optionText}
-                                className={styles.optionItem}
-                                onClick={() => handleLeadSelect(option.value)}
-                            >
-                                <Typography>
-                                    <HighlightedText text={option.optionText} highlight={inputValue} />
-                                </Typography>
+                        {isfetchingTableData ? (
+                            <Box className={styles.noResults}>
+                                <Typography>Loading...</Typography>
                             </Box>
-                        ))}
+                        ) : (
+                            <>
+                                {leadNames.length > 0 ? (
+                                    <>
+                                        {leadNames.map((option) => (
+                                            <Box
+                                                key={option.optionText}
+                                                className={styles.optionItem}
+                                                onClick={() => handleLeadSelect(option.value)}
+                                            >
+                                                <Typography>
+                                                    <HighlightedText text={option.optionText} highlight={inputValue} />
+                                                </Typography>
+                                            </Box>
+                                        ))}
+                                    </>
+                                ) : (
+                                    <Box className={styles.noResults}>
+                                        <Typography>No results found</Typography>
+                                    </Box>
+                                )}
+                            </>
+                        )}
                     </Paper>
                 </Popper>
             )}
-            {open && inputValue.length >= 3 && leadNames.length === 0 && (
-                <Paper className={styles.popper}>
-                    <Typography>No results found</Typography>
-                </Paper>
-            )}
-        </>
+        </Box>
     );
 };
 

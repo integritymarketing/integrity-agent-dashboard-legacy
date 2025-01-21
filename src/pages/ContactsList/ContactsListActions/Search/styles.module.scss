@@ -41,3 +41,12 @@
         background-color: #f1faff;
     }
 }
+
+.noResults {
+    display: flex;
+    align-items: center;
+    padding: 24px 24px 24px 36px;
+    width: 310px;
+    height: 52px;
+    cursor: not-allowed;
+}
