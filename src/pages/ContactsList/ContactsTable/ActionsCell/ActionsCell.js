@@ -213,6 +213,10 @@ function ActionsCell({ row, isCard, item, refreshData }) {
     );
 }
 
+ActionsCell.defaultProps = {
+    refreshData: () => {},
+};
+
 ActionsCell.propTypes = {
     row: PropTypes.object,
     isCard: PropTypes.bool,
