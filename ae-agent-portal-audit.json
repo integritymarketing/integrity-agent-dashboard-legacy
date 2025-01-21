@@ -1,0 +1,2585 @@
+[
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "@craco/craco>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1101081,
+        "path": "react-scripts>webpack-dev-server>express>path-to-regexp",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "0.1.10",
+            "paths": [
+              "react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/ui-button-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://github.com/pillarjs/path-to-regexp/security/advisories/GHSA-rhx6-c78j-4q9w\n- https://blakeembrey.com/posts/2024-09-web-redos\n- https://nvd.nist.gov/vuln/detail/CVE-2024-52798\n- https://github.com/pillarjs/path-to-regexp/commit/f01c26a013b1889f0c217c643964513acf17f6a4\n- https://github.com/advisories/GHSA-rhx6-c78j-4q9w",
+        "created": "2024-12-05T22:40:47.000Z",
+        "id": 1101081,
+        "npm_advisory_id": null,
+        "overview": "### Impact\n\nThe regular expression that is vulnerable to backtracking can be generated in the 0.1.x release of `path-to-regexp`, originally reported in CVE-2024-45296\n\n### Patches\n\nUpgrade to 0.1.12.\n\n### Workarounds\n\nAvoid using two parameters within a single path segment, when the separator is not `.` (e.g. no `/:a-:b`). Alternatively, you can define the regex used for both parameters and ensure they do not overlap to allow backtracking.\n\n### References\n\n- https://github.com/advisories/GHSA-9wv6-86v2-598j\n- https://blakeembrey.com/posts/2024-09-web-redos/",
+        "reported_by": null,
+        "title": "Unpatched `path-to-regexp` ReDoS in 0.1.x",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-52798"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "path-to-regexp",
+        "vulnerable_versions": "<0.1.12",
+        "github_advisory_id": "GHSA-rhx6-c78j-4q9w",
+        "recommendation": "Upgrade to version 0.1.12 or later",
+        "patched_versions": ">=0.1.12",
+        "updated": "2024-12-06T00:33:29.000Z",
+        "cvss": {
+          "score": 0,
+          "vectorString": null
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-rhx6-c78j-4q9w"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1101081,
+        "path": "@integritymarketing/ui-button-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "0.1.10",
+            "paths": [
+              "react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/ui-button-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://github.com/pillarjs/path-to-regexp/security/advisories/GHSA-rhx6-c78j-4q9w\n- https://blakeembrey.com/posts/2024-09-web-redos\n- https://nvd.nist.gov/vuln/detail/CVE-2024-52798\n- https://github.com/pillarjs/path-to-regexp/commit/f01c26a013b1889f0c217c643964513acf17f6a4\n- https://github.com/advisories/GHSA-rhx6-c78j-4q9w",
+        "created": "2024-12-05T22:40:47.000Z",
+        "id": 1101081,
+        "npm_advisory_id": null,
+        "overview": "### Impact\n\nThe regular expression that is vulnerable to backtracking can be generated in the 0.1.x release of `path-to-regexp`, originally reported in CVE-2024-45296\n\n### Patches\n\nUpgrade to 0.1.12.\n\n### Workarounds\n\nAvoid using two parameters within a single path segment, when the separator is not `.` (e.g. no `/:a-:b`). Alternatively, you can define the regex used for both parameters and ensure they do not overlap to allow backtracking.\n\n### References\n\n- https://github.com/advisories/GHSA-9wv6-86v2-598j\n- https://blakeembrey.com/posts/2024-09-web-redos/",
+        "reported_by": null,
+        "title": "Unpatched `path-to-regexp` ReDoS in 0.1.x",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-52798"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "path-to-regexp",
+        "vulnerable_versions": "<0.1.12",
+        "github_advisory_id": "GHSA-rhx6-c78j-4q9w",
+        "recommendation": "Upgrade to version 0.1.12 or later",
+        "patched_versions": ">=0.1.12",
+        "updated": "2024-12-06T00:33:29.000Z",
+        "cvss": {
+          "score": 0,
+          "vectorString": null
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-rhx6-c78j-4q9w"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1101081,
+        "path": "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "0.1.10",
+            "paths": [
+              "react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/ui-button-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://github.com/pillarjs/path-to-regexp/security/advisories/GHSA-rhx6-c78j-4q9w\n- https://blakeembrey.com/posts/2024-09-web-redos\n- https://nvd.nist.gov/vuln/detail/CVE-2024-52798\n- https://github.com/pillarjs/path-to-regexp/commit/f01c26a013b1889f0c217c643964513acf17f6a4\n- https://github.com/advisories/GHSA-rhx6-c78j-4q9w",
+        "created": "2024-12-05T22:40:47.000Z",
+        "id": 1101081,
+        "npm_advisory_id": null,
+        "overview": "### Impact\n\nThe regular expression that is vulnerable to backtracking can be generated in the 0.1.x release of `path-to-regexp`, originally reported in CVE-2024-45296\n\n### Patches\n\nUpgrade to 0.1.12.\n\n### Workarounds\n\nAvoid using two parameters within a single path segment, when the separator is not `.` (e.g. no `/:a-:b`). Alternatively, you can define the regex used for both parameters and ensure they do not overlap to allow backtracking.\n\n### References\n\n- https://github.com/advisories/GHSA-9wv6-86v2-598j\n- https://blakeembrey.com/posts/2024-09-web-redos/",
+        "reported_by": null,
+        "title": "Unpatched `path-to-regexp` ReDoS in 0.1.x",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-52798"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "path-to-regexp",
+        "vulnerable_versions": "<0.1.12",
+        "github_advisory_id": "GHSA-rhx6-c78j-4q9w",
+        "recommendation": "Upgrade to version 0.1.12 or later",
+        "patched_versions": ">=0.1.12",
+        "updated": "2024-12-06T00:33:29.000Z",
+        "cvss": {
+          "score": 0,
+          "vectorString": null
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-rhx6-c78j-4q9w"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1101081,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "0.1.10",
+            "paths": [
+              "react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/ui-button-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://github.com/pillarjs/path-to-regexp/security/advisories/GHSA-rhx6-c78j-4q9w\n- https://blakeembrey.com/posts/2024-09-web-redos\n- https://nvd.nist.gov/vuln/detail/CVE-2024-52798\n- https://github.com/pillarjs/path-to-regexp/commit/f01c26a013b1889f0c217c643964513acf17f6a4\n- https://github.com/advisories/GHSA-rhx6-c78j-4q9w",
+        "created": "2024-12-05T22:40:47.000Z",
+        "id": 1101081,
+        "npm_advisory_id": null,
+        "overview": "### Impact\n\nThe regular expression that is vulnerable to backtracking can be generated in the 0.1.x release of `path-to-regexp`, originally reported in CVE-2024-45296\n\n### Patches\n\nUpgrade to 0.1.12.\n\n### Workarounds\n\nAvoid using two parameters within a single path segment, when the separator is not `.` (e.g. no `/:a-:b`). Alternatively, you can define the regex used for both parameters and ensure they do not overlap to allow backtracking.\n\n### References\n\n- https://github.com/advisories/GHSA-9wv6-86v2-598j\n- https://blakeembrey.com/posts/2024-09-web-redos/",
+        "reported_by": null,
+        "title": "Unpatched `path-to-regexp` ReDoS in 0.1.x",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-52798"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "path-to-regexp",
+        "vulnerable_versions": "<0.1.12",
+        "github_advisory_id": "GHSA-rhx6-c78j-4q9w",
+        "recommendation": "Upgrade to version 0.1.12 or later",
+        "patched_versions": ">=0.1.12",
+        "updated": "2024-12-06T00:33:29.000Z",
+        "cvss": {
+          "score": 0,
+          "vectorString": null
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-rhx6-c78j-4q9w"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1101081,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "0.1.10",
+            "paths": [
+              "react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/ui-button-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>webpack-dev-server>express>path-to-regexp"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://github.com/pillarjs/path-to-regexp/security/advisories/GHSA-rhx6-c78j-4q9w\n- https://blakeembrey.com/posts/2024-09-web-redos\n- https://nvd.nist.gov/vuln/detail/CVE-2024-52798\n- https://github.com/pillarjs/path-to-regexp/commit/f01c26a013b1889f0c217c643964513acf17f6a4\n- https://github.com/advisories/GHSA-rhx6-c78j-4q9w",
+        "created": "2024-12-05T22:40:47.000Z",
+        "id": 1101081,
+        "npm_advisory_id": null,
+        "overview": "### Impact\n\nThe regular expression that is vulnerable to backtracking can be generated in the 0.1.x release of `path-to-regexp`, originally reported in CVE-2024-45296\n\n### Patches\n\nUpgrade to 0.1.12.\n\n### Workarounds\n\nAvoid using two parameters within a single path segment, when the separator is not `.` (e.g. no `/:a-:b`). Alternatively, you can define the regex used for both parameters and ensure they do not overlap to allow backtracking.\n\n### References\n\n- https://github.com/advisories/GHSA-9wv6-86v2-598j\n- https://blakeembrey.com/posts/2024-09-web-redos/",
+        "reported_by": null,
+        "title": "Unpatched `path-to-regexp` ReDoS in 0.1.x",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-52798"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "path-to-regexp",
+        "vulnerable_versions": "<0.1.12",
+        "github_advisory_id": "GHSA-rhx6-c78j-4q9w",
+        "recommendation": "Upgrade to version 0.1.12 or later",
+        "patched_versions": ">=0.1.12",
+        "updated": "2024-12-06T00:33:29.000Z",
+        "cvss": {
+          "score": 0,
+          "vectorString": null
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-rhx6-c78j-4q9w"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1101163,
+        "path": "react-scripts>postcss>nanoid",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "3.3.7",
+            "paths": [
+              "react-scripts>postcss>nanoid",
+              "react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-55565\n- https://github.com/ai/nanoid/pull/510\n- https://github.com/ai/nanoid/compare/3.3.7...3.3.8\n- https://github.com/ai/nanoid/releases/tag/5.0.9\n- https://github.com/advisories/GHSA-mwcw-c2x4-8c55",
+        "created": "2024-12-09T03:30:59.000Z",
+        "id": 1101163,
+        "npm_advisory_id": null,
+        "overview": "When nanoid is called with a fractional value, there were a number of undesirable effects:\n\n1. in browser and non-secure, the code infinite loops on while (size--)\n2. in node, the value of poolOffset becomes fractional, causing calls to nanoid to return zeroes until the pool is next filled\n3. if the first call in node is a fractional argument, the initial buffer allocation fails with an error\n\nVersion 3.3.8 and 5.0.9 are fixed.",
+        "reported_by": null,
+        "title": "Predictable results in nanoid generation when given non-integer values",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-55565"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "nanoid",
+        "vulnerable_versions": "<3.3.8",
+        "github_advisory_id": "GHSA-mwcw-c2x4-8c55",
+        "recommendation": "Upgrade to version 3.3.8 or later",
+        "patched_versions": ">=3.3.8",
+        "updated": "2024-12-13T22:57:32.000Z",
+        "cvss": {
+          "score": 4.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-835"
+        ],
+        "url": "https://github.com/advisories/GHSA-mwcw-c2x4-8c55"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1101163,
+        "path": "react-scripts>css-loader>postcss>nanoid",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "3.3.7",
+            "paths": [
+              "react-scripts>postcss>nanoid",
+              "react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-55565\n- https://github.com/ai/nanoid/pull/510\n- https://github.com/ai/nanoid/compare/3.3.7...3.3.8\n- https://github.com/ai/nanoid/releases/tag/5.0.9\n- https://github.com/advisories/GHSA-mwcw-c2x4-8c55",
+        "created": "2024-12-09T03:30:59.000Z",
+        "id": 1101163,
+        "npm_advisory_id": null,
+        "overview": "When nanoid is called with a fractional value, there were a number of undesirable effects:\n\n1. in browser and non-secure, the code infinite loops on while (size--)\n2. in node, the value of poolOffset becomes fractional, causing calls to nanoid to return zeroes until the pool is next filled\n3. if the first call in node is a fractional argument, the initial buffer allocation fails with an error\n\nVersion 3.3.8 and 5.0.9 are fixed.",
+        "reported_by": null,
+        "title": "Predictable results in nanoid generation when given non-integer values",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-55565"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "nanoid",
+        "vulnerable_versions": "<3.3.8",
+        "github_advisory_id": "GHSA-mwcw-c2x4-8c55",
+        "recommendation": "Upgrade to version 3.3.8 or later",
+        "patched_versions": ">=3.3.8",
+        "updated": "2024-12-13T22:57:32.000Z",
+        "cvss": {
+          "score": 4.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-835"
+        ],
+        "url": "https://github.com/advisories/GHSA-mwcw-c2x4-8c55"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1101163,
+        "path": "@integritymarketing/ui-button-components>react-scripts>css-loader>postcss>nanoid",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "3.3.7",
+            "paths": [
+              "react-scripts>postcss>nanoid",
+              "react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-55565\n- https://github.com/ai/nanoid/pull/510\n- https://github.com/ai/nanoid/compare/3.3.7...3.3.8\n- https://github.com/ai/nanoid/releases/tag/5.0.9\n- https://github.com/advisories/GHSA-mwcw-c2x4-8c55",
+        "created": "2024-12-09T03:30:59.000Z",
+        "id": 1101163,
+        "npm_advisory_id": null,
+        "overview": "When nanoid is called with a fractional value, there were a number of undesirable effects:\n\n1. in browser and non-secure, the code infinite loops on while (size--)\n2. in node, the value of poolOffset becomes fractional, causing calls to nanoid to return zeroes until the pool is next filled\n3. if the first call in node is a fractional argument, the initial buffer allocation fails with an error\n\nVersion 3.3.8 and 5.0.9 are fixed.",
+        "reported_by": null,
+        "title": "Predictable results in nanoid generation when given non-integer values",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-55565"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "nanoid",
+        "vulnerable_versions": "<3.3.8",
+        "github_advisory_id": "GHSA-mwcw-c2x4-8c55",
+        "recommendation": "Upgrade to version 3.3.8 or later",
+        "patched_versions": ">=3.3.8",
+        "updated": "2024-12-13T22:57:32.000Z",
+        "cvss": {
+          "score": 4.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-835"
+        ],
+        "url": "https://github.com/advisories/GHSA-mwcw-c2x4-8c55"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1101163,
+        "path": "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "3.3.7",
+            "paths": [
+              "react-scripts>postcss>nanoid",
+              "react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-55565\n- https://github.com/ai/nanoid/pull/510\n- https://github.com/ai/nanoid/compare/3.3.7...3.3.8\n- https://github.com/ai/nanoid/releases/tag/5.0.9\n- https://github.com/advisories/GHSA-mwcw-c2x4-8c55",
+        "created": "2024-12-09T03:30:59.000Z",
+        "id": 1101163,
+        "npm_advisory_id": null,
+        "overview": "When nanoid is called with a fractional value, there were a number of undesirable effects:\n\n1. in browser and non-secure, the code infinite loops on while (size--)\n2. in node, the value of poolOffset becomes fractional, causing calls to nanoid to return zeroes until the pool is next filled\n3. if the first call in node is a fractional argument, the initial buffer allocation fails with an error\n\nVersion 3.3.8 and 5.0.9 are fixed.",
+        "reported_by": null,
+        "title": "Predictable results in nanoid generation when given non-integer values",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-55565"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "nanoid",
+        "vulnerable_versions": "<3.3.8",
+        "github_advisory_id": "GHSA-mwcw-c2x4-8c55",
+        "recommendation": "Upgrade to version 3.3.8 or later",
+        "patched_versions": ">=3.3.8",
+        "updated": "2024-12-13T22:57:32.000Z",
+        "cvss": {
+          "score": 4.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-835"
+        ],
+        "url": "https://github.com/advisories/GHSA-mwcw-c2x4-8c55"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1101163,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "3.3.7",
+            "paths": [
+              "react-scripts>postcss>nanoid",
+              "react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-55565\n- https://github.com/ai/nanoid/pull/510\n- https://github.com/ai/nanoid/compare/3.3.7...3.3.8\n- https://github.com/ai/nanoid/releases/tag/5.0.9\n- https://github.com/advisories/GHSA-mwcw-c2x4-8c55",
+        "created": "2024-12-09T03:30:59.000Z",
+        "id": 1101163,
+        "npm_advisory_id": null,
+        "overview": "When nanoid is called with a fractional value, there were a number of undesirable effects:\n\n1. in browser and non-secure, the code infinite loops on while (size--)\n2. in node, the value of poolOffset becomes fractional, causing calls to nanoid to return zeroes until the pool is next filled\n3. if the first call in node is a fractional argument, the initial buffer allocation fails with an error\n\nVersion 3.3.8 and 5.0.9 are fixed.",
+        "reported_by": null,
+        "title": "Predictable results in nanoid generation when given non-integer values",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-55565"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "nanoid",
+        "vulnerable_versions": "<3.3.8",
+        "github_advisory_id": "GHSA-mwcw-c2x4-8c55",
+        "recommendation": "Upgrade to version 3.3.8 or later",
+        "patched_versions": ">=3.3.8",
+        "updated": "2024-12-13T22:57:32.000Z",
+        "cvss": {
+          "score": 4.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-835"
+        ],
+        "url": "https://github.com/advisories/GHSA-mwcw-c2x4-8c55"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1101163,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "3.3.7",
+            "paths": [
+              "react-scripts>postcss>nanoid",
+              "react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>css-loader>postcss>nanoid"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-55565\n- https://github.com/ai/nanoid/pull/510\n- https://github.com/ai/nanoid/compare/3.3.7...3.3.8\n- https://github.com/ai/nanoid/releases/tag/5.0.9\n- https://github.com/advisories/GHSA-mwcw-c2x4-8c55",
+        "created": "2024-12-09T03:30:59.000Z",
+        "id": 1101163,
+        "npm_advisory_id": null,
+        "overview": "When nanoid is called with a fractional value, there were a number of undesirable effects:\n\n1. in browser and non-secure, the code infinite loops on while (size--)\n2. in node, the value of poolOffset becomes fractional, causing calls to nanoid to return zeroes until the pool is next filled\n3. if the first call in node is a fractional argument, the initial buffer allocation fails with an error\n\nVersion 3.3.8 and 5.0.9 are fixed.",
+        "reported_by": null,
+        "title": "Predictable results in nanoid generation when given non-integer values",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-55565"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "nanoid",
+        "vulnerable_versions": "<3.3.8",
+        "github_advisory_id": "GHSA-mwcw-c2x4-8c55",
+        "recommendation": "Upgrade to version 3.3.8 or later",
+        "patched_versions": ">=3.3.8",
+        "updated": "2024-12-13T22:57:32.000Z",
+        "cvss": {
+          "score": 4.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-835"
+        ],
+        "url": "https://github.com/advisories/GHSA-mwcw-c2x4-8c55"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1087527,
+        "path": "googlemaps>qs",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "4.0.0",
+            "paths": [
+              "googlemaps>qs"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2017-1000048\n- https://github.com/ljharb/qs/issues/200\n- https://github.com/ljharb/qs/commit/beade029171b8cef9cee0d03ebe577e2dd84976d\n- https://access.redhat.com/errata/RHSA-2017:2672\n- https://snyk.io/vuln/npm:qs:20170213\n- https://www.npmjs.com/advisories/1469\n- https://github.com/advisories/GHSA-gqgv-6jq5-jjj9",
+        "created": "2020-04-30T17:16:47.000Z",
+        "id": 1087527,
+        "npm_advisory_id": null,
+        "overview": "Affected version of `qs` are vulnerable to Prototype Pollution because it is possible to bypass the protection. The `qs.parse` function fails to properly prevent an object's prototype to be altered when parsing arbitrary input. Input containing `[` or `]` may bypass the prototype pollution protection and alter the Object prototype. This allows attackers to override properties that will exist in all objects, which may lead to Denial of Service or Remote Code Execution in specific circumstances.\n\n\n## Recommendation\n\nUpgrade to 6.0.4, 6.1.2, 6.2.3, 6.3.2 or later.",
+        "reported_by": null,
+        "title": "Prototype Pollution Protection Bypass in qs",
+        "metadata": null,
+        "cves": [
+          "CVE-2017-1000048"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "qs",
+        "vulnerable_versions": "<6.0.4",
+        "github_advisory_id": "GHSA-gqgv-6jq5-jjj9",
+        "recommendation": "Upgrade to version 6.0.4 or later",
+        "patched_versions": ">=6.0.4",
+        "updated": "2023-01-09T05:02:30.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-20"
+        ],
+        "url": "https://github.com/advisories/GHSA-gqgv-6jq5-jjj9"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1096467,
+        "path": "googlemaps>qs",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "4.0.0",
+            "paths": [
+              "googlemaps>qs"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2022-24999\n- https://github.com/ljharb/qs/pull/428\n- https://github.com/n8tz/CVE-2022-24999\n- https://github.com/ljharb/qs/commit/4310742efbd8c03f6495f07906b45213da0a32ec\n- https://github.com/ljharb/qs/commit/727ef5d34605108acb3513f72d5435972ed15b68\n- https://github.com/ljharb/qs/commit/73205259936317b40f447c5cdb71c5b341848e1b\n- https://github.com/ljharb/qs/commit/8b4cc14cda94a5c89341b77e5fe435ec6c41be2d\n- https://github.com/ljharb/qs/commit/ba24e74dd17931f825adb52f5633e48293b584e1\n- https://github.com/ljharb/qs/commit/e799ba57e573a30c14b67c1889c7c04d508b9105\n- https://github.com/ljharb/qs/commit/ed0f5dcbef4b168a8ae299d78b1e4a2e9b1baf1f\n- https://github.com/ljharb/qs/commit/f945393cfe442fe8c6e62b4156fd35452c0686ee\n- https://github.com/ljharb/qs/commit/fc3682776670524a42e19709ec4a8138d0d7afda\n- https://github.com/expressjs/express/releases/tag/4.17.3\n- https://lists.debian.org/debian-lts-announce/2023/01/msg00039.html\n- https://github.com/advisories/GHSA-hrpp-h998-j3pp",
+        "created": "2022-11-27T00:30:50.000Z",
+        "id": 1096467,
+        "npm_advisory_id": null,
+        "overview": "qs before 6.10.3 allows attackers to cause a Node process hang because an `__ proto__` key can be used. In many typical web framework use cases, an unauthenticated remote attacker can place the attack payload in the query string of the URL that is used to visit the application, such as `a[__proto__]=b&a[__proto__]&a[length]=100000000`. The fix was backported to qs 6.9.7, 6.8.3, 6.7.3, 6.6.1, 6.5.3, 6.4.1, 6.3.3, and 6.2.4.",
+        "reported_by": null,
+        "title": "qs vulnerable to Prototype Pollution",
+        "metadata": null,
+        "cves": [
+          "CVE-2022-24999"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "qs",
+        "vulnerable_versions": "<6.2.4",
+        "github_advisory_id": "GHSA-hrpp-h998-j3pp",
+        "recommendation": "Upgrade to version 6.2.4 or later",
+        "patched_versions": ">=6.2.4",
+        "updated": "2024-02-13T20:35:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1321"
+        ],
+        "url": "https://github.com/advisories/GHSA-hrpp-h998-j3pp"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1088948,
+        "path": "imagemin-mozjpeg>mozjpeg>bin-build>download>got",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.1.0",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-build>download>got"
+            ]
+          },
+          {
+            "version": "8.3.2",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-wrapper>download>got"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2022-33987\n- https://github.com/sindresorhus/got/pull/2047\n- https://github.com/sindresorhus/got/compare/v12.0.3...v12.1.0\n- https://github.com/sindresorhus/got/commit/861ccd9ac2237df762a9e2beed7edd88c60782dc\n- https://github.com/sindresorhus/got/releases/tag/v11.8.5\n- https://github.com/sindresorhus/got/releases/tag/v12.1.0\n- https://github.com/advisories/GHSA-pfrx-2q88-qq97",
+        "created": "2022-06-19T00:00:21.000Z",
+        "id": 1088948,
+        "npm_advisory_id": null,
+        "overview": "The got package before 11.8.5 and 12.1.0 for Node.js allows a redirect to a UNIX socket.",
+        "reported_by": null,
+        "title": "Got allows a redirect to a UNIX socket",
+        "metadata": null,
+        "cves": [
+          "CVE-2022-33987"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "got",
+        "vulnerable_versions": "<11.8.5",
+        "github_advisory_id": "GHSA-pfrx-2q88-qq97",
+        "recommendation": "Upgrade to version 11.8.5 or later",
+        "patched_versions": ">=11.8.5",
+        "updated": "2023-01-27T05:05:01.000Z",
+        "cvss": {
+          "score": 5.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [],
+        "url": "https://github.com/advisories/GHSA-pfrx-2q88-qq97"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1088948,
+        "path": "imagemin-mozjpeg>mozjpeg>bin-wrapper>download>got",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.1.0",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-build>download>got"
+            ]
+          },
+          {
+            "version": "8.3.2",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-wrapper>download>got"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2022-33987\n- https://github.com/sindresorhus/got/pull/2047\n- https://github.com/sindresorhus/got/compare/v12.0.3...v12.1.0\n- https://github.com/sindresorhus/got/commit/861ccd9ac2237df762a9e2beed7edd88c60782dc\n- https://github.com/sindresorhus/got/releases/tag/v11.8.5\n- https://github.com/sindresorhus/got/releases/tag/v12.1.0\n- https://github.com/advisories/GHSA-pfrx-2q88-qq97",
+        "created": "2022-06-19T00:00:21.000Z",
+        "id": 1088948,
+        "npm_advisory_id": null,
+        "overview": "The got package before 11.8.5 and 12.1.0 for Node.js allows a redirect to a UNIX socket.",
+        "reported_by": null,
+        "title": "Got allows a redirect to a UNIX socket",
+        "metadata": null,
+        "cves": [
+          "CVE-2022-33987"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "got",
+        "vulnerable_versions": "<11.8.5",
+        "github_advisory_id": "GHSA-pfrx-2q88-qq97",
+        "recommendation": "Upgrade to version 11.8.5 or later",
+        "patched_versions": ">=11.8.5",
+        "updated": "2023-01-27T05:05:01.000Z",
+        "cvss": {
+          "score": 5.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [],
+        "url": "https://github.com/advisories/GHSA-pfrx-2q88-qq97"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1092316,
+        "path": "imagemin-mozjpeg>mozjpeg>bin-wrapper>download>got>cacheable-request>http-cache-semantics",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "3.8.1",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-wrapper>download>got>cacheable-request>http-cache-semantics"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2022-25881\n- https://github.com/kornelski/http-cache-semantics/blob/master/index.js%23L83\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-3253332\n- https://security.snyk.io/vuln/SNYK-JS-HTTPCACHESEMANTICS-3248783\n- https://github.com/kornelski/http-cache-semantics/commit/560b2d8ef452bbba20ffed69dc155d63ac757b74\n- https://security.netapp.com/advisory/ntap-20230622-0008/\n- https://github.com/advisories/GHSA-rc47-6667-2j5j",
+        "created": "2023-01-31T06:30:26.000Z",
+        "id": 1092316,
+        "npm_advisory_id": null,
+        "overview": "http-cache semantics contains an Inefficient Regular Expression Complexity , leading to Denial of Service. This affects versions of the package http-cache-semantics before 4.1.1. The issue can be exploited via malicious request header values sent to a server, when that server reads the cache policy from the request using this library.",
+        "reported_by": null,
+        "title": "http-cache-semantics vulnerable to Regular Expression Denial of Service",
+        "metadata": null,
+        "cves": [
+          "CVE-2022-25881"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "http-cache-semantics",
+        "vulnerable_versions": "<4.1.1",
+        "github_advisory_id": "GHSA-rc47-6667-2j5j",
+        "recommendation": "Upgrade to version 4.1.1 or later",
+        "patched_versions": ">=4.1.1",
+        "updated": "2023-06-22T17:26:15.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-rc47-6667-2j5j"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1092475,
+        "path": "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-version-check>bin-version>find-versions>semver-regex",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "2.0.0",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-version-check>bin-version>find-versions>semver-regex"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2021-3795\n- https://github.com/sindresorhus/semver-regex/commit/11c66245f4e1976dccc52977ed183696a21a3fd7\n- https://huntr.dev/bounties/006624e3-35ac-448f-aab9-7b5183f30e28\n- https://github.com/advisories/GHSA-44c6-4v22-4mhx",
+        "created": "2021-09-20T20:42:25.000Z",
+        "id": 1092475,
+        "npm_advisory_id": null,
+        "overview": "npm `semver-regex` is vulnerable to Inefficient Regular Expression Complexity",
+        "reported_by": null,
+        "title": "semver-regex Regular Expression Denial of Service (ReDOS)",
+        "metadata": null,
+        "cves": [
+          "CVE-2021-3795"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "semver-regex",
+        "vulnerable_versions": "<3.1.3",
+        "github_advisory_id": "GHSA-44c6-4v22-4mhx",
+        "recommendation": "Upgrade to version 3.1.3 or later",
+        "patched_versions": ">=3.1.3",
+        "updated": "2023-07-11T13:37:52.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-400",
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-44c6-4v22-4mhx"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1092605,
+        "path": "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-version-check>bin-version>find-versions>semver-regex",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "2.0.0",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-version-check>bin-version>find-versions>semver-regex"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2021-43307\n- https://research.jfrog.com/vulnerabilities/semver-regex-redos-xray-211349/\n- https://github.com/sindresorhus/semver-regex/commit/d8ba39a528c1027c43ab23f12eec28ca4d40dd0c\n- https://github.com/advisories/GHSA-4x5v-gmq8-25ch",
+        "created": "2022-06-03T00:01:00.000Z",
+        "id": 1092605,
+        "npm_advisory_id": null,
+        "overview": "An exponential ReDoS (Regular Expression Denial of Service) can be triggered in the semver-regex npm package, when an attacker is able to supply arbitrary input to the test() method",
+        "reported_by": null,
+        "title": "Regular expression denial of service in semver-regex",
+        "metadata": null,
+        "cves": [
+          "CVE-2021-43307"
+        ],
+        "access": "public",
+        "severity": "low",
+        "module_name": "semver-regex",
+        "vulnerable_versions": "<3.1.4",
+        "github_advisory_id": "GHSA-4x5v-gmq8-25ch",
+        "recommendation": "Upgrade to version 3.1.4 or later",
+        "patched_versions": ">=3.1.4",
+        "updated": "2023-07-19T19:58:14.000Z",
+        "cvss": {
+          "score": 0,
+          "vectorString": null
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-4x5v-gmq8-25ch"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1094544,
+        "path": "react-scripts>resolve-url-loader>postcss",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.39",
+            "paths": [
+              "react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/ui-button-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2023-44270\n- https://github.com/postcss/postcss/commit/58cc860b4c1707510c9cd1bc1fa30b423a9ad6c5\n- https://github.com/postcss/postcss/blob/main/lib/tokenize.js#L25\n- https://github.com/postcss/postcss/releases/tag/8.4.31\n- https://github.com/github/advisory-database/issues/2820\n- https://github.com/advisories/GHSA-7fh5-64p2-3v2j",
+        "created": "2023-09-30T00:31:10.000Z",
+        "id": 1094544,
+        "npm_advisory_id": null,
+        "overview": "An issue was discovered in PostCSS before 8.4.31. It affects linters using PostCSS to parse external Cascading Style Sheets (CSS). There may be `\\r` discrepancies, as demonstrated by `@font-face{ font:(\\r/*);}` in a rule.\n\nThis vulnerability affects linters using PostCSS to parse external untrusted CSS. An attacker can prepare CSS in such a way that it will contains parts parsed by PostCSS as a CSS comment. After processing by PostCSS, it will be included in the PostCSS output in CSS nodes (rules, properties) despite being originally included in a comment.",
+        "reported_by": null,
+        "title": "PostCSS line return parsing error",
+        "metadata": null,
+        "cves": [
+          "CVE-2023-44270"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "postcss",
+        "vulnerable_versions": "<8.4.31",
+        "github_advisory_id": "GHSA-7fh5-64p2-3v2j",
+        "recommendation": "Upgrade to version 8.4.31 or later",
+        "patched_versions": ">=8.4.31",
+        "updated": "2023-11-05T05:05:37.000Z",
+        "cvss": {
+          "score": 5.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-74",
+          "CWE-144"
+        ],
+        "url": "https://github.com/advisories/GHSA-7fh5-64p2-3v2j"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1094544,
+        "path": "@integritymarketing/ui-button-components>react-scripts>resolve-url-loader>postcss",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.39",
+            "paths": [
+              "react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/ui-button-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2023-44270\n- https://github.com/postcss/postcss/commit/58cc860b4c1707510c9cd1bc1fa30b423a9ad6c5\n- https://github.com/postcss/postcss/blob/main/lib/tokenize.js#L25\n- https://github.com/postcss/postcss/releases/tag/8.4.31\n- https://github.com/github/advisory-database/issues/2820\n- https://github.com/advisories/GHSA-7fh5-64p2-3v2j",
+        "created": "2023-09-30T00:31:10.000Z",
+        "id": 1094544,
+        "npm_advisory_id": null,
+        "overview": "An issue was discovered in PostCSS before 8.4.31. It affects linters using PostCSS to parse external Cascading Style Sheets (CSS). There may be `\\r` discrepancies, as demonstrated by `@font-face{ font:(\\r/*);}` in a rule.\n\nThis vulnerability affects linters using PostCSS to parse external untrusted CSS. An attacker can prepare CSS in such a way that it will contains parts parsed by PostCSS as a CSS comment. After processing by PostCSS, it will be included in the PostCSS output in CSS nodes (rules, properties) despite being originally included in a comment.",
+        "reported_by": null,
+        "title": "PostCSS line return parsing error",
+        "metadata": null,
+        "cves": [
+          "CVE-2023-44270"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "postcss",
+        "vulnerable_versions": "<8.4.31",
+        "github_advisory_id": "GHSA-7fh5-64p2-3v2j",
+        "recommendation": "Upgrade to version 8.4.31 or later",
+        "patched_versions": ">=8.4.31",
+        "updated": "2023-11-05T05:05:37.000Z",
+        "cvss": {
+          "score": 5.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-74",
+          "CWE-144"
+        ],
+        "url": "https://github.com/advisories/GHSA-7fh5-64p2-3v2j"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1094544,
+        "path": "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.39",
+            "paths": [
+              "react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/ui-button-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2023-44270\n- https://github.com/postcss/postcss/commit/58cc860b4c1707510c9cd1bc1fa30b423a9ad6c5\n- https://github.com/postcss/postcss/blob/main/lib/tokenize.js#L25\n- https://github.com/postcss/postcss/releases/tag/8.4.31\n- https://github.com/github/advisory-database/issues/2820\n- https://github.com/advisories/GHSA-7fh5-64p2-3v2j",
+        "created": "2023-09-30T00:31:10.000Z",
+        "id": 1094544,
+        "npm_advisory_id": null,
+        "overview": "An issue was discovered in PostCSS before 8.4.31. It affects linters using PostCSS to parse external Cascading Style Sheets (CSS). There may be `\\r` discrepancies, as demonstrated by `@font-face{ font:(\\r/*);}` in a rule.\n\nThis vulnerability affects linters using PostCSS to parse external untrusted CSS. An attacker can prepare CSS in such a way that it will contains parts parsed by PostCSS as a CSS comment. After processing by PostCSS, it will be included in the PostCSS output in CSS nodes (rules, properties) despite being originally included in a comment.",
+        "reported_by": null,
+        "title": "PostCSS line return parsing error",
+        "metadata": null,
+        "cves": [
+          "CVE-2023-44270"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "postcss",
+        "vulnerable_versions": "<8.4.31",
+        "github_advisory_id": "GHSA-7fh5-64p2-3v2j",
+        "recommendation": "Upgrade to version 8.4.31 or later",
+        "patched_versions": ">=8.4.31",
+        "updated": "2023-11-05T05:05:37.000Z",
+        "cvss": {
+          "score": 5.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-74",
+          "CWE-144"
+        ],
+        "url": "https://github.com/advisories/GHSA-7fh5-64p2-3v2j"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1094544,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.39",
+            "paths": [
+              "react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/ui-button-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2023-44270\n- https://github.com/postcss/postcss/commit/58cc860b4c1707510c9cd1bc1fa30b423a9ad6c5\n- https://github.com/postcss/postcss/blob/main/lib/tokenize.js#L25\n- https://github.com/postcss/postcss/releases/tag/8.4.31\n- https://github.com/github/advisory-database/issues/2820\n- https://github.com/advisories/GHSA-7fh5-64p2-3v2j",
+        "created": "2023-09-30T00:31:10.000Z",
+        "id": 1094544,
+        "npm_advisory_id": null,
+        "overview": "An issue was discovered in PostCSS before 8.4.31. It affects linters using PostCSS to parse external Cascading Style Sheets (CSS). There may be `\\r` discrepancies, as demonstrated by `@font-face{ font:(\\r/*);}` in a rule.\n\nThis vulnerability affects linters using PostCSS to parse external untrusted CSS. An attacker can prepare CSS in such a way that it will contains parts parsed by PostCSS as a CSS comment. After processing by PostCSS, it will be included in the PostCSS output in CSS nodes (rules, properties) despite being originally included in a comment.",
+        "reported_by": null,
+        "title": "PostCSS line return parsing error",
+        "metadata": null,
+        "cves": [
+          "CVE-2023-44270"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "postcss",
+        "vulnerable_versions": "<8.4.31",
+        "github_advisory_id": "GHSA-7fh5-64p2-3v2j",
+        "recommendation": "Upgrade to version 8.4.31 or later",
+        "patched_versions": ">=8.4.31",
+        "updated": "2023-11-05T05:05:37.000Z",
+        "cvss": {
+          "score": 5.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-74",
+          "CWE-144"
+        ],
+        "url": "https://github.com/advisories/GHSA-7fh5-64p2-3v2j"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1094544,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.39",
+            "paths": [
+              "react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/ui-button-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>resolve-url-loader>postcss"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2023-44270\n- https://github.com/postcss/postcss/commit/58cc860b4c1707510c9cd1bc1fa30b423a9ad6c5\n- https://github.com/postcss/postcss/blob/main/lib/tokenize.js#L25\n- https://github.com/postcss/postcss/releases/tag/8.4.31\n- https://github.com/github/advisory-database/issues/2820\n- https://github.com/advisories/GHSA-7fh5-64p2-3v2j",
+        "created": "2023-09-30T00:31:10.000Z",
+        "id": 1094544,
+        "npm_advisory_id": null,
+        "overview": "An issue was discovered in PostCSS before 8.4.31. It affects linters using PostCSS to parse external Cascading Style Sheets (CSS). There may be `\\r` discrepancies, as demonstrated by `@font-face{ font:(\\r/*);}` in a rule.\n\nThis vulnerability affects linters using PostCSS to parse external untrusted CSS. An attacker can prepare CSS in such a way that it will contains parts parsed by PostCSS as a CSS comment. After processing by PostCSS, it will be included in the PostCSS output in CSS nodes (rules, properties) despite being originally included in a comment.",
+        "reported_by": null,
+        "title": "PostCSS line return parsing error",
+        "metadata": null,
+        "cves": [
+          "CVE-2023-44270"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "postcss",
+        "vulnerable_versions": "<8.4.31",
+        "github_advisory_id": "GHSA-7fh5-64p2-3v2j",
+        "recommendation": "Upgrade to version 8.4.31 or later",
+        "patched_versions": ">=8.4.31",
+        "updated": "2023-11-05T05:05:37.000Z",
+        "cvss": {
+          "score": 5.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-74",
+          "CWE-144"
+        ],
+        "url": "https://github.com/advisories/GHSA-7fh5-64p2-3v2j"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1095141,
+        "path": "react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "1.0.2",
+            "paths": [
+              "react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/ui-button-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2021-3803\n- https://github.com/fb55/nth-check/commit/9894c1d2010870c351f66c6f6efcf656e26bb726\n- https://huntr.dev/bounties/8cf8cc06-d2cf-4b4e-b42c-99fafb0b04d0\n- https://lists.debian.org/debian-lts-announce/2023/05/msg00023.html\n- https://github.com/advisories/GHSA-rp65-9cf3-cjxr",
+        "created": "2021-09-20T20:47:31.000Z",
+        "id": 1095141,
+        "npm_advisory_id": null,
+        "overview": "There is a Regular Expression Denial of Service (ReDoS) vulnerability in nth-check that causes a denial of service when parsing crafted invalid CSS nth-checks.\n\nThe ReDoS vulnerabilities of the regex are mainly due to the sub-pattern `\\s*(?:([+-]?)\\s*(\\d+))?` with quantified overlapping adjacency and can be exploited with the following code.\n\n**Proof of Concept**\n```js\n// PoC.js\nvar nthCheck = require(\"nth-check\")\nfor(var i = 1; i <= 50000; i++) {\n    var time = Date.now();\n    var attack_str = '2n' + ' '.repeat(i*10000)+\"!\";\n    try {\n        nthCheck.parse(attack_str) \n    }\n    catch(err) {\n        var time_cost = Date.now() - time;\n        console.log(\"attack_str.length: \" + attack_str.length + \": \" + time_cost+\" ms\")\n    }\n}\n```\n\n**The Output**\n```\nattack_str.length: 10003: 174 ms\nattack_str.length: 20003: 1427 ms\nattack_str.length: 30003: 2602 ms\nattack_str.length: 40003: 4378 ms\nattack_str.length: 50003: 7473 ms\n```",
+        "reported_by": null,
+        "title": "Inefficient Regular Expression Complexity in nth-check",
+        "metadata": null,
+        "cves": [
+          "CVE-2021-3803"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "nth-check",
+        "vulnerable_versions": "<2.0.1",
+        "github_advisory_id": "GHSA-rp65-9cf3-cjxr",
+        "recommendation": "Upgrade to version 2.0.1 or later",
+        "patched_versions": ">=2.0.1",
+        "updated": "2023-11-29T22:11:25.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-rp65-9cf3-cjxr"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1095141,
+        "path": "@integritymarketing/ui-button-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "1.0.2",
+            "paths": [
+              "react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/ui-button-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2021-3803\n- https://github.com/fb55/nth-check/commit/9894c1d2010870c351f66c6f6efcf656e26bb726\n- https://huntr.dev/bounties/8cf8cc06-d2cf-4b4e-b42c-99fafb0b04d0\n- https://lists.debian.org/debian-lts-announce/2023/05/msg00023.html\n- https://github.com/advisories/GHSA-rp65-9cf3-cjxr",
+        "created": "2021-09-20T20:47:31.000Z",
+        "id": 1095141,
+        "npm_advisory_id": null,
+        "overview": "There is a Regular Expression Denial of Service (ReDoS) vulnerability in nth-check that causes a denial of service when parsing crafted invalid CSS nth-checks.\n\nThe ReDoS vulnerabilities of the regex are mainly due to the sub-pattern `\\s*(?:([+-]?)\\s*(\\d+))?` with quantified overlapping adjacency and can be exploited with the following code.\n\n**Proof of Concept**\n```js\n// PoC.js\nvar nthCheck = require(\"nth-check\")\nfor(var i = 1; i <= 50000; i++) {\n    var time = Date.now();\n    var attack_str = '2n' + ' '.repeat(i*10000)+\"!\";\n    try {\n        nthCheck.parse(attack_str) \n    }\n    catch(err) {\n        var time_cost = Date.now() - time;\n        console.log(\"attack_str.length: \" + attack_str.length + \": \" + time_cost+\" ms\")\n    }\n}\n```\n\n**The Output**\n```\nattack_str.length: 10003: 174 ms\nattack_str.length: 20003: 1427 ms\nattack_str.length: 30003: 2602 ms\nattack_str.length: 40003: 4378 ms\nattack_str.length: 50003: 7473 ms\n```",
+        "reported_by": null,
+        "title": "Inefficient Regular Expression Complexity in nth-check",
+        "metadata": null,
+        "cves": [
+          "CVE-2021-3803"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "nth-check",
+        "vulnerable_versions": "<2.0.1",
+        "github_advisory_id": "GHSA-rp65-9cf3-cjxr",
+        "recommendation": "Upgrade to version 2.0.1 or later",
+        "patched_versions": ">=2.0.1",
+        "updated": "2023-11-29T22:11:25.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-rp65-9cf3-cjxr"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1095141,
+        "path": "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "1.0.2",
+            "paths": [
+              "react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/ui-button-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2021-3803\n- https://github.com/fb55/nth-check/commit/9894c1d2010870c351f66c6f6efcf656e26bb726\n- https://huntr.dev/bounties/8cf8cc06-d2cf-4b4e-b42c-99fafb0b04d0\n- https://lists.debian.org/debian-lts-announce/2023/05/msg00023.html\n- https://github.com/advisories/GHSA-rp65-9cf3-cjxr",
+        "created": "2021-09-20T20:47:31.000Z",
+        "id": 1095141,
+        "npm_advisory_id": null,
+        "overview": "There is a Regular Expression Denial of Service (ReDoS) vulnerability in nth-check that causes a denial of service when parsing crafted invalid CSS nth-checks.\n\nThe ReDoS vulnerabilities of the regex are mainly due to the sub-pattern `\\s*(?:([+-]?)\\s*(\\d+))?` with quantified overlapping adjacency and can be exploited with the following code.\n\n**Proof of Concept**\n```js\n// PoC.js\nvar nthCheck = require(\"nth-check\")\nfor(var i = 1; i <= 50000; i++) {\n    var time = Date.now();\n    var attack_str = '2n' + ' '.repeat(i*10000)+\"!\";\n    try {\n        nthCheck.parse(attack_str) \n    }\n    catch(err) {\n        var time_cost = Date.now() - time;\n        console.log(\"attack_str.length: \" + attack_str.length + \": \" + time_cost+\" ms\")\n    }\n}\n```\n\n**The Output**\n```\nattack_str.length: 10003: 174 ms\nattack_str.length: 20003: 1427 ms\nattack_str.length: 30003: 2602 ms\nattack_str.length: 40003: 4378 ms\nattack_str.length: 50003: 7473 ms\n```",
+        "reported_by": null,
+        "title": "Inefficient Regular Expression Complexity in nth-check",
+        "metadata": null,
+        "cves": [
+          "CVE-2021-3803"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "nth-check",
+        "vulnerable_versions": "<2.0.1",
+        "github_advisory_id": "GHSA-rp65-9cf3-cjxr",
+        "recommendation": "Upgrade to version 2.0.1 or later",
+        "patched_versions": ">=2.0.1",
+        "updated": "2023-11-29T22:11:25.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-rp65-9cf3-cjxr"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1095141,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "1.0.2",
+            "paths": [
+              "react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/ui-button-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2021-3803\n- https://github.com/fb55/nth-check/commit/9894c1d2010870c351f66c6f6efcf656e26bb726\n- https://huntr.dev/bounties/8cf8cc06-d2cf-4b4e-b42c-99fafb0b04d0\n- https://lists.debian.org/debian-lts-announce/2023/05/msg00023.html\n- https://github.com/advisories/GHSA-rp65-9cf3-cjxr",
+        "created": "2021-09-20T20:47:31.000Z",
+        "id": 1095141,
+        "npm_advisory_id": null,
+        "overview": "There is a Regular Expression Denial of Service (ReDoS) vulnerability in nth-check that causes a denial of service when parsing crafted invalid CSS nth-checks.\n\nThe ReDoS vulnerabilities of the regex are mainly due to the sub-pattern `\\s*(?:([+-]?)\\s*(\\d+))?` with quantified overlapping adjacency and can be exploited with the following code.\n\n**Proof of Concept**\n```js\n// PoC.js\nvar nthCheck = require(\"nth-check\")\nfor(var i = 1; i <= 50000; i++) {\n    var time = Date.now();\n    var attack_str = '2n' + ' '.repeat(i*10000)+\"!\";\n    try {\n        nthCheck.parse(attack_str) \n    }\n    catch(err) {\n        var time_cost = Date.now() - time;\n        console.log(\"attack_str.length: \" + attack_str.length + \": \" + time_cost+\" ms\")\n    }\n}\n```\n\n**The Output**\n```\nattack_str.length: 10003: 174 ms\nattack_str.length: 20003: 1427 ms\nattack_str.length: 30003: 2602 ms\nattack_str.length: 40003: 4378 ms\nattack_str.length: 50003: 7473 ms\n```",
+        "reported_by": null,
+        "title": "Inefficient Regular Expression Complexity in nth-check",
+        "metadata": null,
+        "cves": [
+          "CVE-2021-3803"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "nth-check",
+        "vulnerable_versions": "<2.0.1",
+        "github_advisory_id": "GHSA-rp65-9cf3-cjxr",
+        "recommendation": "Upgrade to version 2.0.1 or later",
+        "patched_versions": ">=2.0.1",
+        "updated": "2023-11-29T22:11:25.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-rp65-9cf3-cjxr"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1095141,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "1.0.2",
+            "paths": [
+              "react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/ui-button-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>css-select>nth-check"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2021-3803\n- https://github.com/fb55/nth-check/commit/9894c1d2010870c351f66c6f6efcf656e26bb726\n- https://huntr.dev/bounties/8cf8cc06-d2cf-4b4e-b42c-99fafb0b04d0\n- https://lists.debian.org/debian-lts-announce/2023/05/msg00023.html\n- https://github.com/advisories/GHSA-rp65-9cf3-cjxr",
+        "created": "2021-09-20T20:47:31.000Z",
+        "id": 1095141,
+        "npm_advisory_id": null,
+        "overview": "There is a Regular Expression Denial of Service (ReDoS) vulnerability in nth-check that causes a denial of service when parsing crafted invalid CSS nth-checks.\n\nThe ReDoS vulnerabilities of the regex are mainly due to the sub-pattern `\\s*(?:([+-]?)\\s*(\\d+))?` with quantified overlapping adjacency and can be exploited with the following code.\n\n**Proof of Concept**\n```js\n// PoC.js\nvar nthCheck = require(\"nth-check\")\nfor(var i = 1; i <= 50000; i++) {\n    var time = Date.now();\n    var attack_str = '2n' + ' '.repeat(i*10000)+\"!\";\n    try {\n        nthCheck.parse(attack_str) \n    }\n    catch(err) {\n        var time_cost = Date.now() - time;\n        console.log(\"attack_str.length: \" + attack_str.length + \": \" + time_cost+\" ms\")\n    }\n}\n```\n\n**The Output**\n```\nattack_str.length: 10003: 174 ms\nattack_str.length: 20003: 1427 ms\nattack_str.length: 30003: 2602 ms\nattack_str.length: 40003: 4378 ms\nattack_str.length: 50003: 7473 ms\n```",
+        "reported_by": null,
+        "title": "Inefficient Regular Expression Complexity in nth-check",
+        "metadata": null,
+        "cves": [
+          "CVE-2021-3803"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "nth-check",
+        "vulnerable_versions": "<2.0.1",
+        "github_advisory_id": "GHSA-rp65-9cf3-cjxr",
+        "recommendation": "Upgrade to version 2.0.1 or later",
+        "patched_versions": ">=2.0.1",
+        "updated": "2023-11-29T22:11:25.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-rp65-9cf3-cjxr"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1096727,
+        "path": "googlemaps>request",
+        "dev": false,
+        "bundled": false,
+        "optional": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "2.88.2",
+            "paths": [
+              "googlemaps>request"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2023-28155\n- https://github.com/request/request/issues/3442\n- https://github.com/request/request/pull/3444\n- https://doyensec.com/resources/Doyensec_Advisory_RequestSSRF_Q12023.pdf\n- https://github.com/github/advisory-database/pull/2500\n- https://github.com/cypress-io/request/blob/master/lib/redirect.js#L116\n- https://github.com/request/request/blob/master/lib/redirect.js#L111\n- https://github.com/cypress-io/request/pull/28\n- https://github.com/cypress-io/request/commit/c5bcf21d40fb61feaff21a0e5a2b3934a440024f\n- https://github.com/cypress-io/request/releases/tag/v3.0.0\n- https://security.netapp.com/advisory/ntap-20230413-0007\n- https://github.com/advisories/GHSA-p8p7-x288-28g6",
+        "created": "2023-03-16T15:30:19.000Z",
+        "id": 1096727,
+        "npm_advisory_id": null,
+        "overview": "The `request` package through 2.88.2 for Node.js and the `@cypress/request` package prior to 3.0.0 allow a bypass of SSRF mitigations via an attacker-controller server that does a cross-protocol redirect (HTTP to HTTPS, or HTTPS to HTTP).\n\nNOTE: The `request` package is no longer supported by the maintainer.",
+        "reported_by": null,
+        "title": "Server-Side Request Forgery in Request",
+        "metadata": null,
+        "cves": [
+          "CVE-2023-28155"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "request",
+        "vulnerable_versions": "<=2.88.2",
+        "github_advisory_id": "GHSA-p8p7-x288-28g6",
+        "recommendation": "None",
+        "patched_versions": "<0.0.0",
+        "updated": "2024-03-21T17:47:21.000Z",
+        "cvss": {
+          "score": 6.1,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-918"
+        ],
+        "url": "https://github.com/advisories/GHSA-p8p7-x288-28g6"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1097682,
+        "path": "googlemaps>request>tough-cookie",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "2.5.0",
+            "paths": [
+              "googlemaps>request>tough-cookie"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2023-26136\n- https://github.com/salesforce/tough-cookie/issues/282\n- https://github.com/salesforce/tough-cookie/commit/12d474791bb856004e858fdb1c47b7608d09cf6e\n- https://github.com/salesforce/tough-cookie/releases/tag/v4.1.3\n- https://security.snyk.io/vuln/SNYK-JS-TOUGHCOOKIE-5672873\n- https://lists.debian.org/debian-lts-announce/2023/07/msg00010.html\n- https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3HUE6ZR5SL73KHL7XUPAOEL6SB7HUDT2\n- https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/6PVVPNSAGSDS63HQ74PJ7MZ3MU5IYNVZ\n- https://security.netapp.com/advisory/ntap-20240621-0006\n- https://github.com/advisories/GHSA-72xf-g2v4-qvf3",
+        "created": "2023-07-01T06:30:16.000Z",
+        "id": 1097682,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package tough-cookie before 4.1.3 are vulnerable to Prototype Pollution due to improper handling of Cookies when using CookieJar in `rejectPublicSuffixes=false` mode. This issue arises from the manner in which the objects are initialized.",
+        "reported_by": null,
+        "title": "tough-cookie Prototype Pollution vulnerability",
+        "metadata": null,
+        "cves": [
+          "CVE-2023-26136"
+        ],
+        "access": "public",
+        "severity": "moderate",
+        "module_name": "tough-cookie",
+        "vulnerable_versions": "<4.1.3",
+        "github_advisory_id": "GHSA-72xf-g2v4-qvf3",
+        "recommendation": "Upgrade to version 4.1.3 or later",
+        "patched_versions": ">=4.1.3",
+        "updated": "2024-06-21T21:33:53.000Z",
+        "cvss": {
+          "score": 6.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+        },
+        "cwe": [
+          "CWE-1321"
+        ],
+        "url": "https://github.com/advisories/GHSA-72xf-g2v4-qvf3"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100562,
+        "path": "imagemin-mozjpeg>mozjpeg>bin-build>execa>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "5.1.0",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-build>execa>cross-spawn"
+            ]
+          },
+          {
+            "version": "5.1.0",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-check>execa>cross-spawn"
+            ]
+          },
+          {
+            "version": "6.0.5",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-version-check>bin-version>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100562,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": "<6.0.6",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 6.0.6 or later",
+        "patched_versions": ">=6.0.6",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100562,
+        "path": "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-check>execa>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "5.1.0",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-build>execa>cross-spawn"
+            ]
+          },
+          {
+            "version": "5.1.0",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-check>execa>cross-spawn"
+            ]
+          },
+          {
+            "version": "6.0.5",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-version-check>bin-version>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100562,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": "<6.0.6",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 6.0.6 or later",
+        "patched_versions": ">=6.0.6",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100562,
+        "path": "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-version-check>bin-version>execa>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "5.1.0",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-build>execa>cross-spawn"
+            ]
+          },
+          {
+            "version": "5.1.0",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-check>execa>cross-spawn"
+            ]
+          },
+          {
+            "version": "6.0.5",
+            "paths": [
+              "imagemin-mozjpeg>mozjpeg>bin-wrapper>bin-version-check>bin-version>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100562,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": "<6.0.6",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 6.0.6 or later",
+        "patched_versions": ">=6.0.6",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "react-scripts>eslint>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditAdvisory",
+    "data": {
+      "resolution": {
+        "id": 1100563,
+        "path": "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+        "dev": false,
+        "optional": false,
+        "bundled": false
+      },
+      "advisory": {
+        "findings": [
+          {
+            "version": "7.0.3",
+            "paths": [
+              "@craco/craco>cross-spawn",
+              "react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>eslint>cross-spawn",
+              "@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-changed-files>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn",
+              "@integritymarketing/clients-ui-kit>@integritymarketing/ui-header>@integritymarketing/ui-button-components>@integritymarketing/ui-text-components>react-scripts>jest>jest-cli>@jest/core>jest-config>@jest/test-sequencer>jest-runtime>execa>cross-spawn"
+            ]
+          }
+        ],
+        "found_by": null,
+        "deleted": null,
+        "references": "- https://nvd.nist.gov/vuln/detail/CVE-2024-21538\n- https://github.com/moxystudio/node-cross-spawn/pull/160\n- https://github.com/moxystudio/node-cross-spawn/commit/5ff3a07d9add449021d806e45c4168203aa833ff\n- https://github.com/moxystudio/node-cross-spawn/commit/640d391fde65388548601d95abedccc12943374f\n- https://security.snyk.io/vuln/SNYK-JS-CROSSSPAWN-8303230\n- https://github.com/moxystudio/node-cross-spawn/issues/165\n- https://github.com/moxystudio/node-cross-spawn/commit/d35c865b877d2f9ded7c1ed87521c2fdb689c8dd\n- https://security.snyk.io/vuln/SNYK-JAVA-ORGWEBJARSNPM-8366349\n- https://github.com/advisories/GHSA-3xgq-45jj-v275",
+        "created": "2024-11-08T06:30:47.000Z",
+        "id": 1100563,
+        "npm_advisory_id": null,
+        "overview": "Versions of the package cross-spawn before 7.0.5 are vulnerable to Regular Expression Denial of Service (ReDoS) due to improper input sanitization. An attacker can increase the CPU usage and crash the program by crafting a very large and well crafted string.",
+        "reported_by": null,
+        "title": "Regular Expression Denial of Service (ReDoS) in cross-spawn",
+        "metadata": null,
+        "cves": [
+          "CVE-2024-21538"
+        ],
+        "access": "public",
+        "severity": "high",
+        "module_name": "cross-spawn",
+        "vulnerable_versions": ">=7.0.0 <7.0.5",
+        "github_advisory_id": "GHSA-3xgq-45jj-v275",
+        "recommendation": "Upgrade to version 7.0.5 or later",
+        "patched_versions": ">=7.0.5",
+        "updated": "2024-11-19T16:19:50.000Z",
+        "cvss": {
+          "score": 7.5,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        "cwe": [
+          "CWE-1333"
+        ],
+        "url": "https://github.com/advisories/GHSA-3xgq-45jj-v275"
+      }
+    }
+  },
+  {
+    "type": "auditSummary",
+    "data": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 1,
+        "moderate": 20,
+        "high": 24,
+        "critical": 0
+      },
+      "dependencies": 2008,
+      "devDependencies": 0,
+      "optionalDependencies": 0,
+      "totalDependencies": 2008
+    }
+  }
+]
