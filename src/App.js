@@ -14,7 +14,6 @@ const MaintenancePage = lazy(() => import("pages/MaintenancePage"));
 const Welcome = lazy(() => import("pages/welcome"));
 
 const App = () => {
-    const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
     const [, setIsAvailable] = useAgentAvailability();
     const { agentInformation } = useAgentInformationByID();
     const { firstName, lastName, email, phone, npn } = useUserProfile();
@@ -71,17 +70,15 @@ const App = () => {
 
     if (isMaintainanceMode) {
         return (
-            <SentryRoutes>
             <Routes>
                 <Route path="/maintenance" element={<MaintenancePage />} />
                 <Route path="*" element={<Navigate to="/maintenance" />} />
             </Routes>
-            </SentryRoutes>
         );
     }
 
     return (
-        <SentryRoutes>
+        <Routes>
             <Route
                 path="/welcome"
                 element={
@@ -106,7 +103,7 @@ const App = () => {
             {appRoutes.map((route) => (
                 <Route key={route.path} path={route.path} element={route.component} />
             ))}
-        </SentryRoutes>
+        </Routes>
     );
 };
 
