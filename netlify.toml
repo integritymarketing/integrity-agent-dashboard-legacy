@@ -41,7 +41,7 @@
   REACT_APP_RESOURCES_URL = "https://learningcenter.tawebhost.com"
   CI = "false"
   SONAR_TOKEN = "c5b57574634c68650a60ad457028606ce8adcbd3"
-  SONAR_PROJECT_KEY = "ae-consumer-platform"
+  SONAR_PROJECT_KEY = "ae-agent-portal"
   SONAR_ORG_KEY = "integritymarketing"
 
 # Custom prebuild plugin to set version number ENV var from package.json
@@ -62,4 +62,6 @@
 [context.production.environment]
   REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442"
   REACT_APP_SENTRY_AUTH_DSN = "https://788e98ba6d4b4114adaa443bbf8a49bc@o417296.ingest.sentry.io/5408350"
-  
+
+[build]
+command = "yarn build && yarn sonar"
