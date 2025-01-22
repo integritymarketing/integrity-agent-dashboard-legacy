@@ -44,8 +44,6 @@
   SONAR_PROJECT_KEY = "ae-agent-portal"
   SONAR_ORG_KEY = "integritymarketing"
   SONAR_HOST_URL = "https://sonarcloud.io"
-  JAVA_HOME = "/opt/buildhome/java/current"
-  PATH = "/opt/buildhome/java/current/bin:$PATH"
   JAVA_VERSION = "17"
 
 # Custom prebuild plugin to set version number ENV var from package.json & java added for sonar
