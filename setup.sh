@@ -1,54 +1,19 @@
 #!/bin/bash
 
-set -e  # Exit immediately if a command exits with a non-zero status
-set -x  # Enable debug mode to log commands as they are executed
+set -e
+set -x
 
-# Update system package index
-echo "Updating package index..."
+# Install Java JRE 17 with Homebrew
+brew install openjdk@17
 
-sudo apt update
-sudo apt upgrade -y
+# Link Java 17 and set environment variables
+sudo ln -sfn /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-17.jdk
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+export PATH="$JAVA_HOME/bin:$PATH"
 
-# Add the PPA for OpenJDK (optional but recommended for latest updates)
-echo "Adding PPA for OpenJDK..."
-sudo add-apt-repository ppa:openjdk-r/ppa -y
-sudo apt update
-
-# Install OpenJDK 17 JRE
-echo "Installing OpenJDK 17 JRE..."
-sudo apt install -y openjdk-17-jre
-
-# (Optional) Install OpenJDK 17 JDK if needed
-echo "Installing OpenJDK 17 JDK (optional)..."
-sudo apt install -y openjdk-17-jdk
-
-# Configure default 'java' version
-echo "Configuring default Java version..."
-sudo update-alternatives --config java
-
-# (Optional) Configure default 'javac' version if JDK is installed
-if command -v javac &>/dev/null; then
-  echo "Configuring default Javac version..."
-  sudo update-alternatives --config javac
-fi
-
-# Set JAVA_HOME environment variable
-echo "Exporting JAVA_HOME..."
-JAVA_HOME_PATH=$(readlink -f /usr/bin/java | sed "s:/bin/java::")
-if ! grep -q "JAVA_HOME" ~/.bashrc; then
-  echo "export JAVA_HOME=${JAVA_HOME_PATH}" >> ~/.bashrc
-  echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> ~/.bashrc
-  source ~/.bashrc
-fi
+# Add environment variables permanently (optional)
+echo "export JAVA_HOME=$(/usr/libexec/java_home -v 17)" >> ~/.bashrc
+echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> ~/.bashrc
 
 # Verify installation
-echo "Verifying Java version..."
 java -version
-
-if command -v javac &>/dev/null; then
-  javac -version
-else
-  echo "Javac is not installed (JRE-only system)"
-fi
-
-echo "Java 17 installation complete!"
