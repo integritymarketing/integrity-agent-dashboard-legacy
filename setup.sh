@@ -10,3 +10,9 @@ fi
 # Install and set the desired Java version
 sdk install java 17.0.6-zulu
 sdk use java 17.0.6-zulu
+
+# Print the Java version to verify
+java -version
+
+export JAVA_HOME=$HOME/.sdkman/candidates/java/current
+export PATH=$JAVA_HOME/bin:$PATH
