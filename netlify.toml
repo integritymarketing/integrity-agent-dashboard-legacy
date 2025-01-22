@@ -68,4 +68,4 @@
   REACT_APP_SENTRY_AUTH_DSN = "https://788e98ba6d4b4114adaa443bbf8a49bc@o417296.ingest.sentry.io/5408350"
 
 [build]
-  command = "bash setup.sh && java -version && yarn build && yarn sonar"
+  command = "bash setup.sh && yarn build && yarn sonar"
