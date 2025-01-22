@@ -43,6 +43,7 @@
   SONAR_TOKEN = "c5b57574634c68650a60ad457028606ce8adcbd3"
   SONAR_PROJECT_KEY = "ae-agent-portal"
   SONAR_ORG_KEY = "integritymarketing"
+  SONAR_HOST_URL = "https://sonarcloud.io"
 
 # Custom prebuild plugin to set version number ENV var from package.json
 [[plugins]]
@@ -64,4 +65,5 @@
   REACT_APP_SENTRY_AUTH_DSN = "https://788e98ba6d4b4114adaa443bbf8a49bc@o417296.ingest.sentry.io/5408350"
 
 [build]
-command = "yarn build && yarn sonar"
+command = "npm run sonar-and-build"
+publish = "build"
