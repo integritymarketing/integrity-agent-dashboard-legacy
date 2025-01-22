@@ -31,11 +31,8 @@ import { Box } from "@mui/system";
 
 const ContactForm = ({
     callLogId,
-    prefix,
     firstName,
     lastName,
-    suffix,
-    maritalStatus,
     hasMedicAid,
     state,
     partA = "",

@@ -10,7 +10,7 @@ const PageHeader = ({ isMobile, backPath, pageName }) => {
             <Button
                 className={isMobile ? styles.backBtnMobile : styles.backBtnDesktop}
                 icon={<img src={BackBtn} alt="Back" style={{ marginRight: "5px" }} />}
-                label={"Back"}
+                label={isMobile ? "" : "Back"}
                 onClick={() => {
                     window.location = backPath;
                 }}

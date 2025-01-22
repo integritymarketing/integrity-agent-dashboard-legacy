@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FormControl, Grid, Select, TextField, Typography } from "@mui/material";
-import * as PropTypes from "prop-types";
+import { FormControl, Grid, Select, Typography } from "@mui/material";
+import { TextInput } from "components/MuiComponents";
+import PropTypes from "prop-types";
 import MenuItem from "@mui/material/MenuItem";
 import CountyContext from "../../../contexts/counties";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -45,10 +46,8 @@ const AddressDetails = ({ formik }) => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
-                    Address
-                </Typography>
-                <TextField
+                <TextInput
+                    label="Address"
                     fullWidth
                     name="address.address1"
                     value={values.address.address1}
@@ -63,10 +62,8 @@ const AddressDetails = ({ formik }) => {
                 )}
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
-                    Apt, Suite, Unit, etc.
-                </Typography>
-                <TextField
+                <TextInput
+                    label="Apt, Suite, Unit, etc."
                     fullWidth
                     name="address.address2"
                     value={values.address.address2}
@@ -81,10 +78,8 @@ const AddressDetails = ({ formik }) => {
                 )}
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
-                    City
-                </Typography>
-                <TextField
+                <TextInput
+                    label="City"
                     fullWidth
                     name="address.city"
                     value={values.address.city}
@@ -99,10 +94,8 @@ const AddressDetails = ({ formik }) => {
                 )}
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
-                    ZIP Code
-                </Typography>
-                <TextField
+                <TextInput
+                    label="ZIP Code"
                     fullWidth
                     name="address.postalCode"
                     placeholder="#####"
@@ -136,7 +129,7 @@ const AddressDetails = ({ formik }) => {
                     )}
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
+                <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     State
                 </Typography>
                 <FormControl variant="outlined" fullWidth>
@@ -167,7 +160,7 @@ const AddressDetails = ({ formik }) => {
                 </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
+                <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     County
                 </Typography>
                 <FormControl variant="outlined" fullWidth>
