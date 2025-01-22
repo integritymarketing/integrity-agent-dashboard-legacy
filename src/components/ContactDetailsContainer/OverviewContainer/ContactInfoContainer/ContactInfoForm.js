@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
@@ -28,8 +28,6 @@ import "pages/contacts/contactRecordInfo/contactRecordInfo.scss";
 import styles from "./ContactInfoContainer.module.scss";
 import { StyledElementName, StyledFormItem } from "./StyledComponents";
 import { Divider, Paper, Stack, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
-
-import SelectableButtonGroup from "components/SelectableButtonGroup";
 
 import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
@@ -147,7 +145,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 };
             }
         },
-        [showToast],
+        [showToast]
     );
 
     return (
@@ -244,7 +242,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                             args: ["Medicare Beneficiary ID Number"],
                         },
                     ],
-                    values,
+                    values
                 );
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
@@ -611,7 +609,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             onChange={(value) => {
                                                 setFieldValue("address.county", value);
                                                 const { key: fip, state } = allCounties.filter(
-                                                    (item) => item.value === value,
+                                                    (item) => item.value === value
                                                 )[0];
                                                 setFieldValue("address.countyFips", fip);
                                                 if (allCounties.length > 1) {
@@ -638,7 +636,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 handleBlur(e);
                                                 setFieldValue(
                                                     "medicareBeneficiaryID",
-                                                    formatMbiNumber(values.medicareBeneficiaryID),
+                                                    formatMbiNumber(values.medicareBeneficiaryID)
                                                 );
                                             }}
                                         />

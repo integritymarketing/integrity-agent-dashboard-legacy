@@ -1,5 +1,6 @@
 import React from "react";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+import { TextInput } from "components/MuiComponents";
 import { formatPhoneNumber } from "../../../utils/phones";
 import PropTypes from "prop-types";
 import { SelectableButtonGroup } from "@integritymarketing/clients-ui-kit";
@@ -12,10 +13,8 @@ const CommunicationDetails = ({ formik }) => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
-                    Email
-                </Typography>
-                <TextField
+                <TextInput
+                    label="Email"
                     fullWidth
                     type="email"
                     name="email"
@@ -32,10 +31,8 @@ const CommunicationDetails = ({ formik }) => {
             </Grid>
 
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
-                    Phone
-                </Typography>
-                <TextField
+                <TextInput
+                    label="Phone*"
                     fullWidth
                     type="tel"
                     placeholder="(###) ###-####"
@@ -52,7 +49,7 @@ const CommunicationDetails = ({ formik }) => {
                 )}
             </Grid>
             <Grid item xs={12}>
-                <Typography variant="h5" color="#052a63">
+                <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     Primary Contact Method*
                 </Typography>
                 <SelectableButtonGroup
@@ -60,7 +57,7 @@ const CommunicationDetails = ({ formik }) => {
                     buttonClassNames={Object.keys(valueOptions).map((option) =>
                         valueOptions[option] === values.primaryCommunication
                             ? styles.selectedOption
-                            : styles.nonSelectedOption,
+                            : styles.nonSelectedOption
                     )}
                     onSelect={(selected) => {
                         setFieldValue("primaryCommunication", valueOptions[selected]);

@@ -1,25 +1,25 @@
 import React from "react";
-import { FormControl, Grid, TextField, Typography } from "@mui/material";
+import { FormControl, Grid, Typography } from "@mui/material";
+import { TextInput } from "components/MuiComponents";
 import styles from "./BasicDetails.module.scss";
 import { onlyAlphabets } from "../../../utils/shared-utils/sharedUtility";
 import DatePickerMUI from "../../../components/DatePicker";
 import { formatDate } from "../../../utils/dates";
-import * as PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { contactFormMaritalStatusOptions, contactFormPrefixOptions, contactFormSuffixOptions } from "utils/contactForm";
 
 const BasicDetails = ({ formik, fieldSet }) => {
     const { values, errors, touched, submitCount, handleChange, handleBlur, setFieldValue } = formik;
     return (
         <Grid container spacing={2} ref={fieldSet}>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
-                    First Name*
-                </Typography>
-                <TextField
+                <TextInput
+                    label="First Name*"
                     variant="outlined"
                     fullWidth
                     name="firstName"
@@ -35,10 +35,8 @@ const BasicDetails = ({ formik, fieldSet }) => {
                 )}
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
-                    Last Name*
-                </Typography>
-                <TextField
+                <TextInput
+                    label="Last Name*"
                     fullWidth
                     name="lastName"
                     value={values.lastName}
@@ -53,10 +51,8 @@ const BasicDetails = ({ formik, fieldSet }) => {
                 )}
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
-                    Middle Initial
-                </Typography>
-                <TextField
+                <TextInput
+                    label="Middle Initial"
                     variant="outlined"
                     fullWidth
                     name="middleName"
@@ -68,7 +64,7 @@ const BasicDetails = ({ formik, fieldSet }) => {
                 />
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
+                <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     Birthdate
                 </Typography>
                 <DatePickerMUI
@@ -77,12 +73,8 @@ const BasicDetails = ({ formik, fieldSet }) => {
                     onChange={(value) => {
                         setFieldValue("birthdate", formatDate(value));
                     }}
-                    endAdornment={
-                            <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
-                    }
-                    startAdornment={
-                            <FontAwesomeIcon icon={faCalendarDays} color="#0052cf" size={"2xl"} />
-                    }
+                    endAdornment={<FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />}
+                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#0052cf" size={"2xl"} />}
                     className={styles.datePicker}
                 />
 
@@ -93,7 +85,7 @@ const BasicDetails = ({ formik, fieldSet }) => {
                 )}
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
+                <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     Prefix
                 </Typography>
                 <FormControl fullWidth variant="outlined">
@@ -117,17 +109,16 @@ const BasicDetails = ({ formik, fieldSet }) => {
                         onBlur={handleBlur}
                         displayEmpty
                     >
-                        <MenuItem value="">None</MenuItem>
-                        {["Mr.", "Mrs.", "Ms.", "Miss"].map((option) => (
-                            <MenuItem key={option} value={option}>
-                                {option}
+                        {contactFormPrefixOptions.map(({ value, label }) => (
+                            <MenuItem key={label} value={value}>
+                                {label}
                             </MenuItem>
                         ))}
                     </Select>
                 </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
+                <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     Suffix
                 </Typography>
                 <FormControl fullWidth variant="outlined">
@@ -151,16 +142,16 @@ const BasicDetails = ({ formik, fieldSet }) => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                     >
-                        <MenuItem value="">None</MenuItem>
-                        <MenuItem value="Jr.">Jr.</MenuItem>
-                        <MenuItem value="Sr.">Sr.</MenuItem>
-                        <MenuItem value="II">II</MenuItem>
-                        <MenuItem value="III">III</MenuItem>
+                        {contactFormSuffixOptions.map(({ value, label }) => (
+                            <MenuItem key={label} value={value}>
+                                {label}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
+                <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     Marital Status
                 </Typography>
                 <FormControl fullWidth variant="outlined">
@@ -184,14 +175,11 @@ const BasicDetails = ({ formik, fieldSet }) => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                     >
-                        {["Single", "Married", "Domestic Partner", "Divorced", "Widow", "Unknown"].map((option) => (
-                            <MenuItem key={option.toLowerCase()} value={option.toLowerCase()}>
-                                {option}
+                        {contactFormMaritalStatusOptions.map(({ value, label }) => (
+                            <MenuItem key={label.toLowerCase()} value={value.toLowerCase()}>
+                                {label}
                             </MenuItem>
                         ))}
-                        <MenuItem key={"none"} value={""}>
-                            None
-                        </MenuItem>
                     </Select>
                 </FormControl>
             </Grid>
