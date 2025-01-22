@@ -6,14 +6,16 @@ set -x
 # Install Java JRE 17 with Homebrew
 brew install openjdk@17
 
-# Link Java 17 and set environment variables
-sudo ln -sfn /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-17.jdk
-export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+# Set environment variables for OpenJDK 17 (Linuxbrew path)
+export JAVA_HOME="/home/linuxbrew/.linuxbrew/opt/openjdk@17"
 export PATH="$JAVA_HOME/bin:$PATH"
 
 # Add environment variables permanently (optional)
-echo "export JAVA_HOME=$(/usr/libexec/java_home -v 17)" >> ~/.bashrc
-echo "export PATH=\$JAVA_HOME/bin:\$PATH" >> ~/.bashrc
+echo "export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17" >> ~/.profile
+echo "export PATH=/home/linuxbrew/.linuxbrew/opt/openjdk@17/bin:\$PATH" >> ~/.profile
 
-# Verify installation
+# Reload profile to apply changes
+source ~/.profile
+
+# Verify Java installation
 java -version
