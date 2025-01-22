@@ -4,7 +4,7 @@ import useQueryParams from "hooks/useQueryParams";
 import useFetch from "hooks/useFetch";
 
 const ServerErrorPage = () => {
-    const { Put: getServerError, response } = useFetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/error`);
+    const { Put: getServerError, response } = useFetch(`${import.meta.env.VITE_AUTH_AUTHORITY_URL}/error`);
     const params = useQueryParams();
 
     const fetchError = async () => {

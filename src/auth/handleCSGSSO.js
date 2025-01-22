@@ -2,7 +2,7 @@ import * as Sentry from "@sentry/react";
 
 export const handleCSGSSO = async (navigate, token, npn, email) => {
     try {
-        const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/external/csglogin/${npn}/${email}`, {
+        const response = await fetch(`${import.meta.env.VITE_AUTH_AUTHORITY_URL}/external/csglogin/${npn}/${email}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,

@@ -9,7 +9,7 @@ module.exports = {
     },
     webpack: {
         configure: (webpackConfig, { env, paths }) => {
-            if (process.env.REACT_APP_BUILD_TARGET === "auth") {
+            if (import.meta.env.VITE_BUILD_TARGET === "auth") {
                 const appDirectory = require("fs").realpathSync(process.cwd());
                 webpackConfig.entry = [require("path").resolve(appDirectory, "src/authIndex.js")];
             }

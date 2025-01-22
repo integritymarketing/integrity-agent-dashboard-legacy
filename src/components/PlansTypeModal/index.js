@@ -30,7 +30,7 @@ import IulGoalQuestionCard from "components/CreateNewQuoteContainer/QuickQuoteMo
 
 const LIFE = "hideLifeQuote";
 const HEALTH = "hideHealthQuote";
-const IUL_FEATURE_FLAG = process.env.REACT_APP_IUL_FEATURE_FLAG === "show";
+const IUL_FEATURE_FLAG = import.meta.env.VITE_IUL_FEATURE_FLAG === "show";
 
 const PlansTypeModal = ({ showPlanTypeModal, isMultipleCounties, handleModalClose, leadId, zipcode, county }) => {
     const [checked, setChecked] = useState(false);

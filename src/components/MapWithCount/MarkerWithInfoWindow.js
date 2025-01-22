@@ -43,7 +43,7 @@ export const MarkerWithInfoWindow = ({ contactGroupItem, selectedAgent, handleMa
         plan_enroll_profile_created,
     } = selectedAgent || {};
     const { Post: outboundCallFromMedicareCenter } = useFetch(
-        `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`
+        `${import.meta.env.VITE_COMMUNICATION_API}/Call/CallCustomer`
     );
 
     const isMobile = useMediaQuery("(max-width: 600px)");

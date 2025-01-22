@@ -17,7 +17,7 @@ import {
 
 export const SellingPermissionsModal = ({ showSellingPermissionModal, handleModalClose, handleContinue }) => {
     const redirectToAccount = () => {
-        window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}/selling-permissions`;
+        window.location.href = `${import.meta.env.VITE_AUTH_PAW_REDIRECT_URI}/selling-permissions`;
     };
 
     return (

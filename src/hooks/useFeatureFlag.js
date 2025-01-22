@@ -12,7 +12,7 @@ const useFeatureFlag = (envVariable) => {
   const [isFeatureEnabled, setFeatureEnabled] = useState(false);
 
   useEffect(() => {
-    const flagValue = process.env[envVariable] === "true";
+    const flagValue = import.meta.env[envVariable] === "true";
     setFeatureEnabled(flagValue);
   }, [envVariable]);
 

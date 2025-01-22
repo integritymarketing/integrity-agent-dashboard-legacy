@@ -15,7 +15,7 @@ const ConfirmationPage = () => {
     const npn = queryParams.get("npn");
 
     const { Post: sendConfirmationEmail } = useFetch(
-        `${process.env.REACT_APP_AUTH_AUTHORITY_URL_V3}/resendconfirmemail`,
+        `${import.meta.env.VITE_AUTH_AUTHORITY_URL_V3}/resendconfirmemail`,
         true
     );
 

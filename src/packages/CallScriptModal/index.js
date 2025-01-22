@@ -42,7 +42,7 @@ export const CallScriptModal = ({ modalOpen, handleClose, leadId, countyFips, po
     const isValidCallSource = hasCallSource && VALID_CALL_SOURCES.includes(hasCallSource);
     const isPlanEnrollFinalExpense = hasCallSource === "PlanEnroll Final Expense (Realtime Call)";
     const { Get: fetchCarrierProductData } = useFetch(
-        `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/Carrier/Count?Zip=${postalCode}&Fips=${countyFips}&Year=${DEFAULT_EFFECTIVE_YEAR}`,
+        `${import.meta.env.VITE_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/Carrier/Count?Zip=${postalCode}&Fips=${countyFips}&Year=${DEFAULT_EFFECTIVE_YEAR}`,
     );
 
     const shouldShowOptionalHealthInfo = !carrierProductData && !postalCode && !carrierAndProductData;

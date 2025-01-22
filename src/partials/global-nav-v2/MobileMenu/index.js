@@ -56,7 +56,7 @@ const MobileMenu = ({ onClose }) => {
         {
             label: "Account",
             action: () => {
-                window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}`;
+                window.location.href = `${import.meta.env.VITE_AUTH_PAW_REDIRECT_URI}`;
                 onClose();
             },
             icon: <Account />,
@@ -68,7 +68,7 @@ const MobileMenu = ({ onClose }) => {
             label: "LeadCENTER",
             action: () => {
                 window.open(
-                    `${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO/?redirectTo=${encodeURIComponent(
+                    `${import.meta.env.VITE_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO/?redirectTo=${encodeURIComponent(
                         "campaigns"
                     )}`,
                     "_blank"
@@ -80,7 +80,7 @@ const MobileMenu = ({ onClose }) => {
             label: "MedicareAPP",
             action: () => {
                 window.open(
-                    `${process.env.REACT_APP_CONNECTURE_LINK}/${npn}/${process.env.REACT_APP_CURRENT_PLAN_YEAR}`,
+                    `${import.meta.env.VITE_CONNECTURE_LINK}/${npn}/${import.meta.env.VITE_CURRENT_PLAN_YEAR}`,
                     "_blank"
                 );
                 onClose();
@@ -89,7 +89,7 @@ const MobileMenu = ({ onClose }) => {
         {
             label: "MedicareLINK",
             action: () => {
-                window.open(process.env.REACT_APP_SUNFIRE_SSO_URL, "_blank");
+                window.open(import.meta.env.VITE_SUNFIRE_SSO_URL, "_blank");
                 onClose();
             },
         },

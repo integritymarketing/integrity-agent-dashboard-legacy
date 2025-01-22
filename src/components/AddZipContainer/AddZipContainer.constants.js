@@ -7,6 +7,6 @@ export const NEED_HELP_ZIP_TEXT = "Need help finding your client's Zip Code?";
 export const NEED_HELP_ZIP_SUBTEXT = "Copy the address below to help";
 export const CONTINUE = "Continue";
 export const ZIP_ERROR = "Please enter valid Zip Code";
-export const GET_COUNTIES = `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=`;
-export const UPDATE_LEAD_DETAILS = `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/`;
+export const GET_COUNTIES = `${import.meta.env.VITE_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=`;
+export const UPDATE_LEAD_DETAILS = `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads/`;
 export const MEDICARE_ADVANTAGE = "Medicare Advantage";

@@ -5,7 +5,7 @@ import useQueryParams from "hooks/useQueryParams";
 import validationService from "services/validationService";
 
 const confirmEmailAPI = async (values) => {
-    const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/confirmemail`, {
+    const response = await fetch(`${import.meta.env.VITE_AUTH_AUTHORITY_URL}/confirmemail`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

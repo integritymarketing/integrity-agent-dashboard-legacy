@@ -13,7 +13,7 @@ function useFetchTableData() {
   const showToast = useToast();
   const { agentId } = useUserProfile();
 
-  const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${agentId}`;
+  const URL = `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${agentId}`;
 
   const { Get: getAgentSelfAttestations } = useFetch(URL);
 

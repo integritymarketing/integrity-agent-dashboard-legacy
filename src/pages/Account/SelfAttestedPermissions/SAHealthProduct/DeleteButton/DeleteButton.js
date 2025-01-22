@@ -22,7 +22,7 @@ function DeleteButton({ attestationId, row }) {
     const { agentId } = useUserProfile();
     const { fireEvent } = useAnalytics();
 
-    const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${agentId}/${attestationId}`;
+    const URL = `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${agentId}/${attestationId}`;
 
     const { Delete: deleteAgentSelfAttestation } = useFetch(URL);
 

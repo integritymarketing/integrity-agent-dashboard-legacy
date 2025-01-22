@@ -36,7 +36,7 @@ export default function ContactListFilterOptionsV2({
     isSingleSelect,
     handleSaveButton,
 }) {
-    const URL = `${process.env.REACT_APP_LEADS_URL}/api/v2.0`;
+    const URL = `${import.meta.env.VITE_LEADS_URL}/api/v2.0`;
     const { Get: fetchLeadTags } = useFetch(URL);
     const { fireEvent } = useAnalytics();
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);

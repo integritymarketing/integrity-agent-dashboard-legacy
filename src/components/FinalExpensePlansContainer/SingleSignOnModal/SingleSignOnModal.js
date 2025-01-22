@@ -39,7 +39,7 @@ export const SingleSignOnModal = ({
     const { npn } = useUserProfile();
     const { isMobile } = useDeviceType();
 
-    const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/fexAttestation/${npn}`;
+    const URL = `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/fexAttestation/${npn}`;
 
     const { Post: addSALifeRecord } = useFetch(URL);
 

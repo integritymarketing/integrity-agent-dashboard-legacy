@@ -158,7 +158,7 @@ const PlansPage = () => {
     const isAddProviderModalOpen = useRecoilValue(addProviderModalAtom);
     const setModalOpen = useSetRecoilState(addProviderModalAtom);
     const { Post: postSpecialists } = useFetch(
-        `${process.env.REACT_APP_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`,
+        `${import.meta.env.VITE_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`,
     );
     const [rXToSpecialists, setRXToSpecialists] = useState([]);
     const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);

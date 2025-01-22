@@ -8,7 +8,7 @@ export class ComparePlansService {
 
     getLeadPharmacies = async (leadId, agentNPN) => {
         const response = await this._clientPublicAPIRequest1(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
             "GET",
             {
                 AgentNPN: agentNPN,
@@ -20,7 +20,7 @@ export class ComparePlansService {
 
     getLeadPrescriptions = async (leadId, agentNPN) => {
         const response = await this._clientPublicAPIRequest1(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
             "GET",
             {
                 AgentNPN: agentNPN,
@@ -39,7 +39,7 @@ export class ComparePlansService {
             params.pharmacyId = primaryPharmacy;
         }
         const response = await this._clientPublicAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/${planId}`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/v2.0/Lead/${leadId}/Plan/${planId}`,
              "GET", params, null,
             {
                 AgentNPN: agentNPN,

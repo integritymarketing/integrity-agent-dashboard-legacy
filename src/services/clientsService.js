@@ -176,7 +176,7 @@ export class ClientsService {
         };
 
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads/GetLeads`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads/GetLeads`,
             "POST",
             body
         );
@@ -266,7 +266,7 @@ export class ClientsService {
         };
 
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Campaign/GetCampaignLeads/${campaignId}/${actionOrderedId}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Campaign/GetCampaignLeads/${campaignId}/${actionOrderedId}`,
             "POST",
             body
         );
@@ -347,7 +347,7 @@ export class ClientsService {
             .filter((str) => str !== null)
             .join("&");
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`
         );
         if (response?.status >= 400) {
             throw new Error("Leads request failed.");
@@ -375,7 +375,7 @@ export class ClientsService {
 
     getClient = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`
         );
 
         return response;
@@ -397,7 +397,7 @@ export class ClientsService {
     createClient = async (data) => {
         const reqData = this._getFormattedData(data);
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
             "POST",
             reqData
         );
@@ -407,7 +407,7 @@ export class ClientsService {
 
     bulkCreateClients = async (reqData) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/batch`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/batch`,
             "POST",
             reqData
         );
@@ -417,7 +417,7 @@ export class ClientsService {
 
     bulkExportContacts = async (reqData) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/bulkexport`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/bulkexport`,
             "POST",
             reqData
         );
@@ -431,7 +431,7 @@ export class ClientsService {
     updateClient = async (oldValues, data) => {
         const reqData = this._getFormattedData(data, oldValues);
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${oldValues.leadsId}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${oldValues.leadsId}`,
             "PUT",
             reqData
         );
@@ -443,7 +443,7 @@ export class ClientsService {
 
     deleteClient = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
             "DELETE"
         );
 
@@ -452,7 +452,7 @@ export class ClientsService {
 
     reActivateClients = async (data) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/reactivate`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/reactivate`,
             "PUT",
             data
         );
@@ -462,7 +462,7 @@ export class ClientsService {
 
     getStatuses = async () => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_STATUS_API_VERSION}/Leads/statuses`
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_STATUS_API_VERSION}/Leads/statuses`
         );
 
         return response?.json();
@@ -470,7 +470,7 @@ export class ClientsService {
 
     getContactInfo = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`
         );
 
         return response?.json();
@@ -478,7 +478,7 @@ export class ClientsService {
 
     deleteContactLeads = async (leadsId) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
             "DELETE",
             leadsId
         );
@@ -488,7 +488,7 @@ export class ClientsService {
 
     createReminder = async (data) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders`,
             "POST",
             data
         );
@@ -498,7 +498,7 @@ export class ClientsService {
 
     updateReminder = async (data) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders/${data.leadId}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders/${data.leadId}`,
             "PUT",
             data
         );
@@ -508,7 +508,7 @@ export class ClientsService {
 
     deleteReminder = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders/${id}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Reminders/${id}`,
             "DELETE"
         );
 
@@ -517,7 +517,7 @@ export class ClientsService {
 
     createActivity = async (data) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Activities`,
             "POST",
             data
         );
@@ -527,7 +527,7 @@ export class ClientsService {
 
     updateActivity = async (data, id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities/${id}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Activities/${id}`,
             "PUT",
             data
         );
@@ -537,7 +537,7 @@ export class ClientsService {
 
     deleteActivity = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Activities/${id}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Activities/${id}`,
             "DELETE"
         );
 
@@ -546,7 +546,7 @@ export class ClientsService {
 
     deleteClient = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
             "DELETE"
         );
 
@@ -622,7 +622,7 @@ export class ClientsService {
         ];
 
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${reqData.leadsId}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${reqData.leadsId}`,
             "PUT",
             reqData
         );
@@ -660,7 +660,7 @@ export class ClientsService {
         }
 
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/GetDuplicateContact`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/GetDuplicateContact`,
             "POST",
             reqData
         );
@@ -765,7 +765,7 @@ export class ClientsService {
         });
 
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads`,
             "POST",
             requestData
         );
@@ -775,7 +775,7 @@ export class ClientsService {
 
     getContactPreferences = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences/${id}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences/${id}`,
             "GET"
         );
 
@@ -784,7 +784,7 @@ export class ClientsService {
 
     createContactPreferences = async (leadsId, payload) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences`,
             "POST",
             { leadsId, ...payload }
         );
@@ -797,7 +797,7 @@ export class ClientsService {
 
     updateContactPreferences = async (id, payload) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences/${id}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/ContactPreferences/${id}`,
             "PUT",
             payload
         );
@@ -810,7 +810,7 @@ export class ClientsService {
 
     getCounties = async (zipcode) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=${zipcode}`,
             "GET"
         );
 
@@ -819,7 +819,7 @@ export class ClientsService {
 
     getLeadPharmacies = async (leadId) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`,
             "GET"
         );
 
@@ -828,7 +828,7 @@ export class ClientsService {
 
     getLeadProviders = async (leadId) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`,
             "GET"
         );
 
@@ -837,16 +837,16 @@ export class ClientsService {
 
     getLeadPrescriptions = async (leadId) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`,
             "GET"
         );
         return response?.json().then((res) => res || []);
     };
 
     createPrescription = async (leadId, reqData, consumerId) => {
-        let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`;
+        let buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions`;
         if (consumerId) {
-            buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/syncid/${consumerId}`;
+            buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/syncid/${consumerId}`;
         }
         const response = await this._clientAPIRequest(`${buildUrl}`, "POST", reqData);
         if (response?.ok) {
@@ -856,9 +856,9 @@ export class ClientsService {
     };
 
     editPrescription = async (leadId, reqData, consumerId) => {
-        let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.dosageRecordID}`;
+        let buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.dosageRecordID}`;
         if (consumerId) {
-            buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.dosageRecordID}/syncid/${consumerId}`;
+            buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${reqData.dosageRecordID}/syncid/${consumerId}`;
         }
         const response = await this._clientAPIRequest(`${buildUrl}`, "POST", reqData);
 
@@ -869,9 +869,9 @@ export class ClientsService {
     };
 
     deletePrescription = async (leadId, id, consumerId) => {
-        let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${id}`;
+        let buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${id}`;
         if (consumerId) {
-            buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${id}/${consumerId}`;
+            buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Prescriptions/${id}/${consumerId}`;
         }
         const response = await this._clientAPIRequest(`${buildUrl}`, "DELETE");
 
@@ -880,7 +880,7 @@ export class ClientsService {
 
     getDrugNames = async (drugName) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugName?drugName=${drugName}`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugName?drugName=${drugName}`,
             "GET"
         );
         return response?.json();
@@ -888,22 +888,22 @@ export class ClientsService {
 
     getDrugDetails = async (drugID) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugDetail?id=${drugID}`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DrugDetail?id=${drugID}`,
             "GET"
         );
         return response?.json();
     };
 
     deleteHealthCondition = async (contactId, conditionId) => {
-        const buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/HealthCondition/Lead/${contactId}/id/${conditionId}`;
+        const buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/HealthCondition/Lead/${contactId}/id/${conditionId}`;
         const response = await this._clientAPIRequest(`${buildUrl}`, "DELETE");
         return response;
     };
 
     deletePharmacy = async (leadId, id, consumerId) => {
-        let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}`;
+        let buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}`;
         if (consumerId) {
-            buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}/${consumerId}`;
+            buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${id}/${consumerId}`;
         }
         const response = await this._clientAPIRequest(`${buildUrl}`, "DELETE");
 
@@ -911,9 +911,9 @@ export class ClientsService {
     };
 
     createPharmacy = async (leadId, reqData, consumerId) => {
-        let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`;
+        let buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies`;
         if (consumerId) {
-            buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${consumerId}`;
+            buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Pharmacies/${consumerId}`;
         }
         const response = await this._clientAPIRequest(`${buildUrl}`, "POST", reqData);
         if (response?.ok) {
@@ -924,7 +924,7 @@ export class ClientsService {
 
     getLeadProviders = async (leadId) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/ProviderSearchLookup`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/ProviderSearchLookup`,
             "GET"
         );
 
@@ -932,9 +932,9 @@ export class ClientsService {
     };
 
     createLeadProvider = async (leadId, data, consumerId) => {
-        let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`;
+        let buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`;
         if (consumerId) {
-            buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/${consumerId}`;
+            buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/${consumerId}`;
         }
         const response = await this._clientAPIRequest(`${buildUrl}`, "POST", data);
 
@@ -945,9 +945,9 @@ export class ClientsService {
     };
 
     deleteProvider = async (payload, leadId, consumerId) => {
-        let buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`;
+        let buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`;
         if (consumerId) {
-            buildUrl = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/${consumerId}`;
+            buildUrl = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider/${consumerId}`;
         }
         const response = await this._clientAPIRequest(`${buildUrl}`, "DELETE", payload);
         if (response?.ok) {
@@ -958,7 +958,7 @@ export class ClientsService {
 
     searchProviders = async (query) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Providers?${query}`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Providers?${query}`,
             "GET"
         );
 
@@ -968,14 +968,14 @@ export class ClientsService {
     searchPharmacies = async (payload, isOnline = false) => {
         if (isOnline) {
             const response = await this._clientAPIRequest(
-                `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DigitalPharmacies`,
+                `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/DigitalPharmacies`,
                 "GET"
             );
 
             return response?.json();
         } else {
             const response = await this._clientAPIRequest(
-                `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Pharmacies`,
+                `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Search/Pharmacies`,
                 "POST",
                 payload
             );
@@ -993,7 +993,7 @@ export class ClientsService {
         };
 
         const response = await fetch(
-            `https://api.mapbox.com/geocoding/v5/mapbox.places/${address} ${zipcode}.json?limit=1&types=address&access_token=${process.env.REACT_APP_MAPBOX_GEO_TOKEN}
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${address} ${zipcode}.json?limit=1&types=address&access_token=${import.meta.env.VITE_MAPBOX_GEO_TOKEN}
         `,
             opts
         );
@@ -1003,7 +1003,7 @@ export class ClientsService {
 
     sendSoaInformation = async (payload, leadsId) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa`,
+            `${import.meta.env.VITE_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa`,
             "POST",
             payload
         );
@@ -1016,7 +1016,7 @@ export class ClientsService {
 
     getSoaListByLeadId = async (leadsId) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa`,
+            `${import.meta.env.VITE_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa`,
             "GET"
         );
         if (response?.ok) {
@@ -1027,7 +1027,7 @@ export class ClientsService {
 
     getSoaByLinkCode = async (leadsId, linkCode) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa/${linkCode}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/v2.0/lead/${leadsId}/Soa/${linkCode}`,
             "GET"
         );
 
@@ -1036,7 +1036,7 @@ export class ClientsService {
 
     getSoaStatusByLinkCode = async (linkCode) => {
         const response = await this._clientPublicAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
             "GET"
         );
 
@@ -1045,7 +1045,7 @@ export class ClientsService {
 
     saveSoaInformationForLeadByLinkCode = async (payload, linkCode) => {
         const response = await this._clientPublicAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
             "POST",
             payload
         );
@@ -1057,7 +1057,7 @@ export class ClientsService {
     };
     saveSOAInformation = async (linkCode, payload) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Soa/${linkCode}`,
             "POST",
             payload
         );
@@ -1133,7 +1133,7 @@ export class ClientsService {
             .filter((str) => str !== null)
             .join("&");
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`
         );
         if (response?.status >= 400) {
             throw new Error("Leads request failed.");
@@ -1161,7 +1161,7 @@ export class ClientsService {
 
     getDashbaordSummary = async () => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_STATUS_API_VERSION}/Leads/summary`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_STATUS_API_VERSION}/Leads/summary`,
             "GET"
         );
 
@@ -1171,7 +1171,7 @@ export class ClientsService {
     getApplicationCount = async (sortByRange) => {
         const [startDate, endDate] = getSortByRangeDates(sortByRange);
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/appCount?startdate=${startDate}&enddate=${endDate}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/appCount?startdate=${startDate}&enddate=${endDate}`,
             "GET"
         );
 
@@ -1180,7 +1180,7 @@ export class ClientsService {
 
     getAgents = async (npn) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/rts/${npn}`,
+            `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/rts/${npn}`,
             "GET"
         );
 
@@ -1197,7 +1197,7 @@ export class ClientsService {
 
     getAgentPurlCodeByNPN = async (agentnpn) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl/npn/${agentnpn}`,
+            `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl/npn/${agentnpn}`,
             "GET"
         );
         return response?.json();
@@ -1205,7 +1205,7 @@ export class ClientsService {
 
     createAgentPurlCode = async (payload) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl`,
+            `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/Purl`,
             "POST",
             payload
         );
@@ -1215,7 +1215,7 @@ export class ClientsService {
     };
 
     updateAgentAvailability = async (payload) => {
-        const url = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`;
+        const url = `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Availability`;
         const response = await this._clientAPIRequest(url, "POST", payload);
         if (response?.ok) {
             return response;
@@ -1224,7 +1224,7 @@ export class ClientsService {
 
     updateAgentPreferences = async (payload) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Preference`,
+            `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Preference`,
             "POST",
             payload
         );
@@ -1235,7 +1235,7 @@ export class ClientsService {
 
     getAgentAvailability = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Available/${id}`,
+            `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/Available/${id}`,
             "GET"
         );
         if (response?.ok) {
@@ -1245,7 +1245,7 @@ export class ClientsService {
 
     updateAgentCallForwardingNumber = async (payload) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/CallForwardNumber`,
+            `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentMobile/CallForwardNumber`,
             "POST",
             payload
         );
@@ -1257,7 +1257,7 @@ export class ClientsService {
 
     getAgentByAgentId = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/${id}`,
+            `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/Agents/${id}`,
             "GET"
         );
         const agentData = await response?.json();
@@ -1269,14 +1269,14 @@ export class ClientsService {
 
     generateAgentTwiloNumber = async (id) => {
         await this._clientAPIRequest(
-            `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/Call/GenerateVirtualPhoneNumber/${id}?limit=1`,
+            `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/Call/GenerateVirtualPhoneNumber/${id}?limit=1`,
             "POST"
         );
     };
 
     getAllTagsByGroups = async () => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory?mappedLeadTagsOnly=true`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory?mappedLeadTagsOnly=true`,
             "GET"
         );
         return response?.json();
@@ -1284,7 +1284,7 @@ export class ClientsService {
 
     getTagsGroupByCategory = async () => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Tag/TagsGroupByCategory`,
             "GET"
         );
         return response?.json();
@@ -1292,7 +1292,7 @@ export class ClientsService {
 
     updateLeadsTags = async (leadId, tagIds = []) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/LeadTags/Update`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/LeadTags/Update`,
             "POST",
             { leadId, tagIds }
         );
@@ -1329,7 +1329,7 @@ export class ClientsService {
             requestData.partB = contact.partB;
         }
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
             "PUT",
             requestData
         );
@@ -1341,7 +1341,7 @@ export class ClientsService {
 
     updateLeadZip = async (contact, zip, county, countyFips) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
             "PUT",
             {
                 leadsId: contact.leadsId,
@@ -1378,7 +1378,7 @@ export class ClientsService {
 
     updateLeadState = async (contact, stateCode) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
             "PUT",
             {
                 leadsId: contact.leadsId,
@@ -1448,7 +1448,7 @@ export class ClientsService {
         }
 
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${contact.leadsId}`,
             "PUT",
             {
                 leadsId: contact.leadsId,
@@ -1488,7 +1488,7 @@ export class ClientsService {
 
     saveTag = async ({ leadsId, tagCategoryId, tagLabel, tagId }) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Tag/${tagId || ""}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Tag/${tagId || ""}`,
             tagId ? "PUT" : "POST",
             {
                 tagId: tagId || 0,
@@ -1502,7 +1502,7 @@ export class ClientsService {
 
     deleteTag = async ({ tagId }) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Tag/${tagId || ""}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Tag/${tagId || ""}`,
             "DELETE"
         );
         return response?.ok;
@@ -1510,7 +1510,7 @@ export class ClientsService {
 
     getTaskList = async (npn, dateRange, status) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/tasks/${npn}/${dateRange}/${status}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads/tasks/${npn}/${dateRange}/${status}`,
             "GET"
         );
 
@@ -1519,7 +1519,7 @@ export class ClientsService {
 
     getTaskListCount = async (npn, dateRange) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_LEADS_URL}/api/v3.0/Leads/taskcount/${npn}/${dateRange}`,
+            `${import.meta.env.VITE_LEADS_URL}/api/v3.0/Leads/taskcount/${npn}/${dateRange}`,
             "GET"
         );
 

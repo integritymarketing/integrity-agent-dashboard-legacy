@@ -104,7 +104,7 @@ const ComparePlanModal = ({
         const stateCode = addresses?.[0]?.stateCode;
         const countyFIPS = addresses?.[0]?.countyFips;
         const urlPathName = window.location.pathname;
-        let planCompareUrl = `${process.env.REACT_APP_MEDICARE_ENROLL}/customer${urlPathName}`;
+        let planCompareUrl = `${import.meta.env.VITE_MEDICARE_ENROLL}/customer${urlPathName}`;
 
         const extractIdsFromUrl = (url) => {
             const match = url.match(/\/compare\/([^/]+)/);

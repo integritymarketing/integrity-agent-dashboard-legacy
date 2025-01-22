@@ -8,7 +8,7 @@ const getPortalUrl = () => {
   const cookies =new Cookies();
 
   return (
-    process.env.REACT_APP_PORTAL_URL ||
+    import.meta.env.VITE_PORTAL_URL ||
     cookies.get('portal_url') ||
     cookies.get('client_url') ||
     'https://clients.integrity.com' // Fallback URL if no other sources provide the portal URL.
@@ -22,7 +22,7 @@ class authService {
       userStore: new WebStorageStateStore({ store: window.localStorage }),
     });
 
-    if (process.env.REACT_APP_BUILD_ENV !== "Production") {
+    if (import.meta.env.VITE_BUILD_ENV !== "Production") {
       Log.logger = console;
       Log.level = Log.DEBUG;
     }
@@ -71,13 +71,13 @@ class authService {
       cookies.set("sunfire_client_id", isAgentMobileSunfire);
     }
     return {
-      authority: process.env.REACT_APP_AUTH_AUTHORITY_URL,
-      client_id: process.env.REACT_APP_AUTH_CLIENT_ID,
-      response_type: process.env.REACT_APP_AUTH_RESPONSE_TYPE,
-      scope: process.env.REACT_APP_AUTH_SCOPES,
-      redirect_uri: `${portal_url}/signin-oidc?client_id=${process.env.REACT_APP_AUTH_CLIENT_ID}`,
+      authority: import.meta.env.VITE_AUTH_AUTHORITY_URL,
+      client_id: import.meta.env.VITE_AUTH_CLIENT_ID,
+      response_type: import.meta.env.VITE_AUTH_RESPONSE_TYPE,
+      scope: import.meta.env.VITE_AUTH_SCOPES,
+      redirect_uri: `${portal_url}/signin-oidc?client_id=${import.meta.env.VITE_AUTH_CLIENT_ID}`,
       post_logout_redirect_uri: `${portal_url}/signout-oidc`,
-      silent_redirect_uri: `${portal_url}/signin-oidc-silent?client_id=${process.env.REACT_APP_AUTH_CLIENT_ID}`,
+      silent_redirect_uri: `${portal_url}/signin-oidc-silent?client_id=${import.meta.env.VITE_AUTH_CLIENT_ID}`,
     };
   };
 
@@ -109,7 +109,7 @@ class authService {
       opts.body = JSON.stringify(body);
     }
 
-    let url = `${process.env.REACT_APP_AUTH_AUTHORITY_URL}`;
+    let url = `${import.meta.env.VITE_AUTH_AUTHORITY_URL}`;
     if (isExtranlLogin) {
       url = `${url}/external${path}`;
     } else {
@@ -174,7 +174,7 @@ class authService {
   isAuthenticated = () => {
     const oidcStorage = JSON.parse(
       localStorage.getItem(
-        `oidc.user:${process.env.REACT_APP_AUTH_AUTHORITY_URL}:${process.env.REACT_APP_AUTH_CLIENT_ID}`
+        `oidc.user:${import.meta.env.VITE_AUTH_AUTHORITY_URL}:${import.meta.env.VITE_AUTH_CLIENT_ID}`
       )
     );
     return Boolean(oidcStorage) && Boolean(oidcStorage.id_token);
@@ -211,7 +211,7 @@ class authService {
     this.UserManager.signoutRedirectCallback().then(() => {
       this.UserManager.clearStaleState();
       localStorage.clear();
-      window.location.href = process.env.REACT_APP_BUILD_ENV === "Production" ?`https://integrity.com/` :process.env.REACT_APP_PORTAL_URL;
+      window.location.href = import.meta.env.VITE_BUILD_ENV === "Production" ?`https://integrity.com/` :import.meta.env.VITE_PORTAL_URL;
     });
   };
 
@@ -275,10 +275,10 @@ class authService {
 
   handleOpenLeadsCenter = () => {
     const userManager = new UserManager({
-      authority: process.env.REACT_APP_AUTH_ILC_URL,
+      authority: import.meta.env.VITE_AUTH_ILC_URL,
       client_id: "ILSClient",
       response_type: "code",
-      redirect_uri: process.env.REACT_APP_AUTH_ILC_REDIRECT_URI,
+      redirect_uri: import.meta.env.VITE_AUTH_ILC_REDIRECT_URI,
       scope:
         "openid profile email phone IlsLeadManagementAPI_Full IlsOrderManagementAPI_Full IlsApplicationManagementAPI_Full IlsGatewayAPI_Full LeadsAPI_Full AgentService_Full",
       userStore: new WebStorageStateStore({ store: window.localStorage }),

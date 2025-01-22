@@ -29,7 +29,7 @@ export const ConnectModal = ({ isOpen, onClose, leadId, leadDetails }) => {
 
     const formattedPhoneNumber = agentVirtualPhoneNumber?.replace(/^\+1/, "");
     const { Post: outboundCallFromMedicareCenter } = useFetch(
-        `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`
+        `${import.meta.env.VITE_COMMUNICATION_API}/Call/CallCustomer`
     );
     const {
         firstName = "",

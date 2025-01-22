@@ -398,7 +398,7 @@ export const PlanDetailsContainer = ({
     );
 
     const redirectToSelfAttestedPermissions = () => {
-        window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}/selling-permissions`;
+        window.location.href = `${import.meta.env.VITE_AUTH_PAW_REDIRECT_URI}/selling-permissions`;
     };
 
     const renderActiveSellingPermissionsSection = useCallback(() => {

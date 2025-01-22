@@ -8,7 +8,7 @@ import MedicareCenterLogo from "../../images/medicare-center.png";
 
 export const RegisterLink = (props) => {
     return (
-        <a href={`${process.env.REACT_APP_AUTH_BASE_URL}/register?client_id=AEPortal`} {...props}>
+        <a href={`${import.meta.env.VITE_AUTH_BASE_URL}/register?client_id=AEPortal`} {...props}>
             {props.children}
         </a>
     );

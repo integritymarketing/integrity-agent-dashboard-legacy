@@ -9,7 +9,7 @@ function useCarrierOptions() {
     const [originals, setOriginals] = useState(null);
     const [options, setOptions] = useState(null);
 
-    const URL = `${process.env.REACT_APP_QUOTE_URL}/api/${AGENTS_API_VERSION}/FinalExpenses/selfattest/carriers`;
+    const URL = `${import.meta.env.VITE_QUOTE_URL}/api/${AGENTS_API_VERSION}/FinalExpenses/selfattest/carriers`;
 
     const { Get: getCarries } = useFetch(URL);
 

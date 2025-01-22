@@ -7,7 +7,7 @@ export class EnrollPlansService {
     }
 
     getEnrollPlans = async (leadId) => {
-        const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}/lead/${leadId}`);
+        const url = new URL(`${import.meta.env.VITE_BOOKOFBUSINESS_API}/lead/${leadId}`);
 
         const response = await this._clientAPIRequest(url, "GET", {
             LeadId: leadId,
@@ -17,7 +17,7 @@ export class EnrollPlansService {
     };
 
     getPolicySnapShotList = async (npn, dateRange, status) => {
-        const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}/summary/${npn}/${dateRange}/${status}`);
+        const url = new URL(`${import.meta.env.VITE_BOOKOFBUSINESS_API}/summary/${npn}/${dateRange}/${status}`);
 
 
         const response = await this._clientAPIRequest(url, "GET");
@@ -27,7 +27,7 @@ export class EnrollPlansService {
 
     getPolicySnapShotCount = async (npn, dateRange) => {
 
-        const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}/policycount/${npn}/${dateRange}`);
+        const url = new URL(`${import.meta.env.VITE_BOOKOFBUSINESS_API}/policycount/${npn}/${dateRange}`);
 
         try {
             const response = await this._clientAPIRequest(url, "GET");
@@ -43,14 +43,14 @@ export class EnrollPlansService {
     };
 
     getBookOfBusinessBySourceId = async (npn, id) => {
-        const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}/${npn}/SourceId/${id}`);
+        const url = new URL(`${import.meta.env.VITE_BOOKOFBUSINESS_API}/${npn}/SourceId/${id}`);
 
         const response = await this._clientAPIRequest(url, "GET");
         return response?.json();
     };
 
     updateBookOfBusiness = async (updateBookPayload) => {
-        const url = new URL(`${process.env.REACT_APP_BOOKOFBUSINESS_API}`);
+        const url = new URL(`${import.meta.env.VITE_BOOKOFBUSINESS_API}`);
 
         const response = await this._clientAPIRequest(url, "PUT", "", updateBookPayload);
         return response?.json();
@@ -58,7 +58,7 @@ export class EnrollPlansService {
 
     enroll = async (leadId, planId, data) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/Lead/${leadId}/Enroll/${planId}`,
+            `${import.meta.env.VITE_ENROLLMENT_SERVICE_API}/Medicare/Lead/${leadId}/Enroll/${planId}`,
             "POST",
             "",
             data
@@ -69,7 +69,7 @@ export class EnrollPlansService {
 
     enrollConsumer = async (leadId, planId, data, agentNPN) => {
         const response = await this._clientPublicAPIRequest(
-            `${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/Lead/${leadId}/Enroll/${planId}`,
+            `${import.meta.env.VITE_ENROLLMENT_SERVICE_API}/Medicare/Lead/${leadId}/Enroll/${planId}`,
             "POST",
             data,
             {
@@ -81,7 +81,7 @@ export class EnrollPlansService {
     };
 
     sharePolicy = async (sharePolicyPayload) => {
-        const url = new URL(`${process.env.REACT_APP_ENROLLMENT_SERVICE_API}/Medicare/ShareCurrentPlanSnapshot`);
+        const url = new URL(`${import.meta.env.VITE_ENROLLMENT_SERVICE_API}/Medicare/ShareCurrentPlanSnapshot`);
 
         const response = await this._clientAPIRequest(url, "POST", "", sharePolicyPayload);
         return response?.json();

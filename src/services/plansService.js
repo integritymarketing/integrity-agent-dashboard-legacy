@@ -33,7 +33,7 @@ export class PlansService {
 
     enrollConsumerView = async (leadId, planId, data, agentNPN) => {
         const response = await this._clientPublicAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/v2.0/Lead/${leadId}/Enroll/${planId}`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/v2.0/Lead/${leadId}/Enroll/${planId}`,
             "POST",
             data,
             {
@@ -54,7 +54,7 @@ export class PlansService {
 
     resendCode = async (data) => {
         const response = await this._clientPublicAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/Plan/ResendPasscode`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Plan/ResendPasscode`,
             "POST",
             data
         );
@@ -76,7 +76,7 @@ export class PlansService {
 
     getPassCodeToken = async (token) => {
         const response = await this._clientPublicAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/passcode/${token}?api-version=1.0`,
+            `${import.meta.env.VITE_QUOTE_URL}/passcode/${token}?api-version=1.0`,
             "GET"
         );
         return response?.json();
@@ -93,7 +93,7 @@ export class PlansService {
             },
         };
 
-        const url = new URL(`${process.env.REACT_APP_QUOTE_URL}/api/${versionPath}/${path}`);
+        const url = new URL(`${import.meta.env.VITE_QUOTE_URL}/api/${versionPath}/${path}`);
         url.search = new URLSearchParams(query).toString();
 
         if (body) {

@@ -4,7 +4,7 @@ export const getSignalRConnection = (profileAgentId) => {
   if (window.connection) {
     return window.connection;
   }
-  const toggleURI = `${process.env.REACT_APP_AGENT_MANAGMENT_SIGNALR}?agentid=${profileAgentId}`;
+  const toggleURI = `${import.meta.env.VITE_AGENT_MANAGMENT_SIGNALR}?agentid=${profileAgentId}`;
   const connection = new HubConnectionBuilder()
     .withUrl(toggleURI)
     .configureLogging(LogLevel.Information)

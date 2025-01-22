@@ -24,7 +24,7 @@ const EmailInput = ({ label, onValidation }) => {
     const [message, setMessage] = useState(null);
     const [value, setValue] = useState("");
 
-    const { Get: validateEmail } = useFetch(`${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/Validate/EmailAddress`);
+    const { Get: validateEmail } = useFetch(`${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads/Validate/EmailAddress`);
 
     // Email validation schema
     const emailSchema = yup

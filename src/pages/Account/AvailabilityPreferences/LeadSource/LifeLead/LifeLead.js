@@ -48,7 +48,7 @@ function LifeLead({ setShowAvilabilityDialog }) {
         <SectionItem
             title="Life"
             actionTitle={hasActiveLifeCallCampaign ? "Configure" : "Set Up"}
-            action={() => window.open(`${process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`, "_blank")}
+            action={() => window.open(`${import.meta.env.VITE_AUTH0_LEADS_REDIRECT_URI}/LeadCenterSSO`, "_blank")}
             onChange={handleLifeLeadToggle}
             disabled={shouldDisable}
             checked={hasActiveLifeCallCampaign ? leadPreference?.leadCenterLife : false}

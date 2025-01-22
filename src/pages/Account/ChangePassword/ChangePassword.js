@@ -20,7 +20,7 @@ function ChangePassword() {
     const showToast = useToast();
 
     const { Put: updateAccountPassword } = useFetch(
-        `${process.env.REACT_APP_AGENTS_URL}/api/v1.0/Account/UpdatePassword`
+        `${import.meta.env.VITE_AGENTS_URL}/api/v1.0/Account/UpdatePassword`
     );
 
     return (

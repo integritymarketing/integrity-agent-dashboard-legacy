@@ -29,7 +29,7 @@ const SMSPhoneNumberInput = ({ label, onValidation }) => {
     const [value, setValue] = useState("");
 
     const { Get: validatePhone } = useFetch(
-        `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/Validate/MobilePhoneNumber`
+        `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads/Validate/MobilePhoneNumber`
     );
 
     // Validation schema ignoring special characters and ensuring 10 digits

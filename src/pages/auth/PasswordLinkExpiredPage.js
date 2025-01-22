@@ -4,7 +4,7 @@ import useQueryParams from "hooks/useQueryParams";
 import usePortalUrl from "hooks/usePortalUrl";
 
 const requestPasswordReset = async (npn) => {
-    const response = await fetch(`${process.env.REACT_APP_AUTH_AUTHORITY_URL}/forgotpassword`, {
+    const response = await fetch(`${import.meta.env.VITE_AUTH_AUTHORITY_URL}/forgotpassword`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

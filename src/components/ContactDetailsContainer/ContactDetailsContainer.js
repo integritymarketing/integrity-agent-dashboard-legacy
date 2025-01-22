@@ -41,7 +41,7 @@ export const ContactDetailsContainer = () => {
     const [isMobile, setIsMobile] = useState(false);
 
     const zipCode = leadDetails?.addresses?.[0]?.postalCode;
-    const URL = `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=${zipCode}`;
+    const URL = `${import.meta.env.VITE_QUOTE_URL}/api/v1.0/Search/GetCounties?zipcode=${zipCode}`;
     const { Get: getCounties } = useFetch(URL);
 
     useEffect(() => {

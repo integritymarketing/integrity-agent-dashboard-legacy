@@ -12,7 +12,7 @@ import styles from "./index.module.scss";
 
 const PERSONAL_URL_DESCRIPTION =
     "Send your personalized link to the client to get them started with shopping for plans. Don't worry, you will get credit if the consumer enrolls in any of these plans.";
-const URL = process.env.REACT_APP_MEDICARE_ENROLL;
+const URL = import.meta.env.VITE_MEDICARE_ENROLL;
 
 const CopyPersonalURL = () => {
     const {

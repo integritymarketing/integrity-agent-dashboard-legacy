@@ -1,7 +1,7 @@
 import useFetch from "../useFetch";
 
 const useDuplicateContact = () => {
-    const url = `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/GetDuplicateContact`;
+    const url = `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads/GetDuplicateContact`;
     const { Post, loading, error } = useFetch(url);
 
     const checkDuplicateContact = async (values) => {

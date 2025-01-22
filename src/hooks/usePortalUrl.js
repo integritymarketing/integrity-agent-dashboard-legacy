@@ -5,7 +5,7 @@ const usePortalUrl = () => {
   const cookies = useMemo(() => new Cookies(), []);
 
   return useMemo(() => (
-    process.env.REACT_APP_PORTAL_URL ||
+      import.meta.env.VITE_PORTAL_URL ||
     cookies.get('portal_url') ||
     cookies.get('client_url') ||
     'https://clients.integrity.com' // Fallback URL if no other sources provide the portal URL.

@@ -40,7 +40,7 @@ function SelectedAgentCard({ selectedAgent, setSelectedAgent }) {
     } = selectedAgent;
 
     const { Post: outboundCallFromMedicareCenter } = useFetch(
-        `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`
+        `${import.meta.env.VITE_COMMUNICATION_API}/Call/CallCustomer`
     );
 
     const phone = useMemo(() => {

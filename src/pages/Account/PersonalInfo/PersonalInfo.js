@@ -32,7 +32,7 @@ function PersonalInfo() {
         caLicense,
     } = agentInformation;
     const formattedPhoneNumber = formatPhoneNumber(phone ?? "");
-    const { Put: updateAccount } = useFetch(`${process.env.REACT_APP_AGENTS_URL}/api/v1.0/Account/Update`);
+    const { Put: updateAccount } = useFetch(`${import.meta.env.VITE_AGENTS_URL}/api/v1.0/Account/Update`);
 
     const onSubmitHandler = useCallback(
         async (values, { setErrors, setSubmitting }) => {

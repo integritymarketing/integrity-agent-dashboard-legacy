@@ -41,7 +41,7 @@ function SAAddPermissionForm() {
     const { carriersOptions, getProductsOptions, getPlanYearOptions, getProducerID, carriersGroup } =
         useSelectOptions(agents);
 
-    const URL = `${process.env.REACT_APP_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${npn}`;
+    const URL = `${import.meta.env.VITE_AGENTS_URL}/api/${AGENTS_API_VERSION}/AgentsSelfService/attestation/${npn}`;
 
     const { Post: addAgentSelfAttestation } = useFetch(URL);
 

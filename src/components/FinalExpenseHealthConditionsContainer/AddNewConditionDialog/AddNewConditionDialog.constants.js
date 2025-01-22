@@ -1,6 +1,6 @@
 import { QUOTES_API_VERSION } from "services/clientsService";
 
-export const HEALTH_CONDITION_SEARCH_API = `${process.env.REACT_APP_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/uw/search/`;
+export const HEALTH_CONDITION_SEARCH_API = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/uw/search/`;
 export const MODAL_CONDITION_TITLE = "Add a Condition";
 export const HEALTH_CONDITION_TITLE = "Health Condition";
 export const HEALTH_INTAKE_TITLE = "Health Intake";

@@ -1,8 +1,8 @@
 import useDeviceInfo, { DEVICES } from "hooks/useDeviceInfo";
 import useQueryParams from "hooks/useQueryParams";
 
-const IOS_MINIMUM_APP_VERSION = process.env.REACT_APP_IOS_MINIMUM_APP_VERSION;
-const ANDROID_MINIMUM_APP_VERSION = process.env.REACT_APP_ANDROID_MINIMUM_APP_VERSION;
+const IOS_MINIMUM_APP_VERSION = import.meta.env.VITE_IOS_MINIMUM_APP_VERSION;
+const ANDROID_MINIMUM_APP_VERSION = import.meta.env.VITE_ANDROID_MINIMUM_APP_VERSION;
 
 // Function to get URL parameters by name
 function getURLParameter(name, url) {

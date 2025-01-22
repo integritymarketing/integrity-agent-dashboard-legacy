@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 export default function NoticeModal({ open = false, handleClose = () => {} }) {
     const handleAccountPageNavigation = () => {
-        window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}/agent-profile#Preferences`;
+        window.location.href = `${import.meta.env.VITE_AUTH_PAW_REDIRECT_URI}/agent-profile#Preferences`;
     };
 
     return (

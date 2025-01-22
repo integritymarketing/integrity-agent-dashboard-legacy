@@ -4,7 +4,7 @@ import useToast from "hooks/useToast";
 import useFetch from "hooks/useFetch";
 
 const useOutboundCall = () => {
-    const URL = `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`;
+    const URL = `${import.meta.env.VITE_COMMUNICATION_API}/Call/CallCustomer`;
 
     const { agentInformation } = useAgentInformationByID();
     const [isCallScriptOpen, setIsCallScriptOpen] = useState(false);
