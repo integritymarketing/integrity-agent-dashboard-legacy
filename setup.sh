@@ -19,3 +19,5 @@ source ~/.profile
 
 # Verify Java installation
 java -version
+
+yarn sonar
