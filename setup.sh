@@ -3,6 +3,11 @@
 set -e
 set -x
 
+# Print the current working directory
+echo "Current directory: $(pwd)"
+cd "$(dirname "$0")"
+echo "Current directory: $(pwd)"
+
 # Install Java JRE 17 with Homebrew
 brew install openjdk@17
 
