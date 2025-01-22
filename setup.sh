@@ -5,30 +5,30 @@ set -x  # Enable debug mode to log commands as they are executed
 
 # Update system package index
 echo "Updating package index..."
-sudo apt update
-sudo apt upgrade -y
+apt update
+apt upgrade -y
 
 # Add the PPA for OpenJDK (optional but recommended for latest updates)
 echo "Adding PPA for OpenJDK..."
-sudo add-apt-repository ppa:openjdk-r/ppa -y
-sudo apt update
+add-apt-repository ppa:openjdk-r/ppa -y
+apt update
 
 # Install OpenJDK 17 JRE
 echo "Installing OpenJDK 17 JRE..."
-sudo apt install -y openjdk-17-jre
+apt install -y openjdk-17-jre
 
 # (Optional) Install OpenJDK 17 JDK if needed
 echo "Installing OpenJDK 17 JDK (optional)..."
-sudo apt install -y openjdk-17-jdk
+apt install -y openjdk-17-jdk
 
 # Configure default 'java' version
 echo "Configuring default Java version..."
-sudo update-alternatives --config java
+update-alternatives --config java
 
 # (Optional) Configure default 'javac' version if JDK is installed
 if command -v javac &>/dev/null; then
   echo "Configuring default Javac version..."
-  sudo update-alternatives --config javac
+  update-alternatives --config javac
 fi
 
 # Set JAVA_HOME environment variable
