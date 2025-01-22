@@ -50,9 +50,6 @@
 [[plugins]]
   package = "./plugins/netlify/prebuild-set-version-number"
 
-[[plugins]]
-package = "@netlify/plugin-java"
-
 # Sentry build plugin
 [[plugins]]
   package = "@sentry/netlify-build-plugin"
