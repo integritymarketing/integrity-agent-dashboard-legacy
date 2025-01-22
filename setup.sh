@@ -13,8 +13,8 @@ sdk install java 17.0.6-zulu
 sdk use java 17.0.6-zulu
 
 # Export JAVA_HOME and fix PATH without overwriting it
-export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
-export PATH="$JAVA_HOME/bin:$PATH:/bin:/usr/bin:/usr/local/bin"
+# export JAVA_HOME="$HOME/.sdkman/candidates/java/current"
+# export PATH="$JAVA_HOME/bin:$PATH:/bin:/usr/bin:/usr/local/bin"
 
 # Verify Java version in logs
 java -version
