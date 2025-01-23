@@ -22,15 +22,19 @@ fi
 echo "Git commit: $(git rev-parse --short HEAD || echo 'No Git repository or HEAD not found')"
 
 # Install Java JRE 17 with Homebrew
-brew install openjdk@17
+# brew install openjdk@17
+
+# Use Mise to install Java
+mise use -g java@openjdk-21
+mise use -g java@21
 
 # Set environment variables for OpenJDK 17 (Linuxbrew path)
-export JAVA_HOME="/home/linuxbrew/.linuxbrew/opt/openjdk@17"
-export PATH="$JAVA_HOME/bin:$PATH"
+# export JAVA_HOME="/home/linuxbrew/.linuxbrew/opt/openjdk@17"
+# export PATH="$JAVA_HOME/bin:$PATH"
 
 # Add environment variables permanently (optional)
-echo "export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17" >> ~/.profile
-echo "export PATH=/home/linuxbrew/.linuxbrew/opt/openjdk@17/bin:\$PATH" >> ~/.profile
+# echo "export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17" >> ~/.profile
+# echo "export PATH=/home/linuxbrew/.linuxbrew/opt/openjdk@17/bin:\$PATH" >> ~/.profile
 
 # Reload profile to apply changes
 source ~/.profile

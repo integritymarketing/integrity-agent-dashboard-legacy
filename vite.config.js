@@ -52,12 +52,13 @@ export default defineConfig(({ mode }) => {
                 utilities: path.resolve(__dirname, "src/utilities"), // Alias for 'partials'
                 packages: path.resolve(__dirname, "src/packages"), // Alias for 'packages'
                 images: path.resolve(__dirname, "src/images"), // Alias for 'images'
+                scss: path.resolve(__dirname, "src/scss"), // Alias for 'scss'
             },
             extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
         },
 
         optimizeDeps: {
-            exclude: ["recoil"], // Exclude Recoil from dependency pre-bundling
+            exclude: ["recoil", "moment"], // Exclude Recoil from dependency pre-bundling
         },
     };
 });

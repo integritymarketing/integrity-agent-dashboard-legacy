@@ -33,7 +33,7 @@ module.exports = {
         curly: "warn",
         "default-param-last": "error",
         "no-constructor-return": "error",
-        "no-console": "warn",
+        "no-console": "off",
         "no-empty-function": "warn",
         "no-eval": "error",
         "no-extend-native": "error",

@@ -2,9 +2,7 @@ const { version } = require("../../../package.json");
 
 module.exports = {
   onPreBuild: () => {
-    process.env["REACT_APP_VERSION"] = version;
-    console.log(
-      `Setting REACT_APP_VERSION to ${import.meta.env.VITE_VERSION}`
-    );
+    process.env["VITE_VERSION"] = version;
+    console.log(`Setting VITE_VERSION to ${import.meta.env.VITE_VERSION}`);
   },
 };
