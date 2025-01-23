@@ -1,5 +1,6 @@
 import React from "react";
-import { Grid, TextField, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+import { TextInput } from "components/MuiComponents";
 import styles from "./MedicareIDDetails.module.scss";
 import { formatMbiNumber } from "../../../utils/shared-utils/sharedUtility";
 import DatePickerMUI from "../../DatePicker";
@@ -12,10 +13,8 @@ const MedicareIDDetails = ({ formik }) => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography variant="h5" color="#052a63">
-                    Medicare Beneficiary ID Number
-                </Typography>
-                <TextField
+                <TextInput
+                    label="Medicare Beneficiary ID Number"
                     fullWidth
                     type="text"
                     placeholder="####-###-####"
@@ -36,7 +35,7 @@ const MedicareIDDetails = ({ formik }) => {
                 )}
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
+                <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     Part A Effective Date
                 </Typography>
                 <DatePickerMUI
@@ -50,7 +49,7 @@ const MedicareIDDetails = ({ formik }) => {
                 />
             </Grid>
             <Grid item xs={12} md={6}>
-                <Typography variant="h5" color="#052a63">
+                <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     Part B Effective Date
                 </Typography>
                 <DatePickerMUI

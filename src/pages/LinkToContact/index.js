@@ -10,7 +10,6 @@ import useCallRecordings from "hooks/useCallRecordings";
 import { Download } from "@integritymarketing/icons";
 
 import { CallScriptModal } from "packages/CallScriptModal";
-import Tags from "packages/Tags/Tags";
 
 import FinalExpenseContactBar from "components/FinalExpensePlansContainer/FinalExpenseContactBar";
 import Footer from "partials/global-footer";
@@ -111,6 +110,7 @@ export default function LinkToContact() {
             callLog.callLogTags.map((tagInfo) => ({
                 tagId: tagInfo.tag.tagId,
                 tagLabel: tagInfo.tag.tagLabel,
+                tagIcon: tagInfo.tag.tagIconUrl,
             }))
         );
 
@@ -122,6 +122,9 @@ export default function LinkToContact() {
     const flattenedTags = callsRecordingTags?.length > 0 ? extractAndFlattenTags(callsRecordingTags) : [];
 
     const tagIds = flattenedTags?.map((tag) => tag.tagId);
+    const tagIcons = flattenedTags?.map((tag) => tag.tagIcon);
+
+    console.log("flattenedTags", flattenedTags, tagIds);
 
     const goToAddNewContactsPage = useCallback(() => {
         const baseRoute = `/contact/add-new/`;
@@ -136,7 +139,9 @@ export default function LinkToContact() {
     }, [callLogId, tagIds, phoneNumber, isInboundCall, callerName, navigate]);
 
     const handleDownloadAndTextClick = () => {
-        if (!callRecordingUrl) {return;}
+        if (!callRecordingUrl) {
+            return;
+        }
 
         const link = document.createElement("a");
         link.href = callRecordingUrl;
@@ -209,9 +214,22 @@ export default function LinkToContact() {
                             </Button>
                         )}
                     </Box>
-                    {flattenedTags?.length > 0 ? (
+                    {tagIcons?.length > 0 ? (
                         <div className={styles.medContent}>
-                            <Tags words={flattenedTags} flexDirection={"column"} />
+                            <Box className={styles.tagsContainer}>
+                                <Typography variant="h4" color="#052A63" marginBottom={0.5}>
+                                    Tags
+                                </Typography>
+                                <Box className={styles.tagsListContainer}>
+                                    {tagIcons &&
+                                        tagIcons?.length > 0 &&
+                                        tagIcons?.map((icon, i) => (
+                                            <Box key={`${icon}-${i}`}>
+                                                <img src={icon} alt="tag" />
+                                            </Box>
+                                        ))}
+                                </Box>
+                            </Box>
                         </div>
                     ) : null}
 
@@ -227,7 +245,12 @@ export default function LinkToContact() {
                                 </Typography>
                             </Box>
                             <Box className={styles.linkToContactSection}>
-                                <PossibleMatches phone={phoneNumber} tagIds={tagIds} inbound={isInboundCall} name={callerName} />
+                                <PossibleMatches
+                                    phone={phoneNumber}
+                                    tagIds={tagIds}
+                                    inbound={isInboundCall}
+                                    name={callerName}
+                                />
                                 <Box className={styles.createNewContact}>
                                     <Button
                                         size="small"

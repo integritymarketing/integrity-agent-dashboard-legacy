@@ -66,11 +66,11 @@ function MyButton({ page, leadPreference }) {
     };
 
     useEffect(() => {
-        setIsCheckInUpdateModalDismissed(leadPreference.isCheckInUpdateModalDismissed || true);
+        setIsCheckInUpdateModalDismissed(leadPreference?.isCheckInUpdateModalDismissed || true);
 
         if (
-            leadPreference.isCheckInUpdateModalDismissed !== undefined &&
-            leadPreference.isCheckInUpdateModalDismissed === false &&
+            leadPreference?.isCheckInUpdateModalDismissed !== undefined &&
+            leadPreference?.isCheckInUpdateModalDismissed === false &&
             leadPreference?.isAgentMobilePopUpDismissed &&
             page === "dashboard"
         ) {

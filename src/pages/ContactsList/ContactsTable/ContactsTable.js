@@ -45,7 +45,7 @@ import { getShoppersColorScheme } from "utils/shared-utils/sharedUtility";
 import WithLoader from "components/ui/WithLoader";
 
 function ContactsTable() {
-    const { tableData, policyCounts, refreshData, isfetchingTableData } = useContactsListContext();
+    const { tableData, policyCounts, refreshData, isfetchingTableData, isStartedSearching } = useContactsListContext();
     const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(DeleteLeadContext);
 
     const { width: windowWidth } = useWindowSize();
@@ -103,10 +103,8 @@ function ContactsTable() {
     };
 
     const contactsListResultsEvent = () => {
-        const contacts_with_health_policies_count = policyCounts.filter(
-            (contact) => contact.healthPolicyCount > 0
-        ).length;
-        const contacts_with_life_policies_count = policyCounts.filter((contact) => contact.lifePolicyCount > 0).length;
+        const contacts_with_health_policies_count = Array.isArray(policyCounts) ? policyCounts.filter((contact) => contact.healthPolicyCount > 0).length : 0;
+        const contacts_with_life_policies_count = Array.isArray(policyCounts) ? policyCounts.filter((contact) => contact.lifePolicyCount > 0).length : 0;
 
         const contacts_without_policies_count = tableData?.length - policyCounts?.length;
 
@@ -118,6 +116,7 @@ function ContactsTable() {
         });
     };
 
+    // Timer is set in the occasion an API GET call fails
     useEffect(() => {
         const timer = setTimeout(() => {
             contactsListResultsEvent();
@@ -392,12 +391,11 @@ function ContactsTable() {
 
     return (
         <>
-         <WithLoader isLoading={isfetchingTableData}>
             {isMobile ? (
                 <TableMobile />
             ) : (
                 <Box className={styles.tableWrapper}>
-                    <Table columns={columns} />
+                    <Table columns={columns} isLoading={isfetchingTableData || isStartedSearching} />
                     <LoadMoreButton />
                 </Box>
             )}
@@ -435,7 +433,6 @@ function ContactsTable() {
                     view="List"
                 />
             )}
-            </WithLoader>
         </>
     );
 }

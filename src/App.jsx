@@ -7,6 +7,7 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useRemoveLeadIdsOnRouteChange from "hooks/useRemoveLeadIdsOnRouteChange";
 import { ProtectedRoute, UnProtectedRoute } from "components/functional/auth-routes";
 import useUserProfile from "hooks/useUserProfile";
+import * as Sentry from "@sentry/react";
 
 const LandingPage = lazy(() => import("mobile/landing/LandingPage"));
 const MaintenancePage = lazy(() => import("pages/MaintenancePage"));
