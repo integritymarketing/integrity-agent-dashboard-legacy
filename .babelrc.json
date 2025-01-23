@@ -11,5 +11,5 @@
     ],
     "@babel/preset-react"
   ],
-  "plugins": []
+  "plugins": ["@babel/plugin-syntax-import-meta"]
 }

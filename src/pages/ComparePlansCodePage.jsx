@@ -53,6 +53,9 @@ function ComparePlansCodePage() {
         setResendCode(false);
     };
 
+    // Simplifying isComingFromEmail calculation
+    const isComingFromEmail = Object.keys(agentInfo).length > 0;
+
     return (
         <>
             <ResendCode
@@ -90,7 +93,7 @@ function ComparePlansCodePage() {
                 </div>
             ) : (
                 <ComparePlansPage
-                    isComingFromEmail={Object.keys(agentInfo).length > 0}
+                    isComingFromEmail={isComingFromEmail}
                     agentInfo={agentInfo}
                     footer={false}
                 />
