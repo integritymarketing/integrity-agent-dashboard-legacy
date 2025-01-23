@@ -172,6 +172,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                     county: county || "",
                     countyFips: countyFips,
                 },
+                maritalStatus: leadDetails?.maritalStatus || "Unknown",
                 primaryCommunication: isPrimary,
                 contactRecordType: contactRecordType?.toLowerCase(),
                 emailID,
@@ -283,6 +284,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 if (allStates.length === 1 && stateCodeName !== values.address.stateCode) {
                     setFieldValue("address.stateCode", allStates[0].value);
                 }
+
 
                 return (
                     <Box>

@@ -1,25 +1,24 @@
 export const contactFormSuffixOptions = [
     { value: "", label: "None" },
-    { value: "Jr.", label: "Jr" },
-    { value: "Sr.", label: "Sr" },
+    { value: "Jr.", label: "Jr." },
+    { value: "Sr.", label: "Sr." },
     { value: "II", label: "II" },
     { value: "III", label: "III" },
 ];
 
 export const contactFormPrefixOptions = [
     { value: "", label: "None" },
-    { value: "Mr.", label: "Mr." },
-    { value: "Ms.", label: "Ms." },
-    { value: "Mrs.", label: "Mrs." },
-    { value: "Miss", label: "Miss" },
+    { label: "Mr.", value: "Mr." },
+    { label: "Mrs.", value: "Mrs." },
+    { label: "Ms.", value: "Ms." },
+    { label: "Miss", value: "Miss" },
 ];
 
 export const contactFormMaritalStatusOptions = [
-    { value: "", label: "None" },
-    { value: "Single", label: "Single" },
-    { value: "Married", label: "Married" },
-    { value: "Divorced", label: "Divorced" },
-    { value: "Widowed", label: "Widowed" },
-    { value: "Domestic Partner", label: "Domestic Partner" },
+    { label: "Single", value: "Single" },
+    { label: "Married", value: "Married" },
+    { label: "Domestic Partner", value: "Domestic Partner" },
+    { label: "Divorced", value: "Divorced" },
+    { label: "Widow", value: "Widow" },
     { value: "Unknown", label: "Unknown" },
 ];
