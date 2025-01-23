@@ -126,3 +126,20 @@
     margin-top: 8px;
     margin-bottom: 24px;
 }
+
+.tagsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.tagsListContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    width: 100%;
+}
