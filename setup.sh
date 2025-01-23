@@ -11,36 +11,34 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 echo "Switched to script directory: $(pwd)"
 
-# Fetch full Git history if running in a CI/CD environment
-# Required for SonarQube to avoid shallow clone issues
+# Debugging SonarQube Missing Blob issue
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    echo "Git repository detected. Fetching full history..."
-    git fetch --unshallow || echo "Repository is already unshallowed or fetch failed"
+    echo "Git repository detected."
+
+    # Check for shallow clone and convert to full history if necessary
+    if [ -f "$(git rev-parse --git-dir)/shallow" ]; then
+        echo "Shallow clone detected. Fetching full history..."
+        git fetch --unshallow || echo "Already fetched full history or fetch failed."
+    else
+        echo "Complete repository; no fetch required."
+    fi
+
+    # Ensure all objects are available
+    echo "Verifying Git objects..."
+    git fsck || echo "Git integrity check failed."
+else
+    echo "No Git repository found. Exiting."
+    exit 1
 fi
 
 # Debug Git state
 echo "Git commit: $(git rev-parse --short HEAD || echo 'No Git repository or HEAD not found')"
 
-# Install Java JRE 17 with Homebrew
-# brew install openjdk@17
-
-# Use Mise to install Java
+# Install Java JRE (using Mise for better compatibility in environments)
 mise use -g java@openjdk-21
-mise use -g java@21
-
-# Set environment variables for OpenJDK 17 (Linuxbrew path)
-# export JAVA_HOME="/home/linuxbrew/.linuxbrew/opt/openjdk@17"
-# export PATH="$JAVA_HOME/bin:$PATH"
-
-# Add environment variables permanently (optional)
-# echo "export JAVA_HOME=/home/linuxbrew/.linuxbrew/opt/openjdk@17" >> ~/.profile
-# echo "export PATH=/home/linuxbrew/.linuxbrew/opt/openjdk@17/bin:\$PATH" >> ~/.profile
-
-# Reload profile to apply changes
-source ~/.profile
 
 # Verify Java installation
 java -version
 
-# Run SonarQube analysis
-yarn sonar
+# Run SonarQube analysis with debug mode for more insights
+yarn sonar -X

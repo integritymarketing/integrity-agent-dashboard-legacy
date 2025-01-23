@@ -44,6 +44,8 @@
   SONAR_PROJECT_KEY = "ae-agent-portal"
   SONAR_ORG_KEY = "integritymarketing"
   SONAR_HOST_URL = "https://sonarcloud.io"
+  GIT_LFS_SKIP_SMUDGE = "1" # If using Git LFS
+  GIT_DEPTH = "0"           # Fetch full history
 
 # Custom prebuild plugin to set version number ENV var from package.json & java added for sonar
 [[plugins]]
