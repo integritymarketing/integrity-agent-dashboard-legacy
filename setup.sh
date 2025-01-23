@@ -41,4 +41,4 @@ mise use -g java@openjdk-21
 java -version
 
 # Run SonarQube analysis with debug mode for more insights
-yarn sonar -X
+yarn sonar
