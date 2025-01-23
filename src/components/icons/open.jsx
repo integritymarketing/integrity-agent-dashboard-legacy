@@ -1,0 +1,65 @@
+import React from "react";
+
+const OpenIcon = ({ color = "#ffffff" }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      id="Open"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+    >
+      <g id="Button_-_BG" data-name="Button - BG">
+        <rect id="bg" width="24" height="24" fill={color} opacity="0" />
+      </g>
+      <g id="Group_3326" data-name="Group 3326" transform="translate(4 4)">
+        <path
+          id="Path_3517"
+          data-name="Path 3517"
+          d="M14.2,8.652v5.657A1.191,1.191,0,0,1,13.005,15.5H1.691A1.191,1.191,0,0,1,.5,14.309V2.995A1.191,1.191,0,0,1,1.691,1.8H7.348"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
+        />
+        <line
+          id="Line_1047"
+          data-name="Line 1047"
+          x2="3.913"
+          transform="translate(11.587 0.5)"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
+        />
+        <line
+          id="Line_1048"
+          data-name="Line 1048"
+          y1="3.913"
+          transform="translate(15.5 0.5)"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
+        />
+        <line
+          id="Line_1049"
+          data-name="Line 1049"
+          y1="7.174"
+          x2="7.174"
+          transform="translate(8.326 0.5)"
+          fill="none"
+          stroke={color}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1"
+        />
+      </g>
+    </svg>
+  );
+};
+
+export default OpenIcon;

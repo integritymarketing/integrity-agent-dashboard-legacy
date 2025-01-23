@@ -1,0 +1,83 @@
+import React from "react";
+import { Grid, TextField, Typography } from "@mui/material";
+import { formatPhoneNumber } from "../../../utils/phones";
+import PropTypes from "prop-types";
+import { SelectableButtonGroup } from "@integritymarketing/clients-ui-kit";
+import styles from "./CommunicationDetails.module.scss";
+
+const CommunicationDetails = ({ formik }) => {
+    const { touched, errors, values, handleChange, handleBlur, submitCount, setFieldValue } = formik;
+    const valueOptions = { Email: "email", Phone: "phone" };
+
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+                <Typography variant="h5" color="#052a63">
+                    Email
+                </Typography>
+                <TextField
+                    fullWidth
+                    type="email"
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.email && errors.email}
+                />
+                {errors.email && (
+                    <Typography variant="body2" color="error" mt={0.5}>
+                        {errors.email}
+                    </Typography>
+                )}
+            </Grid>
+
+            <Grid item xs={12} md={6}>
+                <Typography variant="h5" color="#052a63">
+                    Phone
+                </Typography>
+                <TextField
+                    fullWidth
+                    type="tel"
+                    placeholder="(###) ###-####"
+                    name="phones.leadPhone"
+                    value={formatPhoneNumber(values.phones.leadPhone) || ""}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.phones?.leadPhone && errors.phones?.leadPhone}
+                />
+                {errors.phones?.leadPhone && (
+                    <Typography variant="body2" color="error" mt={0.5}>
+                        {errors.phones?.leadPhone}
+                    </Typography>
+                )}
+            </Grid>
+            <Grid item xs={12}>
+                <Typography variant="h5" color="#052a63">
+                    Primary Contact Method*
+                </Typography>
+                <SelectableButtonGroup
+                    buttonOptions={Object.keys(valueOptions)}
+                    buttonClassNames={Object.keys(valueOptions).map((option) =>
+                        valueOptions[option] === values.primaryCommunication
+                            ? styles.selectedOption
+                            : styles.nonSelectedOption,
+                    )}
+                    onSelect={(selected) => {
+                        setFieldValue("primaryCommunication", valueOptions[selected]);
+                    }}
+                />
+                {(touched.primaryCommunication || submitCount > 0) && errors.primaryCommunication && (
+                    <Typography variant="body2" color="error" mt={0.5}>
+                        {errors.primaryCommunication}
+                    </Typography>
+                )}
+            </Grid>
+        </Grid>
+    );
+};
+
+CommunicationDetails.propTypes = {
+    formik: PropTypes.object.isRequired,
+};
+
+export default CommunicationDetails;
