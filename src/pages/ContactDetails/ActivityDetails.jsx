@@ -1,4 +1,3 @@
- 
 import { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import * as Sentry from "@sentry/react";
@@ -8,7 +7,7 @@ import Box from "@mui/material/Box";
 import { ArrowForwardWithCircle } from "components/ContactDetailsContainer/OverviewContainer/Icons";
 import Modal from "components/Modal";
 import useAnalytics from "hooks/useAnalytics";
-import ActivityButtonText from "pages/ContactDetails/ActivityButtonText.js";
+import ActivityButtonText from "pages/ContactDetails/ActivityButtonText";
 import CreatedDate from "./CreatedDate";
 import { formatPhoneNumber } from "utils/phones";
 import ActivitySubjectWithIcon from "./ActivitySubjectWithIcon";

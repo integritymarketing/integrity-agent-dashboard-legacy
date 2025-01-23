@@ -441,15 +441,6 @@ export class ClientsService {
         throw new Error("Update failed.");
     };
 
-    deleteClient = async (id) => {
-        const response = await this._clientAPIRequest(
-            `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/${id}`,
-            "DELETE"
-        );
-
-        return response;
-    };
-
     reActivateClients = async (data) => {
         const response = await this._clientAPIRequest(
             `${import.meta.env.VITE_LEADS_URL}/api/${LEADS_API_VERSION}/Leads/reactivate`,
@@ -826,14 +817,14 @@ export class ClientsService {
         return response?.json().then((res) => res || []);
     };
 
-    getLeadProviders = async (leadId) => {
+    /*getLeadProviders = async (leadId) => {  // TODO: Is this being used?
         const response = await this._clientAPIRequest(
             `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/Lead/${leadId}/Provider`,
             "GET"
         );
 
         return response?.json().then((res) => res || []);
-    };
+    };*/
 
     getLeadPrescriptions = async (leadId) => {
         const response = await this._clientAPIRequest(
@@ -1141,22 +1132,6 @@ export class ClientsService {
         const list = await response?.json();
 
         return list;
-    };
-
-    newClientObj = () => {
-        return {
-            leadsId: null,
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            postalCode: "",
-            notes: "",
-            followUpDate: "",
-            product: "",
-            leadStatusId: 1,
-            statusName: "New",
-        };
     };
 
     getDashbaordSummary = async () => {

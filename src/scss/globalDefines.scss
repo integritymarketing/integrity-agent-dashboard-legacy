@@ -1,5 +1,5 @@
-@import "defines/animations";
-@import "defines/colors";
-@import "defines/fontSizes";
-@import "defines/mediaQueries";
-@import "defines/sizes";
+@use "defines/animations" as global;
+@use "defines/colors" as global;
+@use "defines/fontSizes" as global;
+@use "defines/mediaQueries" as global;
+@use "defines/sizes" as global;
