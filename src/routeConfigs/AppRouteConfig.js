@@ -74,6 +74,7 @@ const IulAccumulationQuotePage = lazy(() => import("pages/IulAccumulationQuotePa
 const IulProtectionQuotePage = lazy(() => import("pages/IulProtectionQuotePage"));
 const IulProtectionComparePlansPage = lazy(() => import("pages/IulProtectionComparePlansPage"));
 const IulAccumulationQuoteDetailsPage = lazy(() => import("pages/IulAccumulationQuoteDetailsPage"));
+const IulProtectionQuoteDetailsPage = lazy(() => import("pages/IulProtectionQuoteDetailsPage"));
 
 const appRoutes = [
     {
@@ -483,6 +484,19 @@ const appProtectedRoutes = [
                 <ContactDetailsProvider>
                     <LifeIulQuoteProvider>
                         <IulAccumulationQuoteDetailsPage />
+                    </LifeIulQuoteProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/life/iul-protection/:contactId/:planId/quote-details",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <LifeIulQuoteProvider>
+                        <IulProtectionQuoteDetailsPage />
                     </LifeIulQuoteProvider>
                     <WebChatComponent />
                 </ContactDetailsProvider>
