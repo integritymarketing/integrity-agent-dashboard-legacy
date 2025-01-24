@@ -58,13 +58,13 @@ const IulProtectionQuote = () => {
 
             await fetchLifeIulQuoteResults(payload);
         }
-    }, [fetchLifeIulQuoteResults]);
+    }, [fetchLifeIulQuoteResults, setTabSelected]);
 
     useEffect(() => {
         getQuoteResults();
-    }, []);
+    }, [getQuoteResults]);
 
-    const handlePlanDetailsClick = (id) => {
+    const handlePlanDetailsClick = () => {
         const tempId = "IUL-United of Omaha-Life Protection Advantage IUL";
         navigate(`/life/iul-protection/${contactId}/${tempId}/quote-details`);
     };
@@ -73,12 +73,13 @@ const IulProtectionQuote = () => {
         window.open("/learning-center", "_blank");
     };
 
+    const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
+
     const tabInputs = useMemo(() => {
-        const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
         const parsedLifeQuoteProtectionDetails = JSON.parse(lifeQuoteProtectionDetails);
         const faceAmounts = parsedLifeQuoteProtectionDetails?.faceAmounts;
         return faceAmounts;
-    }, [sessionStorage.getItem("lifeQuoteProtectionDetails")]);
+    }, [lifeQuoteProtectionDetails]);
 
     const filteredTabInputs = tabInputs.filter((tab) => Boolean(tab));
     const selectedTabIndex = filteredTabInputs.findIndex((tab) => tab === tabSelected);

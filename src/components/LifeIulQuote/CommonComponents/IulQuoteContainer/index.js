@@ -2,19 +2,37 @@ import { Grid, Box } from "@mui/material";
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 import { IulQuoteHeader } from "../IulQuoteHeader";
 import { IulFilterHeader } from "../QuoteFilterHeader";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import WithLoader from "components/ui/WithLoader";
 import { useLeadDetails } from "providers/ContactDetails";
 import { useLifeIulQuote } from "providers/Life";
 import { ComparePlanFooter } from "@integritymarketing/clients-ui-kit";
 import styles from "./styles.module.scss";
 import PropTypes from "prop-types";
+import _ from "lodash";
 
-export const IulQuoteContainer = ({ title, children }) => {
+export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
     const { contactId } = useParams();
+    const navigate = useNavigate();
     const { isLoadingLifeIulQuoteDetails } = useLeadDetails();
-    const { showFilters, setShowFilters, selectedPlans, handleComparePlanSelect } = useLifeIulQuote();
+    const { showFilters, setShowFilters, selectedPlans, handleComparePlanSelect, lifeIulQuoteResults } =
+        useLifeIulQuote();
 
+    const handleOnCompare = () => {
+        const ids = selectedPlans.map((plan) => plan?.rowId);
+
+        const planIds = [
+            "IUL-United of Omaha-Income Advantage IUL",
+            "IUL-United of Omaha-Life Protection Advantage IUL",
+            "IUL-United of Omaha-Income Advantage IUL",
+        ];
+
+        const plans = lifeIulQuoteResults.filter((item) => ids.includes(item.rowId));
+
+        sessionStorage.setItem("iul-compare-plans", JSON.stringify(plans));
+        const url = `/life/iul-${quoteType}/${contactId}/${planIds?.map((id) => id).join(",")}/compare-plans`;
+        navigate(url);
+    };
     return (
         <WithLoader isLoading={isLoadingLifeIulQuoteDetails}>
             {!showFilters && (
@@ -36,7 +54,13 @@ export const IulQuoteContainer = ({ title, children }) => {
                     {children}
                 </Grid>
             </Box>
-            {selectedPlans.length > 0 && <ComparePlanFooter plans={selectedPlans} onClose={handleComparePlanSelect} />}
+            {page === "plans page" && selectedPlans.length > 0 && (
+                <ComparePlanFooter
+                    plans={selectedPlans}
+                    onClose={handleComparePlanSelect}
+                    onCompare={handleOnCompare}
+                />
+            )}
         </WithLoader>
     );
 };
@@ -44,6 +68,8 @@ export const IulQuoteContainer = ({ title, children }) => {
 IulQuoteContainer.propTypes = {
     title: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
+    page: PropTypes.string.isRequired,
+    quoteType: PropTypes.string.isRequired,
 };
 
 export default IulQuoteContainer;

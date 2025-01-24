@@ -72,6 +72,7 @@ const TermConfirmationDetailsPage = lazy(() => import("pages/TermConfirmationDet
 const TermProductPreferencesPage = lazy(() => import("pages/TermProductPreferencesPage"));
 const IulAccumulationQuotePage = lazy(() => import("pages/IulAccumulationQuotePage"));
 const IulProtectionQuotePage = lazy(() => import("pages/IulProtectionQuotePage"));
+const IulProtectionComparePlansPage = lazy(() => import("pages/IulProtectionComparePlansPage"));
 const IulAccumulationQuoteDetailsPage = lazy(() => import("pages/IulAccumulationQuoteDetailsPage"));
 
 const appRoutes = [
@@ -457,6 +458,19 @@ const appProtectedRoutes = [
                     <FinalExpensePlansProvider>
                         <TermProductPreferencesPage />
                     </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/life/iul-protection/:contactId/:planIds/compare-plans",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <LifeIulQuoteProvider>
+                        <IulProtectionComparePlansPage />
+                    </LifeIulQuoteProvider>
                     <WebChatComponent />
                 </ContactDetailsProvider>
             </StrictMode>
