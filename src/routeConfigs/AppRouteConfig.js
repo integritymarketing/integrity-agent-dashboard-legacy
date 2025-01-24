@@ -35,15 +35,15 @@ const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
 const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
 const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
 const SOAConfirmationForm = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation"));
-const SOAConfirmationPage = lazy(
-    () => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage"),
+const SOAConfirmationPage = lazy(() =>
+    import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage")
 );
 const TermsPage = lazy(() => import("pages/TermsPage"));
 const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
 const TaskListResultsMobileLayout = lazy(() => import("pages/dashbaord/Tasklist/TaskListResultsMobileLayout"));
-const PolicySnapshotMobileLayout = lazy(
-    () => import("pages/dashbaord/PolicySnapShot/PolicySnapShotMobileContainer/PolicySnapShotMobileContainer"),
+const PolicySnapshotMobileLayout = lazy(() =>
+    import("pages/dashbaord/PolicySnapShot/PolicySnapShotMobileContainer/PolicySnapShotMobileContainer")
 );
 
 const FinalExpensePlansPage = lazy(() => import("pages/FinalExpensePlansPage"));
@@ -72,6 +72,7 @@ const TermConfirmationDetailsPage = lazy(() => import("pages/TermConfirmationDet
 const TermProductPreferencesPage = lazy(() => import("pages/TermProductPreferencesPage"));
 const IulAccumulationQuotePage = lazy(() => import("pages/IulAccumulationQuotePage"));
 const IulProtectionQuotePage = lazy(() => import("pages/IulProtectionQuotePage"));
+const IulAccumulationQuoteDetailsPage = lazy(() => import("pages/IulAccumulationQuoteDetailsPage"));
 
 const appRoutes = [
     {
@@ -456,6 +457,19 @@ const appProtectedRoutes = [
                     <FinalExpensePlansProvider>
                         <TermProductPreferencesPage />
                     </FinalExpensePlansProvider>
+                    <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/life/iul-accumulation/:contactId/:planId/quote-details",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <LifeIulQuoteProvider>
+                        <IulAccumulationQuoteDetailsPage />
+                    </LifeIulQuoteProvider>
                     <WebChatComponent />
                 </ContactDetailsProvider>
             </StrictMode>

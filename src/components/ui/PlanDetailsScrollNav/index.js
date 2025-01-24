@@ -18,7 +18,7 @@ function getNavElements(sections, sectionRefs, activeSectionID, setActiveSection
             rows.push(
                 <div className={"nav-header"} key={key++}>
                     {section.header}
-                </div>,
+                </div>
             );
         } else {
             if (hidePharmacy && section.label === "Pharmacy") {
@@ -37,7 +37,7 @@ function getNavElements(sections, sectionRefs, activeSectionID, setActiveSection
                     className={activeSectionID === section.id ? "selected" : undefined}
                 >
                     {section.label}
-                </li>,
+                </li>
             );
         }
     }
@@ -51,8 +51,8 @@ const EFFECTIVE_YEARS_SUPPORTED =
     currentPlanYear === currentYear ? [currentYear] : [currentYear, currentPlanYear].sort((a, b) => a - b);
 
 export default forwardRef(function PlanDetailsScrollNav(
-    { initialSectionID, sections, scrollToInitialSection = true, hidePharmacy = false },
-    refs,
+    { initialSectionID, sections, scrollToInitialSection = true, hidePharmacy = false, quoteType },
+    refs
 ) {
     const initialeffDate = getFirstEffectiveDateOption(EFFECTIVE_YEARS_SUPPORTED);
     const [activeSectionID, setActiveSectionID] = useState(initialSectionID);
@@ -64,7 +64,7 @@ export default forwardRef(function PlanDetailsScrollNav(
         activeSectionID,
         setActiveSectionID,
         setIsScrolling,
-        hidePharmacy,
+        hidePharmacy
     );
 
     useEffect(() => {
@@ -94,7 +94,7 @@ export default forwardRef(function PlanDetailsScrollNav(
                     observer.disconnect();
                 }
             },
-            { threshold: 0.8 },
+            { threshold: 0.8 }
         );
         const debouncedOnScroll = debounce(onScroll, 100);
         window.addEventListener("scroll", debouncedOnScroll);
@@ -107,20 +107,24 @@ export default forwardRef(function PlanDetailsScrollNav(
     return (
         <div className={"scroll-nav"}>
             <div className={"navigation-container"}>
-                <ul className={"navigation2"}>{navElements}</ul>
+                <ul className={quoteType === "IUL Details Page" ? "navigation3" : "navigation2"}>{navElements}</ul>
             </div>
-            <div id="pharmacy-filter-section">
-                <PharmacyFilter />
-            </div>
-            <div className={"plan-details-actions"}>
-                <div className={"filter-section"}>
-                    <EffectiveDateFilter
-                        years={EFFECTIVE_YEARS_SUPPORTED}
-                        initialValue={effectiveDate}
-                        selectClassName={"plan-details-effective-date-select"}
-                    />
-                </div>
-            </div>
+            {quoteType !== "IUL Details Page" && (
+                <>
+                    <div id="pharmacy-filter-section">
+                        <PharmacyFilter />
+                    </div>
+                    <div className={"plan-details-actions"}>
+                        <div className={"filter-section"}>
+                            <EffectiveDateFilter
+                                years={EFFECTIVE_YEARS_SUPPORTED}
+                                initialValue={effectiveDate}
+                                selectClassName={"plan-details-effective-date-select"}
+                            />
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 });

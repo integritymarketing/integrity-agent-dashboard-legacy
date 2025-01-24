@@ -1,0 +1,15 @@
+.tabsContainer {
+    flex-grow: 1;
+    width: 90%;
+    margin-left: auto;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+}
+
+.underwritingRequirements {
+    ul {
+        list-style-type: disc !important;
+        padding: 0px 24px;
+    }
+}

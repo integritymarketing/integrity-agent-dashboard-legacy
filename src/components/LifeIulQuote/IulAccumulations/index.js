@@ -6,6 +6,7 @@ import { useLifeIulQuote } from "providers/Life";
 import styles from "./styles.module.scss";
 import WithLoader from "components/ui/WithLoader";
 import { useParams, useNavigate } from "react-router-dom";
+import _ from "lodash";
 
 const IulAccumulationQuote = () => {
     const {
@@ -58,8 +59,18 @@ const IulAccumulationQuote = () => {
         getQuoteResults();
     }, []);
 
-    const handlePlanDetailsClick = (id) => {
-        navigate(`/life/iul-accumulation/${id}/${contactId}/quote-details`);
+    const handlePlanDetailsClick = () => {
+        const id = lifeIulQuoteResults[0]?.policyDetailId;
+
+        const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
+
+        const filteredPlan = uniquePoliciesArray.filter((item) => id === item.policyDetailId);
+
+        if (filteredPlan.length > 0) {
+            sessionStorage.setItem("iul-plan-details", JSON.stringify({ ...plans[0], isTobaccoUser }));
+            const tempId = "IUL-United of Omaha-Income Advantage IUL";
+            navigate(`/life/iul-accumulation/${contactId}/${tempId}/quote-details`);
+        }
     };
 
     const handleNavigateToLearningCenter = () => {
@@ -67,7 +78,7 @@ const IulAccumulationQuote = () => {
     };
 
     return (
-        <IulQuoteContainer title="IUL Accumulation">
+        <IulQuoteContainer title="IUL Accumulation" page="plans page" quoteType="accumulation">
             <Grid item md={3} xs={12}>
                 {isMobile && showFilters && (
                     <Box className={styles.countSortContainer}>

@@ -12,11 +12,11 @@ import PropTypes from "prop-types";
 
 export const IulQuoteContainer = ({ title, children }) => {
     const { contactId } = useParams();
-    const { isLoadingLeadDetails } = useLeadDetails();
+    const { isLoadingLifeIulQuoteDetails } = useLeadDetails();
     const { showFilters, setShowFilters, selectedPlans, handleComparePlanSelect } = useLifeIulQuote();
 
     return (
-        <WithLoader isLoading={isLoadingLeadDetails}>
+        <WithLoader isLoading={isLoadingLifeIulQuoteDetails}>
             {!showFilters && (
                 <ContactProfileTabBar
                     contactId={contactId}

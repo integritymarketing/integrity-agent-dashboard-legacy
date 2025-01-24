@@ -65,7 +65,8 @@ const IulProtectionQuote = () => {
     }, []);
 
     const handlePlanDetailsClick = (id) => {
-        navigate(`/life/iul-protection/${id}/${contactId}/quote-details`);
+        const tempId = "IUL-United of Omaha-Life Protection Advantage IUL";
+        navigate(`/life/iul-protection/${contactId}/${tempId}/quote-details`);
     };
 
     const handleNavigateToLearningCenter = () => {
@@ -83,7 +84,7 @@ const IulProtectionQuote = () => {
     const selectedTabIndex = filteredTabInputs.findIndex((tab) => tab === tabSelected);
 
     return (
-        <IulQuoteContainer title="IUL Protection">
+        <IulQuoteContainer title="IUL Protection" page="plans page" quoteType="protection">
             <Grid item md={3} xs={12}>
                 {isMobile && showFilters && (
                     <Box className={styles.countSortContainer}>

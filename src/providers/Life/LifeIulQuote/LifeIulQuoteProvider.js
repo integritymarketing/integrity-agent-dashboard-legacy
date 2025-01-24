@@ -9,6 +9,7 @@ export const LifeIulQuoteContext = createContext();
 
 export const LifeIulQuoteProvider = ({ children }) => {
     const getLifeIulQuoteUrl = `${process.env.REACT_APP_QUOTE_URL}/api/v1/IUL/quotes`;
+    const getLifeIulQuoteDetailsUrl = `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/IUL/policydetails`;
     const showToast = useToast();
 
     const [lifeIulQuoteResults, setLifeIulQuoteResults] = useState(null);
@@ -17,12 +18,19 @@ export const LifeIulQuoteProvider = ({ children }) => {
     const [tabSelected, setTabSelected] = useState(0);
     const [showFilters, setShowFilters] = useState(false);
     const [selectedPlans, setSelectedPlans] = useState([]);
+    const [lifeIulDetails, setLifeIulDetails] = useState(null);
 
     const {
-        Post: getLifeIulQuoteDetails,
+        Post: getLifeIulQuoteResults,
         loading: isLoadingLifeIulQuote,
         error: getLifeIulQuoteError,
     } = useFetch(getLifeIulQuoteUrl);
+
+    const {
+        Get: getLifeIulQuoteDetails,
+        loading: isLoadingLifeIulQuoteDetails,
+        error: getLifeIulQuoteDetailsError,
+    } = useFetch(getLifeIulQuoteDetailsUrl);
 
     const reset = () => {
         setLifeIulQuoteResults(null);
@@ -36,7 +44,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
             reset();
             const payload = removeNullAndEmptyFields(reqData);
             try {
-                const response = await getLifeIulQuoteDetails(payload, false);
+                const response = await getLifeIulQuoteResults(payload, false);
                 if (response && response?.result && response?.result?.length > 0) {
                     if (!selectedCarriers.includes("All carriers") && selectedCarriers.length > 0) {
                         const updatedResults = response?.result.filter((result) =>
@@ -67,7 +75,26 @@ export const LifeIulQuoteProvider = ({ children }) => {
                 return null;
             }
         },
-        [getLifeIulQuoteDetails, showToast, selectedCarriers]
+        [getLifeIulQuoteResults, showToast, selectedCarriers]
+    );
+
+    const fetchLifeIulQuoteDetails = useCallback(
+        async (id) => {
+            try {
+                const response = await getLifeIulQuoteDetails(null, false, id);
+                if (response) {
+                    setLifeIulDetails(response);
+                    return response;
+                }
+            } catch (error) {
+                showToast({
+                    type: "error",
+                    message: `Failed to get quote details`,
+                });
+                return null;
+            }
+        },
+        [getLifeIulQuoteDetails, showToast]
     );
 
     const handleCarriersChange = (value) => {
@@ -132,6 +159,10 @@ export const LifeIulQuoteProvider = ({ children }) => {
             setShowFilters,
             handleComparePlanSelect,
             selectedPlans,
+            fetchLifeIulQuoteDetails,
+            isLoadingLifeIulQuoteDetails,
+            getLifeIulQuoteDetailsError,
+            lifeIulDetails,
         }),
         [
             fetchLifeIulQuoteResults,
@@ -148,6 +179,10 @@ export const LifeIulQuoteProvider = ({ children }) => {
             setShowFilters,
             handleComparePlanSelect,
             selectedPlans,
+            fetchLifeIulQuoteDetails,
+            isLoadingLifeIulQuoteDetails,
+            getLifeIulQuoteDetailsError,
+            lifeIulDetails,
         ]
     );
 
