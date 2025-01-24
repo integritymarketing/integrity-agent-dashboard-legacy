@@ -62,6 +62,7 @@ const ContactForm = ({
         middleName: "",
         maritalStatus: null,
         hasMedicAid,
+        lis: null,
         email: "",
         birthdate: "",
         phones: {
@@ -282,6 +283,7 @@ ContactForm.propTypes = {
     suffix: PropTypes.string,
     maritalStatus: PropTypes.string,
     hasMedicAid: PropTypes.oneOfType([null, PropTypes.number]),
+    lis: PropTypes.oneOfType([null, PropTypes.number]),
     state: PropTypes.object.isRequired,
     partA: PropTypes.string,
     partB: PropTypes.string,

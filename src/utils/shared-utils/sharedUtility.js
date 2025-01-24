@@ -132,6 +132,9 @@ export const formatMbiNumber = (mbi) => {
         return "";
     }
     let formattedMbi = mbi.replace(/-/g, "");
+    if (formattedMbi.length < 11) {
+        return "";
+    }
     if (formattedMbi.length > 4) {
         formattedMbi = `${formattedMbi.slice(0, 4)}-${formattedMbi.slice(4)}`;
     }

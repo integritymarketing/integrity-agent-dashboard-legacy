@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormControl, Grid, Typography } from "@mui/material";
 import { TextInput } from "components/MuiComponents";
 import styles from "./BasicDetails.module.scss";
@@ -14,6 +14,7 @@ import { faAngleDown, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { contactFormMaritalStatusOptions, contactFormPrefixOptions, contactFormSuffixOptions } from "utils/contactForm";
 
 const BasicDetails = ({ formik, fieldSet }) => {
+    const [calendarOpen, setCalendarOpen] = useState(false);
     const { values, errors, touched, submitCount, handleChange, handleBlur, setFieldValue } = formik;
     return (
         <Grid container spacing={2} ref={fieldSet}>
@@ -57,9 +58,13 @@ const BasicDetails = ({ formik, fieldSet }) => {
                     fullWidth
                     name="middleName"
                     onKeyDown={onlyAlphabets}
-                    maxLength="1"
                     value={values.middleName?.toUpperCase()}
-                    onChange={handleChange}
+                    onChange={(ev) => {
+                        const inputValue = ev.target.value;
+                        if (inputValue.length <= 1 && /^[a-zA-Z]*$/.test(inputValue)) {
+                            handleChange(ev);
+                        }
+                    }}
                     onBlur={handleBlur}
                 />
             </Grid>
@@ -73,8 +78,16 @@ const BasicDetails = ({ formik, fieldSet }) => {
                     onChange={(value) => {
                         setFieldValue("birthdate", formatDate(value));
                     }}
-                    endAdornment={<FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />}
-                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#0052cf" size={"2xl"} />}
+                    endAdornment={
+                        <Box
+                            mr={1}
+                            onClick={() => setCalendarOpen(!calendarOpen)}
+                            sx={{ cursor: "pointer", transform: calendarOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                        >
+                            <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
+                        </Box>
+                    }
+                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#4178FF" size={"2xl"} />}
                     className={styles.datePicker}
                 />
 
@@ -90,16 +103,14 @@ const BasicDetails = ({ formik, fieldSet }) => {
                 </Typography>
                 <FormControl fullWidth variant="outlined">
                     <Select
-                        value={values.prefix}
-                        IconComponent={() => (
-                            <Box mr={1}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
+                        value={values.prefix || ""}
+                        IconComponent={(props) => (
+                            <Box mr={1} {...props}>
+                                <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
                             </Box>
                         )}
                         renderValue={(selected) => {
-                            if (selected == null) {
-                                return "Select";
-                            } else if (selected == "") {
+                            if (selected === "") {
                                 return "None";
                             }
                             return selected;
@@ -123,16 +134,14 @@ const BasicDetails = ({ formik, fieldSet }) => {
                 </Typography>
                 <FormControl fullWidth variant="outlined">
                     <Select
-                        value={values.suffix}
-                        IconComponent={() => (
-                            <Box mr={1}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
+                        value={values.suffix || ""}
+                        IconComponent={(props) => (
+                            <Box mr={1} {...props}>
+                                <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
                             </Box>
                         )}
                         renderValue={(selected) => {
-                            if (selected === null) {
-                                return "Select";
-                            } else if (selected === "") {
+                            if (selected === "") {
                                 return "None";
                             }
                             return selected;
@@ -157,16 +166,16 @@ const BasicDetails = ({ formik, fieldSet }) => {
                 <FormControl fullWidth variant="outlined">
                     <Select
                         value={values.maritalStatus}
-                        IconComponent={() => (
-                            <Box mr={1}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
+                        IconComponent={(props) => (
+                            <Box mr={1} {...props}>
+                                <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
                             </Box>
                         )}
                         renderValue={(selected) => {
                             if (selected === null) {
                                 return "Select";
-                            } else if (selected === "") {
-                                return "None";
+                            } else if (selected === undefined) {
+                                return "Unknown";
                             }
                             return selected;
                         }}
@@ -176,7 +185,7 @@ const BasicDetails = ({ formik, fieldSet }) => {
                         onBlur={handleBlur}
                     >
                         {contactFormMaritalStatusOptions.map(({ value, label }) => (
-                            <MenuItem key={label.toLowerCase()} value={value.toLowerCase()}>
+                            <MenuItem key={label.toLowerCase()} value={value?.toLowerCase()}>
                                 {label}
                             </MenuItem>
                         ))}

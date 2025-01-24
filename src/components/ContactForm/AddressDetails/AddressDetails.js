@@ -142,11 +142,10 @@ const AddressDetails = ({ formik }) => {
                             }
                             return selected;
                         }}
-                        readOnly
                         displayEmpty
-                        IconComponent={() => (
-                            <Box mr={1}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
+                        IconComponent={(props) => (
+                            <Box mr={1} {...props}>
+                                <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
                             </Box>
                         )}
                     >
@@ -178,10 +177,9 @@ const AddressDetails = ({ formik }) => {
                             return selected;
                         }}
                         displayEmpty
-                        readOnly
-                        IconComponent={() => (
-                            <Box mr={1}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
+                        IconComponent={(props) => (
+                            <Box mr={1} {...props}>
+                                <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
                             </Box>
                         )}
                     >

@@ -19,7 +19,10 @@ const CommunicationDetails = ({ formik }) => {
                     type="email"
                     name="email"
                     value={values.email}
-                    onChange={handleChange}
+                    onChange={(ev) => {
+                        setFieldValue("primaryCommunication", "email");
+                        handleChange(ev);
+                    }}
                     onBlur={handleBlur}
                     error={touched.email && errors.email}
                 />
@@ -32,13 +35,16 @@ const CommunicationDetails = ({ formik }) => {
 
             <Grid item xs={12} md={6}>
                 <TextInput
-                    label="Phone*"
+                    label="Phone"
                     fullWidth
                     type="tel"
-                    placeholder="(###) ###-####"
+                    placeholder="###-###-####"
                     name="phones.leadPhone"
                     value={formatPhoneNumber(values.phones.leadPhone) || ""}
-                    onChange={handleChange}
+                    onChange={(ev) => {
+                        setFieldValue("primaryCommunication", "phone");
+                        handleChange(ev);
+                    }}
                     onBlur={handleBlur}
                     error={touched.phones?.leadPhone && errors.phones?.leadPhone}
                 />
@@ -57,7 +63,7 @@ const CommunicationDetails = ({ formik }) => {
                     buttonClassNames={Object.keys(valueOptions).map((option) =>
                         valueOptions[option] === values.primaryCommunication
                             ? styles.selectedOption
-                            : styles.nonSelectedOption
+                            : styles.nonSelectedOption,
                     )}
                     onSelect={(selected) => {
                         setFieldValue("primaryCommunication", valueOptions[selected]);
