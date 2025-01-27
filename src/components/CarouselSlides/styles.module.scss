@@ -1,4 +1,4 @@
-@import "styles/global.scss";
+@import "styles/global";
 
 .activeSlide {
   position: relative;
@@ -6,8 +6,7 @@
 
 .carouselSlides {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  flex-flow: row nowrap;
   height: 100%;
   overflow: hidden;
   width: 100%;

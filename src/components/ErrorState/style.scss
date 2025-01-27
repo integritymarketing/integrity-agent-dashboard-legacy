@@ -1,11 +1,12 @@
 .no-data-container {
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 24px 60px;
   display: flex;
   flex-direction: row;
   border-radius: 8px;
   align-items: center;
-  @media screen and (max-width: 480px) {
+
+  @media screen and (width <= 480px) {
     flex-direction: column;
     align-items: center;
     padding: 20px 50px;
@@ -15,7 +16,8 @@
 
 .no-data-icon-container {
   flex: 1.5;
-  @media screen and (max-width: 480px) {
+
+  @media screen and (width <= 480px) {
     margin-bottom: 20px;
   }
 }
@@ -45,8 +47,8 @@
 }
 
 .error-container {
-  background-color: #ffffff;
-  padding: 30px 30px;
+  background-color: #fff;
+  padding: 30px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -58,13 +60,15 @@
   color: #002d72;
   text-align: center;
   margin-right: 10px;
-  @media screen and (max-width: 480px) {
+
+  @media screen and (width <= 480px) {
     font-size: 1.2rem;
   }
 }
 
 .click-here-link {
   color: #0052ce;
+
   // text-align: center;
   display: inline !important;
   margin-right: 5px;
@@ -73,6 +77,6 @@
 
 
 .PE-container{
-  padding: 20px 20px !important;
+  padding: 20px !important;
   flex-direction: row !important;
 }

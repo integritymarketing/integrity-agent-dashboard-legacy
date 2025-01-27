@@ -15,7 +15,7 @@ $tabletWidth: 1200px;
 }
 
 @mixin mobileAndAbove {
-  @media (min-width: 0) {
+  @media (width >= 0) {
     @content;
   }
 }
@@ -27,7 +27,7 @@ $tabletWidth: 1200px;
 }
 
 @mixin mobileOnly {
-  @media (min-width: 0) and (max-width: #{ $mobileWidth }) {
+  @media (width >= 0) and (max-width: #{ $mobileWidth }) {
     @content;
   }
 }
@@ -39,10 +39,10 @@ $tabletWidth: 1200px;
 }
 
 @mixin retina {
-  @media only screen and (-o-min-device-pixel-ratio: 2 / 1),
+  @media only screen and (min-device-pixel-ratio: 2 / 1),
     only screen and (min-device-pixel-ratio: 2),
-    only screen and (min-resolution: 192dpi),
-    only screen and (min-resolution: 2dppx) {
+    only screen and (resolution >= 192dpi),
+    only screen and (resolution >= 2dppx) {
     @content;
   }
 }

@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines.scss";
+@import "src/scss/globalDefines";
 
 .modalContentContainer {
   max-height: 90vh;
@@ -10,7 +10,7 @@
   width: 400px;
   padding: 24px;
   background-color: $alice-blue;
-  box-shadow: 0px 0px 6px #00000029;
+  box-shadow: 0 0 6px #00000029;
   border-radius: 8px;
   display: flex;
   align-items: center;

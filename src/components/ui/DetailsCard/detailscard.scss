@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .details-card {
     display: flex;
@@ -6,10 +6,10 @@
     justify-content: center;
     align-items: center;
     margin-top: 26px;
-    background: #ffffff;
+    background: #fff;
     width: 100%;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (width <= 768px) {
         background-color: transparent;
     }
 
@@ -21,8 +21,8 @@
         align-items: center;
         width: 100%;
 
-        @media screen and (max-width: 768px) {
-            border-bottom: 0px;
+        @media screen and (width <= 768px) {
+            border-bottom: 0;
         }
 
         .headerTitle {
@@ -32,10 +32,10 @@
             font-size: 20px;
             font-style: normal;
             line-height: 31px;
-            letter-spacing: 0em;
+            letter-spacing: 0;
             text-align: left;
 
-            @media screen and (max-width: 768px) {
+            @media screen and (width <= 768px) {
                 padding-left: 0;
             }
         }
@@ -50,7 +50,7 @@
         width: calc(100% - 64px);
         margin: 32px;
 
-        @media screen and (max-width: 768px) {
+        @media screen and (width <= 768px) {
             width: 100%;
             margin: 0;
         }
@@ -67,10 +67,10 @@
             font-style: normal;
             font-weight: 400;
             line-height: 18px;
-            letter-spacing: 0em;
+            letter-spacing: 0;
             color: #64748b;
 
-            @media screen and (max-width: 480px) {
+            @media screen and (width <= 480px) {
                 flex-direction: column;
             }
 
@@ -86,7 +86,7 @@
             font-style: normal;
             font-weight: 400;
             line-height: 18px;
-            letter-spacing: 0em;
+            letter-spacing: 0;
             text-decoration: underline;
         }
     }
@@ -111,7 +111,7 @@
 
 .enrollmentPlanContainer_detailsPage_content {
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: #fff;
 }
 
 .count {

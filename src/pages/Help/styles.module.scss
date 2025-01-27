@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines.scss";
+@import "src/scss/globalDefines";
 
 .layout {
     display: flex;
@@ -8,7 +8,7 @@
 
 .headerLayoutContainer {
     background: $white;
-    box-shadow: inset 0px -1px 0px $gray-6;
+    box-shadow: inset 0 -1px 0 $gray-6;
     display: flex;
     justify-content: center;
     position: relative;
@@ -42,12 +42,12 @@
     height: 229px;
     text-align: center;
 
-    @include small() {
+    @include small {
         width: 350px;
     }
 
     .sectionRoundedTop {
-        box-shadow: inset 0px -1px 0px $grayish-blue;
+        box-shadow: inset 0 -1px 0 $grayish-blue;
         height: 48px;
         border-radius: 8px 8px 0 0;
         background-color: $white;
@@ -61,7 +61,7 @@
     }
 
     .sectionRoundedBottom {
-        box-shadow: inset 0px -1px 0px $grayish-blue;
+        box-shadow: inset 0 -1px 0 $grayish-blue;
         height: 48px;
         border-radius: 0 0 8px 8px;
         background-color: $white;
@@ -73,7 +73,7 @@
         padding-left: 16px;
 
         &.sectionMiddle {
-            border-radius: 0px;
+            border-radius: 0;
         }
     }
 
@@ -119,7 +119,6 @@
     position: absolute;
     display: flex;
     align-items: center;
-    width: fit-content;
     height: 40px;
     width: 90px;
     justify-content: center;
@@ -129,6 +128,6 @@
     border-radius: 20px;
 
     &:hover {
-        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
+        box-shadow: 0 2px 8px 0 rgb(0 0 0 / 40%);
     }
 }

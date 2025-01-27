@@ -4,18 +4,18 @@
 }
 
 .reminder-card-container {
-  background: #ffffff 0% 0% no-repeat padding-box;
+  background: #fff 0% 0% no-repeat padding-box;
   border-radius: 8px;
 
-  @media screen and (max-width: 480px) {
-    margin: 16px 12px 0px 15px;
+  @media screen and (width <= 480px) {
+    margin: 16px 12px 0 15px;
   }
 }
 
 .reminder-card {
   border-bottom: 0.5px solid #dfdedd;
-  padding: 18px 18px;
-  background: #ffffff 0% 0% no-repeat padding-box;
+  padding: 18px;
+  background: #fff 0% 0% no-repeat padding-box;
   font-size: 14px;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .reminder-name {
-  color: #000000;
+  color: #000;
   font-size: 16px;
   font-weight: bold;
 }
@@ -47,15 +47,15 @@
 }
 
 .jumpList-card {
-  background-color: #ffffff;
+  background-color: #fff;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
   padding-top: 10px;
-  border-radius: 0px 0px 8px 8px;
+  border-radius: 0 0 8px 8px;
 
-  @media screen and (max-width: 480px) {
-    margin: 0px 12px 20px 15px;
+  @media screen and (width <= 480px) {
+    margin: 0 12px 20px 15px;
   }
 }
 
@@ -68,7 +68,7 @@
   color: #0052ce;
   display: block;
 
-  @media screen and (max-width: 480px) {
+  @media screen and (width <= 480px) {
     text-align: center;
   }
 }

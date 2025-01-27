@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines.scss";
+@import "../../../../scss/globalDefines";
 
 .clientNotesContainer {
   margin-bottom: 3rem;
@@ -17,7 +17,7 @@
 
 .clientNotesContainer_content {
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 30px;
 
   @include small {
@@ -40,6 +40,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
   @include small {
     width: 100% !important;
     justify-content: flex-end;
@@ -55,7 +56,7 @@
 
   span {
     font-size: 14px !important;
-    color: #ffffff !important;
+    color: #fff !important;
     font-weight: 500;
   }
 
@@ -72,7 +73,7 @@
 
 .deleteButton {
   border-radius: 25px !important;
-  background-color: #ffffff !important;
+  background-color: #fff !important;
   padding: 5px 20px !important;
   margin-top: 10px;
 
@@ -83,9 +84,9 @@
   }
 
   &:hover {
-    background: #FFFFFF 0% 0% no-repeat padding-box;
+    background: #FFF 0% 0% no-repeat padding-box;
     border-radius: 20px;
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
     color: #1357FF !important
   }
 }

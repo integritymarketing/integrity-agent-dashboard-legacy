@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .webchatCenterIconWrapper {
   box-sizing: border-box;
@@ -33,14 +33,13 @@
 }
 
 .suggestedContactsMain {
-  padding: 20px 20px 0 20px;
+  padding: 20px 20px 0;
   box-sizing: border-box;
   background-color: #052A63;
   position: fixed;
   bottom: 75px;
   scrollbar-width: none;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden scroll;
   width: 28rem;
   z-index: 2;
 
@@ -57,17 +56,18 @@
   height: 180px;
   box-sizing: border-box;
   background-color: #052A63;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden scroll;
   scrollbar-width: none;
 
   .contactEntry:first-child {
     border-radius: 10px 10px 0 0;
   }
+
   .contactEntry:last-child {
     border-radius: 0 0 10px 10px;
     border-bottom: none;
   }
+
   .contactEntry:only-child {
     border-radius: 10px;
   }
@@ -85,8 +85,8 @@
 .contactDetails {
   display: flex;
   flex-direction: column;
-  color: #ffffff;
-  font-family: "Lato", sans-serif;
+  color: #fff;
+  font-family: Lato, sans-serif;
   gap: 4px;
   width: 80%;
 }
@@ -122,7 +122,7 @@
 .contactValue {
   margin-left: 2px;
   font-style: italic;
-  color: #ffffff;
+  color: #fff;
 }
 
 .iconWrapper {

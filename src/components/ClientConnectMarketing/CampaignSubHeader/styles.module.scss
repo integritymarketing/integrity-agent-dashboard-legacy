@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .newCampaignButton {
     position: absolute;
@@ -24,8 +24,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 1px solid #cccccc;
-    background-color: #ffffff;
+    border-bottom: 1px solid #ccc;
+    background-color: #fff;
     position: relative;
 
     @include small {

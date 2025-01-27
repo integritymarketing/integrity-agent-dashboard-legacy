@@ -1,5 +1,5 @@
 .wrapper {
-    box-shadow: inset 0px -1px 0px #DDDDDD;
+    box-shadow: inset 0 -1px 0 #DDD;
 }
 
 .header {
@@ -10,7 +10,7 @@
     padding-top: 20px;
     padding-bottom: 20px;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         flex-direction: column;
         gap: 20px;
     }
@@ -27,7 +27,7 @@
     flex-wrap: nowrap;
     gap: 10px;
     background-color: #4178ff;
-    color: #ffffff;
+    color: #fff;
     cursor: pointer;
     padding: 5px 5px 5px 12px;
     transition: ease-out 300ms;
@@ -51,7 +51,7 @@
     font-weight: 600;
 
     &:hover {
-        background-color: #ffffff;
-        box-shadow: inset 0px -1px 0px #c7ccd1;
+        background-color: #fff;
+        box-shadow: inset 0 -1px 0 #c7ccd1;
     }
 }

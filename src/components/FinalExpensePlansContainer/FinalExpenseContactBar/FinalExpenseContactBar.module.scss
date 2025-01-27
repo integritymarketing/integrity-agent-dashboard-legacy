@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .finalExpenseContactBar {
     display: flex;
@@ -6,10 +6,10 @@
     justify-content: center;
     width: 100%;
     padding: 24px;
-    background-color: #ffffff;
+    background-color: #fff;
     position: relative;
     height: 88px;
-    box-shadow: inset 0px -1px 0px #dddddd;
+    box-shadow: inset 0 -1px 0 #ddd;
 
     @include small {
         padding-left: 0;
@@ -31,9 +31,9 @@
             font-weight: 500;
 
             &:hover {
-                background-color: #ffffff;
+                background-color: #fff;
                 border-radius: 20px;
-                box-shadow: inset 0px -1px 0px #00000029;
+                box-shadow: inset 0 -1px 0 #00000029;
             }
 
             span {

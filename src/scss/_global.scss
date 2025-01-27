@@ -22,8 +22,8 @@
 
 body {
     margin: 0;
-    font-family: "Lato", "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-        "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: Lato, "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+        Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--page-bg-color);
@@ -104,46 +104,50 @@ button {
 }
 
 .bg-photo {
-    --bg-photo-default-src-800: url(../images/optimized/bg-default-800.jpg);
-    --bg-photo-default-src-1440: url(../images/optimized/bg-default-1440.jpg);
-    --bg-photo-default-src-1920: url(../images/optimized/bg-default-1920.jpg);
+    --bg-photo-default-src-800: url("../images/optimized/bg-default-800.jpg");
+    --bg-photo-default-src-1440: url("../images/optimized/bg-default-1440.jpg");
+    --bg-photo-default-src-1920: url("../images/optimized/bg-default-1920.jpg");
     --bg-photo-default-vert-anchor: 25%;
-    --bg-photo-gradient: linear-gradient(to top, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%);
+    --bg-photo-gradient: linear-gradient(to top, rgb(255 255 255 / 90%) 0%, rgb(255 255 255 / 90%) 100%);
+
     background: var(--invert-bg-color) center var(--bg-photo-vert-anchor, var(--bg-photo-default-vert-anchor)) no-repeat;
     background-image: var(--bg-photo-gradient), var(--bg-photo-src-800, var(--bg-photo-default-src-800));
     background-size: cover;
 
-    @media (min-width: 480px) {
+    @media (width >= 480px) {
         &.logged-in {
             background-image: var(--bg-photo-gradient), var(--bg-photo-src-800, var(--bg-photo-default-src-800));
         }
+
         background-image: var(--bg-photo-src-800, var(--bg-photo-default-src-800));
-        --bg-photo-gradient: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 100%);
+
+        --bg-photo-gradient: linear-gradient(to top, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 0%) 100%);
         --bg-photo-default-vert-anchor: top;
     }
 
     // retina > 500px or standard > 1000px
-    @media (-webkit-min-device-pixel-ratio: 2) and (min-width: 500px),
-        (min-resolution: 192dpi) and (min-width: 500px),
-        (min-width: 1000px) {
+    @media (min-device-pixel-ratio: 2) and (width >= 500px),
+        (resolution >= 192dpi) and (width >= 500px),
+        (width >= 1000px) {
         background-image: var(--bg-photo-src-1440, var(--bg-photo-default-src-1440));
     }
 
     // retina > 900px or standard > 1600px
-    @media (-webkit-min-device-pixel-ratio: 2) and (min-width: 900px),
-        (min-resolution: 192dpi) and (min-width: 900px),
-        (min-width: 1600px) {
+    @media (min-device-pixel-ratio: 2) and (width >= 900px),
+        (resolution >= 192dpi) and (width >= 900px),
+        (width >= 1600px) {
         background-image: var(--bg-photo-src-1920, var(--bg-photo-default-src-1920));
     }
+
     &.portal-page {
-        --bg-photo-gradient: linear-gradient(to top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 100%);
+        --bg-photo-gradient: linear-gradient(to top, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 0%) 100%);
     }
 }
 
 .bg-photo--alt {
-    --bg-photo-src-800: url(../images/optimized/bg-client-management-800.jpg);
-    --bg-photo-src-1440: url(../images/optimized/bg-client-management-1440.jpg);
-    --bg-photo-src-1920: url(../images/optimized/bg-client-management-1920.jpg);
+    --bg-photo-src-800: url("../images/optimized/bg-client-management-800.jpg");
+    --bg-photo-src-1440: url("../images/optimized/bg-client-management-1440.jpg");
+    --bg-photo-src-1920: url("../images/optimized/bg-client-management-1920.jpg");
     --bg-photo-vert-anchor: 50%;
 }
 
@@ -155,8 +159,10 @@ button {
     width: 100%;
     max-width: 1280px;
     align-self: center;
+
     @include clamp-property("padding-left", 16, 40);
     @include clamp-property("padding-right", 16, 40);
+
     margin-left: auto;
     margin-right: auto;
 
@@ -184,14 +190,14 @@ button {
         max-width: 100%;
     }
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         padding: 0;
     }
 }
 
 .visually-hidden,
 .visuallyhidden {
-    @include visually-hidden();
+    @include visually-hidden;
 }
 
 $spacings: (
@@ -276,12 +282,12 @@ $spacings: (
 }
 
 .cta-button {
-    background: #ffffff;
+    background: #fff;
     border-radius: 4px;
     color: #0052ce !important;
     font-size: 16px;
     line-height: 19px;
-    font-family: "Lato", sans-serif;
+    font-family: Lato, sans-serif;
     font-weight: 700;
     text-transform: capitalize;
     width: 240px;
@@ -291,6 +297,7 @@ $spacings: (
     justify-content: center;
     text-decoration: none;
 }
+
 .custom-homepage-heading {
     font-weight: 600 !important;
     font-size: 40px !important;
@@ -300,11 +307,12 @@ $spacings: (
     margin-bottom: 14px;
     letter-spacing: 1px !important;
 }
+
 .custom-homepage-headingtext {
     font-size: 16px;
     line-height: 22px;
     color: #6a6a6a;
-    font-family: "Lato", sans-serif;
+    font-family: Lato, sans-serif;
     font-weight: 400;
 }
 
@@ -319,6 +327,7 @@ $spacings: (
 div[class$="MenuList"] {
     margin-right: 20px;
 }
+
 /* width */
 div[class$="MenuList"]::-webkit-scrollbar {
     width: 4px;
@@ -328,7 +337,7 @@ div[class$="MenuList"]::-webkit-scrollbar {
 /* Track */
 div[class$="MenuList"]::-webkit-scrollbar-track {
     box-shadow: inset 0 0 0 transparent;
-    border-radius: 0px;
+    border-radius: 0;
 }
 
 /* Handle */
@@ -358,6 +367,7 @@ div[class$="MenuList"]::-webkit-scrollbar-thumb:hover {
     font-size: 16px;
     color: #313336;
 }
+
 .option__typeahead > .subHeader__typeahead {
     color: #64788b;
     font-family: Lato;

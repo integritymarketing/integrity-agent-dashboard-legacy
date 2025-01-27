@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .bannerFilter {
     margin-left: auto;
@@ -27,8 +27,9 @@
     height: 100%;
     background-color: #4178ff;
 }
+
 .divider {
-    border: 1px solid #cccccc;
+    border: 1px solid #ccc;
     height: 30px;
     margin-left: 20px;
     margin-right: 20px;

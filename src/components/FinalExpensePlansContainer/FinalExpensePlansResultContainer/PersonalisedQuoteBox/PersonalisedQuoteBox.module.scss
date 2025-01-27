@@ -1,10 +1,10 @@
-@import "src/scss/globalDefines.scss";
+@import "src/scss/globalDefines";
 
 .container {
     align-items: center;
-    background: #ffffff;
+    background: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
     display: flex;
     justify-content: space-between;
     padding: 16px;
@@ -31,7 +31,7 @@
     background: #007bff;
     border: none;
     border-radius: 20px;
-    color: #ffffff;
+    color: #fff;
     cursor: pointer;
     display: flex;
     font-size: 14px;
@@ -44,6 +44,6 @@
     }
 
     &:focus {
-        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+        box-shadow: 0 0 0 2px rgb(0 123 255 / 50%);
     }
 }

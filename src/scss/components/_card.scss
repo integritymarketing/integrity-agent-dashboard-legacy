@@ -5,15 +5,15 @@
     width: 100%;
     min-height: 150px;
   }
-  @media (max-width: 539px) {
+
+  @media (width <= 539px) {
     > * + * {
       margin-top: 2.5rem;
     }
   }
 
-  @media (min-width: 540px) {
+  @media (width >= 540px) {
     display: grid;
-    grid-template-columns: 1fr;
     grid-gap: 18px;
     grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
 
@@ -33,10 +33,11 @@
   border: 2px solid var(--card-border-color);
   transition: box-shadow 0.2s ease;
 
-  @media (min-width: 480px) {
+  @media (width >= 480px) {
     padding: 1.5rem;
   }
-  @media (min-width: 768px) {
+
+  @media (width >= 768px) {
     padding: math.div(30, 16) * 1rem;
   }
 
@@ -45,10 +46,11 @@
     padding: 2.5rem;
     position: relative;
 
-    @media (min-width: 480px) {
+    @media (width >= 480px) {
       padding: 3.75rem;
     }
-    @media (min-width: 768px) {
+
+    @media (width >= 768px) {
       padding: 5rem;
     }
   }
@@ -59,10 +61,11 @@
     left: 2.5rem;
     line-height: 1.5;
 
-    @media (min-width: 480px) {
+    @media (width >= 480px) {
       left: 3.75rem;
     }
-    @media (min-width: 768px) {
+
+    @media (width >= 768px) {
       left: 5rem;
     }
 
@@ -106,8 +109,9 @@
       margin: 0 0 0 2rem;
     }
 
-    @media (max-width: 399px) {
+    @media (width <= 399px) {
       flex-direction: column;
+
       > * + * {
         margin: 1rem 0 0;
       }
@@ -122,14 +126,15 @@
   padding: 0 !important;
   border: none;
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     min-height: 80vh !important;
     width: auto;
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     padding: 18px;
     min-height: 100vh !important;
+
     .select .select-container .inputbox {
       display: flex;
     }
@@ -147,6 +152,7 @@
       right: 15px;
     }
   }
+
   .modal__content {
     padding: 20px;
     background-color: #f1f1f1;

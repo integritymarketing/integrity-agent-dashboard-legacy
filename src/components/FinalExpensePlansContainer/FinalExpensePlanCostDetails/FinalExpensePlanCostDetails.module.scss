@@ -15,15 +15,15 @@
   display: flex;
   flex-direction: column;
   width: 75%;
-  border-left: 1px solid #cccccc;
-  padding: 0px 20px;
+  border-left: 1px solid #ccc;
+  padding: 0 20px;
 }
 
 .costRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 0px;
+  padding: 5px 0;
 }
 
 .costLabel {
@@ -56,14 +56,16 @@
 }
 
 .warningContainer {
-  border-top: 1px solid #cccccc;
-  padding: 5px 0px;
+  border-top: 1px solid #ccc;
+  padding: 5px 0;
   display: flex;
+
   .warning {
     color: #434a51;
     font-size: 16px;
     margin-right: 10px;
   }
+
   .warningIcon {
     margin-top: 2px;
   }

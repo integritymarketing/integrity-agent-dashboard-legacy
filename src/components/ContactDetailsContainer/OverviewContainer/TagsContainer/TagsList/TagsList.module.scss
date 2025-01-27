@@ -1,9 +1,9 @@
-@import "../../../../../scss/globalDefines.scss";
+@import "../../../../../scss/globalDefines";
 
 
 .container {
-  border-bottom: 1px solid #DDDDDD;
-  padding: 15px 0px;
+  border-bottom: 1px solid #DDD;
+  padding: 15px 0;
 }
 
 .labelContainer {
@@ -111,7 +111,7 @@
 
   span {
     font-size: 14px !important;
-    color: #ffffff !important;
+    color: #fff !important;
     font-weight: 500;
   }
 
@@ -137,9 +137,9 @@
   }
 
   &:hover {
-    background: #FFFFFF 0% 0% no-repeat padding-box;
+    background: #FFF 0% 0% no-repeat padding-box;
     border-radius: 20px;
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
     color: #1357FF !important
   }
 }

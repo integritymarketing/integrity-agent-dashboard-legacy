@@ -8,12 +8,13 @@
   }
 
   .content-wrapper {
-    @media (max-width: 768px) {
+    @media (width <= 768px) {
       width: auto;
       margin: 30px;
     }
+
     width: 738px;
-    background: #ffffff;
+    background: #fff;
     border: 1px solid #c7ccd1;
     box-sizing: border-box;
     border-radius: 10px;
@@ -40,7 +41,6 @@
       justify-content: center;
       align-items: center;
       padding: 8px 16px;
-
       width: 126px;
       height: 40px;
       background: #0052ce;
@@ -65,7 +65,8 @@
     .section-2 {
       background: #f5f7fa;
       padding: 30px;
-      @media (max-width: 425px) {
+
+      @media (width <= 425px) {
         margin-left: -32px;
         margin-right: -32px;
       }
@@ -87,15 +88,18 @@
 
     .row {
       display: flex;
+
       &:not(:last-child) {
         margin-bottom: 20px;
       }
     }
+
     .col {
       width: 50%;
       display: flex;
       flex-direction: column;
       justify-content: center;
+
       &.full {
         width: 100%;
       }
@@ -120,6 +124,7 @@
         .datepicker-input {
           width: 95px;
           padding-left: 26px;
+
           &+svg {
             display: none;
           }
@@ -140,7 +145,7 @@
 
     .input-tag {
       margin-right: 8px;
-      font-family: Material Icons;
+      font-family: "Material Icons";
       font-style: normal;
       font-weight: normal;
       font-size: 16px;
@@ -173,7 +178,8 @@
     border-radius: 2px;
     width: 380px;
     height: 40px;
-    @media (max-width: 425px) {
+
+    @media (width <= 425px) {
       width: auto;
       height: auto;
     }

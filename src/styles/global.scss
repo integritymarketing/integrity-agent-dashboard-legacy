@@ -1,10 +1,18 @@
-@import "./colors.scss";
-@import "./fonts.scss";
-@import "./spaces.scss";
-@import "mixins/breakpoints.scss";
-@import "mixins/lineclamp.scss";
-@import "mixins/order.scss";
-@import "mixins/transitions.scss";
+@use "./colors";
+@use "./fonts";
+@use "./spaces";
+@use "mixins/breakpoints";
+@use "mixins/lineclamp";
+@use "mixins/order";
+@use "mixins/transitions";
+
+@forward "./colors";
+@forward "./fonts";
+@forward "./spaces";
+@forward "mixins/breakpoints";
+@forward "mixins/lineclamp";
+@forward "mixins/order";
+@forward "mixins/transitions";
 
 * {
   box-sizing: border-box;

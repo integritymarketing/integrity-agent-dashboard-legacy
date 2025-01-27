@@ -10,6 +10,7 @@ $loader-animation-duration: 1s !default;
     0% {
       transform: rotate(0);
     }
+
     100% {
       transform: rotate(360deg);
     }
@@ -30,13 +31,16 @@ $loader-animation-duration: 1s !default;
   border-radius: 50%;
   position: relative;
   animation: loader-rotate $duration linear infinite;
-  @if ($align == center) {
+
+  @if $align == center {
     margin: 0 auto;
   }
-  @if ($align == middle) {
+
+  @if $align == middle {
     top: 50%;
     margin: 150px auto;
   }
+
   @include loader-rotate;
 }
 

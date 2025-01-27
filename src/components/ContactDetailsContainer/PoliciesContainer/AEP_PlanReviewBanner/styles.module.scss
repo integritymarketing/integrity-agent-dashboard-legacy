@@ -1,11 +1,12 @@
-@import "../../../../scss/globalDefines.scss";
+@import "../../../../scss/globalDefines";
 
 .aepPlanReviewBannerContainer {
     border-radius: 8px;
-    background: #ffffff;
+    background: #fff;
     padding: 8px;
     margin-bottom: 56px;
     width: 888px;
+
     @include small {
         width: 100%;
     }

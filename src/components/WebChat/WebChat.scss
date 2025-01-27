@@ -1,10 +1,10 @@
-@import "../../scss/globalDefines.scss";
+@import "../../scss/globalDefines";
 
 #webchat {
     div {
         font-size: 1rem;
         font-weight: normal !important;
-        font-family: "Lato", sans-serif !important;
+        font-family: Lato, sans-serif !important;
         -webkit-font-smoothing: antialiased;
     }
 
@@ -29,6 +29,7 @@
             max-height: calc(100vh - 230px);
         }
     }
+
     .has-header-content {
         .webchat__basic-transcript {
             max-height: calc(100vh - 170px);
@@ -39,6 +40,7 @@
             }
         }
     }
+
     .webchat__basic-transcript__focus-indicator,
     .webchat__connectivityStatus {
         display: none !important;
@@ -59,21 +61,19 @@
         border-bottom-right-radius: 0 !important;
 
         .webchat__bubble__content {
-            border-top-right-radius: 0 !important;
-            border-bottom-right-radius: 0 !important;
-            border-top-left-radius: 10px !important;
-            border-bottom-left-radius: 10px !important;
+            border-radius: 10px 0 0 10px !important;
         }
     }
 
     .webchat__stacked-layout__status {
         margin: 0.25rem 0.5rem;
-        color: #ffffff;
+        color: #fff;
     }
 
     .webchat__activity-status {
-        color: #ffffff;
+        color: #fff;
     }
+
     .webchat__send-box-text-box__input {
         border-radius: 5rem;
         background-color: #375582;
@@ -111,19 +111,23 @@
 
     .webchat__send-box__main {
         border: 0;
+
         @include small {
             min-height: 80px;
         }
     }
+
     .webchat__stacked-layout__attachment:has(#mcCallListCard) {
         .webchat__bubble__content {
             .ac-horizontal-separator {
                 padding-top: 10px;
-                border-bottom: 1px solid rgb(238, 238, 238);
+                border-bottom: 1px solid rgb(238 238 238);
             }
+
             .ac-image {
                 width: 23px !important;
             }
+
             .ac-columnSet {
                 .ac-container:first-child {
                     align-items: center !important;
@@ -131,6 +135,7 @@
             }
         }
     }
+
     .webchat__stacked-layout__attachment:has(#mcWelcomeCard) {
         margin: 0 12px;
         border: 10px solid #375582;
@@ -141,7 +146,7 @@
             border-radius: 2px;
 
             .ac-textBlock {
-                color: #ffffff !important;
+                color: #fff !important;
             }
 
             .ac-horizontal-separator {
@@ -193,7 +198,7 @@
             border-bottom-right-radius: 10px;
             background-color: #375582;
             border-width: 0;
-            color: rgb(255, 255, 255);
+            color: rgb(255 255 255);
         }
     }
 
@@ -230,7 +235,7 @@
     }
 
     #mcCallListExpansionCard {
-        margin: 0px !important;
+        margin: 0 !important;
         padding: 0 !important;
         background-color: #375582 !important;
     }
@@ -241,11 +246,13 @@
                 background-color: #375582 !important;
                 border-radius: 10px;
             }
+
             background-color: #49648b !important;
-            border-radius: 0px 0px 10px 10px;
+            border-radius: 0 0 10px 10px;
             border: none !important;
             padding: 16px !important;
         }
+
         flex-direction: column !important;
     }
 
@@ -279,7 +286,7 @@
 
         .webchat__bubble__content {
             background: transparent;
-            padding: 0px;
+            padding: 0;
         }
 
         #mcContactSummaryButtonsCard,
@@ -292,8 +299,9 @@
                 .primary {
                     background-color: #4178ff !important;
                 }
+
                 border: none;
-                color: #ffffff;
+                color: #fff;
                 font-weight: normal;
                 transition-duration: 100ms;
                 max-width: 50%;
@@ -326,6 +334,7 @@
                     &.primary {
                         background-color: #4178ff;
                     }
+
                     border-radius: 50px;
                     flex-direction: row-reverse;
                     gap: 4px;
@@ -371,6 +380,7 @@
             font-size: 20px !important;
             letter-spacing: 0.2px;
         }
+
         p > strong,
         p > em {
             font-size: 14px !important;
@@ -380,7 +390,7 @@
 
     .webchat__bubble__content > p {
         font-size: 1rem;
-        font-family: "Lato", sans-serif !important;
+        font-family: Lato, sans-serif !important;
     }
 
     #mcContactSummaryCard,

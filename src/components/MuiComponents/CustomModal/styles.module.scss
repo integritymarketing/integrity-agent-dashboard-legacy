@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .dialogTitle {
     display: flex;
@@ -8,8 +8,8 @@
 
 .closeButton {
   position: absolute;
-  top: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
   cursor: pointer;
 }
 
@@ -41,5 +41,5 @@
     justify-content: space-between;
     align-items: center;
     background-color: var(--Integrity-Theme-Integrity-gray-light-1);
-    padding: 0px 24px 24px 24px !important;
+    padding: 0 24px 24px !important;
 }

@@ -5,55 +5,60 @@
   position: fixed;
   background: #051d43b3;
   overflow: hidden;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
+  inset: 0;
   z-index: 30;
 }
+
 .arrowBox {
   position: absolute;
   right: 3.5rem;
   top: 1.9rem;
-  @media screen and (max-width: 768px) {
+
+  @media screen and (width <= 768px) {
     right: 2.8rem;
     top: 1.9rem;
   }
-  @media screen and (max-width: 480px) {
+
+  @media screen and (width <= 480px) {
     left: 7.2rem;
     right: auto;
   }
 }
+
 .box {
   position: absolute;
   right: 11rem;
   top: 1rem;
 }
+
 .body {
   display: flex;
   flex-direction: column;
   position: absolute;
   height: 163px;
   width: 336px;
-  border-radius: 8px;
   background-color: #f4f8fb;
-  box-shadow: 0px 1px 0px #00000029;
-  border-radius: 8px 8px 8px 8px;
+  box-shadow: 0 1px 0 #00000029;
+  border-radius: 8px;
   top: 6.2rem;
   right: 2rem;
-  @media screen and (max-width: 768px) {
+
+  @media screen and (width <= 768px) {
     top: 5.8rem;
   }
-  @media screen and (max-width: 480px) {
+
+  @media screen and (width <= 480px) {
     left: 50%;
     transform: translate(-50%, 0);
     right: auto;
   }
 }
+
 .buttonShift {
   position: absolute;
   top: -2rem;
 }
+
 .header {
   width: 100%;
   text-align: center;
@@ -63,22 +68,25 @@
   color: #002d72;
   border-bottom: 1px solid #00000029;
 }
+
 .content {
   position: relative;
   padding: 16px;
   text-align: left;
   font-size: 16px;
 }
+
 .link {
   color: #0052ce;
   display: inline;
 }
+
 .button {
   width: 79px;
   height: 24px;
   background: #0052ce;
-  padding: 2px 16px 2px 16px;
-  color: #ffffff;
+  padding: 2px 16px;
+  color: #fff;
   font-size: 14px;
   border-radius: 4px;
   position: absolute;

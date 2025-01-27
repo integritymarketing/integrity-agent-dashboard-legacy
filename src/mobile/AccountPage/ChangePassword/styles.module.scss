@@ -1,21 +1,25 @@
 .details {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
+
   .content {
     display: flex;
     flex-direction: column;
     padding: 16px;
     border-bottom: 1px solid #cdd0d5;
+
     .title {
-      color: #000000;
+      color: #000;
       font-size: 16px;
       font-weight: bold;
       margin-bottom: 4px;
     }
+
     .name {
       color: #002d72;
       font-size: 24px;
     }
+
     .npn .email {
       color: #051d43;
       font-size: 16px;

@@ -12,7 +12,7 @@
     font-size: 16px;
     color: #434A51;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       font-weight: 600;
     }
 }

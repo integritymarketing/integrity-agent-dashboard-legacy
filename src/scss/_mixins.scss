@@ -5,6 +5,7 @@
     #{math.div($smallest, 16)}rem + #{$largest - $smallest} * ((100vw - 375px) / #{768 -
           375})
   );
+
   @return clamp(
     #{math.div(min($smallest, $largest), 16)}rem,
     #{$calc},
@@ -14,13 +15,15 @@
 
 @mixin clamp-property($propertyname, $smallest, $largest) {
   $clamped: _get-clamp-val($smallest, $largest);
+
   & {
     #{$propertyname}: #{math.div($smallest, 16)}rem;
 
-    @media (min-width: 768px) {
+    @media (width >= 768px) {
       #{$propertyname}: #{math.div($largest, 16)}rem;
     }
   }
+
   @supports #{"(" + $propertyname + ": " + $clamped + ")"} {
     #{$propertyname}: #{$clamped};
   }

@@ -5,7 +5,7 @@
     .row {
       flex: 1;
       display: flex;
-      border-bottom: thin solid #dddddd;
+      border-bottom: thin solid #ddd;
   
       .col {
         flex: 1;
@@ -13,7 +13,7 @@
         padding: 8px 24px;
   
         &:not(:last-child) {
-          border-right: thin solid #dddddd;
+          border-right: thin solid #ddd;
         }
   
         &.desc {

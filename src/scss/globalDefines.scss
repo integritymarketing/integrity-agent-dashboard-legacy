@@ -1,5 +1,2 @@
-@use "defines/animations" as global;
-@use "defines/colors" as global;
-@use "defines/fontSizes" as global;
-@use "defines/mediaQueries" as global;
-@use "defines/sizes" as global;
+@use "defines/global" as defines_global;
+@use "rules/global" as rules_global;

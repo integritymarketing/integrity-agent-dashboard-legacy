@@ -1,24 +1,27 @@
 .container {
   font-size: 14px;
   background-color: white;
+
   .providerContainer {
-    background-color: #ffffff;
+    background-color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 16px 40px;
     border-bottom: 1px solid #cdd0d5;
-    @media (max-width: 768px) {
+
+    @media (width <= 768px) {
       flex-direction: column !important;
-      padding: 20px 20px !important;
+      padding: 20px !important;
     }
   }
+
   .rowMobile,
   .row {
     display: flex;
     justify-content: space-between;
     padding: 16px 24px;
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid #ddd;
     align-items: center;
 
     .rowLeft {
@@ -31,15 +34,18 @@
       .subspecialty {
         color: #717171;
       }
+
       .name {
         color: #052a63;
         font-size: 20px;
       }
+
       .phoneNumbers {
         color: #4178ff;
         margin-top: 6px;
       }
     }
+
     .rowMiddle {
       display: flex;
       gap: 5px;
@@ -50,12 +56,14 @@
         color: #717171;
       }
     }
+
     .rowRight {
       .edit {
         color: #4178ff;
       }
     }
   }
+
   .rowMobile {
     flex-direction: column;
     align-items: flex-start;

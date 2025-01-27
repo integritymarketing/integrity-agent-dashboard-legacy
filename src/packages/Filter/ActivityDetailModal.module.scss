@@ -10,6 +10,7 @@
 
 .subSection {
   background-color: #f4f8fb;
+
   .topSection {
     display: flex;
     flex-direction: column;
@@ -17,14 +18,15 @@
     background-color: #e5e8ec;
     padding: 20px;
     border-radius: 3px;
-    Button {
+
+    button {
       margin-top: 10px;
     }
   }
 }
 
 .footerSection {
-  Button {
+  button {
     float: right;
     margin-top: 10px;
   }

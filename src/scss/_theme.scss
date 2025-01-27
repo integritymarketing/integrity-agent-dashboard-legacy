@@ -2,14 +2,14 @@
 
 :root {
   --page-bg-color: #f9fafb;
-  --main-text-color: #333333;
-  --main-bg-color: #ffffff;
+  --main-text-color: #333;
+  --main-bg-color: #fff;
   --admin-bg-color: #e8eaef linear-gradient(to bottom, #f5f6f8 0%, #e8eaef 100%);
-  --neutral-bg-gradient: #ffffff
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%);
+  --neutral-bg-gradient: #fff
+    linear-gradient(to bottom, rgb(0 0 0 / 60%) 0%, rgb(0 0 0 / 80%) 100%);
   --neutral-text-color: #434a51;
-  --invert-text-color: #ffffff;
-  --invert-bg-color: #333333;
+  --invert-text-color: #fff;
+  --invert-bg-color: #333;
   --muted-text-color: #8f99a3;
   --muted-light-text-color: #e8eaef;
   --error-state-color: #d86a66;
@@ -24,12 +24,12 @@
   --brand-bg-hover-color: #0079cc;
   --disabled-color: #a4aec1;
   --disabled-contrast-color: #e8eaef;
-  --shadow-default: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
-  --card-bg: #ffffff;
+  --shadow-default: 0 0.25rem 0.5rem rgb(0 0 0 / 20%);
+  --card-bg: #fff;
   --card-border-color: #e8eaef;
   --lead-status-new: #7dcc28;
   --lead-status-other: #b7b7b7;
-  --tooltip-background: #ffffff;
+  --tooltip-background: #fff;
   --tooltip-border: #b3adad;
   --brand-gradient-start: #236c9e;
   --brand-gradient-end: #0079cc;
@@ -37,8 +37,8 @@
   --form-border-default: #e3e6ec;
   --form-border-active: #236c9e;
   --border-light: #c7ccd1;
-  --textfield-invert-bg-color: rgba(255, 255, 255, 0.25);
-  --textfield-invert-bg-color-active: rgba(255, 255, 255, 0.35);
+  --textfield-invert-bg-color: rgb(255 255 255 / 25%);
+  --textfield-invert-bg-color-active: rgb(255 255 255 / 35%);
   --fixed-space-0: 0;
   --fixed-space-1: 0.5rem;
   --fixed-space-2: 1rem;
@@ -47,15 +47,15 @@
   --fixed-space-5: 5rem;
 
   // v2
-  --v2-white: #ffffff;
-  --v2-black: #000000;
+  --v2-white: #fff;
+  --v2-black: #000;
   --v2-page-bg-color: #f9fafb;
   --v2-main-text-color: #1b1b1b;
   --v2-main-border-color: #e8eaef;
   --v2-bg-gray: #525761;
   --v2-main-gray: #6a6a6a;
   --v2-dark-gray: #151e29;
-  --v2-light-gray: #dddddd;
+  --v2-light-gray: #ddd;
   --v2-disabled-gray: #e3e5e7;
   --v2-disabled-gray-border: #c7ccd1;
   --v2-disabled-gray-text: #8d8d8d;

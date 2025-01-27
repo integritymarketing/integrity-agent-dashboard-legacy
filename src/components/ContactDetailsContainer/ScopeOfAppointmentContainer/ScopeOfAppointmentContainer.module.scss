@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .soaTitleHeader {
     display: flex;
@@ -9,14 +9,14 @@
 .columnView {
     flex-direction: column;
 
-    @include small() {
+    @include small {
         padding: 1rem 0;
         flex-direction: row;
     }
 }
 
 .noSOA {
-    background-color: #ffffff;
+    background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,7 +27,7 @@
 
 .noSOAText {
     font-size: 16px;
-    color: #000000;
+    color: #000;
     margin-right: 10px;
 }
 
@@ -90,7 +90,7 @@
             margin-left: 10px;
         }
 
-        @include small() {
+        @include small {
             width: 170px;
         }
     }

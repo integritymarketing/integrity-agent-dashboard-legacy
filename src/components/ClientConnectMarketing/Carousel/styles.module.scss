@@ -3,6 +3,7 @@
 .scroller {
     position: relative;
 }
+
 .scrollerCards {
     display: flex;
     flex-direction: row;
@@ -10,8 +11,9 @@
     gap: 24px;
     padding: 5px 0;
 }
+
 .scrollButton {
-    background: rgb(255, 255, 255);
+    background: rgb(255 255 255);
     border: none;
     font-size: 24px;
     cursor: pointer;
@@ -24,7 +26,7 @@
     top: 0;
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
     .scrollButton {
         display: none;
     }
@@ -34,9 +36,9 @@
     left: 0;
     background: linear-gradient(
         90deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 1) 75%,
-        rgba(255, 255, 255, 0) 100%
+        rgb(255 255 255 / 100%) 0%,
+        rgb(255 255 255 / 100%) 75%,
+        rgb(255 255 255 / 0%) 100%
     );
 }
 
@@ -45,9 +47,9 @@
     justify-content: end;
     background: linear-gradient(
         90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 1) 25%,
-        rgba(255, 255, 255, 1) 100%
+        rgb(255 255 255 / 0%) 0%,
+        rgb(255 255 255 / 100%) 25%,
+        rgb(255 255 255 / 100%) 100%
     );
 }
 

@@ -3,6 +3,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
   .icon {
     margin-top: 3px;
   }
@@ -44,12 +45,14 @@
   border: 1px solid #c7ccd1;
   border-radius: 8px;
   padding: 8px;
+
   .number {
     color: #434a51;
     font-size: 16px;
     margin-top: 5px;
     margin-left: 10px;
   }
+
   .imageMobile {
     height: 30px;
     width: 30px;

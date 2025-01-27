@@ -57,6 +57,17 @@ export default defineConfig(({ mode }) => {
             extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
         },
 
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    sassOptions: {
+                        // additionalData: `@import "src/scss/_global.scss";`, // Add the correct global path here
+                        quietDeps: true, // Suppresses SCSS deprecation warnings from dependencies
+                    },
+                },
+            },
+        },
+
         optimizeDeps: {
             exclude: ["recoil", "moment", "react-table"], // Exclude Recoil from dependency pre-bundling
         },

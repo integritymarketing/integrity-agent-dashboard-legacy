@@ -1,11 +1,13 @@
 .ModalContactTextBox {
   border-bottom: 1px solid #ccc;
   height: 92px;
+
   .modal_title {
     align-items: center;
     display: flex;
     font-weight: 900;
     margin-top: 20px;
+
     .title {
       font-weight: 900;
       margin-left: 30px;
@@ -16,11 +18,13 @@
 .close_phone {
   align-items: center;
   display: flex;
+
   .icon {
     height: 20px;
     margin-left: 10px;
     width: 20px;
   }
+
   .back_title {
     color: #0052ce;
     font-weight: 900;

@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines.scss";
+@import "../../scss/globalDefines";
 
 .activitiesContainer {
     border-radius: 8px;
@@ -92,7 +92,7 @@
 }
 
 .outdatedStatus {
-    color: #aaaaaa;
+    color: #aaa;
     font-size: 14px;
 }
 
@@ -112,9 +112,9 @@
     }
 
     &:hover {
-        background: #ffffff 0% 0% no-repeat padding-box;
+        background: #fff 0% 0% no-repeat padding-box;
         border-radius: 20px;
-        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
         color: #1357ff !important;
     }
 }
@@ -131,16 +131,17 @@
 }
 
 .pageContainer {
-    background: #ffffff;
+    background: #fff;
     border-radius: 8px;
     padding: 56px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
     max-width: 90%;
     width: 900px;
 
     @include small {
         padding: 16px;
     }
+
     margin-left: auto;
     margin-right: auto;
 }
@@ -149,7 +150,7 @@
     font-size: 24px;
     line-height: 32px;
     color: #052a63;
-    font-family: "Lato", sans-serif;
+    font-family: Lato, sans-serif;
     font-weight: 400;
 
     @include small {
@@ -191,5 +192,5 @@
 }
 
 .noItemsWrapper {
-    background-color: #ffffff;
+    background-color: #fff;
 }

@@ -1,28 +1,34 @@
 .soa-confirmation-form-page {
   width: 740px;
   margin: 0 auto;
-  @media screen and (min-width: 320px) and (max-width: 480px) {
+
+  @media screen and (width >= 320px) and (width <= 480px) {
     width: 100%;
   }
+
   .soa-confirmation-form-wrapper {
     display: flex;
     justify-content: center;
-    @media screen and (min-width: 320px) and (max-width: 480px) {
-      padding: 0px;
+
+    @media screen and (width >= 320px) and (width <= 480px) {
+      padding: 0;
     }
+
     .soa-confirmation-card {
       height: 100%;
-      margin: 35px 0px 165px 0px;
-      background: #ffffff;
+      margin: 35px 0 165px;
+      background: #fff;
       border: 1px solid #c7ccd1;
       box-sizing: border-box;
       border-radius: 10px;
-      @media screen and (min-width: 320px) and (max-width: 480px) {
-        margin: 0px;
+
+      @media screen and (width >= 320px) and (width <= 480px) {
+        margin: 0;
         width: 100%;
         border: none;
-        padding: 16px 0px 16px 0px;
+        padding: 16px 0;
       }
+
       .soa-confirmation-title {
         display: flex;
         align-items: center;
@@ -30,93 +36,113 @@
         font-size: 24px;
         font-weight: 400;
         line-height: 29px;
-        letter-spacing: 0em;
+        letter-spacing: 0;
         text-align: left;
-        padding: 0px 0px 19px 0px;
+        padding: 0 0 19px;
         color: #002d72;
       }
+
       .section-1 {
         font-size: 16px;
         font-weight: 400;
         line-height: 24px;
-        letter-spacing: 0em;
+        letter-spacing: 0;
         text-align: left;
         color: #3d4553;
         padding-bottom: 32px;
       }
+
       .section-2 {
         background: #f5f7fa;
         height: 300px;
-        padding: 29px 0px 48px 31px;
-        @media screen and (min-width: 320px) and (max-width: 480px) {
-          padding: 30px 0px 48px 10px;
+        padding: 29px 0 48px 31px;
+
+        @media screen and (width >= 320px) and (width <= 480px) {
+          padding: 30px 0 48px 10px;
         }
+
         .plan-types {
           font-size: 16px;
           font-weight: 400;
           line-height: 19px;
-          letter-spacing: 0em;
+          letter-spacing: 0;
           text-align: left;
           color: #565656;
         }
       }
+
       .section-3 {
-        margin: 10px 0px 32px 0px;
+        margin: 10px 0 32px;
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
         line-height: 24px;
-        letter-spacing: 0em;
+        letter-spacing: 0;
         text-align: left;
+
         .signing-form-2 {
           padding-bottom: 35px;
         }
       }
+
       .beneficiary-details {
         background: #f5f7fa;
         padding: 35px 40px 20px 35px;
-        @media screen and (min-width: 320px) and (max-width: 480px) {
-          padding: 16px 25px 16px 25px;
+
+        @media screen and (width >= 320px) and (width <= 480px) {
+          padding: 16px 25px;
         }
+
         .heading-text {
           font-weight: bold;
           padding-bottom: 20px;
         }
+
         .person-enrolled {
           display: flex;
           gap: 10px;
           padding-bottom: 35px;
         }
+
         .icon-info-small {
           width: 15px;
         }
+
         .hide-input-err .form-input--error > .form-input__error {
           display: none;
         }
+
         .details-edit-custom-error-msg {
           width: 354px;
+
           .error-msg-green {
             line-height: 210%;
           }
+
           .error-msg-red {
             display: block;
             margin-top: 2px;
           }
         }
+
         .state-select-input .select {
           width: 100% !important;
-          margin: 0px !important;
+          margin: 0 !important;
         }
+
         .user-middle-name .form-input__input {
           max-width: 70px;
         }
+
         .understand-contents-of-soa {
           display: flex;
           align-items: flex-start;
           padding-top: 40px;
+
           .understand-contents-of-soa-checkbox {
             padding-top: 3px;
           }
+
           .understand-contents-of-soa-content {
             padding-right: 48px;
             color: #3d4553;
@@ -124,12 +150,14 @@
             font-style: normal;
             font-weight: 400;
             line-height: 20px;
-            letter-spacing: 0em;
-            @media screen and (min-width: 320px) and (max-width: 480px) {
+            letter-spacing: 0;
+
+            @media screen and (width >= 320px) and (width <= 480px) {
               padding-right: 25px;
             }
           }
         }
+
         .authorized-representative-wrapper {
           padding-top: 60px;
           display: flex;
@@ -137,24 +165,28 @@
           font-size: 14px;
           font-weight: 400;
           line-height: 16px;
-          letter-spacing: 0em;
+          letter-spacing: 0;
+
           .help {
-            padding: 9px 0px 24px 0px;
+            padding: 9px 0 24px;
             color: #0052ce;
             text-decoration: underline;
             cursor: pointer;
           }
         }
+
         .authorized-representative-details {
           padding-top: 25px;
           font-size: 16px;
           font-weight: 700;
           line-height: 24px;
-          letter-spacing: 0em;
+          letter-spacing: 0;
         }
+
         .submit-button {
           padding-top: 50px;
-          @media screen and (min-width: 320px) and (max-width: 480px) {
+
+          @media screen and (width >= 320px) and (width <= 480px) {
             width: 100%;
           }
         }
@@ -163,17 +195,20 @@
   }
 
   .medicare-overview {
-    margin: 0px 40px 0px 40px;
-    @media screen and (min-width: 320px) and (max-width: 480px) {
-      margin: 0px auto;
+    margin: 0 40px;
+
+    @media screen and (width >= 320px) and (width <= 480px) {
+      margin: 0 auto;
       width: calc(100% - 60px);
       word-wrap: break-word;
     }
+
     .question {
       font-size: 16px;
       font-weight: 700;
       line-height: 21px;
     }
+
     .answer {
       font-size: 24px;
       font-weight: 400;
@@ -184,6 +219,7 @@
       text-indent: -24px;
       padding-left: 35px;
     }
+
     .nested-list {
       text-indent: -24px;
       padding-left: 35px;
@@ -201,7 +237,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: 24px;
-  letter-spacing: 0em;
+  letter-spacing: 0;
 }
 
 .authorized-help-modal {
@@ -209,10 +245,11 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
-    letter-spacing: 0em;
+    letter-spacing: 0;
     text-align: left;
     color: #515e6f;
   }
+
   .cancel-button {
     display: flex;
     justify-content: right;
@@ -223,6 +260,7 @@ a.blue-link {
   color: #0052ce;
   text-decoration: underline;
   cursor: pointer;
+
   &:hover {
     color: #0052ce;
   }
@@ -230,43 +268,50 @@ a.blue-link {
 
 /* Start confirmation */
 .soa-confirmation-page-card {
-  margin: 35px 150px 0px 150px;
+  margin: 35px 150px 0;
   max-width: 740px;
-  @media screen and (min-width: 320px) and (max-width: 480px) {
-    margin: 0px;
+
+  @media screen and (width >= 320px) and (width <= 480px) {
+    margin: 0;
     width: 100%;
     border: none;
-    padding: 31px 24px 0px 25px;
+    padding: 31px 24px 0 25px;
   }
+
   .confirmation-header {
     font-size: 24px;
     color: #002d72;
     padding-bottom: 32px;
-    @media screen and (min-width: 320px) and (max-width: 480px) {
+
+    @media screen and (width >= 320px) and (width <= 480px) {
       padding-bottom: 20px;
     }
   }
+
   .confirmation-body {
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
-    letter-spacing: 0em;
+    letter-spacing: 0;
     color: #3d4553;
     padding-bottom: 15px;
   }
 }
+
 /* End confirmation */
 
 /* Start form submitted */
 .form-already-submitted-card {
-  margin: 35px 150px 0px 150px;
+  margin: 35px 150px 0;
   max-width: 740px;
-  @media screen and (min-width: 320px) and (max-width: 480px) {
-    margin: 0px;
+
+  @media screen and (width >= 320px) and (width <= 480px) {
+    margin: 0;
     width: 100%;
     border: none;
-    padding: 31px 24px 0px 25px;
+    padding: 31px 24px 0 25px;
   }
+
   .form-submitted-header {
     display: flex;
     justify-content: center;
@@ -285,4 +330,5 @@ a.blue-link {
   color: #515e6f;
   margin-bottom: 26px;
 }
+
 /* End form submitted */

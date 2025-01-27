@@ -1,10 +1,11 @@
-@import "src/scss/globalDefines.scss";
+@import "src/scss/globalDefines";
 
 .rtsTableContainer {
   margin-top: 90px;
-  padding: 0px 40px;
+  padding: 0 40px;
   margin-bottom: 30px;
-  @media (max-width: 767px) and (min-width: 320px) {
+
+  @media (width <= 767px) and (width >= 320px) {
     padding: 0;
   }
 
@@ -16,7 +17,7 @@
 
 .headerLayoutContainer {
   background: $white;
-  box-shadow: inset 0px -1px 0px $gray-6;
+  box-shadow: inset 0 -1px 0 $gray-6;
 }
 
 .headerLayout {
@@ -30,7 +31,8 @@
 
 .sectionOne {
   width: 33.33%;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     width: 90%;
     margin: auto;
   }
@@ -41,7 +43,8 @@
   flex-wrap: wrap;
   width: 66.66%;
   align-items: flex-start;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     width: 90%;
     flex-direction: column;
     margin: auto;
@@ -75,7 +78,7 @@
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     flex-direction: column;
   }
 }
@@ -83,10 +86,11 @@
 .medicareCenterContainer {
   margin-right: 50px;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     margin-right: initial;
   }
 }
+
 .detailSection {
   display: flex;
   flex-direction: column;
@@ -99,28 +103,30 @@
   flex-direction: column;
   width: 85%;
   margin: auto;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     width: 100%;
   }
 }
 
 .sectionBody {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
   padding: 20px;
 }
 
 .customLabel label {
   font-size: 16px;
-  color: #000000;
+  color: #000;
 }
 
 .submitSection {
   display: flex;
   justify-content: flex-end;
+
   .submitButton {
     background-color: #0052ce;
-    color: #ffffff;
+    color: #fff;
     font-size: 16px;
     padding: 8px 25px;
     border-radius: 4px;
@@ -140,7 +146,8 @@
   display: flex;
   flex-direction: column;
   width: 50%;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     width: 100%;
   }
 }
@@ -149,7 +156,8 @@
   display: flex;
   flex-direction: column;
   width: 50%;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     width: 100%;
   }
 }
@@ -193,6 +201,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
   .icon {
     margin-top: 3px;
   }
@@ -223,12 +232,14 @@
   border: 1px solid #c7ccd1;
   border-radius: 8px;
   padding: 8px;
+
   .number {
     color: #434a51;
     font-size: 16px;
     margin-top: 5px;
     margin-left: 10px;
   }
+
   .imageMobile {
     height: 30px;
     width: 30px;
@@ -239,6 +250,7 @@
   color: #434a51;
   font-size: 16px;
   font-weight: bold;
+
   .editIcon {
     margin-left: 10px;
     cursor: pointer;
@@ -256,6 +268,7 @@
 .iconTitle {
   display: flex;
   align-items: center;
+
   .notificationTitle {
     color: #434a51;
     display: flex;

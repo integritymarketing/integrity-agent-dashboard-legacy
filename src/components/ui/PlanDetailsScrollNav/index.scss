@@ -2,7 +2,7 @@
     flex-grow: 1;
     width: 262px;
     position: sticky;
-    top: 0px;
+    top: 0;
     z-index: 1;
 
     .navigation2 {
@@ -32,9 +32,7 @@
                 font-size: 18px;
                 line-height: 130%;
                 padding-left: 16px;
-                border-left-width: 5px;
-                border-left-color: #4178ff;
-                border-left-style: solid;
+                border-left: 5px solid #4178ff;
                 color: #4178ff;
             }
         }
@@ -44,6 +42,7 @@
         width: 80%;
         padding-top: 40px;
         opacity: 0;
+
         .plan-details-effective-date-select {
             border-radius: 4px !important;
         }

@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines.scss";
+@import "../../../../scss/globalDefines";
 
 
 .miniContainer {
@@ -6,7 +6,6 @@
     flex-direction: column;
 
     @include small {
-
         flex-direction: row;
         gap: 24px;
     }
@@ -99,7 +98,7 @@
 
     span {
         font-size: 14px !important;
-        color: #ffffff !important;
+        color: #fff !important;
         font-weight: 500;
     }
 
@@ -124,9 +123,9 @@
     }
 
     &:hover {
-        background: #ffffff 0% 0% no-repeat padding-box;
+        background: #fff 0% 0% no-repeat padding-box;
         border-radius: 20px;
-        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
         color: #1357ff !important;
     }
 }
@@ -163,7 +162,7 @@
 }
 
 .underLine {
-    box-shadow: rgb(199, 204, 209) 0px -1px 0px inset;
+    box-shadow: rgb(199 204 209) 0 -1px 0 inset;
 }
 
 .specialAssistanceCard {
@@ -187,7 +186,7 @@
     .specialAssistanceOptions {
         display: flex;
         flex-direction: row;
-        padding: 0px 16px;
+        padding: 0 16px;
         justify-content: flex-end;
         align-items: center;
         gap: 36px;
@@ -216,6 +215,7 @@
         font-style: normal;
         font-weight: 600;
         line-height: 20px;
+
         /* 125% */
         letter-spacing: 0.17px;
     }

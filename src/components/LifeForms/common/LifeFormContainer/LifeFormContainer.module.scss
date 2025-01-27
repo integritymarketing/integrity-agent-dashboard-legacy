@@ -1,13 +1,12 @@
-@import "src/scss/globalDefines.scss";
+@import "src/scss/globalDefines";
 
 .productPreferenceContainer {
     display: flex;
     width: 65%;
-    margin: 0px auto;
+    margin: 0 auto;
     padding: 56px 24px;
-    justify-content: center;
+    place-content: flex-start center;
     align-items: flex-start;
-    align-content: flex-start;
     gap: 24px;
     align-self: stretch;
     flex-wrap: wrap;

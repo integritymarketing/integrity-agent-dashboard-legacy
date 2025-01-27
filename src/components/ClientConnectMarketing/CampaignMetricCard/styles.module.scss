@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 @import "scss/components/icons";
 
 .statusInfo {
@@ -7,11 +7,13 @@
     border-radius: 8px;
     display: flex;
     cursor: pointer;
+
     @include small {
         align-items: center;
         justify-content: center;
     }
 }
+
 .disable {
     cursor: not-allowed;
 }
@@ -29,6 +31,7 @@
     background: #f1f1f1;
     font-weight: 600;
 }
+
 .statusInfoPercentage {
     color: #717171;
     text-align: center;
@@ -42,32 +45,39 @@
 
 .icons {
     margin: auto 0;
+
     @include small {
         display: none;
     }
 }
+
 .metricData {
     margin-left: 8px;
+
     @include small {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        margin-left: 0px;
+        margin-left: 0;
     }
 }
+
 .integrityIcon {
     cursor: none;
     pointer-events: none;
+
     &.integrityIconBg:hover {
         background-color: #f1faff;
     }
 }
+
 .iconComponent {
     color: #1976d2;
-    margin-right: 0px;
+    margin-right: 0;
     height: 26px;
 }
+
 .statusName {
     color: #052a63;
 }

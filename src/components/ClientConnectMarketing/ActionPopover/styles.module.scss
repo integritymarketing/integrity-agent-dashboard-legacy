@@ -1,5 +1,6 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 @import "scss/components/icons";
+
 .customPopover {
     width: 600px;
     padding: 10px;
@@ -7,6 +8,7 @@
 
 .actionIcon {
     display: contents;
+
     > div {
         height: 24px;
     }
@@ -20,7 +22,7 @@
     cursor: not-allowed;
 
     .selections {
-        color: rgba(0, 0, 0, 0.38);
+        color: rgb(0 0 0 / 38%);
         cursor: not-allowed;
     }
 }
@@ -41,6 +43,7 @@
 
 .mIcon {
     display: contents;
+
     > div {
         height: 36px;
     }

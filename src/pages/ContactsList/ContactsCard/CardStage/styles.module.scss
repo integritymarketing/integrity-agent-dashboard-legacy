@@ -1,10 +1,10 @@
 .stage {
-    padding-bottom: 0px;
+    padding-bottom: 0;
     color: #052A63;
     font-weight: bold;
     width: 140px;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         max-width: 245px;
     }
 }

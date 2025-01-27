@@ -1,9 +1,10 @@
-@import "../../scss/globalDefines.scss";
+@import "../../scss/globalDefines";
 
 .footerContainer {
   min-height: 8rem;
   max-height: 10rem;
   background: $white;
+
   // padding-left: 136px; need to test before removing
   // padding-right: 136px;
 
@@ -31,6 +32,7 @@
 .hideForWebMobile {
   display: flex;
   align-items: center;
+
   @include small {
     display: none;
   }

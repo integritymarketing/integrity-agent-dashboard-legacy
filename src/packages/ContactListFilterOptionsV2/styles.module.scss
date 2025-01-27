@@ -8,7 +8,7 @@
     flex-wrap: nowrap;
     gap: 10px;
     background-color: #4178ff;
-    color: #ffffff;
+    color: #fff;
     cursor: pointer;
     padding: 5px 7px 5px 12px !important;
     transition: ease-out 300ms;
@@ -27,14 +27,14 @@
 }
 
 .footer {
-    border-top: 1px solid #cccccc;
+    border-top: 1px solid #ccc;
     display: flex;
     justify-content: flex-end;
     padding: 10px 15px !important;
 }
 
 .footerCloseButton {
-    background: #ffffff 0% 0% no-repeat padding-box !important;
+    background: #fff 0% 0% no-repeat padding-box !important;
     border: none;
     border-radius: 20px !important;
     cursor: pointer;
@@ -44,8 +44,8 @@
 
 .footerCloseButton:hover {
     background: #f9f9f9;
-    border: 1px solid #ffffff;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #fff;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 10%);
     opacity: 1;
 }
 
@@ -81,7 +81,7 @@
 }
 
 .dropdownOption {
-    border: 1px solid #dddddd;
+    border: 1px solid #ddd;
     padding: 5px 10px;
     color: #434a51;
     cursor: pointer;

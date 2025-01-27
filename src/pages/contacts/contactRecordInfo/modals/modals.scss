@@ -7,6 +7,7 @@
   align-items: center;
   margin-top: 30px;
   min-height: 240px;
+
   & > span {
     font-size: 14px;
   }
@@ -20,17 +21,21 @@
 .dialog--title,
 .dialog--body,
 .dialog--actions {
-  margin: 0px 80px 0px 80px;
-  @media (max-width: 768px) {
-    margin: 0px;
+  margin: 0 80px;
+
+  @media (width <= 768px) {
+    margin: 0;
   }
 }
+
 .prescription--modal .modal__card {
-  padding: 0px;
-  @media (max-width: 480px) {
+  padding: 0;
+
+  @media (width <= 480px) {
     padding: 18px;
   }
 }
+
 .dialog--title {
   margin-top: 50px;
 }
@@ -42,23 +47,25 @@
   margin-bottom: 15px;
   font-weight: bold;
   font-size: 16px;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     margin-top: 25px;
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
+
   .prescription-add {
     & button {
-      background: #e6ecf2;
-      border-radius: 4px;
       background: #0052ce;
       border-radius: 4px;
       color: #f8fafc;
-      @media (max-width: 480px) {
+
+      @media (width <= 480px) {
         width: 180px;
       }
-      @media (max-width: 320px) {
+
+      @media (width <= 320px) {
         width: auto;
       }
     }
@@ -69,6 +76,7 @@
       color: #64748b;
     }
   }
+
   .prescription-cancel {
     & button {
       margin-right: 10px;
@@ -77,10 +85,12 @@
       box-sizing: border-box;
       border-radius: 4px;
       color: #0052ce;
-      @media (max-width: 480px) {
+
+      @media (width <= 480px) {
         width: 159px;
       }
-      @media (max-width: 320px) {
+
+      @media (width <= 320px) {
         width: auto;
       }
     }
@@ -89,7 +99,8 @@
 
 .dialog--body {
   min-height: 480px;
-  @media (max-width: 768px) {
+
+  @media (width <= 768px) {
     min-height: 176px;
   }
 }
@@ -103,10 +114,12 @@
 
 .form-element {
   margin-bottom: 24px;
+
   div[class$="control"] {
     height: 40px;
     border-radius: 2px;
   }
+
   input[disabled] {
     background: #f1f5f9 !important;
   }
@@ -116,9 +129,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   & > *:first-child {
     width: calc(30% - 24px);
   }
+
   & > *:last-child {
     width: 70%;
   }
@@ -131,7 +146,8 @@
   font-family: Lato;
   font-size: 14px;
   color: #475569;
-  @media screen and (max-width: 768px) {
+
+  @media screen and (width <= 768px) {
     font-size: 16px;
     font-weight: 600;
     color: #051d43;
@@ -141,12 +157,15 @@
 /* Start add pharmacy */
 .pharmacy-container {
   display: flex;
+
   .pharmacy--zip--code {
     max-width: 81px;
   }
+
   .pharmacy--name {
     max-width: 119px;
   }
+
   .pharmacy--address {
     max-width: 196px;
   }
@@ -161,86 +180,108 @@
   border: 1px solid #0052ce;
   box-sizing: border-box;
   border-radius: 4px;
+
   .icon-align {
     display: flex;
     justify-content: flex-end;
     padding: 13px 13px 0 0;
     width: auto;
+
     svg {
       cursor: pointer;
     }
   }
+
   .drug--name {
     font-size: 18px;
     color: #0052ce;
   }
+
   .drug--type {
     font-size: 16px;
     padding-bottom: 15px;
   }
-  @media screen and (max-width: 768px) {
+
+  @media screen and (width <= 768px) {
     height: auto;
   }
 }
+
 .prescription__wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+
   .prescription--dosage {
     flex: 1;
     margin-right: 15px;
+
     .select-container {
       width: 100% !important;
     }
-    @media (max-width: 480px) {
+
+    @media (width <= 480px) {
       width: 100%;
-      margin-right: 0px;
+      margin-right: 0;
     }
-    @media (min-width: 480px) {
+
+    @media (width >= 480px) {
       max-width: 325px;
     }
   }
+
   .quantity-frequency-wrapper {
     display: flex;
-    @media (max-width: 480px) {
+
+    @media (width <= 480px) {
       width: 100%;
     }
+
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+
     .prescription--quantity {
       width: 56px;
       margin-right: 15px;
+
       .form-input__header {
         margin-bottom: 4px;
       }
     }
+
     .prescription--frequency {
       flex: 1;
       min-width: 155px;
+
       .select {
-        margin-left: 0px;
+        margin-left: 0;
       }
+
       .select-container {
         width: 100% !important;
       }
-      @media (min-width: 480px) {
+
+      @media (width >= 480px) {
         max-width: 155px;
       }
     }
   }
 }
+
 .prescription--packaging .select {
-  margin-left: 0px;
+  margin-left: 0;
+
   .select-container {
     width: 100% !important;
   }
 }
+
 .drugname-search-input {
   height: 44px;
   width: 100%;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #cbd5e1;
   outline: none;
   box-sizing: border-box;
@@ -255,22 +296,27 @@
   max-height: 350px;
   overflow: auto;
   cursor: pointer;
+
   .option__typeahead {
     font-size: 16px;
+
     .header__typeahead {
       font-size: 18px;
     }
+
     &:hover {
       background: #f1f5f9;
       border: 1px solid #0052ce;
       box-sizing: border-box;
       border-radius: 4px;
+
       .header__typeahead {
         color: #0052ce;
       }
     }
   }
-  @media screen and (max-width: 768px) {
+
+  @media screen and (width <= 768px) {
     max-height: 300px;
   }
 }
@@ -291,17 +337,19 @@
 .provider-close {
   top: -33px !important;
   right: -71px !important;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     top: 35px !important;
     right: -15px !important;
   }
 }
 
 .dialog--actions-pr {
-  flex-direction: row !important;
-  flex-wrap: nowrap;
-  @media (max-width: 480px) {
+  flex-flow: row nowrap !important;
+
+  @media (width <= 480px) {
     flex-direction: column !important;
   }
 }
+
 /* End prescription */

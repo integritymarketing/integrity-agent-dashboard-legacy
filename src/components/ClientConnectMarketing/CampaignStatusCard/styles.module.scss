@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 @import "scss/components/icons";
 
 .campaignCard {
@@ -47,18 +47,17 @@
     text-align: left;
     min-height: 60px;
     color: #717171;
-    padding: 16px 0px;
+    padding: 16px 0;
     font-size: 16px;
 }
 
 .campaignCardContainer {
     min-height: 172px;
     border-radius: 8px;
-    background-color: #f1f1f1;
     width: 36.1%;
     flex-shrink: 0;
     background-color: #f0f0f0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
     overflow: hidden;
     text-overflow: ellipsis;
     word-wrap: break-word;
@@ -86,7 +85,7 @@
 }
 
 .statusCard {
-    padding: 16px 0px;
+    padding: 16px 0;
     border-radius: 8px;
 }
 
@@ -129,13 +128,13 @@
     }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
     .campaignCardContainer {
         width: 80%;
     }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (width >= 769px) and (width <= 1024px) {
     .campaignCardContainer {
         width: 46%;
     }

@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .subHeading {
     padding-top: 10px;
@@ -14,6 +14,7 @@
         font-size: 20px;
     }
 }
+
 .name {
     color: #052a63;
     font-size: 24px;
@@ -36,15 +37,15 @@
     padding: 4px 8px !important;
 
     &:hover {
-        background: #ffffff 0% 0% no-repeat padding-box;
+        background: #fff 0% 0% no-repeat padding-box;
         border-radius: 20px;
-        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
         color: #1357ff !important;
     }
 }
 
 .askIntegrityCard {
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
     padding: 16px;
     gap: 15px;

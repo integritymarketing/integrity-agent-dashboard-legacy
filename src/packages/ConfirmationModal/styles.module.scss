@@ -1,21 +1,23 @@
 .customDeletepopup {
   padding: 28px 0 10px;
 }
+
 .customDeletepopup h3 {
   font-size: 32px;
   line-height: 68px;
   text-align: center;
   font-weight: 400;
-  font-family: "Lato", sans-serif;
+  font-family: Lato, sans-serif;
   color: var(--v2-dark-blue);
 }
+
 .customDeletepopup p {
   font-size: 16px;
   line-height: 19px;
   text-align: center;
   color: #6c747b;
   font-weight: 400;
-  font-family: "Lato", sans-serif;
+  font-family: Lato, sans-serif;
   margin-bottom: 54px;
 }
 
@@ -27,6 +29,7 @@
   height: 40px;
   text-transform: capitalize;
 }
+
 .cancelbtn {
   background: #f4f6fa;
   border: 1px solid #d8dee4;
@@ -35,9 +38,10 @@
   font-size: 14px;
   line-height: 17px;
   font-weight: 700;
-  font-family: "Lato", sans-serif;
+  font-family: Lato, sans-serif;
   color: var(--v2-royal-blue);
 }
+
 .deletebtn {
   background: var(--v2-royal-blue);
   border: 1px solid var(--v2-royal-blue);
@@ -46,6 +50,6 @@
   font-size: 14px;
   line-height: 17px;
   font-weight: 700;
-  font-family: "Lato", sans-serif;
+  font-family: Lato, sans-serif;
   color: #fff;
 }

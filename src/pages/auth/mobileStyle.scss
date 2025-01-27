@@ -1,36 +1,44 @@
 /* Code just for mobile and tab devices - Overriding as the code is not responsive */
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
   .override .mb-4 {
-    margin-bottom: 0rem !important;
+    margin-bottom: 0 !important;
   }
+
   .override .mobile-shift-reg {
     margin-top: -2rem !important;
     margin-bottom: 1rem !important;
     font-size: 28px !important;
   }
+
   .override .form__fields input {
     height: 28px !important;
     font-size: 0.89rem !important;
     width: 268px !important;
   }
+
   .override .first-last-name {
     display: flex;
     gap: 20px !important;
   }
+
   .override .form__submit {
     margin: 0.5rem !important;
   }
+
   .override .footer-container {
     margin-top: -1.5rem !important;
   }
 }
+
 .override-max .footer-container {
   margin-top: -2.5rem !important;
 }
-@media screen and (max-width: 768px) {
+
+@media screen and (width <= 768px) {
   .form__fields {
     padding: 0 5px;
   }
+
   .v2 .container.background-image {
     background: transparent url("pixels.png") 0% 400px no-repeat padding-box;
     background-color: #f4f8fb;
@@ -39,11 +47,14 @@
       background-position-y: 300px;
     }
   }
+
   .fg-1 {
     flex-grow: 1;
   }
+
   .layout-footer.simple-footer {
     margin-top: 0;
+
     .simple-footer__content {
       padding: 1.2rem 1rem;
     }

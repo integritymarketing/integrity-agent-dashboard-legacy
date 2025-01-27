@@ -2,17 +2,19 @@
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
+
 .up-card-container {
   background: #deebfb 0% 0% no-repeat padding-box;
   border-radius: 8px;
-  @media screen and (max-width: 480px) {
-    margin: 16px 12px 0px 15px;
+
+  @media screen and (width <= 480px) {
+    margin: 16px 12px 0 15px;
   }
 }
 
 .up-card {
   border-bottom: 0.5px solid #a6bedb;
-  padding: 18px 18px;
+  padding: 18px;
   background: #deebfb 0% 0% no-repeat padding-box;
   font-size: 14px;
 }
@@ -30,13 +32,13 @@
 
 .up-card-link-btn > .label {
   font-size: 16px !important;
-  color: #ffffff !important;
+  color: #fff !important;
 }
 
 .up-policy-view-btn{
    border-radius: 25px !important;
   padding: 5px 20px 5px 24px !important;
-  background-color: #ffffff !important;
+  background-color: #fff !important;
 }
 
 .up-policy-view-btn > .label {
@@ -49,38 +51,45 @@
   font-size: 20px;
   margin-bottom: 10px;
 }
+
 .up-label {
   color: #002d72;
   font-size: 16px;
   font-weight: 600;
 }
+
 .up-label-bold {
   color: #002d72;
   font-size: 16px;
   font-weight: bold;
 }
+
 .up-info {
   color: #434a51;
   font-size: 16px;
   margin-left: 3px;
 }
+
 .up-info-bold {
   color: #434a51;
   font-size: 16px;
   font-weight: bold;
-  @media screen and (max-width: 480px) {
+
+  @media screen and (width <= 480px) {
     margin-left: 3px;
   }
 }
+
 .jumpList-card {
-  background-color: #ffffff;
+  background-color: #fff;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
   padding-top: 10px;
-  border-radius: 0px 0px 8px 8px;
-  @media screen and (max-width: 480px) {
-    margin: 0px 12px 20px 15px;
+  border-radius: 0 0 8px 8px;
+
+  @media screen and (width <= 480px) {
+    margin: 0 12px 20px 15px;
   }
 }
 
@@ -91,18 +100,20 @@
 
 .infoContainer {
   color: #434a51;
-  @media screen and (max-width: 480px) {
+
+  @media screen and (width <= 480px) {
     flex-direction: column !important;
   }
 }
+
 .policy-mobile {
-  @media screen and (max-width: 480px) {
+  @media screen and (width <= 480px) {
     max-width: 100% !important;
   }
 }
 
 .policy-holder-mobile {
-  @media screen and (max-width: 480px) {
+  @media screen and (width <= 480px) {
     display: flex;
     max-width: 100% !important;
   }
@@ -113,7 +124,8 @@
   display: flex;
   justify-content: center;
   width: 30%;
-  @media screen and (max-width: 480px) {
+
+  @media screen and (width <= 480px) {
     width: 100% !important;
     max-width: none !important;
   }

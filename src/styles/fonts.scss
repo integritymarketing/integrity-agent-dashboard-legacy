@@ -1,6 +1,6 @@
-@import "./mixins/breakpoints.scss";
+@use "./mixins/breakpoints";
 
-$arial: Arial;
+$arial: arial;
 $lato: "Lato", sans-serif;
 
 @mixin smallerFont {

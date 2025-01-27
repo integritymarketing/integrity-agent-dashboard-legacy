@@ -1,7 +1,7 @@
 .tableWrapper {
   // min-height: calc(100vh - 300px);
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     overflow: scroll;
   }
 }
@@ -9,13 +9,13 @@
 .noDataWrapper {
   min-height: auto;
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     overflow: scroll;
   }
 }
 
 .sectionContainer {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
   margin-top: 12px;
   color: #434a51;

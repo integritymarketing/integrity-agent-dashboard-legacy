@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines.scss";
+@import "../../scss/globalDefines";
 
 .mapContainer {
     height: 100%;
@@ -113,17 +113,17 @@
 }
 
 .nameColumn {
-    border-right: solid 1px #cccccc;
+    border-right: solid 1px #ccc;
     margin-right: 15px;
     padding-right: 15px;
 
     @include small {
         border-right: none;
-        border-top: solid 1px #cccccc;
+        border-top: solid 1px #ccc;
         margin-top: 20px;
         padding-top: 20px;
-        margin-right: 0px;
-        padding-right: 0px;
+        margin-right: 0;
+        padding-right: 0;
     }
 }
 

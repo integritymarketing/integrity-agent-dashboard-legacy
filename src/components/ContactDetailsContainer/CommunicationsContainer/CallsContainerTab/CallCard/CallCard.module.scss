@@ -9,7 +9,7 @@
 
     .callCard {
         display: flex;
-        padding: var(--none-0, 0px);
+        padding: var(--none-0, 0);
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
@@ -55,7 +55,7 @@
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        margin-right: 0px;
+                        margin-right: 0;
                     }
                 }
 
@@ -68,9 +68,8 @@
 
                     .callDetails {
                         display: flex;
-                        justify-content: space-between;
+                        place-content: center space-between;
                         align-items: center;
-                        align-content: center;
                         row-gap: var(--padding-gap-x-sm-4, 4px);
                         align-self: stretch;
                         flex-wrap: wrap;
@@ -80,7 +79,7 @@
                             flex-direction: column;
                             justify-content: center;
                             align-items: flex-start;
-                            gap: var(--none-0, 0px);
+                            gap: var(--none-0, 0);
 
                             .callDate {
                                 color: #052A63;
@@ -98,9 +97,8 @@
 
             .callCtasWrapper {
                 display: flex;
-                justify-content: flex-end;
+                place-content: center flex-end;
                 align-items: center;
-                align-content: center;
                 gap: 8px var(--padding-gap-sm-8, 8px);
                 align-self: stretch;
                 flex-wrap: wrap;
@@ -108,7 +106,7 @@
 
                 .callCta {
                     display: flex;
-                    padding: var(--padding-gap-x-sm-4, 4px) var(--none-0, 0px);
+                    padding: var(--padding-gap-x-sm-4, 4px) var(--none-0, 0);
                     box-shadow: none;
                     justify-content: center;
                     align-items: center;

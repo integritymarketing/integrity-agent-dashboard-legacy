@@ -21,12 +21,12 @@
     font-size: 16px;
   }
 
-  @media (min-width: 480px) {
+  @media (width >= 480px) {
     padding: 0.5rem 2rem;
     margin-top: 0;
   }
 
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     justify-content: flex-start;
     padding: 1rem 2.5rem;
   }

@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines.scss";
+@import "../../../../scss/globalDefines";
 
 .healthInfoContainer {
     .headerWrapper {
@@ -57,7 +57,7 @@
     }
 
     .inputBox {
-        background: #ffffff;
+        background: #fff;
         border-radius: 8px;
         padding: 16px;
         margin-bottom: 16px;
@@ -85,7 +85,7 @@
 
         .valueBox {
             padding: 14px 14px 15px 16px;
-            border: 1px solid #DDDDDD;
+            border: 1px solid #DDD;
             flex-basis: 50%;
             border-radius: 4px;
             cursor: pointer;
@@ -103,7 +103,7 @@
 
         .input {
             padding: 15px 0 14px 8px;
-            border: 1px solid #DDDDDD;
+            border: 1px solid #DDD;
             border-radius: 4px;
             width: 100%;
         }
@@ -120,7 +120,7 @@
 
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
+            appearance: none;
         }
     }
 

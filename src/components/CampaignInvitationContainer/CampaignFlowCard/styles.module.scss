@@ -11,6 +11,7 @@
     @include small {
         flex-direction: column;
     }
+
     @include medium {
         flex-direction: column;
     }
@@ -24,9 +25,10 @@
     display: flex;
     align-items: center;
     padding: 12px 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.23);
+    border-bottom: 1px solid rgb(0 0 0 / 23%);
     cursor: pointer;
     min-width: 15%;
+
     svg {
         margin-left: auto;
     }
@@ -37,11 +39,12 @@
     font-size: 24px !important;
     margin-right: 16px;
 }
+
 .bigOption {
     display: flex;
     align-items: center;
     padding: 12px 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.23);
+    border-bottom: 1px solid rgb(0 0 0 / 23%);
     cursor: pointer;
     min-width: 15%;
 
@@ -76,6 +79,7 @@
 
     &:hover {
         background-color: #f1faff;
+
         .optionLinkText {
             font-weight: 700 !important;
         }
@@ -93,9 +97,9 @@
     display: flex;
     flex-direction: column;
     padding: 8px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
     width: 250px;
     margin-top: 10px;
 }
@@ -133,6 +137,7 @@
     p {
         color: #00000061;
     }
+
     border-bottom: unset;
     cursor: default;
 }

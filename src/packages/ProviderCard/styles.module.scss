@@ -6,15 +6,18 @@
   font-size: 16px;
   flex-direction: column;
   background-color: #eaeef0;
+
   .name {
-    color: #000000;
+    color: #000;
     font-style: bold;
   }
+
   .role {
     color: #434a51;
   }
+
   .address {
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 4px;
     display: flex;
     justify-content: space-between;
@@ -23,6 +26,7 @@
     padding: 10px 16px;
   }
 }
+
 .p__h4 {
   color: #0052ce;
   font-style: bold;
@@ -33,9 +37,11 @@
 .selected {
   border: 1px solid #2175f4;
 }
+
 .select__close {
   cursor: pointer;
 }
+
 .all__address {
   display: flex;
   flex-direction: column;

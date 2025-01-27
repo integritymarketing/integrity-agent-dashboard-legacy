@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .bannerContainer {
     height: 112px;
@@ -63,6 +63,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     @include small {
         margin-bottom: 16px;
     }

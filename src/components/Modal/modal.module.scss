@@ -8,24 +8,24 @@
     border-radius: 20px;
 
     &:hover {
-        background-color: #ffffff;
-        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+        background-color: #fff;
+        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
     }
 }
 
 .closeButton {
-    color: #ffffff !important;
+    color: #fff !important;
     margin-bottom: 10px;
     padding: 2px !important;
     transform: rotate(0deg);
     transition: transform 1s;
-    background-color: #cccccc !important;
+    background-color: #ccc !important;
 
     &:hover {
         transition: transform 1s;
         transform: rotate(90deg);
-        color: #ffffff;
-        background-color: #cccccc;
+        color: #fff;
+        background-color: #ccc;
     }
 }
 
@@ -48,8 +48,8 @@
         border-radius: 20px;
 
         &:hover {
-            background-color: #ffffff;
-            box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
         }
     }
 }
@@ -57,7 +57,7 @@
 .curvedFooterButtons {
     background-color: #f1f1f1;
     border-radius: 0 0 8px 8px;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid #ccc;
     justify-content: space-between;
     padding: 20px 24px;
     width: 100%;
@@ -66,8 +66,8 @@
 
 .footerButtons {
     background-color: #f1f1f1;
-    border-radius: 0px;
-    border-bottom: 1px solid #cccccc;
+    border-radius: 0;
+    border-bottom: 1px solid #ccc;
     justify-content: space-between;
     padding: 20px 24px;
     width: 100%;
@@ -75,9 +75,9 @@
 }
 
 .title {
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px 8px 0 0;
-    box-shadow: inset 0px -1px 0px #cccccc;
+    box-shadow: inset 0 -1px 0 #ccc;
     color: #052a63;
     font-family: Lato;
     font-size: 32px;
@@ -86,6 +86,6 @@
 
 .deleteContainer {
     & button:hover {
-        background-color: #ffffff;
+        background-color: #fff;
     }
 }

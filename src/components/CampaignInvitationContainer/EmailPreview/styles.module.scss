@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .imagePreview {
     display: flex;
@@ -44,10 +44,10 @@
     background-color: currentcolor;
     padding: 16px;
     outline: none;
-
     width: 100%;
     height: 100%;
     overflow: auto;
+
     @include small {
         width: 80%;
     }
@@ -56,7 +56,8 @@
         position: fixed;
         top: 20px;
         right: 20px;
-        background-color: #ffffff;
+        background-color: #fff;
+
         &:hover {
             background-color: #f1f1f1;
         }

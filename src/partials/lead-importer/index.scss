@@ -1,5 +1,5 @@
 .hasImportActions {
-    @media (max-width: 767px) {
+    @media (width <= 767px) {
         display: inline-flex;
         flex-direction: column;
 
@@ -21,6 +21,7 @@
     color: var(--main-text-color);
     cursor: pointer;
 }
+
 .CSVImporter_FileSelector[data-active="true"] {
     background: var(--page-bg-hover);
     border: 2px solid var(--page-bg-hover);
@@ -52,10 +53,7 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: transparent;
     color: var(--invert-text-color);
     pointer-events: none;
@@ -70,6 +68,7 @@
     background-color: var(--brand-bg-hover-color);
     border-color: var(--brand-bg-hover-color);
 }
+
 .CSVImporter_TextButton:disabled {
     color: transparent;
     background-color: var(--disabled-contrast-color);
@@ -82,10 +81,12 @@
         color: var(--brand-text-color);
         background-color: var(--main-bg-color);
     }
+
     .CSVImporter_TextButton:hover:not(:disabled) {
         background-color: var(--main-bg-color);
         color: var(--brand-text-hover-color);
     }
+
     .CSVImporter_TextButton:disabled {
         background-color: var(--main-bg-color);
         border-color: var(--disabled-color);
@@ -113,17 +114,21 @@
     cursor: default;
     width: 1rem;
 }
+
 .CSVImporter_IconButton[data-small="true"] {
     width: 2rem;
     height: 2rem;
 }
+
 .CSVImporter_IconButton[data-focus-only="true"] {
     opacity: 0;
     pointer-events: none;
 }
+
 .CSVImporter_IconButton[data-focus-only="true"]:focus {
     opacity: 1;
 }
+
 .CSVImporter_IconButton > span {
     display: block;
     width: 1.75rem;
@@ -132,36 +137,45 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 .CSVImporter_IconButton > span[data-type="back"] {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZvY3VzYWJsZT0iZmFsc2UiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE1LjQxIDcuNDFMMTQgNmwtNiA2IDYgNiAxLjQxLTEuNDFMMTAuODMgMTJ6Ij48L3BhdGg+PC9zdmc+");
 }
+
 .CSVImporter_IconButton > span[data-type="forward"] {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZvY3VzYWJsZT0iZmFsc2UiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEwIDZMOC41OSA3LjQxIDEzLjE3IDEybC00LjU4IDQuNTlMMTAgMThsNi02eiI+PC9wYXRoPjwvc3ZnPg==");
 }
+
 .CSVImporter_IconButton > span[data-type="replay"] {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZvY3VzYWJsZT0iZmFsc2UiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTEyIDVWMUw3IDZsNSA1VjdjMy4zMSAwIDYgMi42OSA2IDZzLTIuNjkgNi02IDYtNi0yLjY5LTYtNkg0YzAgNC40MiAzLjU4IDggOCA4czgtMy41OCA4LTgtMy41OC04LTgtOHoiPjwvcGF0aD48L3N2Zz4=");
 }
+
 .CSVImporter_IconButton > span[data-type="arrowBack"] {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZvY3VzYWJsZT0iZmFsc2UiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTIwIDExSDcuODNsNS41OS01LjU5TDEyIDRsLTggOCA4IDggMS40MS0xLjQxTDcuODMgMTNIMjB2LTJ6Ij48L3BhdGg+PC9zdmc+");
 }
+
 .CSVImporter_IconButton > span[data-type="close"] {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZvY3VzYWJsZT0iZmFsc2UiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTE5IDYuNDFMMTcuNTkgNSAxMiAxMC41OSA2LjQxIDUgNSA2LjQxIDEwLjU5IDEyIDUgMTcuNTkgNi40MSAxOSAxMiAxMy40MSAxNy41OSAxOSAxOSAxNy41OSAxMy40MSAxMnoiPjwvcGF0aD48L3N2Zz4=");
 }
+
 .CSVImporter_IconButton:disabled > span {
     opacity: 0.25;
     display: none;
 }
+
 .CSVImporter_IconButton[data-small="true"] > span {
     font-size: 0.5rem;
     width: 1.25rem;
     height: 1.25rem;
 }
+
 .CSVImporter_ImporterFrame {
     border: 1px solid var(--border-light);
     padding: 1rem;
     border-radius: 0.5rem;
     background: #fff;
 }
+
 .CSVImporter_ImporterFrame__header {
     display: flex;
     justify-content: center;
@@ -175,6 +189,7 @@
         width: auto;
     }
 }
+
 .CSVImporter_ImporterFrame__headerTitle {
     padding-bottom: 0.1rem;
     overflow: hidden;
@@ -183,23 +198,29 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 .CSVImporter_ImporterFrame__headerCrumbSeparator {
     display: none;
 }
+
 .CSVImporter_ImporterFrame__headerSubtitle {
     display: none;
 }
+
 .CSVImporter_ImporterFrame__footer {
     display: flex;
     align-items: center;
     margin-top: 1.2rem;
 }
+
 .CSVImporter_ImporterFrame__footerFill {
     flex: 1 1 0;
 }
+
 .CSVImporter_ImporterFrame__footerError {
     display: none;
 }
+
 .CSVImporter_ImporterFrame__footerSecondary {
     flex: none;
     display: flex;
@@ -209,6 +230,7 @@
 .CSVImporter_FormatRawPreview {
     margin-bottom: 4rem;
 }
+
 .CSVImporter_FormatRawPreview__scroll {
     margin-bottom: 1.2rem;
     height: 6rem;
@@ -217,12 +239,14 @@
     background: var(--neutral-text-color);
     color: #f0f0f0;
 }
+
 .CSVImporter_FormatRawPreview__pre {
     margin: 0;
     padding: 0.5rem 1rem;
     line-height: 1.25;
     font-size: 1.15rem;
 }
+
 .CSVImporter_FormatRawPreview__pre > aside {
     display: inline-block;
     margin-left: 0.2rem;
@@ -233,30 +257,35 @@
     color: var(--muted-text-color);
     opacity: 0.75;
 }
+
 .CSVImporter_FormatDataRowPreview {
     max-height: 12rem;
     border: 1px solid var(--border-light);
     overflow: scroll;
 }
+
 .CSVImporter_FormatDataRowPreview__table {
     width: 100%;
     border-spacing: 0;
     border-collapse: collapse;
 }
+
 .CSVImporter_FormatDataRowPreview__table > thead > tr > th {
     font-style: italic;
     font-weight: normal;
     color: var(--muted-text-color);
-    border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+    border-bottom: 1px solid rgb(128 128 128 / 50%);
 }
+
 .CSVImporter_FormatDataRowPreview__table > thead > tr > th,
 .CSVImporter_FormatDataRowPreview__table > tbody > tr > td {
-    border-right: 1px solid rgba(128, 128, 128, 0.5);
+    border-right: 1px solid rgb(128 128 128 / 50%);
     padding: 0.5rem 1rem;
     line-height: 1;
     font-size: 1rem;
     white-space: nowrap;
 }
+
 .CSVImporter_FormatDataRowPreview__table > thead > tr > th:last-child,
 .CSVImporter_FormatDataRowPreview__table > tbody > tr > td:last-child {
     border-right: none;
@@ -267,13 +296,12 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-
     margin-bottom: 1rem;
     font-size: 1rem;
     color: var(--neutral-text-color);
     font-weight: bold;
 
-    @media (min-width: 600px) {
+    @media (width >= 600px) {
         flex-direction: row;
         align-items: center;
     }
@@ -282,46 +310,51 @@
         font-weight: normal;
     }
 }
+
 .CSVImporter_FormatPreview__headerToggle {
     display: flex;
     align-items: center;
-
     color: var(--main-text-color);
     cursor: pointer;
 
-    @media (min-width: 600px) {
+    @media (width >= 600px) {
         margin-left: 1.5rem;
     }
 }
+
 .CSVImporter_FormatPreview__headerToggle > input[type="checkbox"] {
     margin-right: 0.5rem;
     width: 1.2rem;
     height: 1.2rem;
     cursor: pointer;
 }
+
 .CSVImporter_FormatPreview__mainPendingBlock {
     display: flex;
-    align-content: center;
-    justify-content: center;
+    place-content: center center;
     padding: 2rem;
     color: var(--muted-text-color);
 }
+
 .CSVImporter_ColumnDragCard {
     position: relative;
     z-index: 1;
     padding: 0.5rem 0.75rem;
     border-radius: 0.4rem;
     background: #fff;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 1px rgb(0 0 0 / 25%);
 }
+
 .CSVImporter_ColumnDragCard[data-draggable="true"] {
     cursor: grab;
 }
+
 .CSVImporter_ColumnDragCard[data-dummy="true"] {
     border-radius: 0;
     background: #f0f0f0;
     box-shadow: none;
 }
+
 .CSVImporter_ColumnDragCard[data-error="true"] {
     background-color: var(--error-confirm-state-background);
     color: var(--main-text-color);
@@ -336,24 +369,25 @@
         font-size: 12px;
     }
 }
+
 .CSVImporter_ColumnDragCard[data-shadow="true"] {
     background: #f0f0f0;
     box-shadow: none;
-    color: rgba(32, 32, 32, 0.25);
+    color: rgb(32 32 32 / 25%);
 }
+
 .CSVImporter_ColumnDragCard[data-drop-indicator="true"] {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 50%);
     color: #000;
 }
+
 .CSVImporter_ColumnDragCard__cardHeader {
-    margin-top: -0.25rem;
-    margin-right: -0.5rem;
-    margin-bottom: 0.25rem;
-    margin-left: -0.5rem;
+    margin: -0.25rem -0.5rem 0.25rem;
     height: 1.5rem;
     font-weight: bold;
     color: var(--muted-text-color);
 }
+
 .CSVImporter_ColumnDragCard__cardHeader > b {
     display: flex;
     align-items: center;
@@ -362,6 +396,7 @@
     background: #f0f0f0;
     line-height: 1;
 }
+
 .CSVImporter_ColumnDragCard__cardHeader > var {
     display: block;
     margin-bottom: -1px;
@@ -369,10 +404,12 @@
     height: 1px;
     overflow: hidden;
 }
+
 .CSVImporter_ColumnDragCard__cardPaper[data-draggable="true"]:hover .CSVImporter_ColumnDragCard__cardHeader,
 .CSVImporter_ColumnDragCard__cardPaper[data-dragged="true"] .CSVImporter_ColumnDragCard__cardHeader {
     color: #000;
 }
+
 .CSVImporter_ColumnDragCard__cardValue {
     margin-top: 0.25rem;
     overflow: hidden;
@@ -381,14 +418,17 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 .CSVImporter_ColumnDragCard__cardValue[data-header="true"] {
     text-align: center;
     font-style: italic;
     color: var(--muted-text-color);
 }
+
 .CSVImporter_ColumnDragCard__cardValue + div {
     margin-top: 0;
 }
+
 .CSVImporter_ColumnDragObject {
     position: fixed;
     min-width: 8rem;
@@ -397,6 +437,7 @@
     cursor: grab;
     z-index: 2;
 }
+
 .CSVImporter_ColumnDragObject__holder {
     position: absolute;
     top: -5px;
@@ -405,9 +446,11 @@
     opacity: 0.9;
     cursor: grab;
 }
+
 .CSVImporter_ColumnDragObject__positioner {
     position: fixed;
 }
+
 .CSVImporter_ColumnDragSourceArea {
     position: relative;
     display: flex;
@@ -417,16 +460,19 @@
     border-radius: 0.5rem;
     padding: 2rem 0;
 }
+
 .CSVImporter_ColumnDragSourceArea__control {
     flex: none;
     display: flex;
     align-items: center;
 }
+
 .CSVImporter_ColumnDragSourceArea__page {
     position: static;
     flex: 1 1 0;
     display: flex;
 }
+
 .CSVImporter_ColumnDragSourceArea__pageIndicator {
     position: absolute;
     top: -2.5rem;
@@ -442,31 +488,35 @@
         left: 0;
         top: 0;
 
-        @media (min-width: 768px) {
+        @media (width >= 768px) {
             content: "Drag columns to fields below";
         }
     }
 }
+
 .CSVImporter_ColumnDragSourceArea__pageFiller {
     flex: 1 1 0;
     margin-right: 0.5rem;
 }
+
 .CSVImporter_ColumnDragSourceArea__box {
     position: relative;
     flex: 1 1 0;
     margin: 0 0.25rem;
     width: 0;
 
-    @media (min-width: 768px) {
+    @media (width >= 768px) {
         margin: 0 0.5rem;
     }
 }
+
 .CSVImporter_ColumnDragSourceArea__boxAction {
     position: absolute;
     top: 0;
     right: 0;
     z-index: 1;
 }
+
 .CSVImporter_ColumnDragTargetArea {
     display: flex;
     flex-wrap: wrap;
@@ -476,33 +526,37 @@
         margin-bottom: 2rem;
     }
 }
+
 .CSVImporter_ColumnDragTargetArea__box {
-    flex-basis: 25%;
-    flex-grow: 0;
-    flex-shrink: 1;
+    flex: 0 1 25%;
     min-width: 80px;
     padding-top: 1rem;
     padding-right: 1rem;
 }
+
 .CSVImporter_ColumnDragTargetArea__boxLabel {
     margin-bottom: 0.25rem;
     font-weight: 500;
     color: var(--main-text-color);
     word-break: break-word;
 }
+
 .CSVImporter_ColumnDragTargetArea__boxLabel > b {
     margin-left: 0.25rem;
     color: var(--error-confirm-state-color);
 }
+
 .CSVImporter_ColumnDragTargetArea__boxValue {
     position: relative;
 }
+
 .CSVImporter_ColumnDragTargetArea__boxValueAction {
     position: absolute;
     top: 0;
     right: 0;
     z-index: 1;
 }
+
 .CSVImporter_ColumnDragTargetArea__boxPlaceholderHelp {
     position: absolute;
     top: 0;
@@ -516,9 +570,11 @@
     height: 98%;
     color: var(--muted-text-color);
 }
+
 .CSVImporter_ProgressDisplay {
     padding: 2rem 0;
 }
+
 .CSVImporter_ProgressDisplay__status {
     text-align: center;
     font-size: 1.15rem;
@@ -529,6 +585,7 @@
         content: "Import ";
     }
 }
+
 .CSVImporter_ProgressDisplay__status.-pending {
     color: var(--muted-text-color);
     visibility: hidden;
@@ -544,11 +601,13 @@
         content: "Importing your contacts...";
     }
 }
+
 .CSVImporter_ProgressDisplay__count {
     text-align: right;
     font-size: 1rem;
     color: var(--muted-text-color);
 }
+
 .CSVImporter_ProgressDisplay__count > var {
     display: inline-block;
     width: 1px;
@@ -556,12 +615,14 @@
     overflow: hidden;
     opacity: 0;
 }
+
 .CSVImporter_ProgressDisplay__progressBar {
     position: relative;
     width: 100%;
     height: 0.5rem;
     background: #f0f0f0;
 }
+
 .CSVImporter_ProgressDisplay__progressBarIndicator {
     position: absolute;
     top: 0;
@@ -571,13 +632,15 @@
     background: var(--brand-bg-color);
     transition: width 0.2s ease-out;
 }
+
 .CSVImporter_Importer {
     box-sizing: border-box;
     line-height: 1.4;
-    -webkit-user-select: none;
-    -ms-user-select: none;
+    user-select: none;
+    user-select: none;
     user-select: none;
 }
+
 .CSVImporter_Importer * {
     box-sizing: border-box;
 }
@@ -587,6 +650,7 @@
     position: relative;
     cursor: pointer;
 }
+
 .tooltip::after {
     content: "Email or Phone is required.";
     position: absolute;
@@ -602,6 +666,7 @@
     visibility: hidden;
     transition: opacity 0.3s;
 }
+
 .tooltip:hover::after {
     opacity: 1;
     visibility: visible;

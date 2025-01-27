@@ -1,8 +1,8 @@
-@import "../../../../scss/globalDefines.scss";
+@import "../../../../scss/globalDefines";
 
 .connectModalBody {
     padding: 20px;
-    background-color: #ffffff;
+    background-color: #fff;
     margin-top: 5px;
     border-radius: 8px;
 
@@ -14,14 +14,14 @@
         gap: 20px;
         margin-bottom: 20px;
 
-        @media (min-width: 480px) {
+        @media (width >= 480px) {
             flex-direction: row;
         }
 
         .dateTimePickersItem {
             width: 100%;
 
-            @media (min-width: 480px) {
+            @media (width >= 480px) {
                 width: 50%;
             }
         }
@@ -95,6 +95,6 @@
     min-height: 84px;
     height: auto;
     line-break: anywhere;
-    color: rgba(0, 0, 0, 0.38);
+    color: rgb(0 0 0 / 38%);
     margin-top: 8px;
 }

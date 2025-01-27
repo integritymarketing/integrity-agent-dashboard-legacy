@@ -1,7 +1,7 @@
 .tableWrapper {
   margin-bottom: 40px;
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     overflow: scroll;
   }
 }
@@ -24,7 +24,7 @@
 }
 
 .expired {
-  color: #CCCCCC;
+  color: #CCC;
 }
 
 .expiredIcon {

@@ -1,4 +1,4 @@
-@import "../../../../../../scss/globalDefines.scss";
+@import "../../../../../../scss/globalDefines";
 
 .addNewButton{
   padding: 8px 14px !important;
@@ -9,12 +9,14 @@
      color: #4178FF !important;
      font-weight: 500;
  }
+
  &:hover {
-     background-color: #FFFFFF !important;
-     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+     background-color: #FFF !important;
+     box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
  }
+
  @include small {
-     background-color: #FFFFFF !important;
-     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+     background-color: #FFF !important;
+     box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
  }
 }

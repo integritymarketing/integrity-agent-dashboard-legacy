@@ -1,11 +1,11 @@
-@import "../../../../scss/globalDefines.scss";
+@import "../../../../scss/globalDefines";
 
 .soaContainer {
     background: #f1f1f1;
     width: 70%;
     margin: auto;
 
-    @include small() {
+    @include small {
         width: 100%;
     }
 }

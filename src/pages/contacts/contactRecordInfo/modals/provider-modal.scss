@@ -1,27 +1,30 @@
-/*provider footer css */
+/* provider footer css */
 .dialog--actions-pr {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     margin-top: 15px;
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 50px;
   }
+
   .cancel-btn {
     margin-right: 10px;
   }
 
   .pagination-container .pagination__pages {
-    @media (max-width: 480px) {
-      padding: 0px;
+    @media (width <= 480px) {
+      padding: 0;
     }
   }
 
   .provider-pagination {
     background: var(--v2-white);
+
     /* Neutral/Gray 200 */
 
     border: 1px solid #e6ecf2;
@@ -29,6 +32,7 @@
     height: 38px;
     display: flex;
     align-items: center;
+
     div {
       display: flex;
       justify-content: center;
@@ -38,6 +42,7 @@
       width: 42px;
       text-align: center;
     }
+
     div:last-child {
       border-right: none;
     }
@@ -50,7 +55,7 @@
     font-weight: bold;
     font-size: 16px;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       margin-top: 25px;
       display: flex;
       justify-content: space-between;
@@ -66,10 +71,12 @@
         border-radius: 4px;
         color: #0052ce;
         font-family: Lato;
-        @media (max-width: 480px) {
+
+        @media (width <= 480px) {
           width: 159px;
         }
-        @media (max-width: 320px) {
+
+        @media (width <= 320px) {
           width: auto;
         }
       }
@@ -77,16 +84,16 @@
 
     .pr-add {
       & button {
-        background: #e6ecf2;
-        border-radius: 4px;
         background: #0052ce;
         border-radius: 4px;
         color: #f8fafc;
         font-family: Lato;
-        @media (max-width: 480px) {
+
+        @media (width <= 480px) {
           width: 159px;
         }
-        @media (max-width: 320px) {
+
+        @media (width <= 320px) {
           width: auto;
         }
       }
@@ -99,16 +106,17 @@
     }
   }
 }
-/*provider footer css end*/
 
-/*provider Modal container css*/
+/* provider footer css end */
+
+/* provider Modal container css */
 
 .provider-modal-container {
-  margin: 0px;
+  margin: 0;
   padding-bottom: 50px;
 
-  @media (max-width: 480px) {
-    padding-bottom: 0px;
+  @media (width <= 480px) {
+    padding-bottom: 0;
   }
 
   .spinner-container > .spinner {
@@ -116,17 +124,20 @@
   }
 
   .large-view {
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       display: none;
     }
   }
 
   .small-view {
     display: none;
-    @media (max-width: 480px) {
+
+    @media (width <= 480px) {
       display: initial;
+
       .pr-search-section {
         margin-top: 24px;
+
         .pr-search-input {
           width: 100%;
           padding: 10px;
@@ -143,20 +154,22 @@
     justify-content: space-between;
     margin-bottom: 10px;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       justify-content: space-between;
     }
 
     .zip-section {
       width: 40%;
-      @media (max-width: 480px) {
+
+      @media (width <= 480px) {
         width: 50%;
       }
 
       .zip-input {
         width: 100%;
         padding: 10px;
-        @media (max-width: 480px) {
+
+        @media (width <= 480px) {
           font-family: Lato;
           font-style: normal;
           font-weight: normal;
@@ -176,7 +189,8 @@
 
     .miles-section {
       width: 40%;
-      @media (max-width: 480px) {
+
+      @media (width <= 480px) {
         width: auto;
       }
 
@@ -186,7 +200,8 @@
         font-style: normal;
         font-weight: normal;
         color: #2b323b;
-        @media (max-width: 480px) {
+
+        @media (width <= 480px) {
           font-size: 16px;
         }
       }
@@ -208,10 +223,11 @@
     line-height: 150%;
     color: #515e6f;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       font-size: 16px;
       line-height: 130%;
       color: #64748b;
+
       & input {
         margin-top: 4px;
       }
@@ -221,7 +237,7 @@
     select {
       height: 42px;
       left: 10px;
-      background: #ffffff;
+      background: #fff;
       border: 1px solid #cbd5e1;
       border-radius: 4px;
     }
@@ -246,9 +262,10 @@
     font-size: 16px;
     line-height: 150%;
     color: #434a51;
-    padding: 20px 0px;
+    padding: 20px 0;
+
     b {
-      color: #000000;
+      color: #000;
       font-style: bold;
     }
   }
@@ -256,11 +273,12 @@
   .provider-result-container {
     .provider-result-content {
       line-height: 130%;
-      padding: 16px 0px;
+      padding: 16px 0;
       border-bottom: 1px solid #cbd5e1;
       display: flex;
       justify-content: space-between;
       cursor: pointer;
+
       .pr-h1 {
         font-family: Lato;
         font-style: normal;
@@ -279,7 +297,7 @@
       }
 
       .provider-content-section {
-        padding: 6px 0px 0px 12px;
+        padding: 6px 0 0 12px;
       }
 
       &.selected {
@@ -295,6 +313,7 @@
 
     .provider-result-content:hover {
       background-color: #f1f5f9;
+
       .provider-content-section > .pr-h1 {
         color: #0052ce;
       }
@@ -309,7 +328,8 @@
       background: #f8fafc;
       border-radius: 4px;
       font-size: 14px;
-      @media (max-width: 480px) {
+
+      @media (width <= 480px) {
         text-align: center;
         height: 177px;
         width: auto;
@@ -321,7 +341,8 @@
     }
   }
 }
-/*provider Modal container css end*/
+
+/* provider Modal container css end */
 
 .modal__footer {
   border-top: 1px solid #e6ecf2;
@@ -332,14 +353,14 @@
   align-items: center;
   padding: 16px 3.438rem;
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     width: 100%;
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     width: auto;
     padding: 16px 20px;
   }
 }
 
-/*End of Add Provider*/
+/* End of Add Provider */

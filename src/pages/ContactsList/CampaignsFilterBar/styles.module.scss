@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .banner {
     display: flex;
@@ -31,7 +31,7 @@
 }
 
 .divider {
-    border: 1px solid #cccccc;
+    border: 1px solid #ccc;
     height: 30px;
     margin-left: 20px;
     margin-right: 20px;
@@ -54,11 +54,13 @@
         color: #052a63;
         margin-right: 4px;
     }
+
     .italicText {
         font-style: italic;
         color: #434a51;
         margin-right: 4px;
     }
+
     .campaignName {
         color: #4178ff;
     }

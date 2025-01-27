@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines.scss";
+@import "../../scss/globalDefines";
 
 .heading2 {
   color: $dark-blue;
@@ -6,7 +6,7 @@
   font-weight: bold;
   line-height: $line-height-38;
 
-  @include small() {
+  @include small {
     font-size: $font-size-24;
   }
 }

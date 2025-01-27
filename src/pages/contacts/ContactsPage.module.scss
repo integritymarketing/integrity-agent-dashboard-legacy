@@ -9,7 +9,7 @@
   border-bottom: 1px solid #d1c7ce;
   background: #ffff;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     padding: 10px 20px;
     font-size: 30px;
     border-bottom: 1px solid #c7ccd1;
@@ -20,7 +20,8 @@
     font-size: 32px;
     line-height: 38px;
     color: var(--v2-dark-blue);
-    @media (max-width: 480px) {
+
+    @media (width <= 480px) {
       font-size: 24px;
     }
   }
@@ -44,7 +45,7 @@
   font-size: 16px;
   line-height: 40px;
   letter-spacing: 0.1px;
-  color: #000000;
+  color: #000;
   padding: 20px;
   border-top-right-radius: 8px;
 }
@@ -64,8 +65,7 @@
     td {
       text-align: left;
       margin: 0;
-      padding: 0px;
-
+      padding: 0;
       border-bottom: 1px solid var(--v2-disabled-gray-border);
 
       & > div {
@@ -82,7 +82,7 @@
     td:nth-child(2) {
       width: 20%;
 
-      @media (max-width: 480px) {
+      @media (width <= 480px) {
         width: 30%;
       }
     }
@@ -90,7 +90,7 @@
     td:nth-child(3) {
       width: 20%;
 
-      @media (max-width: 480px) {
+      @media (width <= 480px) {
         width: 30%;
       }
 
@@ -120,13 +120,13 @@
       width: 25%;
 
       .tb-cell {
-        padding-left: 0px;
-        padding-right: 0px;
+        padding-left: 0;
+        padding-right: 0;
       }
     }
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     border-top: 1px solid #d8dee4;
   }
 }
@@ -156,10 +156,6 @@ table {
   font-size: 16px;
   font-weight: bold;
   line-height: 20px;
-  color: var(--v2-royal-blue);
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 20px;
 
   &:hover {
     text-decoration: underline;
@@ -167,7 +163,7 @@ table {
 }
 
 .sortSelect {
-  @media (min-width: 480px) {
+  @media (width >= 480px) {
     width: 40px;
   }
 
@@ -175,8 +171,9 @@ table {
 }
 
 .cardWrapper {
-  padding: 8px 15px 10px 15px;
-  @media (max-width: 480px) {
+  padding: 8px 15px 10px;
+
+  @media (width <= 480px) {
     width: 90%;
     margin: auto;
     margin-bottom: 16px;
@@ -193,9 +190,10 @@ table {
   margin-top: 14px;
   justify-content: space-between;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     padding-bottom: 20px;
   }
+
   .cardInfoLabel {
     margin-bottom: 12px;
     font-size: 13px;
@@ -204,6 +202,7 @@ table {
     align-items: center;
     color: #646f7b;
   }
+
   .select .select-container {
     width: 100% !important;
   }
@@ -218,13 +217,12 @@ table {
 }
 
 .cardInfo > div:last-child {
-  @media (min-width: 480px) {
+  @media (width >= 480px) {
     width: 40%;
   }
 }
 
 .contactName {
-  flex: 1;
   font-family: Lato;
   font-style: normal;
   font-weight: bold;
@@ -267,17 +265,17 @@ table {
     background: #f9fafb;
   }
 
-  & Button {
+  & button {
     background: #f9fafb;
-    border: 0px;
-    padding: 0px !important;
+    border: 0;
+    padding: 0 !important;
   }
 
   & svg {
     stroke: none !important;
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     padding-left: 12px !important;
     padding-top: 6px !important;
   }
@@ -287,16 +285,16 @@ table {
   position: relative;
 
   & .filter-button {
-    padding: 0px !important;
+    padding: 0 !important;
     background: #f9fafb;
-    border: 0px;
+    border: 0;
     color: #3d4553;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       width: 80px;
       height: 33px;
-      background-color: #ffffff;
-      border: 1px solid #cccccc;
+      background-color: #fff;
+      border: 1px solid #ccc;
       border-radius: 4px;
       margin-top: 4px;
 
@@ -313,7 +311,7 @@ table {
     margin-left: 7px;
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     padding-left: 12px !important;
     padding-top: 6px !important;
     display: block;
@@ -323,7 +321,7 @@ table {
 }
 
 .hideOnMobile {
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     display: none !important;
   }
 }
@@ -338,7 +336,7 @@ table {
     border-radius: 4px;
   }
 
-  @media (min-width: 480px) {
+  @media (width >= 480px) {
     display: none;
   }
 }
@@ -347,7 +345,7 @@ table {
   border-bottom: 1px solid #c7ccd1;
   margin: 0 -17px;
 
-  @media (min-width: 480px) {
+  @media (width >= 480px) {
     display: none;
   }
 }
@@ -355,7 +353,7 @@ table {
 .reminderNotesMobile {
   height: 50px;
 
-  @media (min-width: 480px) {
+  @media (width >= 480px) {
     display: none;
   }
 }
@@ -363,7 +361,7 @@ table {
 .mobileActions {
   display: flex;
 
-  @media (min-width: 480px) {
+  @media (width >= 480px) {
     display: none;
   }
 }
@@ -388,13 +386,13 @@ table {
     }
 
     .short-reminder-note {
-      padding: 10px 0px 25px 0px;
+      padding: 10px 0 25px;
       white-space: normal;
       word-break: break-all;
     }
   }
 
-  @media (min-width: 480px) {
+  @media (width >= 480px) {
     :global {
       .short-reminder-note {
         display: none;
@@ -408,7 +406,7 @@ table {
 }
 
 .contactsSearchBar {
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     .bar {
       flex: 0;
     }
@@ -474,7 +472,7 @@ table {
 
 /* End Add new contact */
 
-/*Start duplicate contact link */
+/* Start duplicate contact link */
 .duplicate-contact-link {
   display: flex;
   justify-content: center;
@@ -489,10 +487,10 @@ table {
   }
 }
 
-/*End duplicate contact link */
+/* End duplicate contact link */
 
 .contacts-search-input-wrapper {
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     overflow-x: hidden;
     padding-bottom: 3px;
 
@@ -588,17 +586,20 @@ table {
     display: flex;
     width: 20%;
     height: 100%;
-    @media (max-width: 768px) {
+
+    @media (width <= 768px) {
       width: 50%;
     }
   }
+
   .statusColor {
     width: 5%;
     height: 100%;
   }
+
   .reset-close {
     display: flex;
-    margin: 0px 12px;
+    margin: 0 12px;
   }
 }
 
@@ -611,10 +612,10 @@ table {
   z-index: 1;
   margin-top: 5px;
   border: 1px solid #3d4553;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 15px rgb(0 0 0 / 25%);
   border-radius: 4px;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     position: fixed;
     background: #fff;
     width: 100%;
@@ -638,7 +639,7 @@ table {
     justify-content: space-between;
     align-items: center;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       margin-bottom: 30px;
     }
   }
@@ -646,7 +647,7 @@ table {
   & .filterTitleSection > svg {
     display: none;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       display: block;
     }
   }
@@ -660,7 +661,7 @@ table {
     margin-bottom: 30px;
     color: #151e29;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       margin-bottom: 0;
     }
   }
@@ -755,7 +756,7 @@ table {
     cursor: pointer;
 
     & li {
-      background: #ffffff;
+      background: #fff;
       border: 1px solid #c7ccd1;
       height: 40px;
       display: flex;
@@ -794,7 +795,7 @@ table {
       color: #6a7279;
     }
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       overflow-y: scroll;
       height: 395px;
     }
@@ -805,13 +806,12 @@ table {
     justify-content: space-between;
     align-items: center;
     height: 55px;
-    padding: 0px 30px 0px 22px;
-
+    padding: 0 30px 0 22px;
     cursor: pointer;
     border-top: 1px solid #c7ccd1;
     border-bottom: 1px solid #c7ccd1;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       border-bottom: 0;
     }
 
@@ -831,18 +831,18 @@ table {
   }
 
   & .filterButton {
-    margin: 12px 0px 12px 0px;
+    margin: 12px 0;
     display: flex;
     justify-content: center;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       position: fixed;
       bottom: 0;
       width: 100%;
       height: 118px;
       align-items: flex-start;
-      background: #ffffff;
-      box-shadow: 0px 2px 12px #7d889a;
+      background: #fff;
+      box-shadow: 0 2px 12px #7d889a;
       margin: 0;
       padding-top: 22px;
     }
@@ -904,7 +904,7 @@ table {
   margin-top: 10px;
 }
 
-/*View, Sort, Filter title */
+/* View, Sort, Filter title */
 
 .filterFunctionTitle {
   padding-bottom: 8px;
@@ -913,7 +913,7 @@ table {
   font-size: 16px;
   line-height: 20px;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     display: none;
   }
 }
@@ -926,7 +926,7 @@ table {
   font-size: 16px;
   line-height: 20px;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     display: none;
   }
 }
@@ -948,8 +948,8 @@ table {
   box-sizing: border-box;
   height: 40px;
   width: 40px;
-  border: 1px solid #cccccc;
-  background-color: #ffffff;
+  border: 1px solid #ccc;
+  background-color: #fff;
   cursor: pointer;
   border-radius: 4px;
 }
@@ -971,7 +971,8 @@ table {
   align-items: center;
   gap: 1rem;
   cursor: pointer;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     margin-left: 20px;
   }
 }
@@ -992,7 +993,7 @@ table {
 }
 
 .reminderDate {
-  color: #000000;
+  color: #000;
   font-weight: 800;
 }
 
@@ -1071,7 +1072,7 @@ table {
   color: #434a51;
   display: inline-flex;
   margin: 2px;
-  padding: 0px 5px;
+  padding: 0 5px;
   font-size: 10px;
   min-height: 20px;
   align-items: center;
@@ -1095,15 +1096,17 @@ table {
   .footerBanners {
     width: 57%;
     margin: auto;
-    @media (max-width: 480px) {
+
+    @media (width <= 480px) {
       width: 80%;
     }
   }
 }
+
 .tagsModal {
   background: #f1f1f1;
   padding: 20px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 15px rgb(0 0 0 / 25%);
   width: 380px;
 
   .tagApplyBtn {
@@ -1111,7 +1114,7 @@ table {
     background: #4178ff 0% 0% no-repeat padding-box;
     width: 80px;
     height: 40px;
-    font-style: Lato;
+    font-style: lato;
     border-color: #4178ff;
 
     img {
@@ -1136,17 +1139,19 @@ table {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .title {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 47%;
     }
+
     .tagHeader {
       font-size: 24px;
       line-height: 48px;
       color: var(--v2-dark-blue);
-      font-family: "Lato", sans-serif;
+      font-family: Lato, sans-serif;
       margin-bottom: 6px;
     }
 
@@ -1160,6 +1165,7 @@ table {
     padding: 22px 16px;
     border-radius: 8px;
   }
+
   .categoryName {
     font-weight: bold;
     padding: 10px 0;
@@ -1182,11 +1188,11 @@ table {
     justify-content: space-between;
     padding: 5px 0;
     align-items: center;
-    background: #ffffff 0% 0% no-repeat padding-box;
+    background: #fff 0% 0% no-repeat padding-box;
     border-radius: 4px;
     opacity: 1;
     padding-right: 10px;
-    border: 1px solid #dddddd;
+    border: 1px solid #ddd;
     margin-bottom: 8px;
     cursor: pointer;
 
@@ -1243,7 +1249,7 @@ table {
     justify-content: space-between;
     margin-top: 10px;
 
-    > Button {
+    > button {
       width: 100px;
       padding: 5px;
       font-weight: bold;
@@ -1278,7 +1284,7 @@ table {
   cursor: pointer;
 }
 
-.chevron.bottom:before {
+.chevron.bottom::before {
   top: 5px;
   transform: rotate(135deg);
 }
@@ -1289,29 +1295,28 @@ table {
   height: 16px;
   border: 1px solid #4178ff;
   cursor: pointer;
-  padding: 0px 8px;
+  padding: 0 8px;
 }
 
 .collapsedIcon {
   font-size: 20px;
   color: #002d72;
   cursor: pointer;
-  padding: 0px 8px;
+  padding: 0 8px;
 }
 
 .tagCategoryId {
   display: grid;
   grid-template-columns: auto auto;
-  grid-column-gap: 8px;
-  grid-row-gap: 2px;
+  grid-gap: 2px 8px;
 }
 
 .createTagContainer {
   display: flex;
   align-items: center;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: inset 0px -1px 0px #cdd0d5;
-  border-radius: 8px 8px 0px 0px;
+  background: #fff 0% 0% no-repeat padding-box;
+  box-shadow: inset 0 -1px 0 #cdd0d5;
+  border-radius: 8px 8px 0 0;
   opacity: 1;
   min-width: 152px;
   min-height: 40px;
@@ -1328,7 +1333,7 @@ table {
 
 .createInputTagContainer {
   display: flex;
-  margin: 10px 0px;
+  margin: 10px 0;
   justify-content: space-between;
   align-items: center;
 }
@@ -1338,7 +1343,7 @@ table {
   width: 111px;
   height: 38px;
   background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
-  background: #ffffff 0% 0% no-repeat padding-box;
+  background: #fff 0% 0% no-repeat padding-box;
   border-radius: 4px;
   opacity: 1;
 }
@@ -1367,14 +1372,14 @@ table {
 }
 
 .mobileHidden {
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     display: none;
   }
 }
 
 .contactBodyWrapper {
   background-color: #f4f8fb;
-  padding: 0px 10px;
+  padding: 0 10px;
 }
 
 .stageOption {
@@ -1385,7 +1390,8 @@ table {
 .searchInput {
   padding-top: 30px;
   width: 30%;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     width: 90%;
     margin: auto;
   }

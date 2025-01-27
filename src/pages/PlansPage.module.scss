@@ -1,5 +1,5 @@
 .plans-page {
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         background-color: #f1f1f1;
     }
 
@@ -20,12 +20,9 @@
 
         .filter-section {
             border: 1px solid #cbd5e1;
-            background: #ffffff;
+            background: #fff;
             border-radius: 4px;
-            padding-left: 14.5px;
-            padding-right: 14.5px;
-            padding-top: 16px;
-            padding-bottom: 16px;
+            padding: 16px 14.5px;
             margin-bottom: 16px;
         }
 
@@ -35,7 +32,7 @@
             flex-grow: 1;
             flex-shrink: 1;
 
-            @media (min-width: 320px) and (max-width: 767px) {
+            @media (width >= 320px) and (width <= 767px) {
                 width: 90%;
                 margin: 35px 18px 0;
             }
@@ -46,8 +43,8 @@
             flex-shrink: 3;
             max-width: 871px;
 
-            @media (max-width: 480px) {
-                margin-top: 0px;
+            @media (width <= 480px) {
+                margin-top: 0;
                 width: 100%;
             }
 
@@ -58,12 +55,12 @@
                 margin-top: 15px;
                 padding-bottom: 33px;
 
-                @media (max-width: 480px) {
-                    padding: 18px 0px 18px 0px;
+                @media (width <= 480px) {
+                    padding: 18px 0;
                 }
 
                 .sort-select {
-                    @media (min-width: 480px) {
+                    @media (width >= 480px) {
                         width: 275px;
                     }
                 }
@@ -78,7 +75,7 @@
                     .plans-type {
                         font-weight: 700;
 
-                        @media (min-width: 320px) and (max-width: 767px) {
+                        @media (width >= 320px) and (width <= 767px) {
                             margin-left: 20px;
                         }
                     }
@@ -98,7 +95,7 @@
     .edit-container {
         margin-top: 46px;
 
-        @media (min-width: 320px) and (max-width: 767px) {
+        @media (width >= 320px) and (width <= 767px) {
             margin-top: 0;
         }
     }
@@ -143,7 +140,7 @@
             background: var(--v2-secondary-blue-100);
             border: 1px solid var(--border-light);
             box-sizing: border-box;
-            border-radius: 4px 0px 0px 4px;
+            border-radius: 4px 0 0 4px;
         }
 
         &:disabled {
@@ -159,8 +156,8 @@
     //   background: #f8fafc;
     // }
     width: 100%;
-    background: #ffffff;
-    box-shadow: 0px 2px 50px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    box-shadow: 0 2px 50px rgb(0 0 0 / 20%);
     border-radius: 4px;
     display: flex;
     justify-content: space-evenly;
@@ -169,7 +166,7 @@
     bottom: 0;
     z-index: 1;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         flex-direction: column;
     }
 
@@ -205,11 +202,11 @@
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
-        background: #ffffff;
+        background: #fff;
         border: 1px solid #cbd5e1;
         box-sizing: border-box;
         border-radius: 8px;
-        margin: 20px 0px;
+        margin: 20px 0;
         font-size: 16px;
         line-height: 130%;
         min-width: 237px;
@@ -218,12 +215,12 @@
         padding: 10px 20px;
         position: relative;
 
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
             width: 90%;
             min-width: unset;
             max-width: unset;
             min-height: unset;
-            margin: 20px 0px 0px 0px;
+            margin: 20px 0 0;
             justify-content: space-between;
         }
 
@@ -239,7 +236,7 @@
             line-height: 130%;
             color: #202020;
 
-            @media (max-width: 480px) {
+            @media (width <= 480px) {
                 width: 90%;
             }
         }
@@ -265,17 +262,17 @@
         align-items: center;
     }
 
-    & Button {
+    & button {
         width: 115px;
         height: 48px;
 
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
             width: 90%;
-            margin: 20px 0px;
+            margin: 20px 0;
         }
 
         .label {
-            @media (max-width: 480px) {
+            @media (width <= 480px) {
                 font-size: 18px;
                 font-weight: 700;
                 color: #f8fafc;
@@ -288,10 +285,12 @@
     background-color: var(--v2-white);
     box-shadow: var(--shadow-default);
     position: sticky;
-    /*Commenting out so that it is header is sticky for mobile view*/
-    /*@media (max-width: 767px) {
+
+    /* Commenting out so that it is header is sticky for mobile view */
+
+    /* @media (max-width: 767px) {
     position: initial !important;
-    }*/
+    } */
     top: 0;
     z-index: 1;
     display: flex;
@@ -326,6 +325,7 @@
 
 .comparePage {
     background-color: #f1f1f1;
+
     /* @media (min-width: 320px) and (max-width: 767px) {
         position: initial !important;
         width: 669px;
@@ -381,12 +381,12 @@
     overflow-x: auto;
     min-height: 208px;
     background: var(--page-bg-color);
-    box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 5%);
 
     &.in-modal {
         background: white;
         box-shadow: none;
-        padding: 0px;
+        padding: 0;
     }
 
     margin-bottom: 36px;
@@ -535,7 +535,7 @@
     }
 }
 
-@media (min-width: 320px) and (max-width: 767px) {
+@media (width >= 320px) and (width <= 767px) {
     .effective-date-filter .select {
         width: 75%;
         margin-left: 0 !important;
@@ -592,9 +592,10 @@
 
 .backdrop {
     position: absolute;
-    inset: 0px;
-    background: rgba(0, 0, 0, 0.5);
+    inset: 0;
+    background: rgb(0 0 0 / 50%);
     z-index: 101;
+
     /* blur the background */
     backdrop-filter: blur(1px) saturate(180%) contrast(46%) brightness(120%);
 }
@@ -619,10 +620,10 @@
     background: #4178ff 0% 0% no-repeat padding-box;
     width: 120px;
     height: 40px;
-    font-style: Lato;
+    font-style: lato;
     border-color: #4178ff;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         min-width: fit-content !important;
     }
 

@@ -1,0 +1,12 @@
+@use "animations";
+@use "colors";
+@use "fontSizes";
+@use "mediaQueries";
+@use "sizes";
+
+// Forward all variables/mixins/functions
+@forward "animations";
+@forward "colors";
+@forward "fontSizes";
+@forward "mediaQueries";
+@forward "sizes";

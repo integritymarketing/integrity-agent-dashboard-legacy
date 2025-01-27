@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines.scss";
+@use "../../scss/globalDefines" as rules_global;
 
 .activityDataCell {
     display: flex;
@@ -32,7 +32,7 @@
 }
 
 .recentActivity {
-    @include small() {
+    @include rules_global.small {
         margin-left: 10px;
     }
 
@@ -44,13 +44,13 @@
     top: 90px;
     position: relative;
 
-    @include small() {
+    @include small {
         top: 0;
     }
 }
 
 .segregator {
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid #ccc;
     max-width: none;
 }
 

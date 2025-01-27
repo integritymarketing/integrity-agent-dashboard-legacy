@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@import "../../../scss/globalDefines";
 
 .planCardContainer {
     margin-top: 1rem;
@@ -13,16 +13,16 @@
 .planCard {
     display: flex;
     flex-direction: column;
-    border-radius: 8px 8px 0px 0px;
+    border-radius: 8px 8px 0 0;
 
     @include small {
-        border-radius: 8px 8px 0px 0px;
+        border-radius: 8px 8px 0 0;
     }
 
     .status {
         text-transform: capitalize;
         width: fit-content;
-        border-radius: 8px 8px 0px 0px;
+        border-radius: 8px 8px 0 0;
          align-self: flex-end;
         display: flex;
         align-items: center;
@@ -59,9 +59,10 @@
         justify-content: space-between;
         align-items: center;
         width: 80%;
-        padding: 16px 24px 16px 24px;
+        padding: 16px 24px;
         border-radius: 8px;
         margin-top: 10px;
+
         @include small {
             flex-direction: column;
             align-items: flex-start;
@@ -76,8 +77,8 @@
         .statusIcon {
             color: #434A51;
              margin-right: 10px;
-            background-color: #ffffff;
-            padding: 7px 8px 2px 8px;
+            background-color: #fff;
+            padding: 7px 8px 2px;
             border-radius: 35px;
             width: 40px;
             height: 40px;
@@ -91,7 +92,7 @@
             background-color: $white;
         }
 
-        border-radius: 8px 8px 8px 8px;
+        border-radius: 8px;
         padding: 24px;
         display: flex;
         justify-content: space-between;
@@ -195,7 +196,7 @@
     flex-direction: row;
     justify-content: space-between;
     background: #deebfb 0% 0% no-repeat padding-box;
-    border-radius: 0px 0px 8px 8px;
+    border-radius: 0 0 8px 8px;
     padding: 1.5rem;
     align-items: center;
 
@@ -254,14 +255,14 @@
 
     span {
         font-size: 14px !important;
-        color: #ffffff !important;
+        color: #fff !important;
         font-weight: 500;
     }
 }
 
 .relinkButton {
     border-radius: 25px !important;
-    background-color: #ffffff !important;
+    background-color: #fff !important;
     padding: 5px 20px !important;
 
     span {
@@ -272,13 +273,14 @@
 
     &:hover {
         border-radius: 20px;
-        box-shadow: inset 0px -1px 0px #dddddd;
+        box-shadow: inset 0 -1px 0 #ddd;
     }
 }
 
 .detailsContainer {
     display: flex;
     justify-content: space-between;
+
     @include small {
         align-items: center;
         width: 100%;
@@ -305,6 +307,7 @@
     color: #052A63;
     font-size: 16px;
     font-weight: bold;
+
     @include small {
         margin-top: 5px;
     }

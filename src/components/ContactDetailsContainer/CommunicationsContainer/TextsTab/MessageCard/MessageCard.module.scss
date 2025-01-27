@@ -1,4 +1,4 @@
-@import "../../../../../scss/globalDefines.scss";
+@import "../../../../../scss/globalDefines";
 
 .messageBox {
     display: flex;
@@ -38,9 +38,11 @@
     display: flex;
     gap: 15px;
 }
+
 .broadCastContainer {
     text-align: right;
 }
+
 .dateTimeBox {
     display: inline-block;
 }
@@ -50,6 +52,7 @@
     color: #052a63;
     display: inline-block;
 }
+
 .isUnread {
     border-right: solid 3px #4178ff;
     font-weight: bold;
@@ -72,6 +75,7 @@
         font-weight: normal;
         box-shadow: none;
         padding-right: 18px;
+
         @include small {
             margin-top: 0;
         }
@@ -80,8 +84,8 @@
 
 .wrappedContent {
     white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
+    white-space: pre-wrap;
     white-space: -pre-wrap;
-    white-space: -o-pre-wrap; 
+    white-space: pre-wrap; 
     word-wrap: break-word;
 }

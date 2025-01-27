@@ -1,7 +1,7 @@
 .tableWrapper {
   margin-bottom: 40px;
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     overflow: scroll;
   }
 }
@@ -20,7 +20,7 @@
 }
 
 .sectionContainer {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
   margin-top: 12px;
   color: #434a51;
@@ -83,9 +83,9 @@
     }
 
     &:hover {
-      background: #ffffff 0% 0% no-repeat padding-box;
+      background: #fff 0% 0% no-repeat padding-box;
       border-radius: 20px;
-      box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
       color: #1357ff !important;
     }
   }

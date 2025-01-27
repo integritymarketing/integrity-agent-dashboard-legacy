@@ -2,12 +2,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   .status-icon {
     margin-left: 10px;
     margin-bottom: 10px;
     cursor: pointer;
   }
 }
+
 .status-content {
   font-size: 32px;
   color: #717171;

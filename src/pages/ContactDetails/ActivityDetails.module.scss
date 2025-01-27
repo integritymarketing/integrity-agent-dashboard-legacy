@@ -1,17 +1,17 @@
-@import "../../scss/globalDefines.scss";
+@import "../../scss/globalDefines";
 
 .subSection {
     .topSection {
         display: flex;
         align-items: center;
-        background-color: #ffffff;
+        background-color: #fff;
         padding: 20px;
         border-radius: 8px;
-        flex-wrap: wrap;
+        flex-flow: column wrap;
         word-break: break-word;
         color: #434a51;
-        flex-direction: column;
-        Button {
+
+        button {
             margin-top: 10px;
         }
     }
@@ -42,9 +42,11 @@
     margin-top: 5px;
     text-align: end;
     font-size: 14px;
+
     .day {
         color: #052a63;
     }
+
     .time {
         color: #717171;
         margin-left: 5px;
@@ -59,13 +61,14 @@
 
     span {
         font-size: 14px !important;
-        color: #ffffff !important;
+        color: #fff !important;
         font-weight: 500;
     }
 
     &:hover {
         background-color: #1357ff !important;
     }
+
     @include small {
         width: 100%;
     }

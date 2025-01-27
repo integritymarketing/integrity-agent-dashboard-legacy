@@ -1,5 +1,5 @@
 .heading {
-  color: #000000;
+  color: #000;
   font-size: 16px;
   padding: 10px 0;
   font-weight: bold;
@@ -15,19 +15,20 @@
     border-radius: 50px !important;
     color: #4178ff;
     margin: auto;
+
     svg path {
       stroke: #4178ff;
     }
 
     &:hover {
       background-color: white !important;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
     }
   }
 }
 
 .prescriptionContainer {
-  box-shadow: inset 0px -1px 0px #dddddd;
+  box-shadow: inset 0 -1px 0 #ddd;
   border-radius: 8px;
   background-color: white;
   margin-bottom: 10px;
@@ -55,19 +56,21 @@
     .type {
       font-size: 14px;
     }
+
     .name {
       font-size: 16px;
     }
+
     .dose {
       font-size: 14px;
     }
   }
 }
+
 .editBtn {
   position: absolute;
   right: 40px;
   color: #4178ff;
-  cursor: pointer;
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -77,9 +80,10 @@
   padding: 5px 15px;
 
   &:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
   }
 }
+
 .secondaryColor {
   color: #717171;
 }
@@ -87,12 +91,13 @@
 .primaryColor {
   color: #052a63;
 }
+
 .itemsContainer {
   border-bottom: 1px solid #d4d4d4;
   display: flex;
   padding-bottom: 8px;
 
-  @media screen and (max-width: 480px) {
+  @media screen and (width <= 480px) {
     flex-direction: column;
   }
 
@@ -105,7 +110,6 @@
     font-weight: bold;
     padding-right: 15px;
     margin-right: 20px;
-    white-space: nowrap;
     border-right: 1px solid #d4d4d4;
     cursor: pointer;
     white-space: break-spaces;
@@ -116,7 +120,7 @@
       padding-right: 0;
     }
 
-    @media screen and (max-width: 480px) {
+    @media screen and (width <= 480px) {
       border-bottom: 1px solid #d4d4d4;
       border-right: none;
       padding: 10px 0;
@@ -129,6 +133,7 @@
       }
     }
   }
+
   .notAllow {
     cursor: not-allowed;
    }

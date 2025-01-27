@@ -1,4 +1,4 @@
-@import "../../../../../scss/globalDefines.scss";
+@import "../../../../../scss/globalDefines";
 
 .wrapper {
     width: 100%;
@@ -65,7 +65,7 @@
 }
 
 .setAsPrimaryButton:not(.button-link) {
-    padding: 0px;
+    padding: 0;
 }
 
 .primaryTag {
@@ -75,7 +75,7 @@
 
 .editButton {
     border-radius: 25px !important;
-    background-color: #ffffff !important;
+    background-color: #fff !important;
     padding: 5px 20px !important;
 
     span {
@@ -85,8 +85,8 @@
     }
 
     &:hover {
-        background: #ffffff 0% 0% no-repeat padding-box;
-        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        background: #fff 0% 0% no-repeat padding-box;
+        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
         color: #1357ff;
     }
 

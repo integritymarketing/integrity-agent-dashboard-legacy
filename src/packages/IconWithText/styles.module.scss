@@ -1,8 +1,9 @@
-@import "src/scss/globalDefines.scss";
+@import "src/scss/globalDefines";
 
 .layout {
   display: flex;
   align-items: center;
+
   :hover {
     cursor: pointer;
   }

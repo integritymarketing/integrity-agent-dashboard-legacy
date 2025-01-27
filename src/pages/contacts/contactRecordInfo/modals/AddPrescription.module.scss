@@ -6,29 +6,29 @@
   justify-content: center;
   align-items: center;
   z-index: 30 !important;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: #051d43b3;
 }
+
 .modal {
   max-width: 90vw;
   max-height: 90vh;
   border-radius: 8px;
   background-color: #f4f8fb;
-  box-shadow: 0px 0px 6px #00000029;
+  box-shadow: 0 0 6px #00000029;
   display: flex;
   flex-direction: column;
   align-items: center;
+
   //padding: 16px;
   //gap: 16px;
   position: relative;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     width: 100%;
   }
 }
+
 .modalHeader {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -38,10 +38,11 @@
   width: 100%;
   font-size: 24px;
   font-weight: 500;
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 24px;
   display: flex;
 }
+
 .modalBody {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
@@ -49,6 +50,7 @@
   width: 100%;
   padding: 16px;
 }
+
 .closeBtn {
   width: 24px;
   height: 24px;
@@ -58,6 +60,7 @@
   stroke: #0052ce;
   margin: 10px;
 }
+
 .closeBtn :hover {
   stroke: #2175f4;
 }
@@ -66,30 +69,34 @@
   width: 55%;
   height: 40px;
   background-color: #0052ce;
-  padding: 10px 27px 10px 27px;
-  color: #ffffff;
+  padding: 10px 27px;
+  color: #fff;
   font-size: 16px;
   font-weight: 500;
   border-radius: 4px;
   position: relative;
 }
+
 .submit:disabled {
   background-color: #cdd0d5;
 }
+
 .submit:enabled:hover {
   background-color: #2175f4;
 }
+
 .buttonWrapper {
   display: flex;
   width: 100%;
   justify-content: space-evenly;
-  padding: 0px 0px 19px 0px;
+  padding: 0 0 19px;
 }
+
 .cancel {
   width: 30%;
   height: 40px;
   background-color: transparent;
-  padding: 10px 27px 10px 27px;
+  padding: 10px 27px;
   border: #0052ce 1px solid;
   color: #0052ce;
   font-size: 16px;
@@ -99,10 +106,12 @@
   justify-content: center;
   align-items: center;
 }
+
 .cancel:hover {
   border-color: #2175f4;
   color: #0052ce;
 }
+
 .disabled {
-  background-color: rgb(173, 173, 194);
+  background-color: rgb(173 173 194);
 }

@@ -20,7 +20,7 @@
 }
 
 .selectBox {
-    background-color: #ffffff;
+    background-color: #fff;
 }
 
 .selectBoxDisabled {
@@ -34,7 +34,7 @@
 }
 
 .menuItem {
-    border: 1px solid #dddddd !important;
+    border: 1px solid #ddd !important;
     margin: 0 5px !important;
     padding-left: 10px !important;
 }
@@ -86,14 +86,14 @@
 
 .singleOptionBox {
     width: 230px;
-    background-color: #ffffff;
+    background-color: #fff;
     height: 45px;
     padding: 10px 20px;
     border-radius: 4px;
     color: #434a51;
     text-overflow: ellipsis;
     overflow: hidden;
-    border: 1px solid #dddddd;
+    border: 1px solid #ddd;
     display: flex;
     gap: 10px;
     align-items: center;
@@ -104,11 +104,10 @@
     min-width: 200px;
 }
 
-@media (max-width: 767px) {
+@media (width <= 767px) {
     .sectionContent {
-        flex-direction: column;
+        flex-flow: column wrap;
         align-items: flex-start;
-        flex-wrap: wrap;
         display: flex;
     }
 

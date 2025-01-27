@@ -13,7 +13,7 @@
   line-height: 18px;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
   .tooltipBox {
     max-width: 180px;
   }

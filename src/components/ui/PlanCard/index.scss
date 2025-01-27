@@ -1,5 +1,5 @@
 .plan-card-buttons {
-    margin: 0px -18px !important;
+    margin: 0 -18px !important;
 
     .footer {
         padding: 18px;
@@ -7,7 +7,7 @@
         justify-content: space-between;
         background-color: #fff;
 
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
             background: #f8fafc;
         }
 
@@ -26,13 +26,13 @@
     padding: 16px 32px;
     background: var(--v2-white);
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         border: unset;
-        padding: 15px 15px;
+        padding: 15px;
     }
 
     &.mobile {
-        padding: 23px 23px 0px 23px;
+        padding: 23px 23px 0;
     }
 
     &.no-plan-results {
@@ -55,7 +55,7 @@
         .hide-desktop {
             display: none;
 
-            @media (max-width: 480px) {
+            @media (width <= 480px) {
                 display: flex;
                 justify-content: flex-start;
             }
@@ -71,7 +71,7 @@
                 max-height: 56px;
                 max-width: 116px;
 
-                @media (max-width: 480px) {
+                @media (width <= 480px) {
                     max-width: 120px;
                 }
             }
@@ -92,7 +92,6 @@
 
         &.mobile {
             flex-direction: column;
-
             padding: 24px 16px;
             padding-bottom: 4px;
 
@@ -112,12 +111,12 @@
         margin-top: 5px;
         margin-bottom: 16px;
 
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
             padding-left: 16px !important;
         }
 
         .cr-name-mbl {
-            @media (max-width: 480px) {
+            @media (width <= 480px) {
                 display: none;
             }
         }
@@ -145,7 +144,7 @@
             }
 
             .rating-container {
-                padding-left: 0px;
+                padding-left: 0;
                 margin-top: 12px;
             }
         }
@@ -155,15 +154,15 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding: 24px 24px 24px 24px;
+        padding: 24px;
         background: #f2f9ff;
         margin-bottom: 24px;
 
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
             padding: unset !important;
             align-items: flex-start;
             background: #fff;
-            margin-bottom: 0px;
+            margin-bottom: 0;
         }
 
         .monthly {
@@ -178,7 +177,7 @@
                 margin-bottom: 3px;
                 color: #515e6f;
 
-                @media (max-width: 480px) {
+                @media (width <= 480px) {
                     color: #434a51;
                     font-size: 16px;
                     font-weight: 400;
@@ -190,7 +189,7 @@
                 font-size: 32px;
                 line-height: 130%;
 
-                @media (max-width: 480px) {
+                @media (width <= 480px) {
                     color: #002d72;
                     font-size: 48px;
                     font-weight: 400;
@@ -220,7 +219,7 @@
                         line-height: 150%;
                         white-space: nowrap;
 
-                        @media (max-width: 480px) {
+                        @media (width <= 480px) {
                             font-size: 16px;
                             color: #434a51;
                             font-weight: 400;
@@ -233,7 +232,7 @@
                         width: 100%;
                         margin: 0 8px;
 
-                        @media (max-width: 480px) {
+                        @media (width <= 480px) {
                             display: none;
                         }
                     }
@@ -246,7 +245,7 @@
                         flex-direction: column;
                         align-items: flex-end;
 
-                        @media (max-width: 480px) {
+                        @media (width <= 480px) {
                             font-size: 16px;
                             color: #434a51;
                             font-weight: 400;
@@ -283,7 +282,7 @@
                 .label {
                     margin-top: 1rem;
 
-                    @media (max-width: 480px) {
+                    @media (width <= 480px) {
                         margin-top: 8px;
                     }
 
@@ -292,7 +291,7 @@
                     }
 
                     .mnth-mbl {
-                        @media (max-width: 480px) {
+                        @media (width <= 480px) {
                             margin-left: 4px;
                         }
                     }
@@ -302,7 +301,7 @@
             .costs-breakdown {
                 border: none;
                 margin-top: 20px;
-                padding: 0px 16px;
+                padding: 0 16px;
 
                 &.collapsed {
                     max-height: 0;
@@ -322,7 +321,7 @@
     .mob-show {
         display: none;
 
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
             display: initial !important;
         }
     }
@@ -334,11 +333,11 @@
             font-weight: bold;
             font-size: 16px;
             line-height: 150%;
-            color: #000000;
+            color: #000;
             margin-bottom: 16px;
             margin-top: 10px;
 
-            @media (max-width: 480px) {
+            @media (width <= 480px) {
                 border-top: 1px solid #cbd5e1;
                 padding-top: 20px;
                 color: #434a51;
@@ -367,7 +366,6 @@
                 font-weight: 600;
                 font-size: 14px;
                 line-height: 150%;
-
                 margin-right: 19px;
                 margin-bottom: 24px;
 
@@ -381,7 +379,7 @@
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     overflow: hidden;
-                    color: #000000;
+                    color: #000;
 
                     .name,
                     .address {
@@ -391,8 +389,8 @@
                     }
 
                     .name {
-                        @media (max-width: 480px) {
-                            color: #000000;
+                        @media (width <= 480px) {
+                            color: #000;
                             font-size: 16px;
                             font-weight: bold;
                         }
@@ -402,7 +400,7 @@
                         color: #434a51;
                         font-weight: 400;
 
-                        @media (max-width: 480px) {
+                        @media (width <= 480px) {
                             color: #051d43;
                             font-size: 16px;
                         }
@@ -436,7 +434,7 @@
 
         &:hover {
             border-radius: 50px;
-            box-shadow: 0 4px 8px 0px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
         }
     }
 
@@ -445,10 +443,10 @@
         background: #4178ff 0% 0% no-repeat padding-box;
         width: 120px;
         height: 40px;
-        font-style: Lato;
+        font-style: lato;
         border-color: #4178ff;
 
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
             min-width: fit-content !important;
         }
 
@@ -470,7 +468,7 @@
         .plan-btn-container {
             display: flex;
 
-            @media (max-width: 480px) {
+            @media (width <= 480px) {
                 justify-content: space-around;
                 width: 100%;
             }
@@ -479,14 +477,14 @@
         .button {
             margin-left: 16px;
 
-            @media (max-width: 480px) {
-                margin-left: 0px;
+            @media (width <= 480px) {
+                margin-left: 0;
                 min-width: 136px;
                 min-height: none;
                 height: 33px;
             }
 
-            @media (max-width: 375px) {
+            @media (width <= 375px) {
                 min-width: 114px;
             }
         }
@@ -499,8 +497,7 @@
 
             padding-bottom: 23px;
             background-color: initial;
-            border-top: none;
-            margin: 0px;
+            margin: 0;
             justify-content: space-between;
             border-top: 1px solid #cbd5e1;
             align-items: center;
@@ -522,7 +519,7 @@
                     font-size: 32px;
                     font-weight: 600;
                     line-height: 42px;
-                    letter-spacing: 0em;
+                    letter-spacing: 0;
                     text-align: left;
                     color: #002d72;
                 }
@@ -532,7 +529,7 @@
                     font-size: 16px;
                     font-weight: 400;
                     line-height: 21px;
-                    letter-spacing: 0em;
+                    letter-spacing: 0;
                     text-align: left;
                     color: #434a51;
                 }
@@ -545,7 +542,7 @@
     }
 
     .cmp-chk-mbl {
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
             display: none !important;
         }
     }
@@ -555,8 +552,8 @@
         justify-content: space-between;
         align-items: center;
 
-        @media (max-width: 480px) {
-            margin-left: 0px;
+        @media (width <= 480px) {
+            margin-left: 0;
         }
 
         .compare-inpt {
@@ -577,7 +574,7 @@
             line-height: 150%;
             color: #64748b;
 
-            @media (max-width: 480px) {
+            @media (width <= 480px) {
                 font-size: 16px;
                 color: #051d43;
             }
@@ -591,7 +588,7 @@
 
     .label {
         font-weight: bold;
-        color: #000000;
+        color: #000;
         margin-bottom: 10px;
         margin-top: 20px;
     }
@@ -608,7 +605,7 @@
     align-items: center;
     flex-direction: column;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         width: 100%;
         align-items: flex-start;
         border-top: 1px solid #cbd5e1;
@@ -627,7 +624,7 @@
     cursor: pointer;
     margin-top: 50px;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         margin-top: 20px;
         flex-direction: row !important;
         justify-content: space-between;
@@ -642,7 +639,7 @@
         margin-bottom: 3px;
         color: #515e6f;
 
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
             color: #434a51;
             font-size: 16px;
             font-weight: 400;
@@ -654,7 +651,7 @@
         font-size: 32px;
         line-height: 130%;
 
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
             color: #002d72;
             font-size: 48px;
             font-weight: 400;

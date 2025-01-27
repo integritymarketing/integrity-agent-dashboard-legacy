@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines.scss";
+@import "../../scss/globalDefines";
 
 .addZipContainer {
     padding: 56px 24px;
@@ -6,7 +6,7 @@
 }
 
 .detailsMContainer {
-    margin: 0px 24px;
+    margin: 0 24px;
 }
 
 .quickQuote {
@@ -16,7 +16,7 @@
 
     @include small {
         padding: 24px;
-        margin: 0px;
+        margin: 0;
         width: 100%;
     }
 }
@@ -37,10 +37,10 @@
 
     @include small {
         font-size: 24px;
-        padding: 0px;
+        padding: 0;
         margin-bottom: 24px;
         line-height: 28px;
-        letter-spacing: 0em;
+        letter-spacing: 0;
     }
 }
 

@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines.scss";
+@import "../../../../scss/globalDefines";
 
 .reminderItem {
     display: flex;
@@ -70,9 +70,9 @@
     }
 
     &:hover {
-        background: #ffffff 0% 0% no-repeat padding-box;
+        background: #fff 0% 0% no-repeat padding-box;
         border-radius: 20px;
-        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
         color: #1357ff !important;
     }
 }
@@ -80,6 +80,7 @@
 .remindersContainer {
     margin-bottom: 3rem;
     border-radius: 8px;
+
     @include small {
         margin-top: 3rem;
     }
@@ -97,7 +98,7 @@
 
 .remindersContainer_content {
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: #fff;
 
     @include small {
         padding: 0.5rem;
@@ -113,6 +114,7 @@
     align-items: center;
     justify-content: center;
     margin-right: 10px;
+
     @include small {
         width: 10%;
     }
@@ -121,6 +123,7 @@
 .dueIcon {
     background-color: #ffc3c3;
 }
+
 .segregator {
     padding: unset;
     max-width: none;
@@ -136,6 +139,7 @@
     color: #052a63;
     font-size: 24px;
     width: 65%;
+
     @include small {
         width: 80%;
     }
@@ -152,20 +156,21 @@
     padding: 4px 8px !important;
 
     &:hover {
-        background: #ffffff 0% 0% no-repeat padding-box;
+        background: #fff 0% 0% no-repeat padding-box;
         border-radius: 20px;
-        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
         color: #1357ff !important;
     }
 }
 
 .reminderCard {
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
     padding: 16px;
     gap: 15px;
     margin-bottom: 8px;
 }
+
 .reminderNote {
     padding: 8px;
     background-color: #f1f1f1;
@@ -178,6 +183,7 @@
 
 .reminderTitleIcon {
     margin-top: 10px;
+
     @include small {
         margin-top: 8px;
         margin-right: 10px;
