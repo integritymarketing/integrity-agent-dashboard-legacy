@@ -12,9 +12,6 @@ export const getMedicareBeneficiaryIDSchema = () => {
                     return true;
                 }
                 const formattedId = String(val).toUpperCase().replace(/-/g, "");
-                if (formattedId.length < 11) {
-                    return true;
-                }
                 const isValid = mbidRegex.test(formattedId);
                 return isValid || val === "";
             }),

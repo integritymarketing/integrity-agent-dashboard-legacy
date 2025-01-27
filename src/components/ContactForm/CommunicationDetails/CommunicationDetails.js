@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Grid, Typography } from "@mui/material";
 import { TextInput } from "components/MuiComponents";
 import { formatPhoneNumber } from "../../../utils/phones";
@@ -10,11 +10,16 @@ const CommunicationDetails = ({ formik }) => {
     const { touched, errors, values, handleChange, handleBlur, submitCount, setFieldValue } = formik;
     const valueOptions = { Email: "email", Phone: "phone" };
 
+    const emailFieldRef = useRef(null);
+    const phoneFieldRef = useRef(null);
+    const fieldRefs = { Email: emailFieldRef, Phone: phoneFieldRef };
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
                 <TextInput
                     label="Email"
+                    inputRef={emailFieldRef}
                     fullWidth
                     type="email"
                     name="email"
@@ -36,6 +41,7 @@ const CommunicationDetails = ({ formik }) => {
             <Grid item xs={12} md={6}>
                 <TextInput
                     label="Phone"
+                    inputRef={phoneFieldRef}
                     fullWidth
                     type="tel"
                     placeholder="###-###-####"
@@ -66,6 +72,9 @@ const CommunicationDetails = ({ formik }) => {
                             : styles.nonSelectedOption,
                     )}
                     onSelect={(selected) => {
+                        if (fieldRefs[selected].current) {
+                            fieldRefs[selected].current.focus();
+                        }
                         setFieldValue("primaryCommunication", valueOptions[selected]);
                     }}
                 />

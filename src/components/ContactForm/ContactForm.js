@@ -95,7 +95,7 @@ const ContactForm = ({
 
     const navigate = useNavigate();
     const showToast = useToast();
-    const { allStates = [], loading: loadingCountyAndState } = useContext(CountyContext);
+    const { allStates = [], allCounties = [], loading: loadingCountyAndState } = useContext(CountyContext);
 
     const getContactLink = (id) => `/contact/${id}/overview`;
     const goToContactDetailPage = (id) => navigate(getContactLink(id));
@@ -123,7 +123,7 @@ const ContactForm = ({
         initialValues: initialFormValues,
         validationSchema: validationSchema,
         validateOnBlur: true,
-        validateOnChange: true,
+        validateOnChange: false,
         onSubmit: async (values, { setErrors, setSubmitting }) => {
             setSubmitting(true);
             const duplicateCheckResponse = await checkDuplicateContact(values);
@@ -232,6 +232,12 @@ const ContactForm = ({
         (values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0) ||
         (values.address.postalCode > 0 && values.address.postalCode.length < 5);
 
+    const isNotStateOrCounty =
+        allStates?.length > 0 &&
+        allCounties?.length > 0 &&
+        !loadingCountyAndState &&
+        (values.address.stateCode.length === 0 || values.address.county.length === 0);
+
     return (
         <Box className={styles.formSection}>
             <Formik {...formik}>
@@ -263,7 +269,14 @@ const ContactForm = ({
                                 type="submit"
                                 variant="contained"
                                 color="primary"
-                                disabled={!dirty || !isValid || isInvalidZip || !emailPhoneValid || isSubmitting}
+                                disabled={
+                                    !dirty ||
+                                    !isValid ||
+                                    isInvalidZip ||
+                                    !emailPhoneValid ||
+                                    isSubmitting ||
+                                    isNotStateOrCounty
+                                }
                             >
                                 Create Contact
                             </Button>

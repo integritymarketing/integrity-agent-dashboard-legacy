@@ -171,21 +171,16 @@ const BasicDetails = ({ formik, fieldSet }) => {
                                 <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
                             </Box>
                         )}
-                        renderValue={(selected) => {
-                            if (selected === null) {
-                                return "Select";
-                            } else if (selected === undefined) {
-                                return "Unknown";
-                            }
-                            return selected;
-                        }}
+                        renderValue={(selected) =>
+                            contactFormMaritalStatusOptions.find((ms) => ms.value === selected).label
+                        }
                         displayEmpty
                         name="maritalStatus"
                         onChange={handleChange}
                         onBlur={handleBlur}
                     >
                         {contactFormMaritalStatusOptions.map(({ value, label }) => (
-                            <MenuItem key={label.toLowerCase()} value={value?.toLowerCase()}>
+                            <MenuItem key={label} value={value}>
                                 {label}
                             </MenuItem>
                         ))}

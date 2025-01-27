@@ -95,7 +95,7 @@ const AddressDetails = ({ formik }) => {
             </Grid>
             <Grid item xs={12} md={6}>
                 <TextInput
-                    label="ZIP Code"
+                    label="Zip"
                     fullWidth
                     name="address.postalCode"
                     placeholder="#####"
@@ -135,7 +135,9 @@ const AddressDetails = ({ formik }) => {
                 <FormControl variant="outlined" fullWidth>
                     <Select
                         value={values.address.stateCode}
-                        onChange={(value) => setFieldValue("address.stateCode", value)}
+                        onChange={(ev) => {
+                            setFieldValue("address.stateCode", ev.target.value);
+                        }}
                         renderValue={(selected) => {
                             if (selected.length === 0) {
                                 return "Select";
@@ -165,9 +167,9 @@ const AddressDetails = ({ formik }) => {
                 <FormControl variant="outlined" fullWidth>
                     <Select
                         value={values.address.county}
-                        onChange={(value) => {
-                            setFieldValue("address.county", value);
-                            const fip = allCounties.find((item) => item.value === value)?.key;
+                        onChange={(ev) => {
+                            setFieldValue("address.county", ev.target.value);
+                            const fip = allCounties.find((item) => item.value === ev.target.value)?.key;
                             setFieldValue("address.countyFips", fip);
                         }}
                         renderValue={(selected) => {
