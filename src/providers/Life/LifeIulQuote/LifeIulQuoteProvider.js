@@ -9,6 +9,7 @@ export const LifeIulQuoteContext = createContext();
 
 export const LifeIulQuoteProvider = ({ children }) => {
     const getLifeIulQuoteUrl = `${process.env.REACT_APP_QUOTE_URL}/api/v1/IUL/quotes`;
+    const applyLifeIulQuoteUrl = `${process.env.REACT_APP_ENROLLMENT_LEAD_API}/api/v1.0/IUL/lead`;
     const getLifeIulQuoteDetailsUrl = `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/IUL/policydetails`;
     const showToast = useToast();
 
@@ -27,10 +28,13 @@ export const LifeIulQuoteProvider = ({ children }) => {
     } = useFetch(getLifeIulQuoteUrl);
 
     const {
+        Post: applyLifeIulQuoteDetails,
+        loading: isLoadingApplyLifeIulQuote,
+        error: getApplyLifeIulQuoteError,
         Get: getLifeIulQuoteDetails,
         loading: isLoadingLifeIulQuoteDetails,
         error: getLifeIulQuoteDetailsError,
-    } = useFetch(getLifeIulQuoteDetailsUrl);
+    } = useFetch(applyLifeIulQuoteUrl, getLifeIulQuoteDetailsUrl);
 
     const reset = () => {
         setLifeIulQuoteResults(null);
@@ -48,7 +52,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
                 if (response && response?.result && response?.result?.length > 0) {
                     if (!selectedCarriers.includes("All carriers") && selectedCarriers.length > 0) {
                         const updatedResults = response?.result.filter((result) =>
-                            selectedCarriers.includes(result.companyName)
+                            selectedCarriers.includes(result.companyName),
                         );
 
                         setLifeIulQuoteResults(updatedResults);
@@ -134,6 +138,50 @@ export const LifeIulQuoteProvider = ({ children }) => {
         }
     };
 
+    const handleIULQuoteApplyClick = useCallback(
+        async (reqData, leadId) => {
+            const payload = removeNullAndEmptyFields(reqData);
+            const obj = {
+                enroller: {
+                    agentLastName: payload?.agentLastName,
+                    agentFirstName: payload?.agentFirstName,
+                    agentEmail: payload?.email,
+                    agentNumber: payload?.agentNPN,
+                },
+                enrollee: {
+                    firstName: payload?.firstName,
+                    middleName: payload?.middleName,
+                    lastName: payload?.lastName,
+                    gender: payload?.gender == "male" ? "M" : "F",
+                    dateOfBirth: payload?.birthdate,
+                    emailAddress: payload?.emails[0]?.leadEmail,
+                    phoneNumber: payload?.phones[0]?.leadPhone,
+                    address1: payload?.addresses[0]?.address1,
+                    city: payload?.addresses[0]?.city,
+                    state: payload?.addresses[0]?.stateCode,
+                    zipCode: payload?.addresses[0]?.postalCode,
+                    effectiveDate: new Date(payload?.effectiveDate).toISOString(),
+                },
+                ssoPrefillFields: {
+                    product_itmtxt: payload?.ssoPrefillFields.product_itmtxt,
+                    carrier: payload?.ssoPrefillFields.carrier,
+                    product: payload?.ssoPrefillFields.product,
+                    poL_Product: payload?.ssoPrefillFields.poL_Product,
+                    productType: payload?.ssoPrefillFields.productType,
+                },
+                productName: payload?.productName,
+                carrierUrl: payload?.carrierUrl || "",
+                carrierName: payload?.companyName || "",
+                planType: "IUL",
+            };
+
+            const response = await applyLifeIulQuoteDetails(obj, false, leadId);
+            console.log("response", response);
+            return response;
+        },
+        [applyLifeIulQuoteDetails],
+    );
+
     useEffect(() => {
         if (selectedCarriers.includes("All carriers")) {
             setLifeIulQuoteResults(tempUserDetails);
@@ -159,6 +207,9 @@ export const LifeIulQuoteProvider = ({ children }) => {
             setShowFilters,
             handleComparePlanSelect,
             selectedPlans,
+            handleIULQuoteApplyClick,
+            isLoadingApplyLifeIulQuote,
+            getApplyLifeIulQuoteError,
             fetchLifeIulQuoteDetails,
             isLoadingLifeIulQuoteDetails,
             getLifeIulQuoteDetailsError,
@@ -179,6 +230,9 @@ export const LifeIulQuoteProvider = ({ children }) => {
             setShowFilters,
             handleComparePlanSelect,
             selectedPlans,
+            handleIULQuoteApplyClick,
+            isLoadingApplyLifeIulQuote,
+            getApplyLifeIulQuoteError,
             fetchLifeIulQuoteDetails,
             isLoadingLifeIulQuoteDetails,
             getLifeIulQuoteDetailsError,

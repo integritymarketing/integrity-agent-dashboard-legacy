@@ -7,6 +7,8 @@ import styles from "./styles.module.scss";
 import WithLoader from "components/ui/WithLoader";
 import { useParams, useNavigate } from "react-router-dom";
 import _ from "lodash";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import { useLeadDetails } from "providers/ContactDetails";
 
 const IulAccumulationQuote = () => {
     const {
@@ -16,8 +18,13 @@ const IulAccumulationQuote = () => {
         showFilters,
         handleComparePlanSelect,
         selectedPlans,
+        handleIULQuoteApplyClick,
+        isLoadingApplyLifeIulQuote,
     } = useLifeIulQuote();
+
+    const { leadDetails } = useLeadDetails();
     const [isTobaccoUser, setIsTobaccoUser] = useState(false);
+    const { agentInformation } = useAgentInformationByID();
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -77,6 +84,11 @@ const IulAccumulationQuote = () => {
         window.open("/learning-center", "_blank");
     };
 
+    const handleApplyClick = async (plan) => {
+        const response = await handleIULQuoteApplyClick({ ...plan, ...agentInformation, ...leadDetails }, contactId);
+        console.log("response", response);
+    };
+
     return (
         <IulQuoteContainer title="IUL Accumulation" page="plans page" quoteType="accumulation">
             <Grid item md={3} xs={12}>
@@ -98,7 +110,7 @@ const IulAccumulationQuote = () => {
                             </Typography>
                         </Box>
                     )}
-                    <WithLoader isLoading={isLoadingLifeIulQuote}>
+                    <WithLoader isLoading={isLoadingLifeIulQuote || isLoadingApplyLifeIulQuote}>
                         <Grid container gap={3}>
                             {lifeIulQuoteResults?.length > 0 && !isLoadingLifeIulQuote ? (
                                 <>
@@ -135,6 +147,7 @@ const IulAccumulationQuote = () => {
                                                     targetPremium={targetPremium}
                                                     deathBenefit={deathBenefit}
                                                     distribution={distribution}
+                                                    handleApplyClick={() => handleApplyClick(plan)}
                                                     age={plan?.input?.actualAge}
                                                     healthClass={plan?.input?.healthClass}
                                                     handleComparePlanSelect={() => handleComparePlanSelect(plan)}

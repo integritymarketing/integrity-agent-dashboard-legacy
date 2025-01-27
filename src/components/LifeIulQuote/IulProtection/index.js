@@ -6,6 +6,8 @@ import { useLifeIulQuote } from "providers/Life";
 import WithLoader from "components/ui/WithLoader";
 import styles from "./styles.module.scss";
 import { useParams, useNavigate } from "react-router-dom";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import { useLeadDetails } from "providers/ContactDetails";
 
 const IulProtectionQuote = () => {
     const {
@@ -19,13 +21,17 @@ const IulProtectionQuote = () => {
         tempUserDetails,
         handleComparePlanSelect,
         selectedPlans,
+        handleIULQuoteApplyClick,
     } = useLifeIulQuote();
+
+    const { leadDetails } = useLeadDetails();
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { contactId } = useParams();
     const navigate = useNavigate();
     const [isTobaccoUser, setIsTobaccoUser] = useState(false);
+    const { agentInformation } = useAgentInformationByID();
 
     const getQuoteResults = useCallback(async () => {
         const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
@@ -71,6 +77,11 @@ const IulProtectionQuote = () => {
 
     const handleNavigateToLearningCenter = () => {
         window.open("/learning-center", "_blank");
+    };
+
+    const handleApplyClick = async (plan) => {
+        const response = await handleIULQuoteApplyClick({ ...plan, ...agentInformation, ...leadDetails }, contactId);
+        console.log("response", response);
     };
 
     const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
@@ -167,6 +178,7 @@ const IulProtectionQuote = () => {
                                                     distribution={distribution}
                                                     age={plan?.input?.actualAge}
                                                     healthClass={plan?.input?.healthClass}
+                                                    handleApplyClick={() => handleApplyClick(plan)}
                                                     premium={premium}
                                                     handleComparePlanSelect={() => {
                                                         handleComparePlanSelect(plan);
