@@ -87,8 +87,10 @@ const IulProtectionComparePlans = () => {
         });
     }, [comparePlans]);
 
-    const handleComparePlanSelect = (plan) => {
-        console.log("IulProtectionComparePlans -> plan", plan);
+    const handleComparePlanRemove = (id) => {
+        const updatedPlans = comparePlans.filter((plan) => plan.policyDetailId !== id);
+        sessionStorage.setItem("iul-compare-plans", JSON.stringify(updatedPlans));
+        window.location.reload();
     };
 
     const handleShareModal = (val) => {
@@ -102,7 +104,7 @@ const IulProtectionComparePlans = () => {
                     <CompareHeader
                         headerCategory="IUL_PROTECTION"
                         IULProtectionPlans={plansData}
-                        onClose={handleComparePlanSelect}
+                        onClose={handleComparePlanRemove}
                         shareComparePlanModal={handleShareModal}
                     />
                 </Grid>

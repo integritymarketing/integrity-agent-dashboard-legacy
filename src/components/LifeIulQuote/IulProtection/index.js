@@ -70,10 +70,19 @@ const IulProtectionQuote = () => {
         getQuoteResults();
     }, [getQuoteResults]);
 
-    const handlePlanDetailsClick = () => {
-        const tempId = "IUL-United of Omaha-Life Protection Advantage IUL";
-        navigate(`/life/iul-protection/${contactId}/${tempId}/quote-details`);
-    };
+     const handlePlanDetailsClick = () => {
+            const id = lifeIulQuoteResults[0]?.policyDetailId;
+    
+            const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
+    
+            const filteredPlan = uniquePoliciesArray.filter((item) => id === item.policyDetailId);
+    
+            if (filteredPlan.length > 0) {
+                sessionStorage.setItem("iul-plan-details", JSON.stringify({ ...filteredPlan[0], isTobaccoUser }));
+                const tempId = "IUL-United of Omaha-Life Protection Advantage IUL";
+                navigate(`/life/iul-protection/${contactId}/${tempId}/quote-details`);
+            }
+        };
 
     const handleNavigateToLearningCenter = () => {
         window.open("/learning-center", "_blank");

@@ -74,7 +74,7 @@ const IulAccumulationQuote = () => {
         const filteredPlan = uniquePoliciesArray.filter((item) => id === item.policyDetailId);
 
         if (filteredPlan.length > 0) {
-            sessionStorage.setItem("iul-plan-details", JSON.stringify({ ...plans[0], isTobaccoUser }));
+            sessionStorage.setItem("iul-plan-details", JSON.stringify({ ...filteredPlan[0], isTobaccoUser }));
             const tempId = "IUL-United of Omaha-Income Advantage IUL";
             navigate(`/life/iul-accumulation/${contactId}/${tempId}/quote-details`);
         }
