@@ -9,7 +9,7 @@ export const LifeIulQuoteContext = createContext();
 
 export const LifeIulQuoteProvider = ({ children }) => {
     const getLifeIulQuoteUrl = `${process.env.REACT_APP_QUOTE_URL}/api/v1/IUL/quotes`;
-    const applyLifeIulQuoteUrl = `${process.env.REACT_APP_ENROLLMENT_LEAD_API}/api/v1.0/IUL/lead`;
+    const applyLifeIulQuoteUrl = `${process.env.REACT_APP_ENROLLMENT_API}/api/v1.0/IUL/lead`;
     const getLifeIulQuoteDetailsUrl = `${process.env.REACT_APP_QUOTE_URL}/api/v1.0/IUL/policydetails`;
     const showToast = useToast();
 
@@ -31,10 +31,13 @@ export const LifeIulQuoteProvider = ({ children }) => {
         Post: applyLifeIulQuoteDetails,
         loading: isLoadingApplyLifeIulQuote,
         error: getApplyLifeIulQuoteError,
+    } = useFetch(applyLifeIulQuoteUrl);
+
+    const {
         Get: getLifeIulQuoteDetails,
         loading: isLoadingLifeIulQuoteDetails,
         error: getLifeIulQuoteDetailsError,
-    } = useFetch(applyLifeIulQuoteUrl, getLifeIulQuoteDetailsUrl);
+    } = useFetch(getLifeIulQuoteDetailsUrl);
 
     const reset = () => {
         setLifeIulQuoteResults(null);
@@ -177,10 +180,16 @@ export const LifeIulQuoteProvider = ({ children }) => {
 
             const response = await applyLifeIulQuoteDetails(obj, false, leadId);
             console.log("response", response);
+
+            if (response?.redirectUrl) {
+                window.open(response.redirectUrl, "_blank");
+            }
+
             return response;
         },
         [applyLifeIulQuoteDetails],
     );
+
 
     useEffect(() => {
         if (selectedCarriers.includes("All carriers")) {
