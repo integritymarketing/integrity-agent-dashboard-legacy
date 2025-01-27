@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .marketingBanner {
     border-radius: 8px;
@@ -16,7 +16,7 @@
     height: 140px;
     width: 160px;
 
-    @include small {
+    @include defines_global.small {
         height: 108px;
         width: 120px;
     }

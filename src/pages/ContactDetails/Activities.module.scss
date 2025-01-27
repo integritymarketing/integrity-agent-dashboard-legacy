@@ -1,25 +1,25 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .layout {
-  @include small {
+  @include defines_global.small {
     grid-template-areas:
       "activities             activities             activities             activities            "
       "footerBanners             footerBanners             footerBanners             footerBanners            ";
   }
 
-  @include medium {
+  @include defines_global.medium {
     grid-template-areas:
       "activities       activities       activities       activities       activities           activities             .                   .                   .                   .  . . "
       ".       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ";
   }
 
-  @include large {
+  @include defines_global.large {
     grid-template-areas:
       "activities       activities       activities       activities       activities             activities             .                   .                   .                   . "
       ".       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ";
   }
 
-  @include xLarge {
+  @include defines_global.xLarge {
     grid-template-areas:
       "activities       activities       activities       activities       activities            activities             .                   .                   .                   . . ."
       ".       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ";
@@ -104,7 +104,7 @@
 .activitiesContainer_content {
     border-radius: 8px;
   
-    @include small {
+    @include defines_global.small {
         background: none;
      }
   }

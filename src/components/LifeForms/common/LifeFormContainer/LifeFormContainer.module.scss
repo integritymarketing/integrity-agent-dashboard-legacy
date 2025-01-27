@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .productPreferenceContainer {
     display: flex;
@@ -11,7 +11,7 @@
     align-self: stretch;
     flex-wrap: wrap;
 
-    @include small {
+    @include defines_global.small {
         width: 100%;
     }
 
@@ -40,7 +40,7 @@
     align-self: stretch;
     background: #fff;
 
-    @include small {
+    @include defines_global.small {
         padding: 32px 16px;
     }
 }

@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 
 .name {
@@ -7,7 +7,7 @@
     width: 65%;
     word-wrap: break-word;
 
-    @include small {
+    @include defines_global.small {
         width: 100%;
     }
 }

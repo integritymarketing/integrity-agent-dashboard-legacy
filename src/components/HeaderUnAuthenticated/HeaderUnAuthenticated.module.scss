@@ -1,11 +1,11 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .headerContainer {
     height: 6rem;
     padding-left: 5rem;
     background: $blue-5;
 
-    @include small {
+    @include defines_global.small {
         padding-left: 0;
     }
 }
@@ -15,7 +15,7 @@
     height: 32px;
     margin-left: 40px;
 
-    @include small {
+    @include defines_global.small {
         margin-left: 0;
     }
 }
@@ -25,7 +25,7 @@
     height: 55px;
     margin-left: 40px;
 
-    @include small {
+    @include defines_global.small {
         margin-left: 0;
     }
 }
@@ -35,7 +35,7 @@
     height: 24px;
     margin-left: 40px;
 
-    @include small {
+    @include defines_global.small {
         margin-left: 0;
     }
 }

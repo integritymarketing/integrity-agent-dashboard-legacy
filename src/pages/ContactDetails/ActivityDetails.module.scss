@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .subSection {
     .topSection {
@@ -69,7 +69,7 @@
         background-color: #1357ff !important;
     }
 
-    @include small {
+    @include defines_global.small {
         width: 100%;
     }
 }

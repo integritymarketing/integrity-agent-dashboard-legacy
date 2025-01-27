@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .headerText{
      color: #052A63;
@@ -27,7 +27,7 @@
        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
    }
 
-   @include small {
+   @include defines_global.small {
        background-color: #FFF !important;
        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
    }
@@ -63,7 +63,7 @@
       background-color: #D9E4FF;
   }
 
-    @include small {
+    @include defines_global.small {
         padding: 4px;
         gap: 2px;
 

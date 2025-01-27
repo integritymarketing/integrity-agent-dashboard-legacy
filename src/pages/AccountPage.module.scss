@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .rtsTableContainer {
   margin-top: 90px;
@@ -10,14 +10,14 @@
   }
 
   .tableHeading {
-    color: $dark-blue;
+    color: defines_global.$dark-blue;
     font-size: 24px;
   }
 }
 
 .headerLayoutContainer {
-  background: $white;
-  box-shadow: inset 0 -1px 0 $gray-6;
+  background: defines_global.$white;
+  box-shadow: inset 0 -1px 0 defines_global.$gray-6;
 }
 
 .headerLayout {
@@ -53,7 +53,7 @@
 }
 
 .accontCard {
-  background: $white;
+  background: defines_global.$white;
   border-radius: 8px;
   padding: 1rem;
   max-width: 360px;
@@ -62,7 +62,7 @@
 .agentPhone {
   display: flex;
   justify-content: center;
-  color: $blue-5;
+  color: defines_global.$blue-5;
   font-weight: normal;
 }
 

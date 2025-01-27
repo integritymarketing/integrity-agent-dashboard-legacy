@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .amountStepperWrapper {
     font-size: 16px;
@@ -39,7 +39,7 @@
     }
 }
 
-@include small {
+@include defines_global.small {
     .amountStepperWrapper {
         width: 50%;
     }

@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .soaSignedContainer {
     background: #fff;
@@ -43,7 +43,7 @@
                     }
                 }
 
-                @include small {
+                @include defines_global.small {
                     justify-content: center;
                     align-self: center;
                 }

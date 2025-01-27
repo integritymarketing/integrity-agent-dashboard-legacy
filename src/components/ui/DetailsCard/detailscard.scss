@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .details-card {
     display: flex;

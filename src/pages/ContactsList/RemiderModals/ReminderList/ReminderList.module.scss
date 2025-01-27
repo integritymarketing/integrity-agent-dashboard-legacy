@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .reminderItem {
     display: flex;
@@ -6,7 +6,7 @@
     justify-content: space-between;
     align-items: center;
 
-    @include small {
+    @include defines_global.small {
         display: flex;
         flex-direction: row;
     }
@@ -40,7 +40,7 @@
     line-break: anywhere;
     color: #434a51;
 
-    @include small {
+    @include defines_global.small {
         width: 100%;
     }
 }
@@ -81,7 +81,7 @@
     margin-bottom: 3rem;
     border-radius: 8px;
 
-    @include small {
+    @include defines_global.small {
         margin-top: 3rem;
     }
 }
@@ -100,7 +100,7 @@
     border-radius: 8px;
     background-color: #fff;
 
-    @include small {
+    @include defines_global.small {
         padding: 0.5rem;
     }
 }
@@ -115,7 +115,7 @@
     justify-content: center;
     margin-right: 10px;
 
-    @include small {
+    @include defines_global.small {
         width: 10%;
     }
 }
@@ -130,7 +130,7 @@
 }
 
 .dueDateStyles {
-    @include small {
+    @include defines_global.small {
         width: 100%;
     }
 }
@@ -140,7 +140,7 @@
     font-size: 24px;
     width: 65%;
 
-    @include small {
+    @include defines_global.small {
         width: 80%;
     }
 }
@@ -184,7 +184,7 @@
 .reminderTitleIcon {
     margin-top: 10px;
 
-    @include small {
+    @include defines_global.small {
         margin-top: 8px;
         margin-right: 10px;
     }

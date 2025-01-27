@@ -1,11 +1,11 @@
-@import "../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 
 .miniContainer {
     display: flex;
     flex-direction: column;
 
-    @include small {
+    @include defines_global.small {
         flex-direction: row;
         gap: 24px;
     }
@@ -23,7 +23,7 @@
         right: 0;
     }
 
-    @include small {
+    @include defines_global.small {
         display: flex;
     }
 }
@@ -134,7 +134,7 @@
 .miniCard {
     width: 100%;
 
-    @include small {
+    @include defines_global.small {
         width: 50%;
     }
 

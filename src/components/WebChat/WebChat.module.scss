@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .container {
   .chatIconWrapper {
@@ -58,11 +58,11 @@
     z-index: 1299;
     flex-direction: column;
 
-    @include medium {
+    @include defines_global.medium {
       width: 24rem;
     }
 
-    @include small {
+    @include defines_global.small {
       width: 100vw;
     }
 
@@ -75,12 +75,12 @@
         right: 0;
         width: 28rem;
 
-        @include medium {
+        @include defines_global.medium {
           width: 24rem;
         }
       }
 
-      @include small {
+      @include defines_global.small {
         :global(.webchat__send-box) {
           position: fixed;
           bottom: 0;
@@ -127,7 +127,7 @@
         cursor: pointer;
       }
 
-      @include small {
+      @include defines_global.small {
         padding: 1rem;
         padding-top: 0;
       }
@@ -154,7 +154,7 @@
   background: #1D3E71B3 0% 0% no-repeat padding-box;
   animation: expandAnimation 0.3s ease;
 
-  @include small {
+  @include defines_global.small {
     width: 100vw;
   }
 

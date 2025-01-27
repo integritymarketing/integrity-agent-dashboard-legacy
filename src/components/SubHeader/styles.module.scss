@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .subHeader {
     display: flex;
@@ -18,7 +18,7 @@
     top: 10px;
     left: 30px;
 
-    @include small {
+    @include defines_global.small {
         top: 10px;
         left: 0;
     }
@@ -32,7 +32,7 @@
     span {
         margin-left: 5px;
 
-        @include small {
+        @include defines_global.small {
             display: none;
         }
     }
@@ -42,7 +42,7 @@
     position: absolute;
     right: 60px;
 
-    @include small {
+    @include defines_global.small {
         position: static;
         margin-top: 10px;
     }

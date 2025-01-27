@@ -1,4 +1,4 @@
-@import "../../../scss/mixins";
+@use "scss/globalDefines" as defines_global;
 
 .shareplan-modal {
   &.modal .modal__card.card {

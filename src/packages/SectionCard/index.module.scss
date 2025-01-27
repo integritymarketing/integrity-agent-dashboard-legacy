@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .cardHeader {
     justify-content: space-between;
@@ -8,7 +8,7 @@
     width: 100%;
     padding: 0 1.7rem 0 0.7rem;
 
-    @include small {
+    @include defines_global.small {
         background: none;
         box-shadow: none;
         padding: 1rem;
@@ -42,7 +42,7 @@
     letter-spacing: 0.24px;
     margin-top: 6px;
 
-    @include small {
+    @include defines_global.small {
         font-size: 20px;
         letter-spacing: 0.2px;
     }
@@ -52,7 +52,7 @@
     border-radius: 0 0 8px 8px;
     padding: 1.5rem;
 
-    @include small {
+    @include defines_global.small {
         background: none;
         padding: 0.5rem;
     }
@@ -70,7 +70,7 @@
     justify-content: flex-end;
     width: 225px;
 
-    @include small {
+    @include defines_global.small {
        width: unset;
 
        > div {

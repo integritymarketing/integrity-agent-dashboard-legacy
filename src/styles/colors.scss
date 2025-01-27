@@ -1,7 +1,7 @@
 // IMPORTANT REMINDER: Always keep this alphabetized!
+@use "scss/globalDefines" as defines_global;
 
 // Colors
-$black: #000;
 $blue: #0052cf;
 $darkBeige: #908f87;
 $grayishYellow: #eeede6;
@@ -15,7 +15,7 @@ $white: #fff;
 // Semantic Colors
 $backgroundColor: $white;
 $inverseTextColor: $white;
-$textColor: $black;
+$textColor: defines_global.$black;
 $uiHeaderWithLoginActionButtonBackgroundColor: var(--ui-header-with-login-action-button-background-color, #0052cf);
 $uiHeaderWithLoginBackgroundColor: var(--ui-header-with-login-background-color, #052a63);
 $uiHeaderWithLoginLinkTextColor: var(--ui-header-with-login-link-text-color, $white);

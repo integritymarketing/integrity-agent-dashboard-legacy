@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .rightSection {
     width: calc(100% - 296px);
@@ -499,7 +499,7 @@
     align-items: center;
     cursor: pointer;
 
-    @include small {
+    @include defines_global.small {
         margin-top: 25px;
     }
 }

@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .outerContainer {
   background-color: $alice-blue;
@@ -16,9 +16,9 @@
 }
 
 .redirectHeading {
-  color: $dark-blue;
+  color: defines_global.$dark-blue;
 }
 
 .redirectSubHeading {
-  color: $dark-blue;
+  color: defines_global.$dark-blue;
 }

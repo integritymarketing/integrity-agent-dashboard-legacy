@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .campaignInnerContainer {
     width: 85%;
@@ -10,7 +10,7 @@
     flex-direction: column;
     gap: 48px;
 
-    @include small {
+    @include defines_global.small {
         width: 100%;
         padding: 56px 16px;
     }

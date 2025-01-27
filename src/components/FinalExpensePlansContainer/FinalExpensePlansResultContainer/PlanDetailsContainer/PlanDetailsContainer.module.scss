@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .planContainer {
     display: flex;
@@ -8,7 +8,7 @@
     width: 65%;
     max-width: 768px;
 
-    @include small {
+    @include defines_global.small {
         width: 100%;
     }
 
@@ -91,7 +91,7 @@
         line-height: 32px;
 
         div {
-            @include small {
+            @include defines_global.small {
                 width: 60%;
                 word-break: break-word;
                 line-height: normal;
@@ -190,7 +190,7 @@
 }
 
 .modalTitle {
-    @include small {
+    @include defines_global.small {
         padding: 2rem !important;
     }
 }

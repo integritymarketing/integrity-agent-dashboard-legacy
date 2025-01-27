@@ -1,4 +1,4 @@
-@import "../../styles/global";
+@use "scss/globalDefines" as defines_global;;
 
 .image {
   position: absolute;

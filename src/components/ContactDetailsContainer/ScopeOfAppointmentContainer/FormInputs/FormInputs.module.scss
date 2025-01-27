@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .label {
     color: #052a63;
@@ -68,7 +68,7 @@
     width: 50%;
     margin-bottom: 10px;
 
-    @include small {
+    @include defines_global.small {
         width: 100%;
     }
 }

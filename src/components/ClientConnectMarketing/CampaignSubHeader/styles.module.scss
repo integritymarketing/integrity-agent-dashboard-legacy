@@ -1,11 +1,11 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .newCampaignButton {
     position: absolute;
     top: 25px;
     right: 60px;
 
-    @include small {
+    @include defines_global.small {
         position: static;
         margin-top: 10px;
     }
@@ -14,7 +14,7 @@
 .campaignHeader {
     text-align: center;
 
-    @include medium {
+    @include defines_global.medium {
         margin-right: 50px;
     }
 }
@@ -28,7 +28,7 @@
     background-color: #fff;
     position: relative;
 
-    @include small {
+    @include defines_global.small {
         flex-direction: column;
     }
 }

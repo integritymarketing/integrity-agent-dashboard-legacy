@@ -1,4 +1,4 @@
-@import "../scss/mixins";
+@use "scss/globalDefines" as defines_global;
 
 .compare-plans-content {
   padding-left: 2rem;

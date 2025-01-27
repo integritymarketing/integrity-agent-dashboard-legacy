@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .ContactDetailsContainer {
     display: flex;
@@ -7,7 +7,7 @@
     justify-content: center;
     padding: 60px 0;
 
-    @include small {
+    @include defines_global.small {
         padding: 1rem;
         overflow-x: hidden;
     }

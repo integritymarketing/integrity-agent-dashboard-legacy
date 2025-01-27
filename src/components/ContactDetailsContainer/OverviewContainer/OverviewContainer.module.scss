@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .outerContainer {
     @media (width >= 768px) {
@@ -41,7 +41,7 @@
     gap: 24px;
     margin-top: 24px;
 
-    @include small {
+    @include defines_global.small {
         margin-bottom: 16px;
     }
 }
@@ -53,7 +53,7 @@
 .membershipStyles_content {
     padding: unset;
 
-    @include small {
+    @include defines_global.small {
         padding: 0.5rem;
     }
 }

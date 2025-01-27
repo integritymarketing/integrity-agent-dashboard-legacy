@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .webchatCenterIconWrapper {
   box-sizing: border-box;
@@ -10,11 +10,11 @@
   display: flex;
   justify-content: center;
 
-  @include medium {
+  @include defines_global.medium {
     width: 24rem;
   }
 
-  @include small {
+  @include defines_global.small {
     width: 100%;
   }
 }
@@ -43,11 +43,11 @@
   width: 28rem;
   z-index: 2;
 
-  @include medium {
+  @include defines_global.medium {
     width: 24rem;
   }
 
-  @include small {
+  @include defines_global.small {
     width: 100%;
   }
 }
@@ -109,7 +109,7 @@
   max-width: 20vw;
   word-break: break-all;
 
-  @include small {
+  @include defines_global.small {
     max-width: 70vw;
   }
 }

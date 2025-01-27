@@ -1,2 +1,7 @@
-@use "defines/global" as defines_global;
-@use "rules/global" as rules_global;
+@use "styles/global.scss" as styles_global;
+@use "defines" as defines_global;
+@use "rules" as rules_global;
+
+@forward "styles/global.scss";
+@forward "defines";
+@forward "rules";

@@ -19,7 +19,7 @@
 }
 
 body {
-  background-color: $backgroundColor;
+  background-color: colors.$backgroundColor;
   display: flex;
   flex-direction: column;
   margin: 0;

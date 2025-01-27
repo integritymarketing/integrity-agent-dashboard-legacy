@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .shareplan-modal {
   &.modal .modal__card.card {
@@ -9,13 +9,13 @@
       right: auto;
     }
 
-    @include small {
+    @include defines_global.small {
         padding-top: 30px;
     }
   }
 
 
-  @include small {
+  @include defines_global.small {
       .container {
         width: 90%;
       }
@@ -31,7 +31,7 @@
     margin-bottom: 31px;
     margin-top: 39px;
 
-    @include small {
+    @include defines_global.small {
       margin: 0;
     }
   }
@@ -69,14 +69,14 @@
       margin-right: 16px;
     }
 
-    @include small {
+    @include defines_global.small {
       flex-direction: column;
     }
 
     .email-mobile-section {
       width: 40%;
 
-      @include small {
+      @include defines_global.small {
         margin-top: 10px;
         width: 100%;
       }
@@ -98,7 +98,7 @@
   .email-mobile-section {
     width: 40%;
 
-    @include small {
+    @include defines_global.small {
       margin-top: 10px;
       width: 100%;
     }
@@ -146,7 +146,7 @@
       margin-right: 16px;
     }
 
-     @include small {
+     @include defines_global.small {
       gap: 10px;
       margin-left: 0;
       margin-right: 0;

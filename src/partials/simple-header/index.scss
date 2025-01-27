@@ -1,5 +1,5 @@
 @import "../../scss/mixins";
-@import "../../styles/global";
+@use "scss/globalDefines" as defines_global;;
 
 .simple-header {
   display: flex;
@@ -10,7 +10,7 @@
   justify-content: center;
   background-color: #051d43;
 
-  @include tabletAndBelow {
+  @include defines_global.tabletAndBelow {
     min-height: 6rem;
   }
 

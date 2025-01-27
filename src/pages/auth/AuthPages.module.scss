@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .forgot {
   display: flex;
@@ -17,8 +17,8 @@
   margin-bottom: 1rem;
   letter-spacing: 0.32px;
 
-  @include small {
-    font-size: $font-size-32 !important;
+  @include defines_global.small {
+    font-size: defines_global.$font-size-32 !important;
   }
 }
 
@@ -27,20 +27,20 @@
   margin-bottom: 3rem;
   letter-spacing: 0.16px;
 
-  @include small {
-    font-size: $font-size-16 !important;
+  @include defines_global.small {
+    font-size: defines_global.$font-size-16 !important;
   }
 }
 
 .loginText {
-  @include small {
-    font-size: $font-size-32 !important;
+  @include defines_global.small {
+    font-size: defines_global.$font-size-32 !important;
   }
 }
 
 .versionText {
-  @include small {
-    font-size: $font-size-32 !important;
+  @include defines_global.small {
+    font-size: defines_global.$font-size-32 !important;
   }
 
   text-align: center;

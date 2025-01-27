@@ -44,7 +44,7 @@
     top: 90px;
     position: relative;
 
-    @include small {
+    @include defines_global.small {
         top: 0;
     }
 }

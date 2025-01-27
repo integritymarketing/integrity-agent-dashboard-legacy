@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .mapContainer {
     height: 100%;
@@ -9,7 +9,7 @@
         border-bottom-right-radius: 8px;
     }
 
-    @include small {
+    @include defines_global.small {
         >div>div {
             border-radius: 8px;
         }
@@ -23,7 +23,7 @@
 .photoColumn {
     display: flex;
 
-    @include small {
+    @include defines_global.small {
         margin-top: 10px;
     }
 }
@@ -41,7 +41,7 @@
     flex-direction: row;
     padding-right: 15px;
 
-    @include small {
+    @include defines_global.small {
         padding-right: 0;
         flex-direction: column-reverse;
     }
@@ -117,7 +117,7 @@
     margin-right: 15px;
     padding-right: 15px;
 
-    @include small {
+    @include defines_global.small {
         border-right: none;
         border-top: solid 1px #ccc;
         margin-top: 20px;

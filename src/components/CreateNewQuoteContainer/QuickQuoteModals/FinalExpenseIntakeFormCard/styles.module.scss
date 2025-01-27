@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .formContainer {
     display: flex;
@@ -64,7 +64,7 @@
     width: 100%;
     height: 56px;
 
-    @include small {
+    @include defines_global.small {
         height: 56px;
     }
 }
@@ -72,7 +72,7 @@
 .selectInputBox {
     height: 56px;
 
-    @include small {
+    @include defines_global.small {
         height: 56px;
     }
 }
@@ -80,7 +80,7 @@
 .inputBoxClassName {
     height: 56px !important;
 
-    @include small {
+    @include defines_global.small {
         height: 56px !important;
     }
 }

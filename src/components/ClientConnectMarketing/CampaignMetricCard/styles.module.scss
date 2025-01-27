@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 @import "scss/components/icons";
 
 .statusInfo {
@@ -8,7 +8,7 @@
     display: flex;
     cursor: pointer;
 
-    @include small {
+    @include defines_global.small {
         align-items: center;
         justify-content: center;
     }
@@ -46,7 +46,7 @@
 .icons {
     margin: auto 0;
 
-    @include small {
+    @include defines_global.small {
         display: none;
     }
 }
@@ -54,7 +54,7 @@
 .metricData {
     margin-left: 8px;
 
-    @include small {
+    @include defines_global.small {
         display: flex;
         align-items: center;
         justify-content: center;

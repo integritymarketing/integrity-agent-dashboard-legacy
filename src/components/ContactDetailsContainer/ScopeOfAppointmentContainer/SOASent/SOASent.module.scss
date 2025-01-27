@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .soaSignedContainer {
     background: #fff;
@@ -41,7 +41,7 @@
                     word-break: break-all;
                 }
 
-                @include small {
+                @include defines_global.small {
                     padding: 16px;
                     background: #f1f1f1;
 

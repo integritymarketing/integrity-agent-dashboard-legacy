@@ -1,4 +1,4 @@
-@import "../../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .reminderInfoContainer {
     padding: 16px 24px;
@@ -15,7 +15,7 @@
     flex-direction: column;
     align-items: flex-start;
 
-    @include small {
+    @include defines_global.small {
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
@@ -28,7 +28,7 @@
     align-items: flex-start;
     justify-content: center;
 
-    @include small {
+    @include defines_global.small {
         margin-top: 16px;
     }
 }
@@ -70,7 +70,7 @@
     flex-direction: column;
     align-items: flex-end;
 
-    @include small {
+    @include defines_global.small {
         flex-direction: row-reverse;
         align-items: center;
         margin-top: 16px;
@@ -108,7 +108,7 @@
     margin-bottom: 3rem;
     border-radius: 8px;
 
-    @include small {
+    @include defines_global.small {
         margin-top: 3rem;
     }
 }
@@ -127,7 +127,7 @@
     border-radius: 8px;
     background-color: #fff;
 
-    @include small {
+    @include defines_global.small {
         padding: 0.5rem;
     }
 }
@@ -140,7 +140,7 @@
 .reminderDates {
     margin-top: 8px;
 
-    @include small {
+    @include defines_global.small {
         margin-left: 1rem;
         margin-top: 0;
     }

@@ -1,12 +1,12 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .heading2 {
-  color: $dark-blue;
+  color: defines_global.$dark-blue;
   font-size: $font-size-32;
   font-weight: bold;
   line-height: $line-height-38;
 
-  @include small {
+  @include defines_global.small {
     font-size: $font-size-24;
   }
 }

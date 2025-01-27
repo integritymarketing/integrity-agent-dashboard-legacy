@@ -1,5 +1,5 @@
-@import "../../styles/global";
-@import "../../styles/global";
+@use "scss/globalDefines" as defines_global;;
+@use "scss/globalDefines" as defines_global;;
 
 .centeredContainer {
   grid-column: 1/4;

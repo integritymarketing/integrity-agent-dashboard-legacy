@@ -1,4 +1,4 @@
-@import "../../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 
 .container {
@@ -36,7 +36,7 @@
   margin-top: 10px;
   border-radius: 4px;
 
-  @include small {
+  @include defines_global.small {
     padding: 4px;
     gap: 2px;
 
@@ -61,7 +61,7 @@
     background-color: #D9E4FF;
   }
 
-  @include small {
+  @include defines_global.small {
     padding: 4px;
     gap: 2px;
 

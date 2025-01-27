@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .contentWrapper {
     display: flex;
@@ -74,7 +74,7 @@
     }
 }
 
-@include small {
+@include defines_global.small {
     .contentWrapper {
         display: flex;
         padding: var(--padding-gap-xx-big-56, 24px) var(--gap-lg-24, 24px);
@@ -101,7 +101,7 @@
     padding-top: 24px;
     background-color: #f1f1f1;
    
-    @include small {
+    @include defines_global.small {
         font-size: 32px;
     }
 }

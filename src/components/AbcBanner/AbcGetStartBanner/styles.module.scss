@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .bannerContainer {
     height: 112px;
@@ -10,7 +10,7 @@
     border: 6px solid #fff;
     position: relative;
 
-    @include small {
+    @include defines_global.small {
         height: 220px;
         text-align: center;
     }
@@ -20,7 +20,7 @@
     display: flex;
     align-items: center;
 
-    @include small {
+    @include defines_global.small {
         flex-direction: column-reverse;
     }
 }
@@ -42,7 +42,7 @@
 }
 
 .description {
-    @include medium {
+    @include defines_global.medium {
         max-width: 500px;
     }
 }
@@ -64,7 +64,7 @@
     align-items: center;
     justify-content: center;
 
-    @include small {
+    @include defines_global.small {
         margin-bottom: 16px;
     }
 }

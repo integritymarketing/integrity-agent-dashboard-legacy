@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .viewAvailablePlans {
   width: 24rem;
@@ -14,7 +14,7 @@
   border-top-right-radius: 0.5rem;
   max-height: 75vh;
 
-  @include small {
+  @include defines_global.small {
     width: 100vw;
     height: 75vh;
     right: 0;

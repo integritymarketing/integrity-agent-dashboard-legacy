@@ -1,11 +1,11 @@
-@import "../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .showMoreRow {
   background-color: #fff;
   padding: 15px;
   min-width: 768px;
 
-  @include small {
+  @include defines_global.small {
     min-width: 0;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;

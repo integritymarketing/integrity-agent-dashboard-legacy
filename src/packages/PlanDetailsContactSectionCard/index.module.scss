@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .cardHeader2 {
   justify-content: space-between;
@@ -9,7 +9,7 @@
   background-color: #052a63;
   color: white;
 
-  @include small {
+  @include defines_global.small {
     background: none;
     box-shadow: none;
     padding: 0.5rem;
@@ -46,7 +46,7 @@
   letter-spacing: 0.32px;
   margin-top: 6px;
 
-  @include small {
+  @include defines_global.small {
     font-size: 20px;
     letter-spacing: 0.2px;
   }
@@ -55,7 +55,7 @@
 .content {
   border-radius: 0 0 8px 8px;
 
-  @include small {
+  @include defines_global.small {
     background: none;
     overflow-x: scroll;
   }

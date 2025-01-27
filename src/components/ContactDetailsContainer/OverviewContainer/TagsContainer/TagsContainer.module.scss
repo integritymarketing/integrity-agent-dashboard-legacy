@@ -1,4 +1,4 @@
-@import "scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .title {
     padding-bottom: 0;
@@ -12,7 +12,7 @@
     border-radius: 8px;
     margin-top: 0.5rem;
 
-    @include small {
+    @include defines_global.small {
         padding: 24px;
     }
 }

@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .bannerSection {
   display: flex;
@@ -10,7 +10,7 @@
   box-shadow: inset 0 -1px 0 #c7ccd1;
   align-items: center;
 
-  @include small {
+  @include defines_global.small {
     height: 100px;
     flex-wrap: wrap;
   }

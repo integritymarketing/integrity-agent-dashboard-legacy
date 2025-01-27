@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .activitiesContainer {
     border-radius: 8px;
@@ -9,7 +9,7 @@
         box-shadow: none !important;
     }
 
-    @include small {
+    @include defines_global.small {
         padding: 0.5rem;
     }
 }
@@ -25,7 +25,7 @@
         display: none;
     }
 
-    @include small {
+    @include defines_global.small {
         background: none;
         padding: 0.5rem;
     }
@@ -45,7 +45,7 @@
     font-weight: 400;
     line-height: 20px;
 
-    @include small {
+    @include defines_global.small {
         color: #434a51;
         font-size: 12px;
     }
@@ -138,7 +138,7 @@
     max-width: 90%;
     width: 900px;
 
-    @include small {
+    @include defines_global.small {
         padding: 16px;
     }
 
@@ -153,7 +153,7 @@
     font-family: Lato, sans-serif;
     font-weight: 400;
 
-    @include small {
+    @include defines_global.small {
         font-size: 18px;
     }
 }

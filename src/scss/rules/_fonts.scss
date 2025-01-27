@@ -1,204 +1,204 @@
-@import "../defines/fontSizes";
-@import "../defines/mediaQueries";
+@use "../defines/fontSizes";
+@use "../defines/mediaQueries";
 
 .labelLarge {
-  font-size: $font-size-16;
+  font-size: fontSizes.$font-size-16;
   font-weight: bold;
-  line-height: $line-height-24;
+  line-height: fontSizes.$line-height-24;
 }
 
 .labelSmall {
-  font-size: $font-size-12;
+  font-size: fontSizes.$font-size-12;
   font-weight: bold;
-  line-height: $line-height-16;
+  line-height: fontSizes.$line-height-16;
 }
 
 .body {
-  font-size: $font-size-16;
-  line-height: $line-height-24;
+  font-size: fontSizes.$font-size-16;
+  line-height: fontSizes.$line-height-24;
 }
 
 .legal {
-  font-size: $font-size-12;
-  line-height: $line-height-16;
+  font-size: fontSizes.$font-size-12;
+  line-height: fontSizes.$line-height-16;
 }
 
 .xLarge {
-  font-size: $font-size-32;
+  font-size: fontSizes.$font-size-32;
   font-weight: bold;
-  line-height: $line-height-40;
+  line-height: fontSizes.$line-height-40;
 }
 
 .large {
-  font-size: $font-size-24;
+  font-size: fontSizes.$font-size-24;
   font-weight: bold;
-  line-height: $line-height-32;
+  line-height: fontSizes.$line-height-32;
 }
 
 .medium {
-  font-size: $font-size-20;
+  font-size: fontSizes.$font-size-20;
   font-weight: bold;
-  line-height: $line-height-28;
+  line-height: fontSizes.$line-height-28;
 }
 
 .small {
-  font-size: $font-size-16;
+  font-size: fontSizes.$font-size-16;
   font-weight: bold;
-  line-height: $line-height-24;
+  line-height: fontSizes.$line-height-24;
 }
 
-@include xLarge {
+@include mediaQueries.xLarge {
   .xLarge {
-    font-size: $font-size-52;
-    line-height: $line-height-64;
+    font-size: fontSizes.$font-size-52;
+    line-height: fontSizes.$line-height-64;
   }
 
   .large {
-    font-size: $font-size-36;
-    line-height: $line-height-48;
+    font-size: fontSizes.$font-size-36;
+    line-height: fontSizes.$line-height-48;
   }
 
   .medium {
-    font-size: $font-size-28;
-    line-height: $line-height-36;
+    font-size: fontSizes.$font-size-28;
+    line-height: fontSizes.$line-height-36;
   }
 
   .small {
-    font-size: $font-size-24;
-    line-height: $line-height-32;
+    font-size: fontSizes.$font-size-24;
+    line-height: fontSizes.$line-height-32;
   }
 }
 
-@include large {
+@include mediaQueries.large {
   .xLarge {
-    font-size: $font-size-48;
-    line-height: $line-height-60;
+    font-size: fontSizes.$font-size-48;
+    line-height: fontSizes.$line-height-60;
   }
 
   .large {
-    font-size: $font-size-32;
-    line-height: $line-height-40;
+    font-size: fontSizes.$font-size-32;
+    line-height: fontSizes.$line-height-40;
   }
 
   .medium {
-    font-size: $font-size-28;
-    line-height: $line-height-36;
+    font-size: fontSizes.$font-size-28;
+    line-height: fontSizes.$line-height-36;
   }
 
   .small {
-    font-size: $font-size-20;
-    line-height: $line-height-28;
+    font-size: fontSizes.$font-size-20;
+    line-height: fontSizes.$line-height-28;
   }
 }
 
-@include medium {
+@include mediaQueries.medium {
   .xLarge {
-    font-size: $font-size-40;
-    line-height: $line-height-48;
+    font-size: fontSizes.$font-size-40;
+    line-height: fontSizes.$line-height-48;
   }
 
   .large {
-    font-size: $font-size-32;
-    line-height: $line-height-40;
+    font-size: fontSizes.$font-size-32;
+    line-height: fontSizes.$line-height-40;
   }
 
   .medium {
-    font-size: $font-size-24;
-    line-height: $line-height-32;
+    font-size: fontSizes.$font-size-24;
+    line-height: fontSizes.$line-height-32;
   }
 
   .small {
-    font-size: $font-size-20;
-    line-height: $line-height-28;
+    font-size: fontSizes.$font-size-20;
+    line-height: fontSizes.$line-height-28;
   }
 }
 
 .fontSize11 {
-  font-size: $font-size-11;
-  line-height: $line-height-14;
+  font-size: fontSizes.$font-size-11;
+  line-height: fontSizes.$line-height-14;
 }
 
 .fontSize12 {
-  font-size: $font-size-12;
-  line-height: $line-height-16;
+  font-size: fontSizes.$font-size-12;
+  line-height: fontSizes.$line-height-16;
 }
 
 .fontSize13 {
-  font-size: $font-size-13;
-  line-height: $line-height-18;
+  font-size: fontSizes.$font-size-13;
+  line-height: fontSizes.$line-height-18;
 }
 
 .fontSize14 {
-  font-size: $font-size-14;
-  line-height: $line-height-20;
+  font-size: fontSizes.$font-size-14;
+  line-height: fontSizes.$line-height-20;
 }
 
 .fontSize16 {
-  font-size: $font-size-16;
-  line-height: $line-height-24;
+  font-size: fontSizes.$font-size-16;
+  line-height: fontSizes.$line-height-24;
 }
 
 .fontSize18 {
-  font-size: $font-size-18;
-  line-height: $line-height-26;
+  font-size: fontSizes.$font-size-18;
+  line-height: fontSizes.$line-height-26;
 }
 
 .fontSize20 {
-  font-size: $font-size-20;
-  line-height: $line-height-30;
+  font-size: fontSizes.$font-size-20;
+  line-height: fontSizes.$line-height-30;
 }
 
 .fontSize22 {
-  font-size: $font-size-22;
-  line-height: $line-height-32;
+  font-size: fontSizes.$font-size-22;
+  line-height: fontSizes.$line-height-32;
 }
 
 .fontSize24 {
-  font-size: $font-size-24;
-  line-height: $line-height-36;
+  font-size: fontSizes.$font-size-24;
+  line-height: fontSizes.$line-height-36;
 }
 
 .fontSize26 {
-  font-size: $font-size-26;
-  line-height: $line-height-38;
+  font-size: fontSizes.$font-size-26;
+  line-height: fontSizes.$line-height-38;
 }
 
 .fontSize28 {
-  font-size: $font-size-28;
-  line-height: $line-height-42;
+  font-size: fontSizes.$font-size-28;
+  line-height: fontSizes.$line-height-42;
 }
 
 .fontSize30 {
-  font-size: $font-size-30;
-  line-height: $line-height-42;
+  font-size: fontSizes.$font-size-30;
+  line-height: fontSizes.$line-height-42;
 }
 
 .fontSize32 {
-  font-size: $font-size-32;
-  line-height: $line-height-46;
+  font-size: fontSizes.$font-size-32;
+  line-height: fontSizes.$line-height-46;
 }
 
 .fontSize36 {
-  font-size: $font-size-36;
-  line-height: $line-height-48;
+  font-size: fontSizes.$font-size-36;
+  line-height: fontSizes.$line-height-48;
 }
 
 .fontSize40 {
-  font-size: $font-size-40;
-  line-height: $line-height-52;
+  font-size: fontSizes.$font-size-40;
+  line-height: fontSizes.$line-height-52;
 }
 
 .fontSize42 {
-  font-size: $font-size-42;
-  line-height: $line-height-60;
+  font-size: fontSizes.$font-size-42;
+  line-height: fontSizes.$line-height-60;
 }
 
 .fontSize48 {
-  font-size: $font-size-48;
-  line-height: $line-height-64;
+  font-size: fontSizes.$font-size-48;
+  line-height: fontSizes.$line-height-64;
 }
 
 .fontSize52 {
-  font-size: $font-size-52;
-  line-height: $line-height-64;
+  font-size: fontSizes.$font-size-52;
+  line-height: fontSizes.$line-height-64;
 }

@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 #webchat {
     div {
@@ -25,7 +25,7 @@
         max-height: calc(100vh - 250px);
         background-color: #1d3e71;
 
-        @include small {
+        @include defines_global.small {
             max-height: calc(100vh - 230px);
         }
     }
@@ -35,7 +35,7 @@
             max-height: calc(100vh - 170px);
             background-color: #1d3e71;
 
-            @include small {
+            @include defines_global.small {
                 max-height: calc(100vh - 110px);
             }
         }
@@ -83,7 +83,7 @@
         padding: 0 3rem;
         padding-right: 3.5rem;
 
-        @include small {
+        @include defines_global.small {
             height: 2.75rem;
             padding: 0 3.25rem;
             padding-right: 56px;
@@ -96,7 +96,7 @@
         right: 1rem;
         bottom: 1.65rem;
 
-        @include small {
+        @include defines_global.small {
             bottom: 1.65rem;
         }
     }
@@ -112,7 +112,7 @@
     .webchat__send-box__main {
         border: 0;
 
-        @include small {
+        @include defines_global.small {
             min-height: 80px;
         }
     }
@@ -422,7 +422,7 @@
         z-index: 1;
         margin-left: 40px;
 
-        @include small {
+        @include defines_global.small {
             margin-left: 45px;
         }
     }

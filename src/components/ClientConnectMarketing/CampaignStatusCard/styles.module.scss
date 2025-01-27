@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 @import "scss/components/icons";
 
 .campaignCard {
@@ -63,13 +63,13 @@
     word-wrap: break-word;
     margin-bottom: 12px;
 
-    @include small {
+    @include defines_global.small {
         .campaignCardContainer {
             width: 82%;
         }
     }
 
-    @include medium {
+    @include defines_global.medium {
         .campaignCardContainer {
             width: 54%;
         }

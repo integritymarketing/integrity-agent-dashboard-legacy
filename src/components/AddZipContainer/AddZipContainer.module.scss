@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .addZipContainer {
     padding: 56px 24px;
@@ -14,7 +14,7 @@
     padding: 20px 18px;
     border-radius: 8px;
 
-    @include small {
+    @include defines_global.small {
         padding: 24px;
         margin: 0;
         width: 100%;
@@ -35,7 +35,7 @@
     line-height: 32px;
     padding-bottom: 8px;
 
-    @include small {
+    @include defines_global.small {
         font-size: 24px;
         padding: 0;
         margin-bottom: 24px;

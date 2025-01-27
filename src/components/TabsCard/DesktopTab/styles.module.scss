@@ -1,5 +1,4 @@
-@use "scss/globalDefines.scss" as gd;
-@use "styles/global.scss" as global;
+@use "scss/globalDefines" as defines_global;
 
 .tab {
     display: flex;
@@ -7,7 +6,7 @@
     justify-content: flex-end;
 
     .tabHeading {
-        color: $dark-blue;
+        color: defines_global.$dark-blue;
         padding-bottom: 8px;
         font: normal normal normal 20px/24px Lato;
         letter-spacing: 0.2px;
@@ -29,8 +28,8 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            color: $dark-blue;
-            font-size: $size-48;
+            color: defines_global.$dark-blue;
+            font-size: defines_global.$size-48;
         }
 
         .color {

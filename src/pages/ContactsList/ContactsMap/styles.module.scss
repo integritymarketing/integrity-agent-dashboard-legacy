@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .container {
     margin-bottom: 40px;
@@ -7,7 +7,7 @@
     border-radius: 8px;
     max-height: 100%;
 
-    @include small {
+    @include defines_global.small {
         background: transparent;
         border-radius: 0;
     }
@@ -16,7 +16,7 @@
 .clientsColumn {
     padding-right: 30px;
 
-    @include small {
+    @include defines_global.small {
         display: none;
     }
 }

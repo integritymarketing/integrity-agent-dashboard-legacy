@@ -1,4 +1,4 @@
-@import "../../../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .addNewButton{
   padding: 8px 14px !important;
@@ -15,7 +15,7 @@
      box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
  }
 
- @include small {
+ @include defines_global.small {
      background-color: #FFF !important;
      box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
  }

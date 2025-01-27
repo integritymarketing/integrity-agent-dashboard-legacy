@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
  
 
@@ -13,7 +13,7 @@
   height: 32px;
   margin-left: 40px;
 
-  @include small {
+  @include defines_global.small {
       margin-left: 0;
   }
 }

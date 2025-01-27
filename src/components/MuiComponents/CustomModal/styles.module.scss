@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .dialogTitle {
     display: flex;
@@ -23,7 +23,7 @@
     font-size: 16px;
     background-color: var(--Integrity-Theme-Integrity-gray-light-1);
 
-    @include small {
+    @include defines_global.small {
         padding: 24px 16px;
     }
 }

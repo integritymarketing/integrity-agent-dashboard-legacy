@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .finalExpenseContactDetailsForm {
     width: 900px;
@@ -13,7 +13,7 @@
     padding: 56px;
     box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
 
-    @include small {
+    @include defines_global.small {
         padding: 16px;
     }
 }
@@ -21,7 +21,7 @@
 .contactForm {
     margin-top: 15px;
 
-    @include small {
+    @include defines_global.small {
         display: none;
     }
 }
@@ -29,7 +29,7 @@
 .contactFormMobile {
     display: none;
 
-    @include small {
+    @include defines_global.small {
         display: block;
     }
 }
@@ -41,7 +41,7 @@
     font-family: Lato, sans-serif;
     font-weight: 400;
 
-    @include small {
+    @include defines_global.small {
         font-size: 20px;
     }
 }
@@ -51,14 +51,14 @@
     margin-top: 12px;
     margin-bottom: 15px;
 
-    @include small {
+    @include defines_global.small {
         font-size: 16px;
         margin-top: 6px;
     }
 }
 
 .contactCardHeading {
-    @include small {
+    @include defines_global.small {
         margin-bottom: 8px;
     }
 }
@@ -66,7 +66,7 @@
 .contactFooter {
     margin-top: 40px;
 
-    @include small {
+    @include defines_global.small {
         display: none;
     }
 }
@@ -100,7 +100,7 @@
     gap: 30px;
     margin-bottom: 20px;
 
-    @include small {
+    @include defines_global.small {
         flex-direction: column;
         margin-bottom: 15px;
     }
@@ -108,7 +108,7 @@
     .contactFormCol {
         width: 50%;
 
-        @include small {
+        @include defines_global.small {
             width: 100%;
             padding-right: 0;
         }
@@ -142,7 +142,7 @@
 }
 
 .modalTitle {
-    @include small {
+    @include defines_global.small {
         padding: 3rem !important;
     }
 }
@@ -226,7 +226,7 @@
             }
         }
 
-        @include small {
+        @include defines_global.small {
             flex-direction: column;
             gap: 16px;
         }

@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .footerContainer {
   min-height: 8rem;
@@ -6,7 +6,7 @@
   background: $white;
   border-top: 1px solid var(--border-light);
 
-  @include small {
+  @include defines_global.small {
     height: 9rem;
   }
 }

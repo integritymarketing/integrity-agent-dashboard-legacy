@@ -1,4 +1,4 @@
-@import "../../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .messageBox {
     display: flex;
@@ -10,7 +10,7 @@
     gap: 10px;
     margin-left: 50px;
 
-    @include small {
+    @include defines_global.small {
         margin-left: auto;
     }
 }
@@ -76,7 +76,7 @@
         box-shadow: none;
         padding-right: 18px;
 
-        @include small {
+        @include defines_global.small {
             margin-top: 0;
         }
     }

@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .subHeading {
     padding-top: 10px;
@@ -21,7 +21,7 @@
     width: 65%;
     word-wrap: break-word;
 
-    @include small {
+    @include defines_global.small {
         width: 100%;
     }
 }
@@ -61,7 +61,7 @@
     margin-right: 10px;
     margin-top: 5px;
 
-    @include small {
+    @include defines_global.small {
         margin-top: 25px;
     }
 }

@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .supportLinksContainer {
     display: flex;
@@ -18,7 +18,7 @@
     flex-direction: row;
     align-items: center;
 
-    @include small {
+    @include defines_global.small {
         margin-left: 1.5rem;
         margin-right: 1.5rem;
         flex-direction: column;
