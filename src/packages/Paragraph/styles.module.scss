@@ -1,7 +1,7 @@
 @use "scss/globalDefines" as defines_global;
 
 .paragraph {
-  color: $cyan-blue;
+  color: defines_global.$cyan-blue;
   font-size: $font-size-16;
   line-height: $line-height-20;
 

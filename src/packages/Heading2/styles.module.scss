@@ -2,11 +2,11 @@
 
 .heading2 {
   color: defines_global.$dark-blue;
-  font-size: $font-size-32;
+  font-size: defines_global.$font-size-32;
   font-weight: bold;
-  line-height: $line-height-38;
+  line-height: defines_global.$line-height-38;
 
   @include defines_global.small {
-    font-size: $font-size-24;
+    font-size: defines_global.$font-size-24;
   }
 }

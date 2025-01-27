@@ -29,7 +29,7 @@
         gap: 5px;
 
         &.pending {
-            background-color: $white-1;
+            background-color: defines_global.$white-1;
         }
 
         &.submitted {
@@ -89,7 +89,7 @@
         }
 
         &.previousYear {
-            background-color: $white;
+            background-color: defines_global.$white;
         }
 
         border-radius: 8px;
@@ -135,7 +135,7 @@
                 }
 
                 span {
-                    color: $cyan-blue;
+                    color: defines_global.$cyan-blue;
                 }
             }
 
@@ -156,7 +156,7 @@
                 color: defines_global.$dark-blue;
  
                 span {
-                    color: $cyan-blue;
+                    color: defines_global.$cyan-blue;
                 }
             }
 

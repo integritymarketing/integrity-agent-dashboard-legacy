@@ -2,7 +2,7 @@
 
 .heading4 {
   color: defines_global.$dark-blue;
-  font-size: $font-size-18;
+  font-size: defines_global.$font-size-18;
   font-weight: bold;
 
   @include defines_global.small {

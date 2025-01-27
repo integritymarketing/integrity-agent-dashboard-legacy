@@ -18,7 +18,7 @@
             display: flex;
             align-items: center;
 
-            @include global.small {
+            @include defines_global.small {
                 margin-bottom: 24px;
             }
         }
