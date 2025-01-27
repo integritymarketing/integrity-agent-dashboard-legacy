@@ -14,7 +14,7 @@ import _ from "lodash";
 export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
     const { contactId } = useParams();
     const navigate = useNavigate();
-    const { isLoadingLifeIulQuoteDetails } = useLeadDetails();
+    const {  isLoadingLifeIulQuoteDetails } = useLeadDetails();
     const { showFilters, setShowFilters, selectedPlans, handleComparePlanSelect, lifeIulQuoteResults } =
         useLifeIulQuote();
 

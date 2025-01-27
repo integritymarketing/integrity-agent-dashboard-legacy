@@ -10,7 +10,6 @@ import { LifeIulQuoteProvider } from "providers/Life";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
 const AccountPage = lazy(() => import("pages/Account/AccountPage"));
-const AddNewContactPage = lazy(() => import("pages/contacts/AddNewContactPage"));
 const AddContactPage = lazy(() => import("pages/contacts/AddContactPage"));
 const AuthSigninCallback = lazy(() => import("components/functional/auth-signin-callback"));
 const AuthSigninRedirectPage = lazy(() => import("pages/auth/SigninRedirectPage"));
@@ -75,6 +74,7 @@ const IulProtectionQuotePage = lazy(() => import("pages/IulProtectionQuotePage")
 const IulProtectionComparePlansPage = lazy(() => import("pages/IulProtectionComparePlansPage"));
 const IulAccumulationQuoteDetailsPage = lazy(() => import("pages/IulAccumulationQuoteDetailsPage"));
 const IulProtectionQuoteDetailsPage = lazy(() => import("pages/IulProtectionQuoteDetailsPage"));
+const IulAccumulationComparePlansPage = lazy(() => import("pages/IulAccumulationComparePlansPage"));
 
 const appRoutes = [
     {
@@ -499,6 +499,18 @@ const appProtectedRoutes = [
                         <IulProtectionQuoteDetailsPage />
                     </LifeIulQuoteProvider>
                     <WebChatComponent />
+                </ContactDetailsProvider>
+            </StrictMode>
+        ),
+    },
+    {
+        path: "/life/iul-accumulation/:contactId/:planIds/compare-plans",
+        component: (
+            <StrictMode>
+                <ContactDetailsProvider>
+                    <LifeIulQuoteProvider>
+                        <IulAccumulationComparePlansPage />  
+                    </LifeIulQuoteProvider>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
