@@ -157,7 +157,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
                     lastName: payload?.lastName,
                     gender: payload?.gender == "male" ? "M" : "F",
                     dateOfBirth: payload?.birthdate,
-                    emailAddress: payload?.emails[0]?.leadEmail,
+                    emailAddress: payload?.email,
                     phoneNumber: payload?.phones[0]?.leadPhone,
                     address1: payload?.addresses[0]?.address1,
                     city: payload?.addresses[0]?.city,
