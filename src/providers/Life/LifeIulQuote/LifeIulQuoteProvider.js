@@ -82,7 +82,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
                 return null;
             }
         },
-        [getLifeIulQuoteResults, showToast, selectedCarriers]
+        [getLifeIulQuoteResults, showToast, selectedCarriers],
     );
 
     const fetchLifeIulQuoteDetails = useCallback(
@@ -101,7 +101,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
                 return null;
             }
         },
-        [getLifeIulQuoteDetails, showToast]
+        [getLifeIulQuoteDetails, showToast],
     );
 
     const handleCarriersChange = (value) => {
@@ -246,7 +246,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
             isLoadingLifeIulQuoteDetails,
             getLifeIulQuoteDetailsError,
             lifeIulDetails,
-        ]
+        ],
     );
 
     return <LifeIulQuoteContext.Provider value={contextValue}>{children}</LifeIulQuoteContext.Provider>;

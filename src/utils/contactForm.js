@@ -15,7 +15,7 @@ export const contactFormPrefixOptions = [
 ];
 
 export const contactFormMaritalStatusOptions = [
-    { value: null, label: "Unknown" },
+    { value: "Unknown", label: "Unknown" },
     { label: "Single", value: "Single" },
     { label: "Married", value: "Married" },
     { label: "Domestic Partner", value: "Domestic Partner" },

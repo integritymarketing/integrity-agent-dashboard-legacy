@@ -22,6 +22,7 @@ const IulProtectionQuote = () => {
         handleComparePlanSelect,
         selectedPlans,
         handleIULQuoteApplyClick,
+        isLoadingApplyLifeIulQuote,
     } = useLifeIulQuote();
 
     const { leadDetails } = useLeadDetails();
@@ -32,6 +33,7 @@ const IulProtectionQuote = () => {
     const navigate = useNavigate();
     const [isTobaccoUser, setIsTobaccoUser] = useState(false);
     const { agentInformation } = useAgentInformationByID();
+    const [selectedPlan, setSelectedPlan] = useState({});
 
     const getQuoteResults = useCallback(async () => {
         const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
@@ -70,26 +72,28 @@ const IulProtectionQuote = () => {
         getQuoteResults();
     }, [getQuoteResults]);
 
-     const handlePlanDetailsClick = () => {
-            const id = lifeIulQuoteResults[0]?.policyDetailId;
-    
-            const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
-    
-            const filteredPlan = uniquePoliciesArray.filter((item) => id === item.policyDetailId);
-    
-            if (filteredPlan.length > 0) {
-                sessionStorage.setItem("iul-plan-details", JSON.stringify({ ...filteredPlan[0], isTobaccoUser }));
-                const tempId = "IUL-United of Omaha-Life Protection Advantage IUL";
-                navigate(`/life/iul-protection/${contactId}/${tempId}/quote-details`);
-            }
-        };
+    const handlePlanDetailsClick = () => {
+        const id = lifeIulQuoteResults[0]?.policyDetailId;
+
+        const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
+
+        const filteredPlan = uniquePoliciesArray.filter((item) => id === item.policyDetailId);
+
+        if (filteredPlan.length > 0) {
+            sessionStorage.setItem("iul-plan-details", JSON.stringify({ ...filteredPlan[0], isTobaccoUser }));
+            const tempId = "IUL-United of Omaha-Life Protection Advantage IUL";
+            navigate(`/life/iul-protection/${contactId}/${tempId}/quote-details`);
+        }
+    };
 
     const handleNavigateToLearningCenter = () => {
         window.open("/learning-center", "_blank");
     };
 
     const handleApplyClick = async (plan) => {
+        setSelectedPlan(plan);
         const response = await handleIULQuoteApplyClick({ ...plan, ...agentInformation, ...leadDetails }, contactId);
+        setSelectedPlan({});
         console.log("response", response);
     };
 
@@ -171,6 +175,7 @@ const IulProtectionQuote = () => {
                                         return (
                                             <Grid item md={12} key={`iul-protection-${index}`}>
                                                 <IulQuoteCard
+                                                    applyButtonDisabled={isLoadingApplyLifeIulQuote}
                                                     quoteType="IUL Protection"
                                                     cardTitle={productName}
                                                     companyName={companyName}
@@ -199,6 +204,11 @@ const IulProtectionQuote = () => {
                                                     }
                                                     isChecked={selectedPlans?.find((p) => p.rowId === rowId)}
                                                 />
+                                                {selectedPlan.rowId === rowId && (
+                                                    <Box sx={{ position: "absolute", top: 0, left: "50%" }}>
+                                                        <WithLoader isLoading={isLoadingApplyLifeIulQuote}></WithLoader>
+                                                    </Box>
+                                                )}
                                             </Grid>
                                         );
                                     })}

@@ -145,7 +145,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 };
             }
         },
-        [showToast]
+        [showToast],
     );
 
     return (
@@ -154,9 +154,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 firstName: firstName,
                 lastName: lastName,
                 middleName: middleName,
-                suffix: suffix,
-                prefix: prefix,
-                maritalStatus: maritalStatus,
+                suffix: suffix || "",
+                prefix: prefix || "",
+                maritalStatus: maritalStatus || "",
                 email: email,
                 birthdate: birthdate ? formatDate(birthdate) : "",
                 phones: {
@@ -243,7 +243,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                             args: ["Medicare Beneficiary ID Number"],
                         },
                     ],
-                    values
+                    values,
                 );
             }}
             onSubmit={async (values, { setErrors, setSubmitting }) => {
@@ -284,7 +284,6 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 if (allStates.length === 1 && stateCodeName !== values.address.stateCode) {
                     setFieldValue("address.stateCode", allStates[0].value);
                 }
-
 
                 return (
                     <Box>
@@ -369,6 +368,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 setFieldValue("suffix", value);
                                             }}
                                             showValueAlways={true}
+                                            showEmptyOption={true}
                                         />
                                     </StyledFormItem>
                                     <StyledFormItem>
@@ -611,7 +611,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             onChange={(value) => {
                                                 setFieldValue("address.county", value);
                                                 const { key: fip, state } = allCounties.filter(
-                                                    (item) => item.value === value
+                                                    (item) => item.value === value,
                                                 )[0];
                                                 setFieldValue("address.countyFips", fip);
                                                 if (allCounties.length > 1) {
@@ -638,7 +638,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 handleBlur(e);
                                                 setFieldValue(
                                                     "medicareBeneficiaryID",
-                                                    formatMbiNumber(values.medicareBeneficiaryID)
+                                                    formatMbiNumber(values.medicareBeneficiaryID),
                                                 );
                                             }}
                                         />

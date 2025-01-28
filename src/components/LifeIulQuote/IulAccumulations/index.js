@@ -30,6 +30,7 @@ const IulAccumulationQuote = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { contactId } = useParams();
     const navigate = useNavigate();
+    const [selectedPlan, setSelectedPlan] = useState({});
 
     const getQuoteResults = useCallback(async () => {
         const lifeQuoteAccumulationDetails = sessionStorage.getItem("lifeQuoteAccumulationDetails");
@@ -85,7 +86,9 @@ const IulAccumulationQuote = () => {
     };
 
     const handleApplyClick = async (plan) => {
+        setSelectedPlan(plan);
         const response = await handleIULQuoteApplyClick({ ...plan, ...agentInformation, ...leadDetails }, contactId);
+        setSelectedPlan({});
         console.log("response", response);
     };
 
@@ -110,7 +113,7 @@ const IulAccumulationQuote = () => {
                             </Typography>
                         </Box>
                     )}
-                    <WithLoader isLoading={isLoadingLifeIulQuote || isLoadingApplyLifeIulQuote}>
+                    <WithLoader isLoading={isLoadingLifeIulQuote}>
                         <Grid container gap={3}>
                             {lifeIulQuoteResults?.length > 0 && !isLoadingLifeIulQuote ? (
                                 <>
@@ -131,8 +134,14 @@ const IulAccumulationQuote = () => {
                                             rowId,
                                         } = plan;
                                         return (
-                                            <Grid item md={12} key={`iul-accumulation-${index}`}>
+                                            <Grid
+                                                item
+                                                md={12}
+                                                key={`iul-accumulation-${index}`}
+                                                sx={{ position: "relative" }}
+                                            >
                                                 <IulQuoteCard
+                                                    applyButtonDisabled={isLoadingApplyLifeIulQuote}
                                                     quoteType="IUL Accumulation"
                                                     cardTitle={productName}
                                                     companyName={companyName}
@@ -158,6 +167,11 @@ const IulAccumulationQuote = () => {
                                                     }
                                                     isChecked={selectedPlans?.find((p) => p.rowId === rowId)}
                                                 />
+                                                {selectedPlan.rowId === rowId && (
+                                                    <Box sx={{ position: "absolute", top: 0, left: "50%" }}>
+                                                        <WithLoader isLoading={isLoadingApplyLifeIulQuote}></WithLoader>
+                                                    </Box>
+                                                )}
                                             </Grid>
                                         );
                                     })}
