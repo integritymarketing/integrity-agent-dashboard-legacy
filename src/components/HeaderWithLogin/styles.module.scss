@@ -1,18 +1,20 @@
-@use "scss/globalDefines" as defines_global;;
+@use "scss/globalDefines" as defines_global;
+
+;
 
 .actionButton {
-  background-color: $uiHeaderWithLoginActionButtonBackgroundColor;
+  background-color: defines_global.$uiHeaderWithLoginActionButtonBackgroundColor;
   grid-column: 5/6;
 }
 
 .faqLink {
-  color: $uiHeaderWithLoginLinkTextColor;
+  color: defines_global.$uiHeaderWithLoginLinkTextColor;
   grid-column: 3/4;
 }
 
 .headerWithLogin {
   align-items: center;
-  background-color: $uiHeaderWithLoginBackgroundColor;
+  background-color: defines_global.$uiHeaderWithLoginBackgroundColor;
   border-bottom: 0;
   display: grid;
   gap: 20px;
@@ -27,6 +29,6 @@
 }
 
 .helpLink {
-  color: $uiHeaderWithLoginLinkTextColor;
+  color: defines_global.$uiHeaderWithLoginLinkTextColor;
   grid-column: 4/5;
 }

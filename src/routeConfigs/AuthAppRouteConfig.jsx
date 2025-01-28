@@ -1,5 +1,5 @@
-import { lazy, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {lazy, Suspense, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 const ServerLoginPage = lazy(() => import("pages/auth/ServerLoginPage"));
 const ServerLogoutPage = lazy(() => import("pages/auth/ServerLogoutPage"));
@@ -36,39 +36,82 @@ const RedirectAndRestartLoginFlow = () => {
 };
 
 const AuthAppRoutes = [
-    { path: "/login", component: <ServerLoginPage /> },
-    { path: "/logout", component: <ServerLogoutPage /> },
-    { path: "/error", component: <ServerErrorPage /> },
-    { path: "/register", component: <RegistrationPage /> },
+    {
+        path: "/login", component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <ServerLoginPage/>
+            </Suspense>
+        ),
+    },
+    {
+        path: "/logout",
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <ServerLogoutPage/>
+            </Suspense>
+        ),
+
+    },
+    {
+        path: "/error",
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <ServerErrorPage/>
+            </Suspense>
+        ),
+    },
+    {
+        path: "/register",
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <RegistrationPage/>
+            </Suspense>
+        ),
+    },
     {
         path: "/registration-email-sent",
-        component: <RegistrationCheckEmailPage />,
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <RegistrationCheckEmailPage/>
+            </Suspense>
+        ),
     },
-    { path: "/confirm-email", component: <RegistrationConfirmEmailPage /> },
+    {
+        path: "/confirm-email",
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <RegistrationConfirmEmailPage/>
+            </Suspense>
+        ),
+    },
     {
         path: "/confirm-link-expired",
-        component: <RegistrationConfirmLinkExpiredPage />,
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <RegistrationConfirmLinkExpiredPage/>
+            </Suspense>
+        ),
     },
-    { path: "/registration-complete", component: <RegistrationCompletedPage /> },
-    { path: "/forgot-password", component: <ForgotPasswordPage /> },
-    { path: "/password-reset-sent", component: <ForgotPasswordSentPage /> },
-    { path: "/reset-password", component: <PasswordResetPage /> },
-    { path: "/password-link-expired", component: <PasswordLinkExpiredPage /> },
-    { path: "/password-updated", component: <PasswordUpdatedPage /> },
-    { path: "/sorry", component: <FinalErrorPage /> },
-    { path: "/update-email", component: <NewEmailPage /> },
-    { path: "/email-updated", component: <EmailUpdatedPage /> },
-    { path: "/contact-support", component: <ContactSupport /> },
+    {path: "/registration-complete", component: <RegistrationCompletedPage/>},
+    {path: "/forgot-password", component: <ForgotPasswordPage/>},
+    {path: "/password-reset-sent", component: <ForgotPasswordSentPage/>},
+    {path: "/reset-password", component: <PasswordResetPage/>},
+    {path: "/password-link-expired", component: <PasswordLinkExpiredPage/>},
+    {path: "/password-updated", component: <PasswordUpdatedPage/>},
+    {path: "/sorry", component: <FinalErrorPage/>},
+    {path: "/update-email", component: <NewEmailPage/>},
+    {path: "/email-updated", component: <EmailUpdatedPage/>},
+    {path: "/contact-support", component: <ContactSupport/>},
     {
         path: "/contact-support-invalid-npn/:npnId",
-        component: <ContactSupportInvalidNPN />,
+        component: <ContactSupportInvalidNPN/>,
     },
-    { path: "/mobile-app-update", component: <UpdateMobileApp /> },
-    { path: "/login-redirect-sso", component: <LoginRedirectSSOPage /> },
+    {path: "/mobile-app-update", component: <UpdateMobileApp/>},
+    {path: "/login-redirect-sso", component: <LoginRedirectSSOPage/>},
     {
         path: "*",
         component: RedirectAndRestartLoginFlow,
     },
 ];
 
-export { AuthAppRoutes };
+export {AuthAppRoutes};

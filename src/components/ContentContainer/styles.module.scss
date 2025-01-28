@@ -8,7 +8,7 @@
   width: 100%;
 }
 
-@include tabletAndAbove {
+@include defines_global.tabletAndAbove {
   .contentContainer {
     max-width: 1200px;
   }

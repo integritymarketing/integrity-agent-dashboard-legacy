@@ -1,10 +1,12 @@
-@use "scss/globalDefines" as defines_global;;
+@use "scss/globalDefines" as defines_global;
+
+;
 
 .container {
   display: flex;
   flex-direction: column;
 
-  @include tabletAndAbove {
+  @include defines_global.tabletAndAbove {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }

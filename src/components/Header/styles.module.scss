@@ -1,7 +1,7 @@
 @use "scss/globalDefines" as defines_global;
 
 .header {
-  background-color: $headerBackgroundColor;
+  background-color: defines_global.$headerBackgroundColor;
   position: fixed;
   top: 0;
   width: 100%;

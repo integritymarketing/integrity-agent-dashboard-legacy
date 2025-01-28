@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import MUITable from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableFooter from "@mui/material/TableFooter";
 import TableRow from "@mui/material/TableRow";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import { styled } from "@mui/system";
-import { useTable, useSortBy } from "react-table";
+import TableCell, {tableCellClasses} from "@mui/material/TableCell";
+import {styled} from "@mui/system";
+import {useReactTable} from "@tanstack/react-table";
 import Sort from "components/icons/sort-arrow";
 import SortArrowUp from "components/icons/sort-arrow-up";
 import SortArrowDown from "components/icons/sort-arrow-down";
 import Media from "react-media";
+import PropTypes from "prop-types";
+
 
 const Centered = styled("div")`
     display: flex;
@@ -19,7 +21,7 @@ const Centered = styled("div")`
     align-items: center;
 `;
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
         color: "#434A51",
         cursor: "pointer",
@@ -69,7 +71,7 @@ const SMUITable = styled(MUITable)(() => ({
     },
 }));
 
-const StyledTableRow = styled(TableRow)(({ islast }) => ({
+const StyledTableRow = styled(TableRow)(({islast}) => ({
     background: "#2175F41A 0% 0% no-repeat padding-box",
     boxShadow: islast ? "inset 0px -1px 0px #C7CCD1" : "none",
 }));
@@ -79,28 +81,25 @@ const generateSortingIndicator = (column) => {
         return null;
     }
     if (column.isSorted === false) {
-        return <Sort />;
+        return <Sort/>;
     }
     if (column.isSortedDesc) {
-        return <SortArrowDown />;
+        return <SortArrowDown/>;
     }
-    return <SortArrowUp />;
+    return <SortArrowUp/>;
 };
 
 function Table(props) {
-    const { columns, data, footer, initialState, fixedRows = [], handleSort, overflowHide = false } = props;
+    const {columns, data, footer, initialState, fixedRows = [], handleSort, overflowHide = false} = props;
 
     const [isMobile, setIsMobile] = useState(false);
 
     // Use the state and functions returned from useTable to build the UI
-    const { getTableProps, headerGroups, rows, prepareRow } = useTable(
-        {
-            columns,
-            data,
-            initialState,
-        },
-        useSortBy,
-    );
+    const {getTableProps, headerGroups, rows, prepareRow} = useReactTable({
+        columns,
+        data,
+        initialState,
+    });
 
     // Render the UI for table
     const style = {
@@ -120,7 +119,7 @@ function Table(props) {
                     setIsMobile(isMobile);
                 }}
             />
-            <SMUITable {...getTableProps()}>
+            <SMUITable>
                 <TableHead>
                     {headerGroups.map((headerGroup) => (
                         <TableRow {...headerGroup.getHeaderGroupProps()}>
@@ -162,7 +161,7 @@ function Table(props) {
                 {footer ? (
                     <TableFooter>
                         <TableRow>
-                            <TableCell style={{ border: "none" }} colSpan={isMobile ? 3 : columns.length}>
+                            <TableCell style={{border: "none"}} colSpan={isMobile ? 3 : columns.length}>
                                 <center>{footer}</center>
                             </TableCell>
                         </TableRow>
@@ -172,5 +171,22 @@ function Table(props) {
         </TableContainer>
     );
 }
+
+// Add PropType validation to the Table component
+Table.propTypes = {
+    columns: PropTypes.arrayOf(
+        PropTypes.shape({
+            Header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+            accessor: PropTypes.string,
+        })
+    ).isRequired,
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    footer: PropTypes.node,
+    initialState: PropTypes.object,
+    fixedRows: PropTypes.arrayOf(PropTypes.node),
+    handleSort: PropTypes.func,
+    overflowHide: PropTypes.bool,
+};
+
 
 export default Table;

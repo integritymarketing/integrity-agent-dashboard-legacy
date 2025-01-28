@@ -1,4 +1,6 @@
-@use "scss/globalDefines" as defines_global;;
+@use "scss/globalDefines" as defines_global;
+
+;
 
 .container {
   display: flex;
@@ -9,7 +11,7 @@
   text-align: left;
   width: 100%;
 
-  @include tabletAndAbove {
+  @include defines_global.tabletAndAbove {
     gap: 35px;
     padding: 100px;
   }
