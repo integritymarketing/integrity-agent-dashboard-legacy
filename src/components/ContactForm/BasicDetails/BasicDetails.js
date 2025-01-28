@@ -10,7 +10,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { contactFormMaritalStatusOptions, contactFormPrefixOptions, contactFormSuffixOptions } from "utils/contactForm";
 
 const BasicDetails = ({ formik, fieldSet }) => {
@@ -84,7 +84,7 @@ const BasicDetails = ({ formik, fieldSet }) => {
                             onClick={() => setCalendarOpen(!calendarOpen)}
                             sx={{ cursor: "pointer", transform: calendarOpen ? "rotate(180deg)" : "rotate(0deg)" }}
                         >
-                            <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
+                            <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                         </Box>
                     }
                     startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#4178FF" size={"2xl"} />}
@@ -106,7 +106,7 @@ const BasicDetails = ({ formik, fieldSet }) => {
                         value={values.prefix || ""}
                         IconComponent={(props) => (
                             <Box mr={1} {...props}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
+                                <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                             </Box>
                         )}
                         renderValue={(selected) => {
@@ -137,7 +137,7 @@ const BasicDetails = ({ formik, fieldSet }) => {
                         value={values.suffix || ""}
                         IconComponent={(props) => (
                             <Box mr={1} {...props}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
+                                <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                             </Box>
                         )}
                         renderValue={(selected) => {
@@ -168,7 +168,7 @@ const BasicDetails = ({ formik, fieldSet }) => {
                         value={values.maritalStatus}
                         IconComponent={(props) => (
                             <Box mr={1} {...props}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
+                                <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                             </Box>
                         )}
                         renderValue={(selected) =>

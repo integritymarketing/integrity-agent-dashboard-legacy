@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import MenuItem from "@mui/material/MenuItem";
 import CountyContext from "../../../contexts/counties";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Box from "@mui/material/Box";
 
 const AddressDetails = ({ formik }) => {
@@ -147,7 +147,7 @@ const AddressDetails = ({ formik }) => {
                         displayEmpty
                         IconComponent={(props) => (
                             <Box mr={1} {...props}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
+                                <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                             </Box>
                         )}
                     >
@@ -181,7 +181,7 @@ const AddressDetails = ({ formik }) => {
                         displayEmpty
                         IconComponent={(props) => (
                             <Box mr={1} {...props}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
+                                <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                             </Box>
                         )}
                     >

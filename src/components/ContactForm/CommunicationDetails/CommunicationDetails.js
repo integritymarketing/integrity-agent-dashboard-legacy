@@ -68,8 +68,8 @@ const CommunicationDetails = ({ formik }) => {
                     buttonOptions={Object.keys(valueOptions)}
                     buttonClassNames={Object.keys(valueOptions).map((option) =>
                         valueOptions[option] === values.primaryCommunication
-                            ? styles.selectedOption
-                            : styles.nonSelectedOption,
+                            ? [styles.selectedOption]
+                            : [styles.nonSelectedOption],
                     )}
                     onSelect={(selected) => {
                         if (fieldRefs[selected].current) {

@@ -6,7 +6,7 @@ import { formatMbiNumber } from "../../../utils/shared-utils/sharedUtility";
 import DatePickerMUI from "../../DatePicker";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Box from "@mui/material/Box";
 
 const MedicareIDDetails = ({ formik }) => {
@@ -53,7 +53,7 @@ const MedicareIDDetails = ({ formik }) => {
                             onClick={() => setCalendarPartAOpen(!calendarPartAOpen)}
                             sx={{ cursor: "pointer", transform: calendarPartAOpen ? "rotate(180deg)" : "rotate(0deg)" }}
                         >
-                            <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
+                            <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                         </Box>
                     }
                     startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#4178FF" size={"2xl"} />}
@@ -75,7 +75,7 @@ const MedicareIDDetails = ({ formik }) => {
                             onClick={() => setCalendarPartBOpen(!calendarPartBOpen)}
                             sx={{ cursor: "pointer", transform: calendarPartBOpen ? "rotate(180deg)" : "rotate(0deg)" }}
                         >
-                            <FontAwesomeIcon icon={faAngleDown} color="#4178FF" size={"xl"} />
+                            <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                         </Box>
                     }
                     startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#4178FF" size={"2xl"} />}
