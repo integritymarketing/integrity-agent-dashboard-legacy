@@ -1,7 +1,7 @@
 @use "scss/globalDefines" as defines_global;
 
 .outerContainer {
-  background-color: $alice-blue;
+  background-color: defines_global.$alice-blue;
   min-height: 100vh;
   display: flex;
   align-items: center;

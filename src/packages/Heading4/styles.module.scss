@@ -6,6 +6,6 @@
   font-weight: bold;
 
   @include defines_global.small {
-    font-size: $font-size-12;
+    font-size: defines_global.$font-size-12;
   }
 }

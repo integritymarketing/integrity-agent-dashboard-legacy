@@ -1,4 +1,6 @@
-@import "../../scss/mixins";
+@use "scss/globalDefines" as defines_global;
+
+;
 @use "scss/globalDefines" as defines_global;;
 
 .simple-header {

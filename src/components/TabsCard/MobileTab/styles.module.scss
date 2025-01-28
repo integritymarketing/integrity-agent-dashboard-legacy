@@ -1,51 +1,51 @@
 @use "scss/globalDefines" as defines_global;
 
 .tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 45%;
+
+  .tabHeading {
+    color: defines_global.$dark-blue;
+    padding-bottom: 8px;
+    font: normal normal normal 14px/16px Lato;
+    width: 100%;
+    letter-spacing: 0.14px;
+  }
+
+  .tabContent {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    width: 45%;
+    height: 88px;
+    background: white;
+    margin-bottom: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 20px #002d721a;
+    border-radius: 6px;
+    align-items: center;
+    position: relative;
 
-    .tabHeading {
-        color: defines_global.$dark-blue;
-        padding-bottom: 8px;
-        font: normal normal normal 14px/16px Lato;
-        width: 100%;
-        letter-spacing: 0.14px;
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      color: defines_global.$dark-blue;
+      font-size: defines_global.$size-48;
     }
 
-    .tabContent {
-        display: flex;
-        height: 88px;
-        background: white;
-        margin-bottom: 12px;
-        cursor: pointer;
-        box-shadow: 0 0 20px #002d721a;
-        border-radius: 6px;
-        align-items: center;
-        position: relative;
-
-        .content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            color: defines_global.$dark-blue;
-            font-size: $size-48;
-        }
-
-        .color {
-            content: "";
-            width: 16px;
-            height: 88px;
-            display: block;
-            border-top-left-radius: 6px;
-            border-bottom-left-radius: 6px;
-            position: absolute;
-        }
+    .color {
+      content: "";
+      width: 16px;
+      height: 88px;
+      display: block;
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+      position: absolute;
     }
+  }
 }
 
 .specialFirstTab {
-    width: 100%;
+  width: 100%;
 }

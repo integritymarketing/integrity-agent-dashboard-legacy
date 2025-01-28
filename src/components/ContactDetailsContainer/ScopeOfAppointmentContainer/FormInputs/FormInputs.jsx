@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Formik } from "formik";
+import {Form, Formik} from "formik";
 import validationService from "services/validationService";
 import {
     AGENT_FNAME,
@@ -15,19 +15,18 @@ import {
 import styles from "./FormInputs.module.scss";
 import DatePickerMUI from "components/DatePicker";
 import TextField from "@mui/material/TextField";
-import { FormField } from "components/SharedFormFields/FormField";
-import { Checked, Unchecked } from "../Icons";
+import {FormField} from "components/SharedFormFields/FormField";
+import {Checked, Unchecked} from "../Icons";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
-import { styled } from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import dateFnsFormat from "date-fns/format";
-import { formatPhoneNumber } from "utils/phones";
+import {formatPhoneNumber} from "utils/phones";
 
 const SubmitButton = styled(Button)(() => ({
     color: "#4178ff",
     borderRadius: "20px",
-    color: "#FFFFFF",
     background: "#4178ff",
     textTransform: "none",
     fontWeight: "bold",
@@ -35,7 +34,7 @@ const SubmitButton = styled(Button)(() => ({
     marginTop: "20px",
 }));
 
-export const FormInputs = ({ agentSection, saveDetails }) => {
+export const FormInputs = ({agentSection, saveDetails}) => {
     return (
         <Formik
             initialValues={{
@@ -75,7 +74,7 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                     values
                 );
             }}
-            onSubmit={async (values, { setErrors, setSubmitting }) => {
+            onSubmit={async (values, {setErrors, setSubmitting}) => {
                 setSubmitting(true);
                 const payload = {
                     ...values,
@@ -86,7 +85,7 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                 setSubmitting(false);
             }}
         >
-            {({ values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
+            {({values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit, setFieldValue}) => {
                 return (
                     <Form>
                         <FormField
@@ -149,7 +148,7 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                                             setFieldValue("soaSignedDuringAppointment", option);
                                         }}
                                     >
-                                        <span>{isChecked ? <Checked /> : <Unchecked />}</span>
+                                        <span>{isChecked ? <Checked/> : <Unchecked/>}</span>
                                         <span>{option}</span>
                                     </div>
                                 );
@@ -190,7 +189,7 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                                     setFieldValue("acceptedSOA", !values.acceptedSOA);
                                 }}
                             >
-                                <span>{values.acceptedSOA ? <Checked /> : <Unchecked strokeColor="#DDDDDD" />}</span>
+                                <span>{values.acceptedSOA ? <Checked/> : <Unchecked strokeColor="#DDDDDD"/>}</span>
                                 <span>{SOA_FORM_CONSENT}</span>
                             </div>
                         </Box>
@@ -198,7 +197,7 @@ export const FormInputs = ({ agentSection, saveDetails }) => {
                             disabled={!dirty || !isValid || !values.acceptedSOA || !values.soaSignedDuringAppointment}
                             variant="contained"
                             onClick={handleSubmit}
-                            endIcon={<ButtonCircleArrow />}
+                            endIcon={<ButtonCircleArrow/>}
                         >
                             {SUBMIT}
                         </SubmitButton>

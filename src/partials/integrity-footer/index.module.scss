@@ -1,4 +1,6 @@
-@import "../../scss/mixins";
+@use "scss/globalDefines" as defines_global;
+
+;
 
 .integrityFooter {
   margin-top: auto;
@@ -16,7 +18,7 @@
   font-size: inherit;
   line-height: 1.5;
 
-  >span {
+  > span {
     white-space: nowrap;
   }
 }

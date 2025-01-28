@@ -1,277 +1,279 @@
 .dashbaord-page {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-self: flex-start;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-self: flex-start;
+  width: 100%;
+  background-color: #f1f1f1;
+
+  @media screen and (width >= 320px) and (width <= 480px) {
     width: 100%;
-    background-color: #f1f1f1;
+    flex-direction: column;
+  }
+
+  .details-section {
+    display: flex;
+    flex-direction: column;
 
     @media screen and (width >= 320px) and (width <= 480px) {
+      background: #f1f5f9;
+      width: 100%;
+    }
+
+    .greeting {
+      height: 257px;
+      width: 100%;
+      background-repeat: no-repeat;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      & > img {
+        position: absolute;
+        top: 0;
         width: 100%;
-        flex-direction: column;
-    }
+        height: 100%;
+        object-fit: cover;
+      }
 
-    .details-section {
+      .greet-user {
+        padding-left: 40px;
+        font-size: 32px;
+        font-weight: 600;
+        color: #fff;
+        z-index: 1;
+        padding-top: 25px;
+
+        @media screen and (width >= 320px) and (width <= 480px) {
+          padding-top: 25px;
+        }
+
+        .greet-session {
+          margin-bottom: 35px;
+        }
+      }
+
+      .confirmed-applications-wrapper {
+        position: absolute;
+        top: 120px;
         display: flex;
-        flex-direction: column;
+        margin: 0 40px;
+        width: calc(100% - 80px);
+        background: #fff;
+        box-shadow: 0 8px 25px rgb(0 0 0 / 5%);
+        border-radius: 8px;
 
         @media screen and (width >= 320px) and (width <= 480px) {
-            background: #f1f5f9;
-            width: 100%;
+          margin: 0 20px;
+          width: calc(100% - 40px);
         }
 
-        .greeting {
-            height: 257px;
-            width: 100%;
-            background-repeat: no-repeat;
-            position: relative;
+        .snapshot-wrapper {
+          width: 100%;
+          min-height: 77px;
+
+          .title {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 16px 0;
 
-            &>img {
-                position: absolute;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
+            @media screen and (width >= 320px) and (width <= 480px) {
+              margin-left: 10px;
+              margin-right: 30px;
+              padding: 16px;
             }
 
-            .greet-user {
-                padding-left: 40px;
-                font-size: 32px;
+            .titleText {
+              display: flex;
+              align-items: center;
+              font-size: 24px;
+              color: #002d72;
+
+              .arrowIcon {
+                margin-right: 10px;
+              }
+            }
+          }
+
+          .snapshot-data {
+            padding: 10px;
+            background: #fff;
+            border-radius: 8px;
+
+            @media screen and (width >= 320px) and (width <= 480px) {
+              margin: 16px 12px 20px 15px;
+            }
+
+            .snapshot-item {
+              font-size: 18px;
+              color: #434a51;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 13px 16px;
+
+              .dot {
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+              }
+
+              &:hover {
+                background: #f2f9ff;
+                cursor: pointer;
+                color: #0052ce;
                 font-weight: 600;
-                color: #fff;
-                z-index: 1;
-                padding-top: 25px;
-
-                @media screen and (width >= 320px) and (width <= 480px) {
-                    padding-top: 25px;
-                }
-
-                .greet-session {
-                    margin-bottom: 35px;
-                }
+              }
             }
 
-            .confirmed-applications-wrapper {
-                position: absolute;
-                top: 120px;
-                display: flex;
-                margin: 0 40px;
-                width: calc(100% - 80px);
-                background: #fff;
-                box-shadow: 0 8px 25px rgb(0 0 0 / 5%);
-                border-radius: 8px;
-
-                @media screen and (width >= 320px) and (width <= 480px) {
-                    margin: 0 20px;
-                    width: calc(100% - 40px);
-                }
-
-                .snapshot-wrapper {
-                    width: 100%;
-                    min-height: 77px;
-
-                    .title {
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                        padding: 16px 16px 0;
-
-                        @media screen and (width >= 320px) and (width <= 480px) {
-                            margin-left: 10px;
-                            margin-right: 30px;
-                            padding: 16px;
-                        }
-
-                        .titleText {
-                            display: flex;
-                            align-items: center;
-                            font-size: 24px;
-                            color: #002d72;
-
-                            .arrowIcon {
-                                margin-right: 10px;
-                            }
-                        }
-                    }
-
-                    .snapshot-data {
-                        padding: 10px;
-                        background: #fff;
-                        border-radius: 8px;
-
-                        @media screen and (width >= 320px) and (width <= 480px) {
-                            margin: 16px 12px 20px 15px;
-                        }
-
-                        .snapshot-item {
-                            font-size: 18px;
-                            color: #434a51;
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            padding: 13px 16px;
-
-                            .dot {
-                                width: 16px;
-                                height: 16px;
-                                border-radius: 50%;
-                            }
-
-                            &:hover {
-                                background: #f2f9ff;
-                                cursor: pointer;
-                                color: #0052ce;
-                                font-weight: 600;
-                            }
-                        }
-
-                        .brTop {
-                            border-top: 1px solid #dfdedd;
-                        }
-                    }
-                }
+            .brTop {
+              border-top: 1px solid #dfdedd;
             }
+          }
         }
+      }
+    }
+  }
+
+  .recent-activity-section {
+    width: 55%;
+
+    @media screen and (width >= 480px) {
+      margin: 40px 5% 5%;
     }
 
-    .recent-activity-section {
-        width: 55%;
-
-        @media screen and (width >= 480px) {
-            margin: 40px 5% 5%;
-        }
-
-        flex: 1;
-
-        @media screen and (width >= 320px) and (width <= 480px) {
-            background: #f1f5f9;
-            width: 100%;
-        }
+    @media screen and (width >= 320px) and (width <= 480px) {
+      background: #f1f5f9;
+      width: 100%;
     }
+
+    & {
+      flex: 1;
+    }
+  }
 }
 
 .action-button {
-    font-size: 14px;
-    font-weight: 400;
-    color: #0052ce;
+  font-size: 14px;
+  font-weight: 400;
+  color: #0052ce;
 }
 
 .resources {
-    margin-left: 35px;
+  margin-left: 35px;
 
-    @media screen and (width >= 320px) and (width <= 480px) {
-        margin-left: 10px;
-        margin-top: 10px;
-    }
+  @media screen and (width >= 320px) and (width <= 480px) {
+    margin-left: 10px;
+    margin-top: 10px;
+  }
 }
 
 .incomming-cal-wrapper {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .header-tag {
-    color: #434a51;
-    font-size: 1rem;
+  color: #434a51;
+  font-size: 1rem;
 }
 
 .banners {
-    padding: 10px 35px;
+  padding: 10px 35px;
 }
 
 .mt-400 {
-    margin-top: 400px;
+  margin-top: 400px;
 }
 
 .iconReverse {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .unlink-card-container {
-    background: #deebfb 0% 0% no-repeat padding-box;
-    border-radius: 8px;
+  background: #deebfb 0 0 no-repeat padding-box;
+  border-radius: 8px;
 
-    @media screen and (width <= 480px) {
-        margin: 16px 12px 0 15px;
-    }
+  @media screen and (width <= 480px) {
+    margin: 16px 12px 0 15px;
+  }
 }
 
 .unlink-card {
-    border-bottom: 0.5px solid #a6bedb;
-    padding: 18px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    background: #deebfb 0% 0% no-repeat padding-box;
-    font-size: 14px !important;
+  border-bottom: 0.5px solid #a6bedb;
+  padding: 18px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background: #deebfb 0 0 no-repeat padding-box;
+  font-size: 14px !important;
 }
 
-.unlink-card-download-btn>svg {
-    stroke: none;
+.unlink-card-download-btn > svg {
+  stroke: none;
 }
 
-.unlink-card-link-btn>svg {
-    stroke: none;
+.unlink-card-link-btn > svg {
+  stroke: none;
 
-    @media screen and (width <= 480px) {
-        height: 28px !important;
-        width: 28px !important;
-        padding-left: 4px;
-    }
+  @media screen and (width <= 480px) {
+    height: 28px !important;
+    width: 28px !important;
+    padding-left: 4px;
+  }
 }
 
 .unlink-card-download-btn {
-    border-radius: 25px !important;
-    padding: 6px 12px !important;
-    background-color: inherit !important;
+  border-radius: 25px !important;
+  padding: 6px 12px !important;
+  background-color: inherit !important;
 
-    @media screen and (width <= 480px) {
-        border: 1px solid #0052ce !important;
-        border-radius: 50% !important;
-        padding: 9px 10px !important;
-    }
+  @media screen and (width <= 480px) {
+    border: 1px solid #0052ce !important;
+    border-radius: 50% !important;
+    padding: 9px 10px !important;
+  }
 }
 
-.unlink-card-download-btn>.label {
-    font-size: 14px !important;
+.unlink-card-download-btn > .label {
+  font-size: 14px !important;
 }
 
 .unlink-card-link-btn {
-    border-radius: 25px !important;
-    padding: 6px 12px 6px 8px !important;
-    background-color: #fff !important;
+  border-radius: 25px !important;
+  padding: 6px 12px 6px 8px !important;
+  background-color: #fff !important;
 
-    @media screen and (width <= 480px) {
-        padding: 8px 10px 8px 6px !important;
-    }
+  @media screen and (width <= 480px) {
+    padding: 8px 10px 8px 6px !important;
+  }
 }
 
-.unlink-card-link-btn>.label {
-    font-size: 14px !important;
-    color: #434a51;
+.unlink-card-link-btn > .label {
+  font-size: 14px !important;
+  color: #434a51;
 }
 
 .date-time-duration-text {
-    color: #002d72;
-    padding-right: 8px;
-    font-weight: 600;
+  color: #002d72;
+  padding-right: 8px;
+  font-weight: 600;
 }
 
 .show-more-card {
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    padding-top: 10px;
-    border-radius: 0 0 8px 8px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  border-radius: 0 0 8px 8px;
 
-    @media screen and (width <= 480px) {
-        margin: 0 12px 0 15px;
-    }
+  @media screen and (width <= 480px) {
+    margin: 0 12px 0 15px;
+  }
 }
 
-.show-more-btn>span {
-    color: #0052ce;
-    font-weight: 600;
+.show-more-btn > span {
+  color: #0052ce;
+  font-weight: 600;
 }

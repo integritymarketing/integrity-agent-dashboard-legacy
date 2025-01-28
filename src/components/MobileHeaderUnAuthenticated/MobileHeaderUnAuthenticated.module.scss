@@ -1,19 +1,18 @@
 @use "scss/globalDefines" as defines_global;
 
- 
 
 .headerContainer {
   height: 6rem;
-  background: $blue-5;
+  background: defines_global.$blue-5;
 }
 
- 
+
 .mobileLogo {
   width: 230px;
   height: 32px;
   margin-left: 40px;
 
   @include defines_global.small {
-      margin-left: 0;
+    margin-left: 0;
   }
 }

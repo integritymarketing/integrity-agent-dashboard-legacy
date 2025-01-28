@@ -1,8 +1,8 @@
-import { defineConfig } from "vite";
+import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({mode}) => {
     const isAuthBuild = process.env.VITE_APP_BUILD_TARGET === "auth";
 
     return {
@@ -53,6 +53,7 @@ export default defineConfig(({ mode }) => {
                 packages: path.resolve(__dirname, "src/packages"), // Alias for 'packages'
                 images: path.resolve(__dirname, "src/images"), // Alias for 'images'
                 scss: path.resolve(__dirname, "src/scss"), // Alias for 'scss'
+                schemas: path.resolve(__dirname, "src/schemas"), // Alias for 'scss'
             },
             extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
         },

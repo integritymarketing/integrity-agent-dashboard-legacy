@@ -167,7 +167,9 @@ table {
     width: 40px;
   }
 
-  float: right;
+  & {
+    float: right;
+  }
 }
 
 .cardWrapper {
