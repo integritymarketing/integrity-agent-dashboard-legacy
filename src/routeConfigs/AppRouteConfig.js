@@ -9,7 +9,6 @@ import { ProductPreferenceDetailsProvider } from "providers/Life/ProductPreferen
 import { LifeIulQuoteProvider } from "providers/Life";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
-const AccountPage = lazy(() => import("pages/Account/AccountPage"));
 const AddContactPage = lazy(() => import("pages/contacts/AddContactPage"));
 const AuthSigninCallback = lazy(() => import("components/functional/auth-signin-callback"));
 const AuthSigninRedirectPage = lazy(() => import("pages/auth/SigninRedirectPage"));
@@ -18,7 +17,6 @@ const AuthSilentCallback = lazy(() => import("components/functional/auth-silent-
 const ClientImportPage = lazy(() => import("pages/ClientImportPage"));
 const ComparePlansPage = lazy(() => import("pages/ComparePlansPage"));
 const ComparePlansCodePage = lazy(() => import("pages/ComparePlansCodePage"));
-const ContactsSOAConfirmForm = lazy(() => import("pages/contacts/soa/ContactsSOAConfirmForm"));
 const Dashboard = lazy(() => import("pages/dashbaord"));
 const EnrollmentHistoryPage = lazy(() => import("pages/EnrollmentHistoryPage"));
 const EnrollmentLinkToContact = lazy(() => import("pages/EnrollmentLinkToContact"));
@@ -26,17 +24,12 @@ const ErrorPage = lazy(() => import("pages/ErrorPage"));
 const HelpPage = lazy(() => import("pages/Help"));
 const MedicareSSORedirect = lazy(() => import("pages/MedicareSSORedirect"));
 const LinkToContact = lazy(() => import("pages/LinkToContact"));
-const NewScopeOfAppointment = lazy(() => import("pages/contacts/contactRecordInfo/newScopeOfAppointment"));
 const NotFoundPage = lazy(() => import("pages/NotFound"));
 const PlanDetailsPage = lazy(() => import("pages/PlanDetailsPage"));
 const PlansPage = lazy(() => import("pages/PlansPage"));
 const PrivacyPage = lazy(() => import("pages/PrivacyPage"));
 const RedirectLoadingPage = lazy(() => import("pages/RedirectLoading"));
 const ResourcesPage = lazy(() => import("pages/ResourcesPage"));
-const SOAConfirmationForm = lazy(() => import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation"));
-const SOAConfirmationPage = lazy(() =>
-    import("pages/contacts/contactRecordInfo/scopeOfAppointmentConfirmation/ConfirmationPage")
-);
 const TermsPage = lazy(() => import("pages/TermsPage"));
 const WebChatComponent = lazy(() => import("components/WebChat/WebChat"));
 const PolicyCodePage = lazy(() => import("pages/dashbaord/SharePolicy"));
@@ -85,10 +78,7 @@ const appRoutes = [
     { path: "/privacy", component: <PrivacyPage /> },
     { path: "/terms-of-usage", component: <TermsOfUsagePage /> },
     { path: "/privacy-policy", component: <PrivacyPolicyPage /> },
-    {
-        path: "/soa-confirmation-form/:linkCode/:token",
-        component: <SOAConfirmationForm />,
-    },
+
     {
         path: "/customer/enrollmenthistory/:contactId/:confirmationNumber/:effectiveDate/:request/:token",
         component: <PolicyCodePage />,
@@ -97,10 +87,7 @@ const appRoutes = [
         path: "/customer/plans/:contactId/compare/:planIds/:effectiveDate/:request/:token",
         component: <ComparePlansCodePage />,
     },
-    {
-        path: "/soa-confirmation-page/:firstName/:lastName",
-        component: <SOAConfirmationPage />,
-    },
+
     { path: "/signin", component: <AuthSigninRedirectPage /> },
     {
         path: "/signin-oidc-silent",
@@ -158,8 +145,6 @@ const appProtectedRoutes = [
             </ContactDetailsProvider>
         ),
     },
-    { path: "/account", component: <AccountPage /> },
-    { path: "/account/:section/", component: <AccountPage /> },
     { path: "/help", component: <HelpPage /> },
     { path: "/learning-center", component: <ResourcesPage /> },
     {
@@ -204,11 +189,7 @@ const appProtectedRoutes = [
             </>
         ),
     },
-    { path: "/new-soa/:leadId", component: <NewScopeOfAppointment /> },
-    {
-        path: "/contact/:contactId/soa-confirm/:linkCode",
-        component: <ContactsSOAConfirmForm />,
-    },
+
     { path: "/client-import", component: <ClientImportPage /> },
     {
         path: "/plans/:contactId/compare/:planIds/:effectiveDate",
@@ -509,7 +490,7 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <LifeIulQuoteProvider>
-                        <IulAccumulationComparePlansPage />  
+                        <IulAccumulationComparePlansPage />
                     </LifeIulQuoteProvider>
                 </ContactDetailsProvider>
             </StrictMode>

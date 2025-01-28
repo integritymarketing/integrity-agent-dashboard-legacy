@@ -23,8 +23,6 @@ import CountyContext from "contexts/counties";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import validationService from "services/validationService";
 
-import "pages/contacts/contactRecordInfo/contactRecordInfo.scss";
-
 import styles from "./ContactInfoContainer.module.scss";
 import { StyledElementName, StyledFormItem } from "./StyledComponents";
 import { Divider, Paper, Stack, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
