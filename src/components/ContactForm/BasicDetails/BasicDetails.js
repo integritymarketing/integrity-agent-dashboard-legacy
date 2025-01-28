@@ -172,7 +172,7 @@ const BasicDetails = ({ formik, fieldSet }) => {
                             </Box>
                         )}
                         renderValue={(selected) =>
-                            contactFormMaritalStatusOptions.find((ms) => ms.value === selected).label
+                            contactFormMaritalStatusOptions?.find((ms) => ms.value === selected)?.label
                         }
                         displayEmpty
                         name="maritalStatus"

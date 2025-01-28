@@ -60,9 +60,10 @@ const Search = () => {
     }, [setIsStartedSearching, setSearchString, setSelectedSearchLead]);
 
     const onChangeHandle = (e) => {
-        const value = e.target.value.trim();
+        const value = e.target.value;
         setInputValue(value);
-        if (value.length < 3) {
+
+        if (value.trim().length < 3) {
             setIsStartedSearching(false);
             setSelectedSearchLead(null);
             setAnchorEl(null);

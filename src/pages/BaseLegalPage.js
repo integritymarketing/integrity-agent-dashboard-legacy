@@ -1,7 +1,5 @@
 import React from "react";
-
 import Container from "components/ui/container";
-
 import GlobalFooter from "partials/global-footer";
 import GlobalNavV2 from "partials/global-nav-v2";
 import IntegrityFooter from "partials/integrity-footer";
@@ -14,7 +12,7 @@ const BaseLegalPage = ({ children, title, showIntegrity = false, ...props }) => 
                 {!showIntegrity && <GlobalNavV2 />}
                 {showIntegrity && <IntegrityHeader />}
                 <Container id="main-content" className="scaling-header">
-                    <h2 className="hdg hdg--2">{title}</h2>
+                    <h2 className="hdg hdg--2 pl-2">{title}</h2>
                 </Container>
             </div>
             <div className="v2">

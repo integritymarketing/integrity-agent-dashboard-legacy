@@ -10,28 +10,28 @@ const MedicaidLISDetails = ({ formik }) => {
 
     return (
         <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} md={6}>
+            <Grid item xs={6} md={6}>
                 <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     Medicaid
                 </Typography>
                 <SelectableButtonGroup
                     buttonOptions={Object.keys(valueOptions)}
                     buttonClassNames={Object.keys(valueOptions).map((option) =>
-                        valueOptions[option] === values.hasMedicAid ? styles.selectedOption : styles.nonSelectedOption,
+                        valueOptions[option] === values.hasMedicAid ? styles.selectedOption : styles.nonSelectedOption
                     )}
                     onSelect={(selected) => {
                         setFieldValue("hasMedicAid", valueOptions[selected]);
                     }}
                 />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={6} md={6}>
                 <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     LIS
                 </Typography>
                 <SelectableButtonGroup
                     buttonOptions={Object.keys(valueOptions)}
                     buttonClassNames={Object.keys(valueOptions).map((option) =>
-                        valueOptions[option] === values.lis ? styles.selectedOption : styles.nonSelectedOption,
+                        valueOptions[option] === values.lis ? styles.selectedOption : styles.nonSelectedOption
                     )}
                     onSelect={(selected) => {
                         setFieldValue("lis", valueOptions[selected]);

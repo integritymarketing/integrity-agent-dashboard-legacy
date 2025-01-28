@@ -62,6 +62,7 @@ const IulProtectionQuoteDetails = () => {
         return underwritingRequirements.map((requirement) => {
             return {
                 title: requirement.sectionName,
+                displayType: requirement.displayType,
                 data: [
                     {
                         items: requirement.names,
@@ -72,7 +73,7 @@ const IulProtectionQuoteDetails = () => {
     }, [underwritingRequirements]);
 
     return (
-        <IulQuoteContainer title="IUL Protection" page="plans details page" >
+        <IulQuoteContainer title="IUL Protection" page="plans details page">
             <Grid container>
                 {!isMobile && (
                     <Grid item md={3}>

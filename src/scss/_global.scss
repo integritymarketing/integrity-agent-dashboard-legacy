@@ -110,7 +110,7 @@ button {
     --bg-photo-default-vert-anchor: 25%;
     --bg-photo-gradient: linear-gradient(to top, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.9) 100%);
     background: var(--invert-bg-color) center var(--bg-photo-vert-anchor, var(--bg-photo-default-vert-anchor)) no-repeat;
-    background-image: var(--bg-photo-gradient), var(--bg-photo-src-800, var(--bg-photo-default-src-800));
+    background-image: var(--bg-photo-src-1440, var(--bg-photo-default-src-1440));
     background-size: cover;
 
     @media (min-width: 480px) {
@@ -371,5 +371,5 @@ div[class$="MenuList"]::-webkit-scrollbar-thumb:hover {
 }
 
 .padding-2 {
-  padding: 2rem;
+    padding: 2rem;
 }
