@@ -55,6 +55,7 @@ export default defineConfig(({mode}) => {
                 images: path.resolve(__dirname, "src/images"), // Alias for 'images'
                 scss: path.resolve(__dirname, "src/scss"), // Alias for 'scss'
                 schemas: path.resolve(__dirname, "src/schemas"), // Alias for 'scss'
+                ValidationSchemas: path.resolve(__dirname, "src/ValidationSchemas"), // Alias for 'ValidationSchemas'
             },
             extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
         },

@@ -1,42 +1,43 @@
 .searchInput {
-    max-width: 330px;
-    width: 100%;
+  max-width: 330px;
+  width: 100%;
 }
 
 .customBox {
-    @media (width <= 480px) {
-        position: relative;
-        right: -17px;
-    }
+  @media (width <= 480px) {
+    position: relative;
+    right: -17px;
+  }
 
+  & {
     display: flex;
     gap: 10px;
+  }
 }
 
 .pointerBox {
-    cursor: pointer;
-    width: 34px;
-    margin-bottom: 3px;
+  cursor: pointer;
+  width: 34px;
+  margin-bottom: 3px;
 }
 
 .selectedFilterOneSection {
-    background-color: #fff;
-    padding: 3px 11px;
-    border-radius: 100px;
-    padding-top: 10px;
+  background-color: #fff;
+  border-radius: 100px;
+  padding: 10px 11px 3px;
 
-    > svg {
-        width: 22px;
-    }
+  > svg {
+    width: 22px;
+  }
 }
 
 .selectedFilterMultipleSections {
-    background-color: #fff;
-    padding: 3px 11px;
-    border-radius: 100px;
-    padding-top: 10px;
+  background-color: #fff;
+  padding: 3px 11px;
+  border-radius: 100px;
+  padding-top: 10px;
 
-    > svg {
-        width: 22px;
-    }
+  > svg {
+    width: 22px;
+  }
 }

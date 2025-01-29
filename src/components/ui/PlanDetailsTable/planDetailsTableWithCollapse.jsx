@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
-import { useTable } from "react-table";
+// import { useTable } from "react-table";
+import {useReactTable} from "@tanstack/react-table"; // TODO: react-table migration
 import "./index.scss";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
 
-const PlanDetailsTableWithCollapse = ({ columns, data, compareTable, className, header, tbodyClassName, actions }) => {
-    const { getTableProps, getTableBodyProps, rows, prepareRow } = useTable({
+const PlanDetailsTableWithCollapse = ({columns, data, compareTable, className, header, tbodyClassName, actions}) => {
+    const {getTableProps, getTableBodyProps, rows, prepareRow} = useReactTable({
         columns,
         data,
     });
@@ -21,26 +22,26 @@ const PlanDetailsTableWithCollapse = ({ columns, data, compareTable, className, 
             {data?.length > 0 && (
                 <table {...getTableProps()} className={`${className} plan-details-table`}>
                     <tbody {...getTableBodyProps()} className={`${tbodyClassName} plan-details-tbody`}>
-                        {rows.map((row, rowIndex) => {
-                            prepareRow(row);
-                            return (
-                                <tr
-                                    key={`${header}-row-${rowIndex}`}
-                                    {...row.getRowProps()}
-                                    className={compareTable ? "comp-tr" : ""}
-                                >
-                                    {row.cells.map((cell, cellIndex) => (
-                                        <td
-                                            key={`${header}-cell-${cellIndex}`}
-                                            {...cell.getCellProps()}
-                                            className={compareTable ? "comp-td" : ""}
-                                        >
-                                            {cell.render("Cell")}
-                                        </td>
-                                    ))}
-                                </tr>
-                            );
-                        })}
+                    {rows.map((row, rowIndex) => {
+                        prepareRow(row);
+                        return (
+                            <tr
+                                key={`${header}-row-${rowIndex}`}
+                                {...row.getRowProps()}
+                                className={compareTable ? "comp-tr" : ""}
+                            >
+                                {row.cells.map((cell, cellIndex) => (
+                                    <td
+                                        key={`${header}-cell-${cellIndex}`}
+                                        {...cell.getCellProps()}
+                                        className={compareTable ? "comp-td" : ""}
+                                    >
+                                        {cell.render("Cell")}
+                                    </td>
+                                ))}
+                            </tr>
+                        );
+                    })}
                     </tbody>
                 </table>
             )}
