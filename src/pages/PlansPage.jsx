@@ -1,62 +1,62 @@
 import * as Sentry from "@sentry/react";
-import { useCallback, useEffect, useRef, useMemo, useState } from "react";
-import { Helmet } from "react-helmet-async";
+import {useCallback, useEffect, useRef, useMemo, useState} from "react";
+import {Helmet} from "react-helmet-async";
 import Media from "react-media";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 
-import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { addProviderModalAtom, showViewAvailablePlansAtom } from "recoil/providerInsights/atom.js";
+import {useHealth} from "providers/ContactDetails/ContactDetailsContext";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {addProviderModalAtom, showViewAvailablePlansAtom} from "src/recoil/providerInsights/atom.jsx";
 
-import { getFirstEffectiveDateOption, formatDate } from "utils/dates";
+import {getFirstEffectiveDateOption, formatDate} from "utils/dates";
 
 import getNextAEPEnrollmentYear from "utils/getNextAEPEnrollmentYear";
-import { scrollTop } from "utils/shared-utils/sharedUtility";
+import {scrollTop} from "utils/shared-utils/sharedUtility";
 
 import useAnalytics from "hooks/useAnalytics";
 import useFetch from "hooks/useFetch";
-import { useOnClickOutside } from "hooks/useOnClickOutside";
+import {useOnClickOutside} from "hooks/useOnClickOutside";
 import useRoles from "hooks/useRoles";
 
 import closeAudio from "../components/WebChat/close.mp3";
 import CMSCompliance from "components/CMSCompliance";
 import CurrentCarrierSummaryBanner from "components/CurrentCarrierSummaryBanner";
-import { ContactProfileTabBar } from "components/ContactDetailsContainer/ContactProfileTabBar";
+import {ContactProfileTabBar} from "components/ContactDetailsContainer/ContactProfileTabBar";
 import NonRTSBanner from "components/Non-RTS-Banner";
 import ProviderModal from "components/SharedModals/ProviderModal";
 import WebChatComponent from "components/WebChat/WebChat";
 import Filter from "components/icons/filter";
 import SortIcon from "components/icons/sort";
 import AdditionalFilters from "components/ui/AdditionalFilters";
-import { BackToTop } from "components/ui/BackToTop";
-import { Button } from "components/ui/Button";
+import {BackToTop} from "components/ui/BackToTop";
+import {Button} from "components/ui/Button";
 import ContactEdit from "components/ui/ContactEdit";
 import EffectiveDateFilter from "components/ui/EffectiveDateFilter";
 import Pagination from "components/ui/Pagination/pagination";
 import PharmacyFilter from "components/ui/PharmacyFilter";
-import PlanTypesFilter, { planTypesMap } from "components/ui/PlanTypesFilter";
+import PlanTypesFilter, {planTypesMap} from "components/ui/PlanTypesFilter";
 import Radio from "components/ui/Radio";
-import { Select } from "components/ui/Select";
+import {Select} from "components/ui/Select";
 import WithLoader from "components/ui/WithLoader";
 import Container from "components/ui/container";
-import PlanResults, { convertPlanTypeToValue } from "components/ui/plan-results";
+import PlanResults, {convertPlanTypeToValue} from "components/ui/plan-results";
 
 import FocusedNav from "partials/focused-nav";
 import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
 import analyticsService from "services/analyticsService";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import {useClientServiceContext} from "services/clientServiceProvider";
 
 import ViewAvailablePlans from "../pages/contacts/contactRecordInfo/viewAvailablePlans";
 
-import { PlanPageFooter } from "./PlanPageFooter";
+import {PlanPageFooter} from "./PlanPageFooter";
 import styles from "./PlansPage.module.scss";
 
-import { PLAN_SORT_OPTIONS, PLAN_TYPE_ENUMS } from "../constants";
-import { Box, Typography } from "@mui/material";
-import { MEDICARE_ADVANTAGE } from "components/AddZipContainer/AddZipContainer.constants";
-import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
+import {PLAN_SORT_OPTIONS, PLAN_TYPE_ENUMS} from "../constants";
+import {Box, Typography} from "@mui/material";
+import {MEDICARE_ADVANTAGE} from "components/AddZipContainer/AddZipContainer.constants";
+import {QUOTE_TYPE_LABEL} from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const buildSortOptions = (dictionary) => {
     const labels = Object.values(dictionary);
@@ -75,7 +75,7 @@ const getSortFunction = (sort) => PLAN_SORT_OPTIONS[sort]?.sort;
 function getPlansAvailableSection(planCount, totalPlanCount, plansLoading, planType, isMobile) {
     const planTypeString = convertPlanTypeToValue(planType, planTypesMap);
     if (plansLoading) {
-        return <div />;
+        return <div/>;
     } else if (isMobile) {
         return (
             <div className={`${styles["plans-available"]}`}>
@@ -101,13 +101,13 @@ const EFFECTIVE_YEARS_SUPPORTED =
     currentPlanYear === currentYear ? [currentYear] : [currentYear, currentPlanYear].sort((a, b) => a - b);
 
 function useQuery() {
-    const { search } = useLocation();
+    const {search} = useLocation();
     return useMemo(() => new URLSearchParams(search), [search]);
 }
 
 const PlansPage = () => {
-    const { contactId: id } = useParams();
-    const { fireEvent } = useAnalytics();
+    const {contactId: id} = useParams();
+    const {fireEvent} = useAnalytics();
     const query = useQuery();
     const showSelected = query && query.get("preserveSelected");
     const jsonStr = sessionStorage.getItem("__plans__");
@@ -126,10 +126,10 @@ const PlansPage = () => {
 
     const initialSelectedPlans = initialPlans && showSelected ? initialPlans : [];
 
-    const { isNonRTS_User } = useRoles();
+    const {isNonRTS_User} = useRoles();
 
     const MY_APPOINTED_PLANS = isNonRTS_User ? false : showSelected ? s_options?.s_myAppointedPlans : true;
-    const { clientsService, plansService } = useClientServiceContext();
+    const {clientsService, plansService} = useClientServiceContext();
     const navigate = useNavigate();
     const location = useLocation();
     const [contact, setContact] = useState();
@@ -157,13 +157,13 @@ const PlansPage = () => {
     const audioRefClose = useRef(null);
     const isAddProviderModalOpen = useRecoilValue(addProviderModalAtom);
     const setModalOpen = useSetRecoilState(addProviderModalAtom);
-    const { Post: postSpecialists } = useFetch(
+    const {Post: postSpecialists} = useFetch(
         `${import.meta.env.VITE_QUOTE_URL}/Rxspecialists/${id}?api-version=1.0`,
     );
     const [rXToSpecialists, setRXToSpecialists] = useState([]);
     const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);
 
-    const { pharmacies, fetchPharmacies, fetchPrescriptions, fetchProviders } = useHealth() || {};
+    const {pharmacies, fetchPharmacies, fetchPrescriptions, fetchProviders} = useHealth() || {};
 
     useEffect(() => {
         if (id) {
@@ -211,14 +211,14 @@ const PlansPage = () => {
             setProviders(providerData.providers);
             setPrescriptions(prescriptionData);
 
-            const { birthdate, shouldHideSpecialistPrompt } = contactData;
+            const {birthdate, shouldHideSpecialistPrompt} = contactData;
             const payload = {
                 birthDate: birthdate,
-                rxDetails: prescriptionData?.map(({ dosage: { ndc, drugName } }) => ({
+                rxDetails: prescriptionData?.map(({dosage: {ndc, drugName}}) => ({
                     ndc,
                     drugName,
                 })),
-                providerDetails: providerData?.providers?.map(({ presentationName, specialty }) => ({
+                providerDetails: providerData?.providers?.map(({presentationName, specialty}) => ({
                     providerName: presentationName,
                     providerSpecialty: specialty,
                 })),
@@ -375,7 +375,7 @@ const PlansPage = () => {
 
     const changeFilters = (e) => {
         setShowCurrentCarrierSummary(false);
-        const { checked, value, name } = e.target;
+        const {checked, value, name} = e.target;
         const policy_filters = isMobile ? policyFilters_mobile : policyFilters;
         const carrier_filters = isMobile ? carrierFilters_mobile : carrierFilters;
         const list = name === "policy" ? policy_filters : carrier_filters;
@@ -411,7 +411,7 @@ const PlansPage = () => {
             setPlanType_mobile(value);
         } else {
             setPlanType(value);
-            navigate({ state: { planType: parseInt(value) } });
+            navigate({state: {planType: parseInt(value)}});
         }
         setSelectedPlans({});
         healthQuoteResultsUpdatedEvent("planType", value);
@@ -531,14 +531,14 @@ const PlansPage = () => {
 
         const rebatePlans = rebatesFilter
             ? [...specialNeedsPlans].filter((plan) => {
-                  if (plan.planDataFields && plan.planDataFields.length > 0) {
-                      return plan.planDataFields.find((detail) =>
-                          detail.name.toLowerCase().includes("part b giveback"),
-                      );
-                  } else {
-                      return false;
-                  }
-              })
+                if (plan.planDataFields && plan.planDataFields.length > 0) {
+                    return plan.planDataFields.find((detail) =>
+                        detail.name.toLowerCase().includes("part b giveback"),
+                    );
+                } else {
+                    return false;
+                }
+            })
             : specialNeedsPlans;
 
         const sortedResults = [...rebatePlans]?.sort(sortFunction);
@@ -614,16 +614,16 @@ const PlansPage = () => {
         );
     };
     const isLoading = loading;
-    const { firstName = "", lastName = "", birthdate = "", leadsId = "" } = contact || {};
+    const {firstName = "", lastName = "", birthdate = "", leadsId = ""} = contact || {};
     const toSentenceCase = (name) => name?.charAt(0).toUpperCase() + name?.slice(1).toLowerCase();
     const fullName = `${toSentenceCase(firstName)} ${toSentenceCase(lastName)}`;
     const userZipCode = contact?.addresses?.[0]?.postalCode;
     return (
         <>
-            <audio ref={audioRefClose} src={closeAudio} />
+            <audio ref={audioRefClose} src={closeAudio}/>
             {showViewAvailablePlans && (
                 <>
-                    <div className={styles.backdrop} />
+                    <div className={styles.backdrop}/>
                     <ViewAvailablePlans
                         providers={providers}
                         prescriptions={prescriptions}
@@ -656,11 +656,11 @@ const PlansPage = () => {
                     }}
                 />
                 <WithLoader isLoading={isLoading}>
-                    {!shouldShowAskIntegrity && <WebChatComponent />}
+                    {!shouldShowAskIntegrity && <WebChatComponent/>}
                     <Helmet>
                         <title>Integrity - Plans</title>
                     </Helmet>
-                    <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE} />
+                    <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE}/>
                     {!isEdit || (isEdit && isMobile)}
                     {(isEdit || (isMobile && filtersOpen)) && (
                         <FocusedNav
@@ -676,12 +676,12 @@ const PlansPage = () => {
                         />
                     )}
                     {((contact && !isEdit && !isMobile) || (isMobile && !filtersOpen && !isEdit)) && (
-                        <ContactProfileTabBar contactId={id} showTabs={false} backButtonLabel="Back" />
+                        <ContactProfileTabBar contactId={id} showTabs={false} backButtonLabel="Back"/>
                     )}
 
                     {isMobile && !filtersOpen && !isEdit && (
                         <Button
-                            icon={<Filter />}
+                            icon={<Filter/>}
                             label={"Filter Plans"}
                             onClick={openFilters}
                             type="secondary"
@@ -691,14 +691,14 @@ const PlansPage = () => {
 
                     {!isEdit && (
                         <>
-                            <Box sx={{ padding: "56px 24px", pb: 0 }}>
-                                <Box sx={{ pb: 3 }} display={"flex"} justifyContent={"center"}>
+                            <Box sx={{padding: "56px 24px", pb: 0}}>
+                                <Box sx={{pb: 3}} display={"flex"} justifyContent={"center"}>
                                     <Typography variant="h2" gutterBottom color={"#052a63"}>
                                         {MEDICARE_ADVANTAGE}
                                     </Typography>
                                 </Box>
                             </Box>
-                            {isNonRTS_User && <NonRTSBanner />}
+                            {isNonRTS_User && <NonRTSBanner/>}
 
                             <Container className={`${styles["search-container"]}`}>
                                 {(!isMobile || (isMobile && filtersOpen)) && (
@@ -765,14 +765,15 @@ const PlansPage = () => {
                                         </div>
 
                                         <div className={`${styles["filter-section"]}`}>
-                                            {effectiveDate && <PharmacyFilter />}
+                                            {effectiveDate && <PharmacyFilter/>}
                                         </div>
 
                                         <div className={`${styles["filter-section"]}`}>
                                             {effectiveDate && (
                                                 <AdditionalFilters
                                                     planType={planType}
-                                                    onChange={() => {}}
+                                                    onChange={() => {
+                                                    }}
                                                     toggleAppointedPlans={toggleAppointedPlans}
                                                     carriers={carrierList}
                                                     policyTypes={subTypeList}
@@ -840,7 +841,7 @@ const PlansPage = () => {
                                                 <div className={`${styles["sort-select"]}`}>
                                                     <Select
                                                         inputBoxClassName={`${styles["sort-select-box"]}`}
-                                                        mobileLabel={<SortIcon />}
+                                                        mobileLabel={<SortIcon/>}
                                                         initialValue={"total-asc"}
                                                         onChange={(value) => setSort(value)}
                                                         options={buildSortOptions(PLAN_SORT_OPTIONS)}
@@ -866,7 +867,7 @@ const PlansPage = () => {
                                             />
                                             {!plansLoading && filteredPlansCount > 0 && (
                                                 <div>
-                                                    <BackToTop />
+                                                    <BackToTop/>
                                                     <Pagination
                                                         currentPage={currentPage}
                                                         resultName="plans"
@@ -898,13 +899,13 @@ const PlansPage = () => {
                             />
                         </Container>
                     )}
-                    <GlobalFooter />
+                    <GlobalFooter/>
                     <PlanPageFooter
                         leadId={id}
                         effectiveDate={formatDate(effectiveDate, "yyyy-MM-01")}
                         plans={results?.filter((plan) => selectedPlans[plan.id])}
                         onRemove={(plan) => {
-                            setSelectedPlans((prev) => ({ ...prev, [plan.id]: false }));
+                            setSelectedPlans((prev) => ({...prev, [plan.id]: false}));
                         }}
                         setSessionData={setSessionData}
                         isMobile={isMobile}

@@ -7,16 +7,18 @@
     left: calc(100vw - 355px);
   }
 
-  position: fixed;
-  top: 105px;
-  right: 80px;
-  z-index: 999;
+  & {
+    position: fixed;
+    top: 105px;
+    right: 80px;
+    z-index: 999;
+  }
 }
 
 .toast {
   background: #fff;
   border: 1px solid #c7ccd1;
-  box-shadow: 0 2px 12px 0 #1e4459 25%;
+  box-shadow: 0 2px 12px 0 #1e4459;
   min-height: 60px;
   display: flex;
   justify-content: space-between;
@@ -71,7 +73,7 @@
     flex: 1;
     padding: 0.5rem 1rem;
     color: #525761;
-    font-family: Lato;
+    font-family: Lato, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -98,5 +100,7 @@
     }
   }
 
-  margin-bottom: 0.5rem;
+  & {
+    margin-bottom: 0.5rem;
+  }
 }

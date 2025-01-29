@@ -15,8 +15,8 @@ export default defineConfig(({mode}) => {
             outDir: isAuthBuild ? "distAuth" : "dist", // Separate output folders
             rollupOptions: {
                 input: isAuthBuild
-                    ? path.resolve(__dirname, "src/authIndex.js") // Custom entry point for auth build
-                    : path.resolve(__dirname, "src/index.js"),    // Main entry point
+                    ? path.resolve(__dirname, "src/authIndex.jsx") // Custom entry point for auth build
+                    : path.resolve(__dirname, "src/index.jsx"),    // Main entry point
             },
         },
 
@@ -37,6 +37,7 @@ export default defineConfig(({mode}) => {
         resolve: {
             alias: {
                 "@": path.resolve(__dirname, "src"),
+                src: path.resolve(__dirname, "src"),
                 providers: path.resolve(__dirname, "src/providers"), // Alias for 'providers' directory
                 routeConfigs: path.resolve(__dirname, "src/routeConfigs"), // Alias for 'routeConfigs' directory
                 components: path.resolve(__dirname, "src/components"), // Alias for 'components'
@@ -70,7 +71,7 @@ export default defineConfig(({mode}) => {
         },
 
         optimizeDeps: {
-            exclude: ["recoil", "moment", "react-table"], // Exclude Recoil from dependency pre-bundling
+            exclude: ["moment", "react-table"], // Exclude Recoil from dependency pre-bundling
         },
     };
 });
