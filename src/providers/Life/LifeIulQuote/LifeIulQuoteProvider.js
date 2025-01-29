@@ -144,6 +144,8 @@ export const LifeIulQuoteProvider = ({ children }) => {
     const handleIULQuoteApplyClick = useCallback(
         async (reqData, leadId) => {
             const payload = removeNullAndEmptyFields(reqData);
+            const emailAddress = payload?.emails?.length > 0 ? payload.emails[0].leadEmail : null;
+            const phoneNumber = payload?.phones?.length > 0 ? payload.phones[0].leadPhone : null;
             const obj = {
                 enroller: {
                     agentLastName: payload?.agentLastName,
@@ -157,11 +159,11 @@ export const LifeIulQuoteProvider = ({ children }) => {
                     lastName: payload?.lastName,
                     gender: payload?.gender == "male" ? "M" : "F",
                     dateOfBirth: payload?.birthdate,
-                    emailAddress: payload?.email,
-                    phoneNumber: payload?.phones[0]?.leadPhone,
-                    address1: payload?.addresses[0]?.address1,
-                    city: payload?.addresses[0]?.city,
-                    state: payload?.addresses[0]?.stateCode,
+                    emailAddress,
+                    phoneNumber,
+                    address1: payload?.addresses[0]?.address1 || "",
+                    city: payload?.addresses[0]?.city || "",
+                    state: payload?.addresses[0]?.stateCode || "",
                     zipCode: payload?.addresses[0]?.postalCode,
                     effectiveDate: new Date(payload?.effectiveDate).toISOString(),
                 },
@@ -189,7 +191,6 @@ export const LifeIulQuoteProvider = ({ children }) => {
         },
         [applyLifeIulQuoteDetails],
     );
-
 
     useEffect(() => {
         if (selectedCarriers.includes("All carriers")) {

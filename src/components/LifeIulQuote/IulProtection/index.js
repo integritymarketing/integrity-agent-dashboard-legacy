@@ -21,8 +21,8 @@ const IulProtectionQuote = () => {
         tempUserDetails,
         handleComparePlanSelect,
         selectedPlans,
-        handleIULQuoteApplyClick,
         isLoadingApplyLifeIulQuote,
+        handleIULQuoteApplyClick,
     } = useLifeIulQuote();
 
     const { leadDetails } = useLeadDetails();
@@ -34,6 +34,7 @@ const IulProtectionQuote = () => {
     const [isTobaccoUser, setIsTobaccoUser] = useState(false);
     const { agentInformation } = useAgentInformationByID();
     const [selectedPlan, setSelectedPlan] = useState({});
+
 
     const getQuoteResults = useCallback(async () => {
         const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
@@ -89,13 +90,32 @@ const IulProtectionQuote = () => {
     const handleNavigateToLearningCenter = () => {
         window.open("/learning-center", "_blank");
     };
-
     const handleApplyClick = async (plan) => {
         setSelectedPlan(plan);
-        const response = await handleIULQuoteApplyClick({ ...plan, ...agentInformation, ...leadDetails }, contactId);
-        setSelectedPlan({});
-        console.log("response", response);
+
+        const emailAddress = leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
+        const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
+
+        try {
+            await handleIULQuoteApplyClick(
+                {
+                    ...plan,
+                    ...agentInformation,
+                    ...leadDetails,
+                    emailAddress,
+                    phoneNumber
+                },
+                contactId
+            );
+        } catch (error) {
+            console.error("Error applying for quote:", error);
+        } finally {
+            setSelectedPlan({});
+        }
     };
+
+
+
 
     const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
 
@@ -173,7 +193,12 @@ const IulProtectionQuote = () => {
                                             rowId,
                                         } = plan;
                                         return (
-                                            <Grid item md={12} key={`iul-protection-${index}`}>
+                                            <Grid
+                                                item
+                                                md={12}
+                                                key={`iul-protection-${index}`}
+                                                sx={{ position: "relative" }}
+                                            >
                                                 <IulQuoteCard
                                                     applyButtonDisabled={isLoadingApplyLifeIulQuote}
                                                     quoteType="IUL Protection"
@@ -204,9 +229,9 @@ const IulProtectionQuote = () => {
                                                     }
                                                     isChecked={selectedPlans?.find((p) => p.rowId === rowId)}
                                                 />
-                                                {selectedPlan.rowId === rowId && (
+                                                {selectedPlan?.rowId === rowId && (
                                                     <Box sx={{ position: "absolute", top: 0, left: "50%" }}>
-                                                        <WithLoader isLoading={isLoadingApplyLifeIulQuote}></WithLoader>
+                                                        <WithLoader isLoading={isLoadingApplyLifeIulQuote} />
                                                     </Box>
                                                 )}
                                             </Grid>
