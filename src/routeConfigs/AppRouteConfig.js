@@ -9,7 +9,6 @@ import { ProductPreferenceDetailsProvider } from "providers/Life/ProductPreferen
 import { LifeIulQuoteProvider } from "providers/Life";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
-const AccountPage = lazy(() => import("pages/Account/AccountPage"));
 const AddContactPage = lazy(() => import("pages/contacts/AddContactPage"));
 const AuthSigninCallback = lazy(() => import("components/functional/auth-signin-callback"));
 const AuthSigninRedirectPage = lazy(() => import("pages/auth/SigninRedirectPage"));
@@ -158,8 +157,6 @@ const appProtectedRoutes = [
             </ContactDetailsProvider>
         ),
     },
-    { path: "/account", component: <AccountPage /> },
-    { path: "/account/:section/", component: <AccountPage /> },
     { path: "/help", component: <HelpPage /> },
     { path: "/learning-center", component: <ResourcesPage /> },
     {
@@ -509,7 +506,7 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <LifeIulQuoteProvider>
-                        <IulAccumulationComparePlansPage />  
+                        <IulAccumulationComparePlansPage />
                     </LifeIulQuoteProvider>
                 </ContactDetailsProvider>
             </StrictMode>
