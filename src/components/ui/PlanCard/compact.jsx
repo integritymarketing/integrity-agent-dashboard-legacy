@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, {useState} from "react";
+import {useParams} from "react-router-dom";
 
 import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
 
@@ -12,11 +12,11 @@ import ShareIcon from "components/icons/vector";
 import ShareIconDisabled from "components/icons/vector-disabled";
 import Popover from "components/ui/Popover";
 
-import { PLAN_TYPE_ENUMS } from "constants";
+import {PLAN_TYPE_ENUMS} from "src/constants";
 
 import "./index.scss";
 
-import { Button } from "../Button";
+import {Button} from "../Button";
 import Rating from "../Rating";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -24,23 +24,23 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
     currency: "USD",
 });
 
-const CompactPlanCard = ({ planData, onEnrollClick, onShareClick, isMobile, onlyButtons = false, effectiveDate }) => {
+const CompactPlanCard = ({planData, onEnrollClick, onShareClick, isMobile, onlyButtons = false, effectiveDate}) => {
     const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
-    const { contactId } = useParams();
-    const { documents } = planData;
-    const { isNonRTS_User } = useRoles();
-    const { fireEvent } = useAnalytics();
+    const {contactId} = useParams();
+    const {documents} = planData;
+    const {isNonRTS_User} = useRoles();
+    const {fireEvent} = useAnalytics();
 
     const disableEnroll = shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
 
     const buttons = (
         <div className={`footer ${isMobile ? "mobile" : ""}`}>
             {documents === null || documents?.length === 0 ? (
-                <Popover openOn="hover" icon={<Info />} title={"No Plans to share"} positions={["right", "bottom"]}>
+                <Popover openOn="hover" icon={<Info/>} title={"No Plans to share"} positions={["right", "bottom"]}>
                     <Button
                         disabled={true}
                         label="Share Plan"
-                        icon={<ShareIconDisabled />}
+                        icon={<ShareIconDisabled/>}
                         onClick={() => onShareClick(planData.id)}
                         type="secondary"
                     />
@@ -48,7 +48,7 @@ const CompactPlanCard = ({ planData, onEnrollClick, onShareClick, isMobile, only
             ) : (
                 <Button
                     label="Share Plan"
-                    icon={<ShareIcon />}
+                    icon={<ShareIcon/>}
                     onClick={() => onShareClick(planData.id)}
                     type="secondary"
                 />
@@ -87,7 +87,7 @@ const CompactPlanCard = ({ planData, onEnrollClick, onShareClick, isMobile, only
             <div className={`sub-header ${isMobile ? "mobile" : ""}`}>
                 <div className={"carrier-name"}>{planData.carrierName}</div>
                 <div className={"rating-container"}>
-                    <Rating value={planData.planRating} />
+                    <Rating value={planData.planRating}/>
                 </div>
             </div>
             {isMobile ? (

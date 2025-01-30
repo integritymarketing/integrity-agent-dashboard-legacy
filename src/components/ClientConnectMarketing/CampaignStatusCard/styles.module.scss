@@ -1,141 +1,140 @@
 @use "scss/globalDefines" as defines_global;
-@import "scss/components/icons";
 
 .campaignCard {
-    background-color: #f1f1f1;
-    min-height: 172px;
+  background-color: #f1f1f1;
+  min-height: 172px;
 }
 
 .cardDivider {
-    border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
 }
 
 .cardHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
 }
 
 .cardValue {
-    color: #052a63;
-    font-size: 16px;
-    margin-left: 4px;
+  color: #052a63;
+  font-size: 16px;
+  margin-left: 4px;
 }
 
 .cardLabel {
-    font-size: 16px;
-    color: #717171;
+  font-size: 16px;
+  color: #717171;
 }
 
 .cardDetails {
-    color: #757575;
-    padding: 16px;
-    height: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
+  color: #757575;
+  padding: 16px;
+  height: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 .campaignHeader {
-    display: grid;
-    grid-template-columns: 10% 80% 10%;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
+  align-items: center;
 }
 
 .status_body {
-    text-align: left;
-    min-height: 60px;
-    color: #717171;
-    padding: 16px 0;
-    font-size: 16px;
+  text-align: left;
+  min-height: 60px;
+  color: #717171;
+  padding: 16px 0;
+  font-size: 16px;
 }
 
 .campaignCardContainer {
-    min-height: 172px;
-    border-radius: 8px;
-    width: 36.1%;
-    flex-shrink: 0;
-    background-color: #f0f0f0;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-wrap: break-word;
-    margin-bottom: 12px;
+  min-height: 172px;
+  border-radius: 8px;
+  width: 36.1%;
+  flex-shrink: 0;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  margin-bottom: 12px;
 
-    @include defines_global.small {
-        .campaignCardContainer {
-            width: 82%;
-        }
+  @include defines_global.small {
+    .campaignCardContainer {
+      width: 82%;
     }
+  }
 
-    @include defines_global.medium {
-        .campaignCardContainer {
-            width: 54%;
-        }
+  @include defines_global.medium {
+    .campaignCardContainer {
+      width: 54%;
     }
+  }
 }
 
 .mIcon {
-    display: contents;
+  display: contents;
 
-    >div {
-        height: 36px;
-    }
+  > div {
+    height: 36px;
+  }
 }
 
 .statusCard {
-    padding: 16px 0;
-    border-radius: 8px;
+  padding: 16px 0;
+  border-radius: 8px;
 }
 
 .campaignTitle {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    color: #4178ff;
-    padding-left: 8px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  color: #4178ff;
+  padding-left: 8px;
+  cursor: pointer;
 }
 
 .headerAction {
-    text-align: right;
+  text-align: right;
 }
 
 .clicksCardsContainer {
-    gap: 8px;
+  gap: 8px;
 }
 
 .cardType {
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    margin-right: 8px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  margin-right: 8px;
 }
 
 .emailIcon {
-    width: 36px;
-    height: 36px;
-    cursor: none;
-    pointer-events: none;
+  width: 36px;
+  height: 36px;
+  cursor: none;
+  pointer-events: none;
 
-    &.emailIconBg {
-        background: var(--error-light, #fff);
-    }
+  &.emailIconBg {
+    background: var(--error-light, #fff);
+  }
 
-    &.emailIconBg:hover {
-        background: var(--error-light, #fff);
-    }
+  &.emailIconBg:hover {
+    background: var(--error-light, #fff);
+  }
 }
 
 @media (width <= 480px) {
-    .campaignCardContainer {
-        width: 80%;
-    }
+  .campaignCardContainer {
+    width: 80%;
+  }
 }
 
 @media (width >= 769px) and (width <= 1024px) {
-    .campaignCardContainer {
-        width: 46%;
-    }
+  .campaignCardContainer {
+    width: 46%;
+  }
 }

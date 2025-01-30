@@ -1,92 +1,91 @@
 @use "scss/globalDefines" as defines_global;
-@import "scss/components/icons";
 
 .statusInfo {
-    background-color: #fff;
-    padding: 8px;
-    border-radius: 8px;
-    display: flex;
-    cursor: pointer;
+  background-color: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  cursor: pointer;
 
-    @include defines_global.small {
-        align-items: center;
-        justify-content: center;
-    }
+  @include defines_global.small {
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .disable {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .percentage {
-    display: flex;
-    margin-top: 10px;
+  display: flex;
+  margin-top: 10px;
 }
 
 .statusPercentageNumber {
-    color: #052a63;
-    padding: 4px;
-    margin-right: 8px;
-    border-radius: 4px;
-    background: #f1f1f1;
-    font-weight: 600;
+  color: #052a63;
+  padding: 4px;
+  margin-right: 8px;
+  border-radius: 4px;
+  background: #f1f1f1;
+  font-weight: 600;
 }
 
 .statusInfoPercentage {
-    color: #717171;
-    text-align: center;
-    font-family: Lato;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
-    padding: 4px;
+  color: #717171;
+  text-align: center;
+  font-family: Lato, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 4px;
 }
 
 .icons {
-    margin: auto 0;
+  margin: auto 0;
 
-    @include defines_global.small {
-        display: none;
-    }
+  @include defines_global.small {
+    display: none;
+  }
 }
 
 .metricData {
-    margin-left: 8px;
+  margin-left: 8px;
 
-    @include defines_global.small {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        margin-left: 0;
-    }
+  @include defines_global.small {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 0;
+  }
 }
 
 .integrityIcon {
-    cursor: none;
-    pointer-events: none;
+  cursor: none;
+  pointer-events: none;
 
-    &.integrityIconBg:hover {
-        background-color: #f1faff;
-    }
+  &.integrityIconBg:hover {
+    background-color: #f1faff;
+  }
 }
 
 .iconComponent {
-    color: #1976d2;
-    margin-right: 0;
-    height: 26px;
+  color: #1976d2;
+  margin-right: 0;
+  height: 26px;
 }
 
 .statusName {
-    color: #052a63;
+  color: #052a63;
 }
 
 .statusIcon {
-    width: 36px;
-    height: 36px;
+  width: 36px;
+  height: 36px;
 
-    &.statusIconBg {
-        background: var(--error-light, #f1faff);
-    }
+  &.statusIconBg {
+    background: var(--error-light, #f1faff);
+  }
 }

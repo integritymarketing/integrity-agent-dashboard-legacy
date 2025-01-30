@@ -19,7 +19,7 @@
     "@integritymarketing/ui-button-components": "^0.0.15",
     "@integritymarketing/ui-container-components": "^0.0.6",
     "@integritymarketing/ui-header": "^0.0.14",
-    "@integritymarketing/ui-text-components": "^0.0.30",
+    "@integritymarketing/ui-text-components": "^0.0.31",
     "@microsoft/signalr": "^8.0.0",
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.2",
@@ -76,7 +76,7 @@
     "start": "cross-env BROWSER=chrome craco start",
     "start:auth": "cross-env REACT_APP_BUILD_TARGET=auth PORT=3001 BROWSER=chrome craco start",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "postbuild": "node generate-redirects.js",
+    "postbuild": "node generate-redirects.mjs",
     "eject": "craco eject",
     "sonar": "sonar-scanner"
   },

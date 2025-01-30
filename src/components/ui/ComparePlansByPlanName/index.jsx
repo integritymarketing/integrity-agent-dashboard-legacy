@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/react";
-import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {useCallback, useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 
 import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
 
@@ -11,18 +11,18 @@ import PreEnrollPDFModal from "components/SharedModals/PreEnrollPdf";
 import Container from "components/ui/container";
 
 import useAnalytics from "hooks/useAnalytics";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import {useClientServiceContext} from "services/clientServiceProvider";
 
 import styles from "../../../pages/PlansPage.module.scss";
 
-import { Button } from "../Button";
+import {Button} from "../Button";
 import EnrollmentModal from "../Enrollment/enrollment-modal";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowShare } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
-import { faCircleArrowRight } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowShare} from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
+import {faCircleArrowRight} from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 
-import { PLAN_TYPE_ENUMS } from "constants";
+import {PLAN_TYPE_ENUMS} from "src/constants";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -32,25 +32,25 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
 const LOGO_BASE_URL = "https://contentserver.destinationrx.com/ContentServer/DRxProductContent/PlanLogo/";
 
 export default function ComparePlansByPlanName({
-    agentInfo = {},
-    comparePlans,
-    setComparePlanModalOpen,
-    handleRemovePlan,
-    id,
-    plansLoading,
-    isEmail = false,
-    isModal = false,
-    contactData,
-}) {
+                                                   agentInfo = {},
+                                                   comparePlans,
+                                                   setComparePlanModalOpen,
+                                                   handleRemovePlan,
+                                                   id,
+                                                   plansLoading,
+                                                   isEmail = false,
+                                                   isModal = false,
+                                                   contactData,
+                                               }) {
     const showToast = useToast();
-    const { clientsService, enrollPlansService } = useClientServiceContext();
-    const { effectiveDate, contactId } = useParams();
+    const {clientsService, enrollPlansService} = useClientServiceContext();
+    const {effectiveDate, contactId} = useParams();
     const [userData, setUserData] = useState(contactData);
     const [modalOpen, setModalOpen] = useState(false);
     const [enrollingPlan, setEnrollingPlan] = useState();
     const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
-    const { isNonRTS_User } = useRoles();
-    const { fireEvent } = useAnalytics();
+    const {isNonRTS_User} = useRoles();
+    const {fireEvent} = useAnalytics();
 
     const isEmailNonRts = isEmail ? agentInfo?.Roles?.includes("nonRts") : isNonRTS_User;
 
@@ -135,7 +135,7 @@ export default function ComparePlansByPlanName({
 
                                         <Button
                                             label="Share"
-                                            icon={<FontAwesomeIcon icon={faArrowShare} />}
+                                            icon={<FontAwesomeIcon icon={faArrowShare}/>}
                                             onClick={() => setComparePlanModalOpen(true)}
                                             type="secondary"
                                             className={`${styles["share-btn"]} ${styles["mobile"]}`}
