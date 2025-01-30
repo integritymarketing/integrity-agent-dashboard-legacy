@@ -1,3 +1,5 @@
+@import "../../../scss/globalDefines.scss";
+
 .tabsContainer {
     flex-grow: 1;
     width: 90%;
@@ -16,5 +18,30 @@
     p {
         width: 250px;
         word-break: break-word;
+    }
+}
+
+.planCompareHeader {
+    @include small {
+        overflow-x: auto;
+        & > div > div {
+            width: 1000px;
+        }
+    }
+}
+.productFeature {
+    @include small {
+        overflow-x: auto;
+        table {
+            width: 1000px;
+        }
+    }
+}
+.underwritingRequirements {
+    @include small {
+        overflow-x: auto;
+        table {
+            min-width: 1365px;
+        }
     }
 }
