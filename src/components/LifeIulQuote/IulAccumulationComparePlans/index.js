@@ -1,24 +1,22 @@
 import { useEffect, useState, useMemo } from "react";
 import { Grid, Box } from "@mui/material";
 
-import { 
-    CompareHeader,
-    ProductFeature,
-    UnderwritingRequirements,
-} from "@integritymarketing/clients-ui-kit";
+import { CompareHeader, ProductFeature, UnderwritingRequirements } from "@integritymarketing/clients-ui-kit";
 import { IulQuoteContainer } from "../CommonComponents";
+import { useNavigate , useParams } from "react-router-dom";
 
 import { useLifeIulQuote } from "providers/Life";
-import { useParams } from "react-router-dom";
+
 import styles from "./styles.module.scss";
 
 const IulAccumulationComparePlans = () => {
     const [results, setResults] = useState([]);
 
-    const { planIds: comparePlanIds } = useParams();
+    const { planIds: comparePlanIds, contactId } = useParams();
     const planIds = useMemo(() => comparePlanIds.split(","), [comparePlanIds]);
     const comparePlansSessionData = sessionStorage.getItem("iul-compare-plans");
     const comparePlans = JSON.parse(comparePlansSessionData);
+    const navigate = useNavigate();
 
     const { fetchLifeIulQuoteDetails } = useLifeIulQuote();
 
@@ -109,25 +107,30 @@ const IulAccumulationComparePlans = () => {
         console.log("IulAccumulationComparePlans -> val", val);
     };
 
+    const returnBackToPlansPage = () => {
+        navigate(`/life/iul-accumulation/${contactId}/quote?preserveSelected=true`);
+    };
+
     return (
-        <IulQuoteContainer title="IUL Accumulation" page="plan compare page">
+        <IulQuoteContainer title="IUL Accumulation" page="plan compare page" quoteType="accumulation">
             <Grid container gap={3}>
-                <Grid item md={12}>
+                <Grid item md={12} className={styles.planCompareHeader}>
                     <CompareHeader
                         headerCategory="IUL_ACCUMULATION"
                         IULAccumulationPlans={plansData}
                         onClose={handleComparePlanRemove}
                         shareComparePlanModal={handleShareModal}
+                        returnBackToPlansPage={returnBackToPlansPage}
                     />
                 </Grid>
                 {features?.length > 0 && (
-                    <Grid item md={12}>
+                    <Grid item md={12} className={styles.productFeature}>
                         <ProductFeature title="Product Features" features={features} />
                     </Grid>
                 )}
 
-                <Grid item md={12}>
-                    <Box className={styles.underwritingRequirements}>
+                <Grid item md={12} className={styles.underwritingRequirements}>
+                    <Box >
                         <UnderwritingRequirements requirements={uwRequirements} title="Underwriting Requirements" />
                     </Box>
                 </Grid>
