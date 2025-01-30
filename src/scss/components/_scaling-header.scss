@@ -1,4 +1,6 @@
+@use "scss/globalDefines" as defines_global;
+
 .scaling-header {
-  @include clamp-property("padding-top", 16, 80);
-  @include clamp-property("padding-bottom", 80, 144);
+  @include defines_global.clamp-property("padding-top", 16, 80);
+  @include defines_global.clamp-property("padding-bottom", 80, 144);
 }

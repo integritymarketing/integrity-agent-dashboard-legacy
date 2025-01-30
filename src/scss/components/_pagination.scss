@@ -1,157 +1,156 @@
 .pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .pagination-display-results {
+    font-family: Lato, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    color: #434a51;
+    font-size: 16px;
+    line-height: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+  }
 
-    .pagination-display-results {
-        font-family: Lato;
-        font-style: normal;
-        font-weight: normal;
-        color: #434a51;
-        font-size: 16px;
-        line-height: 20px;
-        display: flex;
-        align-items: center;
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    line-height: (24 * 0.05);
+
+    &__pages {
+      display: inherit;
+      align-items: inherit;
+      padding: 0 1rem;
     }
 
-    .pagination {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.25rem;
-        line-height: (24 * 0.05);
+    &__button {
+      padding: 7px 15px;
+      cursor: default;
+      background: #fff;
+      box-sizing: border-box;
+      font-family: Lato, sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      color: #434a51;
+      font-size: 16px;
+      line-height: 20px;
+      border: 1px solid #dfe5ef;
 
-        &__pages {
-            display: inherit;
-            align-items: inherit;
-            padding: 0 1rem;
-        }
+      &--active:hover {
+        cursor: pointer;
+        text-decoration: underline;
+        color: #646f7b;
+        border: 1px solid #dfe5ef;
+        background: #f4f6fa;
+      }
 
-        &__button {
-            padding: 7px 15px;
-            cursor: default;
-            background: #fff;
-            box-sizing: border-box;
-            font-family: Lato;
-            font-style: normal;
-            font-weight: normal;
-            color: #434a51;
-            font-size: 16px;
-            line-height: 20px;
-            border: 1px solid #dfe5ef;
+      &--current {
+        box-sizing: border-box;
+        border: 1px solid #cdd1d5;
+        background-color: #cde2f8;
+      }
 
-            &--active:hover {
-                cursor: pointer;
-                text-decoration: underline;
-                color: #646f7b;
-                border: 1px solid #dfe5ef;
-                background: #f4f6fa;
-            }
-
-            &--current {
-                box-sizing: border-box;
-                border: 1px solid #cdd1d5;
-                background-color: #cde2f8;
-            }
-
-            &--inactive {
-                color: var(--muted-text-color);
-            }
-        }
-
-        .first > .pagination__button,
-        .last > .pagination__button {
-            padding: 7px 15px;
-            border-radius: 4px;
-        }
-
-        &__middle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            .pagination__button {
-                padding: 7px 10px;
-
-                &:not(:first-child) {
-                    border-left-width: 0;
-                }
-
-                &:first-child {
-                    border-radius: 4px 0 0 4px;
-                }
-
-                &:last-child {
-                    border-radius: 0 4px 4px 0;
-                }
-            }
-        }
-
-        &--mini {
-            justify-content: center;
-            font-size: 1rem;
-
-            .pagination__button {
-                flex-basis: 100px;
-            }
-        }
-
-        .small-pagination {
-            .pagination__button {
-                padding: 0.5rem 0.75rem;
-            }
-        }
+      &--inactive {
+        color: var(--muted-text-color);
+      }
     }
 
-    .provider-pagination-ul > .pagination__middle > li {
-        color: #434a51;
-        font-size: 16px;
-        line-height: 20px;
-        font-family: Lato;
-        font-style: normal;
-        font-weight: normal;
+    .first > .pagination__button,
+    .last > .pagination__button {
+      padding: 7px 15px;
+      border-radius: 4px;
     }
+
+    &__middle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .pagination__button {
+        padding: 7px 10px;
+
+        &:not(:first-child) {
+          border-left-width: 0;
+        }
+
+        &:first-child {
+          border-radius: 4px 0 0 4px;
+        }
+
+        &:last-child {
+          border-radius: 0 4px 4px 0;
+        }
+      }
+    }
+
+    &--mini {
+      justify-content: center;
+      font-size: 1rem;
+
+      .pagination__button {
+        flex-basis: 100px;
+      }
+    }
+
+    .small-pagination {
+      .pagination__button {
+        padding: 0.5rem 0.75rem;
+      }
+    }
+  }
+
+  .provider-pagination-ul > .pagination__middle > li {
+    color: #434a51;
+    font-size: 16px;
+    line-height: 20px;
+    font-family: Lato, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
 }
 
 .pagination-container-separateBoxes {
-    .pagination__button {
-        margin: 0 5px;
-        border-radius: 6px !important;
-        border-width: 1px !important;
-        width: 42px;
-        height: 42px;
-        text-align: center;
-        background-color: transparent;
+  .pagination__button {
+    margin: 0 5px;
+    border-radius: 6px !important;
+    border-width: 1px !important;
+    width: 42px;
+    height: 42px;
+    text-align: center;
+    background-color: transparent;
 
-        button {
-            margin: 0;
-            margin-top: 3px;
-            background-color: transparent;
-        }
+    button {
+      margin: 3px 0 0;
+      background-color: transparent;
     }
+  }
 
-    .pagination__button--nav {
-        background-color: #fff;
-        border: solid 1px #0000003b;
-    }
+  .pagination__button--nav {
+    background-color: #fff;
+    border: solid 1px #0000003b;
+  }
 
-    .previous-icon {
-        svg {
-            transform: rotateY(180deg);
-            margin-top: 2px;
-            margin-left: -1px;
-        }
+  .previous-icon {
+    svg {
+      transform: rotateY(180deg);
+      margin-top: 2px;
+      margin-left: -1px;
     }
+  }
 
-    .next-icon {
-        svg {
-            margin-top: 2px;
-            margin-left: -1px;
-        }
+  .next-icon {
+    svg {
+      margin-top: 2px;
+      margin-left: -1px;
     }
+  }
 
-    .pagination__button--current {
-        border-color: #4178ff80;
-        background-color: #4178ff1f;
-    }
+  .pagination__button--current {
+    border-color: #4178ff80;
+    background-color: #4178ff1f;
+  }
 }
