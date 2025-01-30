@@ -6,17 +6,14 @@ import GlobalFooter from "partials/global-footer";
 import GlobalNav from "partials/global-nav-v2";
 
 import analyticsService from "services/analyticsService";
-import "./contactRecordInfo/contactRecordInfo.scss";
 import Media from "react-media";
 import { PageHeader } from "../../components/PageHeader";
 
 import ContactForm from "../../components/ContactForm/ContactForm";
-import { useLeadDetails } from "../../providers/ContactDetails";
 
 export default function AddContactPage() {
     const { callLogId } = useParams();
     const [isMobile, setIsMobile] = useState(false);
-    const { leadDetails, getLeadDetails } = useLeadDetails();
     const { state, search } = useLocation();
 
     const searchParams = new URLSearchParams(search);
