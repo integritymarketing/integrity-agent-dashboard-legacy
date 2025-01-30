@@ -106,9 +106,9 @@ button {
 }
 
 .bg-photo {
-  --bg-photo-default-src-800: url("../images/optimized/bg-default-800.jpg");
-  --bg-photo-default-src-1440: url("../images/optimized/bg-default-1440.jpg");
-  --bg-photo-default-src-1920: url("../images/optimized/bg-default-1920.jpg");
+  --bg-photo-default-src-800: url("src/images/optimized/bg-default-800.jpg");
+  --bg-photo-default-src-1440: url("src/images/optimized/bg-default-1440.jpg");
+  --bg-photo-default-src-1920: url("src/images/optimized/bg-default-1920.jpg");
   --bg-photo-default-vert-anchor: 25%;
   --bg-photo-gradient: linear-gradient(to top, rgb(255 255 255 / 90%) 0%, rgb(255 255 255 / 90%) 100%);
 
@@ -147,9 +147,9 @@ button {
 }
 
 .bg-photo--alt {
-  --bg-photo-src-800: url("../images/optimized/bg-client-management-800.jpg");
-  --bg-photo-src-1440: url("../images/optimized/bg-client-management-1440.jpg");
-  --bg-photo-src-1920: url("../images/optimized/bg-client-management-1920.jpg");
+  --bg-photo-src-800: url("src/images/optimized/bg-client-management-800.jpg");
+  --bg-photo-src-1440: url("src/images/optimized/bg-client-management-1440.jpg");
+  --bg-photo-src-1920: url("src/images/optimized/bg-client-management-1920.jpg");
   --bg-photo-vert-anchor: 50%;
 }
 
