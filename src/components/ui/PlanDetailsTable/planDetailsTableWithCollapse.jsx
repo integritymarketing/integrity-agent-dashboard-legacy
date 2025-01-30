@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-// import { useTable } from "react-table";
-import {useReactTable} from "@tanstack/react-table"; // TODO: react-table migration
+// import { useTable } from "react-table"; // TODO: react-table migration
+import {useReactTable} from "@tanstack/react-table";
 import "./index.scss";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
 

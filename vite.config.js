@@ -72,7 +72,7 @@ export default defineConfig(({mode}) => {
         },
 
         optimizeDeps: {
-            exclude: ["moment", "react-table"], // Exclude Recoil from dependency pre-bundling
+            exclude: ["moment"], // Exclude Recoil from dependency pre-bundling
         },
     };
 });

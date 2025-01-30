@@ -1,61 +1,60 @@
 @use "scss/globalDefines" as defines_global;
-@import "scss/components/icons";
 
 .customPopover {
-    width: 600px;
-    padding: 10px;
+  width: 600px;
+  padding: 10px;
 }
 
 .actionIcon {
-    display: contents;
+  display: contents;
 
-    > div {
-        height: 24px;
-    }
+  > div {
+    height: 24px;
+  }
 }
 
 .actionIcons {
-    margin: auto 0;
+  margin: auto 0;
 }
 
 .disabledRow {
-    cursor: not-allowed;
+  cursor: not-allowed;
 
-    .selections {
-        color: rgb(0 0 0 / 38%);
-        cursor: not-allowed;
-    }
+  .selections {
+    color: rgb(0 0 0 / 38%);
+    cursor: not-allowed;
+  }
 }
 
 .selections {
-    width: 100px;
-    margin: 10px;
-    border-radius: 4px;
-    font-size: 18px;
-    font-weight: 600;
-    color: #434a51;
-    cursor: pointer;
+  width: 100px;
+  margin: 10px;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #434a51;
+  cursor: pointer;
 }
 
 .cardDivider {
-    border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
 }
 
 .mIcon {
-    display: contents;
+  display: contents;
 
-    > div {
-        height: 36px;
-    }
+  > div {
+    height: 36px;
+  }
 }
 
 .roundedIcon {
-    background-color: #f1faff !important;
-    width: 40px;
-    height: 40px;
+  background-color: #f1faff !important;
+  width: 40px;
+  height: 40px;
 }
 
 .disable {
-    background-color: #f1f1f1 !important;
-    cursor: not-allowed;
+  background-color: #f1f1f1 !important;
+  cursor: not-allowed;
 }

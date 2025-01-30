@@ -1,8 +1,9 @@
 /* eslint-disable max-lines-per-function */
 
 /* eslint-disable react/prop-types */
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useSortBy, useTable } from "react-table";
+import {useCallback, useEffect, useMemo, useState} from "react";
+// import { useSortBy, useTable } from "react-table"; // TODO: react-table migration
+import {useReactTable} from "@tanstack/react-table";
 
 import Box from "@mui/material/Box";
 
@@ -15,30 +16,30 @@ import useAnalytics from "hooks/useAnalytics";
 import EditIcon from "components/icons/icon-edit";
 import TrashBinIcon from "components/icons/trashbin";
 import SaveBlue from "components/icons/version-2/SaveBlue";
-import { Button } from "components/ui/Button";
-import { Select } from "components/ui/Select";
+import {Button} from "components/ui/Button";
+import {Select} from "components/ui/Select";
 
-import { ErrorBanner } from "pages/Account/SelfAttestedPermissions/ErrorBanner";
+import {ErrorBanner} from "pages/Account/SelfAttestedPermissions/ErrorBanner";
 
-import { EditableCell } from "./EditableCell";
-import { SAAddNewRow } from "./SAAddNewRow";
+import {EditableCell} from "./EditableCell";
+import {SAAddNewRow} from "./SAAddNewRow";
 import styles from "./styles.module.scss";
 
-import { useSALifeProductContext } from "../../providers/SALifeProductProvider";
-import { TableBody } from "../TableBody";
-import { TableHeader } from "../TableHeader";
+import {useSALifeProductContext} from "../../providers/SALifeProductProvider";
+import {TableBody} from "../TableBody";
+import {TableHeader} from "../TableHeader";
 import InfoRedIcon from "components/icons/info-red";
-import { dateFormatter } from "utils/dateFormatter";
-import { useSAPModalsContext } from "pages/Account/SelfAttestedPermissions/SAHealthProduct/providers/SAPModalProvider";
+import {dateFormatter} from "utils/dateFormatter";
+import {useSAPModalsContext} from "pages/Account/SelfAttestedPermissions/SAHealthProduct/providers/SAPModalProvider";
 
-function Table({ data }) {
+function Table({data}) {
     const [invalidProducerId, setInvalidProducerId] = useState(false);
-    const { setIsExpriedModalOpen } = useSAPModalsContext();
+    const {setIsExpriedModalOpen} = useSAPModalsContext();
     const [updatedData, setUpdatedData] = useState(data);
     const [editableRow, setEditableRow] = useState(null);
-    const { updateRecord } = useDataHandler();
-    const { error, setError } = useSALifeProductContext();
-    const { fireEvent } = useAnalytics();
+    const {updateRecord} = useDataHandler();
+    const {error, setError} = useSALifeProductContext();
+    const {fireEvent} = useAnalytics();
 
     const toggleEditMode = useCallback(
         (rowIndex) => {
@@ -50,7 +51,7 @@ function Table({ data }) {
     const updateMyData = useCallback(
         (rowIndex, columnId, value) => {
             setUpdatedData((oldData) =>
-                oldData.map((row) => (rowIndex === row.fexAttestationId ? { ...row, [columnId]: value } : row))
+                oldData.map((row) => (rowIndex === row.fexAttestationId ? {...row, [columnId]: value} : row))
             );
         },
         [setUpdatedData]
@@ -58,7 +59,7 @@ function Table({ data }) {
 
     const onDeleteHandle = useCallback(
         async (record) => {
-            await updateRecord({ ...record, inActive: 1 });
+            await updateRecord({...record, inActive: 1});
             fireEvent("RTS Attestation Deleted", {
                 line_of_business: "Life",
                 product_type: "final_expense",
@@ -92,16 +93,16 @@ function Table({ data }) {
             {
                 Header: "Carrier",
                 accessor: "displayCarrierName",
-                Cell: ({ value }) => {
+                Cell: ({value}) => {
                     return <Box className={styles.carrierColumn}>{value}</Box>;
                 },
-                EditableCell: ({ row }) => {
+                EditableCell: ({row}) => {
                     return (
                         <Box>
                             <Box className={styles.title}>Carrier</Box>
                             <Select
                                 placeholder={row?.original.displayCarrierName}
-                                style={{ width: "100%" }}
+                                style={{width: "100%"}}
                                 showValueAlways={false}
                                 disabled={true}
                             />
@@ -122,7 +123,7 @@ function Table({ data }) {
                             <Box className={styles.title}>Product</Box>
                             <Select
                                 placeholder="Final Expense"
-                                style={{ width: "100%" }}
+                                style={{width: "100%"}}
                                 showValueAlways={false}
                                 disabled={true}
                             />
@@ -134,10 +135,10 @@ function Table({ data }) {
                 Header: "Producer ID",
                 accessor: "producerId",
                 disableSortBy: true,
-                Cell: ({ value }) => {
+                Cell: ({value}) => {
                     return <Box className={styles.customTextField}>{value}</Box>;
                 },
-                EditableCell: ({ cell }) => {
+                EditableCell: ({cell}) => {
                     return (
                         <Box className={styles.customTextField}>
                             <Box className={styles.title}>Producer ID</Box>
@@ -155,14 +156,14 @@ function Table({ data }) {
                 Header: "Date Added",
                 accessor: "createDate",
                 disableSortBy: true,
-                Cell: ({ value, row }) => {
+                Cell: ({value, row}) => {
                     const isExpired = row.original.isExpired;
                     return (
                         <Box>
                             {isExpired ? (
                                 <Box className={styles.expiredColumn}>
                                     <Box className={styles.expiredIcon} onClick={() => setIsExpriedModalOpen(true)}>
-                                        <InfoRedIcon />
+                                        <InfoRedIcon/>
                                     </Box>
                                     <Box>Expired</Box>
                                 </Box>
@@ -178,12 +179,12 @@ function Table({ data }) {
                 Header: () => <></>,
                 accessor: "actions",
                 disableSortBy: true,
-                Cell: ({ row }) => {
+                Cell: ({row}) => {
                     const isExpired = row.original.isExpired;
                     return (
                         <Box display="flex" textAlign="center" justifyContent="right" paddingRight="20px">
                             <Button
-                                icon={isExpired ? <TrashBinIcon color="#4178ff" /> : <EditIcon color="#4178ff" />}
+                                icon={isExpired ? <TrashBinIcon color="#4178ff"/> : <EditIcon color="#4178ff"/>}
                                 label={isExpired ? "Delete" : "Edit"}
                                 className={styles.buttonWithIcon}
                                 onClick={
@@ -197,11 +198,11 @@ function Table({ data }) {
                         </Box>
                     );
                 },
-                EditableCell: ({ row }) => {
+                EditableCell: ({row}) => {
                     return (
                         <Box display="flex" textAlign="center" justifyContent="right" paddingRight="20px" gap="40px">
                             <Button
-                                icon={<TrashBinIcon color="#4178ff" />}
+                                icon={<TrashBinIcon color="#4178ff"/>}
                                 label="Delete"
                                 className={styles.buttonWithIcon}
                                 onClick={() => onDeleteHandle(row?.original)}
@@ -209,7 +210,7 @@ function Table({ data }) {
                                 iconPosition="right"
                             />
                             <Button
-                                icon={<SaveBlue />}
+                                icon={<SaveBlue/>}
                                 label="Save"
                                 className={styles.buttonWithIcon}
                                 onClick={() => onSaveHandle(row?.original)}
@@ -225,18 +226,18 @@ function Table({ data }) {
         [onDeleteHandle, onSaveHandle, toggleEditMode, updateMyData, invalidProducerId]
     );
 
-    const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } = useTable(
+    const {getTableProps, getTableBodyProps, headerGroups, prepareRow, rows} = useReactTable(
         {
             columns,
             data: updatedData,
         },
-        useSortBy
+        // useSortBy
     );
 
     return (
         <table className={styles.customTable} {...getTableProps()}>
-            <TableHeader headerGroups={headerGroups} />
-            {error && <ErrorBanner retry={() => setError(null)} />}
+            <TableHeader headerGroups={headerGroups}/>
+            {error && <ErrorBanner retry={() => setError(null)}/>}
             {!error && (
                 <>
                     <TableBody
@@ -245,7 +246,7 @@ function Table({ data }) {
                         prepareRow={prepareRow}
                         editableRow={editableRow}
                     />
-                    <SAAddNewRow />
+                    <SAAddNewRow/>
                 </>
             )}
         </table>

@@ -1,9 +1,9 @@
 import * as Sentry from "@sentry/react";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
-import { Form, Formik } from "formik";
-import { useRecoilState } from "recoil";
-import { agentPhoneAtom } from "recoil/agent/atoms";
+import {Form, Formik} from "formik";
+import {useRecoilState} from "recoil";
+import {agentPhoneAtom} from "src/recoil/agent/atoms";
 
 import useToast from "hooks/useToast";
 import useUserProfile from "hooks/useUserProfile";
@@ -12,10 +12,10 @@ import EditIcon from "components/icons/icon-edit";
 import Textfield from "components/ui/textfield";
 import Mobile from "partials/global-nav-v2/Mobile.svg";
 
-import { useClientServiceContext } from "services/clientServiceProvider";
+import {useClientServiceContext} from "services/clientServiceProvider";
 import validationService from "services/validationService";
 
-import { formatPhoneNumber } from "pages/Account/helper";
+import {formatPhoneNumber} from "pages/Account/helper";
 
 import styles from "./styles.module.scss";
 
@@ -25,10 +25,10 @@ const CallCenterContent = () => {
     const [isEditingNumber, setIsEditingNumber] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const { agentId } = useUserProfile();
+    const {agentId} = useUserProfile();
     const showToast = useToast();
     const [phoneAtom] = useRecoilState(agentPhoneAtom);
-    const { clientsService } = useClientServiceContext();
+    const {clientsService} = useClientServiceContext();
 
     const phoneNumber = callForwardNumber || phone;
 
@@ -47,7 +47,7 @@ const CallCenterContent = () => {
         try {
             setLoading(true);
             const response = await clientsService.getAgentAvailability(agentId);
-            const { agentVirtualPhoneNumber, leadPreference } = response || {};
+            const {agentVirtualPhoneNumber, leadPreference} = response || {};
             if (!agentVirtualPhoneNumber) {
                 await clientsService.generateAgentTwiloNumber(agentId);
             }
@@ -69,7 +69,7 @@ const CallCenterContent = () => {
 
     return (
         <Formik
-            initialValues={{ phone: phoneNumber }}
+            initialValues={{phone: phoneNumber}}
             validate={(values) => {
                 const error = validationService.validatePhone(values.phone);
                 if (!error) {
@@ -79,7 +79,7 @@ const CallCenterContent = () => {
                     phone: error,
                 };
             }}
-            onSubmit={async (values, { setSubmitting }) => {
+            onSubmit={async (values, {setSubmitting}) => {
                 setSubmitting(true);
                 try {
                     await clientsService.updateAgentCallForwardingNumber({
@@ -101,7 +101,7 @@ const CallCenterContent = () => {
                 setSubmitting(false);
             }}
         >
-            {({ values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
+            {({values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue}) => {
                 return (
                     <Form>
                         <div>
@@ -113,7 +113,7 @@ const CallCenterContent = () => {
                                             <span onClick={() => setIsEditingNumber(true)}>Edit</span>
 
                                             <span onClick={() => setIsEditingNumber(true)} className={styles.editIcon}>
-                                                <EditIcon />
+                                                <EditIcon/>
                                             </span>
                                         </>
                                     )}
@@ -138,7 +138,7 @@ const CallCenterContent = () => {
                             {!isEditingNumber ? (
                                 <div className={styles.phoneText}>
                                     <div>
-                                        <img src={Mobile} alt="iconmobile" className={styles.imageMobile} />
+                                        <img src={Mobile} alt="iconmobile" className={styles.imageMobile}/>
                                     </div>
                                     <div className={styles.number}>{formatPhoneNumber(values.phone)}</div>
                                 </div>
@@ -154,7 +154,7 @@ const CallCenterContent = () => {
                                         onBlur={handleBlur}
                                         error={touched.phone && errors.phone}
                                     />
-                                    {errors.phone && <div className="mb-3" />}
+                                    {errors.phone && <div className="mb-3"/>}
                                 </div>
                             )}
                         </div>

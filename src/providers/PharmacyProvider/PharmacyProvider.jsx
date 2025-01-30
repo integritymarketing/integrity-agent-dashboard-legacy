@@ -1,20 +1,20 @@
-import { createContext, useState, useEffect, useMemo } from "react";
+import {createContext, useState, useEffect, useMemo} from "react";
 import PropTypes from "prop-types";
-import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
-import { useRecoilState } from "recoil";
+import {useHealth} from "providers/ContactDetails/ContactDetailsContext";
+import {useRecoilState} from "recoil";
 
-import { selectedPharmacyIdAtom } from "@/recoil/plans/atoms";
+import {selectedPharmacyIdAtom} from "src/recoil/plans/atoms";
 
 export const PharmacyContext = createContext();
 
-export const PharmacyProvider = ({ children }) => {
+export const PharmacyProvider = ({children}) => {
     const [selectedPharmacy, setSelectedPharmacy] = useState({});
-    const { pharmacies, pharmacyLoading } = useHealth();
+    const {pharmacies, pharmacyLoading} = useHealth();
 
     const [selectedPharmacyId, setSelectedPharmacyId] = useRecoilState(selectedPharmacyIdAtom);
 
     useEffect(() => {
-        if(selectedPharmacy?.name === "Mail Order") {
+        if (selectedPharmacy?.name === "Mail Order") {
             return;
         }
         if (selectedPharmacyId) {
@@ -22,7 +22,7 @@ export const PharmacyProvider = ({ children }) => {
             if (selectedPharmacyInPharmacies) {
                 setSelectedPharmacy(selectedPharmacyInPharmacies);
             }
-        }else if (pharmacies.length === 1) {
+        } else if (pharmacies.length === 1) {
             setSelectedPharmacy(pharmacies[0]);
         } else {
             const primaryPharmacy = pharmacies.find((pharmacy) => pharmacy.isPrimary);

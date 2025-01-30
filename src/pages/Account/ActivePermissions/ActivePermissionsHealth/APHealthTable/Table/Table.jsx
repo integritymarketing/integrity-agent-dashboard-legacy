@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
-import { useMemo } from "react";
-import { useSortBy, useTable } from "react-table";
+import {useMemo} from "react";
+// import { useSortBy, useTable } from "react-table"; // TODO: react-table migration
+import {useReactTable} from "@tanstack/react-table";
 
 import Box from "@mui/material/Box";
 
@@ -8,24 +9,24 @@ import PropTypes from "prop-types";
 
 import styles from "./styles.module.scss";
 
-import { ActivePermissionFilter } from "../../../ActivePermissionFilter";
-import { TableBody } from "../TableBody";
-import { TableHeader } from "../TableHeader";
+import {ActivePermissionFilter} from "../../../ActivePermissionFilter";
+import {TableBody} from "../TableBody";
+import {TableHeader} from "../TableHeader";
 
-function Table({ data }) {
+function Table({data}) {
     const columns = useMemo(
         () => [
             {
                 Header: "Plan Year",
                 accessor: "planYear",
-                Cell: ({ value }) => {
+                Cell: ({value}) => {
                     return <Box>{value}</Box>;
                 },
             },
             {
                 Header: "Carrier",
                 accessor: "carrier",
-                Cell: ({ value }) => {
+                Cell: ({value}) => {
                     return <Box className={styles.carrierColumn}>{value}</Box>;
                 },
             },
@@ -33,7 +34,7 @@ function Table({ data }) {
                 Header: "State",
                 accessor: "states",
                 disableSortBy: true,
-                Cell: ({ value }) => {
+                Cell: ({value}) => {
                     return <Box>{value?.join(", ")}</Box>;
                 },
             },
@@ -41,7 +42,7 @@ function Table({ data }) {
                 Header: "Product",
                 accessor: "planTypes",
                 disableSortBy: true,
-                Cell: ({ value }) => {
+                Cell: ({value}) => {
                     return (
                         <Box display="flex" gap="10px" flexWrap="wrap">
                             {value?.map((planType) => (
@@ -57,12 +58,12 @@ function Table({ data }) {
                 Header: "Producer ID",
                 accessor: "producerId",
                 disableSortBy: true,
-                Cell: ({ value }) => {
+                Cell: ({value}) => {
                     return <Box className={styles.producerIdColumn}>{value}</Box>;
                 },
             },
             {
-                Header: () => <ActivePermissionFilter />,
+                Header: () => <ActivePermissionFilter/>,
                 accessor: "filter",
                 disableSortBy: true,
                 Cell: () => <></>,
@@ -71,18 +72,18 @@ function Table({ data }) {
         []
     );
 
-    const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } = useTable(
+    const {getTableProps, getTableBodyProps, headerGroups, prepareRow, rows} = useReactTable(
         {
             columns,
             data,
         },
-        useSortBy
+        // useSortBy
     );
 
     return (
         <table className={styles.customTable} {...getTableProps()}>
-            <TableHeader headerGroups={headerGroups} />
-            <TableBody getTableBodyProps={getTableBodyProps} rows={rows} prepareRow={prepareRow} />
+            <TableHeader headerGroups={headerGroups}/>
+            <TableBody getTableBodyProps={getTableBodyProps} rows={rows} prepareRow={prepareRow}/>
         </table>
     );
 }

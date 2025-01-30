@@ -1,24 +1,25 @@
 /* eslint-disable react/prop-types */
-import { useEffect } from "react";
-import { useRowSelect, useSortBy, useTable } from "react-table";
+import {useEffect} from "react";
+// import {useRowSelect, useSortBy, useTable} from "react-table";
+import {useReactTable} from "@tanstack/react-table"; // TODO: react-table migration
 
-import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
+import {useContactsListContext} from "pages/ContactsList/providers/ContactsListProvider";
 
 import styles from "./styles.module.scss";
 
-import { TableBody } from "../TableBody";
-import { TableHeader } from "../TableHeader";
+import {TableBody} from "../TableBody";
+import {TableHeader} from "../TableHeader";
 
-function Table({ columns, isLoading }) {
-    const { setSelectedContacts, tableData } = useContactsListContext();
+function Table({columns, isLoading}) {
+    const {setSelectedContacts, tableData} = useContactsListContext();
 
-    const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows, selectedFlatRows } = useTable(
+    const {getTableProps, getTableBodyProps, headerGroups, prepareRow, rows, selectedFlatRows} = useReactTable(
         {
             columns,
             data: tableData,
         },
-        useSortBy,
-        useRowSelect
+        //useSortBy,
+        //useRowSelect
     );
 
     useEffect(() => {
@@ -27,7 +28,7 @@ function Table({ columns, isLoading }) {
 
     return (
         <table className={styles.customTable} {...getTableProps()}>
-            <TableHeader headerGroups={headerGroups} />
+            <TableHeader headerGroups={headerGroups}/>
             <TableBody
                 getTableBodyProps={getTableBodyProps}
                 rows={rows}

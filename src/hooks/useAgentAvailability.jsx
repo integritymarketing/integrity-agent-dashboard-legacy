@@ -1,13 +1,13 @@
-import { useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { getSignalRConnection } from "hooks/signalRConnection";
-import { isAgentAvailableAtom } from "../recoil/agent/atoms";
-import { useRecoilState } from "recoil";
+import {useEffect} from "react";
+import {useAuth0} from "@auth0/auth0-react";
+import {getSignalRConnection} from "hooks/signalRConnection";
+import {isAgentAvailableAtom} from "src/recoil/agent/atoms";
+import {useRecoilState} from "recoil";
 import useUserProfile from "hooks/useUserProfile";
 
 export const useAgentAvailability = () => {
-    const { isAuthenticated } = useAuth0();
-    const { agentId } = useUserProfile();
+    const {isAuthenticated} = useAuth0();
+    const {agentId} = useUserProfile();
     const [isAvailable, setIsAvailable] = useRecoilState(isAgentAvailableAtom);
 
     useEffect(() => {
