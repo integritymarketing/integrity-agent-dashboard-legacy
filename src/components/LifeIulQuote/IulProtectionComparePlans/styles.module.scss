@@ -1,53 +1,57 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines.scss" as defines_global;
 
 .tabsContainer {
-    flex-grow: 1;
-    width: 90%;
-    margin-left: auto;
-    position: sticky;
-    top: 0px;
-    z-index: 1;
+  flex-grow: 1;
+  width: 90%;
+  margin-left: auto;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .underwritingRequirements {
-    ul {
-        list-style-type: disc !important;
-        padding: 0px 24px;
-    }
+  ul {
+    list-style-type: disc !important;
+    padding: 0 24px;
+  }
 
-    p {
-        width: 250px;
-        word-break: break-word;
-    }
+  p {
+    width: 250px;
+    word-break: break-word;
+  }
 }
 
 .planCompareHeader {
+  & > div > div {
+    margin-bottom: 20px;
+  }
+
+  @include defines_global.small {
+    overflow-x: auto;
     & > div > div {
-        margin-bottom: 20px;
+      width: 1000px;
     }
-    @include small {
-        overflow-x: auto;
-        & > div > div {
-            width: 1000px;
-        }
-    }
+  }
 }
+
 .productFeature {
-    & > div > div {
-        margin-bottom: 20px;
+  & > div > div {
+    margin-bottom: 20px;
+  }
+
+  @include defines_global.small {
+    overflow-x: auto;
+    table {
+      width: 1000px;
     }
-    @include small {
-        overflow-x: auto;
-        table {
-            width: 1000px;
-        }
-    }
+  }
 }
+
 .underwritingRequirements {
-    @include small {
-        overflow-x: auto;
-        table {
-            min-width: 1365px;
-        }
+  @include defines_global.small {
+    overflow-x: auto;
+    table {
+      min-width: 1365px;
     }
+  }
 }

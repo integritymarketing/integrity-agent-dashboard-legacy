@@ -1,39 +1,39 @@
-import { useCallback, useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {useCallback, useContext, useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
-import { Form, Formik } from "formik";
-import { useLeadDetails } from "providers/ContactDetails";
+import {Form, Formik} from "formik";
+import {useLeadDetails} from "providers/ContactDetails";
 
-import { formatDate, getLocalDateTime } from "utils/dates";
-import { formatPhoneNumber } from "utils/phones";
-import { primaryContactOptions } from "utils/primaryContact";
-import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
+import {formatDate, getLocalDateTime} from "utils/dates";
+import {formatPhoneNumber} from "utils/phones";
+import {primaryContactOptions} from "utils/primaryContact";
+import {onlyAlphabets} from "utils/shared-utils/sharedUtility";
 
 import useToast from "hooks/useToast";
 
 import DatePickerMUI from "components/DatePicker";
-import { Button } from "components/ui/Button";
-import { Select } from "components/ui/Select";
+import {Button} from "components/ui/Button";
+import {Select} from "components/ui/Select";
 import Textfield from "components/ui/textfield";
 
 import CountyContext from "contexts/counties";
 
-import { useClientServiceContext } from "services/clientServiceProvider";
+import {useClientServiceContext} from "services/clientServiceProvider";
 import validationService from "services/validationService";
 
 import styles from "./ContactInfoContainer.module.scss";
-import { StyledElementName, StyledFormItem } from "./StyledComponents";
-import { Divider, Paper, Stack, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import {StyledElementName, StyledFormItem} from "./StyledComponents";
+import {Divider, Paper, Stack, Typography, RadioGroup, FormControlLabel, Radio} from "@mui/material";
 
 import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
-import { ArrowForwardWithCircle } from "../Icons";
-import { contactFormMaritalStatusOptions, contactFormPrefixOptions, contactFormSuffixOptions } from "utils/contactForm";
+import {ArrowForwardWithCircle} from "../Icons";
+import {contactFormMaritalStatusOptions, contactFormPrefixOptions, contactFormSuffixOptions} from "utils/contactForm";
 
-function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
-    const { leadDetails } = useLeadDetails();
+function ContactInfoForm({editLeadDetails, setIsEditMode}) {
+    const {leadDetails} = useLeadDetails();
 
     const {
         firstName = "",
@@ -66,7 +66,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
     } = useContext(CountyContext);
 
     const showToast = useToast();
-    const { clientsService } = useClientServiceContext();
+    const {clientsService} = useClientServiceContext();
 
     const email = emails.length > 0 ? emails[0].leadEmail : null;
     const phoneData = phones.length > 0 ? phones[0] : null;
@@ -154,7 +154,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 middleName: middleName,
                 suffix: suffix || "",
                 prefix: prefix || "",
-                maritalStatus: maritalStatus || "",
+                // maritalStatus: maritalStatus || "", //TODO: Duplicate key
                 email: email,
                 birthdate: birthdate ? formatDate(birthdate) : "",
                 phones: {
@@ -244,7 +244,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                     values,
                 );
             }}
-            onSubmit={async (values, { setErrors, setSubmitting }) => {
+            onSubmit={async (values, {setErrors, setSubmitting}) => {
                 const duplicateCheckResult = await isDuplicateContact(values, setDuplicateLeadIds);
                 // if duplicate contact, show error and return and don't submit form
                 if (duplicateCheckResult?.isExactDuplicate && duplicateLeadIds?.length > 1) {
@@ -263,7 +263,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 setIsEditMode(false);
             }}
         >
-            {({ values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
+            {({values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit, setFieldValue}) => {
                 const isInvalidZip =
                     (values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0) ||
                     (values.address.postalCode > 0 && values.address.postalCode.length < 5);
@@ -539,7 +539,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 name="address.postalCode"
                                                 placeholder="Zip Code"
                                                 value={values.address.postalCode}
-                                                inputprops={{ maxLength: 5 }}
+                                                inputprops={{maxLength: 5}}
                                                 onChange={(e) => {
                                                     setFieldValue("address.postalCode", e.target.value);
                                                     setFieldValue("address.county", "");
@@ -597,7 +597,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                 <li className="error-msg-red zip-code-error-msg">Invalid ZIP Code</li>
                                             </ul>
                                         )}
-                                    <StyledFormItem style={{ width: "100%", marginTop: "10px" }}>
+                                    <StyledFormItem style={{width: "100%", marginTop: "10px"}}>
                                         <Select
                                             placeholder="Select County"
                                             className={`${styles["contact-address--statecode"]} `}
@@ -608,7 +608,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             }
                                             onChange={(value) => {
                                                 setFieldValue("address.county", value);
-                                                const { key: fip, state } = allCounties.filter(
+                                                const {key: fip, state} = allCounties.filter(
                                                     (item) => item.value === value,
                                                 )[0];
                                                 setFieldValue("address.countyFips", fip);
@@ -715,11 +715,11 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                         }}
                                                     >
                                                         {[1, 0].map((option) => (
-                                                            <FormControlLabel value={option} control={<Radio />} />
+                                                            <FormControlLabel value={option} control={<Radio/>}/>
                                                         ))}
                                                     </RadioGroup>
                                                 </Stack>
-                                                <Divider />
+                                                <Divider/>
                                                 <Stack direction="row" className={styles.specialAssistanceRadios}>
                                                     <Typography variant="body1" color="#434A51">
                                                         LIS
@@ -733,7 +733,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                                         }}
                                                     >
                                                         {["Yes", "No", "I Don't Know"].map((option) => (
-                                                            <FormControlLabel value={option} control={<Radio />} />
+                                                            <FormControlLabel value={option} control={<Radio/>}/>
                                                         ))}
                                                     </RadioGroup>
                                                 </Stack>
@@ -745,7 +745,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                 {duplicateLeadIds?.length > 0 && (
                                     <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>
                                         <div>
-                                            <Warning />
+                                            <Warning/>
                                         </div>
                                         <div className={`${styles["duplicate-lead--text"]} pl-1`}>
                                             You can create this contact, but the entry is a potential duplicate to{" "}
@@ -801,7 +801,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                 disabled={!dirty || !isValid || isInvalidZip}
                                 onClick={handleSubmit}
                                 type="tertiary"
-                                icon={<ArrowForwardWithCircle />}
+                                icon={<ArrowForwardWithCircle/>}
                                 iconPosition="right"
                             />
                         </Box>
