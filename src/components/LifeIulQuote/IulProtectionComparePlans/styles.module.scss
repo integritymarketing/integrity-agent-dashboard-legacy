@@ -22,6 +22,9 @@
 }
 
 .planCompareHeader {
+    & > div > div {
+        margin-bottom: 20px;
+    }
     @include small {
         overflow-x: auto;
         & > div > div {
@@ -30,6 +33,9 @@
     }
 }
 .productFeature {
+    & > div > div {
+        margin-bottom: 20px;
+    }
     @include small {
         overflow-x: auto;
         table {

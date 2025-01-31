@@ -8,6 +8,7 @@ import styles from "./styles.module.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { useLeadDetails } from "providers/ContactDetails";
+import _ from "lodash";
 
 const IulProtectionQuote = () => {
     const {
@@ -16,7 +17,6 @@ const IulProtectionQuote = () => {
         lifeIulQuoteResults,
         handleTabSelection,
         tabSelected,
-        setTabSelected,
         showFilters,
         tempUserDetails,
         handleComparePlanSelect,
@@ -35,7 +35,6 @@ const IulProtectionQuote = () => {
     const { agentInformation } = useAgentInformationByID();
     const [selectedPlan, setSelectedPlan] = useState({});
 
-
     const getQuoteResults = useCallback(async () => {
         const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
 
@@ -43,7 +42,6 @@ const IulProtectionQuote = () => {
             const parsedLifeQuoteProtectionDetails = JSON.parse(lifeQuoteProtectionDetails);
 
             setIsTobaccoUser(parsedLifeQuoteProtectionDetails.isTobaccoUser);
-            setTabSelected(null);
             const { birthDate, gender, state, healthClasses, faceAmounts, payPeriods, illustratedRate, solves } =
                 parsedLifeQuoteProtectionDetails;
             const filteredFaceAmounts = faceAmounts.filter((amount) => Boolean(amount));
@@ -67,7 +65,7 @@ const IulProtectionQuote = () => {
 
             await fetchLifeIulQuoteResults(payload);
         }
-    }, [fetchLifeIulQuoteResults, setTabSelected]);
+    }, [fetchLifeIulQuoteResults]);
 
     useEffect(() => {
         getQuoteResults();
@@ -103,7 +101,7 @@ const IulProtectionQuote = () => {
                     ...agentInformation,
                     ...leadDetails,
                     emailAddress,
-                    phoneNumber
+                    phoneNumber,
                 },
                 contactId
             );
@@ -113,9 +111,6 @@ const IulProtectionQuote = () => {
             setSelectedPlan({});
         }
     };
-
-
-
 
     const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
 
@@ -153,7 +148,7 @@ const IulProtectionQuote = () => {
                         <Box width={isMobile ? "100%" : "60%"} marginBottom="16px">
                             {filteredTabInputs?.length > 1 && (
                                 <Tabs
-                                    value={parseInt(selectedTabIndex) !== -1 ? parseInt(selectedTabIndex) : 0}
+                                    value={parseInt(selectedTabIndex) !== -1 ? parseInt(selectedTabIndex) : false}
                                     aria-label="communications-tabs"
                                     variant="fullWidth"
                                     className={styles.tabs}
@@ -191,6 +186,7 @@ const IulProtectionQuote = () => {
                                             targetPremium,
                                             premium,
                                             rowId,
+                                            policyDetailId,
                                         } = plan;
                                         return (
                                             <Grid
@@ -225,9 +221,11 @@ const IulProtectionQuote = () => {
                                                     handlePlanDetailsClick={() => handlePlanDetailsClick(rowId)}
                                                     disableCompare={
                                                         selectedPlans?.length === 3 &&
-                                                        !selectedPlans?.find((p) => p.rowId === rowId)
+                                                        !selectedPlans?.find((p) => p.policyDetailId === policyDetailId)
                                                     }
-                                                    isChecked={selectedPlans?.find((p) => p.rowId === rowId)}
+                                                    isChecked={selectedPlans?.find(
+                                                        (p) => p.policyDetailId === policyDetailId
+                                                    )}
                                                 />
                                                 {selectedPlan?.rowId === rowId && (
                                                     <Box sx={{ position: "absolute", top: 0, left: "50%" }}>

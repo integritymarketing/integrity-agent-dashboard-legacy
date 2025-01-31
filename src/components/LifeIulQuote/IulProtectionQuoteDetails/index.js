@@ -7,31 +7,18 @@ import {
     IulQuoteCard,
     IulQuoteDetailsSection,
     ProductFeature,
-    FooterNotes,
     UnderwritingRequirements,
 } from "@integritymarketing/clients-ui-kit";
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
 
-const FOOTER_NOTES = [
-    {
-        label: "7",
-        text: "The price displayed for this drug may be lower than what you would typically pay during this period because of additional gap coverage offered by this plan",
-    },
-    {
-        label: "15",
-        text: "Any amount you spend for a non-formulary drug is not counted towards the deductible, initial coverage limit, or out-of-pocket costs UNLESS the plan approves a formulary exception.",
-    },
-    {
-        label: "A",
-        text: "This drug may be covered under Medicare Part B or D depending upon the circumstances. Information may need to be submitted describing the use and setting of the drug to make the determination.",
-    },
-];
-
-const IulProtectionQuoteDetails = () => {
+const IulAccumulationQuoteDetails = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+    const planDetailsSessionData = sessionStorage.getItem("iul-plan-details");
+    const planDetails = JSON.parse(planDetailsSessionData);
 
     const quoteDetailsRef = useRef(null);
     const productDescriptionRef = useRef(null);
@@ -72,6 +59,26 @@ const IulProtectionQuoteDetails = () => {
         });
     }, [underwritingRequirements]);
 
+    const {
+        productName,
+        companyName,
+        amBest,
+        companyLogoImageUrl,
+        cashValueYear10,
+        cashValueYear20,
+        cashValueAge65,
+        maxIllustratedRate,
+        indexStrategyType,
+        distribution,
+        deathBenefit,
+        targetPremium,
+        isTobaccoUser,
+        premium,
+        guaranteedYears,
+    } = useMemo(() => {
+        return planDetails;
+    }, [planDetails]);
+
     return (
         <IulQuoteContainer title="IUL Protection" page="plans details page">
             <Grid container>
@@ -109,7 +116,27 @@ const IulProtectionQuoteDetails = () => {
                         <Grid item md={12}>
                             <div ref={quoteDetailsRef} id="quoteDetails">
                                 <CollapsibleLayout title="Quote Details">
-                                    <IulQuoteCard quoteType="IUL Protection Details" isPlanDetailsPage={true} />
+                                    <IulQuoteCard
+                                        isPlanDetailsPage={true}
+                                        quoteType="IUL Protection"
+                                        cardTitle={productName}
+                                        companyName={companyName}
+                                        rating={amBest}
+                                        logo={companyLogoImageUrl}
+                                        cashValueYear10={cashValueYear10}
+                                        cashValueYear20={cashValueYear20}
+                                        cashValueAge65={cashValueAge65}
+                                        maxIllustratedRate={maxIllustratedRate}
+                                        indexStrategyType={indexStrategyType}
+                                        isTobaccoUser={isTobaccoUser}
+                                        targetPremium={targetPremium}
+                                        deathBenefit={deathBenefit}
+                                        distribution={distribution}
+                                        age={planDetails?.input?.actualAge}
+                                        healthClass={planDetails?.input?.healthClass}
+                                        premium={premium}
+                                        guaranteedYears={guaranteedYears}
+                                    />
                                 </CollapsibleLayout>
                             </div>
                         </Grid>
@@ -143,7 +170,6 @@ const IulProtectionQuoteDetails = () => {
                                 />
                             </div>
                         </Grid>
-                        <FooterNotes footnotes={FOOTER_NOTES} />
                     </Grid>
                 </Grid>
             </Grid>
@@ -151,4 +177,4 @@ const IulProtectionQuoteDetails = () => {
     );
 };
 
-export default IulProtectionQuoteDetails;
+export default IulAccumulationQuoteDetails;

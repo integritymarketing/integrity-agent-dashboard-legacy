@@ -2,6 +2,7 @@ import { useEffect, useState, createContext, useMemo, useCallback } from "react"
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 import PropTypes from "prop-types";
+import _ from "lodash";
 
 import removeNullAndEmptyFields from "utils/removeNullAndEmptyFields";
 
@@ -16,7 +17,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
     const [lifeIulQuoteResults, setLifeIulQuoteResults] = useState(null);
     const [tempUserDetails, setTempUserDetails] = useState(null);
     const [selectedCarriers, setSelectedCarriers] = useState(["All carriers"]);
-    const [tabSelected, setTabSelected] = useState(0);
+    const [tabSelected, setTabSelected] = useState(null);
     const [showFilters, setShowFilters] = useState(false);
     const [selectedPlans, setSelectedPlans] = useState([]);
     const [lifeIulDetails, setLifeIulDetails] = useState(null);
@@ -42,8 +43,6 @@ export const LifeIulQuoteProvider = ({ children }) => {
     const reset = () => {
         setLifeIulQuoteResults(null);
         setTempUserDetails(null);
-        setTabSelected(0);
-        setSelectedPlans([]);
     };
 
     const fetchLifeIulQuoteResults = useCallback(
@@ -53,19 +52,23 @@ export const LifeIulQuoteProvider = ({ children }) => {
             try {
                 const response = await getLifeIulQuoteResults(payload, false);
                 if (response && response?.result && response?.result?.length > 0) {
+                    const removeDuplicated = _.uniqBy(response?.result, "policyDetailId");
+
                     if (!selectedCarriers.includes("All carriers") && selectedCarriers.length > 0) {
-                        const updatedResults = response?.result.filter((result) =>
-                            selectedCarriers.includes(result.companyName),
+                        const updatedResults = removeDuplicated.filter((result) =>
+                            selectedCarriers.includes(result.companyName)
                         );
 
                         setLifeIulQuoteResults(updatedResults);
                     } else {
-                        setLifeIulQuoteResults(response.result);
+                        setLifeIulQuoteResults(removeDuplicated);
                     }
-                    setTempUserDetails(response.result);
+                    setTempUserDetails(removeDuplicated);
                     if (reqData?.quoteType === "IULPROT-SOLVE") {
                         const faceAmounts = reqData?.inputs[0]?.faceAmounts;
-                        handleTabSelection(faceAmounts[0], response.result);
+                        const tabSelected = JSON.parse(sessionStorage.getItem("iul-protection-tab"));
+                        const initialselectedTab = tabSelected ? tabSelected : faceAmounts[0];
+                        handleTabSelection(initialselectedTab, removeDuplicated, true);
                     }
                     showToast({
                         message: `get quote successfully`,
@@ -82,7 +85,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
                 return null;
             }
         },
-        [getLifeIulQuoteResults, showToast, selectedCarriers],
+        [getLifeIulQuoteResults, showToast, selectedCarriers, sessionStorage]
     );
 
     const fetchLifeIulQuoteDetails = useCallback(
@@ -101,7 +104,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
                 return null;
             }
         },
-        [getLifeIulQuoteDetails, showToast],
+        [getLifeIulQuoteDetails, showToast]
     );
 
     const handleCarriersChange = (value) => {
@@ -122,21 +125,28 @@ export const LifeIulQuoteProvider = ({ children }) => {
         }
     };
 
-    const handleTabSelection = (tab, list) => {
+    const handleTabSelection = (tab, list, dontReset) => {
         setTabSelected(tab);
         const updatedResults = list?.filter((result) => result.input.faceAmount === parseInt(tab));
         setLifeIulQuoteResults(updatedResults);
+        if (!dontReset) {
+            setSelectedPlans([]);
+        }
     };
 
     const handleComparePlanSelect = (plan) => {
-        const isPlanSelected = selectedPlans?.filter((selectedPlan) => selectedPlan.rowId === plan.rowId);
+        const isPlanSelected = selectedPlans?.filter(
+            (selectedPlan) => selectedPlan.policyDetailId === plan.policyDetailId
+        );
         if (isPlanSelected?.length > 0) {
-            const updatedPlans = selectedPlans.filter((selectedPlan) => selectedPlan.rowId !== plan.rowId);
+            const updatedPlans = selectedPlans.filter(
+                (selectedPlan) => selectedPlan.policyDetailId !== plan.policyDetailId
+            );
             setSelectedPlans(updatedPlans);
         } else {
             setSelectedPlans([
                 ...selectedPlans,
-                { logo: plan.companyLogoImageUrl, name: plan.productName, rowId: plan.rowId },
+                { logo: plan.companyLogoImageUrl, name: plan.productName, rowId: plan.rowId, ...plan },
             ]);
         }
     };
@@ -181,15 +191,13 @@ export const LifeIulQuoteProvider = ({ children }) => {
             };
 
             const response = await applyLifeIulQuoteDetails(obj, false, leadId);
-            console.log("response", response);
-
             if (response?.redirectUrl) {
                 window.open(response.redirectUrl, "_blank");
             }
 
             return response;
         },
-        [applyLifeIulQuoteDetails],
+        [applyLifeIulQuoteDetails]
     );
 
     useEffect(() => {
@@ -224,6 +232,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
             isLoadingLifeIulQuoteDetails,
             getLifeIulQuoteDetailsError,
             lifeIulDetails,
+            setSelectedPlans,
         }),
         [
             fetchLifeIulQuoteResults,
@@ -247,7 +256,8 @@ export const LifeIulQuoteProvider = ({ children }) => {
             isLoadingLifeIulQuoteDetails,
             getLifeIulQuoteDetailsError,
             lifeIulDetails,
-        ],
+            setSelectedPlans,
+        ]
     );
 
     return <LifeIulQuoteContext.Provider value={contextValue}>{children}</LifeIulQuoteContext.Provider>;

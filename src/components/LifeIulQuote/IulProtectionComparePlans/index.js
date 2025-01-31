@@ -1,18 +1,20 @@
-import  { useCallback, useEffect, useState, useMemo } from "react";
-import { Grid, Box} from "@mui/material";
+import { useCallback, useEffect, useState, useMemo } from "react";
+import { Grid, Box } from "@mui/material";
 import { CompareHeader, ProductFeature, UnderwritingRequirements } from "@integritymarketing/clients-ui-kit";
 import { IulQuoteContainer } from "../CommonComponents";
+import { useNavigate } from "react-router-dom";
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
 
 const IulProtectionComparePlans = () => {
     const [results, setResults] = useState([]);
-    const { planIds: comparePlanIds } = useParams();
+    const { planIds: comparePlanIds, contactId } = useParams();
     const planIds = useMemo(() => comparePlanIds.split(","), [comparePlanIds]);
     const comparePlansSessionData = sessionStorage.getItem("iul-compare-plans");
     const comparePlans = JSON.parse(comparePlansSessionData);
     const { fetchLifeIulQuoteDetails } = useLifeIulQuote();
+    const navigate = useNavigate();
 
     const getPlanDetails = useCallback(async () => {
         const getAllPlanDetails = () => {
@@ -97,8 +99,12 @@ const IulProtectionComparePlans = () => {
         console.log("IulProtectionComparePlans -> val", val);
     };
 
+    const returnBackToPlansPage = () => {
+        navigate(`/life/iul-protection/${contactId}/quote?preserveSelected=true`);
+    };
+
     return (
-        <IulQuoteContainer title="IUL Protection" page="plan compare page">
+        <IulQuoteContainer title="IUL Protection" page="plan compare page" quoteType="protection">
             <Grid container gap={3}>
                 <Grid item md={12} className={styles.planCompareHeader}>
                     <CompareHeader
@@ -106,6 +112,7 @@ const IulProtectionComparePlans = () => {
                         IULProtectionPlans={plansData}
                         onClose={handleComparePlanRemove}
                         shareComparePlanModal={handleShareModal}
+                        returnBackToPlansPage={returnBackToPlansPage}
                     />
                 </Grid>
                 {features?.length > 0 && (
