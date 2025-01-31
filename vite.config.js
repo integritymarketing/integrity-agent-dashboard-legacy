@@ -12,7 +12,7 @@ export default defineConfig(({mode}) => {
 
         // Build configuration
         build: {
-            outDir: isAuthBuild ? "distAuth" : "dist", // Separate output folders
+            outDir: isAuthBuild ? "buildAuth" : "build", // Separate output folders
             rollupOptions: {
                 input: isAuthBuild
                     ? path.resolve(__dirname, "src/authIndex.jsx") // Custom entry point for auth build
