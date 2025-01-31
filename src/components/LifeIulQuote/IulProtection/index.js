@@ -70,10 +70,9 @@ const IulProtectionQuote = () => {
     useEffect(() => {
         getQuoteResults();
     }, [getQuoteResults]);
+    console.log("lifeIulQuoteResults", lifeIulQuoteResults);
 
-    const handlePlanDetailsClick = () => {
-        const id = lifeIulQuoteResults[0]?.policyDetailId;
-
+    const handlePlanDetailsClick = (id) => {
         const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
 
         const filteredPlan = uniquePoliciesArray.filter((item) => id === item.policyDetailId);
@@ -218,7 +217,7 @@ const IulProtectionQuote = () => {
                                                     handleComparePlanSelect={() => {
                                                         handleComparePlanSelect(plan);
                                                     }}
-                                                    handlePlanDetailsClick={() => handlePlanDetailsClick(rowId)}
+                                                    handlePlanDetailsClick={() => handlePlanDetailsClick(policyDetailId)}
                                                     disableCompare={
                                                         selectedPlans?.length === 3 &&
                                                         !selectedPlans?.find((p) => p.policyDetailId === policyDetailId)

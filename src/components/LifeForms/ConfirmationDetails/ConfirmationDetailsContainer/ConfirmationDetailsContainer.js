@@ -128,7 +128,7 @@ export const ConfirmationDetailsContainer = ({ contactId, quoteType }) => {
 
     return (
         <>
-            <ContactProfileTabBar contactId={contactId} showTabs={false} backButtonRoute="" />
+            <ContactProfileTabBar contactId={contactId} showTabs={false} backButtonRoute={`/contact/${contactId}`} />
             {isLoadingLeadDetails ? (
                 renderContactDetailsLoader
             ) : (

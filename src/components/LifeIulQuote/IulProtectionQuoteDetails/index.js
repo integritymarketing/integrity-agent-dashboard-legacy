@@ -1,14 +1,14 @@
 import React, { useRef, useEffect, useMemo } from "react";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
-import { CollapsibleLayout } from "@integritymarketing/clients-ui-kit";
-import { IulQuoteContainer } from "../CommonComponents";
-import {
+import { CollapsibleLayout ,
     IulQuoteCard,
     IulQuoteDetailsSection,
     ProductFeature,
     UnderwritingRequirements,
 } from "@integritymarketing/clients-ui-kit";
+import { IulQuoteContainer } from "../CommonComponents";
+
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
@@ -66,6 +66,7 @@ const IulProtectionQuoteDetails = () => {
         companyLogoImageUrl,
         cashValueYear10,
         cashValueYear20,
+        cashValueYear30,
         cashValueAge65,
         maxIllustratedRate,
         indexStrategyType,
@@ -125,6 +126,7 @@ const IulProtectionQuoteDetails = () => {
                                         logo={companyLogoImageUrl}
                                         cashValueYear10={cashValueYear10}
                                         cashValueYear20={cashValueYear20}
+                                        cashValueYear30={cashValueYear30}
                                         cashValueAge65={cashValueAge65}
                                         maxIllustratedRate={maxIllustratedRate}
                                         indexStrategyType={indexStrategyType}
