@@ -1,33 +1,17 @@
-import React, { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
-import { CollapsibleLayout } from "@integritymarketing/clients-ui-kit";
-import { IulQuoteContainer } from "../CommonComponents";
-import {
+import { CollapsibleLayout ,
     IulQuoteCard,
     IulQuoteDetailsSection,
     ProductFeature,
-    FooterNotes,
     UnderwritingRequirements,
 } from "@integritymarketing/clients-ui-kit";
+import { IulQuoteContainer } from "../CommonComponents";
+
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
-
-const FOOTER_NOTES = [
-    {
-        label: "7",
-        text: "The price displayed for this drug may be lower than what you would typically pay during this period because of additional gap coverage offered by this plan",
-    },
-    {
-        label: "15",
-        text: "Any amount you spend for a non-formulary drug is not counted towards the deductible, initial coverage limit, or out-of-pocket costs UNLESS the plan approves a formulary exception.",
-    },
-    {
-        label: "A",
-        text: "This drug may be covered under Medicare Part B or D depending upon the circumstances. Information may need to be submitted describing the use and setting of the drug to make the determination.",
-    },
-];
 
 const IulAccumulationQuoteDetails = () => {
     const theme = useTheme();
@@ -88,6 +72,7 @@ const IulAccumulationQuoteDetails = () => {
         distribution,
         deathBenefit,
         targetPremium,
+        premium,
         isTobaccoUser,
     } = useMemo(() => {
         return planDetails;
@@ -148,6 +133,7 @@ const IulAccumulationQuoteDetails = () => {
                                         distribution={distribution}
                                         age={planDetails?.input?.actualAge}
                                         healthClass={planDetails?.input?.healthClass}
+                                        premium={premium}
                                     />
                                 </CollapsibleLayout>
                             </div>
@@ -181,12 +167,6 @@ const IulAccumulationQuoteDetails = () => {
                                     isPlanDetailsPage={true}
                                 />
                             </div>
-                        </Grid>
-                        <Grid item md={12}>
-                            <Typography variant="body2" color="#717171" marginBottom={1}>
-                                Footnotes:
-                            </Typography>
-                            <FooterNotes footnotes={FOOTER_NOTES} />
                         </Grid>
                     </Grid>
                 </Grid>

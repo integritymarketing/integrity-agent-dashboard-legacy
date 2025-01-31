@@ -89,7 +89,6 @@ const IulAccumulationQuote = () => {
         setSelectedPlan(plan);
         const response = await handleIULQuoteApplyClick({ ...plan, ...agentInformation, ...leadDetails }, contactId);
         setSelectedPlan({});
-        console.log("response", response);
     };
 
     return (
@@ -132,6 +131,7 @@ const IulAccumulationQuote = () => {
                                             deathBenefit,
                                             targetPremium,
                                             rowId,
+                                            policyDetailId,
                                         } = plan;
                                         return (
                                             <Grid
@@ -163,9 +163,11 @@ const IulAccumulationQuote = () => {
                                                     handlePlanDetailsClick={() => handlePlanDetailsClick(rowId)}
                                                     disableCompare={
                                                         selectedPlans?.length === 3 &&
-                                                        !selectedPlans?.find((p) => p.rowId === rowId)
+                                                        !selectedPlans?.find((p) => p.policyDetailId === policyDetailId)
                                                     }
-                                                    isChecked={selectedPlans?.find((p) => p.rowId === rowId)}
+                                                    isChecked={selectedPlans?.find(
+                                                        (p) => p.policyDetailId === policyDetailId
+                                                    )}
                                                 />
                                                 {selectedPlan.rowId === rowId && (
                                                     <Box sx={{ position: "absolute", top: 0, left: "50%" }}>
