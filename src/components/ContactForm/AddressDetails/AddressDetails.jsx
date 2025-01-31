@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import MenuItem from "@mui/material/MenuItem";
 import CountyContext from "../../../contexts/counties";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Box from "@mui/material/Box";
 
 const AddressDetails = ({ formik }) => {
@@ -95,7 +95,7 @@ const AddressDetails = ({ formik }) => {
             </Grid>
             <Grid item xs={12} md={6}>
                 <TextInput
-                    label="ZIP Code"
+                    label="Zip"
                     fullWidth
                     name="address.postalCode"
                     placeholder="#####"
@@ -135,18 +135,19 @@ const AddressDetails = ({ formik }) => {
                 <FormControl variant="outlined" fullWidth>
                     <Select
                         value={values.address.stateCode}
-                        onChange={(value) => setFieldValue("address.stateCode", value)}
+                        onChange={(ev) => {
+                            setFieldValue("address.stateCode", ev.target.value);
+                        }}
                         renderValue={(selected) => {
                             if (selected.length === 0) {
                                 return "Select";
                             }
                             return selected;
                         }}
-                        readOnly
                         displayEmpty
-                        IconComponent={() => (
-                            <Box mr={1}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
+                        IconComponent={(props) => (
+                            <Box mr={1} {...props}>
+                                <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                             </Box>
                         )}
                     >
@@ -166,9 +167,9 @@ const AddressDetails = ({ formik }) => {
                 <FormControl variant="outlined" fullWidth>
                     <Select
                         value={values.address.county}
-                        onChange={(value) => {
-                            setFieldValue("address.county", value);
-                            const fip = allCounties.find((item) => item.value === value)?.key;
+                        onChange={(ev) => {
+                            setFieldValue("address.county", ev.target.value);
+                            const fip = allCounties.find((item) => item.value === ev.target.value)?.key;
                             setFieldValue("address.countyFips", fip);
                         }}
                         renderValue={(selected) => {
@@ -178,10 +179,9 @@ const AddressDetails = ({ formik }) => {
                             return selected;
                         }}
                         displayEmpty
-                        readOnly
-                        IconComponent={() => (
-                            <Box mr={1}>
-                                <FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />
+                        IconComponent={(props) => (
+                            <Box mr={1} {...props}>
+                                <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                             </Box>
                         )}
                     >

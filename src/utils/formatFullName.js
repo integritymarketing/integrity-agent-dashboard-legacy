@@ -20,8 +20,13 @@ export const formatFullName = ({
 } = {}) => {
     const capitalize = (str) => (str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "");
 
-    return [prefix, firstName, middleName, lastName, suffix]
+    const nameParts = [prefix, firstName, middleName, lastName]
         .filter((name) => name)
-        .map(capitalize)
-        .join(" ");
+        .map(capitalize);
+
+    if (suffix) {
+        nameParts.push(suffix); // Append suffix without capitalization
+    }
+
+    return nameParts.join(" ");
 };

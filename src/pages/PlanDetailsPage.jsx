@@ -8,9 +8,7 @@ import useRoles from "hooks/useRoles";
 import useToast from "hooks/useToast";
 
 import NonRTSBanner from "components/Non-RTS-Banner";
-import CallScript from "components/icons/callScript";
 import { BackToTop } from "components/ui/BackToTop";
-import BackButton from "components/BackButton";
 import EnrollmentModal from "components/ui/Enrollment/enrollment-modal";
 import SharePlanModal from "components/ui/SharePlan/sharePlan-modal";
 import WithLoader from "components/ui/WithLoader";
@@ -129,18 +127,6 @@ const PlanDetailsPage = () => {
                     </Helmet>
                     <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE} />
 
-                    {/* <div className={`${styles["header"]}`} style={{ height: "auto" }}>
-                        <Container className={`${styles["plan-details-container"]}`}>
-                            <div className={`${styles["back"]}`}>
-                                <BackButton
-                                    label={isMobile ? "Back" : "Back to Plans"}
-                                    route={`/plans/${contactId}?preserveSelected=true`}
-                                />
-                            </div>
-                            <p className={`${styles["header-text"]}`}>Plan Details</p>
-                            <p className={`${styles["header-callscript"]}`}>{isMobile ? <CallScript /> : null}</p>
-                        </Container>
-                    </div> */}
                     <ContactProfileTabBar
                         contactId={contactId}
                         showTabs={false}

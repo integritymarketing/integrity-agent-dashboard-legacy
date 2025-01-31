@@ -2,49 +2,64 @@
 @use "sass:color";
 
 .container {
-  align-items: center;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
-  display: flex;
-  justify-content: space-between;
-  padding: 16px;
-  width: 340px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
 
-  @include defines_global.small {
-    width: 100%;
-  }
+    @include defines_global.small {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        width: 100%;
+        gap: 8px;
+    }
 }
 
 .heading {
-  color: #052a63;
-  font-size: 16px;
-  margin-bottom: 0;
+    color: #052a63;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 0;
 }
 
 .subHeading {
-  color: #717171;
-  font-size: 14px;
-  margin-top: 0;
+    color: #717171;
+    font-size: 14px;
+    margin-top: 0;
+
+   @include defines_global.small {
+        font-size: 16px;
+        margin-top:8px;
+    }
 }
 
 .viewButton {
-  background: #007bff;
-  border: none;
-  border-radius: 20px;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  font-size: 14px;
-  outline: none;
-  padding: 8px 16px;
-  width: 80px;
+    background: #007bff;
+    border: none;
+    border-radius: 20px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    outline: none;
+    padding: 8px 20px;
+    min-width: 55px;
 
   &:hover {
     background: color.adjust(#007bff, $lightness: -10%);
   }
 
-  &:focus {
-    box-shadow: 0 0 0 2px rgb(0 123 255 / 50%);
-  }
+    &:focus {
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+    }
+     @include defines_global.small {
+        font-size: 14px;
+        margin-top:4px;
+     }
 }

@@ -9,8 +9,7 @@ export const getAddressSchema = () => {
                 .matches(
                     addressRegex,
                     "Address must be 2 characters or more. Only Alpha, Numerical, and certain special characters such as # ' . - are allowed",
-                )
-                .required("Address is required"),
+                ),
             address2: yup
                 .string()
                 .test(
@@ -28,8 +27,7 @@ export const getAddressSchema = () => {
                 .matches(
                     addressRegex,
                     "City must be 2 characters or more. Only Alpha, Numerical, and certain special characters such as # ' . - are allowed",
-                )
-                .required("City is required"),
+                ),
         }),
     });
 };

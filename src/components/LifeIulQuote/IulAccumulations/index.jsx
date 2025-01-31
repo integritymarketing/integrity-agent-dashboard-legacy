@@ -6,6 +6,9 @@ import { useLifeIulQuote } from "providers/Life";
 import styles from "./styles.module.scss";
 import WithLoader from "components/ui/WithLoader";
 import { useParams, useNavigate } from "react-router-dom";
+import _ from "lodash";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import { useLeadDetails } from "providers/ContactDetails";
 
 const IulAccumulationQuote = () => {
     const {
@@ -15,13 +18,19 @@ const IulAccumulationQuote = () => {
         showFilters,
         handleComparePlanSelect,
         selectedPlans,
+        handleIULQuoteApplyClick,
+        isLoadingApplyLifeIulQuote,
     } = useLifeIulQuote();
+
+    const { leadDetails } = useLeadDetails();
     const [isTobaccoUser, setIsTobaccoUser] = useState(false);
+    const { agentInformation } = useAgentInformationByID();
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { contactId } = useParams();
     const navigate = useNavigate();
+    const [selectedPlan, setSelectedPlan] = useState({});
 
     const getQuoteResults = useCallback(async () => {
         const lifeQuoteAccumulationDetails = sessionStorage.getItem("lifeQuoteAccumulationDetails");
@@ -58,16 +67,32 @@ const IulAccumulationQuote = () => {
         getQuoteResults();
     }, []);
 
-    const handlePlanDetailsClick = (id) => {
-        navigate(`/life/iul-accumulation/${id}/${contactId}/quote-details`);
+    const handlePlanDetailsClick = () => {
+        const id = lifeIulQuoteResults[0]?.policyDetailId;
+
+        const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
+
+        const filteredPlan = uniquePoliciesArray.filter((item) => id === item.policyDetailId);
+
+        if (filteredPlan.length > 0) {
+            sessionStorage.setItem("iul-plan-details", JSON.stringify({ ...filteredPlan[0], isTobaccoUser }));
+            const tempId = "IUL-United of Omaha-Income Advantage IUL";
+            navigate(`/life/iul-accumulation/${contactId}/${tempId}/quote-details`);
+        }
     };
 
     const handleNavigateToLearningCenter = () => {
         window.open("/learning-center", "_blank");
     };
 
+    const handleApplyClick = async (plan) => {
+        setSelectedPlan(plan);
+        const response = await handleIULQuoteApplyClick({ ...plan, ...agentInformation, ...leadDetails }, contactId);
+        setSelectedPlan({});
+    };
+
     return (
-        <IulQuoteContainer title="IUL Accumulation">
+        <IulQuoteContainer title="IUL Accumulation" page="plans page" quoteType="accumulation">
             <Grid item md={3} xs={12}>
                 {isMobile && showFilters && (
                     <Box className={styles.countSortContainer}>
@@ -106,10 +131,17 @@ const IulAccumulationQuote = () => {
                                             deathBenefit,
                                             targetPremium,
                                             rowId,
+                                            policyDetailId,
                                         } = plan;
                                         return (
-                                            <Grid item md={12} key={`iul-accumulation-${index}`}>
+                                            <Grid
+                                                item
+                                                md={12}
+                                                key={`iul-accumulation-${index}`}
+                                                sx={{ position: "relative" }}
+                                            >
                                                 <IulQuoteCard
+                                                    applyButtonDisabled={isLoadingApplyLifeIulQuote}
                                                     quoteType="IUL Accumulation"
                                                     cardTitle={productName}
                                                     companyName={companyName}
@@ -124,16 +156,24 @@ const IulAccumulationQuote = () => {
                                                     targetPremium={targetPremium}
                                                     deathBenefit={deathBenefit}
                                                     distribution={distribution}
+                                                    handleApplyClick={() => handleApplyClick(plan)}
                                                     age={plan?.input?.actualAge}
                                                     healthClass={plan?.input?.healthClass}
                                                     handleComparePlanSelect={() => handleComparePlanSelect(plan)}
                                                     handlePlanDetailsClick={() => handlePlanDetailsClick(rowId)}
                                                     disableCompare={
                                                         selectedPlans?.length === 3 &&
-                                                        !selectedPlans?.find((p) => p.rowId === rowId)
+                                                        !selectedPlans?.find((p) => p.policyDetailId === policyDetailId)
                                                     }
-                                                    isChecked={selectedPlans?.find((p) => p.rowId === rowId)}
+                                                    isChecked={selectedPlans?.find(
+                                                        (p) => p.policyDetailId === policyDetailId
+                                                    )}
                                                 />
+                                                {selectedPlan.rowId === rowId && (
+                                                    <Box sx={{ position: "absolute", top: 0, left: "50%" }}>
+                                                        <WithLoader isLoading={isLoadingApplyLifeIulQuote}></WithLoader>
+                                                    </Box>
+                                                )}
                                             </Grid>
                                         );
                                     })}

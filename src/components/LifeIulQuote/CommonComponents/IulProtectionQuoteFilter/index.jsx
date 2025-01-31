@@ -23,6 +23,7 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
         fetchLifeIulQuoteResults,
         tempUserDetails,
         selectedCarriers,
+        setSelectedPlans,
         handleCarriersChange,
         showFilters,
         setShowFilters,
@@ -88,6 +89,7 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
                 ],
                 quoteType: "IULPROT-SOLVE",
             };
+            setSelectedPlans([]);
             await fetchLifeIulQuoteResults(payload);
         },
         [fetchLifeIulQuoteResults]

@@ -236,12 +236,12 @@ export const ContactInfoContainer = ({ isMobile }) => {
                                 color="#052A63"
                                 size="20px"
                             />
-                            {maritalStatus && (
-                                <Box sx={{ pt: 2 }}>
-                                    <Label value="Marital Status" color="#717171" size="14px" />
-                                    <Label value={maritalStatus} color="#052A63" size="20px" />
-                                </Box>
-                            )}
+
+                            <Box sx={{ pt: 2 }}>
+                                <Label value="Marital Status" color="#717171" size="14px" />
+                                <Label value={maritalStatus || "Unknown"} color="#052A63" size="20px" />
+                            </Box>
+
                         </SectionContainer>
 
                         <Box className={styles.miniContainer}>

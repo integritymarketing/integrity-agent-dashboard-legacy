@@ -16,7 +16,6 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
     /**
      * Fetches data from the API endpoint using the specified HTTP method and request body
      */

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import { TextInput } from "components/MuiComponents";
 import styles from "./MedicareIDDetails.module.scss";
@@ -6,9 +6,13 @@ import { formatMbiNumber } from "../../../utils/shared-utils/sharedUtility";
 import DatePickerMUI from "../../DatePicker";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
+import { faCalendarDays, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import Box from "@mui/material/Box";
 
 const MedicareIDDetails = ({ formik }) => {
+    const [calendarPartAOpen, setCalendarPartAOpen] = useState(false);
+    const [calendarPartBOpen, setCalendarPartBOpen] = useState(false);
+
     const { errors, values, handleChange, handleBlur, setFieldValue } = formik;
     return (
         <Grid container spacing={2}>
@@ -43,8 +47,16 @@ const MedicareIDDetails = ({ formik }) => {
                     onChange={(value) => {
                         setFieldValue("partA", value);
                     }}
-                    endAdornment={<FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />}
-                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#0052cf" size={"2xl"} />}
+                    endAdornment={
+                        <Box
+                            mr={1}
+                            onClick={() => setCalendarPartAOpen(!calendarPartAOpen)}
+                            sx={{ cursor: "pointer", transform: calendarPartAOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                        >
+                            <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
+                        </Box>
+                    }
+                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#4178FF" size={"2xl"} />}
                     className={styles.datePicker}
                 />
             </Grid>
@@ -57,8 +69,16 @@ const MedicareIDDetails = ({ formik }) => {
                     onChange={(value) => {
                         setFieldValue("partB", value);
                     }}
-                    endAdornment={<FontAwesomeIcon icon={faAngleDown} color="#0052cf" size={"xl"} />}
-                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#0052cf" size={"2xl"} />}
+                    endAdornment={
+                        <Box
+                            mr={1}
+                            onClick={() => setCalendarPartBOpen(!calendarPartBOpen)}
+                            sx={{ cursor: "pointer", transform: calendarPartBOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                        >
+                            <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
+                        </Box>
+                    }
+                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#4178FF" size={"2xl"} />}
                     className={styles.datePicker}
                 />
             </Grid>

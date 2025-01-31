@@ -6,6 +6,9 @@ import { useLifeIulQuote } from "providers/Life";
 import WithLoader from "components/ui/WithLoader";
 import styles from "./styles.module.scss";
 import { useParams, useNavigate } from "react-router-dom";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import { useLeadDetails } from "providers/ContactDetails";
+import _ from "lodash";
 
 const IulProtectionQuote = () => {
     const {
@@ -14,18 +17,23 @@ const IulProtectionQuote = () => {
         lifeIulQuoteResults,
         handleTabSelection,
         tabSelected,
-        setTabSelected,
         showFilters,
         tempUserDetails,
         handleComparePlanSelect,
         selectedPlans,
+        isLoadingApplyLifeIulQuote,
+        handleIULQuoteApplyClick,
     } = useLifeIulQuote();
+
+    const { leadDetails } = useLeadDetails();
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { contactId } = useParams();
     const navigate = useNavigate();
     const [isTobaccoUser, setIsTobaccoUser] = useState(false);
+    const { agentInformation } = useAgentInformationByID();
+    const [selectedPlan, setSelectedPlan] = useState({});
 
     const getQuoteResults = useCallback(async () => {
         const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
@@ -34,7 +42,6 @@ const IulProtectionQuote = () => {
             const parsedLifeQuoteProtectionDetails = JSON.parse(lifeQuoteProtectionDetails);
 
             setIsTobaccoUser(parsedLifeQuoteProtectionDetails.isTobaccoUser);
-            setTabSelected(null);
             const { birthDate, gender, state, healthClasses, faceAmounts, payPeriods, illustratedRate, solves } =
                 parsedLifeQuoteProtectionDetails;
             const filteredFaceAmounts = faceAmounts.filter((amount) => Boolean(amount));
@@ -62,28 +69,62 @@ const IulProtectionQuote = () => {
 
     useEffect(() => {
         getQuoteResults();
-    }, []);
+    }, [getQuoteResults]);
 
-    const handlePlanDetailsClick = (id) => {
-        navigate(`/life/iul-protection/${id}/${contactId}/quote-details`);
+    const handlePlanDetailsClick = () => {
+        const id = lifeIulQuoteResults[0]?.policyDetailId;
+
+        const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
+
+        const filteredPlan = uniquePoliciesArray.filter((item) => id === item.policyDetailId);
+
+        if (filteredPlan.length > 0) {
+            sessionStorage.setItem("iul-plan-details", JSON.stringify({ ...filteredPlan[0], isTobaccoUser }));
+            const tempId = "IUL-United of Omaha-Life Protection Advantage IUL";
+            navigate(`/life/iul-protection/${contactId}/${tempId}/quote-details`);
+        }
     };
 
     const handleNavigateToLearningCenter = () => {
         window.open("/learning-center", "_blank");
     };
+    const handleApplyClick = async (plan) => {
+        setSelectedPlan(plan);
+
+        const emailAddress = leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
+        const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
+
+        try {
+            await handleIULQuoteApplyClick(
+                {
+                    ...plan,
+                    ...agentInformation,
+                    ...leadDetails,
+                    emailAddress,
+                    phoneNumber,
+                },
+                contactId
+            );
+        } catch (error) {
+            console.error("Error applying for quote:", error);
+        } finally {
+            setSelectedPlan({});
+        }
+    };
+
+    const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
 
     const tabInputs = useMemo(() => {
-        const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
         const parsedLifeQuoteProtectionDetails = JSON.parse(lifeQuoteProtectionDetails);
         const faceAmounts = parsedLifeQuoteProtectionDetails?.faceAmounts;
         return faceAmounts;
-    }, [sessionStorage.getItem("lifeQuoteProtectionDetails")]);
+    }, [lifeQuoteProtectionDetails]);
 
     const filteredTabInputs = tabInputs.filter((tab) => Boolean(tab));
     const selectedTabIndex = filteredTabInputs.findIndex((tab) => tab === tabSelected);
 
     return (
-        <IulQuoteContainer title="IUL Protection">
+        <IulQuoteContainer title="IUL Protection" page="plans page" quoteType="protection">
             <Grid item md={3} xs={12}>
                 {isMobile && showFilters && (
                     <Box className={styles.countSortContainer}>
@@ -107,7 +148,7 @@ const IulProtectionQuote = () => {
                         <Box width={isMobile ? "100%" : "60%"} marginBottom="16px">
                             {filteredTabInputs?.length > 1 && (
                                 <Tabs
-                                    value={parseInt(selectedTabIndex) !== -1 ? parseInt(selectedTabIndex) : 0}
+                                    value={parseInt(selectedTabIndex) !== -1 ? parseInt(selectedTabIndex) : false}
                                     aria-label="communications-tabs"
                                     variant="fullWidth"
                                     className={styles.tabs}
@@ -145,10 +186,17 @@ const IulProtectionQuote = () => {
                                             targetPremium,
                                             premium,
                                             rowId,
+                                            policyDetailId,
                                         } = plan;
                                         return (
-                                            <Grid item md={12} key={`iul-protection-${index}`}>
+                                            <Grid
+                                                item
+                                                md={12}
+                                                key={`iul-protection-${index}`}
+                                                sx={{ position: "relative" }}
+                                            >
                                                 <IulQuoteCard
+                                                    applyButtonDisabled={isLoadingApplyLifeIulQuote}
                                                     quoteType="IUL Protection"
                                                     cardTitle={productName}
                                                     companyName={companyName}
@@ -165,6 +213,7 @@ const IulProtectionQuote = () => {
                                                     distribution={distribution}
                                                     age={plan?.input?.actualAge}
                                                     healthClass={plan?.input?.healthClass}
+                                                    handleApplyClick={() => handleApplyClick(plan)}
                                                     premium={premium}
                                                     handleComparePlanSelect={() => {
                                                         handleComparePlanSelect(plan);
@@ -172,10 +221,17 @@ const IulProtectionQuote = () => {
                                                     handlePlanDetailsClick={() => handlePlanDetailsClick(rowId)}
                                                     disableCompare={
                                                         selectedPlans?.length === 3 &&
-                                                        !selectedPlans?.find((p) => p.rowId === rowId)
+                                                        !selectedPlans?.find((p) => p.policyDetailId === policyDetailId)
                                                     }
-                                                    isChecked={selectedPlans?.find((p) => p.rowId === rowId)}
+                                                    isChecked={selectedPlans?.find(
+                                                        (p) => p.policyDetailId === policyDetailId
+                                                    )}
                                                 />
+                                                {selectedPlan?.rowId === rowId && (
+                                                    <Box sx={{ position: "absolute", top: 0, left: "50%" }}>
+                                                        <WithLoader isLoading={isLoadingApplyLifeIulQuote} />
+                                                    </Box>
+                                                )}
                                             </Grid>
                                         );
                                     })}

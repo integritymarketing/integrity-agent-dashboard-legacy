@@ -2,6 +2,7 @@ import { useEffect, useState, createContext, useMemo, useCallback } from "react"
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 import PropTypes from "prop-types";
+import _ from "lodash";
 
 import removeNullAndEmptyFields from "utils/removeNullAndEmptyFields";
 
@@ -9,26 +10,39 @@ export const LifeIulQuoteContext = createContext();
 
 export const LifeIulQuoteProvider = ({ children }) => {
     const getLifeIulQuoteUrl = `${import.meta.env.VITE_QUOTE_URL}/api/v1/IUL/quotes`;
+    const applyLifeIulQuoteUrl = `${process.env.VITE_ENROLLMENT_API}/api/v1.0/IUL/lead`;
+    const getLifeIulQuoteDetailsUrl = `${process.env.VITE_QUOTE_URL}/api/v1.0/IUL/policydetails`;
     const showToast = useToast();
 
     const [lifeIulQuoteResults, setLifeIulQuoteResults] = useState(null);
     const [tempUserDetails, setTempUserDetails] = useState(null);
     const [selectedCarriers, setSelectedCarriers] = useState(["All carriers"]);
-    const [tabSelected, setTabSelected] = useState(0);
+    const [tabSelected, setTabSelected] = useState(null);
     const [showFilters, setShowFilters] = useState(false);
     const [selectedPlans, setSelectedPlans] = useState([]);
+    const [lifeIulDetails, setLifeIulDetails] = useState(null);
 
     const {
-        Post: getLifeIulQuoteDetails,
+        Post: getLifeIulQuoteResults,
         loading: isLoadingLifeIulQuote,
         error: getLifeIulQuoteError,
     } = useFetch(getLifeIulQuoteUrl);
 
+    const {
+        Post: applyLifeIulQuoteDetails,
+        loading: isLoadingApplyLifeIulQuote,
+        error: getApplyLifeIulQuoteError,
+    } = useFetch(applyLifeIulQuoteUrl);
+
+    const {
+        Get: getLifeIulQuoteDetails,
+        loading: isLoadingLifeIulQuoteDetails,
+        error: getLifeIulQuoteDetailsError,
+    } = useFetch(getLifeIulQuoteDetailsUrl);
+
     const reset = () => {
         setLifeIulQuoteResults(null);
         setTempUserDetails(null);
-        setTabSelected(0);
-        setSelectedPlans([]);
     };
 
     const fetchLifeIulQuoteResults = useCallback(
@@ -36,21 +50,25 @@ export const LifeIulQuoteProvider = ({ children }) => {
             reset();
             const payload = removeNullAndEmptyFields(reqData);
             try {
-                const response = await getLifeIulQuoteDetails(payload, false);
+                const response = await getLifeIulQuoteResults(payload, false);
                 if (response && response?.result && response?.result?.length > 0) {
+                    const removeDuplicated = _.uniqBy(response?.result, "policyDetailId");
+
                     if (!selectedCarriers.includes("All carriers") && selectedCarriers.length > 0) {
-                        const updatedResults = response?.result.filter((result) =>
+                        const updatedResults = removeDuplicated.filter((result) =>
                             selectedCarriers.includes(result.companyName)
                         );
 
                         setLifeIulQuoteResults(updatedResults);
                     } else {
-                        setLifeIulQuoteResults(response.result);
+                        setLifeIulQuoteResults(removeDuplicated);
                     }
-                    setTempUserDetails(response.result);
+                    setTempUserDetails(removeDuplicated);
                     if (reqData?.quoteType === "IULPROT-SOLVE") {
                         const faceAmounts = reqData?.inputs[0]?.faceAmounts;
-                        handleTabSelection(faceAmounts[0], response.result);
+                        const tabSelected = JSON.parse(sessionStorage.getItem("iul-protection-tab"));
+                        const initialselectedTab = tabSelected ? tabSelected : faceAmounts[0];
+                        handleTabSelection(initialselectedTab, removeDuplicated, true);
                     }
                     showToast({
                         message: `get quote successfully`,
@@ -67,7 +85,26 @@ export const LifeIulQuoteProvider = ({ children }) => {
                 return null;
             }
         },
-        [getLifeIulQuoteDetails, showToast, selectedCarriers]
+        [getLifeIulQuoteResults, showToast, selectedCarriers, sessionStorage]
+    );
+
+    const fetchLifeIulQuoteDetails = useCallback(
+        async (id) => {
+            try {
+                const response = await getLifeIulQuoteDetails(null, false, id);
+                if (response) {
+                    setLifeIulDetails(response);
+                    return response;
+                }
+            } catch (error) {
+                showToast({
+                    type: "error",
+                    message: `Failed to get quote details`,
+                });
+                return null;
+            }
+        },
+        [getLifeIulQuoteDetails, showToast]
     );
 
     const handleCarriersChange = (value) => {
@@ -88,24 +125,80 @@ export const LifeIulQuoteProvider = ({ children }) => {
         }
     };
 
-    const handleTabSelection = (tab, list) => {
+    const handleTabSelection = (tab, list, dontReset) => {
         setTabSelected(tab);
         const updatedResults = list?.filter((result) => result.input.faceAmount === parseInt(tab));
         setLifeIulQuoteResults(updatedResults);
+        if (!dontReset) {
+            setSelectedPlans([]);
+        }
     };
 
     const handleComparePlanSelect = (plan) => {
-        const isPlanSelected = selectedPlans?.filter((selectedPlan) => selectedPlan.rowId === plan.rowId);
+        const isPlanSelected = selectedPlans?.filter(
+            (selectedPlan) => selectedPlan.policyDetailId === plan.policyDetailId
+        );
         if (isPlanSelected?.length > 0) {
-            const updatedPlans = selectedPlans.filter((selectedPlan) => selectedPlan.rowId !== plan.rowId);
+            const updatedPlans = selectedPlans.filter(
+                (selectedPlan) => selectedPlan.policyDetailId !== plan.policyDetailId
+            );
             setSelectedPlans(updatedPlans);
         } else {
             setSelectedPlans([
                 ...selectedPlans,
-                { logo: plan.companyLogoImageUrl, name: plan.productName, rowId: plan.rowId },
+                { logo: plan.companyLogoImageUrl, name: plan.productName, rowId: plan.rowId, ...plan },
             ]);
         }
     };
+
+    const handleIULQuoteApplyClick = useCallback(
+        async (reqData, leadId) => {
+            const payload = removeNullAndEmptyFields(reqData);
+            const emailAddress = payload?.emails?.length > 0 ? payload.emails[0].leadEmail : null;
+            const phoneNumber = payload?.phones?.length > 0 ? payload.phones[0].leadPhone : null;
+            const obj = {
+                enroller: {
+                    agentLastName: payload?.agentLastName,
+                    agentFirstName: payload?.agentFirstName,
+                    agentEmail: payload?.email,
+                    agentNumber: payload?.agentNPN,
+                },
+                enrollee: {
+                    firstName: payload?.firstName,
+                    middleName: payload?.middleName,
+                    lastName: payload?.lastName,
+                    gender: payload?.gender == "male" ? "M" : "F",
+                    dateOfBirth: payload?.birthdate,
+                    emailAddress,
+                    phoneNumber,
+                    address1: payload?.addresses[0]?.address1 || "",
+                    city: payload?.addresses[0]?.city || "",
+                    state: payload?.addresses[0]?.stateCode || "",
+                    zipCode: payload?.addresses[0]?.postalCode,
+                    effectiveDate: new Date(payload?.effectiveDate).toISOString(),
+                },
+                ssoPrefillFields: {
+                    product_itmtxt: payload?.ssoPrefillFields.product_itmtxt,
+                    carrier: payload?.ssoPrefillFields.carrier,
+                    product: payload?.ssoPrefillFields.product,
+                    poL_Product: payload?.ssoPrefillFields.poL_Product,
+                    productType: payload?.ssoPrefillFields.productType,
+                },
+                productName: payload?.productName,
+                carrierUrl: payload?.carrierUrl || "",
+                carrierName: payload?.companyName || "",
+                planType: "IUL",
+            };
+
+            const response = await applyLifeIulQuoteDetails(obj, false, leadId);
+            if (response?.redirectUrl) {
+                window.open(response.redirectUrl, "_blank");
+            }
+
+            return response;
+        },
+        [applyLifeIulQuoteDetails]
+    );
 
     useEffect(() => {
         if (selectedCarriers.includes("All carriers")) {
@@ -132,6 +225,14 @@ export const LifeIulQuoteProvider = ({ children }) => {
             setShowFilters,
             handleComparePlanSelect,
             selectedPlans,
+            handleIULQuoteApplyClick,
+            isLoadingApplyLifeIulQuote,
+            getApplyLifeIulQuoteError,
+            fetchLifeIulQuoteDetails,
+            isLoadingLifeIulQuoteDetails,
+            getLifeIulQuoteDetailsError,
+            lifeIulDetails,
+            setSelectedPlans,
         }),
         [
             fetchLifeIulQuoteResults,
@@ -148,6 +249,14 @@ export const LifeIulQuoteProvider = ({ children }) => {
             setShowFilters,
             handleComparePlanSelect,
             selectedPlans,
+            handleIULQuoteApplyClick,
+            isLoadingApplyLifeIulQuote,
+            getApplyLifeIulQuoteError,
+            fetchLifeIulQuoteDetails,
+            isLoadingLifeIulQuoteDetails,
+            getLifeIulQuoteDetailsError,
+            lifeIulDetails,
+            setSelectedPlans,
         ]
     );
 
