@@ -4,67 +4,117 @@
 # AEPortal API calls + 'self' hosted assets: *.integritymarketinggroup.com *.medicarecenter.com *.sentry.io
 
 [[headers]]
-  for = "/apple-app-site-association"
-  [headers.values]
-    Cache-Control = "public, max-age=0"
-    Content-Type = "application/json"
-    X-Content-Type-Options = "nosniff"
+for = "/apple-app-site-association"
+[headers.values]
+Cache-Control = "public, max-age=0"
+Content-Type = "application/json"
+X-Content-Type-Options = "nosniff"
 
 [[headers]]
-  for = "/.well-known/apple-app-site-association"
-  [headers.values]
-    Cache-Control = "public, max-age=0"
-    Content-Type = "application/json"
-    X-Content-Type-Options = "nosniff"
+for = "/.well-known/apple-app-site-association"
+[headers.values]
+Cache-Control = "public, max-age=0"
+Content-Type = "application/json"
+X-Content-Type-Options = "nosniff"
 
 [[headers]]
-  for = "/*"
-  [headers.values]
-    Content-Security-Policy = "upgrade-insecure-requests; default-src 'self' 'unsafe-eval' 'unsafe-inline' *.botframework.com *.destinationrx.com *.integritymarketinggroup.com *.integrityleadcenter.com *.medicarecenter.com *.planenroll.com *.integrity.com *.cdn.mxpnl.com *.sentry.io *.google-analytics.com *.googletagmanager.com *.licdn.com *.facebook.net *.facebook.com *.linkedin.com *.adsymptotic.com *.ipipeline.com *.amplitude.com *.csgstatic.com *.tawebhost.com *.azure-api.net *.azurewebsites.net *.blob.core.windows.net https://csgstatic.com https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js https://integrity-bot-service-dev.azurewebsites.net cdn.jsdelivr.net cdnjs.cloudflare.com player.vimeo.com ae-api.integrity.com agentmanagement-dev.azure-api.net ae-agenthub-signalr-dev.service.signalr.net wss://ae-agenthub-signalr-dev.service.signalr.net wss://directline.botframework.com stats.g.doubleclick.net https://cphs.blob.core.windows.net/ask-integrity/arrow.png agentmanagement-qa.azure-api.net ae-agenthub-signalr-qa.service.signalr.net wss://ae-agenthub-signalr-qa.service.signalr.net agentmanagement-stag.azure-api.net ae-agenthub-signalr-stag.service.signalr.net wss://ae-agenthub-signalr-stag.service.signalr.net agentmanagement-uat.azure-api.net ae-agenthub-signalr-uat.service.signalr.net wss://ae-agenthub-signalr-uat.service.signalr.net agentmanagement-prod.azure-api.net ae-agenthub-signalr-prod.service.signalr.net wss://ae-agenthub-signalr-prod.service.signalr.net https://auth-dev.integritymarketinggroup.com/* *.mapbox.com *.googleapis.com *.gstatic.com *.google.com maps.gstatic.com data: https://cdn.mxpnl.com/libs/mixpanel-js-wrapper.js https://askintegrityasset.blob.core.windows.net/images/mc-arrow-button.png https://askintegrityasset.blob.core.windows.net/images/mc-arrow-list.png https://cdn.iconfinder.com/data/family/previews/preview/font-awesome-regular.png https://fw-cdn.com *.freshchat.com; object-src 'none'; frame-ancestors 'self'; style-src 'self' 'unsafe-inline' fonts.googleapis.com cdn.jsdelivr.net *.freshchat.com; font-src fonts.gstatic.com *.integritymarketinggroup.com ae-stage.integritymarketinggroup.com ae-qa.integritymarketinggroup.com;"
-    Referrer-Policy = "no-referrer-when-downgrade"
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    X-XSS-Protection = "1; mode=block"
+for = "/*"
+[headers.values]
+Content-Security-Policy = "upgrade-insecure-requests; default-src 'self' 'unsafe-eval' 'unsafe-inline' *.botframework.com *.destinationrx.com *.integritymarketinggroup.com *.integrityleadcenter.com *.medicarecenter.com *.planenroll.com *.integrity.com *.cdn.mxpnl.com *.sentry.io *.google-analytics.com *.googletagmanager.com *.licdn.com *.facebook.net *.facebook.com *.linkedin.com *.adsymptotic.com *.ipipeline.com *.amplitude.com *.csgstatic.com *.tawebhost.com *.azure-api.net *.azurewebsites.net *.blob.core.windows.net https://csgstatic.com https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js https://integrity-bot-service-dev.azurewebsites.net cdn.jsdelivr.net cdnjs.cloudflare.com player.vimeo.com ae-api.integrity.com agentmanagement-dev.azure-api.net ae-agenthub-signalr-dev.service.signalr.net wss://ae-agenthub-signalr-dev.service.signalr.net wss://directline.botframework.com stats.g.doubleclick.net https://cphs.blob.core.windows.net/ask-integrity/arrow.png agentmanagement-qa.azure-api.net ae-agenthub-signalr-qa.service.signalr.net wss://ae-agenthub-signalr-qa.service.signalr.net agentmanagement-stag.azure-api.net ae-agenthub-signalr-stag.service.signalr.net wss://ae-agenthub-signalr-stag.service.signalr.net agentmanagement-uat.azure-api.net ae-agenthub-signalr-uat.service.signalr.net wss://ae-agenthub-signalr-uat.service.signalr.net agentmanagement-prod.azure-api.net ae-agenthub-signalr-prod.service.signalr.net wss://ae-agenthub-signalr-prod.service.signalr.net https://auth-dev.integritymarketinggroup.com/* *.mapbox.com *.googleapis.com *.gstatic.com *.google.com maps.gstatic.com data: https://cdn.mxpnl.com/libs/mixpanel-js-wrapper.js https://askintegrityasset.blob.core.windows.net/images/mc-arrow-button.png https://askintegrityasset.blob.core.windows.net/images/mc-arrow-list.png https://cdn.iconfinder.com/data/family/previews/preview/font-awesome-regular.png https://fw-cdn.com *.freshchat.com; object-src 'none'; frame-ancestors 'self'; style-src 'self' 'unsafe-inline' fonts.googleapis.com cdn.jsdelivr.net *.freshchat.com; font-src fonts.gstatic.com *.integritymarketinggroup.com ae-stage.integritymarketinggroup.com ae-qa.integritymarketinggroup.com;"
+Referrer-Policy = "no-referrer-when-downgrade"
+X-Frame-Options = "DENY"
+X-Content-Type-Options = "nosniff"
+X-XSS-Protection = "1; mode=block"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200
 
 # Set non-sensitive env variables
 # that live across all envs for simplicity here
 # all URIs and env specific configs live in the Netlify environment UI configs
 [build.environment]
-  REACT_APP_AUTH_CLIENT_ID = "AEPortal"
-  REACT_APP_AUTH_SCOPES = "openid profile email IdentityServerApi LeadsAPI_Full phone roles QuoteService_Full NotificationService_Full AgentService_Full EnrollmentService_Full CommunicationService_Full offline_access"
-  REACT_APP_AUTH_RESPONSE_TYPE = "code"
-  REACT_APP_RESOURCES_URL = "https://learningcenter.tawebhost.com"
-  CI = "false"
-  SONAR_TOKEN = "c5b57574634c68650a60ad457028606ce8adcbd3"
-  SONAR_PROJECT_KEY = "ae-agent-portal"
-  SONAR_ORG_KEY = "integritymarketing"
-  SONAR_HOST_URL = "https://sonarcloud.io"
-  GIT_LFS_SKIP_SMUDGE = "1" # If using Git LFS
-  GIT_DEPTH = "0"           # Fetch full history
+REACT_APP_AUTH_CLIENT_ID = "AEPortal"
+REACT_APP_AUTH_SCOPES = "openid profile email IdentityServerApi LeadsAPI_Full phone roles QuoteService_Full NotificationService_Full AgentService_Full EnrollmentService_Full CommunicationService_Full offline_access"
+REACT_APP_AUTH_RESPONSE_TYPE = "code"
+REACT_APP_RESOURCES_URL = "https://learningcenter.tawebhost.com"
+VITE_ACCOUNT_API = "https://ae-api-dev.integritymarketinggroup.com/ae-agent-service/api/v1.0/Account"
+VITE_ADD_JANUARY_MONTH = "show"
+VITE_AGENT_MANAGMENT_SIGNALR = "https://agentmanagement-dev.azure-api.net/AE-AgentAvailability"
+VITE_AGENTS_URL = "https://ae-api-dev.integritymarketinggroup.com/ae-agent-service"
+VITE_ANDROID_MINIMUM_APP_VERSION = "1.8.5"
+VITE_AUTH0_AUDIENCE = "https://ae-api-dev.integritymarketinggroup.com"
+VITE_AUTH0_CLIENT_ID = "qTzobG6UcoTRxoQx28ehi1wQQaWLo4wu"
+VITE_AUTH0_DOMAIN = "https://auth-dev.integritymarketinggroup.com"
+VITE_AUTH0_LEADS_REDIRECT_URI = "https://leads-dev.integritymarketinggroup.com"
+VITE_AUTH_AUTHORITY_URL = "https://ae-api-dev.integritymarketinggroup.com/ae-identity-service"
+VITE_AUTH_AUTHORITY_URL_V3 = "https://ae-api-dev.integritymarketinggroup.com/ae-identity-service/api/v3.0/account"
+VITE_AUTH_BASE_URL = "http://localhost:3001"
+VITE_AUTH_CLIENT_ID = "AEPortal"
+VITE_AUTH_ILC_REDIRECT_URI = "https://dev.integrityleadcenter.com/signin-oidc"
+VITE_AUTH_ILC_URL = "https://ae-api-dev.integrityleadcenter.com/ilc-identity-service"
+VITE_AUTH_PAW_REDIRECT_URI = "https://profile-dev.integritymarketinggroup.com"
+VITE_AUTH_REGISTRATION_URL = "https://ae-api-dev.integritymarketinggroup.com/ae-agent-service/api/v1.0/account/register"
+VITE_AUTH_RESPONSE_TYPE = "code"
+VITE_AUTH_SCOPES = "openid profile email IdentityServerApi LeadsAPI_Full phone roles QuoteService_Full AgentService_Full EnrollmentService_Full CommunicationService_Full offline_access"
+VITE_AUTH_UPDATE_ACCOUNT_URL = "https://ae-api-dev.integritymarketinggroup.com/ae-agent-service/api/v1.0/account/update"
+VITE_AUTH_UPDATE_PASSWORD_URL = "https://ae-api-dev.integritymarketinggroup.com/ae-agent-service/api/v1.0/account/updatepassword"
+VITE_BOOKOFBUSINESS_API = "https://ae-api-dev.integritymarketinggroup.com/ae-enrollment-service/api/V1.0/BookOfBusiness"
+VITE_BOT_HOST_NAME = "dev"
+VITE_BUILD_ENV = "local"
+VITE_COMMUNICATION_API = "https://ae-api-dev.integritymarketinggroup.com/ae-communication-service/api/v2.0"
+VITE_CONNECTURE_LINK = "https://ae-api-dev.integritymarketinggroup.com/ae-identity-service/external/SamlLogin/Mobile"
+VITE_CURRENT_PLAN_YEAR = 2024
+VITE_DIRECT_LINE = "https://ask-integrity-bot-net-qa.azurewebsites.net/directline/token"
+VITE_ENROLLMENT_API = "https://ae-api-dev.integritymarketinggroup.com/ae-enrollment-service/api/v1.0/BookOfBusiness"
+VITE_ENROLLMENT_CONSUMER_API = "https://ae-api-dev.integritymarketinggroup.com/ae-enrollment-service/api/v1.0/MedicareEnroll"
+VITE_ENROLLMENT_SERVICE_API = "https://ae-api-dev.integritymarketinggroup.com/ae-enrollment-service/api/v1.0"
+VITE_FEATURE_FLAG = "hide"
+VITE_GOOGLE_MAPS_API_KEY = "AIzaSyCqFIRSJ3PTFZap99Ttapx5M7tPRHUA01g"
+VITE_GTM_ID = "GTM-PL9G2BS"
+VITE_GTM_PARAMS = "gtm_auth=TG4GJ9WeCRbBpkvpmPJBQw&gtm_preview=env-1&gtm_cookies_win=x"
+VITE_HOST_URL = "https://askintegrity-dev.azure-api.net"
+VITE_IOS_MINIMUM_APP_VERSION = "1.8.5"
+VITE_IUL_FEATURE_FLAG = "show"
+VITE_LEADS_URL = "https://ae-api-dev.integritymarketinggroup.com/ae-leads-api"
+VITE_MAINTENANCE_MODE = ""
+VITE_MAPBOX_GEO_TOKEN = "pk.eyJ1IjoiYWdlbnRlbmFibGVtZW50IiwiYSI6ImNrc2oyZjYwdTJhZzEzMXF0aHRqd2k2OW8ifQ.TriSE1u9B0AHgfNpQLNSIg"
+VITE_MEDICARE_ENROLL = "https://dev.planenroll.com"
+VITE_NOTIFICATION_BANNER = false
+VITE_PHARMACY_FILTER_SHOW_MAILORDER = true
+VITE_PORTAL_URL = "https://ae-qa.integritymarketinggroup.com"
+VITE_QUOTE_URL = "https://ae-api-dev.integritymarketinggroup.com/ae-quote-service"
+VITE_RESOURCES_URL = "https://learningcenter.tawebhost.com"
+VITE_SHOW_FINAL_EXPENSE = true
+VITE_SMART_APP_BANNER_FLAG = "show"
+VITE_SUNFIRE_SSO_URL = "https://qa-sunfire.sunfirematrix.com/api/partner/sso/int"
+CI = "false"
+SONAR_TOKEN = "c5b57574634c68650a60ad457028606ce8adcbd3"
+SONAR_PROJECT_KEY = "ae-agent-portal"
+SONAR_ORG_KEY = "integritymarketing"
+SONAR_HOST_URL = "https://sonarcloud.io"
+GIT_LFS_SKIP_SMUDGE = "1"
+GIT_DEPTH = "0"
 
 # Custom prebuild plugin to set version number ENV var from package.json & java added for sonar
 [[plugins]]
-  package = "./plugins/netlify/prebuild-set-version-number"
+package = "./plugins/netlify/prebuild-set-version-number"
 
 # Sentry build plugin
 [[plugins]]
-  package = "@sentry/netlify-build-plugin"
-  [plugins.inputs]
-    sentryOrg = "integrity-marketing-org"
-    sentryProject = "ae-agent-portal"
+package = "@sentry/netlify-build-plugin"
+[plugins.inputs]
+sentryOrg = "integrity-marketing-org"
+sentryProject = "ae-agent-portal"
 
 # Sentry is enabled for develop, qa, stage, prod
 # Since all sites have the context of 'production' for each release
 # error scoping is controlled with the REACT_APP_BUILD_ENV variable
 # (to remove sentry errors from branch or preview deployments)
 [context.production.environment]
-  REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442"
-  REACT_APP_SENTRY_AUTH_DSN = "https://788e98ba6d4b4114adaa443bbf8a49bc@o417296.ingest.sentry.io/5408350"
+REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442"
+REACT_APP_SENTRY_AUTH_DSN = "https://788e98ba6d4b4114adaa443bbf8a49bc@o417296.ingest.sentry.io/5408350"
 
 [build]
-  command = "yarn build"
+command = "yarn build"
