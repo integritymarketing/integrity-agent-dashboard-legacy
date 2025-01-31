@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Define the path to the _redirects file in the build directory
-const redirectsFilePath = path.join(__dirname, "dist", "_redirects");
+const redirectsFilePath = path.join(__dirname, "build", "_redirects");
 
 // Use process.env to access environment variables
 if (process.env.VITE_BUILD_ENV === "Production") {
