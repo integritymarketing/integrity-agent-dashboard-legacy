@@ -112,7 +112,7 @@ const IulAccumulationQuoteDetails = () => {
                 )}
                 <Grid item md={8}>
                     <Grid container gap={3}>
-                        <Grid item md={12}>
+                        <Grid item md={12} xs={12}>
                             <div ref={quoteDetailsRef} id="quoteDetails">
                                 <CollapsibleLayout title="Quote Details">
                                     <IulQuoteCard
@@ -138,7 +138,7 @@ const IulAccumulationQuoteDetails = () => {
                                 </CollapsibleLayout>
                             </div>
                         </Grid>
-                        <Grid item md={12}>
+                        <Grid item md={12} xs={12}>
                             <div ref={productDescriptionRef} id="productDescription">
                                 <IulQuoteDetailsSection title="Product Description">
                                     <Typography variant="body1" color="#434A51">
@@ -148,14 +148,14 @@ const IulAccumulationQuoteDetails = () => {
                             </div>
                         </Grid>
                         {features?.length > 0 && (
-                            <Grid item md={12}>
+                            <Grid item md={12} xs={12}>
                                 <div ref={productFeaturesRef} id="productFeatures">
                                     <ProductFeature title="Product Features" features={features} />
                                 </div>
                             </Grid>
                         )}
 
-                        <Grid item md={12}>
+                        <Grid item md={12} xs={12}>
                             <div
                                 ref={underwritingRequirementsRef}
                                 id="underwritingRequirements"
