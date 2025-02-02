@@ -26,6 +26,8 @@ const useAddNewContact = () => {
             medicareBeneficiaryID,
             partA,
             partB,
+            hasMedicAid,
+            lis,
         } = contact;
 
         let requestData = {
@@ -39,6 +41,8 @@ const useAddNewContact = () => {
             medicareBeneficiaryID: medicareBeneficiaryID ? flattenMBI(medicareBeneficiaryID) : undefined,
             partA: partA ? formatServerDate(partA) : null,
             partB: partB ? formatServerDate(partB) : null,
+            hasMedicAid,
+            lis,
         };
 
         requestData.primaryCommunication = primaryCommunication || (email ? "email" : "phone");
