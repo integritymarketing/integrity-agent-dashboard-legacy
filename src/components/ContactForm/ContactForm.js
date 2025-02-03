@@ -22,12 +22,12 @@ import useAssignLead from "hooks/ContactForm/useAssignLead";
 import useDuplicateContact from "hooks/ContactForm/useDuplicateContact";
 import useLinkContact from "hooks/ContactForm/useLinkContact";
 import * as Yup from "yup";
-import { getFirstNameSchema, getLastNameSchema } from "../../ValidationSchemas";
 import { getBirthDateSchema } from "ValidationSchemas/birthDateSchema";
 import { getAddressSchema } from "ValidationSchemas/addressSchema";
 import { getMedicareBeneficiaryIDSchema } from "ValidationSchemas/medicareBeneficiaryIDSchema";
 import { getEmailOrPhonePrimaryCommunicationSchema } from "../../ValidationSchemas/emailOrPhonePrimaryCommunication";
 import { Box } from "@mui/system";
+import { getTextFieldSchema } from "../../ValidationSchemas/genericTextFieldSchema";
 
 const ContactForm = ({
     callLogId,
@@ -85,8 +85,8 @@ const ContactForm = ({
     };
 
     const validationSchema = Yup.object().shape({
-        ...getFirstNameSchema().fields,
-        ...getLastNameSchema().fields,
+        ...getTextFieldSchema("firstName", "First Name").fields,
+        ...getTextFieldSchema("lastName", "Last Name").fields,
         ...getBirthDateSchema().fields,
         ...getEmailOrPhonePrimaryCommunicationSchema().fields,
         ...getAddressSchema().fields,

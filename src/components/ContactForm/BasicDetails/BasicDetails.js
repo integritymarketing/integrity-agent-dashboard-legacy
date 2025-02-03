@@ -10,7 +10,8 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarDays, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faDatePicker } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
 import { contactFormMaritalStatusOptions, contactFormPrefixOptions, contactFormSuffixOptions } from "utils/contactForm";
 
 const BasicDetails = ({ formik, fieldSet }) => {
@@ -87,7 +88,7 @@ const BasicDetails = ({ formik, fieldSet }) => {
                             <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                         </Box>
                     }
-                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#4178FF" size={"2xl"} />}
+                    startAdornment={<FontAwesomeIcon icon={faDatePicker} color="#4178FF" size={"2xl"} />}
                     className={styles.datePicker}
                 />
 

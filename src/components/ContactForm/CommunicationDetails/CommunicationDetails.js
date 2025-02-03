@@ -44,6 +44,7 @@ const CommunicationDetails = ({ formik }) => {
                     inputRef={phoneFieldRef}
                     fullWidth
                     type="tel"
+                    inputProps={{ maxLength: 10 }}
                     placeholder="###-###-####"
                     name="phones.leadPhone"
                     value={formatPhoneNumber(values.phones.leadPhone) || ""}
