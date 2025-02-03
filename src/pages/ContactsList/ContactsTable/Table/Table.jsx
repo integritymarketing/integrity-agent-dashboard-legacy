@@ -1,43 +1,50 @@
-/* eslint-disable react/prop-types */
-import {useEffect} from "react";
-// import {useRowSelect, useSortBy, useTable} from "react-table";
-import {useReactTable} from "@tanstack/react-table"; // TODO: react-table migration
-
-import {useContactsListContext} from "pages/ContactsList/providers/ContactsListProvider";
-
+import React, { useState, useEffect } from "react";
+import {
+    useReactTable,
+    getCoreRowModel,
+    getSortedRowModel,
+    getPaginationRowModel,
+    getFilteredRowModel,
+} from "@tanstack/react-table";
+import PropTypes from "prop-types";
+import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
+import { TableHeader } from "../TableHeader";
+import { TableBody } from "../TableBody";
 import styles from "./styles.module.scss";
 
-import {TableBody} from "../TableBody";
-import {TableHeader} from "../TableHeader";
+const Table = ({ isLoading, columns }) => {
+    const { setSelectedContacts, tableData } = useContactsListContext();
+    const [sorting, setSorting] = useState([]);
+    const [rowSelection, setRowSelection] = useState({});
 
-function Table({columns, isLoading}) {
-    const {setSelectedContacts, tableData} = useContactsListContext();
-
-    const {getTableProps, getTableBodyProps, headerGroups, prepareRow, rows, selectedFlatRows} = useReactTable(
-        {
-            columns,
-            data: tableData,
-        },
-        //useSortBy,
-        //useRowSelect
-    );
+    const table = useReactTable({
+        data: tableData || [],
+        columns,
+        state: { sorting, rowSelection },
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        onSortingChange: setSorting,
+        onRowSelectionChange: setRowSelection,
+    });
 
     useEffect(() => {
-        setSelectedContacts(selectedFlatRows.map((contact) => contact.original.leadsId));
-    }, [selectedFlatRows, setSelectedContacts]);
+        const selectedContacts = table.getSelectedRowModel().flatRows.map((contact) => contact.original.leadsId);
+        setSelectedContacts(selectedContacts);
+    }, [table.getSelectedRowModel(), setSelectedContacts]);
 
     return (
-        <table className={styles.customTable} {...getTableProps()}>
-            <TableHeader headerGroups={headerGroups}/>
-            <TableBody
-                getTableBodyProps={getTableBodyProps}
-                rows={rows}
-                prepareRow={prepareRow}
-                getRowKey={(row) => row.original.leadsId}
-                isLoading={isLoading}
-            />
+        <table className={styles.customTable}>
+            <TableHeader headerGroups={table.getHeaderGroups()} />
+            <TableBody rows={table.getRowModel().rows} isLoading={isLoading} />
         </table>
     );
-}
+};
+
+Table.propTypes = {
+    isLoading: PropTypes.bool,
+    columns: PropTypes.array.isRequired,
+};
 
 export default Table;

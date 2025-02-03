@@ -67,8 +67,7 @@ const IulAccumulationQuote = () => {
         getQuoteResults();
     }, []);
 
-    const handlePlanDetailsClick = () => {
-        const id = lifeIulQuoteResults[0]?.policyDetailId;
+    const handlePlanDetailsClick = (id) => {
 
         const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
 
@@ -160,7 +159,7 @@ const IulAccumulationQuote = () => {
                                                     age={plan?.input?.actualAge}
                                                     healthClass={plan?.input?.healthClass}
                                                     handleComparePlanSelect={() => handleComparePlanSelect(plan)}
-                                                    handlePlanDetailsClick={() => handlePlanDetailsClick(rowId)}
+                                                    handlePlanDetailsClick={() => handlePlanDetailsClick(policyDetailId)}
                                                     disableCompare={
                                                         selectedPlans?.length === 3 &&
                                                         !selectedPlans?.find((p) => p.policyDetailId === policyDetailId)

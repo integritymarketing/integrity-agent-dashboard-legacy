@@ -13,7 +13,7 @@ const MedicareIDDetails = ({ formik }) => {
     const [calendarPartAOpen, setCalendarPartAOpen] = useState(false);
     const [calendarPartBOpen, setCalendarPartBOpen] = useState(false);
 
-    const { errors, values, handleChange, handleBlur, setFieldValue } = formik;
+    const { errors, values, handleChange, handleBlur, setFieldValue, validateField } = formik;
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -24,7 +24,15 @@ const MedicareIDDetails = ({ formik }) => {
                     placeholder="####-###-####"
                     name="medicareBeneficiaryID"
                     value={values.medicareBeneficiaryID}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                        const mbi = e.target.value;
+                        const newValue = formatMbiNumber(mbi);
+                        setFieldValue("medicareBeneficiaryID", newValue);
+                        if (mbi.length >= 11) {
+                            validateField("medicareBeneficiaryID");
+                        }
+                        handleChange(e);
+                    }}
                     onBlur={(e) => {
                         handleBlur(e);
                         setFieldValue("medicareBeneficiaryID", formatMbiNumber(values.medicareBeneficiaryID));

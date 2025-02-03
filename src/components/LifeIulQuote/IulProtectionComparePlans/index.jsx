@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState, useMemo } from "react";
 import { Grid, Box } from "@mui/material";
 import { CompareHeader, ProductFeature, UnderwritingRequirements } from "@integritymarketing/clients-ui-kit";
 import { IulQuoteContainer } from "../CommonComponents";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useParams } from "react-router-dom";
 import { useLifeIulQuote } from "providers/Life";
-import { useParams } from "react-router-dom";
+
 import styles from "./styles.module.scss";
 
 const IulProtectionComparePlans = () => {
@@ -81,7 +81,7 @@ const IulProtectionComparePlans = () => {
                 logoURL: plan.companyLogoImageUrl,
                 id: plan.policyDetailId,
                 annualPlanPremium: plan.targetPremium,
-                deathBenefit: plan.deathBenefit,
+                deathBenefitAmount: plan.deathBenefit,
                 carrierName: plan.companyName,
                 planRating: plan.amBest,
                 planName: plan.productName,

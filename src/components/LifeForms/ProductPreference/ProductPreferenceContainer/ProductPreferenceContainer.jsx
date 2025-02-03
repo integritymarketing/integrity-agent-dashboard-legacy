@@ -11,10 +11,16 @@ import { IulProtectionProductPreferenceForm } from "../IulProtectionProductPrefe
 export const ProductPreferenceContainer = ({ contactId, quoteType }) => {
     const { isLoadingLeadDetails } = useLeadDetails();
     const renderContactDetailsLoader = useMemo(() => <PlanCardLoader />, []);
+    const page = quoteType == LIFE_FORM_TYPES.IUL_ACCUMULATION ? "accumulation" : "protection";
 
     return (
         <>
-            <ContactProfileTabBar contactId={contactId} showTabs={false} backButtonLabel="Back" backButtonRoute="" />
+            <ContactProfileTabBar
+                contactId={contactId}
+                showTabs={false}
+                backButtonLabel="Back"
+                backButtonRoute={`/life/iul-${page}/${contactId}/confirm-details`}
+            />
             {isLoadingLeadDetails ? (
                 renderContactDetailsLoader
             ) : (
