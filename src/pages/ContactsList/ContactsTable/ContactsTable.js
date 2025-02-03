@@ -309,7 +309,6 @@ function ContactsTable() {
                 enableSorting: false,
                 accessorKey: "lifePolicyCount",
                 cell: ({ value, row }) => {
-                    console.log("value", value, row);
                     if (value === 0 || !value) {
                         return (
                             <Box position="relative" display="inline-block" sx={{ right: "6px" }}>
