@@ -126,7 +126,7 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
                             onClick={linkToContact}
                             variant="contained"
                             color="primary"
-                            size="small"
+                            size="medium"
                             endIcon={<ContactLink color="#ffffff" size="md" />}
                         >
                             Link to Contact
