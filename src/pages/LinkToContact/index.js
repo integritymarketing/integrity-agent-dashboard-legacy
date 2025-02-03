@@ -124,7 +124,6 @@ export default function LinkToContact() {
     const tagIds = flattenedTags?.map((tag) => tag.tagId);
     const tagIcons = flattenedTags?.map((tag) => tag.tagIcon);
 
-    console.log("flattenedTags", flattenedTags, tagIds);
 
     const goToAddNewContactsPage = useCallback(() => {
         const baseRoute = `/contact/add-new/`;

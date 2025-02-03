@@ -70,7 +70,6 @@ const IulProtectionQuote = () => {
     useEffect(() => {
         getQuoteResults();
     }, [getQuoteResults]);
-    console.log("lifeIulQuoteResults", lifeIulQuoteResults);
 
     const handlePlanDetailsClick = (id) => {
         const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
