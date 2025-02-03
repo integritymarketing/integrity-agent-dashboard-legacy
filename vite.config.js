@@ -6,8 +6,7 @@ export default defineConfig(({mode}) => {
     const isAuthBuild = process.env.VITE_APP_BUILD_TARGET === "auth";
 
     return {
-        base: "/", // (Default) Root-level path
-        // Plugins
+        base: "/",
         plugins: [react()],
         publicDir: "public", // Ensure the public directory is picked up (default is "public")
 

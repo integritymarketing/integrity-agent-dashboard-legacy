@@ -1,3 +1,5 @@
+/* craco.config */
+
 const fs = require("fs");
 const evalSourceMap = require("react-dev-utils/evalSourceMapMiddleware");
 const redirectServedPath = require("react-dev-utils/redirectServedPathMiddleware");
@@ -8,7 +10,7 @@ module.exports = {
         enable: false,
     },
     webpack: {
-        configure: (webpackConfig, { env, paths }) => {
+        configure: (webpackConfig, {env, paths}) => {
             if (import.meta.env.VITE_BUILD_TARGET === "auth") {
                 const appDirectory = require("fs").realpathSync(process.cwd());
                 webpackConfig.entry = [require("path").resolve(appDirectory, "src/authIndex.js")];
@@ -16,7 +18,7 @@ module.exports = {
             return webpackConfig;
         },
     },
-    devServer: (devServerConfig, { env, paths }) => {
+    devServer: (devServerConfig, {env, paths}) => {
         devServerConfig = {
             ...devServerConfig,
             client: {
