@@ -67,7 +67,7 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
 
             monthlyCostDetails?.forEach(({ labelName, memberCost }) => {
                 const existingRecord = acc.find(
-                    (record) => record.labelName === labelName && record.monthID === monthID,
+                    (record) => record.labelName === labelName && record.monthID === monthID
                 );
 
                 if (existingRecord) {
@@ -126,14 +126,15 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
     const [expandedMonths, setExpandedMonths] = useState({});
     const [showMore, setShowMore] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-    const monthlyPrescriptionDetailsColumns = React.useMemo(
+
+    const monthlyPrescriptionDetailsColumns = useMemo(
         () => [
-            { Header: "Prescription", accessor: "labelName" },
-            { Header: "Cost", accessor: "plan0" },
-            { Header: "Cost", accessor: "plan1" },
-            { Header: "Cost", accessor: "plan2" },
+            { header: "Prescription", accessorKey: "labelName", hideHeader: false },
+            { header: "Cost (Plan 1)", accessorKey: "plan0", id: "costPlan1", hideHeader: false },
+            { header: "Cost (Plan 2)", accessorKey: "plan1", id: "costPlan2", hideHeader: false },
+            { header: "Cost (Plan 3)", accessorKey: "plan2", id: "costPlan3", hideHeader: false },
         ],
-        [],
+        []
     );
 
     const showMonthlyBars = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import ArrowDown from "../../../icons/arrow-down";
 import PlanDetailsTable from "../index";
@@ -24,12 +24,13 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
     const [expandedMonths, setExpandedMonths] = useState({});
     const [showMore, setShowMore] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
-    const monthlyPrescriptionDetailsColumns = React.useMemo(
+
+    const monthlyPrescriptionDetailsColumns = useMemo(
         () => [
-            { Header: "Prescription", accessor: "labelName" },
-            { Header: "Cost", accessor: "memberCost" },
+            { header: "Prescription", accessorKey: "labelName", hideHeader: false },
+            { header: "Cost", accessorKey: "memberCost", hideHeader: true },
         ],
-        [],
+        []
     );
 
     const showMonthlyBars = () => {

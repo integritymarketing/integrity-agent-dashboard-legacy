@@ -103,8 +103,12 @@ function ContactsTable() {
     };
 
     const contactsListResultsEvent = () => {
-        const contacts_with_health_policies_count = Array.isArray(policyCounts) ? policyCounts.filter((contact) => contact.healthPolicyCount > 0).length : 0;
-        const contacts_with_life_policies_count = Array.isArray(policyCounts) ? policyCounts.filter((contact) => contact.lifePolicyCount > 0).length : 0;
+        const contacts_with_health_policies_count = Array.isArray(policyCounts)
+            ? policyCounts.filter((contact) => contact.healthPolicyCount > 0).length
+            : 0;
+        const contacts_with_life_policies_count = Array.isArray(policyCounts)
+            ? policyCounts.filter((contact) => contact.lifePolicyCount > 0).length
+            : 0;
 
         const contacts_without_policies_count = tableData?.length - policyCounts?.length;
 
@@ -168,96 +172,97 @@ function ContactsTable() {
     const columns = useMemo(
         () => [
             {
-                accessor: "selection",
-                disableSortBy: true,
-                Header: ({ getToggleAllRowsSelectedProps }) => (
-                    <Checkbox {...getToggleAllRowsSelectedProps()} indeterminate={false} />
+                id: "selection",
+                accessorKey: "selection",
+                enableSorting: false,
+                header: ({ table }) => (
+                    <Checkbox
+                        checked={table.getIsAllRowsSelected()}
+                        indeterminate={table.getIsSomeRowsSelected()}
+                        onChange={table.getToggleAllRowsSelectedHandler()}
+                    />
                 ),
-                Cell: ({ row }) => <Checkbox {...row.getToggleRowSelectedProps()} />,
+                cell: ({ row }) => <Checkbox checked={row.getIsSelected()} onChange={row.getToggleSelectedHandler()} />,
             },
             {
-                Header: "Name",
-                accessor: "firstName",
-                Cell: ({ row }) => <NameCell row={row} />,
+                header: "Name",
+                accessorKey: "firstName",
+                cell: ({ row }) => <NameCell row={row} />,
             },
             {
-                Header: "Stage",
-                disableSortBy: true,
-                accessor: "statusName",
-                Cell: ({ value, row }) => <StageCell initialValue={value} originalData={row?.original} />,
+                header: "Stage",
+                accessorKey: "statusName",
+                enableSorting: false,
+                cell: ({ row }) => <StageCell initialValue={row.getValue("statusName")} originalData={row.original} />,
             },
             {
-                Header: "Reminders",
-                disableSortBy: true,
-                accessor: "reminders",
-                Cell: ({ value, row }) => {
-                    const leadDataOriginal = row?.original;
-                    const remindersList = value?.filter((reminder) => !reminder?.isComplete);
+                header: "Reminders",
+                accessorKey: "reminders",
+                enableSorting: false,
+                cell: ({ row }) => {
+                    const leadDataOriginal = row.original;
+                    const remindersList = row.getValue("reminders")?.filter((reminder) => !reminder.isComplete);
                     const remindersLength = remindersList?.length;
-                    const isOverDueReminder = checkOverDue(remindersList) ? true : false;
+                    const isOverDueReminder = checkOverDue(remindersList);
+
                     return (
-                        <>
-                            <CardBadge
-                                label=""
-                                name="reminder"
-                                onClick={() => remindersHandler(remindersLength, leadDataOriginal)}
-                                IconComponent={
-                                    <Box sx={{ cursor: "pointer" }}>
-                                        {remindersLength === 0 ? (
-                                            <Box sx={{ top: "10px" }}>
-                                                <AddReminder />
-                                            </Box>
-                                        ) : (
-                                            <Reminder color={isOverDueReminder ? "#F44236" : "#4178FF"} />
-                                        )}
-                                    </Box>
-                                }
-                                count={remindersLength > 1 ? remindersLength : null}
-                            />
-                        </>
+                        <CardBadge
+                            label=""
+                            name="reminder"
+                            onClick={() => remindersHandler(remindersLength, leadDataOriginal)}
+                            IconComponent={
+                                <Box sx={{ cursor: "pointer" }}>
+                                    {remindersLength === 0 ? (
+                                        <Box sx={{ top: "10px" }}>
+                                            <AddReminder />
+                                        </Box>
+                                    ) : (
+                                        <Reminder color={isOverDueReminder ? "#F44236" : "#4178FF"} />
+                                    )}
+                                </Box>
+                            }
+                            count={remindersLength > 1 ? remindersLength : null}
+                        />
                     );
                 },
             },
             {
-                Header: "Campaign",
-                disableSortBy: true,
-                accessor: "campaign",
-                Cell: ({ value, row }) => {
-                    const leadDataOriginal = row?.original;
-                    const campaignTags = row?.original?.leadTags?.filter((tag) =>
+                header: "Campaign",
+                accessorKey: "campaign",
+                enableSorting: false,
+                cell: ({ row }) => {
+                    const leadDataOriginal = row.original;
+                    const campaignTags = leadDataOriginal?.leadTags?.filter((tag) =>
                         tag?.tag?.tagCategory?.tagCategoryName?.includes("Campaign")
                     );
                     const campaignTagDefaultImage = campaignTags?.[0]?.tag?.tagIconUrl;
-                    return (
-                        <>
-                            {campaignTags?.length > 0 ? (
-                                <CardBadge
-                                    label=""
-                                    name={"campaign"}
-                                    onClick={() => campaignTagsHandler(campaignTags, leadDataOriginal)}
-                                    IconComponent={
-                                        campaignTagDefaultImage ? (
-                                            <Box className={styles.iconWrapper}>
-                                                <img src={campaignTagDefaultImage} />
-                                            </Box>
-                                        ) : (
-                                            <Box className={styles.iconWrapper}>
-                                                <CampaignStatus />
-                                            </Box>
-                                        )
-                                    }
-                                    count={campaignTags?.length > 1 ? campaignTags?.length : null}
-                                />
-                            ) : null}
-                        </>
-                    );
+
+                    return campaignTags?.length > 0 ? (
+                        <CardBadge
+                            label=""
+                            name="campaign"
+                            onClick={() => campaignTagsHandler(campaignTags, leadDataOriginal)}
+                            IconComponent={
+                                campaignTagDefaultImage ? (
+                                    <Box className={styles.iconWrapper}>
+                                        <img src={campaignTagDefaultImage} alt="Campaign Icon" />
+                                    </Box>
+                                ) : (
+                                    <Box className={styles.iconWrapper}>
+                                        <CampaignStatus />
+                                    </Box>
+                                )
+                            }
+                            count={campaignTags?.length > 1 ? campaignTags?.length : null}
+                        />
+                    ) : null;
                 },
             },
             {
-                Header: "Ask Integrity",
-                disableSortBy: true,
-                accessor: "askIntegrity",
-                Cell: ({ value, row }) => {
+                header: "Ask Integrity",
+                enableSorting: false,
+                accessorKey: "askIntegrity",
+                cell: ({ value, row }) => {
                     const leadDataOriginal = row?.original;
                     const askIntegrityTags = row?.original?.leadTags?.filter(
                         (tag) =>
@@ -300,10 +305,11 @@ function ContactsTable() {
                 },
             },
             {
-                Header: "Life",
-                disableSortBy: true,
-                accessor: "lifePolicyCount",
-                Cell: ({ value, row }) => {
+                header: "Life",
+                enableSorting: false,
+                accessorKey: "lifePolicyCount",
+                cell: ({ value, row }) => {
+                    console.log("value", value, row);
                     if (value === 0 || !value) {
                         return (
                             <Box position="relative" display="inline-block" sx={{ right: "6px" }}>
@@ -331,10 +337,10 @@ function ContactsTable() {
                 },
             },
             {
-                Header: "Health",
-                disableSortBy: true,
-                accessor: "healthPolicyCount",
-                Cell: ({ value, row }) => {
+                header: "Health",
+                enableSorting: false,
+                accessorKey: "healthPolicyCount",
+                cell: ({ value, row }) => {
                     if (value === 0 || !value) {
                         return (
                             <Box position="relative" display="inline-block" sx={{ left: "6px" }}>
@@ -362,24 +368,23 @@ function ContactsTable() {
                 },
             },
             {
-                Header: "Connect",
-                disableSortBy: true,
-                accessor: "connect",
-                Cell: ({ row }) => {
-                    const { primaryCommunication, emails } = row?.original;
-                    const isPhoneConnect = primaryCommunication === "phone";
-                    return isPhoneConnect ? (
-                        <ConnectCall row={row?.original} view="List" />
+                header: "Connect",
+                accessorKey: "connect",
+                enableSorting: false,
+                cell: ({ row }) => {
+                    const { primaryCommunication, emails } = row.original;
+                    return primaryCommunication === "phone" ? (
+                        <ConnectCall row={row.original} view="List" />
                     ) : (
-                        <ConnectEmail data={row?.original} emails={emails} view="List" />
+                        <ConnectEmail data={row.original} emails={emails} view="List" />
                     );
                 },
             },
             {
-                Header: "",
-                disableSortBy: true,
-                accessor: "actions",
-                Cell: ({ row }) => (
+                header: "",
+                accessorKey: "actions",
+                enableSorting: false,
+                cell: ({ row }) => (
                     <CountyDataProvider>
                         <ActionsCell row={row} refreshData={refreshData} />
                     </CountyDataProvider>

@@ -1,47 +1,42 @@
 import PropTypes from "prop-types";
-import { useTable } from "react-table";
+import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
 import "./index.scss";
 
-const PlanDetailsTable = ({ columns, data, compareTable, className, theadClassName, tbodyClassName }) => {
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
+const PlanDetailsTable = ({ columns, data = [], compareTable, className, theadClassName, tbodyClassName }) => {
+    const table = useReactTable({
         columns,
-        data: data || [],
-        compareTable,
+        data,
+        getCoreRowModel: getCoreRowModel(), // Required in v8
     });
 
     return (
-        <table {...getTableProps()} className={`${className} plan-details-table`}>
+        <table className={`${className} plan-details-table`}>
+            {/* Table Header */}
             <thead className={`${theadClassName} plan-details-thead`}>
-                {headerGroups.map((headerGroup) => (
-                    <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
-                        {headerGroup.headers.map(
-                            (column) =>
-                                !column.hideHeader && (
-                                    <th {...column.getHeaderProps()} key={column.id}>
-                                        {column.render("Header")}
-                                    </th>
-                                ),
+                {table.getHeaderGroups().map((headerGroup) => (
+                    <tr key={headerGroup.id}>
+                        {headerGroup.headers.map((column) =>
+                            column.columnDef?.hideHeader ? null : ( // Fix: Check columnDef existence
+                                <th key={column.id}>{flexRender(column.columnDef?.header, column.getContext())}</th>
+                            )
                         )}
                     </tr>
                 ))}
             </thead>
-            <tbody {...getTableBodyProps()} className={`${tbodyClassName} plan-details-tbody`}>
-                {rows.map((row) => {
-                    prepareRow(row);
-                    return (
-                        <tr {...row.getRowProps()} key={row.id} className={`${compareTable ? "comp-tr" : ""}`}>
-                            {row.cells.map((cell) => (
-                                <td
-                                    {...cell.getCellProps()}
-                                    key={cell.column.id}
-                                    className={`${compareTable ? "comp-td" : ""}`}
-                                >
-                                    {cell.render("Cell")}
+
+            {/* Table Body */}
+            <tbody className={`${tbodyClassName} plan-details-tbody`}>
+                {table.getRowModel().rows.map((row) => (
+                    <tr key={row.id} className={`${compareTable ? "comp-tr" : ""}`}>
+                        {row.getVisibleCells().map((cell) =>
+                            cell.column.columnDef?.hideHeader ? null : ( // Fix: Hide cell if header is hidden
+                                <td key={cell.id} className={`${compareTable ? "comp-td" : ""}`}>
+                                    {flexRender(cell.column.columnDef?.cell, cell.getContext())}
                                 </td>
-                            ))}
-                        </tr>
-                    );
-                })}
+                            )
+                        )}
+                    </tr>
+                ))}
             </tbody>
         </table>
     );
