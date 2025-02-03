@@ -24,14 +24,24 @@ const MedicareIDDetails = ({ formik }) => {
                     placeholder="####-###-####"
                     name="medicareBeneficiaryID"
                     value={values.medicareBeneficiaryID}
-                    onChange={(e) => {
-                        const mbi = e.target.value;
-                        const newValue = formatMbiNumber(mbi);
-                        setFieldValue("medicareBeneficiaryID", newValue);
-                        if (mbi.length >= 11) {
+                    onChange={(event) => {
+                        const { value } = event.target;
+                        const formattedMBI = formatMbiNumber(value);
+                        setFieldValue("medicareBeneficiaryID", formattedMBI);
+                        if (value.length === 11) {
                             validateField("medicareBeneficiaryID");
                         }
-                        handleChange(e);
+                        handleChange(event);
+                    }}
+                    onKeyDown={(event) => {
+                        const { value } = event.target;
+                        const mbi = value.replace(/-/g, "");
+                        if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(event.key)) {
+                            return;
+                        }
+                        if (mbi.length >= 11) {
+                            event.preventDefault();
+                        }
                     }}
                     onBlur={(e) => {
                         handleBlur(e);
