@@ -57,6 +57,8 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
     const backRoute = useMemo(() => {
         return page === "plan compare page"
             ? `/life/iul-${quoteType}/${contactId}/quote?preserveSelected=true`
+            : page === "plans details page"
+            ? `/life/iul-${quoteType}/${contactId}/quote`
             : `/life/iul-${quoteType}/${contactId}/product-preferences`;
     }, [contactId, page, quoteType]);
 

@@ -491,7 +491,7 @@ export const PlanDetailsContainer = ({
                                             parseFloat(
                                                 modalRates.find((rate) => rate?.type === "month")?.totalPremium ||
                                                 "0",
-                                            ),
+                                            ).toFixed(2),
                                         )
                                         : "N/A";
 
@@ -504,8 +504,10 @@ export const PlanDetailsContainer = ({
                                         )
                                         : "N/A";
 
-                                const formattedCoverageAmount = faceValue === null || faceValue === undefined || faceValue === ""
-            ? "N/A" : formatRate(parseFloat(faceValue));
+                                const formattedCoverageAmount =
+                                    faceValue === null || faceValue === undefined || faceValue === ""
+                                        ? "N/A"
+                                        : formatRate(parseFloat(faceValue));
                                 return (
                                     <PlanCard
                                         key={`${name}-${index}`}

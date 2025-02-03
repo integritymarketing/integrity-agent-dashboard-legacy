@@ -1,6 +1,6 @@
 import dateFnsParse from "date-fns/parse";
 import { isAfter, isDate, isMatch } from "date-fns";
-import { getNameSchema } from "../ValidationSchemas/genericNameFieldSchema";
+import { getTextFieldSchema } from "../ValidationSchemas/genericTextFieldSchema";
 
 function getProp(object, keys, defaultVal) {
     keys = Array.isArray(keys) ? keys : keys.split(".");
@@ -50,7 +50,7 @@ class ValidationService {
 
     validateName = (username, label = "firstName") => {
         try {
-            getNameSchema(label).validateSync({ name: username }, { abortEarly: false });
+            getTextFieldSchema(label, label).validateSync({ [label]: username }, { abortEarly: false });
             return null;
         } catch (error) {
             return error.errors[0];

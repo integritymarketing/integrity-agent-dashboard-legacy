@@ -63,7 +63,9 @@ export const PlanCard = ({
     const { fireEvent } = useAnalytics();
     const { agentInformation } = useAgentInformationByID();
     const { agentFirstName, agentLastName } = agentInformation || {};
-    const { Post: enrollLeadFinalExpensePlan } = useFetch(`${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`);
+    const { Post: enrollLeadFinalExpensePlan, error: enrollLeadFinalExpensePlanError } = useFetch(
+        `${ENROLLEMENT_SERVICE}${contactId}/naic/${naic}`,
+    );
     const [enrollResponse, setEnrollResponse] = useState(null);
     const [isLoadingEnroll, setIsLoadingEnroll] = useState(false);
     const [isFinalExpenseErrorModalOpen, setIsFinalExpenseErrorModalOpen] = useState(false);
@@ -97,10 +99,10 @@ export const PlanCard = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                      ? ["My Appointed Products"]
-                      : isShowExcludedProducts
-                        ? ["Show Excluded Products"]
-                        : [],
+                        ? ["My Appointed Products"]
+                        : isShowExcludedProducts
+                            ? ["Show Excluded Products"]
+                            : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -142,42 +144,68 @@ export const PlanCard = ({
     };
 
     const onApply = async (producerId, apiErrorState = false) => {
-        let writingAgentNumberToSend;
-        setIsLoadingEnroll(true);
-        if (!apiErrorState) {
-            writingAgentNumberToSend = writingAgentNumber ?? producerId;
-        } else {
-            writingAgentNumberToSend = producerId;
-        }
-        const body = getPlanEnrollBody(
-            writingAgentNumberToSend,
-            agentFirstName,
-            agentLastName,
-            leadDetails,
-            coverageAmount,
-            planName,
-            resource_url,
-            contactId,
-            planType,
-            uwType,
-        );
-        const response = await enrollLeadFinalExpensePlan(body);
-        setIsLoadingEnroll(false);
+        try {
+            let writingAgentNumberToSend;
+            setIsLoadingEnroll(true);
+            if (!apiErrorState) {
+                writingAgentNumberToSend = writingAgentNumber ?? producerId;
+            } else {
+                writingAgentNumberToSend = producerId;
+            }
+            const body = getPlanEnrollBody(
+                writingAgentNumberToSend,
+                agentFirstName,
+                agentLastName,
+                leadDetails,
+                coverageAmount,
+                planName,
+                resource_url,
+                contactId,
+                planType,
+                uwType,
+            );
+            const response = await enrollLeadFinalExpensePlan(body);
+            setIsLoadingEnroll(false);
 
-        if (!response?.success && response?.status === 400 && response?.redirectUrl) {
-            setIsFinalExpenseErrorModalOpen(true);
-            return false;
-        }
-        if (response?.isSso) {
-            lifeQuoteCallEvent(response?.success);
-        }
+            if (!response?.success && response?.status === 400) {
+                setIsFinalExpenseErrorModalOpen(true);
+                return false;
+            }
 
-        if (response.redirectUrl) {
-            window.open(response.redirectUrl, "_blank");
-            return true;
-        } else {
-            setEnrollResponse(response);
-            return false;
+            if (!response?.success && response?.status === 500) {
+                setEnrollResponse({ ...response, statusCode: 500 });
+                return false;
+            }
+
+            if (response.status !== 200) {
+                setEnrollResponse(true);
+                return false;
+            }
+
+            if (response?.isSso) {
+                lifeQuoteCallEvent(response?.success);
+            }
+
+            if (response.redirectUrl) {
+                window.open(response.redirectUrl, "_blank");
+                return true;
+            } else {
+                setEnrollResponse(response);
+                return false;
+            }
+        } catch (error) {
+            setIsLoadingEnroll(false);
+            if (error.message) {
+                const errorMessage = JSON.parse(error.message);
+                if (errorMessage.status === 400) {
+                    setIsFinalExpenseErrorModalOpen(true);
+                }
+
+                if (errorMessage.status === 500) {
+                    setEnrollResponse({ ...errorMessage, statusCode: 500 });
+                }
+            }
+            console.error("Error applying for quote:", enrollLeadFinalExpensePlanError);
         }
     };
 

@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useMemo } from "react";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
-import { CollapsibleLayout ,
+import {
+    CollapsibleLayout,
     IulQuoteCard,
     IulQuoteDetailsSection,
     ProductFeature,
@@ -40,7 +41,7 @@ const IulProtectionQuoteDetails = () => {
             return {
                 name: feature.name,
                 description: feature.description || "",
-                plans: [feature.value === "Included" ? true : feature.value === "Optional" ? "Optional" : false],
+                plans: [feature.value || "Excluded"],
             };
         });
     }, [lifeIulDetails]);
@@ -81,7 +82,7 @@ const IulProtectionQuoteDetails = () => {
     }, [planDetails]);
 
     return (
-        <IulQuoteContainer title="IUL Protection" page="plans details page">
+        <IulQuoteContainer title="IUL Protection" page="plans details page" quoteType="protection">
             <Grid container>
                 {!isMobile && (
                     <Grid item md={3}>

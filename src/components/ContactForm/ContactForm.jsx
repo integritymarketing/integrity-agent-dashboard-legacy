@@ -24,8 +24,6 @@ import useLinkContact from "hooks/ContactForm/useLinkContact";
 import {Box} from "@mui/system";
 import * as Yup from "yup";
 import {
-    getFirstNameSchema,
-    getLastNameSchema,
     getBirthDateSchema,
     getAddressSchema,
     getMedicareBeneficiaryIDSchema,
@@ -88,8 +86,8 @@ const ContactForm = ({
     };
 
     const validationSchema = Yup.object().shape({
-        ...getFirstNameSchema().fields,
-        ...getLastNameSchema().fields,
+        ...getTextFieldSchema("firstName", "First Name").fields,
+        ...getTextFieldSchema("lastName", "Last Name").fields,
         ...getBirthDateSchema().fields,
         ...getEmailOrPhonePrimaryCommunicationSchema().fields,
         ...getAddressSchema().fields,
