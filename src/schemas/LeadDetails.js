@@ -1,12 +1,12 @@
 import * as yup from "yup";
-import { getFirstNameSchema, getLastNameSchema } from "../ValidationSchemas";
 import { getPhoneSchema } from "../ValidationSchemas/phoneSchema";
 import { getEmailSchema } from "../ValidationSchemas/emailSchema";
+import { getTextFieldSchema } from "../ValidationSchemas/genericTextFieldSchema";
 
 export const LeadDetails = yup
     .object()
-    .concat(getFirstNameSchema())
-    .concat(getLastNameSchema())
+    .concat(getTextFieldSchema("firstName", "First name"))
+    .concat(getTextFieldSchema("lastName", "Last name"))
     .concat(getPhoneSchema())
     .concat(getEmailSchema())
     .test("email-or-phone", "Either email or phone number is required", function (values) {
