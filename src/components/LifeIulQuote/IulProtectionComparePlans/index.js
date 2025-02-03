@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState, useMemo } from "react";
 import { Grid, Box } from "@mui/material";
 import { CompareHeader, ProductFeature, UnderwritingRequirements } from "@integritymarketing/clients-ui-kit";
 import { IulQuoteContainer } from "../CommonComponents";
-import { useNavigate , useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useLifeIulQuote } from "providers/Life";
 
 import styles from "./styles.module.scss";
@@ -41,10 +41,11 @@ const IulProtectionComparePlans = () => {
         benefitNames.forEach((name) => {
             const benefitObj = {
                 name: name,
-                description: "",
-                plans: results.map((item) =>
-                    item.benefits.some((benefit) => benefit.name === name && benefit.value === "Included")
-                ),
+                description: "Feature Description",
+                plans: results.map((item) => {
+                    const benefit = item.benefits.find((benefit) => benefit.name === name);
+                    return benefit ? benefit.value : "Excluded";
+                }),
             };
             combinedBenefits.push(benefitObj);
         });
@@ -122,7 +123,7 @@ const IulProtectionComparePlans = () => {
                 )}
 
                 <Grid item md={12} className={styles.underwritingRequirements}>
-                    <Box >
+                    <Box>
                         <UnderwritingRequirements requirements={uwRequirements} title="Underwriting Requirements" />
                     </Box>
                 </Grid>
