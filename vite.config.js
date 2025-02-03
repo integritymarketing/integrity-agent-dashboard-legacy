@@ -9,6 +9,7 @@ export default defineConfig(({mode}) => {
         base: "/", // (Default) Root-level path
         // Plugins
         plugins: [react()],
+        publicDir: "public", // Ensure the public directory is picked up (default is "public")
 
         // Build configuration
         build: {
