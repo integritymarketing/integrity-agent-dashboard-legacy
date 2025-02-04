@@ -6,7 +6,7 @@ export default defineConfig(({mode}) => {
     const isAuthBuild = process.env.VITE_APP_BUILD_TARGET === "auth";
 
     return {
-        base: "./",
+        base: "/",
         plugins: [react()],
         publicDir: "public", // Ensure the public directory is picked up (default is "public")
 
@@ -32,6 +32,7 @@ export default defineConfig(({mode}) => {
                     secure: false,
                 },
             },
+            historyApiFallback: true, // Fallback to index.html for SPA routes
         },
 
         // Resolve aliases for src path
