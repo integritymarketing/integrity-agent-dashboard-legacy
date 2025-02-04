@@ -55,7 +55,7 @@ export const ContactsListProvider = ({ children }) => {
     const location = useLocation();
     const {
         tableData: tableDataFromHook,
-        isLoading: isfetchingTableData,
+        isLoading: isFetchingTableData,
         fetchTableData,
         allLeads,
         fetchTableDataWithoutFilters,
@@ -179,7 +179,7 @@ export const ContactsListProvider = ({ children }) => {
             filterConditions,
             setFilterConditions,
             setSelectAllContacts,
-            isfetchingTableData,
+            isFetchingTableData,
             setIsStartedSearching,
             isStartedSearching,
             tableDataFromHook,
@@ -215,7 +215,7 @@ export const ContactsListProvider = ({ children }) => {
             filterConditions,
             setFilterConditions,
             setSelectAllContacts,
-            isfetchingTableData,
+            isFetchingTableData,
             setIsStartedSearching,
             isStartedSearching,
             tableDataFromHook,
