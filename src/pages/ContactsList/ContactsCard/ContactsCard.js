@@ -23,7 +23,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinnerThird } from "@awesome.me/kit-7ab3488df1/icons/duotone/solid";
 
 function ContactsCard({ cardWrapperClassName = "", isMapPage }) {
-    const { tableData, isfetchingTableData, isStartedSearching } = useContactsListContext();
+    const { tableData, isFetchingTableData, isStartedSearching } = useContactsListContext();
     const { width: windowWidth } = useWindowSize();
 
     const [showRemindersListModal, setShowRemindersListModal] = useState(false);
@@ -189,7 +189,7 @@ function ContactsCard({ cardWrapperClassName = "", isMapPage }) {
         return tableData.filter((item) => !item.addresses?.length) || [];
     }, [tableData]);
 
-    if (isfetchingTableData || isStartedSearching) {
+    if (isFetchingTableData || isStartedSearching) {
         return (
             <Box className={styles.container}>
                 <Box className={styles.loaderContainer}>

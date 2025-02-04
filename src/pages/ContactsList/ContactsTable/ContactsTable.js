@@ -42,10 +42,9 @@ import CampaignStatus from "components/icons/version-2/CampaignStatus";
 import AskIntegrity from "components/icons/version-2/AskIntegrity";
 import { CountyDataProvider } from "providers/CountyDataProvider";
 import { getShoppersColorScheme } from "utils/shared-utils/sharedUtility";
-import WithLoader from "components/ui/WithLoader";
 
 function ContactsTable() {
-    const { tableData, policyCounts, refreshData, isfetchingTableData, isStartedSearching } = useContactsListContext();
+    const { tableData, policyCounts, refreshData, isFetchingTableData, isStartedSearching } = useContactsListContext();
     const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(DeleteLeadContext);
 
     const { width: windowWidth } = useWindowSize();
@@ -399,7 +398,7 @@ function ContactsTable() {
                 <TableMobile />
             ) : (
                 <Box className={styles.tableWrapper}>
-                    <Table columns={columns} isLoading={isfetchingTableData || isStartedSearching} />
+                    <Table columns={columns} isLoading={isFetchingTableData || isStartedSearching} />
                     <LoadMoreButton />
                 </Box>
             )}

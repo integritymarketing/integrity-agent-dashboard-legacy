@@ -43,7 +43,7 @@ const Search = () => {
         setIsStartedSearching,
         setTableData,
         setSelectedSearchLead,
-        isfetchingTableData,
+        isFetchingTableData,
     } = useContactsListContext();
 
     const inputRef = useRef(null);
@@ -140,7 +140,7 @@ const Search = () => {
             {open && inputValue.length >= 3 && (
                 <Popper open={open} anchorEl={anchorEl} placement="bottom" ref={popperRef}>
                     <Paper className={styles.popper}>
-                        {isfetchingTableData ? (
+                        {isFetchingTableData ? (
                             <Box className={styles.noResults}>
                                 <Typography>Loading...</Typography>
                             </Box>
