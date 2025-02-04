@@ -1,6 +1,5 @@
 import dateFnsParse from "date-fns/parse";
-import { isAfter, isDate, isMatch } from "date-fns";
-import { getTextFieldSchema } from "../ValidationSchemas/genericTextFieldSchema";
+import { isAfter, isMatch, isDate } from "date-fns";
 
 function getProp(object, keys, defaultVal) {
     keys = Array.isArray(keys) ? keys : keys.split(".");
@@ -49,12 +48,29 @@ class ValidationService {
     };
 
     validateName = (username, label = "firstName") => {
-        try {
-            getTextFieldSchema(label, label).validateSync({ [label]: username }, { abortEarly: false });
-            return null;
-        } catch (error) {
-            return error.errors[0];
+        if (username && !/^[A-Za-z]{2,}$/.test(username)) {
+            return `${label} must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted. `;
         }
+
+        if (username && username.length > 50) {
+            return `${label} must be 50 characters or less`;
+        }
+
+        // else
+        return this.validateRequired(username, label);
+    };
+
+    validateOnlyAlphabetics = (username, label = "firstName") => {
+        if (username && !/^[A-Za-z]{2,}$/.test(username)) {
+            return `${label} must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted.`;
+        }
+
+        if (username && username.length > 50) {
+            return `${label} must be 50 characters or less`;
+        }
+
+        // else
+        return this.validateRequired(username, label);
     };
 
     validateUsername = (username, label = "NPN") => {
