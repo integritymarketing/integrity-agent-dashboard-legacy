@@ -32,6 +32,7 @@ $bright-gray: #eaeef0;
 $bluish-cyan: #f1faff;
 $grayish-blue: #cdd0d5;
 $bleakBlue: #e5edfa;
+$grayishYellow: #eeede6;
 
 // Social colors
 $primary-anchor: #0052ce;
@@ -49,3 +50,7 @@ $secondary-pinterest: #f1f2f2;
 
 // component colors
 $iconBackgroundColor: $bleakBlue;
+$headerBackgroundColor: $grayishYellow;
+$uiHeaderWithLoginActionButtonBackgroundColor: var(--ui-header-with-login-action-button-background-color, #0052cf);
+$uiHeaderWithLoginLinkTextColor: var(--ui-header-with-login-link-text-color, #FFFFFFFF);
+$uiHeaderWithLoginBackgroundColor: var(--ui-header-with-login-background-color, #052a63);

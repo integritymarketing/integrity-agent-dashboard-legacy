@@ -51,3 +51,9 @@ $mobileWidth: 950px;
     @content;
   }
 }
+
+@mixin tabletAndAbove {
+  @media (min-width: #{ $mobileWidth + 1px }) {
+    @content;
+  }
+}
