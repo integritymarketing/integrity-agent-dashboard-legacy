@@ -6,7 +6,7 @@ export default defineConfig(({mode}) => {
     const isAuthBuild = process.env.VITE_APP_BUILD_TARGET === "auth";
 
     return {
-        base: "/",
+        base: "./",
         plugins: [react()],
         publicDir: "public", // Ensure the public directory is picked up (default is "public")
 
@@ -14,9 +14,10 @@ export default defineConfig(({mode}) => {
         build: {
             outDir: isAuthBuild ? "buildAuth" : "build", // Separate output folders
             rollupOptions: {
-                input: isAuthBuild
-                    ? path.resolve(__dirname, "src/authIndex.jsx") // Custom entry point for auth build
-                    : path.resolve(__dirname, "src/index.jsx"),    // Main entry point
+                main: path.resolve(__dirname, "index.html"), // Include HTML as a valid input
+                app: isAuthBuild
+                    ? path.resolve(__dirname, "src/authIndex.jsx")
+                    : path.resolve(__dirname, "src/index.jsx")
             },
         },
 
