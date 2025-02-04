@@ -149,7 +149,7 @@ const IulAccumulationComparePlans = () => {
                 <Grid item md={12} className={styles.planCompareHeader} sx={{ position: "relative" }}>
                     <CompareHeader
                         handleApplyClick={handleApplyClick}
-                        disabled={isLoadingApplyLifeIulQuote}
+                        applyButtonDisabled={isLoadingApplyLifeIulQuote}
                         headerCategory="IUL_ACCUMULATION"
                         IULAccumulationPlans={plansData}
                         onClose={handleComparePlanRemove}

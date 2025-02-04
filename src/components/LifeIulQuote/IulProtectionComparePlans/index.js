@@ -131,8 +131,7 @@ const IulProtectionComparePlans = () => {
             );
         } catch (error) {
             Sentry.captureException(error);
-        }
-        finally {
+        } finally {
             setDisabledPlans((prev) => ({ ...prev, [plan.id]: false }));
         }
     };
@@ -143,7 +142,7 @@ const IulProtectionComparePlans = () => {
                 <Grid item md={12} className={styles.planCompareHeader} sx={{ position: "relative" }}>
                     <CompareHeader
                         handleApplyClick={handleApplyClick}
-                        disabled={isLoadingApplyLifeIulQuote}
+                        applyButtonDisabled={isLoadingApplyLifeIulQuote}
                         headerCategory="IUL_PROTECTION"
                         IULProtectionPlans={plansData}
                         onClose={handleComparePlanRemove}
@@ -152,7 +151,7 @@ const IulProtectionComparePlans = () => {
                     />
                     {isLoadingApplyLifeIulQuote && (
                         <Box sx={{ position: "absolute", top: 0, left: "50%" }}>
-                            <WithLoader isLoading={isLoadingApplyLifeIulQuote} />
+                            <WithLoader className="spinner-container" isLoading={isLoadingApplyLifeIulQuote} />
                         </Box>
                     )}
                 </Grid>
