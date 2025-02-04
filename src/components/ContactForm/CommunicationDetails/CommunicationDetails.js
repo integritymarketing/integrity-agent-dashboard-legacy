@@ -70,7 +70,7 @@ const CommunicationDetails = ({ formik }) => {
                     buttonClassNames={Object.keys(valueOptions).map((option) =>
                         valueOptions[option] === values.primaryCommunication
                             ? [styles.selectedOption]
-                            : [styles.nonSelectedOption],
+                            : [styles.nonSelectedOption]
                     )}
                     onSelect={(selected) => {
                         if (fieldRefs[selected].current) {
