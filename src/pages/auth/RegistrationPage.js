@@ -99,12 +99,12 @@ const RegistrationPage = () => {
                                     },
                                     {
                                         name: "FirstName",
-                                        validator: validationService.validateOnlyAlphabetics,
+                                        validator: validationService.validateName,
                                         args: ["First Name"],
                                     },
                                     {
                                         name: "LastName",
-                                        validator: validationService.validateOnlyAlphabetics,
+                                        validator: validationService.validateName,
                                         args: ["Last Name"],
                                     },
                                     {
@@ -126,7 +126,7 @@ const RegistrationPage = () => {
                                         validator: validationService.validatePasswordCreation,
                                     },
                                 ],
-                                values
+                                values,
                             );
                         }}
                         onSubmit={async (values, { setErrors, setSubmitting }) => {

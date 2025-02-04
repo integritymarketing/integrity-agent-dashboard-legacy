@@ -6,7 +6,8 @@ import styles from "./MedicaidLISDetails.module.scss";
 
 const MedicaidLISDetails = ({ formik }) => {
     const { values, setFieldValue } = formik;
-    const valueOptions = { Yes: 1, No: 0 };
+    const medicAidOptions = { Yes: 1, No: 0 };
+    const lisOptions = { Yes: "Yes", No: "No" };
 
     return (
         <Grid container spacing={2} alignItems="center">
@@ -15,12 +16,14 @@ const MedicaidLISDetails = ({ formik }) => {
                     Medicaid
                 </Typography>
                 <SelectableButtonGroup
-                    buttonOptions={Object.keys(valueOptions)}
-                    buttonClassNames={Object.keys(valueOptions).map((option) =>
-                        valueOptions[option] === values.hasMedicAid ? styles.selectedOption : styles.nonSelectedOption
+                    buttonOptions={Object.keys(medicAidOptions)}
+                    buttonClassNames={Object.keys(medicAidOptions).map((option) =>
+                        medicAidOptions[option] === values.hasMedicAid
+                            ? styles.selectedOption
+                            : styles.nonSelectedOption,
                     )}
                     onSelect={(selected) => {
-                        setFieldValue("hasMedicAid", valueOptions[selected]);
+                        setFieldValue("hasMedicAid", medicAidOptions[selected]);
                     }}
                 />
             </Grid>
@@ -29,12 +32,12 @@ const MedicaidLISDetails = ({ formik }) => {
                     LIS
                 </Typography>
                 <SelectableButtonGroup
-                    buttonOptions={Object.keys(valueOptions)}
-                    buttonClassNames={Object.keys(valueOptions).map((option) =>
-                        valueOptions[option] === values.lis ? styles.selectedOption : styles.nonSelectedOption
+                    buttonOptions={Object.keys(lisOptions)}
+                    buttonClassNames={Object.keys(lisOptions).map((option) =>
+                        lisOptions[option] === values.subsidyLevel ? styles.selectedOption : styles.nonSelectedOption,
                     )}
                     onSelect={(selected) => {
-                        setFieldValue("lis", valueOptions[selected]);
+                        setFieldValue("subsidyLevel", lisOptions[selected]);
                     }}
                 />
             </Grid>

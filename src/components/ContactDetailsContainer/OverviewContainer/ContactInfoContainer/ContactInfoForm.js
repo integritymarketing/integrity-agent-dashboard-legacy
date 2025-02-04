@@ -25,7 +25,7 @@ import validationService from "services/validationService";
 
 import styles from "./ContactInfoContainer.module.scss";
 import { StyledElementName, StyledFormItem } from "./StyledComponents";
-import { Divider, Paper, Stack, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
+import { Divider, FormControlLabel, Paper, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 
 import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
@@ -302,9 +302,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             error={errors.firstName ? true : false}
                                         />
                                         {touched.firstName && errors.firstName && (
-                                            <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">{errors.firstName}</li>
-                                            </ul>
+                                            <Typography variant="body2" color="error" mt={0.5}>
+                                                {errors.firstName}
+                                            </Typography>
                                         )}
                                     </StyledFormItem>
                                     <StyledFormItem>
@@ -336,9 +336,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             error={errors.lastName ? true : false}
                                         />
                                         {touched.lastName && errors.lastName && (
-                                            <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">{errors.lastName}</li>
-                                            </ul>
+                                            <Typography variant="body2" color="error" mt={0.5}>
+                                                {errors.lastName}
+                                            </Typography>
                                         )}
                                     </StyledFormItem>
                                     <StyledFormItem>
@@ -395,9 +395,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             }}
                                         />
                                         {errors.birthdate && (
-                                            <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">{errors.birthdate}</li>
-                                            </ul>
+                                            <Typography variant="body2" color="error" mt={0.5}>
+                                                {errors.birthdate}
+                                            </Typography>
                                         )}
                                     </StyledFormItem>
                                 </SectionContainer>
@@ -421,19 +421,15 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                     {errors.phones?.leadPhone &&
                                         values.phones?.leadPhone === "" &&
                                         values.primaryCommunication === "phone" && (
-                                            <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">
-                                                    Phone number is required to select as primary communication
-                                                </li>
-                                            </ul>
+                                            <Typography variant="body2" color="error" mt={0.5}>
+                                                Phone number is required to select as primary communication
+                                            </Typography>
                                         )}
 
                                     {errors.email && values.email === "" && values.primaryCommunication === "email" && (
-                                        <ul className="details-edit-custom-error-msg">
-                                            <li className="error-msg-red">
-                                                Email is required to select as primary communication
-                                            </li>
-                                        </ul>
+                                        <Typography variant="body2" color="error" mt={0.5}>
+                                            Email is required to select as primary communication
+                                        </Typography>
                                     )}
                                 </SectionContainer>
 
@@ -486,9 +482,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             error={errors.address?.address1 ? true : false}
                                         />
                                         {touched.address?.address1 && errors.address?.address1 && (
-                                            <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">{errors.address?.address1}</li>
-                                            </ul>
+                                            <Typography variant="body2" color="error" mt={0.5}>
+                                                {errors.address?.address1}
+                                            </Typography>
                                         )}
                                     </StyledFormItem>
                                     <StyledFormItem>
@@ -503,9 +499,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             error={errors.address?.address2 ? true : false}
                                         />
                                         {touched.address?.address2 && errors.address?.address2 && (
-                                            <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">{errors.address?.address2}</li>
-                                            </ul>
+                                            <Typography variant="body2" color="error" mt={0.5}>
+                                                {errors.address?.address2}
+                                            </Typography>
                                         )}
                                     </StyledFormItem>
                                     <StyledFormItem>
@@ -520,9 +516,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             error={errors.address?.city ? true : false}
                                         />
                                         {touched.address?.city && errors.address?.city && (
-                                            <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">{errors.address?.city}</li>
-                                            </ul>
+                                            <Typography variant="body2" color="error" mt={0.5}>
+                                                {errors.address?.city}
+                                            </Typography>
                                         )}
                                     </StyledFormItem>
                                     <Box
@@ -583,19 +579,17 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                         </StyledFormItem>
                                     </Box>
                                     {errors.address?.postalCode && (
-                                        <ul className="details-edit-custom-error-msg">
-                                            <li className="error-msg-red zip-code-error-msg">
-                                                {errors.address?.postalCode}
-                                            </li>
-                                        </ul>
+                                        <Typography variant="body2" color="error" mt={0.5}>
+                                            {errors.address?.postalCode}
+                                        </Typography>
                                     )}
                                     {!errors.address?.postalCode &&
                                         values.address.postalCode.length > 0 &&
                                         !loadingCountyAndState &&
                                         allStates?.length === 0 && (
-                                            <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red zip-code-error-msg">Invalid ZIP Code</li>
-                                            </ul>
+                                            <Typography variant="body2" color="error" mt={0.5}>
+                                                Invalid ZIP Code
+                                            </Typography>
                                         )}
                                     <StyledFormItem style={{ width: "100%", marginTop: "10px" }}>
                                         <Select
@@ -641,9 +635,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             }}
                                         />
                                         {errors?.medicareBeneficiaryID && (
-                                            <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">{errors?.medicareBeneficiaryID}</li>
-                                            </ul>
+                                            <Typography variant="body2" color="error" mt={0.5}>
+                                                {errors?.medicareBeneficiaryID}
+                                            </Typography>
                                         )}
                                     </StyledFormItem>
                                 </SectionContainer>
@@ -660,9 +654,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             className={styles.disableDatePickerError}
                                         />
                                         {errors.partA && (
-                                            <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">{errors.partA}</li>
-                                            </ul>
+                                            <Typography variant="body2" color="error" mt={0.5}>
+                                                {errors.partA}
+                                            </Typography>
                                         )}
                                     </StyledFormItem>
                                 </SectionContainer>
@@ -678,9 +672,9 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                             className={styles.disableDatePickerError}
                                         />
                                         {errors.partB && (
-                                            <ul className="details-edit-custom-error-msg">
-                                                <li className="error-msg-red">{errors.partB}</li>
-                                            </ul>
+                                            <Typography variant="body2" color="error" mt={0.5}>
+                                                {errors.partB}
+                                            </Typography>
                                         )}
                                     </StyledFormItem>
                                 </SectionContainer>

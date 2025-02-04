@@ -30,7 +30,7 @@ const useAddNewContact = () => {
             partA,
             partB,
             hasMedicAid,
-            lis,
+            subsidyLevel,
         } = contact;
 
         let requestData = {
@@ -48,10 +48,12 @@ const useAddNewContact = () => {
             partA: partA ? formatServerDate(partA) : null,
             partB: partB ? formatServerDate(partB) : null,
             hasMedicAid,
-            lis,
         };
 
         requestData.primaryCommunication = primaryCommunication || (email ? "email" : "phone");
+        if (subsidyLevel) {
+            requestData.subsidyLevel = subsidyLevel;
+        }
 
         if (email) {
             requestData.emails = [
