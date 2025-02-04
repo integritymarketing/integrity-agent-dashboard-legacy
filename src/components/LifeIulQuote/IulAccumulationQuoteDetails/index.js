@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo, useState } from "react";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import {
@@ -13,6 +13,9 @@ import { IulQuoteContainer } from "../CommonComponents";
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
+import { useLeadDetails } from "providers/ContactDetails";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import WithLoader from "components/ui/WithLoader";
 
 const IulAccumulationQuoteDetails = () => {
     const theme = useTheme();
@@ -25,9 +28,13 @@ const IulAccumulationQuoteDetails = () => {
     const productDescriptionRef = useRef(null);
     const productFeaturesRef = useRef(null);
     const underwritingRequirementsRef = useRef(null);
-    const { planId } = useParams();
+    const { planId, contactId } = useParams();
 
-    const { fetchLifeIulQuoteDetails, lifeIulDetails } = useLifeIulQuote();
+    const { fetchLifeIulQuoteDetails, lifeIulDetails, handleIULQuoteApplyClick, isLoadingApplyLifeIulQuote } =
+        useLifeIulQuote();
+
+    const { leadDetails } = useLeadDetails();
+    const { agentInformation } = useAgentInformationByID();
 
     useEffect(() => {
         fetchLifeIulQuoteDetails(planId);
@@ -79,6 +86,26 @@ const IulAccumulationQuoteDetails = () => {
         return planDetails;
     }, [planDetails]);
 
+    const handleApplyClick = async (plan) => {
+        const emailAddress = leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
+        const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
+
+        try {
+            await handleIULQuoteApplyClick(
+                {
+                    ...plan,
+                    ...agentInformation,
+                    ...leadDetails,
+                    emailAddress,
+                    phoneNumber,
+                },
+                contactId,
+            );
+        } catch (error) {
+            console.error("Error applying for quote:", error);
+        }
+    };
+
     return (
         <IulQuoteContainer title="IUL Accumulation" page="plans details page" quoteType="accumulation">
             <Grid container>
@@ -113,15 +140,17 @@ const IulAccumulationQuoteDetails = () => {
                 )}
                 <Grid item md={8}>
                     <Grid container gap={3}>
-                        <Grid item md={12} xs={12}>
+                        <Grid item md={12} xs={12} sx={{ position: "relative" }}>
                             <div ref={quoteDetailsRef} id="quoteDetails">
                                 <CollapsibleLayout title="Quote Details">
                                     <IulQuoteCard
+                                        applyButtonDisabled={isLoadingApplyLifeIulQuote}
                                         isPlanDetailsPage={true}
                                         quoteType="IUL Accumulation"
                                         cardTitle={productName}
                                         companyName={companyName}
                                         rating={amBest}
+                                        handleApplyClick={() => handleApplyClick(planDetails)}
                                         logo={companyLogoImageUrl}
                                         cashValueYear10={cashValueYear10}
                                         cashValueYear20={cashValueYear20}
@@ -138,6 +167,11 @@ const IulAccumulationQuoteDetails = () => {
                                     />
                                 </CollapsibleLayout>
                             </div>
+                            {isLoadingApplyLifeIulQuote && (
+                                <Box sx={{ position: "absolute", top: 0, left: "50%" }}>
+                                    <WithLoader isLoading={isLoadingApplyLifeIulQuote} />
+                                </Box>
+                            )}
                         </Grid>
                         <Grid item md={12} xs={12}>
                             <div ref={productDescriptionRef} id="productDescription">

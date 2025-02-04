@@ -8,17 +8,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useLifeIulQuote } from "providers/Life";
 
 import styles from "./styles.module.scss";
+import { useLeadDetails } from "providers/ContactDetails";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import WithLoader from "components/ui/WithLoader";
+import * as Sentry from "@sentry/react";
 
 const IulAccumulationComparePlans = () => {
     const [results, setResults] = useState([]);
+    const [disabledPlans, setDisabledPlans] = useState({});
 
     const { planIds: comparePlanIds, contactId } = useParams();
     const planIds = useMemo(() => comparePlanIds.split(","), [comparePlanIds]);
+    const { leadDetails } = useLeadDetails();
+    const { agentInformation } = useAgentInformationByID();
     const comparePlansSessionData = sessionStorage.getItem("iul-compare-plans");
     const comparePlans = JSON.parse(comparePlansSessionData);
     const navigate = useNavigate();
 
-    const { fetchLifeIulQuoteDetails } = useLifeIulQuote();
+    const { fetchLifeIulQuoteDetails, handleIULQuoteApplyClick, isLoadingApplyLifeIulQuote } = useLifeIulQuote();
 
     function getAllPlanDetails(planIds) {
         return Promise.all(planIds.filter(Boolean).map((planId) => fetchLifeIulQuoteDetails(planId)));
@@ -48,11 +55,10 @@ const IulAccumulationComparePlans = () => {
         benefitNames?.forEach((name) => {
             const benefitObj = {
                 name: name,
-                description: "Feature Description",
-                plans: results.map((item) => {
-                    const benefit = item.benefits.find((benefit) => benefit.name === name);
-                    return benefit ? benefit.value : "Excluded";
-                }),
+                description: "",
+                plans: results?.map((item) =>
+                    item.benefits.some((benefit) => benefit.name === name && benefit.value === "Included"),
+                ),
             };
             combinedBenefits.push(benefitObj);
         });
@@ -112,17 +118,49 @@ const IulAccumulationComparePlans = () => {
         navigate(`/life/iul-accumulation/${contactId}/quote?preserveSelected=true`);
     };
 
+    const handleApplyClick = async (plan) => {
+        const planData = comparePlans.find((p) => p.policyDetailId === plan.id);
+        const emailAddress = leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
+        const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
+
+        setDisabledPlans((prev) => ({ ...prev, [plan.id]: true }));
+
+        try {
+            await handleIULQuoteApplyClick(
+                {
+                    ...planData,
+                    ...agentInformation,
+                    ...leadDetails,
+                    emailAddress,
+                    phoneNumber,
+                },
+                contactId,
+            );
+        } catch (error) {
+            Sentry.captureException(error);
+        } finally {
+            setDisabledPlans((prev) => ({ ...prev, [plan.id]: false }));
+        }
+    };
+
     return (
         <IulQuoteContainer title="IUL Accumulation" page="plan compare page" quoteType="accumulation">
             <Grid container gap={3}>
-                <Grid item md={12} className={styles.planCompareHeader}>
+                <Grid item md={12} className={styles.planCompareHeader} sx={{ position: "relative" }}>
                     <CompareHeader
+                        handleApplyClick={handleApplyClick}
+                        disabled={isLoadingApplyLifeIulQuote}
                         headerCategory="IUL_ACCUMULATION"
                         IULAccumulationPlans={plansData}
                         onClose={handleComparePlanRemove}
                         shareComparePlanModal={handleShareModal}
                         returnBackToPlansPage={returnBackToPlansPage}
                     />
+                    {isLoadingApplyLifeIulQuote && (
+                        <Box sx={{ position: "absolute", top: 0, left: "50%" }}>
+                            <WithLoader isLoading={isLoadingApplyLifeIulQuote} />
+                        </Box>
+                    )}
                 </Grid>
                 {features?.length > 0 && (
                     <Grid item md={12} className={styles.productFeature}>
