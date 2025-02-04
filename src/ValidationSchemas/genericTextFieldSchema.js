@@ -7,7 +7,7 @@ export const getTextFieldSchema = (fieldName, label) =>
             .required(`${label} is required`)
             .min(
                 2,
-                `${label} must be 2+ characters in length. Valid characters include A-Z. Space, hyphen, and apostrophe are the only special characters accepted`,
+                `${label} must be 2+ characters in length. Valid characters include A-Z. Space, hyphen, and apostrophe are the only special characters accepted.`,
             )
             .max(50, `${label} must be 50 characters or less`)
             .matches(
