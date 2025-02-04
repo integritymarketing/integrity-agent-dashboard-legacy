@@ -62,7 +62,7 @@ const ContactForm = ({
         middleName: "",
         maritalStatus: "Unknown",
         hasMedicAid,
-        lis: null,
+        subsidyLevel: null,
         email: "",
         birthdate: "",
         phones: {
