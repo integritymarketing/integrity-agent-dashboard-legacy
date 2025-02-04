@@ -1,5 +1,7 @@
 @use "sass:math";
 
+$mobileWidth: 950px;
+
 @function _get-clamp-val($smallest, $largest) {
   $calc: calc(
           #{math.div($smallest, 16)}rem + #{$largest - $smallest} * ((100vw - 375px) / #{768 -
@@ -42,4 +44,10 @@
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+@mixin mobileOnly {
+  @media (width >= 0) and (max-width: #{ $mobileWidth }) {
+    @content;
+  }
 }

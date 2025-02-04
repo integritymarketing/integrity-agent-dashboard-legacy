@@ -1,9 +1,7 @@
-@use "styles/global.scss" as styles_global;
 @use "defines" as defines_global;
 @use "rules" as rules_global;
 @use "mixins" as mixins_global;
 
-@forward "styles/global.scss";
 @forward "defines";
 @forward "rules";
 @forward "mixins";
