@@ -92,8 +92,8 @@ export const SingleSignOnModal = ({
             const response = await addSALifeRecord(payload, true);
             if (response.ok) {
                 setIsContinuing(false);
-                handleClose();
-                await onApply(producerId, true, fetchPlans);
+                await onApply(producerId, true);
+                await fetchPlans();
             }
             if (response.status === 400) {
                 setIsContinuing(false);
