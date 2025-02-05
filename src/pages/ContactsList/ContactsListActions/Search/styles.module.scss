@@ -54,20 +54,21 @@
 }
 
 .clearIcon {
-    width: 30px;
-    height: 24px;
-    background-color: transparent;
-    border: none;
-    font-size: 16px;
-    font-weight: 600;
-    color: #6e6e6e;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
+    display: none;
     @include small {
-        display: none;
+        width: 30px;
+        height: 24px;
+        font-size: 20px;
+        background-color: transparent;
+        border: none;
+        font-size: 16px;
+        font-weight: 600;
+        color: #6e6e6e;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
     }
 }
 
