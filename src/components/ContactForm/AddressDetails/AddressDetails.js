@@ -39,6 +39,16 @@ const AddressDetails = ({ formik }) => {
         }
     }, [loadingCountyAndState]);
 
+    useEffect(() => {
+        if (allCounties.length > 0 && values?.address?.stateCode) {
+            const countiesForState = allCounties.filter((county) => county.state === values.address.stateCode);
+            if (countiesForState.length === 1) {
+                setFieldValue("address.county", countiesForState[0].value);
+                setFieldValue("address.countyFips", countiesForState[0].key);
+            }
+        }
+    }, [allStates, allCounties, values]);
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
@@ -182,11 +192,14 @@ const AddressDetails = ({ formik }) => {
                         )}
                     >
                         {allCounties.length > 0 &&
-                            allCounties.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
+                            allCounties.map(
+                                (option) =>
+                                    option.state === values.address.stateCode && (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ),
+                            )}
                     </Select>
                 </FormControl>
             </Grid>
