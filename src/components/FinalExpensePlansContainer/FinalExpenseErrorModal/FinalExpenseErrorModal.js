@@ -106,12 +106,7 @@ export const SingleSignOnModal = ({
                 });
             }
         } catch (e) {
-            if (error.message) {
-                const errorMessage = JSON.parse(error.message);
-                if (errorMessage.status === 400) {
-                    setIsSingleSignOnInitialModalOpen(true);
-                }
-            }
+
             showToast({
                 type: "error",
                 message: e.message || "An error occurred",

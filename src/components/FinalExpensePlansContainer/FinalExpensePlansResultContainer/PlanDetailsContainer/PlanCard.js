@@ -143,7 +143,7 @@ export const PlanCard = ({
         }
     };
 
-    const onApply = async (producerId, onSuccess, apiErrorState = false) => {
+    const onApply = async (producerId, apiErrorState = false) => {
         try {
             let writingAgentNumberToSend;
             setIsLoadingEnroll(true);
@@ -177,9 +177,6 @@ export const PlanCard = ({
                 return false;
             }
 
-            if (onSuccess) {
-                onSuccess();
-            }
             if (response.status !== 200) {
                 setEnrollResponse(true);
                 return false;
