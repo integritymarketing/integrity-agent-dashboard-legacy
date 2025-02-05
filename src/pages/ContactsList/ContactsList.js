@@ -47,7 +47,7 @@ function ContactsList() {
                     <ContactsListProvider>
                         <Box className={styles.wrapper}>
                             <Container>
-                                <ContactsListActions />
+                                <ContactsListActions isMobile={isMobile} />
                                 <FilteredLeadIdsBanner />
                                 <DuplicateBanner />
                                 <CampaignsFilterBar />

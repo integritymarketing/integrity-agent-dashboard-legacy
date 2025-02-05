@@ -35,7 +35,7 @@ HighlightedText.propTypes = {
     highlight: PropTypes.string,
 };
 
-const Search = () => {
+const Search = ({ isMobile }) => {
     const {
         setSearchString,
         searchString,
@@ -123,11 +123,12 @@ const Search = () => {
     useOnClickOutside(popperRef, () => handleClickOutside());
 
     return (
-        <Box ref={inputRef} width={"35%"}>
+        <Box ref={inputRef} width={isMobile ? "100%" : "35%"}>
             <Textfield
                 type="search"
                 name="search"
                 onKeyDown={handleKeyDown}
+                iconClassName={styles.clearIcon}
                 value={inputValue}
                 icon={<SearchBlue />}
                 placeholder="Search"
@@ -135,6 +136,7 @@ const Search = () => {
                 onChange={onChangeHandle}
                 onBlur={() => analyticsService.fireEvent("event-search")}
                 onClear={handleClear}
+                isMobile={isMobile}
                 autoComplete="off"
             />
             {open && inputValue.length >= 3 && (

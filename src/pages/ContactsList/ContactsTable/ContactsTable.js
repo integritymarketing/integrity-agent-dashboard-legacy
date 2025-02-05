@@ -399,7 +399,7 @@ function ContactsTable() {
             ) : (
                 <Box className={styles.tableWrapper}>
                     <Table columns={columns} isLoading={isFetchingTableData || isStartedSearching} />
-                    <LoadMoreButton />
+                    {!isFetchingTableData && !isStartedSearching && <LoadMoreButton />}
                 </Box>
             )}
             <ReminderModals
