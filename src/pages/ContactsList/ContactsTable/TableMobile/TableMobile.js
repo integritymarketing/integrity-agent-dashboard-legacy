@@ -37,7 +37,7 @@ function TableMobile() {
                     </Box>
                 ))
             )}
-            {!isFetchingTableData && !isStartedSearching && <LoadMoreButton />}
+            <LoadMoreButton />
         </Box>
     );
 }
