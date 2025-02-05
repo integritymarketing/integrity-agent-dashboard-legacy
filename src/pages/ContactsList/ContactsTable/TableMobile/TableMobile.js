@@ -13,7 +13,7 @@ import styles from "./styles.module.scss";
 import { LoadMoreButton } from "pages/ContactsList/LoadMoreButton";
 
 function TableMobile() {
-    const { tableData, isFetchingTableData, isStartedSearching } = useContactsListContext();
+    const { tableData, isFetchingTableData, isStartedSearching, selectedSearchLead } = useContactsListContext();
 
     return (
         <Box className={styles.tableWrapper}>
@@ -37,7 +37,7 @@ function TableMobile() {
                     </Box>
                 ))
             )}
-            {!isFetchingTableData && !isStartedSearching && <LoadMoreButton />}
+            {!isFetchingTableData && !isStartedSearching && !selectedSearchLead && <LoadMoreButton />}
         </Box>
     );
 }

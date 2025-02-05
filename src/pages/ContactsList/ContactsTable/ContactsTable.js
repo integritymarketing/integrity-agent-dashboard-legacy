@@ -44,7 +44,8 @@ import { CountyDataProvider } from "providers/CountyDataProvider";
 import { getShoppersColorScheme } from "utils/shared-utils/sharedUtility";
 
 function ContactsTable() {
-    const { tableData, policyCounts, refreshData, isFetchingTableData, isStartedSearching } = useContactsListContext();
+    const { tableData, policyCounts, refreshData, isFetchingTableData, isStartedSearching, selectedSearchLead } =
+        useContactsListContext();
     const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } = useContext(DeleteLeadContext);
 
     const { width: windowWidth } = useWindowSize();
@@ -399,7 +400,7 @@ function ContactsTable() {
             ) : (
                 <Box className={styles.tableWrapper}>
                     <Table columns={columns} isLoading={isFetchingTableData || isStartedSearching} />
-                    {!isFetchingTableData && !isStartedSearching && <LoadMoreButton />}
+                    {!isFetchingTableData && !isStartedSearching && !selectedSearchLead && <LoadMoreButton />}
                 </Box>
             )}
             <ReminderModals
