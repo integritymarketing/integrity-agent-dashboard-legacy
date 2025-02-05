@@ -1,12 +1,12 @@
 .plan-card-container {
-  background: #deebfb 0% 0% no-repeat padding-box;
+  background: #deebfb 0 0 no-repeat padding-box;
   border-radius: 8px;
 }
 
 .plan-enroll-card {
   border-bottom: 0.5px solid #dfdedd;
   padding: 20px;
-  background: #fff 0% 0% no-repeat padding-box;
+  background: #fff 0 0 no-repeat padding-box;
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -29,7 +29,7 @@
   max-width: 160px;
 }
 
-.plan-card-link-btn>.label {
+.plan-card-link-btn > .label {
   font-size: 14px !important;
   color: #fff !important;
 }
@@ -43,7 +43,6 @@
 .plan-name {
   color: #052a63;
   font-size: 20px;
-
 }
 
 .plan-phone {
@@ -126,7 +125,7 @@
   }
 }
 
-.jumpList-btn>span {
+.jumpList-btn > span {
   color: #0052ce;
   font-weight: 600;
 }

@@ -2,12 +2,16 @@
 @use "defines";
 @use "rules";
 @use "forms";
+@use "theme";
 @use "typography";
 @use "v2";
+@use "global";
 
 @forward "mixins";
 @forward "defines";
 @forward "rules";
 @forward "scss/forms";
+@forward "theme";
 @forward "typography";
 @forward "v2";
+@forward "global";

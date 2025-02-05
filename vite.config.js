@@ -14,10 +14,9 @@ export default defineConfig(({mode}) => {
         build: {
             outDir: isAuthBuild ? "buildAuth" : "build", // Separate output folders
             rollupOptions: {
-                main: path.resolve(__dirname, "index.html"), // Include HTML as a valid input
-                app: isAuthBuild
-                    ? path.resolve(__dirname, "src/authIndex.jsx")
-                    : path.resolve(__dirname, "src/index.jsx")
+                input: isAuthBuild
+                    ? path.resolve(__dirname, "authIndex.html")
+                    : path.resolve(__dirname, "index.html"),
             },
         },
 
