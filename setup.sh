@@ -14,8 +14,8 @@ fi
 
 # Clone the repository using native Git
 echo "Cloning the repository using native Git..."
-GIT_REPO_URL="https://<your-repository-url>" # Replace with your repository URL
-GIT_BRANCH="${HEAD:-main}" # Use environment-provided branch or default to 'main'
+GIT_REPO_URL="https://github.com/integritymarketing/ae-agent-portal.git" # Replace with your repository URL
+GIT_BRANCH="SPW-286840-Integrate-with-SonarCloud" # Branch to clone
 
 git clone --branch "$GIT_BRANCH" --single-branch "$GIT_REPO_URL" .
 
