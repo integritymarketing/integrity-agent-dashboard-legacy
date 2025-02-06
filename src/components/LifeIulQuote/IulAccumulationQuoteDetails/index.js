@@ -110,7 +110,7 @@ const IulAccumulationQuoteDetails = () => {
         <IulQuoteContainer title="IUL Accumulation" page="plans details page" quoteType="accumulation">
             <Grid container>
                 {!isMobile && (
-                    <Grid item md={3}>
+                    <Grid item md={3} sm={5}>
                         <Box marginBottom={"8px"}>
                             <Typography variant="h4" color="#052A63">
                                 Overview
@@ -138,7 +138,7 @@ const IulAccumulationQuoteDetails = () => {
                         </Box>
                     </Grid>
                 )}
-                <Grid item md={8}>
+                <Grid item  md={8} sm={6}>
                     <Grid container gap={3}>
                         <Grid item md={12} xs={12} sx={{ position: "relative" }}>
                             <div ref={quoteDetailsRef} id="quoteDetails">

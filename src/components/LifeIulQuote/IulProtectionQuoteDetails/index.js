@@ -99,7 +99,7 @@ const IulProtectionQuoteDetails = () => {
                     emailAddress,
                     phoneNumber,
                 },
-                contactId,
+                contactId
             );
         } catch (error) {
             console.error("Error applying for quote:", error);
@@ -110,7 +110,7 @@ const IulProtectionQuoteDetails = () => {
         <IulQuoteContainer title="IUL Protection" page="plans details page" quoteType="protection">
             <Grid container>
                 {!isMobile && (
-                    <Grid item md={3}>
+                    <Grid item md={3} sm={5}>
                         <Box marginBottom={"8px"}>
                             <Typography variant="h4" color="#052A63">
                                 Overview
@@ -138,7 +138,7 @@ const IulProtectionQuoteDetails = () => {
                         </Box>
                     </Grid>
                 )}
-                <Grid item md={8}>
+                <Grid item md={8} sm={6}>
                     <Grid container gap={3}>
                         <Grid item md={12} xs={12} sx={{ position: "relative" }}>
                             <div ref={quoteDetailsRef} id="quoteDetails">
