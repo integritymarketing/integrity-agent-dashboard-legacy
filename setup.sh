@@ -18,7 +18,7 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     # Check for shallow clone and convert to full history if necessary
     if [ -f "$(git rev-parse --git-dir)/shallow" ]; then
         echo "Shallow clone detected. Fetching full history..."
-        git fetch --unshallow || echo "Already fetched full history or fetch failed."
+        git fetch --unshallow --filter=blob:none || echo "Already fetched full history or fetch failed."
     else
         echo "Complete repository; no fetch required."
     fi
