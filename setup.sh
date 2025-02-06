@@ -12,24 +12,17 @@ cd "$SCRIPT_DIR"
 echo "Switched to script directory: $(pwd)"
 
 # Debugging SonarQube Missing Blob issue
-if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    echo "Git repository detected."
+ echo "Fetching full Git history..."
+ git fetch --unshallow || echo "Failed to fetch full history. Continuing..."
 
-    # Check for shallow clone and convert to full history if necessary
-    if [ -f "$(git rev-parse --git-dir)/shallow" ]; then
-        echo "Shallow clone detected. Fetching full history..."
-        git fetch --unshallow --filter=blob:none || echo "Already fetched full history or fetch failed."
-    else
-        echo "Complete repository; no fetch required."
-    fi
+ # Ensure all objects are downloaded
+ echo "Expanding filtered or incomplete blobs..."
+ git fetch --filter=blob:none || echo "Blob fetch failed. Continuing with partial data."
 
-    # Ensure all objects are available
-    echo "Verifying Git objects..."
-    git fsck || echo "Git integrity check failed."
-else
-    echo "No Git repository found. Exiting."
-    exit 1
-fi
+ # Ensure Git is healthy
+ echo "Verifying Git integrity..."
+ git fsck || echo "Git integrity check reported issues."
+
 
 # Debug Git state
 echo "Git commit: $(git rev-parse --short HEAD || echo 'No Git repository or HEAD not found')"
