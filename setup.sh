@@ -6,11 +6,9 @@ set -x # Debug mode - print each command before running
 # Print the current working directory
 echo "Current directory before script: $(pwd)"
 
-# Clean up any existing repository (remnant from Netlify or previous runs)
-if [ -d ".git" ]; then
-    echo "Removing existing .git directory..."
-    rm -rf .git
-fi
+# Clean up the current directory (remove all files and folders, including hidden ones)
+echo "Cleaning up the current directory..."
+rm -rf ./* ./.??*
 
 # Clone the repository using native Git
 echo "Cloning the repository using native Git..."
@@ -31,10 +29,4 @@ git fsck || echo "Git integrity check reported issues."
 echo "Current Git commit: $(git rev-parse HEAD || echo 'No Git commit found')"
 
 # Ensure Java installation for SonarQube is compatible
-mise use -g java@openjdk-21
-
-# Verify Java installation
-java -version
-
-# Run SonarQube analysis with debug mode
-yarn sonar -X
+mise use -g
