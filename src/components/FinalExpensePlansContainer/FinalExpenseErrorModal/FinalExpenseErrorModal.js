@@ -91,9 +91,9 @@ export const SingleSignOnModal = ({
 
             const response = await addSALifeRecord(payload, true);
             if (response.ok) {
+                handleClose();
                 setIsContinuing(false);
-                await onApply(producerId, true);
-                await fetchPlans();
+                await onApply(producerId, true, fetchPlans);
             }
             if (response.status === 400) {
                 setIsContinuing(false);
@@ -106,7 +106,6 @@ export const SingleSignOnModal = ({
                 });
             }
         } catch (e) {
-
             showToast({
                 type: "error",
                 message: e.message || "An error occurred",
@@ -118,14 +117,20 @@ export const SingleSignOnModal = ({
     };
 
     const onContinueWithoutIdHandle = () => {
-        handleClose();
-        window.open(resourceUrl, "_blank");
+        fetchPlans(); // Refresh plans first
+
+        setTimeout(() => {
+            window.open(resourceUrl, "_blank"); // Open carrier website after a slight delay
+        }, 1000);
     };
 
     return (
         <Modal
             open={isOpen}
-            onClose={handleClose}
+            onClose={() => {
+                handleClose();
+                fetchPlans();
+            }}
             title="Producer ID Not Recognized"
             size="wide"
             hideFooter
@@ -162,7 +167,13 @@ export const SingleSignOnModal = ({
                                 <span>View Carrier Website</span>
                                 <FontAwesomeIcon icon={faCircleArrowRight} size={"xl"} />
                             </StyledButton2>
-                            <Box className={styles.link} onClick={handleClose}>
+                            <Box
+                                className={styles.link}
+                                onClick={() => {
+                                    handleClose();
+                                    fetchPlans();
+                                }}
+                            >
                                 Cancel
                             </Box>
                         </Box>
