@@ -2,7 +2,7 @@ name: SonarCloud Scan
 on:
   push:
     branches:
-      - SPW-286840-Integrate-with-SonarCloud
+      - develop
   pull_request:
     types: [ opened, synchronize, reopened ]
 jobs:
