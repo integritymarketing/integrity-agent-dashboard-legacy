@@ -1,235 +1,234 @@
 @use "scss/globalDefines" as defines_global;
 
 .miniContainer {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    @include defines_global.small {
-        flex-direction: row;
-        gap: 24px;
-    }
+  @include defines_global.small {
+    flex-direction: row;
+    gap: 24px;
+  }
 }
 
 .contact-address--zip {
-    width: 9rem;
-    @include small {
-        width: 16rem;
-    }
+  width: 9rem;
+  @include defines_global.small {
+    width: 16rem;
+  }
 }
 
 .horizontalLayout {
+  display: flex;
+  position: relative;
+  gap: 5px;
+
+  .editIcon {
+    cursor: pointer;
+    position: absolute;
+    top: -10px;
+    right: 0;
+  }
+
+  @include defines_global.small {
     display: flex;
-    position: relative;
-    gap: 5px;
-
-    .editIcon {
-        cursor: pointer;
-        position: absolute;
-        top: -10px;
-        right: 0;
-    }
-
-    @include defines_global.small {
-        display: flex;
-    }
+  }
 }
 
 .emailBox {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .emailAddress {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    max-width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 100%;
 }
 
 .emailText {
-    flex: 1;
-    min-width: 0;
-    word-wrap: break-word;
-    word-break: break-all;
+  flex: 1;
+  min-width: 0;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 .border {
-    border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 
 .gap {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .beneficiaryId {
+  display: flex;
+
+  div {
+    width: 127px;
+  }
+
+  span {
+    color: #1457ff;
+    font-weight: 600;
     display: flex;
+    gap: 5px;
+    cursor: pointer;
 
-    div {
-        width: 127px;
+    svg {
+      margin-left: 1rem;
     }
-
-    span {
-        color: #1457ff;
-        font-weight: 600;
-        display: flex;
-        gap: 5px;
-        cursor: pointer;
-
-        svg {
-            margin-left: 1rem;
-        }
-    }
+  }
 }
 
 .dateAlignment {
-    display: flex;
-    justify-content: flex-start;
-    gap: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  gap: 2rem;
 }
 
 .buttonContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .editButton {
-    border-radius: 25px !important;
-    padding: 5px 12px !important;
-    background-color: #4178ff !important;
+  border-radius: 25px !important;
+  padding: 5px 12px !important;
+  background-color: #4178ff !important;
 
-    span {
-        font-size: 14px !important;
-        color: #fff !important;
-        font-weight: 500;
-    }
+  span {
+    font-size: 14px !important;
+    color: #fff !important;
+    font-weight: 500;
+  }
 
-    &:hover {
-        background-color: #1357ff !important;
-    }
+  &:hover {
+    background-color: #1357ff !important;
+  }
 
-    &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
 .deleteButton {
-    border-radius: 25px !important;
-    padding: 5px 20px !important;
+  border-radius: 25px !important;
+  padding: 5px 20px !important;
 
-    span {
-        font-size: 14px !important;
-        color: #4178ff !important;
-        font-weight: 500;
-    }
+  span {
+    font-size: 14px !important;
+    color: #4178ff !important;
+    font-weight: 500;
+  }
 
-    &:hover {
-        background: #fff 0% 0% no-repeat padding-box;
-        border-radius: 20px;
-        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
-        color: #1357ff !important;
-    }
+  &:hover {
+    background: #fff 0 0 no-repeat padding-box;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
+    color: #1357ff !important;
+  }
 }
 
 .miniCard {
-    width: 100%;
+  width: 100%;
 
-    @include defines_global.small {
-        width: 50%;
-    }
+  @include defines_global.small {
+    width: 50%;
+  }
 }
 
 .icon {
-    cursor: pointer;
-    padding-top: 6px;
-    height: 50px;
+  cursor: pointer;
+  padding-top: 6px;
+  height: 50px;
 
-    svg {
-        transition: 300ms ease-out;
-    }
+  svg {
+    transition: 300ms ease-out;
+  }
 }
 
 .iconRotate {
-    svg {
-        transform: rotate(-180deg);
-    }
+  svg {
+    transform: rotate(-180deg);
+  }
 }
 
 .iconWithTitle {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .underLine {
-    box-shadow: rgb(199 204 209) 0 -1px 0 inset;
+  box-shadow: rgb(199 204 209) 0 -1px 0 inset;
 }
 
 .specialAssistanceCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--gap-md-16, 16px);
+  align-self: stretch;
+  border-radius: 8px;
+  background: var(--background-paper-elevation-0, #fff);
+
+  .specialAssistanceFormWrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: var(--gap-md-16, 16px);
+    align-items: flex-start;
+    gap: 16px;
     align-self: stretch;
-    border-radius: 8px;
-    background: var(--background-paper-elevation-0, #fff);
+  }
 
-    .specialAssistanceFormWrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-        align-self: stretch;
+  .specialAssistanceOptions {
+    display: flex;
+    flex-direction: row;
+    padding: 0 16px;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 36px;
+    align-self: stretch;
+  }
+
+  .specialAssistanceRadios {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--padding-gap-sm-8, 8px);
+    align-self: stretch;
+
+    &:first-of-type {
+      margin-right: 46px;
     }
+  }
 
-    .specialAssistanceOptions {
-        display: flex;
-        flex-direction: row;
-        padding: 0 16px;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 36px;
-        align-self: stretch;
-    }
+  .specialAssistanceHeader {
+    color: var(--Integrity-navy-default, #052a63);
+    font-feature-settings: "liga" off,
+    "clig" off;
 
-    .specialAssistanceRadios {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: var(--padding-gap-sm-8, 8px);
-        align-self: stretch;
+    /* table/header */
+    font-family: Lato, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
 
-        &:first-of-type {
-            margin-right: 46px;
-        }
-    }
+    /* 125% */
+    letter-spacing: 0.17px;
+  }
 
-    .specialAssistanceHeader {
-        color: var(--Integrity-navy-default, #052a63);
-        font-feature-settings:
-            "liga" off,
-            "clig" off;
-
-        /* table/header */
-        font-family: Lato;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 20px;
-
-        /* 125% */
-        letter-spacing: 0.17px;
-    }
-
-    .specialAssistanceContainer {
-        display: flex;
-        flex-direction: column;
-        gap: var(--padding-gap-sm-8, 8px);
-        align-self: stretch;
-    }
+  .specialAssistanceContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-gap-sm-8, 8px);
+    align-self: stretch;
+  }
 }
