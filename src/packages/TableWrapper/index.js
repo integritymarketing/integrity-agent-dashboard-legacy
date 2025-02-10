@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import MUITable from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
@@ -7,11 +8,8 @@ import TableFooter from "@mui/material/TableFooter";
 import TableRow from "@mui/material/TableRow";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import { styled } from "@mui/system";
-import { useTable, useSortBy } from "react-table";
-import Sort from "components/icons/sort-arrow";
-import SortArrowUp from "components/icons/sort-arrow-up";
-import SortArrowDown from "components/icons/sort-arrow-down";
-import Media from "react-media";
+import { useReactTable, getCoreRowModel, flexRender, getSortedRowModel } from "@tanstack/react-table";
+import SortArrow from "components/icons/version-2/SortArrow";
 
 const Centered = styled("div")`
     display: flex;
@@ -25,7 +23,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         cursor: "pointer",
         fontFamily: "Lato",
         fontSize: "16px",
-        lineHeight: " 20px",
+        lineHeight: "20px",
         borderBottom: "none",
     },
     [`&.${tableCellClasses.body}`]: {
@@ -47,130 +45,89 @@ const SMUITable = styled(MUITable)(() => ({
         borderTopLeftRadius: "10px",
         borderTopRightRadius: "10px",
     },
-    ".MuiTableBody-root tr:first-of-type td:first-of-type": {
-        borderTopLeftRadius: "inherit",
-        borderTopRightRadius: "initial",
-    },
-    ".MuiTableBody-root tr:first-of-type td:last-child": {
-        borderTopLeftRadius: "initial",
-        borderTopRightRadius: "inherit",
-    },
     ".MuiTableBody-root tr:last-child": {
         borderBottomLeftRadius: "10px",
         borderBottomRightRadius: "10px",
     },
-    ".MuiTableBody-root tr:last-child td:first-of-type": {
-        borderBottomLeftRadius: "inherit",
-        borderBottomRightRadius: "initial",
-    },
-    ".MuiTableBody-root tr:last-child td:last-child": {
-        borderBottomLeftRadius: "initial",
-        borderBottomRightRadius: "inherit",
-    },
 }));
 
-const StyledTableRow = styled(TableRow)(({ islast }) => ({
-    background: "#2175F41A 0% 0% no-repeat padding-box",
-    boxShadow: islast ? "inset 0px -1px 0px #C7CCD1" : "none",
-}));
+function Table({ columns, data, footer, initialState, fixedRows = [], overflowHide = false, handleSort }) {
+    const table = useReactTable({
+        columns,
+        data,
+        initialState,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+    });
 
-const generateSortingIndicator = (column) => {
-    if (column.canSort === false) {
-        return null;
-    }
-    if (column.isSorted === false) {
-        return <Sort />;
-    }
-    if (column.isSortedDesc) {
-        return <SortArrowDown />;
-    }
-    return <SortArrowUp />;
-};
-
-function Table(props) {
-    const { columns, data, footer, initialState, fixedRows = [], handleSort, overflowHide = false } = props;
-
-    const [isMobile, setIsMobile] = useState(false);
-
-    // Use the state and functions returned from useTable to build the UI
-    const { getTableProps, headerGroups, rows, prepareRow } = useTable(
-        {
-            columns,
-            data,
-            initialState,
-        },
-        useSortBy,
-    );
-
-    // Render the UI for table
-    const style = {
-        width: "100%",
-        marginLeft: "auto",
-        marginRight: "auto",
-        borderRadius: "8px",
-    };
-    if (overflowHide) {
-        style.overflowX = "hidden";
-    }
     return (
-        <TableContainer sx={style}>
-            <Media
-                query={"(max-width: 500px)"}
-                onChange={(isMobile) => {
-                    setIsMobile(isMobile);
-                }}
-            />
-            <SMUITable {...getTableProps()}>
+        <TableContainer sx={{ width: "100%", borderRadius: "8px", overflowX: overflowHide ? "hidden" : "auto" }}>
+            <SMUITable>
                 <TableHead>
-                    {headerGroups.map((headerGroup) => (
-                        <TableRow {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column) => (
-                                <StyledTableCell
-                                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                                    onClick={() => handleSort(column?.Header)}
-                                >
-                                    <Centered>
-                                        {column.render("Header")} {generateSortingIndicator(column)}
-                                    </Centered>
-                                </StyledTableCell>
-                            ))}
+                    {table.getHeaderGroups().map((headerGroup) => (
+                        <TableRow key={headerGroup.id}>
+                            {headerGroup.headers.map((header) => {
+                                console.log(header.column.columnDef);
+                                return (
+                                    <StyledTableCell
+                                        key={header.id}
+                                        onClick={() => handleSort(header.column.columnDef?.header)}
+                                    >
+                                        <Centered>
+                                            {flexRender(header.column.columnDef?.header, header.getContext())}
+                                            {header.column.columnDef?.enableSorting && (
+                                                <span
+                                                    style={{
+                                                        marginLeft: "8px",
+                                                        marginTop: "4px",
+                                                        cursor: "pointer",
+                                                    }}
+                                                >
+                                                    <SortArrow />
+                                                </span>
+                                            )}
+                                        </Centered>
+                                    </StyledTableCell>
+                                );
+                            })}
                         </TableRow>
                     ))}
                 </TableHead>
                 <StyledTableBody>
                     {fixedRows.map((fixedRow, idx) => (
-                        <StyledTableRow key={idx} bg="true" islast={idx === fixedRows ? 1 : 0}>
-                            {fixedRow}
-                        </StyledTableRow>
+                        <TableRow key={`fixed-${idx}`}>{fixedRow}</TableRow>
                     ))}
-
-                    {rows.map((row, i) => {
-                        prepareRow(row);
-                        return (
-                            <TableRow {...row.getRowProps()}>
-                                {row.cells.map((cell) => {
-                                    return (
-                                        <StyledTableCell {...cell.getCellProps()}>
-                                            {cell.render("Cell")}
-                                        </StyledTableCell>
-                                    );
-                                })}
-                            </TableRow>
-                        );
-                    })}
+                    {table.getRowModel().rows.map((row) => (
+                        <TableRow key={row.id}>
+                            {row.getVisibleCells().map((cell) => (
+                                <StyledTableCell key={cell.id}>
+                                    {flexRender(cell.column.columnDef?.cell ?? "", cell.getContext())}
+                                </StyledTableCell>
+                            ))}
+                        </TableRow>
+                    ))}
                 </StyledTableBody>
-                {footer ? (
+                {footer && (
                     <TableFooter>
                         <TableRow>
-                            <TableCell style={{ border: "none" }} colSpan={isMobile ? 3 : columns.length}>
+                            <TableCell style={{ border: "none" }} colSpan={columns.length}>
                                 <center>{footer}</center>
                             </TableCell>
                         </TableRow>
                     </TableFooter>
-                ) : null}
+                )}
             </SMUITable>
         </TableContainer>
     );
 }
+
+Table.propTypes = {
+    columns: PropTypes.array.isRequired, // Column configuration for the table
+    data: PropTypes.array.isRequired, // Table data
+    footer: PropTypes.node, // Footer content
+    initialState: PropTypes.object, // Initial table state
+    fixedRows: PropTypes.array, // Predefined fixed rows at the top
+    overflowHide: PropTypes.bool, // Whether to hide horizontal overflow
+};
 
 export default Table;

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
@@ -9,9 +9,7 @@ import DeleteIcon from "components/icons/version-2/Delete";
 import EditIcon from "components/icons/edit2";
 import InNetworkIcon from "components/icons/inNetwork";
 import PlusIcon from "components/icons/plus";
-
 import PharmacyModal from "components/SharedModals/PharmacyModal";
-
 import OutNetworkIcon from "../../Icons/outNetwork";
 import PlanDetailsTableWithCollapse from "../../planDetailsTableWithCollapse";
 import { formatPhoneNumber } from "utils/phones";
@@ -24,63 +22,93 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll, refresh }) => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const leadId = contact?.leadsId;
 
-    const hasApiFailed = pharmacyList?.length === 0 && planData?.pharmacyCosts?.length > 0;
+    const hasApiFailed = useMemo(
+        () => pharmacyList?.length === 0 && planData?.pharmacyCosts?.length > 0,
+        [pharmacyList, planData]
+    );
 
     const pharmacyCostMap = useMemo(
         () => new Map(planData?.pharmacyCosts?.map((cost) => [cost.pharmacyID, cost.isNetwork])),
-        [planData?.pharmacyCosts],
+        [planData]
     );
 
-    const handleSetAsPrimary = async (pharmacyId) => {
-        const pharmacyItem = { ...pharmacyList.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
-        await putLeadPharmacy(leadId, pharmacyItem);
-        refresh();
-        setIsEditModalOpen(false);
-    };
-    const onDeletePharmacy = async (pharmacy) => {
-        await deletePharmacy(pharmacy, null, leadId);
-        if (pharmacy.isPrimary) {
-            const pharmacyToMakePrimary = pharmacyList.find((item) => {
-                if (item.pharmacyId !== pharmacy.pharmacyId) {
-                    return true;
-                }
-            });
-            if (pharmacyToMakePrimary) {
-                await handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
-                window.location.reload(true);
-            } else {
-                const updatedPharmacies = await fetchPharmacies(leadId);
-                if (!updatedPharmacies.length) {window.location.reload(true);}
-            }
-        }
-    };
+    const handleSetAsPrimary = useCallback(
+        async (pharmacyId) => {
+            const pharmacyItem = { ...pharmacyList.find((item) => item.pharmacyId === pharmacyId), isPrimary: true };
+            await putLeadPharmacy(leadId, pharmacyItem);
+            refresh();
+            setIsEditModalOpen(false);
+        },
+        [pharmacyList, putLeadPharmacy, leadId, refresh]
+    );
 
-    const columns = useMemo(
-        () => [
+    const onDeletePharmacy = useCallback(
+        async (pharmacy) => {
+            await deletePharmacy(pharmacy, null, leadId);
+            if (pharmacy.isPrimary) {
+                const pharmacyToMakePrimary = pharmacyList.find((item) => item.pharmacyId !== pharmacy.pharmacyId);
+
+                if (pharmacyToMakePrimary) {
+                    await handleSetAsPrimary(pharmacyToMakePrimary.pharmacyId);
+                }
+
+                const updatedPharmacies = await fetchPharmacies(leadId);
+                if (!updatedPharmacies.length) {
+                    window.location.reload(true);
+                }
+            }
+        },
+        [pharmacyList, deletePharmacy, fetchPharmacies, handleSetAsPrimary, leadId]
+    );
+
+    const renderDeleteButton = useCallback(
+        (pharmacy) => (
+            <Button
+                variant="text"
+                className="deleteButton"
+                onClick={() => {
+                    onDeletePharmacy(pharmacy);
+                    setIsEditModalOpen(false);
+                    setIsAddModalOpen(false);
+                }}
+                size="small"
+                endIcon={<DeleteIcon />}
+            >
+                <div>{"Delete"}</div>
+            </Button>
+        ),
+        [onDeletePharmacy]
+    );
+
+    const columns = useMemo(() => {
+        return [
             {
-                Header: "Pharmacy",
+                id: "pharmacy-group",
+                header: "Pharmacy",
                 columns: isMobile
                     ? [
-                        {
-                            hideHeader: true,
-                            accessor: "mobileDetails",
-                        }
-                    ]
+                          {
+                              id: "mobileDetails-label",
+                              header: "Details",
+                              hideHeader: true,
+                              cell: ({ row }) => row.original.name,
+                          },
+                      ]
                     : [
-                        { hideHeader: true, accessor: "name" },
-                        {
-                            hideHeader: true,
-                            accessor: "address",
-                        },
-                        {
-                            hideHeader: true,
-                            accessor: "action",
-                        },
-                    ],
+                          {
+                              id: "name-label",
+                              header: "Name",
+                              cell: ({ row }) => row.original.name,
+                          },
+                          {
+                              id: "address-value",
+                              header: "Address",
+                              cell: ({ row }) => row.original.address,
+                          },
+                      ],
             },
-        ],
-        [isMobile],
-    );
+        ];
+    }, []);
 
     const tableData = useMemo(() => {
         if (!pharmacyList || !Array.isArray(planData?.pharmacyCosts)) {
@@ -91,21 +119,7 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll, refresh }) => {
             const { pharmacyId, name, pharmacyPhone, isDigital, address1, address2, city, state, zip } = pharmacy;
             const address = formatAddress({ address1, address2, city, stateCode: state, postalCode: zip });
             const isCovered = pharmacyCostMap.get(pharmacyId) || false;
-            const renderDeleteButton = () => (
-                <Button
-                    variant="text"
-                    className="deleteButton"
-                    onClick={() => {
-                        onDeletePharmacy(pharmacy);
-                        setIsEditModalOpen(false);
-                        setIsAddModalOpen(false);
-                    }}
-                    size="small"
-                    endIcon={<DeleteIcon />}
-                >
-                    <div>{"Delete"}</div>
-                </Button>
-            )
+
             return {
                 name: (
                     <div>
@@ -122,96 +136,65 @@ const PharmacyTable = ({ contact, planData, isMobile, isEnroll, refresh }) => {
                         </div>
                         <div className="digitalContainer">
                             {isCovered ? <InNetworkIcon /> : <OutNetworkIcon />}
-                            <div>
-                                {isDigital ? (
-                                    <div>{DIGITAL_PHARMACY}</div>
-                                ) : (
-                                    <div className={""}>{address}</div>
-                                )}
-                            </div>
+                            <div>{isDigital ? <div>{DIGITAL_PHARMACY}</div> : <div className={""}>{address}</div>}</div>
                         </div>
                     </div>
                 ),
                 address: (
                     <div className="address">
-                        <span className="networkIcon">{
-                            pharmacyCostMap.get(pharmacy?.pharmacyId) ? <InNetworkIcon /> : <OutNetworkIcon />}</span>
+                        <span className="networkIcon">
+                            {pharmacyCostMap.get(pharmacy?.pharmacyId) ? <InNetworkIcon /> : <OutNetworkIcon />}
+                        </span>
                         {address}
                     </div>
                 ),
-                action: (
-                    renderDeleteButton()
-                )
+                action: renderDeleteButton(),
             };
         });
-    }, [pharmacyList, planData]);
+    }, [pharmacyList, planData, hasApiFailed]);
 
     const handleEditClick = () => {
-        if (pharmacyList?.length) {
-            setIsEditModalOpen(true);
-        } else {
-            setIsAddModalOpen(true);
-        }
+        setIsEditModalOpen(pharmacyList?.length > 0);
+        setIsAddModalOpen(pharmacyList?.length === 0);
     };
 
-   
-
-    const noPharmacy = () => {
-        return (
-            <div className="no-items">
-                <span className="noPharmacy">This contact has no pharmacy.</span>
-                <span className="addButton" onClick={() => setIsAddModalOpen(true)}>
-                    Add Pharmacy
-                </span>
-            </div>
-        );
-    };
     return (
         <>
             <PlanDetailsTableWithCollapse
-                columns={hasApiFailed ? [{ Header: "Pharmacy", columns: [{ accessor: "unAvailable" }] }] : columns}
-                data={hasApiFailed ? [{ unAvailable: noPharmacy() }] : tableData}
+                columns={columns}
+                data={tableData}
                 className="quotes"
                 header="Pharmacy"
                 tbodyClassName="pharmacy-body"
                 actions={
                     !isEnroll && (
                         <Edit
-                            label={tableData.length ? "Edit" : "Add New"}
+                            label={pharmacyList?.length ? "Edit" : "Add"}
                             onClick={handleEditClick}
-                            icon={tableData.length ? <EditIcon /> : <PlusIcon />}
+                            icon={pharmacyList?.length ? <EditIcon /> : <PlusIcon />}
                         />
                     )
                 }
             />
-            {pharmacyList?.length > 0 && (
+            {isEditModalOpen && (
                 <Modal
                     open={isEditModalOpen}
                     onClose={() => setIsEditModalOpen(false)}
                     hideFooter
                     title="Update Pharmacy"
-                    modalName="Pharmacy"
-                    isAddPharmacy={pharmacyList.length < 3}
-                    onAdd={() => setIsAddModalOpen(true)}
                 >
                     <UpdateView
                         pharmaciesData={pharmacyList}
                         handleSetAsPrimary={handleSetAsPrimary}
                         pharmacyCosts={planData?.pharmacyCosts}
-                        onDelete={(pharmacy) => {
-                            onDeletePharmacy(pharmacy);
-                            setIsEditModalOpen(false);
-                            setIsAddModalOpen(false);
-                        }}
+                        onDelete={onDeletePharmacy}
                     />
                 </Modal>
             )}
             {isAddModalOpen && (
                 <PharmacyModal
                     open={isAddModalOpen}
-                    pharmaciesPreSelected={pharmacyList}
                     onClose={() => setIsAddModalOpen(false)}
-                    userZipCode={contact?.addresses?.[0]?.postalCode}
                     leadId={leadId}
                     refresh={refresh}
                 />
