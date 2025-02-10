@@ -11,7 +11,6 @@
     ],
     "@babel/preset-react",
     "@babel/preset-typescript"
-    // Add this line
   ],
   "plugins": [
     "@babel/plugin-syntax-import-meta"

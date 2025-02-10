@@ -1,198 +1,198 @@
 @use "scss/globalDefines" as defines_global;
 
 .activitiesContainer {
-    border-radius: 8px;
-    background-color: #f1f1f1;
-    padding: 1rem;
+  border-radius: 8px;
+  background-color: #f1f1f1;
+  padding: 1rem;
 
-    >div {
-        box-shadow: none !important;
-    }
+  > div {
+    box-shadow: none !important;
+  }
 
-    @include defines_global.small {
-        padding: 0.5rem;
-    }
+  @include defines_global.small {
+    padding: 0.5rem;
+  }
 }
 
 .healthPageActivitiesContainer {
-    margin-top: 25px;
+  margin-top: 25px;
 }
 
 .activitiesContainer_content {
-    border-radius: 8px;
+  border-radius: 8px;
 
-    thead {
-        display: none;
-    }
+  thead {
+    display: none;
+  }
 
-    @include defines_global.small {
-        background: none;
-        padding: 0.5rem;
-    }
+  @include defines_global.small {
+    background: none;
+    padding: 0.5rem;
+  }
 }
 
 .pageContainerWrapper {
-    background-color: #f1f1f1;
-    min-height: 90vh;
-    padding-bottom: 80px;
+  background-color: #f1f1f1;
+  min-height: 90vh;
+  padding-bottom: 80px;
 }
 
 .conditionsLabel {
-    color: #434a51;
-    margin-bottom: 16px;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
+  color: #434a51;
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
 
-    @include defines_global.small {
-        color: #434a51;
-        font-size: 12px;
-    }
+  @include defines_global.small {
+    color: #434a51;
+    font-size: 12px;
+  }
 }
 
 .conditionNameCell {
-    color: #052a63;
-    font-size: 20px;
-    width: 100%;
-    padding-left: 1rem
+  color: #052a63;
+  font-size: 20px;
+  width: 100%;
+  padding-left: 1rem
 }
 
 .flex {
-    display: flex;
+  display: flex;
 }
 
 .arrowStyle {
-    position: relative;
-    top: 2px;
+  position: relative;
+  top: 2px;
 }
 
 .editCta {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .conditionStatusCell {
-    display: flex;
-    gap: 4px;
-    justify-content: center;
-    margin-left: auto;
-    text-align: right;
-    align-items: center;
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-left: auto;
+  text-align: right;
+  align-items: center;
 }
 
 .completedStatus {
-    color: #717171;
-    font-size: 14px;
+  color: #717171;
+  font-size: 14px;
 }
 
 .incompleteStatus {
-    color: #4178ff;
-    font-size: 14px;
+  color: #4178ff;
+  font-size: 14px;
 }
 
 .outdatedStatus {
-    color: #aaa;
-    font-size: 14px;
+  color: #aaa;
+  font-size: 14px;
 }
 
 .conditionActionCell {
-    text-align: right;
+  text-align: right;
 }
 
 .buttonWithIcon {
-    border-radius: 25px !important;
-    margin-left: auto;
-    padding: 5px 20px !important;
+  border-radius: 25px !important;
+  margin-left: auto;
+  padding: 5px 20px !important;
 
-    span {
-        color: #4178ff !important;
-        font-size: 14px !important;
-        font-weight: 500;
-    }
+  span {
+    color: #4178ff !important;
+    font-size: 14px !important;
+    font-weight: 500;
+  }
 
-    &:hover {
-        background: #fff 0% 0% no-repeat padding-box;
-        border-radius: 20px;
-        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
-        color: #1357ff !important;
-    }
+  &:hover {
+    background: #fff 0 0 no-repeat padding-box;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
+    color: #1357ff !important;
+  }
 }
 
 .nextButton {
-    background-color: #4178ff;
-    border-radius: 100px !important;
-    justify-content: space-between !important;
-    width: 100%;
+  background-color: #4178ff;
+  border-radius: 100px !important;
+  justify-content: space-between !important;
+  width: 100%;
 
-    svg {
-        margin-left: 100px;
-    }
+  svg {
+    margin-left: 100px;
+  }
 }
 
 .pageContainer {
-    background: #fff;
-    border-radius: 8px;
-    padding: 56px;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
-    max-width: 90%;
-    width: 900px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 56px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
+  max-width: 90%;
+  width: 900px;
 
-    @include defines_global.small {
-        padding: 16px;
-    }
+  @include defines_global.small {
+    padding: 16px;
+  }
 
-    & {
-        margin-left: auto;
-        margin-right: auto;
-    }
+  & {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .headerTitle h4 {
-    font-size: 24px;
-    line-height: 32px;
-    color: #052a63;
-    font-family: Lato, sans-serif;
-    font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  color: #052a63;
+  font-family: Lato, sans-serif;
+  font-weight: 400;
 
-    @include defines_global.small {
-        font-size: 18px;
-    }
+  @include defines_global.small {
+    font-size: 18px;
+  }
 }
 
 .pageHeading {
-    display: flex;
-    justify-content: center;
-    padding-top: 24px;
-    padding-bottom: 24px;
-    background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  background-color: #f1f1f1;
 }
 
 .tickCircle,
 .statusIcon {
-    background-color: transparent !important;
-    height: 16px !important;
-    padding: 0 !important;
-    width: 16px !important;
+  background-color: transparent !important;
+  height: 16px !important;
+  padding: 0 !important;
+  width: 16px !important;
 }
 
 .statusIcon {
-    height: 18px !important;
-    width: 18px !important;
+  height: 18px !important;
+  width: 18px !important;
 }
 
 .wrapper {
-    align-items: center;
-    display: flex;
+  align-items: center;
+  display: flex;
 }
 
 .disclaimerText {
-    color: #717171;
-    font-style: italic;
-    margin-bottom: 20px;
-    margin-top: 2px;
+  color: #717171;
+  font-style: italic;
+  margin-bottom: 20px;
+  margin-top: 2px;
 }
 
 .noItemsWrapper {
-    background-color: #fff;
+  background-color: #fff;
 }

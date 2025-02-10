@@ -72,7 +72,7 @@ const SMUITable = styled(MUITable)(() => ({
 }));
 
 const StyledTableRow = styled(TableRow)(({islast}) => ({
-    background: "#2175F41A 0% 0% no-repeat padding-box",
+    background: "#2175F41A 0 0 no-repeat padding-box",
     boxShadow: islast ? "inset 0px -1px 0px #C7CCD1" : "none",
 }));
 

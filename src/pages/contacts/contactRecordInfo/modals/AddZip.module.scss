@@ -1,169 +1,169 @@
 .modalContainer {
-    min-width: 100vw;
-    min-height: 100vh;
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 30 !important;
-    inset: 0;
-    background-color: #051d43b3;
+  min-width: 100vw;
+  min-height: 100vh;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 30 !important;
+  inset: 0;
+  background-color: #051d43b3;
 }
 
 .modal {
-    width: 550px;
-    border-radius: 8px;
-    background-color: #f4f8fb;
-    box-shadow: 0 0 6px #00000029;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+  width: 550px;
+  border-radius: 8px;
+  background-color: #f4f8fb;
+  box-shadow: 0 0 6px #00000029;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 
-    @media (width <= 480px) {
-        width: 100%;
-    }
+  @media (width <= 480px) {
+    width: 100%;
+  }
 }
 
 .modalHeader {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    text-align: left;
-    letter-spacing: 0.32px;
-    color: #002d72;
-    width: 100%;
-    font-size: 32px;
-    font-weight: 500;
-    background-color: #fff;
-    padding: 24px;
-    display: flex;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  text-align: left;
+  letter-spacing: 0.32px;
+  color: #002d72;
+  width: 100%;
+  font-size: 32px;
+  font-weight: 500;
+  background-color: #fff;
+  padding: 24px;
+  display: flex;
 }
 
 .modalBody {
-    padding: 24px 50px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+  padding: 24px 50px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .closeBtn {
-    width: 24px;
-    height: 24px;
-    position: absolute;
-    right: 16px;
-    top: 16px;
-    stroke: #0052ce;
-    margin: 10px;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  stroke: #0052ce;
+  margin: 10px;
 }
 
 .closeBtn :hover {
-    stroke: #2175f4;
+  stroke: #2175f4;
 }
 
 .subText {
-    font-size: 16px;
-    text-align: left;
-    color: #434a51;
+  font-size: 16px;
+  text-align: left;
+  color: #434a51;
 }
 
 .inputContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    gap: 8px;
-    font-size: 16px;
-    color: #051d43;
-    font-weight: 500;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 8px;
+  font-size: 16px;
+  color: #051d43;
+  font-weight: 500;
+  width: 100%;
 }
 
 .input {
-    padding: 10px 16px;
-    width: 108px;
-    height: 40px;
-    border-radius: 4px;
-    background: #fff 0% 0% no-repeat padding-box;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    color: #051d43;
-    font-weight: 500;
+  padding: 10px 16px;
+  width: 108px;
+  height: 40px;
+  border-radius: 4px;
+  background: #fff 0 0 no-repeat padding-box;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  color: #051d43;
+  font-weight: 500;
 }
 
 .submit {
-    width: 120px;
-    height: 40px;
-    background-color: #0052ce;
-    padding: 10px 27px;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 30px;
-    border-radius: 4px;
-    position: relative;
-    right: 6%;
+  width: 120px;
+  height: 40px;
+  background-color: #0052ce;
+  padding: 10px 27px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 30px;
+  border-radius: 4px;
+  position: relative;
+  right: 6%;
 }
 
 .submit:hover {
-    background-color: #2175f4;
+  background-color: #2175f4;
 }
 
 .buttonWrapper {
-    display: flex;
-    width: 100%;
-    justify-content: right;
+  display: flex;
+  width: 100%;
+  justify-content: right;
 }
 
 .cancel {
-    width: 120px;
-    height: 40px;
-    background-color: transparent;
-    padding: 10px 27px;
-    border: #0052ce 1px solid;
-    color: #0052ce;
-    font-size: 16px;
-    font-weight: 500;
-    margin-top: 8px;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 120px;
+  height: 40px;
+  background-color: transparent;
+  padding: 10px 27px;
+  border: #0052ce 1px solid;
+  color: #0052ce;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 8px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cancel:hover {
-    border-color: #2175f4;
-    color: #0052ce;
+  border-color: #2175f4;
+  color: #0052ce;
 }
 
 .addressWrapper {
-    display: flex;
-    justify-content: space-between;
-    font-size: 20px;
-    color: #051d43;
-    font-weight: 500;
-    width: 100%;
-    align-items: center;
-    padding: 8px;
-    gap: 33px;
-    background-color: #fff;
-    border-radius: 8px;
-    margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  color: #051d43;
+  font-weight: 500;
+  width: 100%;
+  align-items: center;
+  padding: 8px;
+  gap: 33px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin: 8px 0;
 }
 
 .copy,
 .copied {
-    width: 32px;
-    height: 32px;
-    padding: 9px;
-    border-radius: 9999px;
+  width: 32px;
+  height: 32px;
+  padding: 9px;
+  border-radius: 9999px;
 }
 
 .copy {
-    background-color: #2175f41a;
+  background-color: #2175f41a;
 }
 
 .copied {
-    background-color: rgb(173 173 194);
+  background-color: rgb(173 173 194);
 }
 
 .disabled {
-    background-color: rgb(173 173 194);
+  background-color: rgb(173 173 194);
 }

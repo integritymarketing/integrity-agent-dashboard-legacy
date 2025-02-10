@@ -1,5 +1,5 @@
 .policy-card-container {
-  background: #deebfb 0% 0% no-repeat padding-box;
+  background: #deebfb 0 0 no-repeat padding-box;
   border-radius: 8px;
 
   @media screen and (width <= 480px) {
@@ -10,7 +10,7 @@
 .policy-card {
   border-bottom: 0.5px solid #dfdedd;
   padding: 18px;
-  background: #fff 0% 0% no-repeat padding-box;
+  background: #fff 0 0 no-repeat padding-box;
   font-size: 14px;
 }
 
@@ -25,7 +25,7 @@
   background-color: #4178ff !important;
 }
 
-.policy-card-link-btn>.label {
+.policy-card-link-btn > .label {
   font-size: 14px !important;
   color: #fff !important;
 }
@@ -84,7 +84,7 @@
   }
 }
 
-.jumpList-btn>span {
+.jumpList-btn > span {
   color: #0052ce;
   font-weight: 600;
 }

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
-import { useCallback, useEffect, useState } from "react";
-import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
+import {useCallback, useEffect, useState} from "react";
+import {onlyAlphabets} from "utils/shared-utils/sharedUtility";
 import SearchIcon from "@mui/icons-material/Search";
 import {
     Autocomplete,
@@ -12,23 +12,23 @@ import {
     Typography,
     Box,
 } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
-import { CustomModal } from "components/MuiComponents";
-import { styled } from "@mui/system";
-import { debounce } from "lodash";
+import {useNavigate, useLocation} from "react-router-dom";
+import {CustomModal} from "components/MuiComponents";
+import {styled} from "@mui/system";
+import {debounce} from "lodash";
 import useToast from "hooks/useToast";
-import { useClientServiceContext } from "services/clientServiceProvider";
-import { useCreateNewQuote } from "providers/CreateNewQuote";
+import {useClientServiceContext} from "services/clientServiceProvider";
+import {useCreateNewQuote} from "providers/CreateNewQuote";
 import ContactListItem from "./ContactListItem";
 import CreateNewContactIcon from "components/icons/CreateNewContact";
-import { useLeadDetails } from "providers/ContactDetails";
+import {useLeadDetails} from "providers/ContactDetails";
 import ContinueIcon from "components/icons/Continue";
 import * as Sentry from "@sentry/react";
 import styles from "./styles.module.scss";
-import { useCountyDataContext } from "providers/CountyDataProvider";
+import {useCountyDataContext} from "providers/CountyDataProvider";
 
 const StyledSearchInput = styled(TextField)(() => ({
-    background: "#FFFFFF 0% 0% no-repeat padding-box",
+    background: "#FFFFFF 0 0 no-repeat padding-box",
     borderRadius: "4px",
     "& input::placeholder": {
         color: "#434A51",
@@ -50,7 +50,7 @@ const AutoCompleteContactSearchModal = () => {
         setContactSearchModalOpen: handleClose,
         handleSelectedLead,
     } = useCreateNewQuote();
-    const { getLeadDetails, updateLeadDetailsWithZipCode } = useLeadDetails();
+    const {getLeadDetails, updateLeadDetailsWithZipCode} = useLeadDetails();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const createQuote = searchParams.get("create-quote");
@@ -61,9 +61,9 @@ const AutoCompleteContactSearchModal = () => {
     const [loading, setLoading] = useState(false);
     const [tempLead, setTempLead] = useState(null);
 
-    const { clientsService } = useClientServiceContext();
+    const {clientsService} = useClientServiceContext();
     const showToast = useToast();
-    const { fetchCountiesData, setZipCode } = useCountyDataContext();
+    const {fetchCountiesData, setZipCode} = useCountyDataContext();
 
     const handleCloseModal = () => {
         if (createQuote) {
@@ -184,10 +184,10 @@ const AutoCompleteContactSearchModal = () => {
                 <ListItem {...props} onClick={() => handleSelectNewContact(searchQuery)} className={styles.listItem}>
                     <ListItemText
                         primary={
-                            <Box display="flex" alignItems="center" sx={{ cursor: "pointer" }}>
-                                <CreateNewContactIcon />
-                                <Typography variant="subtitle1" style={{ marginLeft: 8 }}>
-                                    Create new contact for <span style={{ color: "#0052ce" }}>{searchQuery}</span>
+                            <Box display="flex" alignItems="center" sx={{cursor: "pointer"}}>
+                                <CreateNewContactIcon/>
+                                <Typography variant="subtitle1" style={{marginLeft: 8}}>
+                                    Create new contact for <span style={{color: "#0052ce"}}>{searchQuery}</span>
                                 </Typography>
                             </Box>
                         }
@@ -264,7 +264,7 @@ const AutoCompleteContactSearchModal = () => {
             shouldShowCancelButton={true}
             isSaveButtonDisabled={!tempLead}
             saveLabel="Continue"
-            footerActionIcon={<ContinueIcon />}
+            footerActionIcon={<ContinueIcon/>}
         >
             <Box marginBottom={"20px"}>
                 <Typography
@@ -285,8 +285,8 @@ const AutoCompleteContactSearchModal = () => {
                     openOnFocus={true}
                     options={
                         searchQuery.length >= 3
-                            ? [...contactList, { firstName: "", lastName: "", isNewContact: true }]
-                            : [{ isWarning: true }]
+                            ? [...contactList, {firstName: "", lastName: "", isNewContact: true}]
+                            : [{isWarning: true}]
                     }
                     getOptionLabel={(option) => (option.isNewContact ? "" : `${option.firstName} ${option.lastName}`)}
                     filterOptions={(options) => options}
@@ -314,7 +314,7 @@ const AutoCompleteContactSearchModal = () => {
                                     <>
                                         {loading ? (
                                             <div className={styles.flexAlignCenter}>
-                                                <CircularProgress color="inherit" size={20} />
+                                                <CircularProgress color="inherit" size={20}/>
                                             </div>
                                         ) : null}
                                         {params.InputProps.endAdornment}
@@ -322,7 +322,7 @@ const AutoCompleteContactSearchModal = () => {
                                 ),
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon style={{ color: "#0052CE" }} />
+                                        <SearchIcon style={{color: "#0052CE"}}/>
                                     </InputAdornment>
                                 ),
                                 style: {

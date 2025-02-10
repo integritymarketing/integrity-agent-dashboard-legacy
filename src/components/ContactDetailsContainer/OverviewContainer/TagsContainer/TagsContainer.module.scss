@@ -1,20 +1,20 @@
 @use "scss/globalDefines" as defines_global;
 
 .title {
-    padding-bottom: 0;
-    color: #052a63;
-    font-size: 24px;
+  padding-bottom: 0;
+  color: #052a63;
+  font-size: 24px;
 }
 
 .box {
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 8px;
-    margin-top: 0.5rem;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-top: 0.5rem;
 
-    @include defines_global.small {
-        padding: 24px;
-    }
+  @include defines_global.small {
+    padding: 24px;
+  }
 }
 
 .buttonContainer {
@@ -58,7 +58,7 @@
   }
 
   &:hover {
-    background: #FFF 0% 0% no-repeat padding-box;
+    background: #FFF 0 0 no-repeat padding-box;
     border-radius: 20px;
     box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
     color: #1357FF !important
@@ -78,7 +78,7 @@
 
 .iconRotate {
   svg {
-      transform: rotate(-180deg);
+    transform: rotate(-180deg);
   }
 }
 
@@ -87,6 +87,6 @@
   align-items: center;
 }
 
-.underLine{
+.underLine {
   box-shadow: rgb(199 204 209) 0 -1px 0 inset;
 }

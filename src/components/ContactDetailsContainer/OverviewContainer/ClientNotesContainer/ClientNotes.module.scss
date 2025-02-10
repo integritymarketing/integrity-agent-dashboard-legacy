@@ -21,7 +21,7 @@
   padding: 30px;
 
   @include defines_global.small {
-     padding: 0.5rem;
+    padding: 0.5rem;
   }
 }
 
@@ -44,8 +44,8 @@
   @include defines_global.small {
     width: 100% !important;
     justify-content: flex-end;
-    flex-direction: row ;
-}
+    flex-direction: row;
+  }
 }
 
 .editButton {
@@ -84,7 +84,7 @@
   }
 
   &:hover {
-    background: #FFF 0% 0% no-repeat padding-box;
+    background: #FFF 0 0 no-repeat padding-box;
     border-radius: 20px;
     box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
     color: #1357FF !important
@@ -95,7 +95,7 @@
   padding: unset;
   max-width: none;
 
-  .iconWithTitle{
+  .iconWithTitle {
     display: flex;
     align-items: center;
     width: 100% !important;

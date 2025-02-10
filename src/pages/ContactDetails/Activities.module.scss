@@ -51,7 +51,7 @@
 
 .deleteTextAreaText {
   color: #F44336;
- }
+}
 
 .ediTextAreaText {
   color: #0052ce;
@@ -68,13 +68,13 @@
   }
 
   &:hover {
-    background: #FFF 0% 0% no-repeat padding-box;
+    background: #FFF 0 0 no-repeat padding-box;
     border-radius: 20px;
     box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
     color: #1357FF !important
   }
 }
- 
+
 
 .css-126gqmu-MuiTableCell-root {
   @media (width <= 480px) {
@@ -84,50 +84,49 @@
 
 
 .activitiesContainer {
-    margin-bottom: 3rem;
-    border-radius: 8px;
+  margin-bottom: 3rem;
+  border-radius: 8px;
 }
 
- 
 
 .no-items {
-    border: 1.5px solid #e6ecf2;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    color: #64748b;
+  border: 1.5px solid #e6ecf2;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #64748b;
 }
 
 
 .activitiesContainer_content {
-    border-radius: 8px;
-  
-    @include defines_global.small {
-        background: none;
-     }
+  border-radius: 8px;
+
+  @include defines_global.small {
+    background: none;
   }
+}
 
 
-  .activityDate{
-    color: #717171;
-    font-size: 14px;
-  }
+.activityDate {
+  color: #717171;
+  font-size: 14px;
+}
 
-  .activitySubject{
-    color: #052A63;
-    font-size: 16px;
-  }
+.activitySubject {
+  color: #052A63;
+  font-size: 16px;
+}
 
- 
-  .activityBody{
-    color: #717171;
-    font-size: 14px;
-    margin-left: 5px;
-  }
 
-  .segregator {
-    padding: unset;
-    max-width: none;
-  }
+.activityBody {
+  color: #717171;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.segregator {
+  padding: unset;
+  max-width: none;
+}

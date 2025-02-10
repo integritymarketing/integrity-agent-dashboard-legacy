@@ -1,22 +1,22 @@
-import React, { useCallback, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, {useCallback, useState} from "react";
+import {useNavigate, useLocation} from "react-router-dom";
 
-import { InputAdornment, ListItem, ListItemButton, ListItemText, OutlinedInput, Typography, Box } from "@mui/material";
-import { DropdownAContact } from "@integritymarketing/icons";
+import {InputAdornment, ListItem, ListItemButton, ListItemText, OutlinedInput, Typography, Box} from "@mui/material";
+import {DropdownAContact} from "@integritymarketing/icons";
 
-import { styled } from "@mui/system";
+import {styled} from "@mui/system";
 
 import useToast from "hooks/useToast";
 import useAnalytics from "hooks/useAnalytics";
 
 import Spinner from "components/ui/Spinner/index";
 
-import { useClientServiceContext } from "services/clientServiceProvider";
+import {useClientServiceContext} from "services/clientServiceProvider";
 
 import styles from "./styles.module.scss";
 
 const SearchInput = styled(OutlinedInput)(() => ({
-    background: "#FFFFFF 0% 0% no-repeat padding-box",
+    background: "#FFFFFF 0 0 no-repeat padding-box",
     borderRadius: "4px",
     "input::placeholder": {
         color: "#717171",
@@ -24,12 +24,12 @@ const SearchInput = styled(OutlinedInput)(() => ({
     },
 }));
 
-const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children, tagIds, inbound, name }) => {
+const ContactListItemButton = ({contact, callFrom, leadId, callLogId, children, tagIds, inbound, name}) => {
     const showToast = useToast();
-    const { fireEvent } = useAnalytics();
+    const {fireEvent} = useAnalytics();
     const navigate = useNavigate();
 
-    const { clientsService, callRecordingsService } = useClientServiceContext();
+    const {clientsService, callRecordingsService} = useClientServiceContext();
     const updatePrimaryContact = useCallback(() => {
         return clientsService.updateLeadPhone(contact, callFrom);
     }, [clientsService, contact, callFrom]);
@@ -89,7 +89,7 @@ const ContactListItemButton = ({ contact, callFrom, leadId, callLogId, children,
     );
 };
 
-export default function ContactSearch({ contacts, onChange, isLoading, tagIds, inbound, name }) {
+export default function ContactSearch({contacts, onChange, isLoading, tagIds, inbound, name}) {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
@@ -104,7 +104,7 @@ export default function ContactSearch({ contacts, onChange, isLoading, tagIds, i
         if (isLoading) {
             return (
                 <div>
-                    <Spinner />
+                    <Spinner/>
                 </div>
             );
         }
@@ -147,7 +147,7 @@ export default function ContactSearch({ contacts, onChange, isLoading, tagIds, i
                 type="search"
                 startAdornment={
                     <InputAdornment position="end">
-                        <DropdownAContact color="#4178FF" size="md" />
+                        <DropdownAContact color="#4178FF" size="md"/>
                     </InputAdornment>
                 }
                 onChange={(e) => {

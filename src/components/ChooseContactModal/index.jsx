@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
 import PropTypes from "prop-types";
-import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
+import {onlyAlphabets} from "utils/shared-utils/sharedUtility";
 import SearchIcon from "@mui/icons-material/Search";
 import {
     Autocomplete,
@@ -12,11 +12,11 @@ import {
     Typography,
     Box,
 } from "@mui/material";
-import { CustomModal } from "components/MuiComponents";
-import { styled } from "@mui/system";
-import { debounce } from "lodash";
+import {CustomModal} from "components/MuiComponents";
+import {styled} from "@mui/system";
+import {debounce} from "lodash";
 import useToast from "hooks/useToast";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import {useClientServiceContext} from "services/clientServiceProvider";
 import ContactListItem from "./ContactListItem";
 import CreateNewContactIcon from "components/icons/CreateNewContact";
 import ContinueIcon from "components/icons/Continue";
@@ -24,7 +24,7 @@ import ContinueIcon from "components/icons/Continue";
 import styles from "./styles.module.scss";
 
 const StyledSearchInput = styled(TextField)(() => ({
-    background: "#FFFFFF 0% 0% no-repeat padding-box",
+    background: "#FFFFFF 0 0 no-repeat padding-box",
     borderRadius: "4px",
     "& input::placeholder": {
         color: "#434A51",
@@ -38,22 +38,22 @@ const AutocompleteWrapper = styled("div")({
 });
 
 const AutoCompleteContactSearchModal = ({
-    open,
-    handleClose,
-    title,
-    subTitle,
-    handleContactSelect,
-    isCreateNewAvailable = false,
-    handleCancel,
-    searchId,
-    currentContactOption,
-}) => {
+                                            open,
+                                            handleClose,
+                                            title,
+                                            subTitle,
+                                            handleContactSelect,
+                                            isCreateNewAvailable = false,
+                                            handleCancel,
+                                            searchId,
+                                            currentContactOption,
+                                        }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [contactList, setContactList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [tempLead, setTempLead] = useState(null);
 
-    const { clientsService } = useClientServiceContext();
+    const {clientsService} = useClientServiceContext();
     const showToast = useToast();
 
     const handleSearchInputChange = (event, value) => {
@@ -129,10 +129,10 @@ const AutoCompleteContactSearchModal = ({
                 <ListItem {...props} onClick={() => handleSelectNewContact(searchQuery)} className={styles.listItem}>
                     <ListItemText
                         primary={
-                            <Box display="flex" alignItems="center" sx={{ cursor: "pointer" }}>
-                                <CreateNewContactIcon />
-                                <Typography variant="subtitle1" style={{ marginLeft: 8 }}>
-                                    Create new contact for <span style={{ color: "#0052ce" }}>{searchQuery}</span>
+                            <Box display="flex" alignItems="center" sx={{cursor: "pointer"}}>
+                                <CreateNewContactIcon/>
+                                <Typography variant="subtitle1" style={{marginLeft: 8}}>
+                                    Create new contact for <span style={{color: "#0052ce"}}>{searchQuery}</span>
                                 </Typography>
                             </Box>
                         }
@@ -155,7 +155,7 @@ const AutoCompleteContactSearchModal = ({
             );
         }
 
-        return <ContactListItem {...props} contact={option} handleClick={handleSelectOldContact} />;
+        return <ContactListItem {...props} contact={option} handleClick={handleSelectOldContact}/>;
     };
 
     const handleSubmit = () => {
@@ -182,7 +182,7 @@ const AutoCompleteContactSearchModal = ({
 
     useEffect(() => {
         if (isCreateNewAvailable) {
-            setContactList((prevList) => [...prevList, { firstName: "", lastName: "", isNewContact: true }]);
+            setContactList((prevList) => [...prevList, {firstName: "", lastName: "", isNewContact: true}]);
         }
     }, [isCreateNewAvailable]);
 
@@ -199,7 +199,7 @@ const AutoCompleteContactSearchModal = ({
             shouldShowCancelButton={true}
             isSaveButtonDisabled={!tempLead}
             saveLabel="Continue"
-            footerActionIcon={<ContinueIcon />}
+            footerActionIcon={<ContinueIcon/>}
         >
             <Box marginBottom={"20px"}>
                 <Typography
@@ -218,7 +218,7 @@ const AutoCompleteContactSearchModal = ({
                     blurOnSelect={true}
                     clearOnBlur={false}
                     openOnFocus={true}
-                    options={searchQuery.length >= 3 ? [...contactList] : [{ isWarning: true }]}
+                    options={searchQuery.length >= 3 ? [...contactList] : [{isWarning: true}]}
                     getOptionLabel={(option) => (option.isNewContact ? "" : `${option.firstName} ${option.lastName}`)}
                     filterOptions={(options) => options}
                     renderOption={renderAutocompleteOption}
@@ -245,7 +245,7 @@ const AutoCompleteContactSearchModal = ({
                                     <>
                                         {loading ? (
                                             <div className={styles.flexAlignCenter}>
-                                                <CircularProgress color="inherit" size={20} />
+                                                <CircularProgress color="inherit" size={20}/>
                                             </div>
                                         ) : null}
                                         {params.InputProps.endAdornment}
@@ -253,7 +253,7 @@ const AutoCompleteContactSearchModal = ({
                                 ),
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <SearchIcon style={{ color: "#0052CE" }} />
+                                        <SearchIcon style={{color: "#0052CE"}}/>
                                     </InputAdornment>
                                 ),
                                 style: {

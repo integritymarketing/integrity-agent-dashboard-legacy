@@ -5,7 +5,7 @@
   }
 
 
-  &>.row-group {
+  & > .row-group {
     padding: 20px 40px;
     display: flex;
     justify-content: space-between;
@@ -51,7 +51,7 @@
       }
     }
 
-    &>.row {
+    & > .row {
       flex: 5;
       display: flex;
       width: 80%;
@@ -122,7 +122,7 @@
       width: auto;
     }
 
-    &>* {
+    & > * {
       padding-top: 4px;
     }
   }
@@ -160,7 +160,7 @@ button {
   }
 
   &:hover {
-    background: #FFF 0% 0% no-repeat padding-box;
+    background: #FFF 0 0 no-repeat padding-box;
     box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
     color: #1357FF !important
   }

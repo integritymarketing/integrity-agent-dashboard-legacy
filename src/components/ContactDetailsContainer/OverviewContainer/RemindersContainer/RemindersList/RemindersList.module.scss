@@ -1,151 +1,151 @@
 @use "scss/globalDefines" as defines_global;
 
 .reminderInfoContainer {
-    padding: 16px 24px;
-    margin-bottom: 8px;
-    box-shadow: inset 0 -1px 0 #ddd;
+  padding: 16px 24px;
+  margin-bottom: 8px;
+  box-shadow: inset 0 -1px 0 #ddd;
 
-    &:last-child {
-        box-shadow: none;
-    }
+  &:last-child {
+    box-shadow: none;
+  }
 }
 
 .reminderDatesInfo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 
-    @include defines_global.small {
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-    }
+  @include defines_global.small {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
 }
 
 .reminderNotesInfo {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 
-    @include defines_global.small {
-        margin-top: 16px;
-    }
+  @include defines_global.small {
+    margin-top: 16px;
+  }
 }
 
 .dueValue {
-    font-weight: 600;
-    color: #4178ff;
-    padding-left: 3px;
+  font-weight: 600;
+  color: #4178ff;
+  padding-left: 3px;
 }
 
 .dueLabel {
-    color: #052a63;
-    font-weight: 600;
-    font-size: 16px;
-    margin: 2px 0;
+  color: #052a63;
+  font-weight: 600;
+  font-size: 16px;
+  margin: 2px 0;
 }
 
 .reminderDescription {
-    border: 1px solid #0000003b;
-    border-radius: 4px;
-    padding: 8px 12px;
-    width: 100%;
-    min-height: 94px;
-    height: auto;
-    line-break: anywhere;
-    color: #434a51;
-    margin-top: 8px;
+  border: 1px solid #0000003b;
+  border-radius: 4px;
+  padding: 8px 12px;
+  width: 100%;
+  min-height: 94px;
+  height: auto;
+  line-break: anywhere;
+  color: #434a51;
+  margin-top: 8px;
 }
 
 .reminderDescriptionAI {
-    padding: 8px 12px;
-    line-break: anywhere;
-    margin-top: 8px;
+  padding: 8px 12px;
+  line-break: anywhere;
+  margin-top: 8px;
 }
 
 .reminderActions {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    align-items: flex-end;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-end;
 
-    @include defines_global.small {
-        flex-direction: row-reverse;
-        align-items: center;
-        margin-top: 16px;
-    }
+  @include defines_global.small {
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-top: 16px;
+  }
 }
 
 .editButton {
-    margin-top: 5px;
-    margin-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .buttonWithIcon {
-    border-radius: 25px !important;
-    padding: 4px 8px !important;
+  border-radius: 25px !important;
+  padding: 4px 8px !important;
 
-    svg {
-        width: 24px;
-    }
+  svg {
+    width: 24px;
+  }
 
-    span {
-        font-size: 14px;
-        color: #4178ff;
-        font-weight: 500;
-    }
+  span {
+    font-size: 14px;
+    color: #4178ff;
+    font-weight: 500;
+  }
 
-    &:hover {
-        background: #fff 0% 0% no-repeat padding-box;
-        border-radius: 20px;
-        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
-        color: #1357ff;
-    }
+  &:hover {
+    background: #fff 0 0 no-repeat padding-box;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
+    color: #1357ff;
+  }
 }
 
 .remindersContainer {
-    margin-bottom: 3rem;
-    border-radius: 8px;
+  margin-bottom: 3rem;
+  border-radius: 8px;
 
-    @include defines_global.small {
-        margin-top: 3rem;
-    }
+  @include defines_global.small {
+    margin-top: 3rem;
+  }
 }
 
 .no-items {
-    border: 1.5px solid #e6ecf2;
-    border-radius: 4px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    color: #64748b;
+  border: 1.5px solid #e6ecf2;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #64748b;
 }
 
 .remindersContainer_content {
-    border-radius: 8px;
-    background-color: #fff;
+  border-radius: 8px;
+  background-color: #fff;
 
-    @include defines_global.small {
-        padding: 0.5rem;
-    }
+  @include defines_global.small {
+    padding: 0.5rem;
+  }
 }
 
 .segregator {
-    padding: unset;
-    max-width: none;
+  padding: unset;
+  max-width: none;
 }
 
 .reminderDates {
-    margin-top: 8px;
+  margin-top: 8px;
 
-    @include defines_global.small {
-        margin-left: 1rem;
-        margin-top: 0;
-    }
+  @include defines_global.small {
+    margin-left: 1rem;
+    margin-top: 0;
+  }
 }
 
 .overDueValue {
-    color: #c81e27;
+  color: #c81e27;
 }

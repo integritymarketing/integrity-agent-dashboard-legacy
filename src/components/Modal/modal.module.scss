@@ -1,91 +1,91 @@
 .cancelButton {
+  color: #4178ff;
+  font-size: 16px;
+  font-weight: 600;
+  height: 40px;
+  padding: 15px;
+  text-transform: capitalize;
+  border-radius: 20px;
+
+  &:hover {
+    background-color: #fff;
+    box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
+  }
+}
+
+.closeButton {
+  color: #fff !important;
+  margin-bottom: 10px;
+  padding: 2px !important;
+  transform: rotate(0deg);
+  transition: transform 1s;
+  background-color: #ccc !important;
+
+  &:hover {
+    transition: transform 1s;
+    transform: rotate(90deg);
+    color: #fff;
+    background-color: #ccc;
+  }
+}
+
+.footer {
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
+  .addButton {
     color: #4178ff;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     height: 40px;
-    padding: 15px;
+    padding: 5px 15px;
+    margin-top: -25px;
+    margin-bottom: 16px;
     text-transform: capitalize;
     border-radius: 20px;
 
     &:hover {
-        background-color: #fff;
-        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
+      background-color: #fff;
+      box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
     }
-}
-
-.closeButton {
-    color: #fff !important;
-    margin-bottom: 10px;
-    padding: 2px !important;
-    transform: rotate(0deg);
-    transition: transform 1s;
-    background-color: #ccc !important;
-
-    &:hover {
-        transition: transform 1s;
-        transform: rotate(90deg);
-        color: #fff;
-        background-color: #ccc;
-    }
-}
-
-.footer {
-    background-color: #f1f1f1;
-    display: flex;
-    flex-direction: column;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-
-    .addButton {
-        color: #4178ff;
-        font-size: 16px;
-        font-weight: 500;
-        height: 40px;
-        padding: 5px 15px;
-        margin-top: -25px;
-        margin-bottom: 16px;
-        text-transform: capitalize;
-        border-radius: 20px;
-
-        &:hover {
-            background-color: #fff;
-            box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
-        }
-    }
+  }
 }
 
 .curvedFooterButtons {
-    background-color: #f1f1f1;
-    border-radius: 0 0 8px 8px;
-    border-bottom: 1px solid #ccc;
-    justify-content: space-between;
-    padding: 20px 24px;
-    width: 100%;
-    display: flex;
+  background-color: #f1f1f1;
+  border-radius: 0 0 8px 8px;
+  border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+  padding: 20px 24px;
+  width: 100%;
+  display: flex;
 }
 
 .footerButtons {
-    background-color: #f1f1f1;
-    border-radius: 0;
-    border-bottom: 1px solid #ccc;
-    justify-content: space-between;
-    padding: 20px 24px;
-    width: 100%;
-    display: flex;
+  background-color: #f1f1f1;
+  border-radius: 0;
+  border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+  padding: 20px 24px;
+  width: 100%;
+  display: flex;
 }
 
 .title {
-    background-color: #fff;
-    border-radius: 8px 8px 0 0;
-    box-shadow: inset 0 -1px 0 #ccc;
-    color: #052a63;
-    font-family: Lato;
-    font-size: 32px;
-    letter-spacing: 0.32px;
+  background-color: #fff;
+  border-radius: 8px 8px 0 0;
+  box-shadow: inset 0 -1px 0 #ccc;
+  color: #052a63;
+  font-family: Lato, sans-serif;
+  font-size: 32px;
+  letter-spacing: 0.32px;
 }
 
 .deleteContainer {
-    & button:hover {
-        background-color: #fff;
-    }
+  & button:hover {
+    background-color: #fff;
+  }
 }

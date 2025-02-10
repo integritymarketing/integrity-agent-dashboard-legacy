@@ -4,7 +4,7 @@
 }
 
 .up-card-container {
-  background: #deebfb 0% 0% no-repeat padding-box;
+  background: #deebfb 0 0 no-repeat padding-box;
   border-radius: 8px;
 
   @media screen and (width <= 480px) {
@@ -15,7 +15,7 @@
 .up-card {
   border-bottom: 0.5px solid #a6bedb;
   padding: 18px;
-  background: #deebfb 0% 0% no-repeat padding-box;
+  background: #deebfb 0 0 no-repeat padding-box;
   font-size: 14px;
 }
 
@@ -35,8 +35,8 @@
   color: #fff !important;
 }
 
-.up-policy-view-btn{
-   border-radius: 25px !important;
+.up-policy-view-btn {
+  border-radius: 25px !important;
   padding: 5px 20px 5px 24px !important;
   background-color: #fff !important;
 }

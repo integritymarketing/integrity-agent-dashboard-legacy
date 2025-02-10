@@ -1,18 +1,18 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
-import { InputAdornment, ListItem, ListItemButton, ListItemText, OutlinedInput, Typography } from "@mui/material";
+import React, {useState, useCallback, useEffect, useRef} from "react";
+import {InputAdornment, ListItem, ListItemButton, ListItemText, OutlinedInput, Typography} from "@mui/material";
 import * as Sentry from "@sentry/react";
-import { useNavigate, useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "./styles.module.scss";
 import useToast from "hooks/useToast";
 import useAnalytics from "hooks/useAnalytics";
 import Heading3 from "packages/Heading3";
-import { styled } from "@mui/system";
+import {styled} from "@mui/system";
 import Spinner from "components/ui/Spinner/index";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import {useClientServiceContext} from "services/clientServiceProvider";
 
 const SearchInput = styled(OutlinedInput)(() => ({
-    background: "#FFFFFF 0% 0% no-repeat padding-box",
+    background: "#FFFFFF 0 0 no-repeat padding-box",
     borderRadius: "4px",
     "input::placeholder": {
         color: "#434A51",
@@ -21,20 +21,20 @@ const SearchInput = styled(OutlinedInput)(() => ({
 }));
 
 const ContactListItemButton = ({
-    contact,
-    callFrom,
-    selectedLeadId,
-    callLogId,
-    children,
-    state,
-    leadInfo,
-    setLeadInfo, // Accessing setLeadInfo here
-}) => {
+                                   contact,
+                                   callFrom,
+                                   selectedLeadId,
+                                   callLogId,
+                                   children,
+                                   state,
+                                   leadInfo,
+                                   setLeadInfo, // Accessing setLeadInfo here
+                               }) => {
     const showToast = useToast();
     const navigate = useNavigate();
-    const { fireEvent } = useAnalytics();
+    const {fireEvent} = useAnalytics();
     const firstRender = useRef(true);
-    const { clientsService, enrollPlansService } = useClientServiceContext();
+    const {clientsService, enrollPlansService} = useClientServiceContext();
     useEffect(() => {
         if (firstRender.current) {
             firstRender.current = false;
@@ -59,7 +59,7 @@ const ContactListItemButton = ({
     }, [clientsService, contact, callFrom]);
 
     const onClickHandler = useCallback(async () => {
-        const { policyId, agentNpn, policyStatus, sourceId, linkingType } = state;
+        const {policyId, agentNpn, policyStatus, sourceId, linkingType} = state;
         try {
             const reverseArray = contact?.phones?.reverse();
             const updateBusinessBookPayload = {
@@ -115,8 +115,8 @@ const ContactListItemButton = ({
     );
 };
 
-export default function ContactSearch({ contacts, onChange, isLoading, state }) {
-    const { callLogId, callFrom } = useParams();
+export default function ContactSearch({contacts, onChange, isLoading, state}) {
+    const {callLogId, callFrom} = useParams();
     const [searchStr, setSearchStr] = useState("");
     const [leadInfo, setLeadInfo] = useState();
 
@@ -125,7 +125,7 @@ export default function ContactSearch({ contacts, onChange, isLoading, state }) 
         if (isLoading) {
             return (
                 <div>
-                    <Spinner />
+                    <Spinner/>
                 </div>
             );
         }
@@ -156,7 +156,7 @@ export default function ContactSearch({ contacts, onChange, isLoading, state }) 
 
     return (
         <div className={styles.searchContainer}>
-            <Heading3 className="pb-1" text="Add to Existing Contact" />
+            <Heading3 className="pb-1" text="Add to Existing Contact"/>
             <SearchInput
                 size="small"
                 fullWidth
@@ -164,7 +164,7 @@ export default function ContactSearch({ contacts, onChange, isLoading, state }) 
                 type="search"
                 endAdornment={
                     <InputAdornment position="end">
-                        <SearchIcon style={{ color: "#0052CE" }} aria-label="search" edge="end"></SearchIcon>
+                        <SearchIcon style={{color: "#0052CE"}} aria-label="search" edge="end"></SearchIcon>
                     </InputAdornment>
                 }
                 onChange={(e) => {

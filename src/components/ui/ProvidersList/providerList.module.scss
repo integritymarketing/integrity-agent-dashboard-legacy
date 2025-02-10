@@ -1,17 +1,17 @@
 .editButton {
-    border-radius: 25px !important;
-    background-color: #fff !important;
-    padding: 5px 20px !important;
-  
-    span {
-      font-size: 14px !important;
-      color: #4178ff !important;
-      font-weight: 500;
-    }
-  
-    &:hover {
-      background: #FFF 0% 0% no-repeat padding-box;
-      box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
-      color: #1357FF !important
-    }
+  border-radius: 25px !important;
+  background-color: #fff !important;
+  padding: 5px 20px !important;
+
+  span {
+    font-size: 14px !important;
+    color: #4178ff !important;
+    font-weight: 500;
   }
+
+  &:hover {
+    background: #FFF 0 0 no-repeat padding-box;
+    box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
+    color: #1357FF !important
+  }
+}

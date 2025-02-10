@@ -74,7 +74,6 @@
 }
 
 
-
 .tabLabel {
   display: flex;
 
@@ -137,7 +136,7 @@
   }
 
   &:hover {
-    background: #FFF 0% 0% no-repeat padding-box;
+    background: #FFF 0 0 no-repeat padding-box;
     border-radius: 20px;
     box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
     color: #1357FF !important

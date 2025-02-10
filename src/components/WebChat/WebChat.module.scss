@@ -151,7 +151,7 @@
   height: 100vh;
   overflow: hidden;
   z-index: 1299;
-  background: #1D3E71B3 0% 0% no-repeat padding-box;
+  background: #1D3E71B3 0 0 no-repeat padding-box;
   animation: expandAnimation 0.3s ease;
 
   @include defines_global.small {
