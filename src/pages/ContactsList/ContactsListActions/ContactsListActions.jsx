@@ -7,12 +7,12 @@ import FilterResultBanner from "./FilterAndSort/FilterResultBanner";
 import { Search } from "./Search";
 import styles from "./styles.module.scss";
 
-function ContactsListActions() {
+function ContactsListActions({ isMobile }) {
     return (
         <Box>
             <Box className={styles.headerWrapper}>
                 <Box display="flex" alignItems="flex-end" gap="15px" width="100%">
-                    <Search />
+                    <Search isMobile={isMobile} />
                     <Export />
                     <Delete />
                 </Box>

@@ -1,3 +1,5 @@
+@import "../../../../scss/globalDefines.scss";
+
 .searchInput {
     width: 100%;
 
@@ -50,4 +52,32 @@
     width: 310px;
     height: 52px;
     cursor: not-allowed;
+}
+
+.clearIcon {
+    display: none;
+    @include small {
+        width: 30px;
+        height: 24px;
+        font-size: 20px;
+        background-color: transparent;
+        border: none;
+        font-size: 16px;
+        font-weight: 600;
+        color: #6e6e6e;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+}
+
+.clearIcon:hover {
+    opacity: 1;
+    color: black;
+}
+
+.clearIcon:focus {
+    outline: none;
 }

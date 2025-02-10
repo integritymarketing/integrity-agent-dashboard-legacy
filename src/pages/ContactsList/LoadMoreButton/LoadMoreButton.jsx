@@ -8,13 +8,14 @@ import styles from "./styles.module.scss";
 import { useContactsListContext } from "../providers/ContactsListProvider";
 
 function LoadMoreButton() {
-    const { fetchMoreContactsByPage, pageResult, layout } = useContactsListContext();
+    const { fetchMoreContactsByPage, pageResult, layout, isFetchingTableData, isStartedSearching, selectedSearchLead } =
+        useContactsListContext();
 
     const onLoadMoreHandle = () => {
         fetchMoreContactsByPage();
     };
 
-    if (pageResult?.totalPages <= 1) {
+    if (pageResult?.totalPages <= 1 || isFetchingTableData || isStartedSearching || selectedSearchLead) {
         return <></>;
     }
 

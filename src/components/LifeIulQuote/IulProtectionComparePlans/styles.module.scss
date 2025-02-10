@@ -28,7 +28,7 @@
 
   @include defines_global.small {
     overflow-x: auto;
-    & > div > div {
+    & > div:first-child > div {
       width: 1000px;
     }
   }

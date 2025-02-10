@@ -55,7 +55,7 @@ export const ContactsListProvider = ({ children }) => {
     const location = useLocation();
     const {
         tableData: tableDataFromHook,
-        isLoading: isfetchingTableData,
+        isLoading: isFetchingTableData,
         fetchTableData,
         allLeads,
         fetchTableDataWithoutFilters,
@@ -179,7 +179,7 @@ export const ContactsListProvider = ({ children }) => {
             filterConditions,
             setFilterConditions,
             setSelectAllContacts,
-            isfetchingTableData,
+            isFetchingTableData,
             setIsStartedSearching,
             isStartedSearching,
             tableDataFromHook,
@@ -215,7 +215,7 @@ export const ContactsListProvider = ({ children }) => {
             filterConditions,
             setFilterConditions,
             setSelectAllContacts,
-            isfetchingTableData,
+            isFetchingTableData,
             setIsStartedSearching,
             isStartedSearching,
             tableDataFromHook,
@@ -236,6 +236,7 @@ export const ContactsListProvider = ({ children }) => {
                 selectedFilterSections,
                 filterSectionsConfig,
                 isSilent: true,
+                returnAll: isStartedSearching,
             })
                 .then(() => {
                     setPageIndex(INITIAL_PAGE_NUMBER);
@@ -245,7 +246,7 @@ export const ContactsListProvider = ({ children }) => {
                     console.error("Error during initial fetch", error);
                 });
         }
-    }, [fetchTableData, searchString, location.search, sort, layout]);
+    }, [fetchTableData, searchString, location.search, sort, layout, isStartedSearching]);
 
     return <ContactsListContext.Provider value={contextValue}>{children}</ContactsListContext.Provider>;
 };

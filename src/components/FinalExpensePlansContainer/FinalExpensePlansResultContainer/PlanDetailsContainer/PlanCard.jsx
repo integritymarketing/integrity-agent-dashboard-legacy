@@ -69,11 +69,19 @@ export const PlanCard = ({
     const [enrollResponse, setEnrollResponse] = useState(null);
     const [isLoadingEnroll, setIsLoadingEnroll] = useState(false);
     const [isFinalExpenseErrorModalOpen, setIsFinalExpenseErrorModalOpen] = useState(false);
+    const [latestWritingAgentNumber, setLatestWritingAgentNumber] = useState(null);
+
     useEffect(() => {
         if (isPrescreenModalOpen) {
             lifeQuotePrescreeningEvent("Final Expense Prescreening Notes Viewed");
         }
     }, [isPrescreenModalOpen, contactId]);
+
+    useEffect(() => {
+        if (writingAgentNumber) {
+            setLatestWritingAgentNumber(writingAgentNumber);
+        }
+    }, [writingAgentNumber]);
 
     const lifeQuotePrescreeningEvent = (eventName) => {
         fireEvent(eventName, {
@@ -99,10 +107,10 @@ export const PlanCard = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                        ? ["My Appointed Products"]
-                        : isShowExcludedProducts
-                            ? ["Show Excluded Products"]
-                            : [],
+                      ? ["My Appointed Products"]
+                      : isShowExcludedProducts
+                        ? ["Show Excluded Products"]
+                        : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -143,15 +151,16 @@ export const PlanCard = ({
         }
     };
 
-    const onApply = async (producerId, apiErrorState = false) => {
+    const onApply = async (producerId, onSuccess, apiErrorState = false) => {
         try {
             let writingAgentNumberToSend;
             setIsLoadingEnroll(true);
             if (!apiErrorState) {
-                writingAgentNumberToSend = writingAgentNumber ?? producerId;
+                writingAgentNumberToSend = latestWritingAgentNumber ?? producerId;
             } else {
                 writingAgentNumberToSend = producerId;
             }
+            setLatestWritingAgentNumber(writingAgentNumberToSend);
             const body = getPlanEnrollBody(
                 writingAgentNumberToSend,
                 agentFirstName,
@@ -172,7 +181,7 @@ export const PlanCard = ({
                 return false;
             }
 
-            if (!response?.success && response?.status === 500) {
+            if (!response?.success && (response?.status === 500 || response?.status === 503)) {
                 setEnrollResponse({ ...response, statusCode: 500 });
                 return false;
             }
@@ -184,6 +193,10 @@ export const PlanCard = ({
 
             if (response?.isSso) {
                 lifeQuoteCallEvent(response?.success);
+            }
+
+            if (onSuccess) {
+                await onSuccess();
             }
 
             if (response.redirectUrl) {
@@ -322,7 +335,7 @@ export const PlanCard = ({
                     resourceUrl={resource_url}
                     onApply={onApply}
                     fetchPlans={fetchPlans}
-                    writingAgentNumber={writingAgentNumber}
+                    writingAgentNumber={latestWritingAgentNumber}
                     setIsSingleSignOnInitialModalOpen={setIsSingleSignOnInitialModalOpen}
                 />
                 {isLoadingEnroll && (

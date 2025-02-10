@@ -15,6 +15,7 @@ const Textfield = ({
     className = "",
     auxLink = null,
     inputClassName = "",
+    iconClassName = "",
     wrapperProps = {},
     error = null,
     success: hasSuccess = false,
@@ -83,6 +84,11 @@ const Textfield = ({
                     {type === "text" && isMobile && onClear && value && (
                         <button className="clear-btn" onClick={onClear}>
                             Clear
+                        </button>
+                    )}
+                    {type === "search" && isMobile && onClear && value && (
+                        <button className={iconClassName} onClick={onClear}>
+                            x
                         </button>
                     )}
                     {type === "text" && isMobile && onReset && (

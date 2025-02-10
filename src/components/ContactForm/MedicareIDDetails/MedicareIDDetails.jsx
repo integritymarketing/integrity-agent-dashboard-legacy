@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import { TextInput } from "components/MuiComponents";
 import styles from "./MedicareIDDetails.module.scss";
@@ -6,7 +6,8 @@ import { formatMbiNumber } from "../../../utils/shared-utils/sharedUtility";
 import DatePickerMUI from "../../DatePicker";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarDays, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faDatePicker } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
 import Box from "@mui/material/Box";
 
 const MedicareIDDetails = ({ formik }) => {
@@ -14,6 +15,13 @@ const MedicareIDDetails = ({ formik }) => {
     const [calendarPartBOpen, setCalendarPartBOpen] = useState(false);
 
     const { errors, values, handleChange, handleBlur, setFieldValue, validateField } = formik;
+
+    useEffect(() => {
+        if (values?.medicareBeneficiaryID?.length === 11) {
+            validateField("medicareBeneficiaryID");
+        }
+    }, [values]);
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -27,21 +35,13 @@ const MedicareIDDetails = ({ formik }) => {
                     onChange={(event) => {
                         const { value } = event.target;
                         const formattedMBI = formatMbiNumber(value);
-                        setFieldValue("medicareBeneficiaryID", formattedMBI);
-                        if (value.length === 11) {
-                            validateField("medicareBeneficiaryID");
-                        }
-                        handleChange(event);
-                    }}
-                    onKeyDown={(event) => {
-                        const { value } = event.target;
-                        const mbi = value.replace(/-/g, "");
-                        if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(event.key)) {
+                        const mbi = formattedMBI.replace(/-/g, "");
+                        if (mbi.length > 11) {
+                            event.preventDefault();
                             return;
                         }
-                        if (mbi.length >= 11) {
-                            event.preventDefault();
-                        }
+                        setFieldValue("medicareBeneficiaryID", formattedMBI);
+                        handleChange(event);
                     }}
                     onBlur={(e) => {
                         handleBlur(e);
@@ -74,7 +74,7 @@ const MedicareIDDetails = ({ formik }) => {
                             <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                         </Box>
                     }
-                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#4178FF" size={"2xl"} />}
+                    startAdornment={<FontAwesomeIcon icon={faDatePicker} color="#4178FF" size={"2xl"} />}
                     className={styles.datePicker}
                 />
             </Grid>
@@ -96,7 +96,7 @@ const MedicareIDDetails = ({ formik }) => {
                             <FontAwesomeIcon icon={faChevronDown} color="#4178FF" size={"lg"} />
                         </Box>
                     }
-                    startAdornment={<FontAwesomeIcon icon={faCalendarDays} color="#4178FF" size={"2xl"} />}
+                    startAdornment={<FontAwesomeIcon icon={faDatePicker} color="#4178FF" size={"2xl"} />}
                     className={styles.datePicker}
                 />
             </Grid>

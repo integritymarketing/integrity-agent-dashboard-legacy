@@ -105,7 +105,7 @@ export default forwardRef(function PlanDetailsScrollNav(
     }, [refs, isScrolling, activeSectionID, setIsScrolling]);
 
     return (
-        <div className={"scroll-nav"}>
+        <div className={"scroll-nav"} width={quoteType !== "IUL Details Page" ? "100%" : "262px"}>
             <div className={"navigation-container"}>
                 <ul className={quoteType === "IUL Details Page" ? "navigation3" : "navigation2"}>{navElements}</ul>
             </div>

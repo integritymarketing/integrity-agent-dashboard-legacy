@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { useState } from "react";
 
 import PropTypes from "prop-types";
@@ -15,8 +14,8 @@ import Spinner from "components/ui/Spinner";
 
 import { StyledButton, StyledButton2 } from "pages/FinalExpensesPage/Components/StyledComponents";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleArrowRight} from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleArrowRight } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 
 import styles from "./index.module.scss";
 
@@ -92,8 +91,9 @@ export const SingleSignOnModal = ({
 
             const response = await addSALifeRecord(payload, true);
             if (response.ok) {
-                await onApply(producerId, true);
-                await fetchPlans();
+                handleClose();
+                setIsContinuing(false);
+                await onApply(producerId, true, fetchPlans);
             }
             if (response.status === 400) {
                 setIsContinuing(false);
@@ -101,7 +101,7 @@ export const SingleSignOnModal = ({
                 handleClose();
                 showToast({
                     type: "error",
-                    message: e.message || "An error occurred",
+                    message: "An error occurred",
                     time: 10000,
                 });
             }
@@ -111,22 +111,26 @@ export const SingleSignOnModal = ({
                 message: e.message || "An error occurred",
                 time: 10000,
             });
-        } finally {
             setIsContinuing(false);
             handleClose();
-            setIsContinuing(false);
         }
     };
 
     const onContinueWithoutIdHandle = () => {
-        handleClose();
-        window.open(resourceUrl, "_blank");
+        fetchPlans(); // Refresh plans first
+
+        setTimeout(() => {
+            window.open(resourceUrl, "_blank"); // Open carrier website after a slight delay
+        }, 1000);
     };
 
     return (
         <Modal
             open={isOpen}
-            onClose={handleClose}
+            onClose={() => {
+                handleClose();
+                fetchPlans();
+            }}
             title="Producer ID Not Recognized"
             size="wide"
             hideFooter
@@ -156,14 +160,20 @@ export const SingleSignOnModal = ({
                             </Box>
                             <StyledButton onClick={onContinueWithIdHandle} disabled={shouldDisable}>
                                 <span>Continue with Producers ID</span>
-                                <FontAwesomeIcon icon={faCircleArrowRight} size={"xl"}/>
+                                <FontAwesomeIcon icon={faCircleArrowRight} size={"xl"} />
                             </StyledButton>
 
                             <StyledButton2 onClick={onContinueWithoutIdHandle} width="60%">
                                 <span>View Carrier Website</span>
-                                <FontAwesomeIcon icon={faCircleArrowRight} size={"xl"}/>
+                                <FontAwesomeIcon icon={faCircleArrowRight} size={"xl"} />
                             </StyledButton2>
-                            <Box className={styles.link} onClick={handleClose}>
+                            <Box
+                                className={styles.link}
+                                onClick={() => {
+                                    handleClose();
+                                    fetchPlans();
+                                }}
+                            >
                                 Cancel
                             </Box>
                         </Box>

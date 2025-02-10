@@ -27,21 +27,27 @@ const AddressDetails = ({ formik }) => {
         (values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0) ||
         (values.address.postalCode > 0 && values.address.postalCode.length < 5);
 
-    const countyName = allCounties[0]?.value;
-    const countyFipsName = allCounties[0]?.key;
-    const stateCodeName = allStates[0]?.value;
+    useEffect(() => {
+        if (!loadingCountyAndState) {
+            if (allCounties.length === 1) {
+                setFieldValue("address.county", allCounties[0].value);
+                setFieldValue("address.countyFips", allCounties[0].key);
+            }
+            if (allStates.length === 1) {
+                setFieldValue("address.stateCode", allStates[0].value);
+            }
+        }
+    }, [loadingCountyAndState]);
 
-    if (
-        allCounties.length === 1 &&
-        countyName !== values.address.county &&
-        countyFipsName !== values.address.countyFips
-    ) {
-        setFieldValue("address.county", allCounties[0].value);
-        setFieldValue("address.countyFips", allCounties[0].key);
-    }
-    if (allStates.length === 1 && stateCodeName !== values.address.stateCode) {
-        setFieldValue("address.stateCode", allStates[0].value);
-    }
+    useEffect(() => {
+        if (allCounties.length > 0 && values?.address?.stateCode) {
+            const countiesForState = allCounties.filter((county) => county.state === values.address.stateCode);
+            if (countiesForState.length === 1) {
+                setFieldValue("address.county", countiesForState[0].value);
+                setFieldValue("address.countyFips", countiesForState[0].key);
+            }
+        }
+    }, [allStates, allCounties, values]);
 
     return (
         <Grid container spacing={2}>
@@ -186,11 +192,14 @@ const AddressDetails = ({ formik }) => {
                         )}
                     >
                         {allCounties.length > 0 &&
-                            allCounties.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
+                            allCounties.map(
+                                (option) =>
+                                    option.state === values.address.stateCode && (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ),
+                            )}
                     </Select>
                 </FormControl>
             </Grid>

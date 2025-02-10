@@ -6,14 +6,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useLifeIulQuote } from "providers/Life";
 
 import styles from "./styles.module.scss";
+import { useLeadDetails } from "providers/ContactDetails";
+import useAgentInformationByID from "hooks/useAgentInformationByID";
+import WithLoader from "components/ui/WithLoader";
+import * as Sentry from "@sentry/react";
 
 const IulProtectionComparePlans = () => {
     const [results, setResults] = useState([]);
     const { planIds: comparePlanIds, contactId } = useParams();
     const planIds = useMemo(() => comparePlanIds.split(","), [comparePlanIds]);
+    const [disabledPlans, setDisabledPlans] = useState({});
+    const { leadDetails } = useLeadDetails();
+    const { agentInformation } = useAgentInformationByID();
     const comparePlansSessionData = sessionStorage.getItem("iul-compare-plans");
     const comparePlans = JSON.parse(comparePlansSessionData);
-    const { fetchLifeIulQuoteDetails } = useLifeIulQuote();
+    const { fetchLifeIulQuoteDetails, handleIULQuoteApplyClick, isLoadingApplyLifeIulQuote } = useLifeIulQuote();
     const navigate = useNavigate();
 
     const getPlanDetails = useCallback(async () => {
@@ -104,17 +111,49 @@ const IulProtectionComparePlans = () => {
         navigate(`/life/iul-protection/${contactId}/quote?preserveSelected=true`);
     };
 
+    const handleApplyClick = async (plan) => {
+        const planData = comparePlans.find((p) => p.policyDetailId === plan.id);
+        const emailAddress = leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
+        const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
+
+        setDisabledPlans((prev) => ({ ...prev, [plan.id]: true }));
+
+        try {
+            await handleIULQuoteApplyClick(
+                {
+                    ...planData,
+                    ...agentInformation,
+                    ...leadDetails,
+                    emailAddress,
+                    phoneNumber,
+                },
+                contactId,
+            );
+        } catch (error) {
+            Sentry.captureException(error);
+        } finally {
+            setDisabledPlans((prev) => ({ ...prev, [plan.id]: false }));
+        }
+    };
+
     return (
         <IulQuoteContainer title="IUL Protection" page="plan compare page" quoteType="protection">
             <Grid container gap={3}>
-                <Grid item md={12} className={styles.planCompareHeader}>
+                <Grid item md={12} className={styles.planCompareHeader} sx={{ position: "relative" }}>
                     <CompareHeader
+                        handleApplyClick={handleApplyClick}
+                        applyButtonDisabled={isLoadingApplyLifeIulQuote}
                         headerCategory="IUL_PROTECTION"
                         IULProtectionPlans={plansData}
                         onClose={handleComparePlanRemove}
                         shareComparePlanModal={handleShareModal}
                         returnBackToPlansPage={returnBackToPlansPage}
                     />
+                    {isLoadingApplyLifeIulQuote && (
+                        <Box sx={{ position: "absolute", top: 0, left: "50%" }}>
+                            <WithLoader className="spinner-container" isLoading={isLoadingApplyLifeIulQuote} />
+                        </Box>
+                    )}
                 </Grid>
                 {features?.length > 0 && (
                     <Grid item md={12} className={styles.productFeature}>

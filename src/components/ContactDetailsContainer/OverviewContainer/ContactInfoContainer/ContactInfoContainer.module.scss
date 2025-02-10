@@ -1,6 +1,5 @@
 @use "scss/globalDefines" as defines_global;
 
-
 .miniContainer {
     display: flex;
     flex-direction: column;
@@ -8,6 +7,13 @@
     @include defines_global.small {
         flex-direction: row;
         gap: 24px;
+    }
+}
+
+.contact-address--zip {
+    width: 9rem;
+    @include small {
+        width: 16rem;
     }
 }
 
@@ -65,7 +71,7 @@
     }
 
     span {
-        color: #1457FF;
+        color: #1457ff;
         font-weight: 600;
         display: flex;
         gap: 5px;
@@ -80,7 +86,7 @@
 .dateAlignment {
     display: flex;
     justify-content: flex-start;
-    gap: 2rem
+    gap: 2rem;
 }
 
 .buttonContainer {
@@ -130,14 +136,12 @@
     }
 }
 
-
 .miniCard {
     width: 100%;
 
     @include defines_global.small {
         width: 50%;
     }
-
 }
 
 .icon {
@@ -173,7 +177,7 @@
     gap: var(--gap-md-16, 16px);
     align-self: stretch;
     border-radius: 8px;
-    background: var(--background-paper-elevation-0, #FFF);
+    background: var(--background-paper-elevation-0, #fff);
 
     .specialAssistanceFormWrapper {
         display: flex;
@@ -206,8 +210,10 @@
     }
 
     .specialAssistanceHeader {
-        color: var(--Integrity-navy-default, #052A63);
-        font-feature-settings: 'liga' off, 'clig' off;
+        color: var(--Integrity-navy-default, #052a63);
+        font-feature-settings:
+            "liga" off,
+            "clig" off;
 
         /* table/header */
         font-family: Lato;
