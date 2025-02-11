@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import { Grid, Typography } from "@mui/material";
 import { TextInput } from "components/MuiComponents";
 import PropTypes from "prop-types";
@@ -6,12 +6,55 @@ import { SelectableButtonGroup } from "@integritymarketing/clients-ui-kit";
 import styles from "./CommunicationDetails.module.scss";
 
 const CommunicationDetails = ({ formik }) => {
-    const { touched, errors, values, handleChange, handleBlur, submitCount, setFieldValue } = formik;
-    const valueOptions = { Email: "email", Phone: "phone" };
+    const { touched, errors, values, handleChange, handleBlur, submitCount, setFieldValue, setTouched } = formik;
+    const { email, primaryCommunication, phones } = values;
+    const leadPhone = phones?.leadPhone || "";
 
     const emailFieldRef = useRef(null);
     const phoneFieldRef = useRef(null);
-    const fieldRefs = { Email: emailFieldRef, Phone: phoneFieldRef };
+    const fieldRefs = { email: emailFieldRef, phone: phoneFieldRef };
+
+    // Auto-update primaryCommunication if valid input is detected
+    useEffect(() => {
+        if (email && !leadPhone) {
+            setFieldValue("primaryCommunication", "email");
+        } else if (!email && leadPhone) {
+            setFieldValue("primaryCommunication", "phone");
+        }
+    }, [email, leadPhone, setFieldValue]);
+
+    // Handle field change with useCallback
+    const handleFieldChange = useCallback(
+        (ev) => {
+            handleChange(ev);
+        },
+        [handleChange]
+    );
+
+    // Handle primary communication selection
+    const handlePrimarySelect = useCallback(
+        (selected) => {
+            const selectedValue = selected.toLowerCase();
+            setFieldValue("primaryCommunication", selectedValue);
+            if (fieldRefs[selectedValue]?.current) {
+                fieldRefs[selectedValue].current.focus();
+            }
+
+            // Mark the respective field as touched when switching
+            if (selectedValue === "phone") {
+                setTouched({
+                    phones: { leadPhone: true },
+                    email: false, // Reset email touched state
+                });
+            } else {
+                setTouched({
+                    email: true,
+                    phones: { leadPhone: false }, // Reset phone touched state
+                });
+            }
+        },
+        [setFieldValue, setTouched]
+    );
 
     return (
         <Grid container spacing={2}>
@@ -22,13 +65,10 @@ const CommunicationDetails = ({ formik }) => {
                     fullWidth
                     type="email"
                     name="email"
-                    value={values.email}
-                    onChange={(ev) => {
-                        setFieldValue("primaryCommunication", "email");
-                        handleChange(ev);
-                    }}
+                    value={email}
+                    onChange={handleFieldChange}
                     onBlur={handleBlur}
-                    error={touched.email && errors.email}
+                    error={errors.email}
                 />
                 {errors.email && (
                     <Typography variant="body2" color="error" mt={0.5}>
@@ -46,13 +86,10 @@ const CommunicationDetails = ({ formik }) => {
                     inputProps={{ maxLength: 10 }}
                     placeholder="###-###-####"
                     name="phones.leadPhone"
-                    value={(values.phones.leadPhone) || ""}
-                    onChange={(ev) => {
-                        setFieldValue("primaryCommunication", "phone");
-                        handleChange(ev);
-                    }}
+                    value={leadPhone}
+                    onChange={handleFieldChange}
                     onBlur={handleBlur}
-                    error={touched.phones?.leadPhone && errors.phones?.leadPhone}
+                    error={errors.phones?.leadPhone}
                 />
                 {errors.phones?.leadPhone && (
                     <Typography variant="body2" color="error" mt={0.5}>
@@ -60,23 +97,17 @@ const CommunicationDetails = ({ formik }) => {
                     </Typography>
                 )}
             </Grid>
+
             <Grid item xs={12}>
                 <Typography variant="h5" color="#052a63" marginBottom={0.5}>
                     Primary Contact Method*
                 </Typography>
                 <SelectableButtonGroup
-                    buttonOptions={Object.keys(valueOptions)}
-                    buttonClassNames={Object.keys(valueOptions).map((option) =>
-                        valueOptions[option] === values.primaryCommunication
-                            ? [styles.selectedOption]
-                            : [styles.nonSelectedOption]
+                    buttonOptions={["Email", "Phone"]}
+                    buttonClassNames={["email", "phone"].map((option) =>
+                        option === primaryCommunication ? [styles.selectedOption] : [styles.nonSelectedOption]
                     )}
-                    onSelect={(selected) => {
-                        if (fieldRefs[selected].current) {
-                            fieldRefs[selected].current.focus();
-                        }
-                        setFieldValue("primaryCommunication", valueOptions[selected]);
-                    }}
+                    onSelect={handlePrimarySelect}
                 />
                 {(touched.primaryCommunication || submitCount > 0) && errors.primaryCommunication && (
                     <Typography variant="body2" color="error" mt={0.5}>
@@ -89,7 +120,16 @@ const CommunicationDetails = ({ formik }) => {
 };
 
 CommunicationDetails.propTypes = {
-    formik: PropTypes.object.isRequired,
+    formik: PropTypes.shape({
+        touched: PropTypes.object.isRequired,
+        errors: PropTypes.object.isRequired,
+        values: PropTypes.object.isRequired,
+        handleChange: PropTypes.func.isRequired,
+        handleBlur: PropTypes.func.isRequired,
+        submitCount: PropTypes.number.isRequired,
+        setFieldValue: PropTypes.func.isRequired,
+        setTouched: PropTypes.func.isRequired,
+    }).isRequired,
 };
 
 export default CommunicationDetails;
