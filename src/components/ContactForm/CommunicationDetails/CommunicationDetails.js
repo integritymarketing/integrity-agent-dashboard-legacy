@@ -1,7 +1,6 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Grid, Typography } from "@mui/material";
 import { TextInput } from "components/MuiComponents";
-import { formatPhoneNumber } from "../../../utils/phones";
 import PropTypes from "prop-types";
 import { SelectableButtonGroup } from "@integritymarketing/clients-ui-kit";
 import styles from "./CommunicationDetails.module.scss";
@@ -47,7 +46,7 @@ const CommunicationDetails = ({ formik }) => {
                     inputProps={{ maxLength: 10 }}
                     placeholder="###-###-####"
                     name="phones.leadPhone"
-                    value={formatPhoneNumber(values.phones.leadPhone) || ""}
+                    value={(values.phones.leadPhone) || ""}
                     onChange={(ev) => {
                         setFieldValue("primaryCommunication", "phone");
                         handleChange(ev);
