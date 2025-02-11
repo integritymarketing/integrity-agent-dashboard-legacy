@@ -1,145 +1,150 @@
-@import "src/scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .callScript {
-    height: 22px;
-    width: 22px;
+  height: 22px;
+  width: 22px;
 }
 
 .outerContainer {
-    display: flex;
-    justify-content: center;
-    background-color: #f1f1f1;
-    padding: 56px 24px;
-    .innerContainer {
-        width: 320px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: auto;
-        gap: 2rem;
+  display: flex;
+  justify-content: center;
+  background-color: #f1f1f1;
+  padding: 56px 24px;
 
-        .medContent {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+  .innerContainer {
+    width: 320px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    gap: 2rem;
+
+    .medContent {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+  }
 }
 
 .searchContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .contactsListContainer {
+    margin-top: 24px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    overflow-y: auto;
+    max-height: 350px;
+    width: 288px;
 
-    .contactsListContainer {
-        margin-top: 24px;
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-        max-height: 350px;
-        width: 288px;
-        .contactItem {
-            background-color: #ffffff;
-        }
-
-        .emptyList {
-            height: auto;
-            min-height: 100px;
-            width: 288px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #dddddd;
-            border-radius: 4px;
-        }
+    .contactItem {
+      background-color: #fff;
     }
+
+    .emptyList {
+      height: auto;
+      min-height: 100px;
+      width: 288px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #ddd;
+      border-radius: 4px;
+    }
+  }
 }
 
 .headerSection {
-    background: #ffffff 0% 0% no-repeat padding-box;
-    box-shadow: inset 0px -1px 0px #c7ccd1;
+  background: #fff 0 0 no-repeat padding-box;
+  box-shadow: inset 0 -1px 0 #c7ccd1;
 }
 
 .contactName {
-    padding: 4px 8px;
-    width: 100%;
-    cursor: pointer;
+  padding: 4px 8px;
+  width: 100%;
+  cursor: pointer;
 
-    &:hover {
-        background-color: #f1faff;
-    }
+  &:hover {
+    background-color: #f1faff;
+  }
 }
+
 .possibleMatch {
-    .matchList {
-        .matchItem {
-            margin-top: 8px;
-            padding: 14px 16px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+  .matchList {
+    .matchItem {
+      margin-top: 8px;
+      padding: 14px 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
     }
+  }
 }
 
 .callRecording {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    .content {
-        color: #051d43;
-        font-size: 16px;
-    }
-    .mt10 {
-        margin-top: 10px;
-    }
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .content {
+    color: #051d43;
+    font-size: 16px;
+  }
+
+  .mt10 {
+    margin-top: 10px;
+  }
 }
 
 .divider {
-    margin: 0px 16px;
-    border-right: 1px solid #434a51;
+  margin: 0 16px;
+  border-right: 1px solid #434a51;
 }
 
 .linkToContactSection {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
-    background-color: #ffffff;
-    padding: 16px;
-    border-radius: 8px;
-    margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 4px;
 }
 
 .createNewContact {
-    margin: 32px 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  margin: 32px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .smsContent {
-    padding: 24px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    margin-top: 8px;
-    margin-bottom: 24px;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-top: 8px;
+  margin-bottom: 24px;
 }
 
 .tagsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
 }
 
 .tagsListContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  width: 100%;
 }

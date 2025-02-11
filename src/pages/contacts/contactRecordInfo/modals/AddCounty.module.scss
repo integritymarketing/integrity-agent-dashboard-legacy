@@ -6,17 +6,15 @@
   justify-content: center;
   align-items: center;
   z-index: 30 !important;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: #051d43b3;
 }
+
 .modal {
   width: 328px;
   border-radius: 8px;
   background-color: #f4f8fb;
-  box-shadow: 0px 0px 6px #00000029;
+  box-shadow: 0 0 6px #00000029;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,6 +22,7 @@
   gap: 16px;
   position: relative;
 }
+
 .modalTitle {
   text-align: left;
   letter-spacing: 0.32px;
@@ -32,6 +31,7 @@
   font-size: 32px;
   font-weight: 500;
 }
+
 .closeBtn {
   width: 24px;
   height: 24px;
@@ -40,15 +40,18 @@
   top: 16px;
   stroke: #0052ce;
 }
+
 .closeBtn :hover {
   stroke: #2175f4;
 }
+
 .subText {
   font-size: 16px;
   text-align: left;
   color: #434a51;
   margin-top: -16px;
 }
+
 .inputContainer {
   display: flex;
   flex-direction: column;
@@ -59,49 +62,53 @@
   font-weight: 500;
   width: 100%;
 }
+
 .input {
-  padding: 10px 16px 10px 16px;
+  padding: 10px 16px;
   width: 108px;
   height: 40px;
   border-radius: 4px;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  border: 1px solid #cccccc;
-  color: #ffffff;
+  background: #fff 0 0 no-repeat padding-box;
+  border: 1px solid #ccc;
   font-size: 16px;
   color: #051d43;
   font-weight: 500;
 }
+
 .submit {
   width: 120px;
   height: 40px;
   background-color: #0052ce;
-  padding: 10px 27px 10px 27px;
-  color: #ffffff;
+  padding: 10px 27px;
+  color: #fff;
   font-size: 16px;
   font-weight: 500;
   margin-top: 8px;
   border-radius: 4px;
 }
+
 .submit:hover {
   background-color: #2175f4;
 }
+
 .buttonWrapper {
   display: flex;
   width: 100%;
   justify-content: right;
 }
+
 .countyOptions {
   display: flex;
-  flex-direction: column;
+  flex-flow: column wrap;
   width: 100%;
-  flex-wrap: wrap;
   gap: 8px;
 }
+
 .cancel {
   width: 120px;
   height: 40px;
   background-color: transparent;
-  padding: 10px 27px 10px 27px;
+  padding: 10px 27px;
   border: #0052ce 1px solid;
   color: #0052ce;
   font-size: 16px;
@@ -112,10 +119,12 @@
   justify-content: center;
   align-items: center;
 }
+
 .cancel:hover {
   border-color: #2175f4;
   color: #0052ce;
 }
+
 .addressWrapper {
   display: flex;
   justify-content: space-between;
@@ -126,9 +135,10 @@
   font-weight: 500;
   padding: 8px;
   gap: 33px;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
 }
+
 .copy,
 .copied {
   width: 32px;
@@ -142,5 +152,5 @@
 }
 
 .copied {
-  background-color: rgb(173, 173, 194);
+  background-color: rgb(173 173 194);
 }

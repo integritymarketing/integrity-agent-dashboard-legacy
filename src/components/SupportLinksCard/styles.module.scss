@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .supportLinksContainer {
     display: flex;
@@ -18,7 +18,7 @@
     flex-direction: row;
     align-items: center;
 
-    @include small {
+    @include defines_global.small {
         margin-left: 1.5rem;
         margin-right: 1.5rem;
         flex-direction: column;
@@ -34,23 +34,24 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    margin: 8px 0px;
-    background-color: #ffffff;
+    margin: 8px 0;
+    background-color: #fff;
     border-radius: 8px;
     width:400px;
 }
+
 .cardColumn {
     display: flex;
     align-items: center;
     text-decoration: none;
     margin: 8px 40px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
     width:400px;
 }
 
 .cardContent {
-    padding: 0px 16px;
+    padding: 0 16px;
     color: #434a51;
     font-size: 16px;
 }
@@ -60,7 +61,6 @@
     color: var(--v2-royal-blue);
     cursor: pointer;
     text-decoration: none;
-    font-size: large;
     font-weight: bold;
     font-size: 16px;
 }

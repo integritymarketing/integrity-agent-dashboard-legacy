@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .headerText{
      color: #052A63;
@@ -6,7 +6,7 @@
 }
 
 .leadTagsList{
-    background-color: #FFFFFF;
+    background-color: #FFF;
     border-radius: 8px;
     padding: 24px;
 }
@@ -21,13 +21,15 @@
        color: #4178FF !important;
        font-weight: 500;
    }
+
    &:hover {
-       background-color: #FFFFFF !important;
-       box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+       background-color: #FFF !important;
+       box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
    }
-   @include small {
-       background-color: #FFFFFF !important;
-       box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+
+   @include defines_global.small {
+       background-color: #FFF !important;
+       box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
    }
 }
 
@@ -37,9 +39,11 @@
     display: flex;
     align-items: center;
     gap: 5px;
+
     .chevronIcon {
         cursor: pointer;
     }
+
     .rotateIcon {
         transform: rotate(-90deg);
     }
@@ -54,10 +58,12 @@
     margin-top: 10px;
     border-radius: 4px;
     cursor: pointer;
+
     &:hover {
       background-color: #D9E4FF;
   }
-    @include small {
+
+    @include defines_global.small {
         padding: 4px;
         gap: 2px;
 

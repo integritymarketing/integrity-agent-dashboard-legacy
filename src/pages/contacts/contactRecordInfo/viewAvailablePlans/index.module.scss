@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .viewAvailablePlans {
   width: 24rem;
@@ -9,12 +9,12 @@
   display: flex;
   flex-direction: column;
   z-index: 999;
-  color: #ffffff;
+  color: #fff;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   max-height: 75vh;
 
-  @include small {
+  @include defines_global.small {
     width: 100vw;
     height: 75vh;
     right: 0;

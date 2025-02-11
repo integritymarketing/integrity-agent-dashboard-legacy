@@ -1,5 +1,6 @@
 .button {
   cursor: pointer;
+
   &:not(.button-link) {
     border-radius: 4px;
     display: flex;
@@ -8,30 +9,32 @@
     align-items: center;
     line-height: 1;
     font-size: 1rem;
-
     padding: 11px 20px;
     min-width: 40px;
-
     outline: none;
   }
 
   &.icon-right {
     flex-direction: row-reverse;
+
     & > svg {
       margin-left: 8px;
     }
   }
+
   &.icon-left {
     flex-direction: row;
+
     & > svg {
       margin-right: 8px;
     }
   }
 
   &.icon-only {
-    min-width: 0px;
+    min-width: 0;
+
     & > svg {
-      margin: 0px;
+      margin: 0;
     }
   }
 
@@ -39,32 +42,43 @@
     & > svg {
       stroke: var(--v2-white);
     }
+
     color: var(--v2-white);
+
     &:hover {
       background-color: var(--v2-secondary-blue-600);
     }
+
     &:active {
       background-color: var(--v2-secondary-blue-900);
     }
+
     background-color: var(--v2-royal-blue);
     border: 1px solid var(--v2-royal-blue);
   }
+
   &--secondary {
     color: var(--v2-royal-blue);
+
     & > svg {
       stroke: var(--v2-royal-blue);
     }
+
     &:hover {
       background-color: var(--v2-secondary-blue-200);
     }
+
     &:active {
       background-color: var(--v2-secondary-blue-400);
     }
+
     background-color: var(--v2-white);
     border: 1px solid var(--v2-royal-blue);
   }
+
   &--tertiary {
     color: var(--v2-royal-blue);
+
     // & > svg {
     //   stroke: var(--v2-royal-blue);
     // }

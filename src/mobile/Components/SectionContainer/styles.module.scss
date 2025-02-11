@@ -3,18 +3,19 @@
   flex-direction: column;
   width: 85%;
   margin: auto;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     width: 100%;
   }
 }
 
 .sectionBody {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
   padding: 20px;
 }
 
 .sectionBody2 {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
 }

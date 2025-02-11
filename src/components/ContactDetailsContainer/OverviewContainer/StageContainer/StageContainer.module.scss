@@ -1,17 +1,17 @@
-@import "../../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .stage {
-    padding-bottom: 0px;
+    padding-bottom: 0;
     color: #052A63;
     font-size: 24px;
 
     .box {
         margin-top: 0.5rem;
         padding: 15px;
-        background-color: #ffffff;
+        background-color: #fff;
         border-radius: 8px;
 
-        @include small {
+        @include defines_global.small {
             padding: 16px;
         }
     }

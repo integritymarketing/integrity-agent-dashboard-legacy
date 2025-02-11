@@ -1,7 +1,9 @@
-@import "../../styles/global.scss";
+@use "scss/globalDefines" as defines_global;
+
+;
 
 .icon {
-  background-color: $iconBackgroundColor;
+  background-color: defines_global.$iconBackgroundColor;
   border-radius: 100%;
   height: 65px;
   padding: 15px;

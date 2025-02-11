@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .webchatCenterIconWrapper {
   box-sizing: border-box;
@@ -10,11 +10,11 @@
   display: flex;
   justify-content: center;
 
-  @include medium {
+  @include defines_global.medium {
     width: 24rem;
   }
 
-  @include small {
+  @include defines_global.small {
     width: 100%;
   }
 }
@@ -33,22 +33,21 @@
 }
 
 .suggestedContactsMain {
-  padding: 20px 20px 0 20px;
+  padding: 20px 20px 0;
   box-sizing: border-box;
   background-color: #052A63;
   position: fixed;
   bottom: 75px;
   scrollbar-width: none;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden scroll;
   width: 28rem;
   z-index: 2;
 
-  @include medium {
+  @include defines_global.medium {
     width: 24rem;
   }
 
-  @include small {
+  @include defines_global.small {
     width: 100%;
   }
 }
@@ -57,17 +56,18 @@
   height: 180px;
   box-sizing: border-box;
   background-color: #052A63;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden scroll;
   scrollbar-width: none;
 
   .contactEntry:first-child {
     border-radius: 10px 10px 0 0;
   }
+
   .contactEntry:last-child {
     border-radius: 0 0 10px 10px;
     border-bottom: none;
   }
+
   .contactEntry:only-child {
     border-radius: 10px;
   }
@@ -85,8 +85,8 @@
 .contactDetails {
   display: flex;
   flex-direction: column;
-  color: #ffffff;
-  font-family: "Lato", sans-serif;
+  color: #fff;
+  font-family: Lato, sans-serif;
   gap: 4px;
   width: 80%;
 }
@@ -109,7 +109,7 @@
   max-width: 20vw;
   word-break: break-all;
 
-  @include small {
+  @include defines_global.small {
     max-width: 70vw;
   }
 }
@@ -122,7 +122,7 @@
 .contactValue {
   margin-left: 2px;
   font-style: italic;
-  color: #ffffff;
+  color: #fff;
 }
 
 .iconWrapper {

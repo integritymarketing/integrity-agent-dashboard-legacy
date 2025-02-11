@@ -1,4 +1,4 @@
-@import "../../styles/global.scss";
+@use "scss/globalDefines" as defines_global;;
 
 .listContainer {
   display: flex;
@@ -9,6 +9,7 @@
 
 .listItem {
   @include transitionUp;
+
   opacity: 0;
 
   &.animate {

@@ -1,5 +1,5 @@
 .status-field {
-  &:before {
+  &::before {
     content: "";
     vertical-align: top;
     margin: 0.5rem 0.25rem 0 0;
@@ -10,11 +10,11 @@
     background-color: var(--muted-text-color);
   }
 
-  &--positive:before {
+  &--positive::before {
     background-color: var(--success-state-color);
   }
 
-  &--negative:before {
+  &--negative::before {
     background-color: var(--error-state-color);
   }
 }

@@ -39,7 +39,7 @@
 }
 
 .filterLabelSpan {
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         display: block;
     }
 }

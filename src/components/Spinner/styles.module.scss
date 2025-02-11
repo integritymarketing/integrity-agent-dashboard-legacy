@@ -1,4 +1,4 @@
-@import "../../styles/global.scss";
+@use "scss/globalDefines" as defines_global;;
 
 .dot {
   animation: spinner 1s infinite ease-in-out;
@@ -19,6 +19,7 @@
   0% {
     transform: scale(0);
   }
+
   100% {
     opacity: 0;
     transform: scale(1);

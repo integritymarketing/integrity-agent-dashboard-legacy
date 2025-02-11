@@ -1,5 +1,4 @@
-@import "../../scss/globalDefines.scss";
-@import "../../styles/global.scss";
+@use "scss/globalDefines" as defines_global;;
 
 .counterCard {
   display: flex;
@@ -10,36 +9,44 @@
     font-size: 20px;
     color: #002d72;
     height: 44px;
-    @media (max-width: 768px) {
+
+    @media (width <= 768px) {
       font-size: 14px;
     }
   }
+
   .countInfo {
     display: flex;
     align-items: center;
     height: 88px;
     margin-top: 10px;
     background-color: white;
-    border-radius: 0px 8px 8px 0px;
+    border-radius: 0 8px 8px 0;
     margin-bottom: 20px;
     cursor: pointer;
+
     .countColour {
       width: 10%;
       height: 100%;
-      border-radius: 8px 0px 0px 8px;
+      border-radius: 8px 0 0 8px;
     }
+
     .Started {
       background-color: #deebfb;
     }
+
     .Applied {
       background-color: #fcf6b0;
     }
+
     .Issued {
       background-color: #defbe6;
     }
+
     .Declined {
       background-color: #fbdede;
     }
+
     .count {
       width: 90%;
       text-align: center;
@@ -47,6 +54,7 @@
       font-size: 48px;
     }
   }
+
   .selected::after {
     content: "";
     display: block;
@@ -57,7 +65,7 @@
     border-right: 12px solid transparent;
     border-top: 12px solid white;
   
-    @include mobileOnly {
+    @include defines_global.mobileOnly {
       margin-left: 27px;
       margin-top: 76px;
     }

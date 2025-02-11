@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .finalExpenseContactBar {
     display: flex;
@@ -6,12 +6,12 @@
     justify-content: center;
     width: 100%;
     padding: 24px;
-    background-color: #ffffff;
+    background-color: #fff;
     position: relative;
     height: 88px;
-    box-shadow: inset 0px -1px 0px #dddddd;
+    box-shadow: inset 0 -1px 0 #ddd;
 
-    @include small {
+    @include defines_global.small {
         padding-left: 0;
     }
 
@@ -21,7 +21,7 @@
         top: 18px;
         cursor: pointer;
 
-        @include small {
+        @include defines_global.small {
             position: static;
         }
 
@@ -31,16 +31,16 @@
             font-weight: 500;
 
             &:hover {
-                background-color: #ffffff;
+                background-color: #fff;
                 border-radius: 20px;
-                box-shadow: inset 0px -1px 0px #00000029;
+                box-shadow: inset 0 -1px 0 #00000029;
             }
 
             span {
                 margin-left: 10px;
             }
 
-            @include small {
+            @include defines_global.small {
                 padding: 11px 15px !important
             }
         }
@@ -53,7 +53,7 @@
         justify-content: center;
         width: 40%;
 
-        @include small {
+        @include defines_global.small {
             width: 100%;
         }
 

@@ -1,16 +1,16 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .headerStyle {
     position: relative;
     flex-direction: column;
-    color: white;
+    color: defines_global.$white;
     background-color: #052a63;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.25rem;
     z-index: 9;
-    box-shadow: 2px 12px 8px 0px #072a6396;
+    box-shadow: 2px 12px 8px 0 #072a6396;
 
     .headerText {
         position: relative;
@@ -34,10 +34,11 @@
         cursor: pointer;
     }
 
-    @include small {
-        padding: 1rem;
-        padding-top: 0;
+    @include defines_global.small {
+        padding: 0 1rem 1rem;
     }
+
+y
 
     .hideIcon {
         position: absolute;
@@ -50,7 +51,8 @@
 
 .header {
     @extend .headerStyle;
-    padding: 0rem 1.5rem 2rem 1.5rem;
+
+    padding: 0 1.5rem 2rem;
 }
 
 .contactHeader {
@@ -71,9 +73,11 @@
         cursor: pointer;
     }
 }
+
 .backButton {
     min-width: 88;
 }
+
 .infoIcon {
     min-width: 88px;
     display: flex;

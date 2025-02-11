@@ -1,7 +1,7 @@
 import useFetch from "../useFetch";
 
 const useLinkContact = () => {
-    const url = `${process.env.REACT_APP_BOOKOFBUSINESS_API}`;
+    const url = `${import.meta.env.VITE_BOOKOFBUSINESS_API}`;
     const { Put, loading, error } = useFetch(url);
 
     const linkContact = async (leadIdParam, state) => {

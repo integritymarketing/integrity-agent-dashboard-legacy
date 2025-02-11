@@ -1,5 +1,7 @@
-@import "../../styles/global.scss";
+@use "scss/globalDefines" as defines_global;
+
+;
 
 .transitionUp {
-  @include transitionUp;
+  @include defines_global.transitionUp;
 }

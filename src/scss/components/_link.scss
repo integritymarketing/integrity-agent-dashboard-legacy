@@ -8,6 +8,7 @@
   padding-bottom: 7px;
   padding: 0;
   text-decoration: none;
+
   &:hover,
   &--body {
     color: var(--brand-text-hover-color);
@@ -19,7 +20,7 @@
     &:hover {
       border-color: #0052ce;
       border-style: solid;
-      border-width: 0 0 2px 0;
+      border-width: 0 0 2px;
       padding-bottom: 5px;
       color: var(--invert-text-color);
     }
@@ -57,5 +58,5 @@
   border-color: #0052ce;
   padding-bottom: 5px;
   border-style: solid;
-  border-width: 0 0 2px 0;
+  border-width: 0 0 2px;
 }

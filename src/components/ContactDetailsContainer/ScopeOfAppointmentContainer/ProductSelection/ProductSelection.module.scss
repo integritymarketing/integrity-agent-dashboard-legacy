@@ -1,4 +1,4 @@
- @import "../../../../scss/globalDefines.scss";
+ @use "scss/globalDefines" as defines_global;
 
 .selectPdtContainer {
     background: #F1F1F1;
@@ -6,7 +6,7 @@
     padding: 24px;
     margin: 33px 0;
 
-    @include small {
+    @include defines_global.small {
         background: #F1FAFF;
      }
 
@@ -29,6 +29,6 @@
     }
 
     .products {
-        padding: 8px 0 0 0;
+        padding: 8px 0 0;
     }
 }

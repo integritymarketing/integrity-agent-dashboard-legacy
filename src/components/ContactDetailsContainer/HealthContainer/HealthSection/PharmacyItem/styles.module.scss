@@ -1,97 +1,97 @@
-@import "../../../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .wrapper {
-    width: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 5px;
+
+  @include defines_global.small {
+    flex-direction: row;
+  }
+
+  .info {
+    .name {
+      color: #052a63;
+      font-size: 20px;
+    }
+
+    .phone {
+      color: #717171;
+      font-size: 14px;
+    }
+
+    .phoneBox {
+      display: flex;
+      justify-content: space-between;
+      padding-right: 10px;
+      align-items: center;
+
+      .editButton {
+        padding: 0 !important;
+      }
+    }
+
+    width: 20%;
+
+    @include defines_global.small {
+      width: 100%;
+    }
+  }
+
+  .address {
+    background-color: #f1faff;
+    padding: 9px 16px;
+    color: #717171;
+    font-size: 14px;
     display: flex;
+    gap: 10px;
     align-items: center;
+    width: 60%;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 5px;
 
-    @include small {
-        flex-direction: row;
+    @include defines_global.small {
+      width: 100%;
+      flex-direction: column;
+      align-items: start;
     }
 
-    .info {
-        .name {
-            color: #052a63;
-            font-size: 20px;
-        }
-
-        .phone {
-            color: #717171;
-            font-size: 14px;
-        }
-
-        .phoneBox {
-            display: flex;
-            justify-content: space-between;
-            padding-right: 10px;
-            align-items: center;
-
-            .editButton {
-                padding: 0 !important;
-            }
-        }
-
-        width: 20%;
-
-        @include small {
-            width: 100%;
-        }
+    .primaryTag {
+      margin-left: 0;
     }
-
-    .address {
-        background-color: #f1faff;
-        padding: 9px 16px;
-        color: #717171;
-        font-size: 14px;
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        width: 60%;
-        justify-content: space-between;
-
-        @include small {
-            width: 100%;
-            flex-direction: column;
-            align-items: start;
-        }
-
-        .primaryTag {
-            margin-left: 0;
-        }
-    }
+  }
 }
 
 .setAsPrimaryButton:not(.button-link) {
-    padding: 0px;
+  padding: 0;
 }
 
 .primaryTag {
-    margin-left: 10px;
-    border-radius: 4px !important;
+  margin-left: 10px;
+  border-radius: 4px !important;
 }
 
 .editButton {
-    border-radius: 25px !important;
-    background-color: #ffffff !important;
-    padding: 5px 20px !important;
+  border-radius: 25px !important;
+  background-color: #fff !important;
+  padding: 5px 20px !important;
 
-    span {
-        font-size: 14px;
-        color: #4178ff;
-        font-weight: 500;
-    }
+  span {
+    font-size: 14px;
+    color: #4178ff;
+    font-weight: 500;
+  }
 
-    &:hover {
-        background: #ffffff 0% 0% no-repeat padding-box;
-        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
-        color: #1357ff;
-    }
+  &:hover {
+    background: #fff 0 0 no-repeat padding-box;
+    box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
+    color: #1357ff;
+  }
 
-    @include small {
-        position: relative;
-        left: 10px;
-    }
+  @include defines_global.small {
+    position: relative;
+    left: 10px;
+  }
 }

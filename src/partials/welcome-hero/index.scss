@@ -5,26 +5,33 @@
   align-items: center;
   position: relative;
   color: #2b323b;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     height: 679px;
   }
+
   .globalNav--absolute {
     position: absolute;
     top: 0;
     left: 0;
+
     .global-nav__title {
       margin: 0 auto;
+
       a {
         margin: 0;
       }
-      @media (min-width: 425px) {
+
+      @media (width >= 425px) {
         margin: 0 auto 0 0;
+
         a {
           margin-left: -1rem;
         }
       }
     }
   }
+
   .container--hero {
     align-items: center;
     display: flex;
@@ -34,6 +41,7 @@
     opacity: 0.9;
     padding-bottom: 80px;
     padding-top: 80px;
+
     &__content {
       align-items: center;
       display: flex;
@@ -43,23 +51,28 @@
       opacity: 0;
       top: 500px;
       transition: all 1s ease-out;
-      @media (min-width: 425px) {
-        background-color: #ffffff;
+
+      @media (width >= 425px) {
+        background-color: #fff;
         mix-blend-mode: normal;
         border-radius: 8px;
         padding-bottom: 2rem;
         padding-top: 2rem;
       }
-      @media (max-width: 480px) {
+
+      @media (width <= 480px) {
         background-color: initial;
       }
-      @media (min-width: 768px) {
+
+      @media (width >= 768px) {
         max-width: 700px;
       }
-      @media (min-width: 1024px) {
+
+      @media (width >= 1024px) {
         max-width: 935px;
       }
     }
+
     .login-btn {
       margin-top: 32px;
       padding: 12px 20px;
@@ -69,6 +82,7 @@
       border-radius: 4px;
     }
   }
+
   .welcomeHero__content {
     max-width: 640px;
     font-size: 18px;
@@ -76,6 +90,7 @@
     align-items: center;
     margin-left: 115px;
     margin-right: 128px;
+
     .crm-quote-enroll {
       margin: auto 10px;
       color: #64748b;
@@ -83,71 +98,85 @@
       font-size: 16px;
       letter-spacing: 0.04em;
     }
+
     .crm-quote-enroll-border {
       width: 124px;
       height: 1px;
       background-color: #64748b;
     }
-    @media (min-width: 425px) {
+
+    @media (width >= 425px) {
       font-size: 1.125rem;
       padding-top: 1rem;
       padding-bottom: 1rem;
     }
-    @media (min-width: 768px) {
+
+    @media (width >= 768px) {
       font-size: 1.125rem;
       max-width: 900px;
       padding-left: 3.4rem;
       padding-right: 3.4rem;
     }
-    @media (max-width: 480px) {
-      margin: 0px 2.4rem;
+
+    @media (width <= 480px) {
+      margin: 0 2.4rem;
       line-height: 28px;
       flex-direction: column;
+
       .crm-quote-enroll {
         margin: 16px auto;
       }
     }
   }
+
   .p-1 {
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
       margin-bottom: 10px;
     }
   }
+
   .slidein {
     opacity: 1;
     top: 300px;
     position: absolute;
-    @media (max-width: 480px) {
+
+    @media (width <= 480px) {
       top: 80px;
     }
   }
+
   .welcomeHero__title {
     font-size: 3rem;
     font-weight: 300;
-    @media (min-width: 425px) {
+
+    @media (width >= 425px) {
       font-size: 2.5rem;
       margin-left: 2.4rem;
       margin-right: 2.4rem;
       font-weight: 300;
       line-height: 58px;
     }
-    @media (max-width: 480px) {
+
+    @media (width <= 480px) {
       font-size: 2.5rem;
       line-height: initial;
       margin-bottom: 32px;
     }
-    @media (min-width: 1024px) {
+
+    @media (width >= 1024px) {
       font-size: 3rem;
       margin-left: 3.4rem;
       margin-right: 3.4rem;
     }
   }
+
   .btn {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
     min-width: 200px;
     justify-content: center;
+
     .icon-right {
       margin-left: 1rem;
     }

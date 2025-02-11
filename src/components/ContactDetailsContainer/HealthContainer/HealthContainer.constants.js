@@ -17,4 +17,4 @@ export const CANCEL = "Cancel";
 export const SAVE = "Save";
 export const UPDATED = "Updated: ";
 export const MMDDYY = "MM-dd-yy"
-export const UPDATE_LEAD_DETAILS = `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads/`
+export const UPDATE_LEAD_DETAILS = `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads/`

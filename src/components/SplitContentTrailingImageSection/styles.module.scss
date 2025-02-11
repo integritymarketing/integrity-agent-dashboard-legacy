@@ -1,4 +1,6 @@
-@import "../../styles/global.scss";
+@use "scss/globalDefines" as defines_global;
+
+;
 
 .container {
   display: flex;
@@ -8,7 +10,7 @@
   justify-content: center;
   width: 100%;
 
-  @include tabletAndAbove {
+  @include defines_global.tabletAndAbove {
     gap: 35px;
     padding: 150px 100px 100px;
   }

@@ -1,7 +1,7 @@
-@import "styles/global.scss";
+@use "scss/globalDefines" as defines_global;
 
 .footerText {
-  @include smallerFont;
+  @include defines_global.smallerFont;
 
   color: $footerTextColor;
 }

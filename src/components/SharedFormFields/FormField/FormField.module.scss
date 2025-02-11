@@ -1,4 +1,4 @@
- @import "../../../scss/globalDefines.scss";
+ @use "scss/globalDefines" as defines_global;
 
 
 .inputWrapper {
@@ -15,14 +15,15 @@
             width: 50%;
             padding: 12px 8px;
             font-size: 16px;
-            border: thin solid #DDDDDD;
+            border: thin solid #DDD;
             border-radius: 4px;
 
             &.error {
                 border: thin solid #C74126;   
                 background-color: #FEF2F3;
             }
-            @include small {
+
+            @include defines_global.small {
                 width: 100%;
              }
         }

@@ -7,7 +7,7 @@ class FinalExpenseService extends ClientsService {
     createFinalExpense = async (data) => {
         try {
             const response = await this._clientAPIRequest(
-                `${process.env.REACT_APP_QUOTE_URL}/api/${LEADS_API_VERSION}/FinalExpenses/Create`,
+                `${import.meta.env.VITE_QUOTE_URL}/api/${LEADS_API_VERSION}/FinalExpenses/Create`,
                 "POST",
                 data
             );
@@ -21,7 +21,7 @@ class FinalExpenseService extends ClientsService {
 
     updateFinalExpense = async (data) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${LEADS_API_VERSION}/FinalExpenses/Update`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${LEADS_API_VERSION}/FinalExpenses/Update`,
             "POST",
             data
         );
@@ -33,7 +33,7 @@ class FinalExpenseService extends ClientsService {
 
     getFinalExpense = async (id) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_QUOTE_URL}/api/${LEADS_API_VERSION}/FinalExpenses/lead/${id}`,
+            `${import.meta.env.VITE_QUOTE_URL}/api/${LEADS_API_VERSION}/FinalExpenses/lead/${id}`,
             "Get"
         );
         if (response.ok) {

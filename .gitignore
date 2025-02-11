@@ -17,6 +17,7 @@ yarn.lock
 # production
 /build
 /buildAuth
+/dist
 
 # misc
 .DS_Store

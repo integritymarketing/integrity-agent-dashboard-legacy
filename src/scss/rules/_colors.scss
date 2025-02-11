@@ -1,38 +1,49 @@
-@import "../defines/colors";
+@use "../defines/colors";
 
 .black {
-  color: $black;
+  color: colors.$black;
 }
+
 .black-background {
-  background-color: $black;
+  background-color: colors.$black;
 }
+
 .black-border {
-  border-color: $black;
+  border-color: colors.$black;
 }
+
 .blue-1 {
-  color: $blue-1;
+  color: colors.$blue-1;
 }
+
 .blue-1-background {
-  background-color: $blue-1;
+  background-color: colors.$blue-1;
 }
+
 .blue-1-border {
-  border-color: $blue-1;
+  border-color: colors.$blue-1;
 }
+
 .blue-1-light {
-  color: $blue-1-light;
+  color: colors.$blue-1-light;
 }
+
 .blue-1-light-background {
-  background-color: $blue-1-light;
+  background-color: colors.$blue-1-light;
 }
+
 .blue-1-light-border {
-  border-color: $blue-1-light;
+  border-color: colors.$blue-1-light;
 }
+
 .blue-2 {
-  color: $blue-2;
+  color: colors.$blue-2;
 }
+
 .blue-2-background {
-  background-color: $blue-2;
+  background-color: colors.$blue-2;
 }
+
 .blue-2-border {
-  border-color: $blue-2;
+  border-color: colors.$blue-2;
 }

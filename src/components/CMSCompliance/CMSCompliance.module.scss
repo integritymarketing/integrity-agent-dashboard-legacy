@@ -2,16 +2,17 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 24px 24px 24px 24px;
+  padding: 24px;
   background: #f2f9ff;
   margin-bottom: 24px;
   border-radius: 8px;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     width: 90%;
     margin: 20px auto;
   }
 }
+
 .cmsTitle {
   font-size: 20px;
   color: #052a63;

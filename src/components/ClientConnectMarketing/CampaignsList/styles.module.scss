@@ -1,5 +1,5 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .campaignsList {
-    padding: 16px 0px 0px 0px;
+    padding: 16px 0 0;
 }

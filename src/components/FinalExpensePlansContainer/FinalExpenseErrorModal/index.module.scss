@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
  .modalContentHeader {
     color: #052a63;
@@ -16,7 +16,7 @@
 }
 
 .modalContent {
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
     padding: 16px;
     margin-top: 10px;
@@ -48,7 +48,8 @@
 .label2 {
     color: #052a63;
     font-weight: bold;
-    @include small {
+
+    @include defines_global.small {
         word-break: break-all;
         width: 85%;
     }

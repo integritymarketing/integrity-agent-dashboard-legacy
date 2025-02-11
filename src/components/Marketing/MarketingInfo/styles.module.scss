@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .infoBox {
     width: 30%;
@@ -8,7 +8,8 @@
     justify-content: center;
     align-items: center;
     margin: auto;
-    @include small {
+
+    @include defines_global.small {
         width: 100%;
     }
 }

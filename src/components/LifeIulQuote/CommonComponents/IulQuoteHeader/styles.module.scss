@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .headerContainer {
     display: flex;
@@ -6,7 +6,7 @@
     align-items: center;
     margin-bottom: 24px;
 
-    @include small {
-        margin-bottom: 0px;
+    @include defines_global.small {
+        margin-bottom: 0;
     }
 }

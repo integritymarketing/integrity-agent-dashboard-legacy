@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .container {
     padding: 56px 24px;
@@ -8,7 +8,7 @@
     flex-direction: column;
     align-items: flex-start;
 
-    @include small {
+    @include defines_global.small {
         width: 100%;
     }
 }
@@ -19,7 +19,7 @@
     width: 100%;
     justify-content: space-between;
 
-    @include small {
+    @include defines_global.small {
         flex-direction: column-reverse;
     }
 }
@@ -30,7 +30,7 @@
     align-items: center;
     gap: 8px;
 
-    @include small {
+    @include defines_global.small {
         justify-content: space-between;
     }
 }
@@ -38,7 +38,7 @@
 .statusIcons {
     display: flex;
 
-    @include small {
+    @include defines_global.small {
         margin-left: auto;
     }
 }
@@ -50,7 +50,7 @@
     align-items: center;
     gap: 16px;
     padding: 24px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
     width: 100%;
     min-height: 374px;
@@ -67,7 +67,7 @@
     justify-content: space-between;
     width: 100%;
 
-    @include small {
+    @include defines_global.small {
         flex-direction: column;
     }
 }
@@ -76,7 +76,8 @@
     display: flex;
     flex-direction: column;
     margin-top: auto;
-    @include small {
+
+    @include defines_global.small {
         position: static;
         margin-top: 10px;
     }
@@ -87,7 +88,8 @@
     flex-direction: column;
     margin-top: auto;
     align-self: end;
-    @include small {
+
+    @include defines_global.small {
         position: static;
         margin-top: 10px;
     }

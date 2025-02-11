@@ -1,15 +1,14 @@
-@import "../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .ContactDetailsContainer {
     display: flex;
-    padding: 0 3rem;
     background-color: #f1f1f1;
     overflow-x: auto;
     justify-content: center;
-    padding: 60px 0px;
+    padding: 60px 0;
 
-    @include small() {
-        padding: 2rem 0px;
+    @include defines_global.small {
+        padding: 2rem 0;
         overflow-x: hidden;
     }
 }

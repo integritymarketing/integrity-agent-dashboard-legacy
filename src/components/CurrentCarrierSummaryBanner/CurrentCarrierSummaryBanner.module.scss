@@ -9,7 +9,7 @@
     align-self: stretch;
     min-height: 48px;
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         width: 90%;
         margin: 20px auto;
         padding: var(--padding-gap-sm-8, 8px) var(--padding-gap-sm-8, 8px) var(--padding-gap-sm-8, 8px) var(--padding-gap-md-16, 16px);
@@ -40,7 +40,7 @@
         min-height: 32px;
         align-items: center;
         align-content: center;
-        gap: var(--none-0, 0px) var(--padding-gap-x-sm-4, 4px);
+        gap: var(--none-0, 0) var(--padding-gap-x-sm-4, 4px);
         align-self: stretch;
         flex-wrap: wrap;
     }

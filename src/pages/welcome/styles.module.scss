@@ -1,4 +1,4 @@
-@import "styles/global.scss";
+@use "scss/globalDefines" as defines_global;
 
 .impactText {
   grid-column: 1/3;

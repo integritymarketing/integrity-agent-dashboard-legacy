@@ -3,11 +3,11 @@
 .searchInput {
     width: 100%;
 
-    @media (min-width: 480px) {
+    @media (width >= 480px) {
         max-width: 328px;
     }
 
-    @media (max-width: 480px) {
+    @media (width <= 480px) {
         input {
             padding: 1.5rem !important;
             padding-left: 0 !important;
@@ -19,11 +19,11 @@
 .popper {
     display: flex;
     flex-direction: column;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
     margin-top: 10px;
-    margin-left: 0px;
+    margin-left: 0;
     max-height: 150px;
     overflow-y: auto;
 }
@@ -39,6 +39,7 @@
     width: 310px;
     height: 52px;
     cursor: pointer;
+
     &:hover {
         background-color: #f1faff;
     }

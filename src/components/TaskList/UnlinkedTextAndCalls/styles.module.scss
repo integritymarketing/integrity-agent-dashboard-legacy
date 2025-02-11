@@ -1,44 +1,53 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .cardContainer {
     background-color: #f1faff;
     border-radius: 8px;
+
     .unlinkedCard {
         border-bottom: 0.5px solid #a6bedb;
         padding: 16px 24px;
+
         .unlinkedCardGridContainer {
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
         .contactInfo {
             display: flex;
             align-items: center;
-            @include small {
+
+            @include defines_global.small {
                 margin-bottom: 24px;
             }
         }
+
         .contactNumber {
             display: flex;
             justify-content: center;
             align-items: flex-start;
             flex-direction: column;
         }
+
         .iconBox {
             display: flex;
             justify-content: center;
             align-items: flex-start;
             margin-right: 10px;
-            @include small {
+
+            @include defines_global.small {
                 margin-right: 16px;
                 margin-top: 16px;
             }
         }
+
         .label {
             color: #052a63;
             margin-right: 8px;
             font-weight: 600;
         }
+
         .phoneNumber {
             color: #4178ff;
             font-weight: 500;
@@ -47,7 +56,7 @@
 }
 
 .linkContactButton {
-    @include small {
+    @include defines_global.small {
         margin-top: 16px;
     }
 }

@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .bannerFilter {
     margin-left: auto;
@@ -16,7 +16,7 @@
     padding: 8px 16px;
     width: 100%;
 
-    @include small {
+    @include defines_global.small {
         flex-direction: column;
         align-items: flex-start;
     }
@@ -27,13 +27,14 @@
     height: 100%;
     background-color: #4178ff;
 }
+
 .divider {
-    border: 1px solid #cccccc;
+    border: 1px solid #ccc;
     height: 30px;
     margin-left: 20px;
     margin-right: 20px;
 
-    @include small {
+    @include defines_global.small {
         display: none;
     }
 }

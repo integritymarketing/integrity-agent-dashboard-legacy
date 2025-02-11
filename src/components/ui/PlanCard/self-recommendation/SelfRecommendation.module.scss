@@ -1,4 +1,4 @@
-@import "../../../../scss/globalDefines";
+@use "scss/globalDefines" as defines_global;
 
 .container {
     display: flex;
@@ -26,7 +26,6 @@
 
             .pill {
                 display: flex;
-                border-radius: 4px;
                 justify-content: center;
                 align-items: center;
                 width: fit-content;
@@ -40,7 +39,7 @@
     }
 }
 
-@include small {
+@include defines_global.small {
     .container {
         gap: 4px;
         padding: 10px;

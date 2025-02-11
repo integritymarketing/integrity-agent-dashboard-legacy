@@ -1,326 +1,342 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .planCardContainer {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
 }
 
 .planHistory {
-    padding-bottom: 1rem;
+  padding-bottom: 1rem;
 }
 
 .planCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px 8px 0 0;
+
+  @include defines_global.small {
+    border-radius: 8px 8px 0 0;
+  }
+
+  .status {
+    text-transform: capitalize;
+    width: fit-content;
+    border-radius: 8px 8px 0 0;
+    align-self: flex-end;
     display: flex;
-    flex-direction: column;
-    border-radius: 8px 8px 0px 0px;
+    align-items: center;
+    gap: 5px;
 
-    @include small {
-        border-radius: 8px 8px 0px 0px;
+    &.pending {
+      background-color: defines_global.$white-1;
     }
 
-    .status {
-        text-transform: capitalize;
-        width: fit-content;
-        border-radius: 8px 8px 0px 0px;
-         align-self: flex-end;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-
-        &.pending {
-            background-color: $white-1;
-        }
-
-        &.submitted {
-            background-color: #fcf6b0;
-        }
-
-        &.rejected {
-            background-color: #fbdede;
-        }
-
-        &.active,
-        &.approved-upcoming {
-            background-color: #defbe6;
-        }
-
-        &.started {
-            background-color: #deebfb;
-        }
-
-        &.declined {
-            background-color: #fbdede;
-        }
+    &.submitted {
+      background-color: #fcf6b0;
     }
 
-    .detailAndDateContainer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 80%;
-        padding: 16px 24px 16px 24px;
-        border-radius: 8px;
-        margin-top: 10px;
-        @include small {
-            flex-direction: column;
-            align-items: flex-start;
-         }
+    &.rejected {
+      background-color: #fbdede;
     }
 
-    .planDetails {
-        background-color: #f1faff;
+    &.active,
+    &.approved-upcoming {
+      background-color: #defbe6;
+    }
+
+    &.started {
+      background-color: #deebfb;
+    }
+
+    &.declined {
+      background-color: #fbdede;
+    }
+  }
+
+  .detailAndDateContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    padding: 16px 24px;
+    border-radius: 8px;
+    margin-top: 10px;
+
+    @include defines_global.small {
+      width: 100%;
+      align-items: flex-start;
+    }
+
+    & {
+      flex-direction: column; // Explicitly scoped
+    }
+
+  }
+
+  .planDetails {
+    background-color: #f1faff;
+    font-size: 16px;
+
+
+    .statusIcon {
+      color: #434A51;
+      margin-right: 10px;
+      background-color: #fff;
+      padding: 7px 8px 2px;
+      border-radius: 35px;
+      width: 40px;
+      height: 40px;
+
+      @include defines_global.small {
+        font-weight: bold;
+      }
+    }
+
+    &.previousYear {
+      background-color: defines_global.$white;
+    }
+
+    @include defines_global.small {
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: row;
+    }
+
+    & {
+      flex-direction: column;
+      justify-content: space-between;
+      display: flex;
+      padding: 24px;
+      border-radius: 8px;
+    }
+
+    .planName {
+      font-size: 20px;
+      color: #052A63;
+      letter-spacing: 0.2px;
+
+      @include defines_global.small {
+        color: #002D72;
+      }
+    }
+
+    .details {
+      gap: 8px;
+      width: 50%;
+
+      .planCompany {
+        color: #052A63;
         font-size: 16px;
+        padding-bottom: 0.5rem;
+      }
 
-      
-        .statusIcon {
-            color: #434A51;
-             margin-right: 10px;
-            background-color: #ffffff;
-            padding: 7px 8px 2px 8px;
-            border-radius: 35px;
-            width: 40px;
-            height: 40px;
-        
-            @include small {
-                font-weight: bold;
-            }
+      .planId {
+        letter-spacing: -0.16px;
+        color: #052A63;
+        font-size: 16px;
+        font-weight: bold;
+
+        @include defines_global.small {
+          padding-bottom: 0.5rem;
         }
 
-        &.previousYear {
-            background-color: $white;
+        span {
+          color: defines_global.$cyan-blue;
         }
+      }
 
-        border-radius: 8px 8px 8px 8px;
-        padding: 24px;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: column;
-
-        @include small {
-            display: flex;
-            align-items: flex-start;
-            flex-wrap: row;
-        }
-
-        .planName {
-            font-size: 20px;
-            color: #052A63;
-            letter-spacing: 0.2px;
- 
-            @include small {
-                color: #002D72;
-            }
-        }
-
-        .details {
-            gap: 8px;
-            width: 50%;
-
-            .planCompany {
-                color: #052A63;
-                font-size: 16px;
-                padding-bottom: 0.5rem;
-            }
-
-            .planId {
-                letter-spacing: -0.16px;
-                color: #052A63;
-                font-size: 16px;
-                font-weight: bold;
-
-                @include small {
-                    padding-bottom: 0.5rem;
-                }
-
-                span {
-                    color: $cyan-blue;
-                }
-            }
-
-            @include small {
-                order: 1;
-                width: 95%;
-            }
-        }
-
-        .dates {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-
-            .date {
-                letter-spacing: 0.16px;
-                color: $dark-blue;
- 
-                span {
-                    color: $cyan-blue;
-                }
-            }
-
-            @include small {
-                 order: 3;
-            }
-        }
-
-        @include small {
-            padding-top: 0.5rem;
-            order: 3;
-        }
+      @include defines_global.small {
+        order: 1;
+        width: 95%;
+      }
     }
 
-    .iconPng {
-        padding: 0;
-        height: 32px;
-        width: 32px;
-    }
+    .dates {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
 
-    .links {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 8px;
+      .date {
+        letter-spacing: 0.16px;
+        color: defines_global.$dark-blue;
 
-        @include small {
-            order: 2;
-            width: 14%;
-            gap: 1rem;
+        span {
+          color: defines_global.$cyan-blue;
         }
+      }
+
+      @include defines_global.small {
+        order: 3;
+      }
     }
+
+    @include defines_global.small {
+      padding-top: 0.5rem;
+      order: 3;
+    }
+  }
+
+  .iconPng {
+    padding: 0;
+    height: 32px;
+    width: 32px;
+  }
+
+  .links {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+
+    @include defines_global.small {
+      order: 2;
+      width: 14%;
+      gap: 1rem;
+    }
+
+    & {
+      flex-direction: column; // Explicitly scoped
+    }
+  }
 }
 
 .policyDetails {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background: #deebfb 0% 0% no-repeat padding-box;
-    border-radius: 0px 0px 8px 8px;
-    padding: 1.5rem;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: #deebfb 0 0 no-repeat padding-box;
+  border-radius: 0 0 8px 8px;
+  padding: 1.5rem;
+  align-items: center;
 
-    &.previousYear {
-        background-color: #ededed;
-    }
+  &.previousYear {
+    background-color: #ededed;
+  }
 
-    @include small {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-     }
+  @include defines_global.small {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 }
 
 .label {
-    letter-spacing: 0.16px;
-    color: #052A63;
-    font-size: 16px;
-    font-weight: bold;
+  letter-spacing: 0.16px;
+  color: #052A63;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .value {
-    letter-spacing: 0.16px;
-    color :#434A51;
-    font-size: 16px;
+  letter-spacing: 0.16px;
+  color: #434A51;
+  font-size: 16px;
 }
 
 .isBordered {
-    border: 1px solid #e0e0e0;
+  border: 1px solid #e0e0e0;
 }
 
 .shareBtn {
-    @include small {
-        font-size: 20px;
-        width: max-content;
-    }
+  @include defines_global.small {
+    font-size: 20px;
+    width: max-content;
+  }
 }
 
 .shareBtnContainer {
-    display: flex;
-    margin-top: 10px;
+  display: flex;
+  margin-top: 10px;
 
-    .shareText {
-        font-size: 16px;
-        font-weight: bold;
-        color: #0052ce;
-        margin-top: 2px;
-        margin-right: 5px;
-    }
+  .shareText {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0052ce;
+    margin-top: 2px;
+    margin-right: 5px;
+  }
 }
 
 .viewButton {
-    border-radius: 25px !important;
-    background-color: #4178ff !important;
-    padding: 5px 20px !important;
+  border-radius: 25px !important;
+  background-color: #4178ff !important;
+  padding: 5px 20px !important;
 
-    span {
-        font-size: 14px !important;
-        color: #ffffff !important;
-        font-weight: 500;
-    }
+  span {
+    font-size: 14px !important;
+    color: #fff !important;
+    font-weight: 500;
+  }
 }
 
 .relinkButton {
-    border-radius: 25px !important;
-    background-color: #ffffff !important;
-    padding: 5px 20px !important;
+  border-radius: 25px !important;
+  background-color: #fff !important;
+  padding: 5px 20px !important;
 
-    span {
-        font-size: 14px !important;
-        color: #4178ff !important;
-        font-weight: 500;
-    }
+  span {
+    font-size: 14px !important;
+    color: #4178ff !important;
+    font-weight: 500;
+  }
 
-    &:hover {
-        border-radius: 20px;
-        box-shadow: inset 0px -1px 0px #dddddd;
-    }
+  &:hover {
+    border-radius: 20px;
+    box-shadow: inset 0 -1px 0 #ddd;
+  }
 }
 
 .detailsContainer {
-    display: flex;
-    justify-content: space-between;
-    @include small {
-        align-items: center;
-        width: 100%;
-    }
-}
+  display: flex;
 
-.statusIconAndPlanNameContainer{
-    display: flex;
+  @include defines_global.small {
     align-items: center;
+    width: 100%;
+  }
+
+  & {
+    justify-content: space-between;
+  }
 }
 
-.statusLabel{
-    color: #052A63;
-    font-size: 16px;
-    font-weight: bold;
+.statusIconAndPlanNameContainer {
+  display: flex;
+  align-items: center;
 }
 
-.statusValue{
-    color: #717171;
-    font-size: 14px;
+.statusLabel {
+  color: #052A63;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.planLabel{
-    color: #052A63;
-    font-size: 16px;
-    font-weight: bold;
-    @include small {
-        margin-top: 5px;
-    }
- }
- 
+.statusValue {
+  color: #717171;
+  font-size: 14px;
+}
+
+.planLabel {
+  color: #052A63;
+  font-size: 16px;
+  font-weight: bold;
+
+  @include defines_global.small {
+    margin-top: 5px;
+  }
+}
+
 .planValue {
-    color :#434A51;
-    font-size: 16px;
- }
+  color: #434A51;
+  font-size: 16px;
+}
 
- .policyHolder{
-    display: flex;
-    gap: 10px;
- }
+.policyHolder {
+  display: flex;
+  gap: 10px;
+}
 
- .policyId {
-    display: flex;
-    gap: 10px;
- }
+.policyId {
+  display: flex;
+  gap: 10px;
+}

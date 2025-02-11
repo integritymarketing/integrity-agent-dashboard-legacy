@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .container {
   .chatIconWrapper {
@@ -41,7 +41,7 @@
       height: 3.5rem;
       margin-top: 4px;
       border-radius: 50%;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 10px rgb(0 0 0 / 20%);
       cursor: pointer;
     }
   }
@@ -58,11 +58,11 @@
     z-index: 1299;
     flex-direction: column;
 
-    @include medium {
+    @include defines_global.medium {
       width: 24rem;
     }
 
-    @include small {
+    @include defines_global.small {
       width: 100vw;
     }
 
@@ -75,12 +75,12 @@
         right: 0;
         width: 28rem;
 
-        @include medium {
+        @include defines_global.medium {
           width: 24rem;
         }
       }
 
-      @include small {
+      @include defines_global.small {
         :global(.webchat__send-box) {
           position: fixed;
           bottom: 0;
@@ -99,11 +99,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0rem 1.5rem 0rem 1.5rem;
+      padding: 0 1.5rem;
       font-size: 1.25rem;
       padding-bottom: 2rem;
       z-index: 9;
-      box-shadow: 2px 12px 8px 0px #072a6396;
+      box-shadow: 2px 12px 8px 0 #072a6396;
 
       .headerText {
         position: relative;
@@ -127,7 +127,7 @@
         cursor: pointer;
       }
 
-      @include small {
+      @include defines_global.small {
         padding: 1rem;
         padding-top: 0;
       }
@@ -151,10 +151,10 @@
   height: 100vh;
   overflow: hidden;
   z-index: 1299;
-  background: #1D3E71B3 0% 0% no-repeat padding-box;
+  background: #1D3E71B3 0 0 no-repeat padding-box;
   animation: expandAnimation 0.3s ease;
 
-  @include small {
+  @include defines_global.small {
     width: 100vw;
   }
 

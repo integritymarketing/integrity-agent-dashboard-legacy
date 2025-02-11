@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .imagePreview {
     display: flex;
@@ -6,7 +6,7 @@
     align-items: center;
     position: relative;
 
-    @include small {
+    @include defines_global.small {
         padding-top: 16px;
     }
 }
@@ -16,7 +16,7 @@
     max-height: 100%;
     object-fit: contain;
 
-    @include small {
+    @include defines_global.small {
         height: 200px;
     }
 }
@@ -27,7 +27,7 @@
     right: 2px;
     cursor: pointer;
 
-    @include small {
+    @include defines_global.small {
         padding: 20px;
     }
 }
@@ -44,11 +44,11 @@
     background-color: currentcolor;
     padding: 16px;
     outline: none;
-
     width: 100%;
     height: 100%;
     overflow: auto;
-    @include small {
+
+    @include defines_global.small {
         width: 80%;
     }
 
@@ -56,7 +56,8 @@
         position: fixed;
         top: 20px;
         right: 20px;
-        background-color: #ffffff;
+        background-color: #fff;
+
         &:hover {
             background-color: #f1f1f1;
         }

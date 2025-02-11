@@ -1,4 +1,5 @@
-@import "src/scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
+@use "sass:color";
 
 .container {
     display: flex;
@@ -9,7 +10,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 16px;
 
-    @include small {
+    @include defines_global.small {
         flex-direction: column;
         align-items: flex-start;
         text-align: left;
@@ -20,7 +21,7 @@
 
 .heading {
     color: #052a63;
-     font-size: 16px;
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: 0;
 }
@@ -29,8 +30,8 @@
     color: #717171;
     font-size: 14px;
     margin-top: 0;
-    
-   @include small {
+
+   @include defines_global.small {
         font-size: 16px;
         margin-top:8px;
     }
@@ -50,14 +51,14 @@
     padding: 8px 20px;
     min-width: 55px;
 
-    &:hover {
-        background: darken(#007bff, 10%);
-    }
+  &:hover {
+    background: color.adjust(#007bff, $lightness: -10%);
+  }
 
     &:focus {
         box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
     }
-     @include small {
+     @include defines_global.small {
         font-size: 14px;
         margin-top:4px;
      }

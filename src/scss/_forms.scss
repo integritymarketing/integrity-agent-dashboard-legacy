@@ -9,9 +9,11 @@
     > * + * {
       margin-top: 1rem;
     }
+
     > * + .form__submit {
       margin-top: 2.5rem;
-      @media screen and (max-width: 480px) {
+
+      @media screen and (width <= 480px) {
         display: flex;
         justify-content: center;
       }
@@ -22,6 +24,7 @@
     }
   }
 }
+
 .label {
   display: block;
   font-size: 1rem;
@@ -118,6 +121,7 @@
     > .form-input__input {
       border-color: var(--error-state-color);
     }
+
     > .form-input__error {
       visibility: visible;
     }
@@ -170,7 +174,7 @@
   .form-input__input {
     background: var(--textfield-invert-bg-color);
     color: var(--invert-text-color);
-    border-color: rgba(255, 255, 255, 0);
+    border-color: rgb(255 255 255 / 0%);
 
     &:focus-within {
       border-color: var(--invert-text-color);
@@ -182,9 +186,10 @@
     }
 
     &:focus-within > input::placeholder {
-      color: #ffffff;
+      color: #fff;
     }
   }
+
   .form-input__icon {
     color: var(--invert-text-color);
   }
@@ -202,6 +207,7 @@
       display: none;
     }
   }
+
   .form-input__input-actions {
     pointer-events: none;
     position: absolute;
@@ -221,7 +227,7 @@
 }
 
 .list-basic {
-  > li:before {
+  > li::before {
     content: "\2022";
     margin-right: 0.25em;
   }
@@ -236,5 +242,5 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-transition-delay: 99999s; // hack to disable MOST of chrome's autofill styling
+  transition-delay: 99999s; // hack to disable MOST of chrome's autofill styling
 }

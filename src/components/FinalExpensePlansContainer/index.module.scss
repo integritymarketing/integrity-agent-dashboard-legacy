@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .FinalExpenseContainer {
     display: flex;

@@ -35,12 +35,12 @@
     }
   */
 
-  &:hover:not(.btn--disabled):not([disabled]) {
+  &:hover:not(.btn--disabled, [disabled]) {
     background-color: var(--brand-bg-hover-color);
     border-color: var(--brand-bg-hover-color);
   }
 
-  &:active:not(.btn--disabled):not([disabled]) {
+  &:active:not(.btn--disabled, [disabled]) {
     box-shadow: var(--shadow-default);
   }
 
@@ -62,12 +62,12 @@
   color: var(--brand-text-color);
   background-color: var(--main-bg-color);
 
-  &:hover:not(.btn--disabled):not([disabled]) {
+  &:hover:not(.btn--disabled, [disabled]) {
     background-color: var(--main-bg-color);
     color: var(--brand-text-hover-color);
   }
 
-  &:active:not(.btn--disabled):not([disabled]) {
+  &:active:not(.btn--disabled, [disabled]) {
     border-color: var(--main-text-color);
     color: var(--main-text-color);
   }
@@ -85,7 +85,7 @@
   background-color: var(--main-bg-color);
   border-color: var(--main-bg-color);
 
-  &:hover:not(.btn--disabled):not([disabled]) {
+  &:hover:not(.btn--disabled, [disabled]) {
     background-color: var(--disabled-color);
     border-color: var(--disabled-color);
     color: var(--neutral-text-color);
@@ -104,7 +104,7 @@
   background-color: var(--error-state-color);
   border-color: var(--error-state-color);
 
-  &:hover:not(.btn--disabled):not([disabled]) {
+  &:hover:not(.btn--disabled, [disabled]) {
     background-color: var(--error-confirm-state-color);
     border-color: var(--error-confirm-state-color);
   }
@@ -150,7 +150,8 @@
     color: var(--v2-disabled-button-text);
     cursor: not-allowed;
   }
-  @media screen and (max-width: 480px) {
+
+  @media screen and (width <= 480px) {
     padding-left: 4.5rem;
     padding-right: 4.5rem;
   }

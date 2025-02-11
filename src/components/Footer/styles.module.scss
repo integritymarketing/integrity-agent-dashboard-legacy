@@ -16,16 +16,19 @@
 
     .footerLinks > *::after {
         content: " ";
+
         /* 4 */
         letter-spacing: 1em;
+
         /* 5 */
         background: linear-gradient(
             90deg,
             transparent calc(50% - 0.03125em),
-            currentColor 0,
-            currentColor calc(50% + 0.03125em),
+            currentcolor 0,
+            currentcolor calc(50% + 0.03125em),
             transparent 0
         );
+
         /* 6 */
     }
 

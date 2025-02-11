@@ -88,7 +88,7 @@ export default function PlusMenu() {
                         onClick={() => {
                             window.open(
                                 `${
-                                    process.env.REACT_APP_AUTH0_LEADS_REDIRECT_URI
+                                    import.meta.env.VITE_AUTH0_LEADS_REDIRECT_URI
                                 }/LeadCenterSSO/?redirectTo=${encodeURIComponent("campaigns")}`,
                                 "_blank"
                             );

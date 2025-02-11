@@ -16,6 +16,7 @@
     font-size: 20px;
     word-wrap: break-word;
 }
+
 .mobile {
     color: #4178ff;
     font-size: 14px;
@@ -44,15 +45,18 @@
         font-size: 16px;
         color: #434a51;
     }
+
     .atText {
         margin: 2px;
     }
 }
+
 .completeBtn {
     border-radius: 50px !important;
     background-color: #4178ff;
     padding: 8px 10px 8px 2px;
 }
+
 .disabled {
     pointer-events: none;
     background-color: #b3c9ff;
@@ -62,6 +66,7 @@
 .mobileIcon .completeBtn {
     padding: 0;
     height: 40px;
+
     svg {
         margin: 0;
     }

@@ -1,8 +1,8 @@
-@import "../../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .callHistoryContainer {
     display: flex;
-    padding: var(--none-0, 0px);
+    padding: var(--none-0, 0);
     flex-direction: column;
     align-items: center;
     gap: var(--padding-gap-lg-24, 24px);
@@ -14,9 +14,8 @@
         display: flex;
         width: min(100%, 560px);
         margin-inline: auto;
-        justify-content: space-between;
+        place-content: center space-between;
         align-items: center;
-        align-content: center;
         row-gap: var(--padding-gap-md-16, 16px);
         align-self: stretch;
         flex-wrap: wrap;
@@ -45,7 +44,7 @@
                 .makeCallButtonLabel {
                     display: flex;
                     height: 24px;
-                    padding: var(--none-0, 0px) var(--padding-gap-sm-8, 8px);
+                    padding: var(--none-0, 0) var(--padding-gap-sm-8, 8px);
                     justify-content: center;
                     align-items: center;
                     gap: -6px;
@@ -57,7 +56,7 @@
     .columnView {
         flex-direction: column;
 
-        @include small() {
+        @include defines_global.small {
             padding: 1rem 0;
             flex-direction: row;
         }

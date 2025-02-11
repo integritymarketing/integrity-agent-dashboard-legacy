@@ -4,18 +4,18 @@
 # AEPortal API calls + 'self' hosted assets: *.integritymarketinggroup.com *.medicarecenter.com *.sentry.io
 
 [[headers]]
-  for = "/apple-app-site-association"
-  [headers.values]
-    Cache-Control = "public, max-age=0"
-    Content-Type = "application/json"
-    X-Content-Type-Options = "nosniff"
+for = "/apple-app-site-association"
+[headers.values]
+Cache-Control = "public, max-age=0"
+Content-Type = "application/json"
+X-Content-Type-Options = "nosniff"
 
 [[headers]]
-  for = "/.well-known/apple-app-site-association"
-  [headers.values]
-    Cache-Control = "public, max-age=0"
-    Content-Type = "application/json"
-    X-Content-Type-Options = "nosniff"
+for = "/.well-known/apple-app-site-association"
+[headers.values]
+Cache-Control = "public, max-age=0"
+Content-Type = "application/json"
+X-Content-Type-Options = "nosniff"
 
 [[headers]]
   for = "/*"
@@ -27,39 +27,38 @@
     X-XSS-Protection = "1; mode=block"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200
 
 # Set non-sensitive env variables
 # that live across all envs for simplicity here
 # all URIs and env specific configs live in the Netlify environment UI configs
 [build.environment]
-  REACT_APP_AUTH_CLIENT_ID = "AEPortal"
-  REACT_APP_AUTH_SCOPES = "openid profile email IdentityServerApi LeadsAPI_Full phone roles QuoteService_Full NotificationService_Full AgentService_Full EnrollmentService_Full CommunicationService_Full offline_access"
-  REACT_APP_AUTH_RESPONSE_TYPE = "code"
-  REACT_APP_RESOURCES_URL = "https://learningcenter.tawebhost.com"
-  CI = "false"
-  SONAR_TOKEN = "c5b57574634c68650a60ad457028606ce8adcbd3"
-  SONAR_PROJECT_KEY = "ae-consumer-platform"
-  SONAR_ORG_KEY = "integritymarketing"
+REACT_APP_AUTH_CLIENT_ID = "AEPortal"
+REACT_APP_AUTH_SCOPES = "openid profile email IdentityServerApi LeadsAPI_Full phone roles QuoteService_Full NotificationService_Full AgentService_Full EnrollmentService_Full CommunicationService_Full offline_access"
+REACT_APP_AUTH_RESPONSE_TYPE = "code"
+REACT_APP_RESOURCES_URL = "https://learningcenter.tawebhost.com"
+CI = "false"
 
-# Custom prebuild plugin to set version number ENV var from package.json
+# Custom prebuild plugin to set version number ENV var from package.json & java added for sonar
 [[plugins]]
-  package = "./plugins/netlify/prebuild-set-version-number"
+package = "./plugins/netlify/prebuild-set-version-number"
 
 # Sentry build plugin
 [[plugins]]
-  package = "@sentry/netlify-build-plugin"
-  [plugins.inputs]
-    sentryOrg = "integrity-marketing-org"
-    sentryProject = "ae-agent-portal"
+package = "@sentry/netlify-build-plugin"
+[plugins.inputs]
+sentryOrg = "integrity-marketing-org"
+sentryProject = "ae-agent-portal"
 
 # Sentry is enabled for develop, qa, stage, prod
 # Since all sites have the context of 'production' for each release
 # error scoping is controlled with the REACT_APP_BUILD_ENV variable
 # (to remove sentry errors from branch or preview deployments)
 [context.production.environment]
-  REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442"
-  REACT_APP_SENTRY_AUTH_DSN = "https://788e98ba6d4b4114adaa443bbf8a49bc@o417296.ingest.sentry.io/5408350"
-  
+REACT_APP_SENTRY_DSN = "https://86b930f07e574397aa97843af29bd366@o417296.ingest.sentry.io/5316442"
+REACT_APP_SENTRY_AUTH_DSN = "https://788e98ba6d4b4114adaa443bbf8a49bc@o417296.ingest.sentry.io/5408350"
+
+[build]
+command = "yarn build"

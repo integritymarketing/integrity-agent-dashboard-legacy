@@ -9,7 +9,7 @@ const flattenMBI = (mbi) => {
 };
 
 const useAddNewContact = () => {
-    const url = `${process.env.REACT_APP_LEADS_URL}/api/v2.0/Leads`;
+    const url = `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads`;
     const { Post, loading, error } = useFetch(url);
 
     const addNewContact = async (contact) => {

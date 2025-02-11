@@ -1,13 +1,14 @@
 .filterTitle {
     margin-bottom: 16px;
 }
+
 .filterContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
     padding: 16px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
     gap: 24px;
 
@@ -21,7 +22,7 @@
 
     .radioOption {
         label {
-            margin: 0px 0px 8px 0px;
+            margin: 0 0 8px;
         }
     }
 }

@@ -1,8 +1,8 @@
-@import "../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .strong {
-  color: $black;
-  font-size: $font-size-16;
+  color: defines_global.$black;
+  font-size: defines_global.$font-size-16;
   font-weight: bold;
-  line-height: $line-height-20;
+  line-height: defines_global.$line-height-20;
 }

@@ -1,4 +1,4 @@
-@import "../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .wrapper {
     display: flex;
@@ -21,5 +21,5 @@
     font-weight: bold;
     text-align: left;
     letter-spacing: 0.16px;
-    color: $white;
+    color: defines_global.$white;
 }

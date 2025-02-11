@@ -1,4 +1,4 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .shoppersCard {
     display: flex;
@@ -7,7 +7,7 @@
     align-items: flex-start;
     align-self: stretch;
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: #fff;
 
     .iconWrapper {
         background: #f1faff;
@@ -36,7 +36,7 @@
         width: 100%;
         margin-top: 16px;
 
-        @include small {
+        @include defines_global.small {
             flex-direction: column;
             align-items: flex-start;
         }

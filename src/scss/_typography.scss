@@ -137,13 +137,13 @@
     margin: 0 0 0 2.5rem;
   }
 
-  &--dark:before,
-  &--dark:after {
-    border-top-color: currentColor;
+  &--dark::before,
+  &--dark::after {
+    border-top-color: currentcolor;
   }
 
-  &--short:before,
-  &--short:after {
+  &--short::before,
+  &--short::after {
     max-width: 100px;
   }
 }
@@ -156,7 +156,7 @@
 }
 
 // Small Form Factor Utils
-@media (max-width: 767px) {
+@media (width <= 767px) {
   .sf-text-center {
     text-align: center;
   }
@@ -170,6 +170,7 @@
   > * + * {
     margin-top: var(--fixed-space-3);
   }
+
   > * + h3 {
     margin-top: var(--fixed-space-4);
   }

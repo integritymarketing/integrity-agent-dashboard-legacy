@@ -1,8 +1,8 @@
 import useFetch from "../useFetch";
 
 const useAssignLead = () => {
-    const smsUrl = `${process.env.REACT_APP_CALL_RECORDINGS_URL}/api/v1.0/OutboundSmsRecord`;
-    const callUrl = `${process.env.REACT_APP_CALL_RECORDINGS_URL}/api/v1.0/InboundCallRecord`;
+    const smsUrl = `${import.meta.env.VITE_CALL_RECORDINGS_URL}/api/v1.0/OutboundSmsRecord`;
+    const callUrl = `${import.meta.env.VITE_CALL_RECORDINGS_URL}/api/v1.0/InboundCallRecord`;
     const { Post: postSms, loading: smsLoading, error: smsError } = useFetch(smsUrl);
     const { Post: postCall, loading: callLoading, error: callError } = useFetch(callUrl);
 

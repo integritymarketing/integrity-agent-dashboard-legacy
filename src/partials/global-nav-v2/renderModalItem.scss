@@ -1,17 +1,21 @@
 .modalBox {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 0 0 8px 8px;
 }
+
 .callCenter-h {
   height: 120px;
   margin-top: 16px;
 }
+
 .leadType-h {
   height: 190px;
 }
+
 .leadSource-h {
   height: 190px;
 }
+
 .main-h {
   height: 100%;
 }
@@ -35,6 +39,7 @@
 .bg {
   background-color: #f1faff;
 }
+
 .bb {
   border-bottom: 1px solid #ccc;
 }
@@ -42,7 +47,7 @@
 .modalItemTextStyle {
   margin-left: 14px;
   width: 190px;
-  color: #000000;
+  color: #000;
 }
 
 .editPhone {
@@ -61,6 +66,7 @@
   width: 190px;
   color: #434a51;
 }
+
 .modal-lead-source {
   display: flex;
   align-items: center;
@@ -74,6 +80,7 @@
 .span_title {
   font-weight: 900;
 }
+
 .span_source-title {
   font-weight: normal;
 }
@@ -94,6 +101,7 @@
   color: #717171;
   margin-left: 5px;
 }
+
 .span_source_type {
   color: #717171;
   margin-left: 2px;

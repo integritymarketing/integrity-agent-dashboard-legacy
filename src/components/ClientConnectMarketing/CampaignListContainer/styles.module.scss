@@ -1,8 +1,8 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .campaignListContainer {
     padding: 16px 24px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
     width: 100%;
 }

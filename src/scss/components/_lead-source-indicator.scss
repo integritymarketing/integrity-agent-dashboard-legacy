@@ -18,6 +18,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
   @extend %dot-default;
 
   &-new {
@@ -40,7 +41,7 @@
     transition: visibility 500ms;
     user-select: none;
     color: var(--neutral-text-color);
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 
     .statusDot {
       @extend %dot-default;
@@ -50,7 +51,8 @@
       }
     }
   }
-  .tooltip:before {
+
+  .tooltip::before {
     content: "";
     position: absolute;
     bottom: -9px;

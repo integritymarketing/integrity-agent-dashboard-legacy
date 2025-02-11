@@ -1,13 +1,13 @@
-@import "../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .container {
     margin-bottom: 40px;
     min-height: calc(100vh - 300px);
-    background: #ffffff;
+    background: #fff;
     border-radius: 8px;
     max-height: 100%;
 
-    @include small {
+    @include defines_global.small {
         background: transparent;
         border-radius: 0;
     }
@@ -16,7 +16,7 @@
 .clientsColumn {
     padding-right: 30px;
 
-    @include small {
+    @include defines_global.small {
         display: none;
     }
 }
@@ -26,11 +26,11 @@
 }
 
 .mapColumn {
-    padding: 0px !important;
+    padding: 0 !important;
 }
 
 .card {
-    background: #ffffff;
+    background: #fff;
     border-radius: 8px;
 }
 

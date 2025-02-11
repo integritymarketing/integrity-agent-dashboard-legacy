@@ -32,6 +32,7 @@
 
 .agentDetailRow {
     margin-bottom: 15px;
+
     svg {
         cursor: pointer;
     }
@@ -60,6 +61,7 @@ button.viewContactButton:not(.button-link) {
 
 .disabled {
     filter: grayscale(1);
+
     svg {
         cursor: not-allowed;
     }
@@ -68,6 +70,7 @@ button.viewContactButton:not(.button-link) {
 .iconStyle {
     width: 34px;
     height: 40px;
+
     svg {
         background-color: #f1faff;
         border-radius: 100px;

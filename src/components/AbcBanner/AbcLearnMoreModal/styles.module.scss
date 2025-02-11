@@ -12,14 +12,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     img {
         width: 220px;
         height: 40px;
     }
 }
+
 .divider {
-    margin: 24px 0px;
-    border-bottom: 1px solid #cccccc;
+    margin: 24px 0;
+    border-bottom: 1px solid #ccc;
 }
 
 .customBorderButton {

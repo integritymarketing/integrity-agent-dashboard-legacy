@@ -15,7 +15,7 @@
     .footerBanners {
         width: 60%;
 
-        @media (max-width: 480px) {
+        @media (width <= 480px) {
             width: 80%;
         }
     }

@@ -7,7 +7,7 @@
     margin-left: auto;
   }
 
-  @media (max-width: 599px) {
+  @media (width <= 599px) {
     &--stack {
       flex-wrap: wrap;
 
@@ -24,6 +24,7 @@
 .bar {
   --bar-spacing-horiz: var(--fixed-space-2);
   --bar-spacing-vert: var(--fixed-space-1);
+
   max-width: calc(100% + var(--bar-spacing-horiz));
   display: flex;
   align-items: center;
@@ -33,6 +34,7 @@
   > * {
     flex: 0 1 auto;
   }
+
   > :not(.bar) {
     padding-left: var(--bar-spacing-horiz);
     padding-top: var(--bar-spacing-vert);
@@ -48,6 +50,7 @@
   > * {
     margin-right: auto;
   }
+
   > :last-child {
     margin-right: 0;
   }
@@ -68,7 +71,7 @@
 //   flex-wrap: wrap;
 // }
 
-@media (max-width: 599px) {
+@media (width <= 599px) {
   .bar--collapse-mobile {
     > * {
       margin-right: 0;

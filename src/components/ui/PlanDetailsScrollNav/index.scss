@@ -1,99 +1,100 @@
 .scroll-nav {
-    flex-grow: 1;
-    position: sticky;
-    top: 0px;
-    z-index: 1;
+  flex-grow: 1;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 
-    .navigation2 {
-        .nav-header {
-            font-weight: normal;
-            font-size: 24px;
-            line-height: 130%;
-            color: #052a63;
-            margin-bottom: 16px;
-            letter-spacing: 0.18px;
-        }
-
-        li {
-            font-family: Lato;
-            font-style: normal;
-            font-weight: normal;
-            font-size: 18px;
-            line-height: 130%;
-            cursor: pointer;
-            color: #434a51;
-            margin-bottom: 16px;
-            margin-left: 18px;
-
-            &.selected {
-                font-family: Lato;
-                font-style: normal;
-                font-size: 18px;
-                line-height: 130%;
-                padding-left: 16px;
-                border-left: 4px solid #4178ff;
-                color: #4178ff;
-            }
-        }
+  .navigation2 {
+    .nav-header {
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 130%;
+      color: #052a63;
+      margin-bottom: 16px;
+      letter-spacing: 0.18px;
     }
 
-    .navigation3 {
-        .nav-header {
-            font-weight: normal;
-            font-size: 24px;
-            line-height: 130%;
-            color: #052a63;
-            margin-bottom: 16px;
-            letter-spacing: 0.18px;
-        }
+    li {
+      font-family: Lato, sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 130%;
+      cursor: pointer;
+      color: #434a51;
+      margin-bottom: 16px;
+      margin-left: 18px;
 
-        li {
-            font-family: Lato;
-            font-style: normal;
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 20px;
-            cursor: pointer;
-            color: #717171;
-            padding: 8px 16px;
-            border-left: 2px solid #717171;
+      &.selected {
+        font-family: Lato, sans-serif;
+        font-style: normal;
+        font-size: 18px;
+        line-height: 130%;
+        padding-left: 16px;
+        border-left: 4px solid #4178ff;
+        color: #4178ff;
+      }
+    }
+  }
 
-            &.selected {
-                font-family: Lato;
-                font-style: normal;
-                font-size: 18px;
-                line-height: 130%;
-                padding-left: 16px;
-                border-left: 4px solid #4178ff;
-                color: #4178ff;
-            }
-        }
+  .navigation3 {
+    .nav-header {
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 130%;
+      color: #052a63;
+      margin-bottom: 16px;
+      letter-spacing: 0.18px;
     }
 
-    .plan-details-actions {
-        width: 80%;
-        padding-top: 40px;
-        opacity: 0;
-        .plan-details-effective-date-select {
-            border-radius: 4px !important;
-        }
+    li {
+      font-family: Lato, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+      cursor: pointer;
+      color: #717171;
+      padding: 8px 16px;
+      border-left: 2px solid #717171;
+
+      &.selected {
+        font-family: Lato, sans-serif;
+        font-style: normal;
+        font-size: 18px;
+        line-height: 130%;
+        padding-left: 16px;
+        border-left: 4px solid #4178ff;
+        color: #4178ff;
+      }
     }
+  }
+
+  .plan-details-actions {
+    width: 80%;
+    padding-top: 40px;
+    opacity: 0;
+
+    .plan-details-effective-date-select {
+      border-radius: 4px !important;
+    }
+  }
 }
 
 #pharmacy-filter-section {
-    padding-left: 18px;
+  padding-left: 18px;
 
-    legend {
-        font-weight: normal;
-        font-size: 24px;
-        line-height: 130%;
-        color: #052a63;
-        margin-bottom: 16px;
-        letter-spacing: 0.18px;
-    }
+  legend {
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 130%;
+    color: #052a63;
+    margin-bottom: 16px;
+    letter-spacing: 0.18px;
+  }
 
-    label {
-        margin-bottom: 16px;
-        margin-left: 18px;
-    }
+  label {
+    margin-bottom: 16px;
+    margin-left: 18px;
+  }
 }

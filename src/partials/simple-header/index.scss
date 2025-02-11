@@ -1,5 +1,7 @@
-@import "../../scss/mixins";
-@import "../../styles/global.scss";
+@use "scss/globalDefines" as defines_global;
+
+;
+@use "scss/globalDefines" as defines_global;;
 
 .simple-header {
   display: flex;
@@ -10,7 +12,7 @@
   justify-content: center;
   background-color: #051d43;
 
-  @include tabletAndBelow {
+  @include defines_global.tabletAndBelow {
     min-height: 6rem;
   }
 
@@ -23,16 +25,17 @@
     }
   }
 
-  @media (min-width: 480px) {
+  @media (width >= 480px) {
     padding: 0.5rem 2rem;
     margin-top: 0;
   }
-  @media (min-width: 768px) {
+
+  @media (width >= 768px) {
     justify-content: flex-start;
     padding: 1rem 2.5rem;
   }
 }
 
 .mobile-med-icon {
-  padding: 10px 0px;
+  padding: 10px 0;
 }

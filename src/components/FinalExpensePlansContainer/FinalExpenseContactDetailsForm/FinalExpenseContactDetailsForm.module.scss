@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .finalExpenseContactDetailsForm {
     width: 900px;
@@ -8,19 +8,20 @@
 }
 
 .contactCard {
-    background: #ffffff;
+    background: #fff;
     border-radius: 8px;
     padding: 56px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
 
-    @include small {
+    @include defines_global.small {
         padding: 16px;
     }
 }
 
 .contactForm {
     margin-top: 15px;
-    @include small {
+
+    @include defines_global.small {
         display: none;
     }
 }
@@ -28,7 +29,7 @@
 .contactFormMobile {
     display: none;
 
-    @include small {
+    @include defines_global.small {
         display: block;
     }
 }
@@ -37,10 +38,10 @@
     font-size: 32px;
     line-height: 29px;
     color: #052a63;
-    font-family: "Lato", sans-serif;
+    font-family: Lato, sans-serif;
     font-weight: 400;
 
-    @include small {
+    @include defines_global.small {
         font-size: 20px;
     }
 }
@@ -50,14 +51,14 @@
     margin-top: 12px;
     margin-bottom: 15px;
 
-    @include small {
+    @include defines_global.small {
         font-size: 16px;
         margin-top: 6px;
     }
 }
 
 .contactCardHeading {
-    @include small {
+    @include defines_global.small {
         margin-bottom: 8px;
     }
 }
@@ -65,7 +66,7 @@
 .contactFooter {
     margin-top: 40px;
 
-    @include small {
+    @include defines_global.small {
         display: none;
     }
 }
@@ -99,7 +100,7 @@
     gap: 30px;
     margin-bottom: 20px;
 
-    @include small {
+    @include defines_global.small {
         flex-direction: column;
         margin-bottom: 15px;
     }
@@ -107,9 +108,9 @@
     .contactFormCol {
         width: 50%;
 
-        @include small {
+        @include defines_global.small {
             width: 100%;
-            padding-right: 0px;
+            padding-right: 0;
         }
     }
 }
@@ -126,13 +127,13 @@
     gap: 16px;
 
     .optionValueBox {
-        background-color: #ffffff;
+        background-color: #fff;
         padding: 10px 15px;
         width: 50%;
         color: #434a51;
         cursor: pointer;
         border-radius: 4px;
-        border: 1px solid #dddddd;
+        border: 1px solid #ddd;
     }
 
     .optionValueBox.selected {
@@ -141,20 +142,20 @@
 }
 
 .modalTitle {
-    @include small {
+    @include defines_global.small {
         padding: 3rem !important;
     }
 }
 
 .modalContainer {
-    padding: 24px 0 8px 0;
+    padding: 24px 0 8px;
     max-width: 488px;
     color: #052a63;
     font-size: 20px;
 }
 
 .contentBox {
-    background: #ffffff;
+    background: #fff;
     border-radius: 8px;
     padding: 24px;
     color: #434a51;
@@ -187,16 +188,16 @@
             text-transform: none;
 
             &:hover {
-                background: #ffffff;
+                background: #fff;
                 border-radius: 20px;
-                box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
             }
         }
 
         .updatePermissionCTA {
             background: #4178ff;
             border-radius: 20px;
-            color: #ffffff;
+            color: #fff;
             text-transform: none;
 
             &:hover {
@@ -205,7 +206,7 @@
 
             &.Mui-disabled {
                 background: #b3c9ff;
-                color: #ffffff;
+                color: #fff;
                 cursor: not-allowed;
 
                 & svg #Icon_Arrow_path {
@@ -215,7 +216,7 @@
 
                 & svg #Icon_circle_path {
                     // targeting the svg path by id
-                    fill: #ffffff; // changing the fill color
+                    fill: #fff; // changing the fill color
                 }
 
                 & svg #Icon_Add_path {
@@ -225,7 +226,7 @@
             }
         }
 
-        @include small {
+        @include defines_global.small {
             flex-direction: column;
             gap: 16px;
         }
@@ -242,7 +243,7 @@
 
 .input {
     padding: 15px 0 14px 8px;
-    border: 1px solid #dddddd;
+    border: 1px solid #ddd;
     border-radius: 4px;
     width: 100%;
 }
@@ -272,8 +273,8 @@
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: none;
+    appearance: none;
     appearance: none;
     margin: 0;
 }

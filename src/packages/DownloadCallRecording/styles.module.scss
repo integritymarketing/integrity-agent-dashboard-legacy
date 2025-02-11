@@ -1,4 +1,4 @@
-@import "src/scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 .layout {
   display: flex;

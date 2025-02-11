@@ -1,4 +1,4 @@
-@import "styles/global.scss";
+@use "scss/globalDefines" as defines_global;
 
 .contentContainer {
   display: flex;
@@ -8,7 +8,7 @@
   width: 100%;
 }
 
-@include tabletAndAbove {
+@include defines_global.tabletAndAbove {
   .contentContainer {
     max-width: 1200px;
   }

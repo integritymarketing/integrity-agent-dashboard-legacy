@@ -7,12 +7,13 @@
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    border-bottom: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDD;
 
-    @media (max-width: 768px) {
+    @media (width <= 768px) {
         flex-direction: column;
         gap: 10px;
       }
+
     .section {
         display: flex;
         flex-direction: column;
@@ -23,14 +24,16 @@
 
         &:first-child {
             width: 30%;
-            @media (max-width: 768px) {
+
+            @media (width <= 768px) {
                 width: 100%;
               }
         }
 
         &:nth-child(2), &:nth-child(3) {
             width: 25%;
-            @media (max-width: 768px) {
+
+            @media (width <= 768px) {
                 width: 100%;
               }
         }
@@ -38,6 +41,7 @@
         &:last-child {
             width: fit-content;
         }
+
         .completeBtn  {
             border-radius: 50px !important;
             background-color: #4178FF;
@@ -45,61 +49,74 @@
             width: fit-content;
             padding: 7px 15px;
         }
+
         .disabled {
             pointer-events: none;
             background-color: #B3C9FF;
             border: 1px solid #B3C9FF;
         }
     }
+
     .action {
-        @media (max-width: 768px) {
+        @media (width <= 768px) {
             position: absolute;
             right: 0;
         }
     }
+
     .mobileIcon .completeBtn{
         padding: 0;
         height: 40px;
+
         svg {
             margin: 0;
         }
     }
+
     .contact {
         display: flex;
         justify-content: center;
         align-items: center;
-        @media (max-width: 768px) {
+
+        @media (width <= 768px) {
             align-items: flex-start;
           }
     }
+
     .title1 {
         font-size: 14px;
         color: #717171;
     }
+
     .title2 {
         font-size: 20px;
         color: #052A63;
         cursor: pointer;
+
         &:hover {
             text-decoration: underline;
         }
     }
+
     .title3 {
         font-size: 14px;
         color: #4178FF;
         max-width: 200px;
         word-wrap: break-word;
     }
+
     .title4 {
         font-size: 16px;
         color: #052A63;
         font-weight: bold;
     }
+
     .dateContainer {
         display: flex;
         gap: 10px;
         justify-content: center;
         align-items: center;
+
         .dateItem {
             background-color: #F1F1F1;
             padding: 2px 4px;

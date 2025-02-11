@@ -1,14 +1,16 @@
 .container {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 20px;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     width: 350px;
   }
+
   .heading {
     color: #052a63;
-    margin-top: 0px;
+    margin-top: 0;
     font-size: 20px;
   }
 
@@ -20,6 +22,7 @@
 
   .list {
     margin-top: 15px;
+
     li {
       list-style-type: disc;
       color: #434a51;
@@ -37,7 +40,8 @@
 
 .helpContainer {
   width: 65%;
-  @media (max-width: 480px) {
+
+  @media (width <= 480px) {
     width: 350px;
   }
 }

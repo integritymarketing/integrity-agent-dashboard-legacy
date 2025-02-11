@@ -1,80 +1,80 @@
 .container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
 
-    .title {
-        font-size: 24px;
-        font-weight: bold;
-        color: #052A63;
-    }
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #052A63;
+  }
 }
 
 .buttonWithIcon {
-    border-radius: 25px !important;
-    padding: 4px 8px !important;
-    height: 32px;
+  border-radius: 25px !important;
+  padding: 4px 8px !important;
+  height: 32px;
 
-    svg {
-        width: 24px;
-    }
+  svg {
+    width: 24px;
+  }
 
-    span {
-        font-size: 14px !important;
-        color: #4178ff !important;
-        font-weight: 500;
-    }
+  span {
+    font-size: 14px !important;
+    color: #4178ff !important;
+    font-weight: 500;
+  }
 
-    &:hover {
-        background: #ffffff 0% 0% no-repeat padding-box;
-        border-radius: 20px;
-        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
-        color: #1357ff !important;
-    }
+  &:hover {
+    background: #fff 0 0 no-repeat padding-box;
+    border-radius: 20px;
+    box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
+    color: #1357ff !important;
+  }
 }
 
 .policyCard {
-    background: #FFFFFF;
-    border-radius: 8px;
-    display: flex;
-    padding: 18px 16px;
-    margin-bottom: 8px;
+  background: #FFF;
+  border-radius: 8px;
+  display: flex;
+  padding: 18px 16px;
+  margin-bottom: 8px;
 
-    .statusIcon {
-        width: 40px;
-        height: 40px;
-        background: #F1FAFF;
-        padding: 8px;
-        margin-right: 12px;
-        border-radius: 35px;
-    }
+  .statusIcon {
+    width: 40px;
+    height: 40px;
+    background: #F1FAFF;
+    padding: 8px;
+    margin-right: 12px;
+    border-radius: 35px;
+  }
 
-    .planName {
-        color: #052A63
-    }
+  .planName {
+    color: #052A63
+  }
 
-    .statusLabel {
-        font-weight: bold;
-        margin-right: 2px;
-    }
+  .statusLabel {
+    font-weight: bold;
+    margin-right: 2px;
+  }
 
-    .statusValue {
-        color: #717171;
-        font-size: 14px;
-    }
+  .statusValue {
+    color: #717171;
+    font-size: 14px;
+  }
 }
 
 .titleContainer {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .planContainer {
-    width: 65%;
+  width: 65%;
 }
 
 .ctaWrapper {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }

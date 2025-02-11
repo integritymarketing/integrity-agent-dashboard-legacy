@@ -1,22 +1,25 @@
 .taskListMobileContainer {
     background-color: #f1f1f1;
+
     .mobileWidget {
         display: flex;
 
         .taskListColor {
             height: 56px;
-            background: #dddddd;
+            background: #ddd;
             width: 5%;
         }
+
         .taskListHeader {
             display: flex;
             height: 56px;
-            background: #ffffff;
+            background: #fff;
             color: #052a63;
             font-size: 20px;
             align-items: center;
             justify-content: center;
             width: 95%;
+
             .taskListCount {
                 color: #717171;
                 margin-left: 5px;

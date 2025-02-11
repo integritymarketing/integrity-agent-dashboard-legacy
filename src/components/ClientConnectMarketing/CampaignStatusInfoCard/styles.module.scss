@@ -1,8 +1,9 @@
 .cardDivider {
     border-top: 1px solid #e0e0e0;
 }
+
 .campaignCard {
-    background-color: #ffffff;
+    background-color: #fff;
     height: 104px;
     padding: 10px 20px;
     border-radius: 4px;
@@ -10,14 +11,15 @@
 
 .sentStatusHeader {
     min-height: 104px;
-    padding: 16px 16px 8px 16px;
-    background-color: #ffffff;
+    padding: 16px 16px 8px;
+    background-color: #fff;
     border-radius: 8px;
 }
 
 .sentHeaderBody {
     display: flex;
     padding-bottom: 8px;
+
     .sentDate {
         color: #717171;
         font-weight: 400;

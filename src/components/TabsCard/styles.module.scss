@@ -1,5 +1,4 @@
-@import "scss/globalDefines.scss";
-@import "styles/global.scss";
+@use "scss/globalDefines" as defines_global;
 
 .tabContainer {
   display: flex;
@@ -7,7 +6,7 @@
   padding-bottom: 10px;
   gap: 20px;
 
-  @include mobileOnly {
+  @include defines_global.mobileOnly {
     padding: 20px;
     width: 100%;
     flex-wrap: wrap;

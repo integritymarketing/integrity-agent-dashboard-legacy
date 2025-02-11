@@ -1,15 +1,16 @@
-@import "../../styles/global.scss";
+@use "scss/globalDefines" as defines_global;;
 
 .heading {
   margin-top: 15px;
 }
 
 .icon {
-  background-color: $iconBackgroundColor;
+  background-color: defines_global.$iconBackgroundColor;
   border-radius: 100%;
   height: 65px;
   width: 65px;
 }
+
 .image {
   cursor: pointer;
 }

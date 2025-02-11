@@ -2,7 +2,7 @@
     margin-bottom: 40px;
     min-height: calc(100vh - 300px);
 
-    @media (max-width: 768px) {
+    @media (width <= 768px) {
         overflow: scroll;
     }
 }
@@ -31,7 +31,7 @@
     top: -2px;
     right: -4px;
     border-radius: 100%;
-    padding: 0px 4px;
+    padding: 0 4px;
     background-color: #f1faff;
     color: #4178ff;
     font-size: 10px;

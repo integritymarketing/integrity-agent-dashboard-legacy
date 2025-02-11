@@ -1,11 +1,11 @@
-@import "../../../../../scss/globalDefines.scss";
+@use "scss/globalDefines" as defines_global;
 
 * {
     user-select: none;
 }
 
 .container {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .labelContainer {

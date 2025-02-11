@@ -6,7 +6,7 @@ export class CallRecordingsService {
     }
 
     getAllCallRecordingsByAgent = async (isLinkToContact = false) => {
-        const baseUrl = `${process.env.REACT_APP_COMMUNICATION_API}/Call/Records?UnAssistedCallRecordingsOnly=true`;
+        const baseUrl = `${import.meta.env.VITE_COMMUNICATION_API}/Call/Records?UnAssistedCallRecordingsOnly=true`;
         const url = isLinkToContact ? `${baseUrl}&Sort=callStartTime:desc` : `${baseUrl}&CallStatus=in-progress`;
 
         const response = await this._clientAPIRequest(url);
@@ -16,7 +16,7 @@ export class CallRecordingsService {
 
     outboundCallFromMedicareCenter = async (data) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_COMMUNICATION_API}/Call/CallCustomer`,
+            `${import.meta.env.VITE_COMMUNICATION_API}/Call/CallCustomer`,
             "POST",
             data
         );
@@ -28,7 +28,7 @@ export class CallRecordingsService {
 
     assignsLeadToInboundCallRecord = async (data) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_COMMUNICATION_API}/Call/Records/AssignToLead`,
+            `${import.meta.env.VITE_COMMUNICATION_API}/Call/Records/AssignToLead`,
             "PUT",
             data
         );
@@ -41,7 +41,7 @@ export class CallRecordingsService {
 
     assignsLeadToOutboundSmsRecord = async (data) => {
         const response = await this._clientAPIRequest(
-            `${process.env.REACT_APP_COMMUNICATION_API}/SmsLog/Records/AssignToLead`,
+            `${import.meta.env.VITE_COMMUNICATION_API}/SmsLog/Records/AssignToLead`,
             "PUT",
             data
         );
