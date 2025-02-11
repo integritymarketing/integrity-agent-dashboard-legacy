@@ -122,8 +122,8 @@ const ContactForm = ({
     const formik = useFormik({
         initialValues: initialFormValues,
         validationSchema: validationSchema,
-        validateOnBlur: true,
-        validateOnChange: false,
+        validateOnBlur: false,
+        validateOnChange: true,
         onSubmit: async (values, { setErrors, setSubmitting }) => {
             setSubmitting(true);
             const duplicateCheckResponse = await checkDuplicateContact(values);
