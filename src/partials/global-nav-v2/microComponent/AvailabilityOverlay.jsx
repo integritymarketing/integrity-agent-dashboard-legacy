@@ -58,7 +58,7 @@ export default function AvailabilityOverlay({hideModal, onDismissed}) {
                                 href="#"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    window.location.href = `${process.env.REACT_APP_AUTH_PAW_REDIRECT_URI}/agent-profile`;
+                                    window.location.href = `${import.meta.env.VITE_AUTH_PAW_REDIRECT_URI}/agent-profile`;
                                 }}
                                 target="_blank"
                                 rel="noopener noreferrer"

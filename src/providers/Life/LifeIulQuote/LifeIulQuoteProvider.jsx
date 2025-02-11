@@ -1,4 +1,4 @@
-import { useEffect, useState, createContext, useMemo, useCallback } from "react";
+import {useEffect, useState, createContext, useMemo, useCallback} from "react";
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 import PropTypes from "prop-types";
@@ -8,10 +8,10 @@ import removeNullAndEmptyFields from "utils/removeNullAndEmptyFields";
 
 export const LifeIulQuoteContext = createContext();
 
-export const LifeIulQuoteProvider = ({ children }) => {
+export const LifeIulQuoteProvider = ({children}) => {
     const getLifeIulQuoteUrl = `${import.meta.env.VITE_QUOTE_URL}/api/v1/IUL/quotes`;
-    const applyLifeIulQuoteUrl = `${process.env.VITE_ENROLLMENT_API}/api/v1.0/IUL/lead`;
-    const getLifeIulQuoteDetailsUrl = `${process.env.VITE_QUOTE_URL}/api/v1.0/IUL/policydetails`;
+    const applyLifeIulQuoteUrl = `${import.meta.env.VITE_ENROLLMENT_API}/api/v1.0/IUL/lead`;
+    const getLifeIulQuoteDetailsUrl = `${import.meta.env.VITE_QUOTE_URL}/api/v1.0/IUL/policydetails`;
     const showToast = useToast();
 
     const [lifeIulQuoteResults, setLifeIulQuoteResults] = useState(null);
@@ -146,7 +146,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
         } else {
             setSelectedPlans([
                 ...selectedPlans,
-                { logo: plan.companyLogoImageUrl, name: plan.productName, rowId: plan.rowId, ...plan },
+                {logo: plan.companyLogoImageUrl, name: plan.productName, rowId: plan.rowId, ...plan},
             ]);
         }
     };
