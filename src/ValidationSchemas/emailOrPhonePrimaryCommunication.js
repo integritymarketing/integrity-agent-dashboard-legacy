@@ -6,7 +6,9 @@ const emailSchema = yup
     .required("Email address is required")
     .email("Email Address must be valid")
     .test("is-complete", "Incomplete email address", (email) => {
-        if (!email) {return false;}
+        if (!email) {
+            return null;
+        }
         const emailPattern = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
         return emailPattern.test(email);
     });
@@ -23,7 +25,9 @@ export const getEmailOrPhonePrimaryCommunicationSchema = () =>
                         return schema
                             .required("Phone Number is required")
                             .test("is-valid-phone", "Phone number must be a valid 10-digit phone number", (value) => {
-                                if (!value) {return false;}
+                                if (!value) {
+                                    return false;
+                                }
                                 const cleaned = `${value}`.replace(/\D/g, "");
                                 return cleaned.length === 10;
                             });
