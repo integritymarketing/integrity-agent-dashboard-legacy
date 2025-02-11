@@ -18,6 +18,7 @@ import {
     EDIT,
     HEALTH_CONDITION_API,
     INCOMPLETE,
+    MEDICATIONS,
     OUTDATED,
 } from "./FinalExpenseHealthConditionsContainer.constants";
 import styles from "./FinalExpenseHealthConditionsContainer.module.scss";
@@ -26,11 +27,13 @@ import { Incomplete } from "./icons/Incomplete";
 import OutdatedSvg from "./icons/outdated.svg";
 import Media from "react-media";
 import { Arrow } from "./icons/Arrow";
+import { Typography, Box, Link } from "@mui/material";
 
 const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
     const [selectedConditionForEdit, setSelectedConditionForEdit] = useState(null);
     const [isAddNewActivityDialogOpen, setIsAddNewActivityDialogOpen] = useState(false);
     const [healthConditions, setHealthConditions] = useState([]);
+    const [healthMedications, setHealthMedications] = useState([]);
     const isLoadingRef = useRef(false);
     const { fireEvent } = useAnalytics();
     const [isMobile, setIsMobile] = useState(false);
@@ -78,6 +81,20 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                     iconPosition="right"
                     label={ADD_NEW}
                     onClick={onAddClick}
+                    type="tertiary"
+                    className={styles.buttonWithIcon}
+                />
+            </div>
+        );
+    };
+    const sectionMedicationHeaderChildren = () => {
+        return (
+            <div className={styles.wrapper}>
+                <Button
+                    icon={<Plus />}
+                    iconPosition="right"
+                    label={ADD_NEW}
+                    
                     type="tertiary"
                     className={styles.buttonWithIcon}
                 />
@@ -192,7 +209,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
             ...(isHealthPage ? [] : isMobile ? [columns[2]] : [columns[1]]), // statusCol or statusMobileCol
             ...(isHealthPage && isMobile ? [columns[4]] : isMobile ? [] : [columns[3]]), // actionCol or healthActionCol
         ];
-    }, [isHealthPage, isMobile]);
+    }, [isHealthPage, isMobile, columns]);
 
     const handleOnClose = useCallback(() => {
         setIsAddNewActivityDialogOpen(false);
@@ -201,10 +218,29 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
         <>
             <Media
                 query={"(max-width: 500px)"}
-                onChange={(isMobile) => {
-                    setIsMobile(isMobile);
+                onChange={(value) => {
+                    setIsMobile(value);
                 }}
             />
+            <ContactSectionCard
+                title={MEDICATIONS}
+                infoIcon={`(0)`}
+                className={`${styles.medicationContainer} ${isHealthPage ? styles.healthPageActivitiesContainer : ""}`}
+                contentClassName={styles.activitiesContainer_content}
+                actions={<div className="actions">{sectionMedicationHeaderChildren()}</div>}
+            >
+                {true && (
+                    <Box className={styles.noItemsContainer}>
+                        <Typography variant="body1" color="#434A51" marginBottom="8px">
+                            This contact has no medications
+                        </Typography>
+                        <Link className={styles.addConditionLink}>
+                            Add a medication
+                        </Link>
+                    </Box>
+                )}
+            </ContactSectionCard>
+
             <ContactSectionCard
                 title={CONDITIONS}
                 infoIcon={`(${healthConditions.length})`}
@@ -213,15 +249,15 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                 actions={<div className="actions">{sectionHeaderChildren()}</div>}
             >
                 {healthConditions.length === 0 && (
-                    <div className={styles.noItemsWrapper}>
-                        <div className="no-items">
-                            <span>This contact has no conditions.&nbsp;</span>
-                            <button className="link" data-gtm={`button-add-${CONDITIONS}`} onClick={onAddClick}>
-                                {" "}
-                                Add a condition
-                            </button>
-                        </div>
-                    </div>
+                     <Box className={styles.noItemsContainer}>
+                     <Typography variant="body1" color="#434A51" marginBottom="8px">
+                     This contact has no conditions.
+                     </Typography>
+                     <Link onClick={onAddClick} className={styles.addConditionLink}> 
+                         Add a condition
+                     </Link>
+                 </Box>
+                   
                 )}
                 {healthConditions.length > 0 && (
                     <Table initialState={{}} data={healthConditions} columns={dynamicColumns} />
