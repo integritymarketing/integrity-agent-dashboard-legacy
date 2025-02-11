@@ -66,7 +66,7 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
                 pharmacy = pharmacyCosts?.find((rx) => rx?.pharmacyType === 2);
             }
 
-            const costs = pharmacy?.drugCosts?.find(pres => pres.labelName === planDrugCoverage?.labelName) || {};
+            const costs = pharmacy?.drugCosts?.find((pres) => pres.labelName === planDrugCoverage?.labelName) || {};
 
             rowData.gap[planIndex] = costs?.gap;
             rowData.copay[planIndex] = costs?.beforeGap;
@@ -89,7 +89,7 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
                 let pharmacy;
                 if (Object.keys(selectedPharmacy).length && selectedPharmacy?.pharmacyId) {
                     pharmacy = plan?.estimatedCostCalculationRxs?.find(
-                        (rx) => rx?.pharmacyId === selectedPharmacy?.pharmacyId,
+                        (rx) => rx?.pharmacyId === selectedPharmacy?.pharmacyId
                     );
                 } else {
                     pharmacy = plan?.estimatedCostCalculationRxs?.find((rx) => rx?.isMailOrder);
@@ -127,11 +127,14 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
 
     const columnsData = [
         {
-            Header: "Prescriptions",
+            id: "prescriptions-group",
+            header: "Prescriptions",
             columns: [
                 {
+                    id: "unAvailable",
+                    accessorKey: "unAvailable",
+                    header: "",
                     hideHeader: true,
-                    accessor: "unAvailable",
                 },
             ],
         },

@@ -22,31 +22,35 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
     const columns = useMemo(
         () => [
             {
-                Header: "Pharmacies",
+                id: "pharmacies",
+                header: "Pharmacies",
                 columns: [
                     {
+                        id: "name",
+                        accessorKey: "name",
+                        header: "",
                         hideHeader: true,
-                        accessor: "name",
-                        Cell({ value }) {
-                            return (
-                                <div>
-                                    <span>{value}</span>
-                                </div>
-                            );
-                        },
+                        cell: ({ getValue }) => (
+                            <div>
+                                <span>{getValue()}</span>
+                            </div>
+                        ),
                     },
                     ...clonedPlans.map((plan, index) => ({
+                        id: `plan-${index}`,
+                        accessorKey: `plan-${index}`,
+                        header: "",
                         hideHeader: true,
-                        accessor: `plan-${index}`,
-                        Cell({ value }) {
-                            if (!plan || !value) {
-                                return "-";
-                            }
+                        cell: ({ getValue }) => {
+                            const value = getValue();
+                            if (!plan || !value) return "-";
 
-                           const NetworkIcon = value.isNetwork ? InNetworkIcon : OutNetworkIcon;
+                            const NetworkIcon = value.isNetwork ? InNetworkIcon : OutNetworkIcon;
                             return (
                                 <div className="pr-network-inOut">
-                                    <span><NetworkIcon /></span>
+                                    <span>
+                                        <NetworkIcon />
+                                    </span>
                                     <span className="pr-network-pharmacy">{value.address}</span>
                                 </div>
                             );
@@ -55,7 +59,7 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
                 ],
             },
         ],
-        [clonedPlans],
+        [clonedPlans]
     );
 
     const data = useMemo(() => {
@@ -103,7 +107,7 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
             }),
-        [],
+        []
     );
 
     const mailOrderRow = useMemo(
@@ -131,7 +135,7 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
                 return acc;
             }, {}),
         }),
-        [plans, currencyFormatter, notApplicableText],
+        [plans, currencyFormatter, notApplicableText]
     );
 
     const columnsData = [
@@ -166,17 +170,17 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
                                 ? isEmpty
                                     ? notApplicableText
                                     : plan.estimatedAnnualMailOrderDrugCostPartialYear != null
-                                      ? currencyFormatter.format(
-                                            Number(plan.estimatedAnnualMailOrderDrugCostPartialYear).toFixed(2),
-                                        )
-                                      : notApplicableText
+                                    ? currencyFormatter.format(
+                                          Number(plan.estimatedAnnualMailOrderDrugCostPartialYear).toFixed(2)
+                                      )
+                                    : notApplicableText
                                 : notApplicableText;
                         },
                     })),
                 ],
             },
         ],
-        [clonedPlans, currencyFormatter, isEmpty, notApplicableText],
+        [clonedPlans, currencyFormatter, isEmpty, notApplicableText]
     );
 
     const rowData = [
@@ -204,11 +208,11 @@ PharmaciesCompareTable.propTypes = {
                 PropTypes.shape({
                     pharmacyId: PropTypes.string.isRequired,
                     isNetwork: PropTypes.bool.isRequired,
-                }),
+                })
             ),
             hasMailDrugBenefits: PropTypes.bool,
             estimatedAnnualMailOrderDrugCostPartialYear: PropTypes.number,
-        }),
+        })
     ).isRequired,
     pharmacies: PropTypes.arrayOf(
         PropTypes.shape({
@@ -219,7 +223,7 @@ PharmaciesCompareTable.propTypes = {
             city: PropTypes.string,
             state: PropTypes.string,
             zip: PropTypes.string,
-        }),
+        })
     ),
     apiError: PropTypes.bool,
 };

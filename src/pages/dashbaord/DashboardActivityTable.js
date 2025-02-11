@@ -12,7 +12,6 @@ import { convertUTCDateToLocalDate } from "utils/dates";
 import { MORE_ACTIONS, PLAN_ACTION } from "utils/moreActions";
 
 import useToast from "hooks/useToast";
-import useUserProfile from "hooks/useUserProfile";
 
 import Table from "../../packages/TableWrapper";
 import { TextButton } from "packages/Button";
@@ -37,6 +36,7 @@ import SOAModal from "pages/contacts/contactRecordInfo/soaList/SOAModal";
 import CallDetails from "./CallDetails";
 import styles from "./DashboardActivityTable.module.scss";
 import "./activitytable.scss";
+import useUserProfile from "hooks/useUserProfile";
 
 const getActivitySubject = (activitySubject) => {
     switch (activitySubject) {
@@ -220,7 +220,7 @@ export default function DashboardActivityTable({
                     break;
             }
         },
-        [navigate, npn],
+        [navigate, npn]
     );
 
     const saveReminder = (payload) => {
@@ -255,17 +255,17 @@ export default function DashboardActivityTable({
             });
             setSelectedActivity(row.activities[0]);
         },
-        [setSelectedActivity, setSelectedLead],
+        [setSelectedActivity, setSelectedLead]
     );
 
     const columns = useMemo(
         () => [
             {
                 id: "date",
-                Header: "Date",
-                accessor: (row) => row?.original?.activities[0]?.createDate,
-                Cell: ({ row }) => {
-                    const date = convertUTCDateToLocalDate(row?.original?.activities[0]?.createDate);
+                header: "Date",
+                enableSorting: true, // Explicitly enable sorting
+                cell: ({ row }) => {
+                    const date = convertUTCDateToLocalDate(row.original.activities[0]?.createDate);
                     return (
                         <Typography color="#434A51" fontSize="16px">
                             {dateFormatter(date, "MM/DD/yyyy")}
@@ -275,94 +275,71 @@ export default function DashboardActivityTable({
             },
             {
                 id: "name",
-                Header: "Name",
-                accessor: (row) => `${row?.original?.firstName} ${row?.original?.lastName}`,
-                Cell: ({ row }) => (
+                header: "Name",
+                enableSorting: true, // Explicitly enable sorting
+                cell: ({ row }) => (
                     <div className={styles.activityDataCell}>
                         <Typography
                             noWrap
                             fontWeight="bold"
                             fontSize="16px"
                             color="#0052CE"
-                            sx={{
-                                "&:hover": {
-                                    textDecoration: "underline",
-                                },
-                            }}
+                            sx={{ "&:hover": { textDecoration: "underline" } }}
                             onClick={(event) => {
                                 event.stopPropagation();
-                                navigate(`/contact/${row?.original?.leadsId}`);
+                                navigate(`/contact/${row.original.leadsId}`);
                             }}
                         >
-                            <strong>{`${row?.original?.firstName} ${row?.original?.lastName}`} </strong>
+                            <strong>{`${row.original.firstName} ${row.original.lastName}`} </strong>
                         </Typography>
                     </div>
                 ),
             },
             {
                 id: "activity",
-                Header: "Activity",
-                accessor: (row) => `${row?.original?.activities[0]?.activitySubject}`,
-                Cell: ({ row }) => (
+                header: "Activity",
+                enableSorting: true,
+                cell: ({ row }) => (
                     <div className={styles.activityDataCell}>
                         <ActivitySubjectWithIcon
-                            activitySubject={row?.original?.activities[0]?.activitySubject}
-                            interactionIconUrl={row?.original?.activities[0]?.activityInteractionIconUrl}
-                            activityId={row?.original?.activities[0]?.activityId}
-                            iconURL={row?.original?.activities[0]?.activityIconUrl}
+                            activitySubject={row.original.activities[0]?.activitySubject}
+                            interactionIconUrl={row.original.activities[0]?.activityInteractionIconUrl}
+                            activityId={row.original.activities[0]?.activityId}
+                            iconURL={row.original.activities[0]?.activityIconUrl}
                         />
                         <Typography
                             color="#434A51"
                             fontSize={"16px"}
                             noWrap
-                            onClick={() => {
-                                handleTableRowClick(row?.original);
-                            }}
+                            onClick={() => handleTableRowClick(row.original)}
                         >
-                            {getActivitySubject(row?.original?.activities[0]?.activitySubject)}
+                            {getActivitySubject(row.original.activities[0]?.activitySubject)}
                         </Typography>
                     </div>
                 ),
             },
-            {
-                id: "inboundcall",
-                disableSortBy: true,
-                Header: "",
-                Cell: () => null,
-            },
+
             {
                 id: "status",
-                disableSortBy: true,
-                Header: "",
-                Cell: ({ row }) => (
-                    <>{renderButtons(row?.original?.activities[0], row?.original?.leadsId, handleClick)}</>
-                ),
+                header: "",
+                enableSorting: false,
+                cell: ({ row }) => <>{renderButtons(row.original.activities[0], row.original.leadsId, handleClick)}</>,
             },
             {
-                Header: "",
                 id: "more",
-                disableSortBy: true,
-                accessor: "reminders",
-                Cell: ({ value, row }) => {
+                header: "",
+                enableSorting: false,
+                cell: ({ row }) => {
                     const options = MORE_ACTIONS.slice(0);
-
                     if (
-                        row?.original?.addresses?.[0]?.postalCode &&
-                        row?.original?.addresses?.[0]?.county &&
-                        row?.original?.addresses?.[0]?.stateCode
+                        row.original.addresses?.[0]?.postalCode &&
+                        row.original.addresses?.[0]?.county &&
+                        row.original.addresses?.[0]?.stateCode
                     ) {
                         options.splice(1, 0, PLAN_ACTION);
                     }
                     return (
                         <>
-                            {/* <ActionsDropdown
-                                options={options}
-                                id={row.original.leadsId}
-                                onClick={handleDropdownActions(row.original)}
-                            >
-                                <MoreHorizOutlinedIcon />
-                            </ActionsDropdown> */}
-
                             <ActionsCell row={row} refreshData={realoadActivityData} />
                             {showAddNewModal && (
                                 <AddReminderModal
@@ -377,64 +354,59 @@ export default function DashboardActivityTable({
                 },
             },
         ],
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [navigate, showAddModal, showAddNewModal, setShowAddNewModal],
+        [navigate, showAddModal, showAddNewModal, setShowAddNewModal]
     );
 
     const mobileColumns = useMemo(
         () => [
             {
                 id: "name",
-                Header: "Name",
-                accessor: (row) => `${row?.original?.firstName} ${row?.original?.lastName}`,
-                Cell: ({ row }) => (
+                header: "Name",
+                cell: ({ row }) => (
                     <div className={styles.activityDataCell}>
                         <Typography
                             noWrap
                             fontWeight="bold"
                             fontSize="16px"
                             color="#0052CE"
+                            sx={{ "&:hover": { textDecoration: "underline" } }}
                             onClick={(event) => {
                                 event.stopPropagation();
-                                navigate(`/contact/${row?.original?.leadsId}`);
+                                navigate(`/contact/${row.original.leadsId}`);
                             }}
                         >
-                            <strong>{`${row?.original?.firstName} ${row?.original?.lastName}`} </strong>
+                            <strong>{`${row.original.firstName} ${row.original.lastName}`} </strong>
                         </Typography>
                     </div>
                 ),
             },
             {
                 id: "activity",
-                Header: "Activity",
-                accessor: (row) => `${row?.original?.activities[0]?.activitySubject}`,
-                Cell: ({ row }) => (
+                header: "Activity",
+                cell: ({ row }) => (
                     <div className={styles.activityDataCell}>
                         <ActivitySubjectWithIcon
-                            activitySubject={row?.original?.activities[0]?.activitySubject}
-                            interactionIconUrl={row?.original?.activities[0]?.activityInteractionIconUrl}
-                            activityId={row?.original?.activities[0]?.activityId}
-                            iconURL={row?.original?.activities[0]?.activityIconUrl}
+                            activitySubject={row.original.activities?.[0]?.activitySubject}
+                            interactionIconUrl={row.original.activities?.[0]?.activityInteractionIconUrl}
+                            activityId={row.original.activities?.[0]?.activityId}
+                            iconURL={row.original.activities?.[0]?.activityIconUrl}
                         />
                         <Typography
                             color="#434A51"
-                            fontSize={"16px"}
+                            fontSize="16px"
                             noWrap
-                            onClick={() => {
-                                handleTableRowClick(row?.original);
-                            }}
+                            onClick={() => handleTableRowClick(row.original)}
                         >
-                            {getActivitySubject(row?.original?.activities[0]?.activitySubject)}
+                            {getActivitySubject(row.original.activities?.[0]?.activitySubject)}
                         </Typography>
                     </div>
                 ),
             },
             {
                 id: "date",
-                Header: "Date",
-                accessor: (row) => row?.original?.activities[0]?.createDate,
-                Cell: ({ row }) => {
-                    const date = convertUTCDateToLocalDate(row?.original?.activities[0]?.createDate);
+                header: "Date",
+                cell: ({ getValue }) => {
+                    const date = convertUTCDateToLocalDate(getValue());
                     return (
                         <Typography color="#434A51" fontSize="16px">
                             {dateFormatter(date, "MM/DD/yyyy")}
@@ -442,44 +414,30 @@ export default function DashboardActivityTable({
                     );
                 },
             },
-            {
-                id: "inboundcall",
-                disableSortBy: true,
-                Header: "",
-                Cell: () => null,
-            },
+
             {
                 id: "status",
-                disableSortBy: true,
-                Header: "",
-                Cell: ({ row }) => (
-                    <>{renderButtons(row?.original?.activities[0], row?.original?.leadsId, handleClick)}</>
+                header: "",
+                enableSorting: false,
+                cell: ({ row }) => (
+                    <>{renderButtons(row.original.activities?.[0], row.original.leadsId, handleClick)}</>
                 ),
             },
             {
-                Header: "",
                 id: "more",
-                disableSortBy: true,
-                accessor: "reminders",
-                Cell: ({ value, row }) => {
+                header: "",
+                enableSorting: false,
+                cell: ({ row }) => {
                     const options = MORE_ACTIONS.slice(0);
-
                     if (
-                        row?.original?.addresses?.[0]?.postalCode &&
-                        row?.original?.addresses?.[0]?.county &&
-                        row?.original?.addresses?.[0]?.stateCode
+                        row.original.addresses?.[0]?.postalCode &&
+                        row.original.addresses?.[0]?.county &&
+                        row.original.addresses?.[0]?.stateCode
                     ) {
                         options.splice(1, 0, PLAN_ACTION);
                     }
                     return (
                         <>
-                            {/* <ActionsDropdown
-                                options={options}
-                                id={row.original.leadsId}
-                                onClick={handleDropdownActions(row.original)}
-                            >
-                                <MoreHorizOutlinedIcon />
-                            </ActionsDropdown> */}
                             <ActionsCell row={row} refreshData={realoadActivityData} />
                             {showAddNewModal && (
                                 <AddReminderModal
@@ -494,8 +452,7 @@ export default function DashboardActivityTable({
                 },
             },
         ],
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [navigate, showAddModal, showAddNewModal, setShowAddNewModal],
+        [navigate, showAddModal, showAddNewModal, setShowAddNewModal]
     );
 
     const onFilterApply = (selectedValues) => {
@@ -534,7 +491,7 @@ export default function DashboardActivityTable({
                 Sentry.captureException(e);
             }
         },
-        [setSelectedActivity, showToast, selectedLead, realoadActivityData],
+        [setSelectedActivity, showToast, selectedLead, realoadActivityData]
     );
 
     const handleSortUpdate = (value) => {

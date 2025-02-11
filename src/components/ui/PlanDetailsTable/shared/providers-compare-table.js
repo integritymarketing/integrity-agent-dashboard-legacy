@@ -37,24 +37,28 @@ export function ProvidersCompareTable({ plans }) {
     const columns = useMemo(
         () => [
             {
-                Header: "Providers",
+                id: "providers-group",
+                header: "Providers",
                 columns: [
                     {
+                        id: "provider",
+                        accessorKey: "provider",
+                        header: "",
                         hideHeader: true,
-                        accessor: "provider",
-                        Cell({ value: item }) {
-                            return (
-                                <div className="providerContainer">
-                                    <RenderProviders provider={item} compareTable />
-                                </div>
-                            );
-                        },
+                        cell: ({ getValue }) => (
+                            <div className="providerContainer">
+                                <RenderProviders provider={getValue()} compareTable />
+                            </div>
+                        ),
                     },
                     ...clonedPlans.map((plan, index) => ({
+                        id: `plan-${index}`,
+                        accessorKey: `plan-${index}`,
+                        header: "",
                         hideHeader: true,
-                        accessor: `plan-${index}`,
-                        Cell({ value }) {
-                            if (!plan || !plan?.providers?.length > 0) {
+                        cell: ({ getValue }) => {
+                            const value = getValue();
+                            if (!plan || !(plan.providers?.length > 0)) {
                                 return "-";
                             }
                             return value ? (

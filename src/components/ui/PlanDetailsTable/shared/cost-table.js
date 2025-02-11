@@ -152,25 +152,28 @@ const CostTable = ({ planData }) => {
             }, 0) || 0)
         );
     }, 0);
-
     const columns = useMemo(
         () => [
             {
-                Header: "Costs",
+                id: "costs-group",
+                header: "Costs",
                 columns: [
                     {
-                        hideHeader: true,
-                        accessor: "label",
+                        id: "cost-label",
+                        header: "Label",
+                        cell: ({ row }) => row.original.label, // ✅ Corrected from `accessor`
                     },
                     {
-                        hideHeader: true,
-                        accessor: "value",
+                        id: "cost-value",
+                        header: "Value",
+                        cell: ({ row }) => row.original.value, // ✅ Corrected from `accessor`
                     },
                 ],
             },
         ],
-        [],
+        []
     );
+
     const data = [
         {
             label: <PremiumLabel />,
@@ -259,7 +262,7 @@ export function CostCompareTable({ plans, effectiveDate }) {
                 ],
             },
         ],
-        [clonedPlans],
+        [clonedPlans]
     );
     const data = [
         {
