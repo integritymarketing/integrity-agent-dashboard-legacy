@@ -1,47 +1,34 @@
 import * as yup from "yup";
 
-// Email validation schema with regex pattern
-const emailSchema = yup
-    .string()
-    .required("Email address is required")
-    .email("Email Address must be valid")
-    .test("is-complete", "Incomplete email address", (email) => {
-        if (!email) {
-            return null;
-        }
-        const emailPattern = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
-        return emailPattern.test(email);
-    });
+// Email validation schema
+const emailSchema = yup.string().test("is-valid-email", "Invalid email address", (email, context) => {
+    if (!email) {return true;} // Allow empty if not required
+    const emailPattern = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
+    return emailPattern.test(email);
+});
 
+// Phone validation schema (10-digit required)
+const phoneSchema = yup.string().matches(/^\d{10}$/, "Phone number must be a valid 10-digit number");
+
+// Main validation schema
 export const getEmailOrPhonePrimaryCommunicationSchema = () =>
     yup.object({
-        primaryCommunication: yup.string().required("Primary Communication is required"),
-        phones: yup.object({
-            leadPhone: yup
-                .string()
-                .nullable()
-                .when("$primaryCommunication", (primaryCommunication, schema) => {
-                    if (primaryCommunication?.length >= 1 && primaryCommunication[0] === "phone") {
-                        return schema
-                            .required("Phone Number is required")
-                            .test("is-valid-phone", "Phone number must be a valid 10-digit phone number", (value) => {
-                                if (!value) {
-                                    return false;
-                                }
-                                const cleaned = `${value}`.replace(/\D/g, "");
-                                return cleaned.length === 10;
-                            });
-                    }
-                    return schema.nullable();
-                }),
-        }),
-        email: yup
+        primaryCommunication: yup
             .string()
-            .nullable()
-            .when("$primaryCommunication", (primaryCommunication, schema) => {
-                if (primaryCommunication?.length >= 1 && primaryCommunication[0] === "email") {
-                    return emailSchema;
-                }
-                return schema.nullable();
+            .required("Primary Communication is required")
+            .oneOf(["email", "phone"], "Invalid communication method"),
+
+        email: yup.lazy((_, context) => {
+            return context?.parent?.primaryCommunication === "email"
+                ? emailSchema.required("Email address is required")
+                : emailSchema;
+        }),
+
+        phones: yup.object().shape({
+            leadPhone: yup.lazy((_, context) => {
+                return context?.parent?.primaryCommunication === "phone"
+                    ? phoneSchema.required("Phone number is required")
+                    : phoneSchema;
             }),
+        }),
     });
