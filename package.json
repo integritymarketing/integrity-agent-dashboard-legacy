@@ -71,11 +71,10 @@
     "lint:all": "eslint . --max-warnings 0",
     "lint:one": "eslint --max-warnings 0",
     "lint:fix": "yarn lint:all -- --fix",
-    "start": "cross-env BROWSER=chrome craco start",
-    "start:auth": "cross-env REACT_APP_BUILD_TARGET=auth PORT=3001 BROWSER=chrome craco start",
+    "start": "vite",
+    "start:auth": "cross-env VITE_APP_BUILD_TARGET=auth PORT=3001 vite",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "postbuild": "node generate-redirects.mjs",
-    "eject": "craco eject",
     "sonar": "sonar-scanner"
   },
   "eslintConfig": {
