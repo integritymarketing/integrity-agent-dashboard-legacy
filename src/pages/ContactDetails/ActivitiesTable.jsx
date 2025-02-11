@@ -122,12 +122,12 @@ export default function ActivitiesTable({
         () => [
             {
                 id: "date",
-                Header: "Date",
-                accessor: (row) => row?.original?.createDate,
-                Cell: ({ row }) => {
-                    const date = convertUTCDateToLocalDate(row?.original?.createDate);
+                header: "Date",
+                enableSorting: true,
+                cell: ({ row }) => {
+                    const date = convertUTCDateToLocalDate(row.original.createDate);
                     return (
-                        <div className={styles.activityDate} onClick={() => onActivityClick(row?.original)}>
+                        <div className={styles.activityDate} onClick={() => onActivityClick(row.original)}>
                             {dateFormatter(date, "MM/DD/yyyy")}
                         </div>
                     );
@@ -135,71 +135,64 @@ export default function ActivitiesTable({
             },
             {
                 id: "activity",
-                accessor: (row) => row?.original?.activitySubject,
-                Header: "Activity",
-                Cell: ({ row }) => (
+                header: "Activity",
+                enableSorting: true,
+                cell: ({ row }) => (
                     <div className={styles.activityDataCell}>
                         <ActivitySubjectWithIcon
-                            activitySubject={row?.original?.activitySubject}
-                            iconURL={row?.original?.activityIconUrl}
-                            activityId={row?.original?.activityId}
-                            interactionIconUrl={row?.original?.activityInteractionIconUrl}
+                            activitySubject={row.original.activitySubject}
+                            iconURL={row.original.activityIconUrl}
+                            activityId={row.original.activityId}
+                            interactionIconUrl={row.original.activityInteractionIconUrl}
                         />
-                        <div noWrap onClick={() => onActivityClick(row?.original)}>
+                        <div noWrap onClick={() => onActivityClick(row.original)}>
                             <div className={styles.activitySubject}>
-                                {row?.original?.activitySubject}
-
+                                {row.original.activitySubject}
                                 <span className={styles.activityBody}>
-                                    {row?.original?.activityBody?.length > 15
-                                        ? `${row?.original?.activityBody?.slice(0, 13)}...`
-                                        : row?.original?.activityBody}
+                                    {row.original.activityBody?.length > 15
+                                        ? `${row.original.activityBody.slice(0, 13)}...`
+                                        : row.original.activityBody}
                                 </span>
                             </div>
                         </div>
                     </div>
                 ),
             },
-            // {
-            //     id: "status",
-            //     disableSortBy: true,
-            //     Header: "",
-            //     Cell: ({ row }) => <>{renderButtons(row?.original, handleClick)}</>,
-            // },
             {
                 id: "actions",
-                disableSortBy: true,
-                Header: "",
-                Cell: ({ row }) => <>{renderActivtyActions(row?.original, handleDeleteActivity, leadId)}</>,
+                header: "",
+                enableSorting: false,
+                cell: ({ row }) => <>{renderActivtyActions(row.original, handleDeleteActivity, leadId)}</>,
             },
             {
                 id: "more",
-                disableSortBy: true,
-                Header: "",
-                Cell: ({ row }) => (
+                header: "",
+                enableSorting: false,
+                cell: ({ row }) => (
                     <Button
                         icon={<EditIcon />}
                         iconPosition="right"
                         label="Edit"
-                        onClick={() => onActivityClick(row?.original)}
+                        onClick={() => onActivityClick(row.original)}
                         type="tertiary"
                         className={styles.buttonWithIcon}
                     />
                 ),
             },
         ],
-        [onActivityClick, handleClick, setEditActivity, handleDeleteActivity]
+        [onActivityClick, handleDeleteActivity, leadId]
     );
 
     const mobileColumns = useMemo(
         () => [
             {
                 id: "date",
-                Header: "Date",
-                accessor: (row) => row?.original?.createDate,
-                Cell: ({ row }) => {
-                    const date = convertUTCDateToLocalDate(row?.original?.createDate);
+                header: "Date",
+                enableSorting: true,
+                cell: ({ row }) => {
+                    const date = convertUTCDateToLocalDate(row.original.createDate);
                     return (
-                        <div className={styles.activityDate} onClick={() => onActivityClick(row?.original)}>
+                        <div className={styles.activityDate} onClick={() => onActivityClick(row.original)}>
                             {dateFormatter(date, "MM/DD/YY")}
                         </div>
                     );
@@ -207,23 +200,23 @@ export default function ActivitiesTable({
             },
             {
                 id: "activity",
-                Header: "",
-                Cell: ({ row }) => (
+                header: "",
+                enableSorting: false,
+                cell: ({ row }) => (
                     <div className={styles.activityDataCell}>
                         <ActivitySubjectWithIcon
-                            activitySubject={row?.original?.activitySubject}
-                            iconURL={row?.original?.activityIconUrl}
-                            activityId={row?.original?.activityId}
-                            interactionIconUrl={row?.original?.activityInteractionIconUrl}
+                            activitySubject={row.original.activitySubject}
+                            iconURL={row.original.activityIconUrl}
+                            activityId={row.original.activityId}
+                            interactionIconUrl={row.original.activityInteractionIconUrl}
                         />
-                        <div noWrap onClick={() => onActivityClick(row?.original)}>
+                        <div noWrap onClick={() => onActivityClick(row.original)}>
                             <div className={styles.activitySubject}>
-                                {row?.original?.activitySubject}
-
+                                {row.original.activitySubject}
                                 <span className={styles.activityBody}>
-                                    {row?.original?.activityBody?.length > 15
-                                        ? `${row?.original?.activityBody?.slice(0, 13)}...`
-                                        : row?.original?.activityBody}
+                                    {row.original.activityBody?.length > 15
+                                        ? `${row.original.activityBody.slice(0, 13)}...`
+                                        : row.original.activityBody}
                                 </span>
                             </div>
                         </div>
@@ -232,10 +225,10 @@ export default function ActivitiesTable({
             },
             {
                 id: "more",
-                disableSortBy: true,
-                Header: "",
-                Cell: ({ row }) => (
-                    <span onClick={() => onActivityClick(row?.original)}>
+                header: "",
+                enableSorting: false,
+                cell: ({ row }) => (
+                    <span onClick={() => onActivityClick(row.original)}>
                         <ArrowForwardIosIcon color="primary" />
                     </span>
                 ),

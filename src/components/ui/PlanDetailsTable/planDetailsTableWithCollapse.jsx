@@ -1,13 +1,24 @@
 import PropTypes from "prop-types";
-// import { useTable } from "react-table"; // TODO: react-table migration
-import {useReactTable} from "@tanstack/react-table";
+import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
 import "./index.scss";
 import PlanDetailsContactSectionCard from "packages/PlanDetailsContactSectionCard";
 
-const PlanDetailsTableWithCollapse = ({columns, data, compareTable, className, header, tbodyClassName, actions}) => {
-    const {getTableProps, getTableBodyProps, rows, prepareRow} = useReactTable({
-        columns,
+const PlanDetailsTableWithCollapse = ({
+    columns,
+    data = [],
+    compareTable,
+    className,
+    header,
+    tbodyClassName,
+    actions,
+}) => {
+    const table = useReactTable({
+        columns: columns.map((col, index) => ({
+            ...col,
+            id: col.id || `column-${index}`, // Ensure unique column ids
+        })),
         data,
+        getCoreRowModel: getCoreRowModel(),
     });
 
     return (
@@ -17,31 +28,24 @@ const PlanDetailsTableWithCollapse = ({columns, data, compareTable, className, h
             isDashboard={true}
             preferencesKey="costTemp_collapse"
             actions={actions}
-            isEmpty={data?.length === 0}
+            isEmpty={data.length === 0}
         >
-            {data?.length > 0 && (
-                <table {...getTableProps()} className={`${className} plan-details-table`}>
-                    <tbody {...getTableBodyProps()} className={`${tbodyClassName} plan-details-tbody`}>
-                    {rows.map((row, rowIndex) => {
-                        prepareRow(row);
-                        return (
-                            <tr
-                                key={`${header}-row-${rowIndex}`}
-                                {...row.getRowProps()}
-                                className={compareTable ? "comp-tr" : ""}
-                            >
-                                {row.cells.map((cell, cellIndex) => (
-                                    <td
-                                        key={`${header}-cell-${cellIndex}`}
-                                        {...cell.getCellProps()}
-                                        className={compareTable ? "comp-td" : ""}
-                                    >
-                                        {cell.render("Cell")}
-                                    </td>
-                                ))}
+            {data.length > 0 && (
+                <table className={`${className} plan-details-table`}>
+                    <tbody className={`${tbodyClassName} plan-details-tbody`}>
+                        {table.getRowModel().rows.map((row) => (
+                            <tr key={row.id} className={compareTable ? "comp-tr" : ""}>
+                                {row.getVisibleCells().map((cell) =>
+                                    cell.column.columnDef?.hideHeader ? null : (
+                                        <td key={cell.id} className={compareTable ? "comp-td" : ""}>
+                                            {cell.column.columnDef.cell
+                                                ? flexRender(cell.column.columnDef.cell, cell.getContext())
+                                                : flexRender(cell.getValue(), cell.getContext())}
+                                        </td>
+                                    )
+                                )}
                             </tr>
-                        );
-                    })}
+                        ))}
                     </tbody>
                 </table>
             )}
@@ -52,9 +56,10 @@ const PlanDetailsTableWithCollapse = ({columns, data, compareTable, className, h
 PlanDetailsTableWithCollapse.propTypes = {
     columns: PropTypes.arrayOf(
         PropTypes.shape({
-            Header: PropTypes.string.isRequired,
-            accessor: PropTypes.string.isRequired,
-        }),
+            id: PropTypes.string, // Ensure id exists
+            header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+            accessorKey: PropTypes.string.isRequired,
+        })
     ).isRequired,
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
     compareTable: PropTypes.bool,

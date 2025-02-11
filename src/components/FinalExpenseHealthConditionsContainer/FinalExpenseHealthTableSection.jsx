@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState, useMemo } from "react";
 
 import useFetch from "hooks/useFetch";
 
@@ -18,6 +18,7 @@ import {
     EDIT,
     HEALTH_CONDITION_API,
     INCOMPLETE,
+    MEDICATIONS,
     OUTDATED,
 } from "./FinalExpenseHealthConditionsContainer.constants";
 import styles from "./FinalExpenseHealthConditionsContainer.module.scss";
@@ -26,11 +27,13 @@ import { Incomplete } from "./icons/Incomplete";
 import OutdatedSvg from "./icons/outdated.svg";
 import Media from "react-media";
 import { Arrow } from "./icons/Arrow";
+import { Typography, Box, Link } from "@mui/material";
 
 const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
     const [selectedConditionForEdit, setSelectedConditionForEdit] = useState(null);
     const [isAddNewActivityDialogOpen, setIsAddNewActivityDialogOpen] = useState(false);
     const [healthConditions, setHealthConditions] = useState([]);
+    const [healthMedications, setHealthMedications] = useState([]);
     const isLoadingRef = useRef(false);
     const { fireEvent } = useAnalytics();
     const [isMobile, setIsMobile] = useState(false);
@@ -40,7 +43,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
     const onAddClick = () => {
         setSelectedConditionForEdit(null);
         setIsAddNewActivityDialogOpen(true);
-    }
+    };
     const getHealthConditionsListData = useCallback(async () => {
         isLoadingRef.current = true;
         const resp = await getHealthConditions();
@@ -84,117 +87,129 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
             </div>
         );
     };
-
-    const nameCol = {
-        id: "name",
-        Header: "",
-        Cell: ({ row }) => {
-            return <div className={styles.conditionNameCell}>{row.original.conditionName}</div>;
-        }
+    const sectionMedicationHeaderChildren = () => {
+        return (
+            <div className={styles.wrapper}>
+                <Button
+                    icon={<Plus />}
+                    iconPosition="right"
+                    label={ADD_NEW}
+                    
+                    type="tertiary"
+                    className={styles.buttonWithIcon}
+                />
+            </div>
+        );
     };
 
-    const actionCol = {
-        id: "action",
-        Header: "",
-        Cell: ({ row }) => {
-            return <Button
-                icon={<EditIcon />}
-                iconPosition="right"
-                label={EDIT}
-                onClick={() => {
-                    setSelectedConditionForEdit(row?.original);
-                    setIsAddNewActivityDialogOpen(true);
-                }}
-                type="tertiary"
-                className={styles.buttonWithIcon}
-            />
+    const columns = [
+        {
+            accessorKey: "conditionName",
+            header: () => null,
+            cell: ({ row }) => <div className={styles.conditionNameCell}>{row.original.conditionName}</div>,
         },
-    };
-
-    const statusCol = {
-        id: "status",
-        Header: "",
-        Cell: ({ row }) => {
-            return (
+        {
+            accessorKey: "status",
+            header: () => null,
+            enableSorting: true, // Allow sorting on this column if required
+            cell: ({ row }) => (
                 <div className={styles.conditionStatusCell}>
-                    {row.original.isComplete && (
+                    {row.original.isComplete ? (
                         <>
                             <Complete />
                             <span className={styles.completedStatus}>{COMPLETED}</span>
                         </>
-                    )}
-                    {row.original.isComplete === false && (
+                    ) : row.original.isComplete === false ? (
                         <>
                             <Incomplete />
                             <span className={styles.incompleteStatus}>{INCOMPLETE}</span>
                         </>
-                    )}
-                    {row.original.isComplete === undefined && (
+                    ) : (
                         <>
                             <Icon image={OutdatedSvg} className={styles.statusIcon} />
                             <span className={styles.outdatedStatus}>{OUTDATED}</span>
                         </>
                     )}
                 </div>
-            );
+            ),
         },
-    };
-
-    const statusMobileCol = {
-        id: "status",
-        Header: "",
-        Cell: ({ row }) => {
-            return (
+        {
+            accessorKey: "statusMobile",
+            header: () => null,
+            cell: ({ row }) => (
                 <div className={styles.flex}>
                     <div className={styles.conditionStatusCell}>
-                        {row.original.isComplete && (
+                        {row.original.isComplete ? (
                             <>
                                 <Complete />
                                 <span className={styles.completedStatus}>{COMPLETED}</span>
                             </>
-                        )}
-                        {row.original.isComplete === false && (
+                        ) : row.original.isComplete === false ? (
                             <>
                                 <Incomplete />
                                 <span className={styles.incompleteStatus}>{INCOMPLETE}</span>
                             </>
-                        )}
-                        {row.original.isComplete === undefined && (
+                        ) : (
                             <>
                                 <Icon image={OutdatedSvg} className={styles.statusIcon} />
                                 <span className={styles.outdatedStatus}>{OUTDATED}</span>
                             </>
                         )}
                     </div>
-                    <div className={styles.arrowStyle} onClick={() => {
+                    <div
+                        className={styles.arrowStyle}
+                        onClick={() => {
+                            setSelectedConditionForEdit(row?.original);
+                            setIsAddNewActivityDialogOpen(true);
+                        }}
+                    >
+                        <Arrow />
+                    </div>
+                </div>
+            ),
+        },
+        {
+            accessorKey: "action",
+            header: () => null,
+            cell: ({ row }) => (
+                <Button
+                    icon={<EditIcon />}
+                    iconPosition="right"
+                    label={EDIT}
+                    onClick={() => {
                         setSelectedConditionForEdit(row?.original);
                         setIsAddNewActivityDialogOpen(true);
-                    }}><Arrow /></div>
+                    }}
+                    type="tertiary"
+                    className={styles.buttonWithIcon}
+                />
+            ),
+        },
+        {
+            accessorKey: "healthAction",
+            header: () => null,
+            cell: ({ row }) => (
+                <div
+                    className={styles.editCta}
+                    onClick={() => {
+                        setSelectedConditionForEdit(row?.original);
+                        setIsAddNewActivityDialogOpen(true);
+                    }}
+                >
+                    <Arrow />
                 </div>
-
-            );
+            ),
         },
-    };
-
-    const healthActionCol = {
-        id: "action",
-        Header: "",
-        Cell: ({ row }) => {
-            return (
-                <div className={styles.editCta} onClick={() => {
-                    setSelectedConditionForEdit(row?.original);
-                    setIsAddNewActivityDialogOpen(true);
-                }}><Arrow /></div>
-
-            );
-        },
-    };
-
-    const columns = [
-        nameCol,
-        ...(isHealthPage ? [] : (isMobile ? [statusMobileCol] : [statusCol])),
-        ...(isHealthPage && isMobile ? [healthActionCol] : (isMobile ? [] : [actionCol]))
     ];
+
+    // Adjust columns dynamically based on `isHealthPage` and `isMobile`
+    const dynamicColumns = useMemo(() => {
+        return [
+            columns[0], // nameCol
+            ...(isHealthPage ? [] : isMobile ? [columns[2]] : [columns[1]]), // statusCol or statusMobileCol
+            ...(isHealthPage && isMobile ? [columns[4]] : isMobile ? [] : [columns[3]]), // actionCol or healthActionCol
+        ];
+    }, [isHealthPage, isMobile, columns]);
 
     const handleOnClose = useCallback(() => {
         setIsAddNewActivityDialogOpen(false);
@@ -203,10 +218,29 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
         <>
             <Media
                 query={"(max-width: 500px)"}
-                onChange={(isMobile) => {
-                    setIsMobile(isMobile);
+                onChange={(value) => {
+                    setIsMobile(value);
                 }}
             />
+            <ContactSectionCard
+                title={MEDICATIONS}
+                infoIcon={`(0)`}
+                className={`${styles.medicationContainer} ${isHealthPage ? styles.healthPageActivitiesContainer : ""}`}
+                contentClassName={styles.activitiesContainer_content}
+                actions={<div className="actions">{sectionMedicationHeaderChildren()}</div>}
+            >
+                {true && (
+                    <Box className={styles.noItemsContainer}>
+                        <Typography variant="body1" color="#434A51" marginBottom="8px">
+                            This contact has no medications
+                        </Typography>
+                        <Link className={styles.addConditionLink}>
+                            Add a medication
+                        </Link>
+                    </Box>
+                )}
+            </ContactSectionCard>
+
             <ContactSectionCard
                 title={CONDITIONS}
                 infoIcon={`(${healthConditions.length})`}
@@ -214,27 +248,21 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                 contentClassName={styles.activitiesContainer_content}
                 actions={<div className="actions">{sectionHeaderChildren()}</div>}
             >
-
                 {healthConditions.length === 0 && (
-                    <div className={styles.noItemsWrapper}>
-                        <div className="no-items">
-                            <span>This contact has no conditions.&nbsp;</span>
-                            <button
-                                className="link"
-                                data-gtm={`button-add-${CONDITIONS}`}
-                                onClick={onAddClick}
-                            >
-                                {" "}
-                                Add a condition
-                            </button>
-                        </div>
-                    </div>
+                     <Box className={styles.noItemsContainer}>
+                     <Typography variant="body1" color="#434A51" marginBottom="8px">
+                     This contact has no conditions.
+                     </Typography>
+                     <Link onClick={onAddClick} className={styles.addConditionLink}> 
+                         Add a condition
+                     </Link>
+                 </Box>
+                   
                 )}
                 {healthConditions.length > 0 && (
-                    <Table initialState={{}} data={healthConditions} columns={columns} />
+                    <Table initialState={{}} data={healthConditions} columns={dynamicColumns} />
                 )}
-
-            </ContactSectionCard >
+            </ContactSectionCard>
 
             {isAddNewActivityDialogOpen && (
                 <AddNewConditionDialog
@@ -248,8 +276,7 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
                     disableLastTreatmentDate={isHealthPage}
                     page={isHealthPage ? "health_profile" : "final_expense"}
                 />
-            )
-            }
+            )}
         </>
     );
 };

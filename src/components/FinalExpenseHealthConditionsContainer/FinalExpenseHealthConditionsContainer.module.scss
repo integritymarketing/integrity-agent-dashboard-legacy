@@ -1,13 +1,27 @@
 @use "scss/globalDefines" as defines_global;
 
-.activitiesContainer {
-  border-radius: 8px;
-  background-color: #f1f1f1;
-  padding: 1rem;
+.medicationContainer {
+    border-radius: 8px 8px 0px 0px;
+    background-color: #f1f1f1;
+    padding: 1rem;
 
-  > div {
-    box-shadow: none !important;
-  }
+    > div {
+        box-shadow: none !important;
+    }
+
+    @include small {
+        padding: 0.5rem;
+    }
+}
+
+.activitiesContainer {
+    border-radius: 0px 0px 8px 8px;
+    background-color: #f1f1f1;
+    padding: 1rem;
+
+    >div {
+        box-shadow: none !important;
+    }
 
   @include defines_global.small {
     padding: 0.5rem;
@@ -52,10 +66,10 @@
 }
 
 .conditionNameCell {
-  color: #052a63;
-  font-size: 20px;
-  width: 100%;
-  padding-left: 1rem
+    color: #052a63;
+    font-size: 20px;
+    width: 100%;
+    padding-left: 1rem;
 }
 
 .flex {
@@ -193,6 +207,17 @@
   margin-top: 2px;
 }
 
-.noItemsWrapper {
-  background-color: #fff;
+.noItemsContainer {
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.addConditionLink {
+    color: #4178ff;
+    cursor: pointer;
 }

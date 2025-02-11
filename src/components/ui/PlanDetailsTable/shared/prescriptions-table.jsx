@@ -47,33 +47,42 @@ const PrescriptionTable = ({ planData, isMobile }) => {
     const columns = useMemo(
         () => [
             {
-                Header: "Prescriptions",
+                id: "prescriptions-group",
+                header: "Prescriptions",
                 columns: [
                     ...(isMobile
                         ? [
                               {
+                                  id: "name_cost",
+                                  accessorKey: "name_cost",
+                                  header: "",
                                   hideHeader: true,
-                                  accessor: "name_cost",
                               },
                           ]
                         : [
                               {
+                                  id: "name",
+                                  accessorKey: "name",
+                                  header: "",
                                   hideHeader: true,
-                                  accessor: "name",
                               },
                               {
+                                  id: "cost",
+                                  accessorKey: "cost",
+                                  header: "",
                                   hideHeader: true,
-                                  accessor: "cost",
                               },
                           ]),
                     {
+                        id: "covered",
+                        accessorKey: "covered",
+                        header: "",
                         hideHeader: true,
-                        accessor: "covered",
                     },
                 ],
             },
         ],
-        [isMobile],
+        [isMobile]
     );
 
     const pharmacyCost = selectedPharmacy.pharmacyId

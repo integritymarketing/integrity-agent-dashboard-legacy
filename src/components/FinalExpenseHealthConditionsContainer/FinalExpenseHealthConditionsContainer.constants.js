@@ -11,3 +11,4 @@ export const EDIT = "Edit";
 export const HEADER_TITLE = "Health Conditions";
 export const CONDITIONS = "Conditions";
 export const CONTINUE_TO_QUOTE = "Continue to Quote";
+export const MEDICATIONS = "Medications";
