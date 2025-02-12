@@ -1,11 +1,11 @@
 import useQueryParams from "../../hooks/useQueryParams";
 import useFilteredLeadIds from "../../pages/ContactsList/hooks/useFilteredLeadIds";
-import React, { useContext, useRef, useState } from "react";
+import React, {useContext, useRef, useState} from "react";
 import useAnalytics from "hooks/useAnalytics";
-import { Link, useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import useToast from "hooks/useToast";
-import { Formik, useFormik } from "formik";
-import { formatMbiNumber, scrollTop } from "utils/shared-utils/sharedUtility";
+import {Formik, useFormik} from "formik";
+import {formatMbiNumber, scrollTop} from "utils/shared-utils/sharedUtility";
 import analyticsService from "services/analyticsService";
 import styles from "./ContactForm.module.scss";
 import Warning from "components/icons/warning";
@@ -21,35 +21,35 @@ import useAddNewContact from "hooks/ContactForm/useAddNewContact";
 import useAssignLead from "hooks/ContactForm/useAssignLead";
 import useDuplicateContact from "hooks/ContactForm/useDuplicateContact";
 import useLinkContact from "hooks/ContactForm/useLinkContact";
-import { Box } from "@mui/system";
+import {Box} from "@mui/system";
 import * as Yup from "yup";
 import {
     getBirthDateSchema,
-    genericTextFieldSchema,
     getAddressSchema,
     getMedicareBeneficiaryIDSchema,
     getEmailOrPhonePrimaryCommunicationSchema,
+    getTextFieldSchema
 } from "ValidationSchemas";
 
 const ContactForm = ({
-    callLogId,
-    firstName,
-    lastName,
-    hasMedicAid,
-    state,
-    partA = "",
-    partB = "",
-    medicareBeneficiaryID = "",
-    tags = [],
-}) => {
-    const { get } = useQueryParams();
-    const { setFilteredDataHandle } = useFilteredLeadIds();
-    const { checkDuplicateContact } = useDuplicateContact();
-    const { addNewContact } = useAddNewContact();
-    const { linkContact } = useLinkContact();
-    const { assignLeadToInboundCallRecord, assignLeadToOutboundSmsRecord } = useAssignLead();
+                         callLogId,
+                         firstName,
+                         lastName,
+                         hasMedicAid,
+                         state,
+                         partA = "",
+                         partB = "",
+                         medicareBeneficiaryID = "",
+                         tags = [],
+                     }) => {
+    const {get} = useQueryParams();
+    const {setFilteredDataHandle} = useFilteredLeadIds();
+    const {checkDuplicateContact} = useDuplicateContact();
+    const {addNewContact} = useAddNewContact();
+    const {linkContact} = useLinkContact();
+    const {assignLeadToInboundCallRecord, assignLeadToOutboundSmsRecord} = useAssignLead();
     const addNewDuplicateErrorRef = useRef();
-    const { fireEvent } = useAnalytics();
+    const {fireEvent} = useAnalytics();
     const callFrom = decodeURIComponent(get("callFrom")?.replace(/\s/g, "+") || "").replace(/^\+?1/, "");
     const isRelink = get("relink") === "true";
     const inbound = get("inbound") === "true";
@@ -87,8 +87,8 @@ const ContactForm = ({
     };
 
     const validationSchema = Yup.object().shape({
-        ...genericTextFieldSchema("firstName", "First Name").fields,
-        ...genericTextFieldSchema("lastName", "Last Name").fields,
+        ...getTextFieldSchema("firstName", "First Name").fields,
+        ...getTextFieldSchema("lastName", "Last Name").fields,
         ...getBirthDateSchema().fields,
         ...getEmailOrPhonePrimaryCommunicationSchema().fields,
         ...getAddressSchema().fields,
@@ -97,7 +97,7 @@ const ContactForm = ({
 
     const navigate = useNavigate();
     const showToast = useToast();
-    const { allStates = [], allCounties = [], loading: loadingCountyAndState } = useContext(CountyContext);
+    const {allStates = [], allCounties = [], loading: loadingCountyAndState} = useContext(CountyContext);
 
     const getContactLink = (id) => `/contact/${id}/overview`;
     const goToContactDetailPage = (id) => navigate(getContactLink(id));
@@ -113,11 +113,11 @@ const ContactForm = ({
     const handleLinkContact = async (leadIdParam) => {
         try {
             await linkContact(leadIdParam, state);
-            showToast({ message: "Contact linked successfully", time: 4000 });
-            fireEvent("Call Linked", { leadid: leadIdParam.toString() });
+            showToast({message: "Contact linked successfully", time: 4000});
+            fireEvent("Call Linked", {leadid: leadIdParam.toString()});
             setTimeout(() => goToContactDetailPage(leadIdParam), 4000);
         } catch (error) {
-            showToast({ type: "error", message: error.message, time: 4000 });
+            showToast({type: "error", message: error.message, time: 4000});
         }
     };
 
@@ -126,7 +126,7 @@ const ContactForm = ({
         validationSchema: validationSchema,
         validateOnBlur: false,
         validateOnChange: true,
-        onSubmit: async (values, { setErrors, setSubmitting }) => {
+        onSubmit: async (values, {setErrors, setSubmitting}) => {
             setSubmitting(true);
             const duplicateCheckResponse = await checkDuplicateContact(values);
             let duplicateCheckResult;
@@ -145,7 +145,7 @@ const ContactForm = ({
             }
 
             if (duplicateCheckResult?.isExactDuplicate) {
-                analyticsService.fireEvent("event-form-submit-invalid", { formName: "Duplicate Contact Error" });
+                analyticsService.fireEvent("event-form-submit-invalid", {formName: "Duplicate Contact Error"});
                 setErrors({
                     firstName: "Duplicate Contact",
                     lastName: "Duplicate Contact",
@@ -159,7 +159,7 @@ const ContactForm = ({
                 const newContactResponse = await addNewContact(values);
                 const leadId = newContactResponse.leadsId;
 
-                fireEvent("event-form-submit", { formName: "New Contact" });
+                fireEvent("event-form-submit", {formName: "New Contact"});
 
                 if (callLogId && callLogId !== "undefined") {
                     const tagsArray = tags?.split(",").map(Number);
@@ -179,8 +179,8 @@ const ContactForm = ({
                     }
                 }
 
-                fireEvent("Call Linked", { leadid: leadId });
-                showToast({ message: "Contact added successfully" });
+                fireEvent("Call Linked", {leadid: leadId});
+                showToast({message: "Contact added successfully"});
 
                 if (isRelink) {
                     await handleLinkContact(leadId);
@@ -189,7 +189,7 @@ const ContactForm = ({
                 setTimeout(() => goToContactDetailPage(leadId), 4000);
             } catch (err) {
                 console.error("Error while adding contact:", err);
-                showToast({ message: err.message, type: "error" });
+                showToast({message: err.message, type: "error"});
             } finally {
                 setSubmitting(false);
             }
@@ -201,7 +201,7 @@ const ContactForm = ({
             <>
                 {duplicateLeadIds?.length > 0 && (
                     <div className={styles.duplicateMessageContainer}>
-                        <Warning />
+                        <Warning/>
                         <div className={styles.duplicateMessage}>
                             You can create this contact, but the entry is a potential duplicate to{" "}
                             {duplicateLeadIds.length === 1 ? (
@@ -225,7 +225,7 @@ const ContactForm = ({
         );
     };
 
-    const { values, errors, isValid, dirty, handleSubmit, isSubmitting } = formik;
+    const {values, errors, isValid, dirty, handleSubmit, isSubmitting} = formik;
 
     const emailPhoneValid =
         (!errors.email && values.email !== "") || (!errors.phones?.leadPhone && values.phones?.leadPhone !== "");
@@ -245,19 +245,19 @@ const ContactForm = ({
             <Formik {...formik}>
                 <form onSubmit={handleSubmit} className={styles.formContainer}>
                     <Box className={styles.subContainer}>
-                        <BasicDetails formik={formik} fieldSet={addNewDuplicateErrorRef} />
+                        <BasicDetails formik={formik} fieldSet={addNewDuplicateErrorRef}/>
                     </Box>
                     <Box className={styles.subContainer}>
-                        <AddressDetails formik={formik} />
+                        <AddressDetails formik={formik}/>
                     </Box>
                     <Box className={styles.subContainer}>
-                        <CommunicationDetails formik={formik} />
+                        <CommunicationDetails formik={formik}/>
                     </Box>
                     <Box className={styles.subContainer}>
-                        <MedicareIDDetails formik={formik} />
+                        <MedicareIDDetails formik={formik}/>
                     </Box>
                     <Box className={styles.subContainer}>
-                        <MedicaidLISDetails formik={formik} />
+                        <MedicaidLISDetails formik={formik}/>
                     </Box>
                     <div className={styles.requiredFieldLabel}>*Required fields</div>
                     {showDuplicateContactSection()}
