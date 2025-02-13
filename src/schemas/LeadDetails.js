@@ -1,15 +1,41 @@
 import * as yup from "yup";
-import { getPhoneSchema } from "../ValidationSchemas/phoneSchema";
-import { getEmailSchema } from "../ValidationSchemas/emailSchema";
-import { getTextFieldSchema } from "../ValidationSchemas/genericTextFieldSchema";
 
-export const LeadDetails = yup
-    .object()
-    .concat(getTextFieldSchema("firstName", "First name"))
-    .concat(getTextFieldSchema("lastName", "Last name"))
-    .concat(getPhoneSchema())
-    .concat(getEmailSchema())
-    .test("email-or-phone", "Either email or phone number is required", function (values) {
-        const { email, phone } = values;
-        return Boolean(email) || Boolean(phone);
-    });
+const emailOrPhoneRequired = yup.string().test({
+    name: "emailOrPhoneRequired",
+    message: "Either email or phone number is required.",
+    test: function () {
+        const { email, phone } = this.parent;
+        return email || phone;
+    },
+});
+export const LeadDetails = yup.object().shape({
+    firstName: yup
+        .string()
+        .required(
+            "First name must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted."
+        )
+        .min(
+            2,
+            "First name must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted."
+        )
+        .matches(
+            /^[A-Za-z0-9- ']+$/,
+            `${fieldName} must contain only alpha numerics, space, apostrophe('), hyphen(-), no special characters such as ! @ . , ; : " ?`,
+        ),
+    lastName: yup
+        .string()
+        .required(
+            "Last name must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted."
+        )
+        .min(
+            2,
+            "Last name must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted."
+        )
+        .matches(
+            /^[A-Za-z0-9- ']+$/,
+            `${fieldName} must contain only alpha numerics, space, apostrophe('), hyphen(-), no special characters such as ! @ . , ; : " ?`,
+        ),
+    email: emailOrPhoneRequired.email("Email must be a valid address"),
+    phone: emailOrPhoneRequired.matches(/^\(\d{3}\) \d{3}-\d{4}$/, 'Phone number must be a valid 10 digit number'),
+    
+});
