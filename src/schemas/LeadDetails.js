@@ -11,29 +11,27 @@ const emailOrPhoneRequired = yup.string().test({
 export const LeadDetails = yup.object().shape({
     firstName: yup
         .string()
-        .required(
-            "First name must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted."
-        )
+        .required("First name is required")
         .min(
-            2,
-            "First name must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted."
-        )
+                2,
+                `First name must be 2+ characters in length. Valid characters include A-Z. Space, hyphen, and apostrophe are the only special characters accepted.`,
+            )
+        .max(50, `First name must be 50 characters or less`)
         .matches(
-            /^[A-Za-z0-9- ']+$/,
-            `First name must contain only alpha numerics, space, apostrophe('), hyphen(-), no special characters such as ! @ . , ; : " ?`,
-        ),
+                /^[A-Za-z- '`‘’]+$/,
+                `First name must be 2+ characters in length. Valid characters include A-Z. Space, hyphen, and apostrophe are the only special characters accepted.`,
+            ),
     lastName: yup
         .string()
-        .required(
-            "Last name must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted."
-        )
+        .required("Last name is required")
         .min(
             2,
-            "Last name must be 2+ characters in length. Valid characters include A-Z, and no special characters are accepted."
+            `Last name must be 2+ characters in length. Valid characters include A-Z. Space, hyphen, and apostrophe are the only special characters accepted.`,
         )
+        .max(50, `Last name must be 50 characters or less`)
         .matches(
-            /^[A-Za-z0-9- ']+$/,
-            `Last name must contain only alpha numerics, space, apostrophe('), hyphen(-), no special characters such as ! @ . , ; : " ?`,
+        /^[A-Za-z- '`‘’]+$/,
+        `Last name must be 2+ characters in length. Valid characters include A-Z. Space, hyphen, and apostrophe are the only special characters accepted.`,
         ),
     email: emailOrPhoneRequired.email("Email must be a valid address")
     .matches(

@@ -6,7 +6,7 @@ const PlanDetailsTable = ({ columns, data = [], compareTable, className, theadCl
     const table = useReactTable({
         columns,
         data,
-        getCoreRowModel: getCoreRowModel(), // Required in v8
+        getCoreRowModel: getCoreRowModel(),
     });
 
     return (
@@ -15,10 +15,10 @@ const PlanDetailsTable = ({ columns, data = [], compareTable, className, theadCl
             <thead className={`${theadClassName} plan-details-thead`}>
                 {table.getHeaderGroups().map((headerGroup) => (
                     <tr key={headerGroup.id}>
-                        {headerGroup.headers.map((column) =>
-                            column.columnDef?.hideHeader ? null : ( // Fix: Check columnDef existence
-                                <th key={column.id}>{flexRender(column.columnDef?.header, column.getContext())}</th>
-                            )
+                        {
+                            headerGroup.headers.map((header) => header?.column?.columnDef?.hideHeader 
+                                ? null 
+                                : (<th key={header?.column?.id}>{flexRender(header?.column?.columnDef?.header, header?.getContext())}</th>)
                         )}
                     </tr>
                 ))}
@@ -28,8 +28,8 @@ const PlanDetailsTable = ({ columns, data = [], compareTable, className, theadCl
             <tbody className={`${tbodyClassName} plan-details-tbody`}>
                 {table.getRowModel().rows.map((row) => (
                     <tr key={row.id} className={`${compareTable ? "comp-tr" : ""}`}>
-                        {row.getVisibleCells().map((cell) =>
-                            cell.column.columnDef?.hideHeader ? null : ( // Fix: Hide cell if header is hidden
+                        {row.getVisibleCells().map(
+                            (cell) => cell.column.columnDef?.hideHeader ? null : (
                                 <td key={cell.id} className={`${compareTable ? "comp-td" : ""}`}>
                                     {flexRender(cell.column.columnDef?.cell, cell.getContext())}
                                 </td>

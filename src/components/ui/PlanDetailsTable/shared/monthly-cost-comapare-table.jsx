@@ -129,10 +129,33 @@ export function MonthlyCostCompareTable({ plans = [], months = [], monthNumber =
 
     const monthlyPrescriptionDetailsColumns = useMemo(
         () => [
-            { header: "Prescription", accessorKey: "labelName", hideHeader: false },
-            { header: "Cost (Plan 1)", accessorKey: "plan0", id: "costPlan1", hideHeader: false },
-            { header: "Cost (Plan 2)", accessorKey: "plan1", id: "costPlan2", hideHeader: false },
-            { header: "Cost (Plan 3)", accessorKey: "plan2", id: "costPlan3", hideHeader: false },
+            { 
+                header: "Prescription", 
+                accessorKey: "labelName", 
+                hideHeader: false, 
+                cell: (cell) => cell?.row?.original?.labelName
+            },
+            { 
+                header: "Cost (Plan 1)", 
+                accessorKey: "plan0", 
+                id: "costPlan1", 
+                hideHeader: false, 
+                cell: (cell) => cell?.row?.original?.plan0
+            },
+            { 
+                header: "Cost (Plan 2)", 
+                accessorKey: "plan1", 
+                id: "costPlan2", 
+                hideHeader: false, 
+                cell: (cell) => cell?.row?.original?.plan1
+            },
+            { 
+                header: "Cost (Plan 3)", 
+                accessorKey: "plan2", 
+                id: "costPlan3", 
+                hideHeader: false, 
+                cell: (cell) => cell?.row?.original?.plan2
+            },
         ],
         []
     );
