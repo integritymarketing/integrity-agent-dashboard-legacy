@@ -20,7 +20,7 @@ export const LeadDetails = yup.object().shape({
         )
         .matches(
             /^[A-Za-z0-9- ']+$/,
-            `${fieldName} must contain only alpha numerics, space, apostrophe('), hyphen(-), no special characters such as ! @ . , ; : " ?`,
+            `First name must contain only alpha numerics, space, apostrophe('), hyphen(-), no special characters such as ! @ . , ; : " ?`,
         ),
     lastName: yup
         .string()
@@ -33,7 +33,7 @@ export const LeadDetails = yup.object().shape({
         )
         .matches(
             /^[A-Za-z0-9- ']+$/,
-            `${fieldName} must contain only alpha numerics, space, apostrophe('), hyphen(-), no special characters such as ! @ . , ; : " ?`,
+            `Last name must contain only alpha numerics, space, apostrophe('), hyphen(-), no special characters such as ! @ . , ; : " ?`,
         ),
     email: emailOrPhoneRequired.email("Email must be a valid address"),
     phone: emailOrPhoneRequired.matches(/^\(\d{3}\) \d{3}-\d{4}$/, 'Phone number must be a valid 10 digit number'),
