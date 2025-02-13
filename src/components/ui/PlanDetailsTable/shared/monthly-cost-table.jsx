@@ -28,7 +28,7 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
     const monthlyPrescriptionDetailsColumns = useMemo(
         () => [
             { header: "Prescription", accessorKey: "labelName", hideHeader: false },
-            { header: "Cost", accessorKey: "memberCost", hideHeader: true },
+            { header: "Cost", accessorKey: "memberCost", hideHeader: false },
         ],
         []
     );
