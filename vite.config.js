@@ -18,6 +18,7 @@ export default defineConfig(({mode}) => {
                     ? path.resolve(__dirname, "authIndex.html")
                     : path.resolve(__dirname, "index.html"),
             },
+            sourcemap: true,
         },
 
         // Dev server configuration
