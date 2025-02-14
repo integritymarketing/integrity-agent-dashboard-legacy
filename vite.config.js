@@ -4,6 +4,7 @@ import path from "path";
 
 export default defineConfig(({mode}) => {
     const isAuthBuild = process.env.VITE_APP_BUILD_TARGET === "auth";
+    debugger;
 
     return {
         base: "/",
@@ -12,26 +13,22 @@ export default defineConfig(({mode}) => {
 
         // Build configuration
         build: {
-            outDir: isAuthBuild ? "buildAuth" : "build", // Separate output folders
+            outDir: "build", // Separate output folders
             rollupOptions: {
-                input: isAuthBuild
-                    ? path.resolve(__dirname, "authIndex.html")
-                    : path.resolve(__dirname, "index.html"),
+                input: path.resolve(__dirname, "index.html"),
             },
-            sourcemap: true,
         },
 
         // Dev server configuration
         server: {
-            port: isAuthBuild ? 3001 : 3000, // Separate dev servers if needed
+            port: 3001, // Separate dev servers if needed
             open: true,
-            proxy: {
-                "/api": {
-                    target: "https://api.example.com", // Adjust as per your API
-                    changeOrigin: true,
-                    secure: false,
-                },
-            },
+            historyApiFallback: true, // Fallback to index.html for SPA routes
+        },
+
+        preview: {
+            port: 3001, // Separate dev servers if needed
+            open: true,
             historyApiFallback: true, // Fallback to index.html for SPA routes
         },
 

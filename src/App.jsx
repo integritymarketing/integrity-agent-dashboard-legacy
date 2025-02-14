@@ -1,11 +1,11 @@
-import { lazy, useEffect } from "react";
+import {lazy, useEffect} from "react";
 import Media from "react-media";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { appProtectedRoutes, appRoutes } from "routeConfigs/AppRouteConfig";
-import { useAgentAvailability } from "hooks/useAgentAvailability";
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
+import {appProtectedRoutes, appRoutes, AuthAppRoutes} from "routeConfigs/AppRouteConfig";
+import {useAgentAvailability} from "hooks/useAgentAvailability";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useRemoveLeadIdsOnRouteChange from "hooks/useRemoveLeadIdsOnRouteChange";
-import { ProtectedRoute, UnProtectedRoute } from "components/functional/auth-routes";
+import {ProtectedRoute, UnProtectedRoute} from "components/functional/auth-routes";
 import useUserProfile from "hooks/useUserProfile";
 import * as Sentry from "@sentry/react";
 
@@ -15,8 +15,8 @@ const Welcome = lazy(() => import("pages/welcome"));
 
 const App = () => {
     const [, setIsAvailable] = useAgentAvailability();
-    const { agentInformation } = useAgentInformationByID();
-    const { firstName, lastName, email, phone, npn } = useUserProfile();
+    const {agentInformation} = useAgentInformationByID();
+    const {firstName, lastName, email, phone, npn} = useUserProfile();
     useRemoveLeadIdsOnRouteChange();
     const isMaintainanceMode = import.meta.env.VITE_MAINTENANCE_MODE;
     const location = useLocation();
@@ -51,7 +51,8 @@ const App = () => {
             };
         }
 
-        return () => { };
+        return () => {
+        };
     }, [firstName, lastName, email, phone, agentInformation, location.pathname, npn, agentInformation?.agentVirtualPhoneNumber]);
 
     useEffect(() => {
@@ -71,8 +72,8 @@ const App = () => {
     if (isMaintainanceMode) {
         return (
             <Routes>
-                <Route path="/maintenance" element={<MaintenancePage />} />
-                <Route path="*" element={<Navigate to="/maintenance" />} />
+                <Route path="/maintenance" element={<MaintenancePage/>}/>
+                <Route path="*" element={<Navigate to="/maintenance"/>}/>
             </Routes>
         );
     }
@@ -88,7 +89,7 @@ const App = () => {
                                 small: "(max-width: 767px)",
                             }}
                         >
-                            {(matches) => (matches.small ? <LandingPage /> : <Welcome />)}
+                            {(matches) => (matches.small ? <LandingPage/> : <Welcome/>)}
                         </Media>
                     </UnProtectedRoute>
                 }
@@ -101,7 +102,10 @@ const App = () => {
                 />
             ))}
             {appRoutes.map((route) => (
-                <Route key={route.path} path={route.path} element={route.component} />
+                <Route key={route.path} path={route.path} element={route.component}/>
+            ))}
+            {AuthAppRoutes.map((route) => (
+                <Route key={route.path} path={route.path} element={route.component}/>
             ))}
         </Routes>
     );

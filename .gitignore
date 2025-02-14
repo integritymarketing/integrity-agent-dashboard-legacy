@@ -41,3 +41,9 @@ npm ERR!*
 # ignore vs-code configs
 *.code-workspace
 .vscode/*
+
+# Stephen K testing
+.env-auth-dev
+.env-auth-qa
+.env-web-dev
+.env-web-qa

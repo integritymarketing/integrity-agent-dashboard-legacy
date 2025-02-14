@@ -1,12 +1,12 @@
-import { lazy, StrictMode } from "react";
-import { Navigate } from "react-router-dom";
+import React, {lazy, StrictMode, Suspense, useEffect} from "react";
+import {Navigate, useNavigate} from "react-router-dom";
 
-import { ContactDetailsProvider } from "providers/ContactDetails";
-import { FinalExpensePlansProvider } from "providers/FinalExpense";
-import { ContactsListProvider } from "pages/ContactsList/providers/ContactsListProvider";
-import { PharmacyProvider } from "providers/PharmacyProvider";
-import { ProductPreferenceDetailsProvider } from "providers/Life/ProductPreferenceDetailsProvider";
-import { LifeIulQuoteProvider } from "providers/Life";
+import {ContactDetailsProvider} from "providers/ContactDetails";
+import {FinalExpensePlansProvider} from "providers/FinalExpense";
+import {ContactsListProvider} from "pages/ContactsList/providers/ContactsListProvider";
+import {PharmacyProvider} from "providers/PharmacyProvider";
+import {ProductPreferenceDetailsProvider} from "providers/Life/ProductPreferenceDetailsProvider";
+import {LifeIulQuoteProvider} from "providers/Life";
 
 const TrafficDirector = lazy(() => import("components/functional/traffic-director"));
 const AddContactPage = lazy(() => import("pages/contacts/AddContactPage"));
@@ -51,7 +51,6 @@ const ContactsList = lazy(() => import("pages/ContactsList"));
 
 const TermsOfUsagePage = lazy(() => import("pages/TermsOfUsagePage"));
 const PrivacyPolicyPage = lazy(() => import("pages/PrivacyPolicyPage"));
-const LoginRedirectSSOPage = lazy(() => import("pages/auth/LoginRedirectSSOPage"));
 const CampaignInvitationPage = lazy(() => import("pages/Marketing/CampaignInvitation"));
 const CampaignDashboardPage = lazy(() => import("pages/Marketing/CampaignDashboard"));
 const ClientConnectMarketingContainer = lazy(() => import("pages/Marketing/ClientConnectMarketing"));
@@ -69,71 +68,184 @@ const IulAccumulationQuoteDetailsPage = lazy(() => import("pages/IulAccumulation
 const IulProtectionQuoteDetailsPage = lazy(() => import("pages/IulProtectionQuoteDetailsPage"));
 const IulAccumulationComparePlansPage = lazy(() => import("pages/IulAccumulationComparePlansPage"));
 
+const ServerLoginPage = lazy(() => import("pages/auth/ServerLoginPage"));
+const ServerLogoutPage = lazy(() => import("pages/auth/ServerLogoutPage"));
+const ServerErrorPage = lazy(() => import("pages/auth/ServerErrorPage"));
+const RegistrationPage = lazy(() => import("pages/auth/RegistrationPage"));
+const RegistrationConfirmEmailPage = lazy(() => import("pages/auth/RegistrationConfirmEmailPage"));
+const RegistrationConfirmLinkExpiredPage = lazy(() => import("pages/auth/RegistrationConfirmLinkExpiredPage"));
+const RegistrationCheckEmailPage = lazy(() => import("pages/auth/RegistrationCheckEmailPage"));
+const RegistrationCompletedPage = lazy(() => import("pages/auth/RegistrationCompletedPage"));
+const ForgotPasswordPage = lazy(() => import("pages/auth/ForgotPasswordPage"));
+const ForgotPasswordSentPage = lazy(() => import("pages/auth/ForgotPasswordSentPage"));
+const PasswordResetPage = lazy(() => import("pages/auth/PasswordResetPage"));
+const PasswordLinkExpiredPage = lazy(() => import("pages/auth/PasswordLinkExpiredPage"));
+const PasswordUpdatedPage = lazy(() => import("pages/auth/PasswordUpdatedPage"));
+const FinalErrorPage = lazy(() => import("pages/auth/FinalErrorPage"));
+const NewEmailPage = lazy(() => import("pages/auth/NewEmailPage"));
+const EmailUpdatedPage = lazy(() => import("pages/auth/EmailUpdatedPage"));
+const ContactSupport = lazy(() => import("pages/auth/ContactSupport"));
+const ContactSupportInvalidNPN = lazy(() => import("pages/auth/ContactSupportInvalidNPN"));
+const UpdateMobileApp = lazy(() => import("pages/auth/UpdateMobileApp"));
+const LoginRedirectSSOPage = lazy(() => import("pages/auth/LoginRedirectSSOPage"));
+
+const RedirectAndRestartLoginFlow = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const handleRedirectAndRestartLoginFlow = () => {
+            navigate("/signin");
+        };
+        handleRedirectAndRestartLoginFlow();
+    }, [navigate]);
+
+    return null;
+};
+
+const AuthAppRoutes = [
+    {
+        path: "/login", component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <ServerLoginPage/>
+            </Suspense>
+        ),
+    },
+    {
+        path: "/logout",
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <ServerLogoutPage/>
+            </Suspense>
+        ),
+
+    },
+    {
+        path: "/error",
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <ServerErrorPage/>
+            </Suspense>
+        ),
+    },
+    {
+        path: "/register",
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <RegistrationPage/>
+            </Suspense>
+        ),
+    },
+    {
+        path: "/registration-email-sent",
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <RegistrationCheckEmailPage/>
+            </Suspense>
+        ),
+    },
+    {
+        path: "/confirm-email",
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <RegistrationConfirmEmailPage/>
+            </Suspense>
+        ),
+    },
+    {
+        path: "/confirm-link-expired",
+        component: (
+            <Suspense fallback={<div>Loading...</div>}>
+                <RegistrationConfirmLinkExpiredPage/>
+            </Suspense>
+        ),
+    },
+    {path: "/registration-complete", component: <RegistrationCompletedPage/>},
+    {path: "/forgot-password", component: <ForgotPasswordPage/>},
+    {path: "/password-reset-sent", component: <ForgotPasswordSentPage/>},
+    {path: "/reset-password", component: <PasswordResetPage/>},
+    {path: "/password-link-expired", component: <PasswordLinkExpiredPage/>},
+    {path: "/password-updated", component: <PasswordUpdatedPage/>},
+    {path: "/sorry", component: <FinalErrorPage/>},
+    {path: "/update-email", component: <NewEmailPage/>},
+    {path: "/email-updated", component: <EmailUpdatedPage/>},
+    {path: "/contact-support", component: <ContactSupport/>},
+    {
+        path: "/contact-support-invalid-npn/:npnId",
+        component: <ContactSupportInvalidNPN/>,
+    },
+    {path: "/mobile-app-update", component: <UpdateMobileApp/>},
+    {path: "/login-redirect-sso", component: <LoginRedirectSSOPage/>},
+    {
+        path: "*",
+        component: RedirectAndRestartLoginFlow,
+    },
+];
+
 const appRoutes = [
     {
         path: "/",
-        component: <TrafficDirector />,
+        component: <TrafficDirector/>,
     },
-    { path: "/terms", component: <TermsPage /> },
-    { path: "/privacy", component: <PrivacyPage /> },
-    { path: "/terms-of-usage", component: <TermsOfUsagePage /> },
-    { path: "/privacy-policy", component: <PrivacyPolicyPage /> },
+    {path: "/terms", component: <TermsPage/>},
+    {path: "/privacy", component: <PrivacyPage/>},
+    {path: "/terms-of-usage", component: <TermsOfUsagePage/>},
+    {path: "/privacy-policy", component: <PrivacyPolicyPage/>},
 
     {
         path: "/customer/enrollmenthistory/:contactId/:confirmationNumber/:effectiveDate/:request/:token",
-        component: <PolicyCodePage />,
+        component: <PolicyCodePage/>,
     },
     {
         path: "/customer/plans/:contactId/compare/:planIds/:effectiveDate/:request/:token",
-        component: <ComparePlansCodePage />,
+        component: <ComparePlansCodePage/>,
     },
 
-    { path: "/signin", component: <AuthSigninRedirectPage /> },
+    {path: "/signin", component: <AuthSigninRedirectPage/>},
     {
         path: "/signin-oidc-silent",
-        component: <AuthSilentCallback />,
+        component: <AuthSilentCallback/>,
     },
-    { path: "/signin-oidc", component: <AuthSigninCallback /> },
+    {path: "/signin-oidc", component: <AuthSigninCallback/>},
     {
         path: "/signin-oidc-sunfire-mobile",
-        component: <AuthSigninCallback />,
+        component: <AuthSigninCallback/>,
     },
-    { path: "/signout-oidc", component: <AuthSignoutCallback /> },
-    { path: "/maintenance", component: <Navigate to="/" /> },
-    { path: "/clients", component: <Navigate to="/contacts" /> },
-    { path: "/error", component: <ErrorPage /> },
-    { path: "/clientsSSO", component: <MedicareSSORedirect /> },
-    { path: "/login-redirect-sso", component: <LoginRedirectSSOPage /> },
-    { path: "*", component: <NotFoundPage /> },
+    {path: "/signout-oidc", component: <AuthSignoutCallback/>},
+    {path: "/maintenance", component: <Navigate to="/"/>},
+    {path: "/clients", component: <Navigate to="/contacts"/>},
+    {path: "/error", component: <ErrorPage/>},
+    {path: "/clientsSSO", component: <MedicareSSORedirect/>},
+    {path: "/login-redirect-sso", component: <LoginRedirectSSOPage/>},
+    {path: "*", component: <NotFoundPage/>},
 ];
 
 const appProtectedRoutes = [
     {
         path: "/redirect-loading",
-        component: <RedirectLoadingPage />,
+        component: <RedirectLoadingPage/>,
     },
     {
         path: "/home",
-        component: <Dashboard />,
+        component: <Dashboard/>,
     },
     {
         path: "/dashboard",
         component: (
             <ContactDetailsProvider>
-                <Dashboard />
-                <WebChatComponent />
+                <Dashboard/>
+                <WebChatComponent/>
             </ContactDetailsProvider>
         ),
     },
     {
         path: "/link-to-contact/*",
-        component: <LinkToContact />,
+        component: <LinkToContact/>,
     },
     {
         path: "/enrollmenthistory/:contactId/:confirmationNumber/:effectiveDate",
         component: (
             <ContactDetailsProvider>
-                <EnrollmentHistoryPage />
+                <EnrollmentHistoryPage/>
             </ContactDetailsProvider>
         ),
     },
@@ -141,30 +253,30 @@ const appProtectedRoutes = [
         path: "/enrollment-link-to-contact",
         component: (
             <ContactDetailsProvider>
-                <EnrollmentLinkToContact />
+                <EnrollmentLinkToContact/>
             </ContactDetailsProvider>
         ),
     },
-    { path: "/help", component: <HelpPage /> },
-    { path: "/learning-center", component: <ResourcesPage /> },
+    {path: "/help", component: <HelpPage/>},
+    {path: "/learning-center", component: <ResourcesPage/>},
     {
         path: "/contacts/*",
         component: (
             <>
-                <ContactsList />
-                <WebChatComponent />
+                <ContactsList/>
+                <WebChatComponent/>
             </>
         ),
     },
-    { path: "/contact/add-new/:callLogId", component: <AddContactPage /> },
-    { path: "/contact/add-new", component: <AddContactPage /> },
-    { path: "/contact/new", component: <AddContactPage /> },
+    {path: "/contact/add-new/:callLogId", component: <AddContactPage/>},
+    {path: "/contact/add-new", component: <AddContactPage/>},
+    {path: "/contact/new", component: <AddContactPage/>},
     {
         path: "/contact/:leadId/duplicate/:duplicateLeadId",
         component: (
             <>
                 <ContactDetailsProvider>
-                    <ContactProfile />
+                    <ContactProfile/>
                 </ContactDetailsProvider>
             </>
         ),
@@ -174,7 +286,7 @@ const appProtectedRoutes = [
         component: (
             <>
                 <ContactDetailsProvider>
-                    <ContactProfile />
+                    <ContactProfile/>
                 </ContactDetailsProvider>
             </>
         ),
@@ -184,19 +296,19 @@ const appProtectedRoutes = [
         component: (
             <>
                 <ContactDetailsProvider>
-                    <ContactProfile />
+                    <ContactProfile/>
                 </ContactDetailsProvider>
             </>
         ),
     },
 
-    { path: "/client-import", component: <ClientImportPage /> },
+    {path: "/client-import", component: <ClientImportPage/>},
     {
         path: "/plans/:contactId/compare/:planIds/:effectiveDate",
         component: (
             <ContactDetailsProvider>
                 <PharmacyProvider>
-                    <ComparePlansPage />
+                    <ComparePlansPage/>
                 </PharmacyProvider>
             </ContactDetailsProvider>
         ),
@@ -206,7 +318,7 @@ const appProtectedRoutes = [
         component: (
             <ContactDetailsProvider>
                 <PharmacyProvider>
-                    <PlansPage />
+                    <PlansPage/>
                 </PharmacyProvider>
             </ContactDetailsProvider>
         ),
@@ -216,7 +328,7 @@ const appProtectedRoutes = [
         component: (
             <ContactDetailsProvider>
                 <PharmacyProvider>
-                    <PlanDetailsPage />
+                    <PlanDetailsPage/>
                 </PharmacyProvider>
             </ContactDetailsProvider>
         ),
@@ -226,8 +338,8 @@ const appProtectedRoutes = [
         component: (
             <StrictMode>
                 <ContactDetailsProvider>
-                    <FinalExpenseHealthConditionsPage />
-                    <WebChatComponent />
+                    <FinalExpenseHealthConditionsPage/>
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -238,9 +350,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
-                        <FinalExpensePlansPage />
+                        <FinalExpensePlansPage/>
                     </FinalExpensePlansProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -251,9 +363,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
-                        <FinalExpenseCreateQuotePage />
+                        <FinalExpenseCreateQuotePage/>
                     </FinalExpensePlansProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -264,9 +376,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
-                        <SimplifiedIULCreateQuotePage />
+                        <SimplifiedIULCreateQuotePage/>
                     </FinalExpensePlansProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -276,8 +388,8 @@ const appProtectedRoutes = [
         component: (
             <StrictMode>
                 <ContactDetailsProvider>
-                    <SimplifiedIULHealthConditionsPage />
-                    <WebChatComponent />
+                    <SimplifiedIULHealthConditionsPage/>
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -288,9 +400,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
-                        <SimplifiedIULPlansPage />
+                        <SimplifiedIULPlansPage/>
                     </FinalExpensePlansProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -299,7 +411,7 @@ const appProtectedRoutes = [
         path: "/contact/:contactId/addZip",
         component: (
             <ContactDetailsProvider>
-                <AddZipPage />
+                <AddZipPage/>
             </ContactDetailsProvider>
         ),
     },
@@ -307,8 +419,8 @@ const appProtectedRoutes = [
         path: "taskList-results-mobile-layout/:npn/:widget",
         component: (
             <ContactDetailsProvider>
-                <TaskListResultsMobileLayout />
-                <WebChatComponent />
+                <TaskListResultsMobileLayout/>
+                <WebChatComponent/>
             </ContactDetailsProvider>
         ),
     },
@@ -316,8 +428,8 @@ const appProtectedRoutes = [
         path: "policy-snapshot-mobile-layout/:npn",
         component: (
             <ContactDetailsProvider>
-                <PolicySnapshotMobileLayout />
-                <WebChatComponent />
+                <PolicySnapshotMobileLayout/>
+                <WebChatComponent/>
             </ContactDetailsProvider>
         ),
     },
@@ -325,17 +437,17 @@ const appProtectedRoutes = [
         path: "marketing/campaign-details/:campaignId",
         component: (
             <ContactsListProvider>
-                <CampaignInvitationPage />
+                <CampaignInvitationPage/>
             </ContactsListProvider>
         ),
     },
     {
         path: "marketing/campaign-dashboard",
-        component: <CampaignDashboardPage />,
+        component: <CampaignDashboardPage/>,
     },
     {
         path: "marketing/client-connect-marketing",
-        component: <ClientConnectMarketingContainer />,
+        component: <ClientConnectMarketingContainer/>,
     },
     {
         path: "/life/iul-accumulation/:contactId/quote",
@@ -343,9 +455,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <LifeIulQuoteProvider>
-                        <IulAccumulationQuotePage />
+                        <IulAccumulationQuotePage/>
                     </LifeIulQuoteProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -356,9 +468,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <LifeIulQuoteProvider>
-                        <IulProtectionQuotePage />
+                        <IulProtectionQuotePage/>
                     </LifeIulQuoteProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -369,9 +481,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
-                        <IulAccumulationConfirmationDetailsPage />
+                        <IulAccumulationConfirmationDetailsPage/>
                     </FinalExpensePlansProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -383,10 +495,10 @@ const appProtectedRoutes = [
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
                         <ProductPreferenceDetailsProvider>
-                            <IulAccumulationProductPreferencesPage />
+                            <IulAccumulationProductPreferencesPage/>
                         </ProductPreferenceDetailsProvider>
                     </FinalExpensePlansProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -397,9 +509,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
-                        <IulProtectionConfirmationDetailsPage />
+                        <IulProtectionConfirmationDetailsPage/>
                     </FinalExpensePlansProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -411,10 +523,10 @@ const appProtectedRoutes = [
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
                         <ProductPreferenceDetailsProvider>
-                            <IulProtectionProductPreferencesPage />
+                            <IulProtectionProductPreferencesPage/>
                         </ProductPreferenceDetailsProvider>
                     </FinalExpensePlansProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -425,9 +537,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
-                        <TermConfirmationDetailsPage />
+                        <TermConfirmationDetailsPage/>
                     </FinalExpensePlansProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -438,9 +550,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <FinalExpensePlansProvider>
-                        <TermProductPreferencesPage />
+                        <TermProductPreferencesPage/>
                     </FinalExpensePlansProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -451,9 +563,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <LifeIulQuoteProvider>
-                        <IulProtectionComparePlansPage />
+                        <IulProtectionComparePlansPage/>
                     </LifeIulQuoteProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -464,9 +576,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <LifeIulQuoteProvider>
-                        <IulAccumulationQuoteDetailsPage />
+                        <IulAccumulationQuoteDetailsPage/>
                     </LifeIulQuoteProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -477,9 +589,9 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <LifeIulQuoteProvider>
-                        <IulProtectionQuoteDetailsPage />
+                        <IulProtectionQuoteDetailsPage/>
                     </LifeIulQuoteProvider>
-                    <WebChatComponent />
+                    <WebChatComponent/>
                 </ContactDetailsProvider>
             </StrictMode>
         ),
@@ -490,7 +602,7 @@ const appProtectedRoutes = [
             <StrictMode>
                 <ContactDetailsProvider>
                     <LifeIulQuoteProvider>
-                        <IulAccumulationComparePlansPage />
+                        <IulAccumulationComparePlansPage/>
                     </LifeIulQuoteProvider>
                 </ContactDetailsProvider>
             </StrictMode>
@@ -498,4 +610,4 @@ const appProtectedRoutes = [
     },
 ];
 
-export { appRoutes, appProtectedRoutes };
+export {appRoutes, appProtectedRoutes, AuthAppRoutes};
