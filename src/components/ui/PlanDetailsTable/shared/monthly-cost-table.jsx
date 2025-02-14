@@ -27,8 +27,17 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
 
     const monthlyPrescriptionDetailsColumns = useMemo(
         () => [
-            { header: "Prescription", accessorKey: "labelName", hideHeader: false },
-            { header: "Cost", accessorKey: "memberCost", hideHeader: false },
+            { header: "Prescription", accessorKey: "labelName" },
+            {
+                header: "Cost",
+                accessorKey: "memberCost",
+                id: "cost-label",
+                cell: ({ getValue }) => (
+                    <div>
+                        <span>{getValue()}</span>
+                    </div>
+                ),
+            },
         ],
         []
     );
@@ -36,11 +45,12 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
     const showMonthlyBars = () => {
         return effectiveMonthlyCosts?.map((mc) => {
             const className = expandedMonths[mc.monthID] ? "cost-monthly-bar active" : "cost-monthly-bar";
+
             const totalDrugCost =
                 mc?.costDetail?.reduce((acc, curr) => {
                     return curr.memberCost + acc;
                 }, 0) || 0;
-            const premium = planData.annualPlanPremium / 12;
+            const premium = planData?.annualPlanPremium / 12;
             const totalEstimatedCost = totalDrugCost + premium;
 
             return (
@@ -72,19 +82,21 @@ export function MonthlyCostTable({ planData, months, monthNumber, currencyFormat
                         )}
                         <div className={"value"}>{currencyFormatter.format(totalEstimatedCost)}</div>
                     </div>
-                    <div className="cost-monthly-content">
-                        <PlanDetailsTable
-                            columns={monthlyPrescriptionDetailsColumns}
-                            data={mc.costDetail?.map((cd) => {
-                                const cdd = { ...cd };
-                                cdd.memberCost = currencyFormatter.format(cd.memberCost);
-                                return cdd;
-                            })}
-                            className={"cost-monthly-table"}
-                            theadClassName={"cost-monthly-thead"}
-                            tbodyClassName={"cost-monthly-tbody"}
-                        />
-                    </div>
+                    {mc?.costDetail?.length > 0 && (
+                        <div className="cost-monthly-content">
+                            <PlanDetailsTable
+                                columns={monthlyPrescriptionDetailsColumns}
+                                data={mc?.costDetail?.map((cd) => {
+                                    const cdd = { ...cd };
+                                    cdd.memberCost = currencyFormatter.format(cd.memberCost);
+                                    return cdd;
+                                })}
+                                className={"cost-monthly-table"}
+                                theadClassName={"cost-monthly-thead"}
+                                tbodyClassName={"cost-monthly-tbody"}
+                            />
+                        </div>
+                    )}
                     <div className="cost-monthly-prescription-total">
                         {showMonthlyTotalBar(totalDrugCost, totalEstimatedCost)}
                     </div>
