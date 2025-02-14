@@ -1,0 +1,35 @@
+.datepicker {
+    width: 100%;
+
+    > div {
+        height: 46px;
+        width: 100%;
+    }
+
+    input {
+        color: #4178ff;
+    }
+
+    button {
+        color: #4178ff;
+    }
+}
+
+.optionValueWrapper {
+    display: flex;
+    gap: 16px;
+
+    .optionValueBox {
+        background-color: #fff;
+        padding: 10px 15px;
+        width: 50%;
+        color: #434a51;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+    }
+
+    .optionValueBox.selected {
+        background-color: #f1faff;
+    }
+}
