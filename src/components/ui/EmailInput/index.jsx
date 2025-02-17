@@ -5,53 +5,55 @@ import { TextInput } from "components/MuiComponents";
 import ErrorIcon from "@mui/icons-material/Error";
 import { debounce } from "lodash";
 import * as yup from "yup";
-import useFetch from "hooks/useFetch";
+import { useLeadDetails } from "providers/ContactDetails";
 import styles from "./styles.module.scss";
 
 const errorMessage = "Invalid email address format.";
 const validEmailMessage = "This email address is valid.";
-const invalidEmailMessage = "Invalid email format.";
 const serverErrorMessage = "There was an error validating this email address.";
+const emailUndeliverMsg = "This email address may not be able to receive emails. Please verify the address.";
 
 /**
  * EmailInput Component
  * A reusable email input field with validation and async compatibility check.
  */
-const EmailInput = ({ label, onValidation }) => {
+const EmailInput = ({ label, onValidation, size, ...props }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(null);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
     const [value, setValue] = useState("");
 
-    const { Get: validateEmail } = useFetch(`${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads/Validate/EmailAddress`);
+    const { validateEmail } = useLeadDetails();
 
     // Email validation schema
     const emailSchema = yup
         .string()
-        .required("Email address is required")
         .email(errorMessage)
         .test("is-complete", "Incomplete email address", (email) => {
+            if (!email) return false;
             const emailPattern = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
             return emailPattern.test(email);
         });
 
     const checkEmailValidity = useCallback(
         debounce(async (email) => {
-            if (!email) {return;}
+            if (!email) {
+                return;
+            }
             try {
                 setIsLoading(true);
                 setMessage(null);
-
-                const response = await validateEmail(null, false, email);
+                const response = await validateEmail(email);
                 const isValid = response === true;
                 setIsEmailValid(isValid);
                 onValidation({
                     email,
+                    title: isValid ? "Email Verified" : "Email is Undeliverable",
                     status: isValid ? "success" : "error",
-                    message: isValid ? validEmailMessage : invalidEmailMessage,
+                    message: isValid ? validEmailMessage : emailUndeliverMsg,
                 });
-                setMessage(isValid ? validEmailMessage : invalidEmailMessage);
+                setMessage(isValid ? validEmailMessage : emailUndeliverMsg);
             } catch (error) {
                 setIsEmailValid(null);
                 setMessage(null);
@@ -69,17 +71,34 @@ const EmailInput = ({ label, onValidation }) => {
         setIsEmailValid(null);
         setError(null);
 
+        if (inputValue === "") {
+            onValidation({
+                title: "",
+                email: inputValue,
+                status: "",
+                message: "",
+            });
+            return false;
+        }
+
         try {
             emailSchema.validateSync(inputValue);
             checkEmailValidity(inputValue);
         } catch (validationError) {
             setError(validationError.message);
+            onValidation({
+                title: "",
+                email: inputValue,
+                status: "",
+                message: "",
+            });
         }
     };
 
     return (
         <div className={styles.inputContainer}>
             <TextInput
+                size={size}
                 label={label}
                 value={value}
                 color={isEmailValid === true ? "success" : error ? "error" : ""}
@@ -99,7 +118,9 @@ const EmailInput = ({ label, onValidation }) => {
                     ),
                 }}
                 fullWidth
+                autoComplete={false}
                 variant="outlined"
+                {...props}
             />
         </div>
     );

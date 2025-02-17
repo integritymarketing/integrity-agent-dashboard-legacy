@@ -4,7 +4,6 @@ import path from "path";
 
 export default defineConfig(({mode}) => {
     const isAuthBuild = process.env.VITE_APP_BUILD_TARGET === "auth";
-    debugger;
 
     return {
         base: "/",

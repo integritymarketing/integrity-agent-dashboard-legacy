@@ -25,6 +25,27 @@ export const LeadDetailsContext = createContext();
 
 export const LeadDetailsProvider = ({ children }) => {
     const leadsApiUrl = `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads`;
+    const validatePhoneUrl = `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads/Validate/MobilePhoneNumber`;
+    const validateEmailUrl = `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads/Validate/EmailAddress`;
+    const updatePhoneUrl = `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads/phonenumber`;
+
+    const {
+        Patch: updatePhoneAPICall,
+        loading: onUpdatePhoneLoading,
+        error: updatePhoneError,
+    } = useFetch(updatePhoneUrl);
+
+    const {
+        Get: validateEmailAPICall,
+        loading: onValidateEmailLoading,
+        error: validateEmailError,
+    } = useFetch(validateEmailUrl);
+
+    const {
+        Get: validatePhoneAPICall,
+        loading: onValidatePhoneLoading,
+        error: validatePhoneError,
+    } = useFetch(validatePhoneUrl);
 
     const {
         Get: fetchLeadDetails,
@@ -57,7 +78,7 @@ export const LeadDetailsProvider = ({ children }) => {
                 });
             }
         },
-        [fetchLeadDetails, showToast],
+        [fetchLeadDetails, showToast]
     );
 
     const updateLeadDetailsWithZipCode = useCallback(
@@ -73,7 +94,21 @@ export const LeadDetailsProvider = ({ children }) => {
                 });
             }
         },
-        [editLeadDetails, getLeadDetails, showToast],
+        [editLeadDetails, getLeadDetails, showToast]
+    );
+
+    const updateLeadPhone = useCallback(
+        async (payload) => {
+            try {
+                await updatePhoneAPICall(payload, false, null);
+            } catch (err) {
+                showToast({
+                    type: "error",
+                    message: `Failed to update phone number`,
+                });
+            }
+        },
+        [updatePhoneAPICall, getLeadDetails, showToast]
     );
 
     const updateLeadDetails = async (newPayload) => {
@@ -169,7 +204,7 @@ export const LeadDetailsProvider = ({ children }) => {
         const payload = removeNullAndEmptyFields(reqData);
         return await performAsyncOperation(
             () => editLeadDetails(payload, false, newPayload.leadsId),
-            () => { },
+            () => {},
             async (data) => {
                 await getLeadDetails(newPayload?.leadsId);
                 showToast({
@@ -181,7 +216,7 @@ export const LeadDetailsProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to update lead`,
-                }),
+                })
         );
     };
 
@@ -190,7 +225,7 @@ export const LeadDetailsProvider = ({ children }) => {
             const formattedData = getFormattedData(newPayload, oldPayload);
             await performAsyncOperation(
                 () => editLeadDetails(formattedData, false, newPayload.leadsId),
-                () => { },
+                () => {},
                 async () => {
                     await getLeadDetails(newPayload?.leadsId);
                     showToast({
@@ -201,17 +236,17 @@ export const LeadDetailsProvider = ({ children }) => {
                     showToast({
                         type: "error",
                         message: `Failed to update lead`,
-                    }),
+                    })
             );
         },
-        [editLeadDetails, getLeadDetails, showToast],
+        [editLeadDetails, getLeadDetails, showToast]
     );
 
     const removeContact = useCallback(
         async (leadId, callBack) => {
             await performAsyncOperation(
                 () => deleteContact(null, true, leadId),
-                () => { },
+                () => {},
                 () => {
                     callBack();
                 },
@@ -219,10 +254,35 @@ export const LeadDetailsProvider = ({ children }) => {
                     showToast({
                         type: "error",
                         message: `Failed to delete lead`,
-                    }),
+                    })
             );
         },
-        [deleteContact, showToast],
+        [deleteContact, showToast]
+    );
+
+    const validatePhone = useCallback(
+        async (phoneNumber) => {
+            try {
+                const formattedPhone = phoneNumber.replace(/\D/g, "");
+                const response = await validatePhoneAPICall(null, false, formattedPhone);
+                return response;
+            } catch (error) {
+                console.log("error", error);
+            }
+        },
+        [validatePhoneAPICall]
+    );
+
+    const validateEmail = useCallback(
+        async (email) => {
+            try {
+                const response = await validateEmailAPICall(null, false, email);
+                return response;
+            } catch (error) {
+                console.log("error", error);
+            }
+        },
+        [validateEmailAPICall]
     );
 
     const contextValue = useMemo(
@@ -237,6 +297,13 @@ export const LeadDetailsProvider = ({ children }) => {
             removeContact,
             updateClientNotes,
             updateLeadDetailsWithZipCode,
+            validatePhone,
+            onValidatePhoneLoading,
+            validatePhoneError,
+            validateEmail,
+            onValidateEmailLoading,
+            validateEmailError,
+            updateLeadPhone,
         }),
         [
             getLeadDetails,
@@ -249,7 +316,14 @@ export const LeadDetailsProvider = ({ children }) => {
             updateLeadDetails,
             updateClientNotes,
             updateLeadDetailsWithZipCode,
-        ],
+            validatePhone,
+            onValidatePhoneLoading,
+            validatePhoneError,
+            validateEmail,
+            onValidateEmailLoading,
+            validateEmailError,
+            updateLeadPhone,
+        ]
     );
 
     useEffect(() => {

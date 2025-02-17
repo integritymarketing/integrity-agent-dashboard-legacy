@@ -5,7 +5,7 @@ import { TextInput } from "components/MuiComponents";
 import ErrorIcon from "@mui/icons-material/Error";
 import { debounce } from "lodash";
 import * as yup from "yup";
-import useFetch from "hooks/useFetch";
+import { useLeadDetails } from "providers/ContactDetails";
 import { faMobile } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -21,25 +21,20 @@ const server500Message = "There was an error validating this phone number. You c
  * SMSPhoneNumberInput Component
  * A reusable phone number input field that verifies SMS compatibility.
  */
-const SMSPhoneNumberInput = ({ label, onValidation }) => {
+const SMSPhoneNumberInput = ({ label, onValidation, size, ...props }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSMSCompatible, setIsSMSCompatible] = useState(null);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
     const [value, setValue] = useState("");
 
-    const { Get: validatePhone } = useFetch(
-        `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads/Validate/MobilePhoneNumber`
-    );
+    const { validatePhone } = useLeadDetails();
 
     // Validation schema ignoring special characters and ensuring 10 digits
-    const phoneSchema = yup
-        .string()
-        .required("Phone number is required")
-        .test("is-valid-phone", errorMessage, (phone) => {
-            const digitsOnly = phone.replace(/\D/g, "");
-            return digitsOnly.length === 10;
-        });
+    const phoneSchema = yup.string().test("is-valid-phone", errorMessage, (phone) => {
+        const digitsOnly = phone.replace(/\D/g, "");
+        return digitsOnly.length === 10;
+    });
 
     const checkSMSCompatibility = useCallback(
         debounce(async (phoneNumber) => {
@@ -51,11 +46,13 @@ const SMSPhoneNumberInput = ({ label, onValidation }) => {
                 setMessage(null);
                 const formattedPhone = phoneNumber.replace(/\D/g, "");
 
-                const response = await validatePhone(null, false, formattedPhone);
+                const response = await validatePhone(formattedPhone);
                 const isCompatible = response === true;
                 setIsSMSCompatible(isCompatible);
+
                 onValidation({
-                    phoneNumber: phoneNumber,
+                    phone: phoneNumber,
+                    title: isCompatible ? "Texting Verified" : "Texting Unavailable",
                     status: isCompatible ? "success" : "warning",
                     message: isCompatible ? successMessage : warningMessage,
                 });
@@ -92,8 +89,16 @@ const SMSPhoneNumberInput = ({ label, onValidation }) => {
         setIsSMSCompatible(null);
         setError(null);
 
+        if (inputValue === "" || !formattedValue) {
+            onValidation({
+                title: "",
+                phone: inputValue,
+                status: "",
+                message: "",
+            });
+            return false;
+        }
         const digitsOnly = formattedValue.replace(/\D/g, "");
-        onValidation({ phoneNumber: digitsOnly, status: "", message: "" });
 
         try {
             phoneSchema.validateSync(formattedValue);
@@ -102,12 +107,14 @@ const SMSPhoneNumberInput = ({ label, onValidation }) => {
             }
         } catch (validationError) {
             setError(validationError.message);
+            onValidation({ phone: digitsOnly, status: "", message: "", title: "" });
         }
     };
 
     return (
         <div className={styles.inputContainer}>
             <TextInput
+                size={size}
                 label={label}
                 value={value}
                 color={isSMSCompatible === true ? "success" : message ? "warning" : error ? "error" : ""}
@@ -144,7 +151,9 @@ const SMSPhoneNumberInput = ({ label, onValidation }) => {
                     ),
                 }}
                 fullWidth
+                autoComplete={false}
                 variant="outlined"
+                {...props}
             />
         </div>
     );
