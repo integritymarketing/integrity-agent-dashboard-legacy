@@ -46,6 +46,7 @@ const PrescriptionForm = ({
                         options={dosageOptions}
                         placeholder="Dosage"
                         onChange={setDosage}
+                        selectClassName={styles.distanceSelect}
                     />
                 </Box>
             </Grid>
