@@ -1,5 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMemo } from "react";
+import Cookies from 'universal-cookie';
 
 const useUserProfile = () => {
     const auth = useAuth0();
@@ -17,7 +18,8 @@ const useUserProfile = () => {
             } = auth.user;
 
             const fullName = `${firstName} ${lastName}`;
-
+            const cookies = new Cookies();  
+            cookies.set('userNPN', npn, { path: '/' }); 
             return {
                 fullName,
                 firstName,
