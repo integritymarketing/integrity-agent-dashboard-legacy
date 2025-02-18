@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { IulQuoteContainer, IulAccumulationQuoteFilter } from "../CommonComponents";
+import { IulQuoteContainer, IulAccumulationQuoteFilter, ApplyErrorModal } from "../CommonComponents";
 import { IulQuoteCard, NoQuoteResult } from "@integritymarketing/clients-ui-kit";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import { useLifeIulQuote } from "providers/Life";
@@ -31,6 +31,7 @@ const IulAccumulationQuote = () => {
     const { contactId } = useParams();
     const navigate = useNavigate();
     const [selectedPlan, setSelectedPlan] = useState({});
+    const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
 
     const getQuoteResults = useCallback(async () => {
         const lifeQuoteAccumulationDetails = sessionStorage.getItem("lifeQuoteAccumulationDetails");
@@ -68,7 +69,6 @@ const IulAccumulationQuote = () => {
     }, []);
 
     const handlePlanDetailsClick = (id) => {
-
         const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
 
         const filteredPlan = uniquePoliciesArray.filter((item) => id === item.policyDetailId);
@@ -86,8 +86,22 @@ const IulAccumulationQuote = () => {
 
     const handleApplyClick = async (plan) => {
         setSelectedPlan(plan);
-        const response = await handleIULQuoteApplyClick({ ...plan, ...agentInformation, ...leadDetails }, contactId);
-        setSelectedPlan({});
+        try {
+            const response = await handleIULQuoteApplyClick(
+                { ...plan, ...agentInformation, ...leadDetails },
+                contactId
+            );
+            if (response.success) {
+                setSelectedPlan({});
+            }
+            else{
+                setApplyErrorModalOpen(true);
+                setSelectedPlan({});
+            }
+        } catch (error) {
+            setApplyErrorModalOpen(true);
+            setSelectedPlan({});
+        }
     };
 
     return (
@@ -159,7 +173,9 @@ const IulAccumulationQuote = () => {
                                                     age={plan?.input?.actualAge}
                                                     healthClass={plan?.input?.healthClass}
                                                     handleComparePlanSelect={() => handleComparePlanSelect(plan)}
-                                                    handlePlanDetailsClick={() => handlePlanDetailsClick(policyDetailId)}
+                                                    handlePlanDetailsClick={() =>
+                                                        handlePlanDetailsClick(policyDetailId)
+                                                    }
                                                     disableCompare={
                                                         selectedPlans?.length === 3 &&
                                                         !selectedPlans?.find((p) => p.policyDetailId === policyDetailId)
@@ -181,6 +197,7 @@ const IulAccumulationQuote = () => {
                                 <NoQuoteResult navigateLearningCenter={handleNavigateToLearningCenter} />
                             )}
                         </Grid>
+                        <ApplyErrorModal open={applyErrorModalOpen} onClose={() => setApplyErrorModalOpen(false)} />
                     </WithLoader>
                 </Grid>
             )}

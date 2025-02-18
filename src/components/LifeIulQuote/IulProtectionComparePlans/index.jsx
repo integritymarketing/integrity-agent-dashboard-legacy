@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
 import { Grid, Box } from "@mui/material";
 import { CompareHeader, ProductFeature, UnderwritingRequirements } from "@integritymarketing/clients-ui-kit";
-import { IulQuoteContainer } from "../CommonComponents";
+import { IulQuoteContainer, ApplyErrorModal } from "../CommonComponents";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLifeIulQuote } from "providers/Life";
 
@@ -16,6 +16,8 @@ const IulProtectionComparePlans = () => {
     const { planIds: comparePlanIds, contactId } = useParams();
     const planIds = useMemo(() => comparePlanIds.split(","), [comparePlanIds]);
     const [disabledPlans, setDisabledPlans] = useState({});
+    const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
+
     const { leadDetails } = useLeadDetails();
     const { agentInformation } = useAgentInformationByID();
     const comparePlansSessionData = sessionStorage.getItem("iul-compare-plans");
@@ -119,7 +121,7 @@ const IulProtectionComparePlans = () => {
         setDisabledPlans((prev) => ({ ...prev, [plan.id]: true }));
 
         try {
-            await handleIULQuoteApplyClick(
+            const response= await handleIULQuoteApplyClick(
                 {
                     ...planData,
                     ...agentInformation,
@@ -127,9 +129,17 @@ const IulProtectionComparePlans = () => {
                     emailAddress,
                     phoneNumber,
                 },
-                contactId,
+                contactId
             );
+            if (response.success) {
+                setSelectedPlan({});
+            }
+            else{
+                setApplyErrorModalOpen(true);
+                setSelectedPlan({});
+            }
         } catch (error) {
+            setApplyErrorModalOpen(true);
             Sentry.captureException(error);
         } finally {
             setDisabledPlans((prev) => ({ ...prev, [plan.id]: false }));
@@ -167,6 +177,7 @@ const IulProtectionComparePlans = () => {
                     </Box>
                 </Grid>
             </Grid>
+            <ApplyErrorModal open={applyErrorModalOpen} onClose={() => setApplyErrorModalOpen(false)} />
         </IulQuoteContainer>
     );
 };

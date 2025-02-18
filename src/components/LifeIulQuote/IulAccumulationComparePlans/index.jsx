@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { Grid, Box } from "@mui/material";
 
 import { CompareHeader, ProductFeature, UnderwritingRequirements } from "@integritymarketing/clients-ui-kit";
-import { IulQuoteContainer } from "../CommonComponents";
+import { IulQuoteContainer, ApplyErrorModal } from "../CommonComponents";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useLifeIulQuote } from "providers/Life";
@@ -24,6 +24,7 @@ const IulAccumulationComparePlans = () => {
     const comparePlansSessionData = sessionStorage.getItem("iul-compare-plans");
     const comparePlans = JSON.parse(comparePlansSessionData);
     const navigate = useNavigate();
+    const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
 
     const { fetchLifeIulQuoteDetails, handleIULQuoteApplyClick, isLoadingApplyLifeIulQuote } = useLifeIulQuote();
 
@@ -44,21 +45,20 @@ const IulAccumulationComparePlans = () => {
         const combinedBenefits = [];
         const benefitNames = new Set();
 
-        // Collect all benefit names
-        results?.forEach((item) => {
-            item?.benefits?.forEach((benefit) => {
+        results.forEach((item) => {
+            item.benefits.forEach((benefit) => {
                 benefitNames.add(benefit.name);
             });
         });
 
-        // Create the desired structure
-        benefitNames?.forEach((name) => {
+        benefitNames.forEach((name) => {
             const benefitObj = {
                 name: name,
-                description: "",
-                plans: results?.map((item) =>
-                    item.benefits.some((benefit) => benefit.name === name && benefit.value === "Included"),
-                ),
+                description: "Feature Description",
+                plans: results.map((item) => {
+                    const benefit = item.benefits.find((benefit) => benefit.name === name);
+                    return benefit ? benefit.value : "Excluded";
+                }),
             };
             combinedBenefits.push(benefitObj);
         });
@@ -119,6 +119,7 @@ const IulAccumulationComparePlans = () => {
     };
 
     const handleApplyClick = async (plan) => {
+
         const planData = comparePlans.find((p) => p.policyDetailId === plan.id);
         const emailAddress = leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
         const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
@@ -126,7 +127,7 @@ const IulAccumulationComparePlans = () => {
         setDisabledPlans((prev) => ({ ...prev, [plan.id]: true }));
 
         try {
-            await handleIULQuoteApplyClick(
+            const response = await handleIULQuoteApplyClick(
                 {
                     ...planData,
                     ...agentInformation,
@@ -134,10 +135,18 @@ const IulAccumulationComparePlans = () => {
                     emailAddress,
                     phoneNumber,
                 },
-                contactId,
+                contactId
             );
+            if (response.success) {
+                setSelectedPlan({});
+            }
+            else{
+                setApplyErrorModalOpen(true);
+                setSelectedPlan({});
+            }
         } catch (error) {
             Sentry.captureException(error);
+            setApplyErrorModalOpen(true);
         } finally {
             setDisabledPlans((prev) => ({ ...prev, [plan.id]: false }));
         }
@@ -174,6 +183,7 @@ const IulAccumulationComparePlans = () => {
                     </Box>
                 </Grid>
             </Grid>
+            <ApplyErrorModal open={applyErrorModalOpen} onClose={() => setApplyErrorModalOpen(false)} />
         </IulQuoteContainer>
     );
 };

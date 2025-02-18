@@ -8,7 +8,7 @@ import {
     ProductFeature,
     UnderwritingRequirements,
 } from "@integritymarketing/clients-ui-kit";
-import { IulQuoteContainer } from "../CommonComponents";
+import { IulQuoteContainer, ApplyErrorModal } from "../CommonComponents";
 
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
@@ -35,6 +35,7 @@ const IulAccumulationQuoteDetails = () => {
 
     const { leadDetails } = useLeadDetails();
     const { agentInformation } = useAgentInformationByID();
+    const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
 
     useEffect(() => {
         fetchLifeIulQuoteDetails(planId);
@@ -91,7 +92,7 @@ const IulAccumulationQuoteDetails = () => {
         const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
 
         try {
-            await handleIULQuoteApplyClick(
+           const response= await handleIULQuoteApplyClick(
                 {
                     ...plan,
                     ...agentInformation,
@@ -99,9 +100,18 @@ const IulAccumulationQuoteDetails = () => {
                     emailAddress,
                     phoneNumber,
                 },
-                contactId,
+                contactId
             );
-        } catch (error) {
+            if (response.success) {
+                setSelectedPlan({});
+            }
+            else{
+                setApplyErrorModalOpen(true);
+                setSelectedPlan({});
+            }
+        } 
+        catch (error) {
+            setApplyErrorModalOpen(true);
             console.error("Error applying for quote:", error);
         }
     };
@@ -138,7 +148,7 @@ const IulAccumulationQuoteDetails = () => {
                         </Box>
                     </Grid>
                 )}
-                <Grid item  md={8} sm={6}>
+                <Grid item md={8} sm={6}>
                     <Grid container gap={3}>
                         <Grid item md={12} xs={12} sx={{ position: "relative" }}>
                             <div ref={quoteDetailsRef} id="quoteDetails">
@@ -206,6 +216,7 @@ const IulAccumulationQuoteDetails = () => {
                     </Grid>
                 </Grid>
             </Grid>
+            <ApplyErrorModal open={applyErrorModalOpen} onClose={() => setApplyErrorModalOpen(false)} />
         </IulQuoteContainer>
     );
 };
