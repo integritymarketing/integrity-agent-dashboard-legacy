@@ -16,7 +16,7 @@ import Track from "./Track";
 import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCircle";
 import SMSNotification from "components/SMSNotification";
 import { useLeadDetails } from "providers/ContactDetails";
-import { Button, Box } from "@mui/material";
+import { Button, Box, Typography } from "@mui/material";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
     const originalInput = phoneNumberString;
@@ -186,6 +186,14 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
                     <SMSNotification />
                     <Track onCheckChange={setIsTracking} />
                 </Card>
+                {existingSendType === "newEmailOrMobile" && (
+                    <Box>
+                        <Typography variant="body2" color="#434A51" marginTop={0.5}>
+                            *This {newSelectedType === "mobile" ? "phone number" : "email"} will not be saved to the
+                            contact.
+                        </Typography>
+                    </Box>
+                )}
                 <Box className="buttonsContainer">
                     <Button variant="text" color="primary" onClick={handleCloseModal}>
                         Cancel

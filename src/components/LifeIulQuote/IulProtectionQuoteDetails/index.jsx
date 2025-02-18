@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useEffect, useMemo, useState } from "react";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import {
@@ -8,7 +8,7 @@ import {
     ProductFeature,
     UnderwritingRequirements,
 } from "@integritymarketing/clients-ui-kit";
-import { IulQuoteContainer } from "../CommonComponents";
+import { IulQuoteContainer, IulShareModal } from "../CommonComponents";
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
@@ -22,6 +22,7 @@ const IulProtectionQuoteDetails = () => {
 
     const planDetailsSessionData = sessionStorage.getItem("iul-plan-details");
     const planDetails = JSON.parse(planDetailsSessionData);
+    const [shareModalOpen, setShareModalOpen] = useState(false);
 
     const quoteDetailsRef = useRef(null);
     const productDescriptionRef = useRef(null);
@@ -165,6 +166,7 @@ const IulProtectionQuoteDetails = () => {
                                         healthClass={planDetails?.input?.healthClass}
                                         premium={premium}
                                         guaranteedYears={guaranteedYears}
+                                        handlePlanShareClick={() => setShareModalOpen(true)}
                                         handleApplyClick={() => handleApplyClick(planDetails)}
                                     />
                                 </CollapsibleLayout>
@@ -208,6 +210,14 @@ const IulProtectionQuoteDetails = () => {
                     </Grid>
                 </Grid>
             </Grid>
+            {shareModalOpen && (
+                <IulShareModal
+                    open={shareModalOpen}
+                    onClose={() => setShareModalOpen(false)}
+                    planDetails={planDetails}
+                    quoteType="accumulation"
+                />
+            )}
         </IulQuoteContainer>
     );
 };

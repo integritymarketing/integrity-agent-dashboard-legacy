@@ -8,7 +8,7 @@ import {
     ProductFeature,
     UnderwritingRequirements,
 } from "@integritymarketing/clients-ui-kit";
-import { IulQuoteContainer } from "../CommonComponents";
+import { IulQuoteContainer, IulShareModal } from "../CommonComponents";
 
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
@@ -29,6 +29,7 @@ const IulAccumulationQuoteDetails = () => {
     const productFeaturesRef = useRef(null);
     const underwritingRequirementsRef = useRef(null);
     const { planId, contactId } = useParams();
+    const [shareModalOpen, setShareModalOpen] = useState(false);
 
     const { fetchLifeIulQuoteDetails, lifeIulDetails, handleIULQuoteApplyClick, isLoadingApplyLifeIulQuote } =
         useLifeIulQuote();
@@ -44,7 +45,7 @@ const IulAccumulationQuoteDetails = () => {
     const underwritingRequirements = lifeIulDetails?.uwRequirements || [];
 
     const features = useMemo(() => {
-        return lifeIulDetails?.benefits.map((feature) => {
+        return lifeIulDetails?.benefits?.map((feature) => {
             return {
                 name: feature.name,
                 description: feature.description || "",
@@ -54,7 +55,7 @@ const IulAccumulationQuoteDetails = () => {
     }, [lifeIulDetails]);
 
     const uwRequirements = useMemo(() => {
-        return underwritingRequirements.map((requirement) => {
+        return underwritingRequirements?.map((requirement) => {
             return {
                 title: requirement.sectionName,
                 displayType: requirement.displayType,
@@ -99,7 +100,7 @@ const IulAccumulationQuoteDetails = () => {
                     emailAddress,
                     phoneNumber,
                 },
-                contactId,
+                contactId
             );
         } catch (error) {
             console.error("Error applying for quote:", error);
@@ -138,7 +139,7 @@ const IulAccumulationQuoteDetails = () => {
                         </Box>
                     </Grid>
                 )}
-                <Grid item  md={8} sm={6}>
+                <Grid item md={8} sm={6}>
                     <Grid container gap={3}>
                         <Grid item md={12} xs={12} sx={{ position: "relative" }}>
                             <div ref={quoteDetailsRef} id="quoteDetails">
@@ -151,6 +152,7 @@ const IulAccumulationQuoteDetails = () => {
                                         companyName={companyName}
                                         rating={amBest}
                                         handleApplyClick={() => handleApplyClick(planDetails)}
+                                        handlePlanShareClick={() => setShareModalOpen(true)}
                                         logo={companyLogoImageUrl}
                                         cashValueYear10={cashValueYear10}
                                         cashValueYear20={cashValueYear20}
@@ -206,6 +208,14 @@ const IulAccumulationQuoteDetails = () => {
                     </Grid>
                 </Grid>
             </Grid>
+            {shareModalOpen && (
+                <IulShareModal
+                    open={shareModalOpen}
+                    onClose={() => setShareModalOpen(false)}
+                    planDetails={planDetails}
+                    quoteType="accumulation"
+                />
+            )}
         </IulQuoteContainer>
     );
 };

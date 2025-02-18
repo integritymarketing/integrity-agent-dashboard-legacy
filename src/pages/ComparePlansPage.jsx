@@ -83,15 +83,8 @@ const ComparePlansPage = (props) => {
                 .map((planId) =>
                     !isComingFromEmail
                         ? plansService.getPlan(contactId, planId, contactData, effectiveDate, pharmacyId)
-                        : comparePlansService.getPlan(
-                              contactId,
-                              planId,
-                              agentInfo,
-                              effectiveDate,
-                              agentNPN,
-                              pharmacyId,
-                          ),
-                ),
+                        : comparePlansService.getPlan(contactId, planId, agentInfo, effectiveDate, agentNPN, pharmacyId)
+                )
         );
     }
 
@@ -174,7 +167,7 @@ const ComparePlansPage = (props) => {
                     selectedPharmacy?.name === "Mail Order" &&
                     Boolean(
                         (hasMailDrugBenefits && estimatedAnnualMailOrderDrugCostPartialYear === null) ||
-                            !hasMailDrugBenefits,
+                            !hasMailDrugBenefits
                     )
                 );
             });

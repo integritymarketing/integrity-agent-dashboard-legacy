@@ -105,7 +105,7 @@ const CompactPlanCardNew = ({ planData, onEnrollClick, onShareClick, isMobile, o
                     </div>
                 </div>
             ) : null}
-            {onEnrollClick && !planData.nonLicensedPlan && buttons}
+            {buttons}
             {preCheckListPdfModal && (
                 <PreEnrollPDFModal
                     open={preCheckListPdfModal}
