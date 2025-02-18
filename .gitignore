@@ -6,10 +6,6 @@
 /.pnp
 .pnp.js
 
-# package lock files
-package-lock.json
-yarn.lock
-
 # testing
 /coverage
 .scannerwork/
