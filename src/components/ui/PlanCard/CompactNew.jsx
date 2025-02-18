@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {useParams} from "react-router-dom";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
 import shouldDisableEnrollButtonBasedOnEffectiveDate from "utils/shouldDisableEnrollButtonBasedOnEffectiveDate";
 
@@ -12,36 +12,36 @@ import Popover from "components/ui/Popover";
 
 import "./index.scss";
 
-import {PLAN_TYPE_ENUMS} from "src/constants";
+import { PLAN_TYPE_ENUMS } from "src/constants";
 
-import {Button} from "../Button";
+import { Button } from "../Button";
 import Rating from "../Rating";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowShare} from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
-import {faCircleArrowRight} from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowShare } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
+import { faCircleArrowRight } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 
 const currencyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
 });
 
-const CompactPlanCardNew = ({planData, onEnrollClick, onShareClick, isMobile, onlyButtons = false}) => {
+const CompactPlanCardNew = ({ planData, onEnrollClick, onShareClick, isMobile, onlyButtons = false }) => {
     const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
-    const {documents} = planData;
-    const {isNonRTS_User} = useRoles();
-    const {effectiveDate, contactId} = useParams();
-    const {fireEvent} = useAnalytics();
+    const { documents } = planData;
+    const { isNonRTS_User } = useRoles();
+    const { effectiveDate, contactId } = useParams();
+    const { fireEvent } = useAnalytics();
 
     const disableEnroll = shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
     const buttons = (
         <div className={`footer ${isMobile ? "mobile controlButtons" : ""}`}>
             {documents === null || documents?.length === 0 ? (
-                <Popover openOn="hover" icon={<Info/>} title={"No Plans to share"} positions={["right", "bottom"]}>
+                <Popover openOn="hover" icon={<Info />} title={"No Plans to share"} positions={["right", "bottom"]}>
                     <Button
                         disabled={true}
                         label="Share"
-                        icon={<FontAwesomeIcon icon={faArrowShare}/>}
+                        icon={<FontAwesomeIcon icon={faArrowShare} />}
                         onClick={() => onShareClick(planData.id)}
                         type="secondary"
                         className={"share-btn mobile"}
@@ -50,7 +50,7 @@ const CompactPlanCardNew = ({planData, onEnrollClick, onShareClick, isMobile, on
             ) : (
                 <Button
                     label="Share"
-                    icon={<FontAwesomeIcon icon={faArrowShare}/>}
+                    icon={<FontAwesomeIcon icon={faArrowShare} />}
                     onClick={() => onShareClick(planData.id)}
                     type="secondary"
                     className={"share-btn mobile"}
@@ -69,7 +69,7 @@ const CompactPlanCardNew = ({planData, onEnrollClick, onShareClick, isMobile, on
                         });
                         setPreCheckListPdfModal(true);
                     }}
-                    icon={<FontAwesomeIcon icon={faCircleArrowRight} size={"xl"}/>}
+                    icon={<FontAwesomeIcon icon={faCircleArrowRight} size={"xl"} />}
                     className={"enroll-btn"}
                     iconPosition={"right"}
                     disabled={disableEnroll}
@@ -94,7 +94,7 @@ const CompactPlanCardNew = ({planData, onEnrollClick, onShareClick, isMobile, on
             <div className={`sub-header ${isMobile ? "mobile" : ""}`}>
                 <div className={"carrier-name"}>{planData.carrierName}</div>
                 <div className={"rating-container"}>
-                    <Rating value={planData.planRating}/>
+                    <Rating value={planData.planRating} />
                 </div>
             </div>
             {isMobile ? (

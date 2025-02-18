@@ -1,19 +1,15 @@
 import { useState, useMemo, useEffect } from "react";
 import * as Sentry from "@sentry/react";
-import debounce from "debounce";
 import Media from "react-media";
 import analyticsService from "services/analyticsService";
 import useToast from "hooks/useToast";
 import Modal from "components/ui/modal";
 import ComparePlansByPlanName from "components/ui/ComparePlansByPlanName";
-import Radio from "components/ui/Radio";
 import { Button } from "../Button";
-import { Select } from "components/ui/Select";
-import { formatPhoneNumber } from "utils/phones";
+import ShareInputsValidator from "components/ShareInputsValidator";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useUserProfile from "hooks/useUserProfile";
 import "./index.scss";
-import { disableTextMessage, getCommunicationOptions } from "utilities/appConfig";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import SMSNotification from "components/SMSNotification";
 
@@ -33,9 +29,6 @@ export const __formatPhoneNumber = (phoneNumberString) => {
     return originalInput;
 };
 
-const emailRegex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 const ComparePlanModal = ({
     modalOpen,
     handleCloseModal,
@@ -53,14 +46,18 @@ const ComparePlanModal = ({
     } = useAgentInformationByID();
     const { plansService } = useClientServiceContext();
     const { firstName, lastName, emails, phones, leadsId, addresses, agentNpn, middleName, birthdate } = contactData;
-    const leadEmail = emails?.[0]?.leadEmail ?? "";
-    const leadPhone = phones?.[0]?.leadPhone ?? "";
-    const [selectLabel, setSelectLabel] = useState("email");
-    const [selectOption, setSelectOption] = useState("email");
-    const [formattedMobile, setFormattedMobile] = useState("");
+
+    const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
-    const [errors, setErrors] = useState("");
-    const [hasFocus, setFocus] = useState(false);
+
+    const [newSelectedType, setNewSelectedType] = useState("email");
+    const [existingSendType, setExistingSendType] = useState("");
+    const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? "";
+    const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? "";
+    const isEmailCompatabileStatus = emails?.find(({ leadEmail }) => leadEmail)?.isValid;
+    const isPhoneCompatabileStatus = phones?.find(({ leadPhone }) => leadPhone)?.isSmsCompatible;
+
+    const nonFormatPhoneNumber = useMemo(() => (phone ? `${phone}`.replace(/\D/g, "") : ""), [phone]);
 
     useEffect(() => {
         if (modalOpen) {
@@ -70,30 +67,16 @@ const ComparePlanModal = ({
         }
     }, [modalOpen]);
 
-    const mobile = useMemo(() => (formattedMobile ? `${formattedMobile}`.replace(/\D/g, "") : ""), [formattedMobile]);
-
-    const validateEmail = debounce((email) => {
-        if (emailRegex.test(email)) {
-            setErrors(null);
-        } else {
-            setErrors("Invalid email address");
-        }
-    }, 1000);
-
-    const handleSetEmail = (_email) => {
-        const email = _email.trim();
-        setEmail(email);
-        validateEmail(email);
-    };
-
     const handleCleanUp = () => {
-        setSelectOption("email");
+        setNewSelectedType("");
+        setExistingSendType("");
         setEmail("");
-        setErrors("");
-        setFormattedMobile("");
-        setSelectLabel("email");
+        setPhone();
         handleCloseModal();
+        setIsDocumentsSelected(false);
+        setSelectedDocuments([]);
     };
+
     const handleShareComparePlans = async () => {
         const agentFirstName = userProfile.firstName;
         const agentLastName = userProfile.lastName;
@@ -173,7 +156,7 @@ const ComparePlanModal = ({
                 } else {
                     const data = {
                         ...payload,
-                        messageDestination: mobile,
+                        messageDestination: nonFormatPhoneNumber,
                         messageType: "sms",
                     };
                     await plansService.sendPlanCompare(data);
@@ -193,12 +176,28 @@ const ComparePlanModal = ({
         }
     };
 
-    const idFormNotValid = useMemo(() => {
-        if (selectOption === "newEmailOrMObile") {
-            return selectLabel === "mobile" ? Boolean(mobile.length !== 10) : !emailRegex.test(email);
+    const isDisable = useMemo(() => {
+        if (existingSendType === "email" && leadEmail && isEmailCompatabileStatus) {
+            return true;
+        } else if (existingSendType === "textMessage" && leadPhone && isPhoneCompatabileStatus) {
+            return true;
+        } else if (existingSendType === "newEmailOrMobile") {
+            if (newSelectedType === "email" && email) {
+                return true;
+            } else if (newSelectedType === "mobile" && phone) {
+                return true;
+            }
         }
-        return !selectOption;
-    }, [selectOption, selectLabel, mobile, email]);
+    }, [
+        existingSendType,
+        leadEmail,
+        leadPhone,
+        newSelectedType,
+        email,
+        phone,
+        isPhoneCompatabileStatus,
+        isEmailCompatabileStatus,
+    ]);
 
     return (
         <Media
@@ -235,103 +234,25 @@ const ComparePlanModal = ({
                                         contactData={contactData}
                                     />
                                 </div>
-                                <div className={"shareplan-label"}>How do you want to share this plan?</div>
-                                <div className="select-scope-radios">
-                                    <Radio
-                                        id="email"
-                                        data-gtm="input-share-plans"
-                                        htmlFor="email"
-                                        label={`Email (${leadEmail})`}
-                                        name="share-plan"
-                                        value="email"
-                                        checked={selectOption === "email"}
-                                        onChange={(event) => setSelectOption(event.currentTarget.value)}
-                                    />
-                                    {!disableTextMessage && (
-                                        <Radio
-                                            id="textMessage"
-                                            data-gtm="input-share-plans"
-                                            htmlFor="textMessage"
-                                            label={`Text Message (${__formatPhoneNumber(leadPhone)})`}
-                                            name="share-plan"
-                                            value="textMessage"
-                                            checked={selectOption === "textMessage"}
-                                            onChange={(event) => setSelectOption(event.currentTarget.value)}
-                                        />
-                                    )}
-                                    <Radio
-                                        id="newEmailOrMobile"
-                                        data-gtm="input-share-plans"
-                                        htmlFor="newEmailOrMobile"
-                                        label={disableTextMessage ? "New email" : "New email or mobile number"}
-                                        name="share-plan"
-                                        value="newEmailOrMObile"
-                                        checked={selectOption === "newEmailOrMObile"}
-                                        onChange={(event) => setSelectOption(event.currentTarget.value)}
-                                    />
-                                </div>
-                                {selectOption === "newEmailOrMObile" && (
-                                    <div className="new-email-or-mobile">
-                                        <Select
-                                            className="mr-2"
-                                            options={getCommunicationOptions()}
-                                            style={{ width: "140px" }}
-                                            initialValue={selectLabel}
-                                            providerModal={true}
-                                            onChange={setSelectLabel}
-                                            showValueAlways={true}
-                                        />
-                                        {selectLabel === "email" && (
-                                            <div className="email-mobile-section">
-                                                <input
-                                                    autoComplete="on"
-                                                    type="text"
-                                                    data-gtm="input-share-plans"
-                                                    onFocus={() => setFocus(true)}
-                                                    onBlur={() => setFocus(false)}
-                                                    placeholder={hasFocus ? "" : "Enter email"}
-                                                    value={email}
-                                                    className={`${errors && "error-class"} text-input`}
-                                                    onChange={(e) => {
-                                                        handleSetEmail(e.currentTarget.value);
-                                                    }}
-                                                />
-                                                {errors && <span className="validation-msg">{errors}</span>}
-                                            </div>
-                                        )}
-                                        {selectLabel === "mobile" && (
-                                            <div className="email-mobile-section">
-                                                <input
-                                                    type="text"
-                                                    data-gtm="input-share-plans"
-                                                    onFocus={() => setFocus(true)}
-                                                    onBlur={() => setFocus(false)}
-                                                    placeholder={hasFocus ? "" : "XXX-XXX-XXXX"}
-                                                    value={formattedMobile}
-                                                    maxLength="10"
-                                                    className={`${
-                                                        mobile.length !== 10 && mobile.length !== 0 ? "error-class" : ""
-                                                    } text-input`}
-                                                    onChange={(e) => {
-                                                        setFormattedMobile(
-                                                            formatPhoneNumber(e.currentTarget.value.replace(/\D/g, "")),
-                                                        );
-                                                    }}
-                                                />
-                                                {mobile.length !== 10 && mobile.length !== 0 && (
-                                                    <span className="validation-msg">Invalid mobile number</span>
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
+                                <ShareInputsValidator
+                                    leadId={leadsId}
+                                    title="How do you want to share this plan?"
+                                    existingSendType={existingSendType}
+                                    setExistingSendType={setExistingSendType}
+                                    email={email}
+                                    setEmail={setEmail}
+                                    phone={phone}
+                                    setPhone={setPhone}
+                                    newSelectedType={newSelectedType}
+                                    setNewSelectedType={setNewSelectedType}
+                                />
                                 <SMSNotification />
                                 <div className={"footer"}>
                                     <Button
                                         label="Share"
                                         data-gtm="button-share"
                                         onClick={handleShareComparePlans}
-                                        disabled={idFormNotValid}
+                                        disabled={!isDisable}
                                     />
                                     <Button
                                         fullWidth={matches.mobile}

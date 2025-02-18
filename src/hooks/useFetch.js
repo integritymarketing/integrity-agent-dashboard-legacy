@@ -97,6 +97,13 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
         [fetchData]
     );
 
+    const Patch = useCallback(
+        (body, returnHttpResponse, id) => {
+            return fetchData({ method: "PATCH", body, returnHttpResponse, id });
+        },
+        [fetchData]
+    );
+
     const Delete = useCallback(
         (body, returnHttpResponse, id) => {
             return fetchData({ method: "DELETE", body, returnHttpResponse, id });
@@ -104,7 +111,7 @@ const useFetch = (url, isPublic = false, noResponse = false) => {
         [fetchData]
     );
 
-    return { data, loading, error, Put, Post, Delete, Get };
+    return { data, loading, error, Put, Post, Patch, Delete, Get };
 };
 
 export default useFetch;

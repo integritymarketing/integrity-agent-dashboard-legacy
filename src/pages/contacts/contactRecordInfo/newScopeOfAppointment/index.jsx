@@ -5,21 +5,18 @@ import * as Sentry from "@sentry/react";
 import useToast from "hooks/useToast";
 import Container from "components/ui/container";
 import Card from "components/ui/card";
-import Radio from "components/ui/Radio";
-import { Button } from "components/ui/Button";
-import { Select } from "components/ui/Select";
 import BackNavContext from "contexts/backNavProvider";
-import ContactContext from "contexts/contacts";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import analyticsService from "services/analyticsService";
-import { formatPhoneNumber } from "utils/phones";
+import ShareInputsValidator from "components/ShareInputsValidator";
 import useUserProfile from "hooks/useUserProfile";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import "./index.scss";
 import Track from "./Track";
 import ArrowForwardWithCircle from "components/SharedModals/Icons/ArrowForwardWithCircle";
 import SMSNotification from "components/SMSNotification";
-import { disableTextMessage, getCommunicationOptions } from "utilities/appConfig";
+import { useLeadDetails } from "providers/ContactDetails";
+import { Button, Box } from "@mui/material";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
     const originalInput = phoneNumberString;
@@ -37,23 +34,19 @@ export const __formatPhoneNumber = (phoneNumberString) => {
     return originalInput;
 };
 
-const emailRegex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
-    const [isSending, setIsSending] = useState(false);
     const showToast = useToast();
-    const { newSoaContactDetails, setNewSoaContactDetails } = useContext(ContactContext);
     const { setCurrentPage } = useContext(BackNavContext);
     const agentUserProfile = useUserProfile();
-    const [selectLabel, setSelectLabel] = useState("email");
-    const [selectOption, setSelectOption] = useState(null);
     const [isTracking, setIsTracking] = useState(true);
-    const [formattedMobile, setFormattedMobile] = useState("");
+    const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
-    const [errors, setErrors] = useState("");
     const [isMobile, setIsMobile] = useState(false);
     const { clientsService } = useClientServiceContext();
+    const { leadDetails } = useLeadDetails();
+
+    const [newSelectedType, setNewSelectedType] = useState("email");
+    const [existingSendType, setExistingSendType] = useState("");
 
     const {
         agentInformation: { agentPurl },
@@ -65,25 +58,10 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
     };
 
     useEffect(() => {
-        const getContactInfo = async () => {
-            try {
-                const data = await clientsService.getContactInfo(leadId);
-                setNewSoaContactDetails(data);
-            } catch (err) {
-                showToast({ type: "error", message: "Failed to load lead information" });
-            }
-        };
-
-        if (leadId && (!newSoaContactDetails.leadsId || newSoaContactDetails.leadsId !== leadId)) {
-            getContactInfo();
-        }
-    }, [leadId, newSoaContactDetails.leadsId, setNewSoaContactDetails, showToast]);
-
-    useEffect(() => {
         setCurrentPage("Scope of Appointment Page");
-    }, [setCurrentPage]);
+    }, []);
 
-    const { firstName, lastName, emails = [], phones, leadsId } = newSoaContactDetails;
+    const { firstName = "", lastName = "", emails = [], phones = [], leadsId } = leadDetails;
 
     const agentFirstName = agentUserProfile?.firstName;
     const agentLastName = agentUserProfile?.lastName;
@@ -92,22 +70,10 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
     const npnNumber = agentUserProfile?.npn;
     const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? "";
     const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? "";
+    const isEmailCompatabileStatus = emails?.find(({ leadEmail }) => leadEmail)?.isValid;
+    const isPhoneCompatabileStatus = phones?.find(({ leadPhone }) => leadPhone)?.isSmsCompatible;
 
-    const validateEmail = (email) => {
-        if (emailRegex.test(email)) {
-            setErrors(null);
-        } else {
-            setErrors("Invalid email address");
-        }
-    };
-
-    const handleSetEmail = (_email) => {
-        const email = _email.trim();
-        setEmail(email);
-        validateEmail(email);
-    };
-
-    const mobile = useMemo(() => (formattedMobile ? `${formattedMobile}`.replace(/\D/g, "") : ""), [formattedMobile]);
+    const nonFormatPhoneNumber = useMemo(() => (phone ? `${phone}`.replace(/\D/g, "") : ""), [phone]);
 
     const handleSend = async () => {
         try {
@@ -122,14 +88,14 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
                 isTracking48HoursWaitingPeriod: isTracking,
                 agentPurl,
             };
-            if (selectOption === "email") {
+            if (existingSendType === "email") {
                 const data = {
                     ...payload,
                     messageDestination: leadEmail,
                     messageType: "email",
                 };
                 await clientsService.sendSoaInformation(data, leadsId);
-            } else if (selectOption === "textMessage") {
+            } else if (existingSendType === "textMessage") {
                 const data = {
                     ...payload,
                     messageDestination: leadPhone,
@@ -137,7 +103,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
                 };
                 await clientsService.sendSoaInformation(data, leadsId);
             } else {
-                if (selectLabel === "email") {
+                if (newSelectedType === "email") {
                     const data = {
                         ...payload,
                         messageDestination: email,
@@ -147,7 +113,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
                 } else {
                     const data = {
                         ...payload,
-                        messageDestination: mobile,
+                        messageDestination: nonFormatPhoneNumber,
                         messageType: "sms",
                     };
                     await clientsService.sendSoaInformation(data, leadsId);
@@ -170,21 +136,28 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
         }
     };
 
-    const idFormNotValid = useMemo(() => {
-        if (selectOption === "newEmailOrMObile") {
-            return selectLabel === "mobile" ? Boolean(mobile.length !== 10) : !emailRegex.test(email);
+    const isDisable = useMemo(() => {
+        if (existingSendType === "email" && leadEmail && isEmailCompatabileStatus) {
+            return true;
+        } else if (existingSendType === "textMessage" && leadPhone && isPhoneCompatabileStatus) {
+            return true;
+        } else if (existingSendType === "newEmailOrMobile") {
+            if (newSelectedType === "email" && email) {
+                return true;
+            } else if (newSelectedType === "mobile" && phone) {
+                return true;
+            }
         }
-        return !selectOption;
-    }, [selectOption, selectLabel, mobile, email]);
-
-    const getRadioElement = (key, value) => {
-        return (
-            <div>
-                <span style={{ color: "#052A63", fontWeight: "bold" }}>{key}: </span>{" "}
-                <span style={{ color: "#434A51" }}>{value}</span>
-            </div>
-        );
-    };
+    }, [
+        existingSendType,
+        leadEmail,
+        leadPhone,
+        newSelectedType,
+        email,
+        phone,
+        isPhoneCompatabileStatus,
+        isEmailCompatabileStatus,
+    ]);
 
     return (
         <>
@@ -197,124 +170,37 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
             <Container className="new-sop-page">
                 <Card className="new-scope-card">
                     <div>
-                        <section className="select-scope-wrapper">
-                            <div className="select-scope-heading pb-10">
-                                Please select where you would like to send the SOA:
-                            </div>
-                            <div className="select-scope-radios">
-                                {leadEmail && (
-                                    <Radio
-                                        id="email"
-                                        htmlFor="email"
-                                        className={`${selectOption === "email" ? "highlight " : ""} pb-10 radio-label`}
-                                        label={getRadioElement("Email", leadEmail)}
-                                        name="new-soa"
-                                        value="email"
-                                        checked={selectOption === "email"}
-                                        onChange={(event) => setSelectOption(event.target.value)}
-                                    />
-                                )}
-                                {leadPhone && !disableTextMessage && (
-                                    <Radio
-                                        id="textMessage"
-                                        htmlFor="textMessage"
-                                        className={`${
-                                            selectOption === "textMessage" ? "highlight " : ""
-                                        } pb-10 radio-label`}
-                                        label={getRadioElement("Text Message", __formatPhoneNumber(leadPhone))}
-                                        name="new-soa"
-                                        value="textMessage"
-                                        checked={selectOption === "textMessage"}
-                                        onChange={(event) => setSelectOption(event.target.value)}
-                                    />
-                                )}
-                                <Radio
-                                    id="newEmailOrMobile"
-                                    htmlFor="newEmailOrMobile"
-                                    className={`${
-                                        selectOption === "newEmailOrMObile" ? "highlight " : ""
-                                    } pb-10 radio-label`}
-                                    label={disableTextMessage ? "New Email" : "New Email Or Mobile Number"}
-                                    name="new-soa"
-                                    value="newEmailOrMObile"
-                                    checked={selectOption === "newEmailOrMObile"}
-                                    onChange={(event) => setSelectOption(event.target.value)}
-                                />
-                            </div>
-                            {selectOption === "newEmailOrMObile" && (
-                                <div className="new-email-or-mobile">
-                                    <Select
-                                        className="mr-2"
-                                        options={getCommunicationOptions()}
-                                        style={{ width: isMobile ? "100%" : "140px" }}
-                                        initialValue={selectLabel}
-                                        providerModal={true}
-                                        onChange={setSelectLabel}
-                                        showValueAlways={true}
-                                    />
-                                    {selectLabel === "email" && (
-                                        <div className="email-mobile-section">
-                                            <input
-                                                type="text"
-                                                placeholder="Enter email"
-                                                value={email}
-                                                className={`${errors && "error-class"} text-input`}
-                                                onChange={(e) => {
-                                                    handleSetEmail(e.currentTarget.value);
-                                                }}
-                                            />
-                                            {errors && <span className="validation-msg">{errors}</span>}
-                                        </div>
-                                    )}
-                                    {selectLabel === "mobile" && (
-                                        <div className="email-mobile-section">
-                                            <input
-                                                type="text"
-                                                placeholder="XXX-XXX-XXXX"
-                                                value={formattedMobile}
-                                                maxLength="10"
-                                                className={`${
-                                                    mobile.length !== 10 && mobile.length !== 0 ? "error-class" : ""
-                                                } text-input`}
-                                                onChange={(e) => {
-                                                    setFormattedMobile(
-                                                        formatPhoneNumber(e.currentTarget.value.replace(/\D/g, "")),
-                                                    );
-                                                }}
-                                            />
-                                            {mobile.length !== 10 && mobile.length !== 0 && (
-                                                <span className="validation-msg">Invalid mobile number</span>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                        </section>
+                        <ShareInputsValidator
+                            leadId={leadId}
+                            title="Please select where you would like to send the SOA:"
+                            existingSendType={existingSendType}
+                            setExistingSendType={setExistingSendType}
+                            email={email}
+                            setEmail={setEmail}
+                            phone={phone}
+                            setPhone={setPhone}
+                            newSelectedType={newSelectedType}
+                            setNewSelectedType={setNewSelectedType}
+                        />
                     </div>
                     <SMSNotification />
                     <Track onCheckChange={setIsTracking} />
                 </Card>
-                <div className="send-button">
-                    <div className="soaCancelBtn" onClick={handleCloseModal}>
+                <Box className="buttonsContainer">
+                    <Button variant="text" color="primary" onClick={handleCloseModal}>
                         Cancel
-                    </div>
+                    </Button>
+
                     <Button
-                        label="Send SOA"
-                        className={`${idFormNotValid || isSending ? "disabledSoaBtn" : ""}`}
-                        icon={
-                            <span style={{ marginLeft: "10px", marginRight: "-10px" }}>
-                                <ArrowForwardWithCircle />
-                            </span>
-                        }
-                        iconPosition="right"
-                        onClick={() => {
-                            setIsSending(true);
-                            !idFormNotValid && handleSend();
-                        }}
-                        data-gtm="button-send"
-                        style={{ border: "none" }}
-                    />
-                </div>
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSend}
+                        endIcon={<ArrowForwardWithCircle />}
+                        disabled={!isDisable}
+                    >
+                        Send SOA
+                    </Button>
+                </Box>
             </Container>
         </>
     );

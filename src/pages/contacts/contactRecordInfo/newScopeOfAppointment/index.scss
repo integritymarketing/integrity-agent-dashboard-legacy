@@ -1,156 +1,129 @@
 .new-sop-page {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  padding: 16px;
-
-  .soaCancelBtn{
-    margin: 16px 16px 0;
-    color: #4178FF;
-    cursor: pointer;
-  }
-
-  .disabledSoaBtn  {
-    pointer-events: none;
-    opacity: 0.5;
-  }
-
-  .new-scope-card {
     display: flex;
-    height: fit-content;
-    width: fit-content;
-    margin-top: 16px;
+    justify-content: center;
+    flex-direction: column;
+    padding: 16px;
 
-    .scope-title {
-      font-size: 32px;
-      display: flex;
-      align-items: center;
-      color: #002d72;
-      padding: 15px 92px 50px 0;
-
-      @media screen and (width >= 320px) and (width <= 480px) {
-        font-size: 24px;
-        font-weight: 400;
-        line-height: 29px;
-        letter-spacing: 0;
-        text-align: left;
-        min-width: 330px;
-        min-height: 60px;
-        padding: 30px 0 40px;
-      }
-    }
-
-    .select-scope-wrapper {
-      display: flex;
-      flex-direction: column;
-
-      .select-scope-heading {
-        color: #434A51;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        letter-spacing: 0;
-        text-align: left;
-      }
-
-      .pb-10 {
-        padding-bottom: 10px;
-      }
-
-      .radio-label {
-        padding: 4px;
+    .new-scope-card {
+        display: flex;
+        height: fit-content;
         width: fit-content;
-        
-      }
+        margin-top: 16px;
 
-      .highlight {
-        background-color: #F1FAFF;
-      }
-    }
+        .scope-title {
+            font-size: 32px;
+            display: flex;
+            align-items: center;
+            color: #002d72;
+            padding: 15px 92px 50px 0;
 
-    .new-email-or-mobile {
-      margin-top: 5px;
-      display: flex;
-      width: 80%;
-      margin: auto;
-      align-items: flex-start;
+            @media screen and (width >= 320px) and (width <= 480px) {
+                font-size: 24px;
+                font-weight: 400;
+                line-height: 29px;
+                letter-spacing: 0;
+                text-align: left;
+                min-width: 330px;
+                min-height: 60px;
+                padding: 30px 0 40px;
+            }
+        }
 
-      & > div:first-child {
-        margin-right: 16px;
-      }
+        .select-scope-wrapper {
+            display: flex;
+            flex-direction: column;
 
-      @media screen and (width >= 320px) and (width <= 480px) {
-        flex-direction: column;
-      }
+            .select-scope-heading {
+                color: #434a51;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 400;
+                letter-spacing: 0;
+                text-align: left;
+            }
 
-      .email-mobile-section {
-        width: 40%;
+            .pb-10 {
+                padding-bottom: 10px;
+            }
+
+            .radio-label {
+                padding: 4px;
+                width: fit-content;
+            }
+
+            .highlight {
+                background-color: #f1faff;
+            }
+        }
+
+        .new-email-or-mobile {
+            margin-top: 5px;
+            display: flex;
+            width: 80%;
+            margin: auto;
+            align-items: flex-start;
+
+            & > div:first-child {
+                margin-right: 16px;
+            }
+
+            @media screen and (width >= 320px) and (width <= 480px) {
+                flex-direction: column;
+            }
+
+            .email-mobile-section {
+                width: 40%;
+
+                @media screen and (width >= 320px) and (width <= 480px) {
+                    margin-top: 10px;
+                    width: 100%;
+                }
+
+                .text-input {
+                    width: 100%;
+                    padding: 10px;
+                    border: 1px solid #c7ccd1;
+                    border-radius: 6px;
+                    height: 40px;
+                }
+
+                .email-mobile-error {
+                    background: #fff2f2;
+                    border: 1px solid #cf3c28;
+                    color: #2b323b;
+                    margin-bottom: 5px;
+                }
+            }
+        }
+
+        .error-class {
+            background: #fff2f2;
+            border: 1px solid #cf3c28;
+            color: #2b323b;
+            margin-bottom: 5px;
+        }
+
+        .validation-msg {
+            font-family: Lato;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 130%;
+            color: #cf3c28;
+        }
 
         @media screen and (width >= 320px) and (width <= 480px) {
-          margin-top: 10px;
-          width: 100%;
+            margin-top: 8px !important;
+            width: 100%;
+            margin: 0;
+            border: none;
+            height: fit-content;
         }
-
-        .text-input {
-          width: 100%;
-          padding: 10px;
-          border: 1px solid #c7ccd1;
-          border-radius: 6px;
-          height: 40px;
-        }
-
-        .email-mobile-error {
-          background: #fff2f2;
-          border: 1px solid #cf3c28;
-          color: #2b323b;
-          margin-bottom: 5px;
-        }
-      }
     }
+}
 
-    .error-class {
-      background: #fff2f2;
-      border: 1px solid #cf3c28;
-      color: #2b323b;
-      margin-bottom: 5px;
-    }
-
-    .validation-msg {
-      font-family: Lato;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 16px;
-      line-height: 130%;
-      color: #cf3c28;
-    }
-
-    @media screen and (width >= 320px) and (width <= 480px) {
-      margin-top: 8px !important;
-      width: 100%;
-      margin: 0;
-      border: none;
-      height: fit-content;
-    }
-  }
-
-  .send-button {
+.buttonsContainer {
     display: flex;
     justify-content: space-between;
-    position: sticky;
-    z-index: 1;
-    background: #f1f1f1;
-    bottom: -34px;
-    padding: 15px 0 0;
-
-    button.button {
-      border-radius: 50px;
-      background: #4178FF;
-      color: #f8fafc;
-    }
-
-    @media screen and (width >= 320px) and (width <= 480px) {
-      width: 100%;
-      bottom: -20px;
-    }
-  }
+    padding-top: 16px;
 }
