@@ -1,0 +1,53 @@
+.conditionsListContainer {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+
+    :last-child {
+        border-bottom: none !important;
+    }
+
+    .conditionCardContainer {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #ccc;
+
+        .conditionInfo {
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .status {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .completedStatus {
+                    color: #717171;
+                    font-size: 14px;
+                    margin-left: 8px;
+                }
+
+                .incompleteStatus {
+                    color: #4178ff;
+                    font-size: 14px;
+                    margin-left: 8px;
+                }
+
+                .outdatedStatus {
+                    color: #aaa;
+                    font-size: 14px;
+                    margin-left: 8px;
+                }
+
+                .statusIcon {
+                    height: 18px !important;
+                    width: 18px !important;
+                }
+            }
+        }
+    }
+}

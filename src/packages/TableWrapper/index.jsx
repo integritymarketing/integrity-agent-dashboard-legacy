@@ -67,7 +67,6 @@ function Table({ columns, data, footer, initialState, fixedRows = [], overflowHi
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map((header) => {
-                                console.log(header.column.columnDef);
                                 return (
                                     <StyledTableCell
                                         key={header.id}

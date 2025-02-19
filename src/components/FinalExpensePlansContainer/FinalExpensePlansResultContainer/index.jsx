@@ -6,8 +6,7 @@ import { Text } from "@integritymarketing/ui-text-components";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useFetch from "hooks/useFetch";
 import usePreferences from "hooks/usePreferences";
-
-import Heading4 from "packages/Heading4";
+import Popover from "components/ui/Popover";
 
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 import { CurrencyAdjuster } from "components/CurrencyAdjuster";
@@ -20,7 +19,10 @@ import {
 import CheckedIcon from "components/icons/CheckedIcon";
 import UnCheckedIcon from "components/icons/unChecked";
 import { Select } from "components/ui/Select";
-
+import { Box, Typography } from "@mui/material";
+import { CollapsibleSection } from "@integritymarketing/clients-ui-kit";
+import { faCircleInfo } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     COVERAGE_AMT_VALIDATION,
     COVERAGE_AMT_VALIDATION_SIMPLIFIED_IUL,
@@ -37,17 +39,22 @@ import {
     PLAN_OPTIONS_HEADING,
     STEPPER_FILTER,
     STEPPER_FILTER_SIMPLIFIED_IUL,
+    ALTERNATIVE_PRODUCTS_LABEL,
 } from "./FinalExpensePlansResultContainer.constants";
 import styles from "./FinalExpensePlansResultContainer.module.scss";
 import { PlanDetailsContainer } from "./PlanDetailsContainer/PlanDetailsContainer";
 import { useCreateNewQuote } from "../../../providers/CreateNewQuote";
-import Typography from "@mui/material/Typography";
+import QuoteConditions from "components/FinalExpenseHealthConditionsContainer/QuoteConditions";
+import QuoteOptionsInfoModal from "./InfoModals/QuoteOptionsInfoModal";
+import CoverageTypeInfoModal from "./InfoModals/CoverageTypeInfoModal";
 
 const FinalExpensePlansResultContainer = () => {
     const [isMobile, setIsMobile] = useState(false);
     const { contactId } = useParams();
 
     const [isRTS, setIsRTS] = useState();
+    const [quoteOptionsInfoModalOpen, setQuoteOptionsInfoModalOpen] = useState(false);
+    const [coverageTypeInfoModalOpen, setCoverageTypeInfoModalOpen] = useState(false);
 
     const { agentInformation } = useAgentInformationByID();
     const { isSimplifiedIUL } = useCreateNewQuote();
@@ -71,7 +78,7 @@ const FinalExpensePlansResultContainer = () => {
             contactId: contactId || null,
             preferenceFlag: false,
         }),
-        [contactId],
+        [contactId]
     );
 
     const defaultCoverageAmount = useMemo(() => {
@@ -87,7 +94,7 @@ const FinalExpensePlansResultContainer = () => {
     const [coverageType, setCoverageType] = usePreferences(COVERAGE_TYPE[4].value, "sessionCoverageType");
     const [isMyAppointedProducts, setIsMyAppointedProducts] = usePreferences(
         defaultIsMyAppointedProducts,
-        "sessionIsMyAppointedProducts",
+        "sessionIsMyAppointedProducts"
     );
     const [appointmentSession, setAppointmentSession] = usePreferences(false, "appointmentSession");
     const [isShowExcludedProducts, setIsShowExcludedProducts] = usePreferences(false, "sessionIsShowExcludedProducts");
@@ -196,14 +203,14 @@ const FinalExpensePlansResultContainer = () => {
             }
             setIsMyAppointedProducts(isChecked || !isMyAppointedProducts);
         },
-        [isRTS, isMyAppointedProducts],
+        [isRTS, isMyAppointedProducts]
     );
 
     const handleIsShowExcludedProductsCheck = useCallback(
         (isChecked = false) => {
             setIsShowExcludedProducts(isChecked || !isShowExcludedProducts);
         },
-        [isShowExcludedProducts],
+        [isShowExcludedProducts]
     );
 
     const covAmtError = useMemo(() => {
@@ -267,39 +274,187 @@ const FinalExpensePlansResultContainer = () => {
                         </div>
                     )}
                     <div className={styles.planOptionsBox}>
-                        <Heading4 className={styles.planOptionsHeader} text={PLAN_OPTIONS_HEADING} />
-                        {!isSimplifiedIUL() && <Text className={styles.planOptionsText} text={COVERAGE_TYPE_HEADING} />}
-                        {!isSimplifiedIUL() && (
-                            <Select
-                                initialValue={coverageType}
-                                onChange={handleCoverageTypeChange}
-                                options={COVERAGE_TYPE}
-                                selectContainerClassName={styles.selectCoverageType}
-                                showValueAlways
-                            />
-                        )}
-                        <div className={styles.checkboxesWrapper}>
-                            <div
-                                className={`${styles.checkbox} ${
-                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
-                                } ${!isRTS ? styles.inActive : ""}`}
-                                onClick={() => handleMyAppointedProductsCheck(!isMyAppointedProducts)}
-                            >
-                                {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
-                                <span>{MY_APPOINTED_LABEL}</span>
-                            </div>
-                            <div
-                                className={`${styles.checkbox} ${
-                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
-                                }`}
-                                onClick={() => handleIsShowExcludedProductsCheck(!isShowExcludedProducts)}
-                            >
-                                {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
-                                <span>{EXCLUDE_LABEL}</span>
-                            </div>
-                        </div>
+                        <Box>
+                            <Box className={styles.filterHeader}>
+                                <Typography variant="h4" color="#052A63" padding="16px">
+                                    Filter by
+                                </Typography>
+                            </Box>
+
+                            <Box padding="24px">
+                                {!isSimplifiedIUL() && (
+                                    <Box>
+                                        <CollapsibleSection
+                                            title="Select Coverage Type"
+                                            togglePosition="left"
+                                            infoIcon={
+                                                <Box
+                                                    onClick={() => setCoverageTypeInfoModalOpen(true)}
+                                                    sx={{ cursor: "pointer" }}
+                                                >
+                                                    <FontAwesomeIcon icon={faCircleInfo} color="blue" />
+                                                </Box>
+                                            }
+                                        >
+                                            <Select
+                                                initialValue={coverageType}
+                                                onChange={handleCoverageTypeChange}
+                                                options={COVERAGE_TYPE}
+                                                selectContainerClassName={styles.selectCoverageType}
+                                                showValueAlways
+                                            />
+                                        </CollapsibleSection>
+                                    </Box>
+                                )}
+                                <Box marginTop={!isSimplifiedIUL() ? 2 : 0}>
+                                    <CollapsibleSection
+                                        title="Quote Options"
+                                        togglePosition="left"
+                                        infoIcon={
+                                            <Box
+                                                onClick={() => setQuoteOptionsInfoModalOpen(true)}
+                                                sx={{ cursor: "pointer" }}
+                                            >
+                                                <FontAwesomeIcon icon={faCircleInfo} color="blue" />
+                                            </Box>
+                                        }
+                                    >
+                                        <div className={styles.checkboxesWrapper}>
+                                            <div
+                                                className={`${styles.checkbox} ${
+                                                    isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                                } ${!isRTS ? styles.inActive : ""}`}
+                                                onClick={() => handleMyAppointedProductsCheck(!isMyAppointedProducts)}
+                                            >
+                                                {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                                <Typography variant="body2" color="#434A51">
+                                                    {MY_APPOINTED_LABEL}
+                                                </Typography>
+                                            </div>
+                                            <div
+                                                className={`${styles.checkbox} ${
+                                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                                }`}
+                                                onClick={() =>
+                                                    handleIsShowExcludedProductsCheck(!isShowExcludedProducts)
+                                                }
+                                            >
+                                                {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                                <Typography variant="body2" color="#434A51">
+                                                    {EXCLUDE_LABEL}
+                                                </Typography>
+                                            </div>
+                                            <div
+                                                className={`${styles.checkbox} ${
+                                                    isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                                }`}
+                                                onClick={() => {}}
+                                            >
+                                                {false ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                                <Typography variant="body2" color="#434A51">
+                                                    {ALTERNATIVE_PRODUCTS_LABEL}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    </CollapsibleSection>
+                                </Box>
+                                {!isSimplifiedIUL() && (
+                                    <Box marginTop={2}>
+                                        <CollapsibleSection
+                                            title="Rate Class"
+                                            togglePosition="left"
+                                            infoIcon={
+                                                <Popover
+                                                    openOn="hover"
+                                                    description="Select the rating classes displayed in results. Note: Some products may have additional qualifications for preferred rates.  Please validate eligibility with the carrier when applying for preferred rates"
+                                                    positions={isMobile ? ["bottom"] : ["right", "bottom"]}
+                                                >
+                                                    <FontAwesomeIcon icon={faCircleInfo} color="blue" />
+                                                </Popover>
+                                            }
+                                        >
+                                            <div className={styles.checkboxesWrapper}>
+                                                <div
+                                                    className={`${styles.checkbox} ${
+                                                        isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                                    } ${!isRTS ? styles.inActive : ""}`}
+                                                    onClick={() =>
+                                                        handleMyAppointedProductsCheck(!isMyAppointedProducts)
+                                                    }
+                                                >
+                                                    {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                                    <Typography variant="body2" color="#434A51">
+                                                        Standard
+                                                    </Typography>
+                                                </div>
+                                                <div
+                                                    className={`${styles.checkbox} ${
+                                                        isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                                    }`}
+                                                    onClick={() =>
+                                                        handleIsShowExcludedProductsCheck(!isShowExcludedProducts)
+                                                    }
+                                                >
+                                                    {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                                    <Typography variant="body2" color="#434A51">
+                                                        Preferred
+                                                    </Typography>
+                                                </div>
+                                                <div
+                                                    className={`${styles.checkbox} ${
+                                                        isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                                    }`}
+                                                    onClick={() => {}}
+                                                >
+                                                    {false ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                                    <Typography variant="body2" color="#434A51">
+                                                        Super Preferred
+                                                    </Typography>
+                                                </div>
+                                                <div
+                                                    className={`${styles.checkbox} ${
+                                                        isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                                    }`}
+                                                    onClick={() => {}}
+                                                >
+                                                    {false ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                                    <Typography variant="body2" color="#434A51">
+                                                        Sub Standard
+                                                    </Typography>
+                                                </div>
+                                            </div>
+                                        </CollapsibleSection>
+                                    </Box>
+                                )}
+                                <Box marginTop={2}>
+                                    <CollapsibleSection
+                                        title="Conditions"
+                                        togglePosition="left"
+                                        infoIcon={
+                                            <Popover
+                                                openOn="hover"
+                                                description="The conditions you have entered here are filtering your quote results to plans which you are likely eligible"
+                                                positions={isMobile ? ["bottom"] : ["right", "bottom"]}
+                                            >
+                                                <FontAwesomeIcon icon={faCircleInfo} color="blue" />
+                                            </Popover>
+                                        }
+                                    >
+                                        <QuoteConditions contactId={contactId} />
+                                    </CollapsibleSection>
+                                </Box>
+                            </Box>
+                        </Box>
                     </div>
                 </div>
+                <QuoteOptionsInfoModal
+                    open={quoteOptionsInfoModalOpen}
+                    onClose={() => setQuoteOptionsInfoModalOpen(false)}
+                />
+                <CoverageTypeInfoModal
+                    open={coverageTypeInfoModalOpen}
+                    onClose={() => setCoverageTypeInfoModalOpen(false)}
+                />
                 {!getAgentNonRTSLoading && (
                     <PlanDetailsContainer
                         coverageAmount={coverageAmount}
