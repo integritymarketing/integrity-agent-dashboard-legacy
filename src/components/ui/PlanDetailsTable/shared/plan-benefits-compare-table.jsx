@@ -6,18 +6,18 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
     currency: "USD",
 });
 
-export function PlanBenefitsCompareTable({ plans }) {
+export function PlanBenefitsCompareTable({ plans = [] }) {
     const clonedPlans = useMemo(() => {
         const copyPlans = [...plans];
-        if (plans.length < 3) {
+        while (copyPlans.length < 3) {
             copyPlans.push(null);
         }
         return copyPlans;
     }, [plans]);
 
-    const allPlanBenefits = clonedPlans.reduce((acc, pb) => {
-        if (pb) {
-            acc.push(...pb.planDataFields);
+    const allPlanBenefits = clonedPlans.reduce((acc, plan) => {
+        if (plan && plan.planDataFields) {
+            acc.push(...plan.planDataFields);
         }
         return acc;
     }, []);
@@ -31,18 +31,16 @@ export function PlanBenefitsCompareTable({ plans }) {
                     {
                         id: "name",
                         accessorKey: "name",
-                        header: "",
-                        hideHeader: true,
+                        header: "Benefit",
                         cell: ({ getValue }) => <div className="extra-padding">{getValue()}</div>,
                     },
                     ...clonedPlans.map((plan, index) => ({
                         id: `plan-${index}`,
                         accessorKey: `plan-${index}`,
-                        header: "",
-                        hideHeader: true,
-                        cell: ({ getValue }) => {
-                            const value = getValue();
-                            if (!plan || !value) return "-";
+                        header: `Plan ${index + 1}`,
+                        cell: ({ row }) => {
+                            const value = row.original[`plan-${index}`];
+                            if (!plan || !value || !value.description) return "-";
                             return <div dangerouslySetInnerHTML={{ __html: value.description }} />;
                         },
                     })),
@@ -53,35 +51,33 @@ export function PlanBenefitsCompareTable({ plans }) {
     );
 
     const buildData = (planData, document) => {
-        return planData?.planDataFields.find((pr) => pr.name === document.name);
+        if (!planData) return null;
+        return planData?.planDataFields?.find((pr) => pr.name === document.name) || null;
     };
 
-    const defaultData = [
-        {
-            name: "Medical Deductible",
-            [`plan-0`]: {
-                description: plans[0] ? currencyFormatter.format(plans[0].medicalDeductible) : "",
+    const defaultData = useMemo(
+        () => [
+            {
+                name: "Medical Deductible",
+                ...clonedPlans.reduce((acc, plan, index) => {
+                    acc[`plan-${index}`] = plan
+                        ? { description: currencyFormatter.format(plan.medicalDeductible || 0) }
+                        : null;
+                    return acc;
+                }, {}),
             },
-            [`plan-1`]: {
-                description: plans[1] ? currencyFormatter.format(plans[1].medicalDeductible) : "",
+            {
+                name: "In-Network Maximum out of Pocket",
+                ...clonedPlans.reduce((acc, plan, index) => {
+                    acc[`plan-${index}`] = plan
+                        ? { description: currencyFormatter.format(plan.maximumOutOfPocketCost || 0) }
+                        : null;
+                    return acc;
+                }, {}),
             },
-            [`plan-2`]: {
-                description: plans[2] ? currencyFormatter.format(plans[2].medicalDeductible) : "",
-            },
-        },
-        {
-            name: "In-Network Maximum out of Pocket",
-            [`plan-0`]: {
-                description: plans[0] ? currencyFormatter.format(plans[0].maximumOutOfPocketCost) : "",
-            },
-            [`plan-1`]: {
-                description: plans[1] ? currencyFormatter.format(plans[1].maximumOutOfPocketCost) : "",
-            },
-            [`plan-2`]: {
-                description: plans[2] ? currencyFormatter.format(plans[2].maximumOutOfPocketCost) : "",
-            },
-        },
-    ];
+        ],
+        [clonedPlans]
+    );
 
     const uniqPlans = {};
     allPlanBenefits.forEach((doc) => {
@@ -90,21 +86,26 @@ export function PlanBenefitsCompareTable({ plans }) {
         }
     });
 
-    const data = Object.values(uniqPlans).map((document) => ({
-        name: document.name,
-        [`plan-0`]: buildData(plans[0], document),
-        [`plan-1`]: buildData(plans[1], document),
-        [`plan-2`]: buildData(plans[2], document),
-    }));
+    const data = useMemo(
+        () =>
+            Object.values(uniqPlans).map((document) => ({
+                name: document.name,
+                ...clonedPlans.reduce((acc, plan, index) => {
+                    acc[`plan-${index}`] = buildData(plan, document);
+                    return acc;
+                }, {}),
+            })),
+        [clonedPlans, uniqPlans]
+    );
 
     return (
-        <>
-            <PlanDetailsTableWithCollapse
-                columns={columns}
-                data={[...defaultData, ...data]}
-                compareTable={true}
-                header={"Plan Benefits"}
-            />
-        </>
+        <PlanDetailsTableWithCollapse
+            columns={columns}
+            data={[...defaultData, ...data]}
+            compareTable={true}
+            header={"Plan Benefits"}
+        />
     );
 }
+
+export default PlanBenefitsCompareTable;

@@ -113,10 +113,10 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
                 Header: "Prescriptions",
                 columns: [
                     {
-                        accessor: "data",
-                        Cell({ value, row, rows }) {
-                            return renderCell(value, row.index, rows.length, prescriptions);
-                        },
+                        id: "drugName",
+                        header: "Drug Name",
+                        cell: ({ row }) =>
+                            renderCell(row.original.data, row.index, prescriptions.length, prescriptions),
                     },
                 ],
             },
@@ -132,9 +132,8 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
             columns: [
                 {
                     id: "unAvailable",
-                    accessorKey: "unAvailable",
-                    header: "",
                     hideHeader: true,
+                    cell: ({ row }) => row.original.unAvailable,
                 },
             ],
         },
@@ -145,8 +144,9 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
             Header: "Prescriptions",
             columns: [
                 {
+                    id: "noData",
                     hideHeader: true,
-                    accessor: "empty",
+                    accessorKey: "empty",
                 },
             ],
         },
@@ -161,13 +161,11 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
     const emptyRowData = [];
 
     return (
-        <>
-            <PlanDetailsTableWithCollapse
-                columns={apiError ? columnsData : isEmptyData ? emptyColumnsData : columns}
-                data={apiError ? rowData : isEmptyData ? emptyRowData : data}
-                compareTable={true}
-                header={"Prescriptions"}
-            />
-        </>
+        <PlanDetailsTableWithCollapse
+            columns={apiError ? columnsData : isEmptyData ? emptyColumnsData : columns}
+            data={apiError ? rowData : isEmptyData ? emptyRowData : data}
+            compareTable={true}
+            header={"Prescriptions"}
+        />
     );
 }

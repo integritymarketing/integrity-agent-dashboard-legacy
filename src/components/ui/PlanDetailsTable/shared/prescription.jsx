@@ -60,41 +60,47 @@ function Prescription({ data, prescriptions }) {
                     </div>
                     {/* <div className="covered">Covered</div> */}
                 </div>
-                {data.covered.map((covered, index) => (
-                    <div className="col val" key={index}>
-                        {covered ? <GreenRoundCheckIcon /> : <MinusIconRed />}
-                    </div>
-                ))}
+                {data &&
+                    data?.covered?.length > 0 &&
+                    data?.covered?.map((covered, index) => (
+                        <div className="col val" key={index}>
+                            {covered ? <GreenRoundCheckIcon /> : <MinusIconRed />}
+                        </div>
+                    ))}
             </div>
             {fields.map((field) => (
                 <div className="row" key={field}>
                     <div className="col field">{field}</div>
-                    {data[field].map((value, idx) => (
-                        <div className="col val" key={idx}>
-                            {(value && currencyFormatter.format(value)) || "-"}
-                        </div>
-                    ))}
+                    {data &&
+                        data[field]?.length > 0 &&
+                        data[field]?.map((value, idx) => (
+                            <div className="col val" key={idx}>
+                                {(value && currencyFormatter.format(value)) || "-"}
+                            </div>
+                        ))}
                 </div>
             ))}
             <div className="row">
                 <div className="col field">Restrictions</div>
-                {data.restrictions.map((value, index) => (
-                    <div className="col val restrictions" key={index}>
-                        {value.hasPriorAuthorization && <div className="link">Prior Authorization</div>}
-                        {value.hasQuantityLimit && (
-                            <div className="qty">
-                                <div className="link">Quantity Limit</div>
-                                <div className="qty-limit">
-                                    {value.quantityLimitAmount} / {value.quantityLimitDays} days
+                {data &&
+                    data?.restrictions?.length > 0 &&
+                    data?.restrictions?.map((value, index) => (
+                        <div className="col val restrictions" key={index}>
+                            {value.hasPriorAuthorization && <div className="link">Prior Authorization</div>}
+                            {value.hasQuantityLimit && (
+                                <div className="qty">
+                                    <div className="link">Quantity Limit</div>
+                                    <div className="qty-limit">
+                                        {value.quantityLimitAmount} / {value.quantityLimitDays} days
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                        {value.hasStepTherapy && <div className="link">Step Therapy</div>}
-                        {!value.hasPriorAuthorization && !value.hasQuantityLimit && !value.hasStepTherapy && (
-                            <div>None</div>
-                        )}
-                    </div>
-                ))}
+                            )}
+                            {value.hasStepTherapy && <div className="link">Step Therapy</div>}
+                            {!value.hasPriorAuthorization && !value.hasQuantityLimit && !value.hasStepTherapy && (
+                                <div>None</div>
+                            )}
+                        </div>
+                    ))}
             </div>
         </div>
     );

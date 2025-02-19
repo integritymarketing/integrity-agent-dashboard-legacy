@@ -7,82 +7,72 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
     currency: "USD",
 });
 
-function findPlanData({ planData, isPreffered = false, isRetail = true }) {
-    const values = [];
-    if (planData && planData.formularyTiers && Array.isArray(planData.formularyTiers)) {
-        planData.formularyTiers.forEach((tier) => {
-            if (tier && Array.isArray(tier.copayPrices)) {
-                tier.copayPrices.forEach((copay) => {
-                    if (copay.isPreferredPharmacy === isPreffered && copay.isMailOrder === !isRetail) {
-                        if (copay.costType === 1) {
-                            values.push({
-                                name: labelMap[tier.tierNumber],
-                                value: (
-                                    <>
-                                        <div className={"copay"}>
-                                            <span className={"label"}>{currencyFormatter.format(copay.cost)}</span>{" "}
-                                            <span className={"supply"}>copay ({copay.daysOfSupply}-day supply)</span>
-                                        </div>
-                                    </>
-                                ),
-                            });
-                        } else if (copay.costType === 2) {
-                            values.push({
-                                name: labelMap[tier.tierNumber],
-                                value: (
-                                    <>
-                                        <div className={"copay"}>
-                                            <span className={"label"}>{Math.round(copay.cost * 100)}%</span>
-                                            <span className={"supply"}>
-                                                coinsurance ({copay.daysOfSupply}-day supply)
-                                            </span>
-                                        </div>
-                                    </>
-                                ),
-                            });
-                        }
-                    }
-                });
-            }
-        });
-    }
+/**
+ * Function to find pharmacy plan data
+ */
+function findPlanData({ planData, isPreferred = false, isRetail = true }) {
+    if (!planData || !Array.isArray(planData.formularyTiers)) return null;
 
-    return values.length ? values : null;
+    return planData.formularyTiers.flatMap((tier) => {
+        if (!tier || !Array.isArray(tier.copayPrices)) return [];
+
+        return tier.copayPrices
+            .filter((copay) => copay.isPreferredPharmacy === isPreferred && copay.isMailOrder !== isRetail)
+            .map((copay) => ({
+                name: labelMap[tier.tierNumber],
+                value:
+                    copay.costType === 1 ? (
+                        <div className="copay">
+                            <span className="label">{currencyFormatter.format(copay.cost)}</span>{" "}
+                            <span className="supply">copay ({copay.daysOfSupply}-day supply)</span>
+                        </div>
+                    ) : (
+                        <div className="copay">
+                            <span className="label">{Math.round(copay.cost * 100)}%</span>
+                            <span className="supply">coinsurance ({copay.daysOfSupply}-day supply)</span>
+                        </div>
+                    ),
+            }));
+    });
 }
 
-export function RetailPharmacyCoverage({ plans, header, isPreffered, isRetail }) {
+export function RetailPharmacyCoverage({
+    plans = [],
+    header = "Standard Retail Pharmacy Coverage",
+    isPreferred,
+    isRetail,
+}) {
+    // Ensure all plans exist in a list of 3 for column mapping
     const clonedPlans = useMemo(() => {
         const copyPlans = [...plans];
-        if (plans.length < 3) {
+        while (copyPlans.length < 3) {
             copyPlans.push(null);
         }
         return copyPlans;
     }, [plans]);
 
+    /**
+     * Table Columns
+     */
     const columns = useMemo(
         () => [
             {
-                id: "group-header",
+                id: "pharmacy-group",
                 header,
                 columns: [
                     {
                         id: "name",
                         accessorKey: "name",
-                        header: "",
-                        hideHeader: true,
-                        cell: ({ getValue }) => <div className="extra-padding">{getValue()}</div>,
+                        header: "Benefit Tier",
+                        cell: ({ row }) => <div className="extra-padding">{row.original.name || "-"}</div>,
                     },
                     ...clonedPlans.map((plan, index) => ({
                         id: `plan-${index}`,
                         accessorKey: `plan-${index}`,
-                        header: "",
-                        hideHeader: true,
-                        cell: ({ getValue }) => {
-                            const value = getValue();
-                            if (!plan || !value) {
-                                return "-";
-                            }
-                            return value;
+                        header: `Plan ${index + 1}`,
+                        cell: ({ row }) => {
+                            const value = row.original[`plan-${index}`];
+                            return value || "-";
                         },
                     })),
                 ],
@@ -91,24 +81,28 @@ export function RetailPharmacyCoverage({ plans, header, isPreffered, isRetail })
         [clonedPlans, header]
     );
 
-    const planCoverageValues = clonedPlans.map((planData) => findPlanData({ planData }));
-    const defaultData = Object.values(labelMap).map((tierName) => {
-        return {
-            name: tierName,
-            [`plan-0`]: planCoverageValues[0]?.find(({ name }) => name === tierName)?.value,
-            [`plan-1`]: planCoverageValues[1]?.find(({ name }) => name === tierName)?.value,
-            [`plan-2`]: planCoverageValues[2]?.find(({ name }) => name === tierName)?.value,
-        };
-    });
-
-    return (
-        <>
-            <PlanDetailsTableWithCollapse
-                columns={columns}
-                data={defaultData}
-                compareTable={true}
-                header={"Standard Retail Pharmacy Coverage"}
-            />
-        </>
+    /**
+     * Table Data
+     */
+    const planCoverageValues = useMemo(
+        () => clonedPlans.map((plan) => findPlanData({ planData: plan })),
+        [clonedPlans]
     );
+
+    const defaultData = useMemo(
+        () =>
+            Object.values(labelMap).map((tierName) => ({
+                name: tierName,
+                ...clonedPlans.reduce((acc, _, index) => {
+                    acc[`plan-${index}`] =
+                        planCoverageValues[index]?.find(({ name }) => name === tierName)?.value || "-";
+                    return acc;
+                }, {}),
+            })),
+        [clonedPlans, planCoverageValues]
+    );
+
+    return <PlanDetailsTableWithCollapse columns={columns} data={defaultData} compareTable={true} header={header} />;
 }
+
+export default RetailPharmacyCoverage;

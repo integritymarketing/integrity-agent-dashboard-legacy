@@ -28,21 +28,21 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
                     {
                         id: "name",
                         accessorKey: "name",
-                        header: "",
-                        hideHeader: true,
-                        cell: ({ getValue }) => (
-                            <div>
-                                <span>{getValue()}</span>
-                            </div>
-                        ),
+                        header: "Pharmacy Name",
+                        cell: ({ row }) => <span className="label">{row.original.name}</span>,
+                    },
+                    {
+                        id: "address",
+                        accessorKey: "address",
+                        header: "Address",
+                        cell: ({ row }) => <span>{row.original.address}</span>,
                     },
                     ...clonedPlans.map((plan, index) => ({
                         id: `plan-${index}`,
                         accessorKey: `plan-${index}`,
-                        header: "",
-                        hideHeader: true,
-                        cell: ({ getValue }) => {
-                            const value = getValue();
+                        header: `Plan ${index + 1}`,
+                        cell: ({ row }) => {
+                            const value = row.original[`plan-${index}`];
                             if (!plan || !value) return "-";
 
                             const NetworkIcon = value.isNetwork ? InNetworkIcon : OutNetworkIcon;
@@ -78,18 +78,12 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
             });
 
             return {
-                name: <span className="label">{pharmacy.name}</span>,
+                name: pharmacy.name,
                 address: pharmacyFormattedAddress,
                 ...plans.reduce((acc, plan, index) => {
-                    const pharmacyCost = plan?.pharmacyCosts?.find((pr) => {
-                        return pr.pharmacyID === pharmacy.pharmacyId;
-                    });
-
+                    const pharmacyCost = plan?.pharmacyCosts?.find((pr) => pr.pharmacyID === pharmacy.pharmacyId);
                     acc[`plan-${index}`] = pharmacyCost
-                        ? {
-                              isNetwork: pharmacyCost.isNetwork,
-                              address: pharmacyFormattedAddress,
-                          }
+                        ? { isNetwork: pharmacyCost.isNetwork, address: pharmacyFormattedAddress }
                         : null;
                     return acc;
                 }, {}),
@@ -138,34 +132,24 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
         [plans, currencyFormatter, notApplicableText]
     );
 
-    const columnsData = [
-        {
-            Header: "Pharmacies",
-            columns: [
-                {
-                    hideHeader: true,
-                    accessor: "unAvailable",
-                },
-            ],
-        },
-    ];
-
     const emptyColumnsData = useMemo(
         () => [
             {
-                Header: "Pharmacies",
+                id: "empty-pharmacies",
+                header: "Pharmacies",
                 columns: [
                     {
-                        hideHeader: true,
-                        accessor: "name",
+                        id: "noData",
+                        accessorKey: "name",
+                        header: "Pharmacy Name",
+                        cell: ({ row }) => <span>{row.original.name || "No Data"}</span>,
                     },
                     ...clonedPlans.map((plan, index) => ({
-                        hideHeader: true,
-                        accessor: `plan-${index}`,
-                        Cell({ value }) {
-                            if (!plan) {
-                                return "-";
-                            }
+                        id: `plan-${index}`,
+                        accessorKey: `plan-${index}`,
+                        header: `Plan ${index + 1}`,
+                        cell: ({ row }) => {
+                            if (!plan) return "-";
                             return plan.hasMailDrugBenefits
                                 ? isEmpty
                                     ? notApplicableText
@@ -183,20 +167,20 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
         [clonedPlans, currencyFormatter, isEmpty, notApplicableText]
     );
 
-    const rowData = [
-        {
-            unAvailable: <APIFail title={"Pharmacy"} />,
-        },
-    ];
-
     const emptyRowData = [mailOrderRow];
 
     return (
         <PlanDetailsTableWithCollapse
-            columns={apiError ? columnsData : isEmpty ? emptyColumnsData : columns}
-            data={apiError ? rowData : isEmpty ? emptyRowData : data}
+            columns={
+                apiError
+                    ? [{ id: "error", header: "Error", accessorKey: "message" }]
+                    : isEmpty
+                    ? emptyColumnsData
+                    : columns
+            }
+            data={apiError ? [{ message: <APIFail title="Pharmacy" /> }] : isEmpty ? emptyRowData : data}
             compareTable={true}
-            header={"Pharmacies"}
+            header="Pharmacies"
         />
     );
 }
@@ -216,7 +200,7 @@ PharmaciesCompareTable.propTypes = {
     ).isRequired,
     pharmacies: PropTypes.arrayOf(
         PropTypes.shape({
-            id: PropTypes.string.isRequired,
+            pharmacyId: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
             address1: PropTypes.string,
             address2: PropTypes.string,

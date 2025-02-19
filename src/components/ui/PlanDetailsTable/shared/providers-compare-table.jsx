@@ -42,22 +42,18 @@ export function ProvidersCompareTable({ plans }) {
                 columns: [
                     {
                         id: "provider",
-                        accessorKey: "provider",
-                        header: "",
-                        hideHeader: true,
-                        cell: ({ getValue }) => (
+                        header: "Provider",
+                        cell: ({ row }) => (
                             <div className="providerContainer">
-                                <RenderProviders provider={getValue()} compareTable />
+                                <RenderProviders provider={row.original.provider} compareTable />
                             </div>
                         ),
                     },
                     ...clonedPlans.map((plan, index) => ({
                         id: `plan-${index}`,
-                        accessorKey: `plan-${index}`,
-                        header: "",
-                        hideHeader: true,
-                        cell: ({ getValue }) => {
-                            const value = getValue();
+                        header: `Plan ${index + 1}`,
+                        cell: ({ row }) => {
+                            const value = row.original[`plan-${index}`];
                             if (!plan || !(plan.providers?.length > 0)) {
                                 return "-";
                             }
@@ -78,11 +74,11 @@ export function ProvidersCompareTable({ plans }) {
         [clonedPlans]
     );
 
-    const data = allProviders.map((provider, index) => ({
+    const data = allProviders.map((provider) => ({
         provider,
-        [`plan-0`]: !!plans[0]?.providers?.filter((pr) => pr.npi === provider.npi)[0]?.inNetwork,
-        [`plan-1`]: !!plans[1]?.providers?.filter((pr) => pr.npi === provider.npi)[0]?.inNetwork,
-        [`plan-2`]: !!plans[2]?.providers?.filter((pr) => pr.npi === provider.npi)[0]?.inNetwork,
+        [`plan-0`]: !!plans[0]?.providers?.some((pr) => pr.npi === provider.npi && pr.inNetwork),
+        [`plan-1`]: !!plans[1]?.providers?.some((pr) => pr.npi === provider.npi && pr.inNetwork),
+        [`plan-2`]: !!plans[2]?.providers?.some((pr) => pr.npi === provider.npi && pr.inNetwork),
     }));
 
     const columnsData = [
@@ -90,8 +86,9 @@ export function ProvidersCompareTable({ plans }) {
             Header: "Providers",
             columns: [
                 {
+                    id: "provider",
                     hideHeader: true,
-                    accessor: "unAvailable",
+                    cell: ({ row }) => row.original.unAvailable,
                 },
             ],
         },
@@ -104,13 +101,11 @@ export function ProvidersCompareTable({ plans }) {
     ];
 
     return (
-        <>
-            <PlanDetailsTableWithCollapse
-                columns={isApiFailed ? columnsData : columns}
-                data={isApiFailed ? rowData : data}
-                compareTable={true}
-                header={"Providers"}
-            />
-        </>
+        <PlanDetailsTableWithCollapse
+            columns={isApiFailed ? columnsData : columns}
+            data={isApiFailed ? rowData : data}
+            compareTable={true}
+            header={"Providers"}
+        />
     );
 }

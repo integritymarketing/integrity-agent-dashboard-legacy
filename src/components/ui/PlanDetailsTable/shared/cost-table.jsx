@@ -252,12 +252,14 @@ export function CostCompareTable({ plans, effectiveDate }) {
                 Header: "Costs",
                 columns: [
                     {
+                        id: "label",
                         hideHeader: true,
-                        accessor: "label",
+                        cell: ({ row }) => row.original.label,
                     },
                     ...clonedPlans.map((plan, index) => ({
-                        hideHeader: true,
-                        accessor: `plan-${index}`,
+                        id: `plan-${index}`,
+                        header: "Value",
+                        cell: ({ row }) => row.original[`plan-${index}`],
                     })),
                 ],
             },

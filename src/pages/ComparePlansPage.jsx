@@ -230,7 +230,7 @@ const ComparePlansPage = (props) => {
                             contactId={id}
                             showTabs={false}
                             backButtonLabel={"Back"}
-                            backButtonRoute={`/plans/${id}`}
+                            backButtonRoute={`/plans/${id}?preserveSelected=true`}
                             stickyHeader={true}
                         />
                     )}
@@ -266,6 +266,7 @@ const ComparePlansPage = (props) => {
                                     isFullYear={isFullYear}
                                     effectiveDate={effectiveDate}
                                 />
+
                                 <div style={{ height: 20 }} />
                                 {pharmacies && pharmacies?.length > 0 && (
                                     <MailOrderNotApplicable
@@ -276,6 +277,7 @@ const ComparePlansPage = (props) => {
                                         leadId={leadDetails.leadsId}
                                     />
                                 )}
+
                                 <div style={{ height: 20 }} />
                                 <ProvidersCompareTable plans={comparePlans} />
                                 <div style={{ height: 20 }} />
@@ -292,7 +294,6 @@ const ComparePlansPage = (props) => {
                                     apiError={hasErrorPharmacies}
                                 />
                                 <div style={{ height: 20 }} />
-
                                 <PlanBenefitsCompareTable plans={comparePlans} pharmacies={pharmacies} />
                                 <div style={{ height: 20 }} />
 
@@ -308,6 +309,7 @@ const ComparePlansPage = (props) => {
                                 />
                                 <div style={{ height: 20 }} />
                                 <PlanDocumentsCompareTable plans={comparePlans} />
+                                <div style={{ height: 20 }} />
                             </div>
                         )}
                     </Container>

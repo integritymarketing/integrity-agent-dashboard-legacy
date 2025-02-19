@@ -6,10 +6,10 @@ const currencyFormatter = new Intl.NumberFormat("en-US", {
     currency: "USD",
 });
 
-export function PharmacyCoverageCompareTable({ plans }) {
+export function PharmacyCoverageCompareTable({ plans = [] }) {
     const clonedPlans = useMemo(() => {
         const copyPlans = [...plans];
-        if (plans.length < 3) {
+        while (copyPlans.length < 3) {
             copyPlans.push(null);
         }
         return copyPlans;
@@ -24,18 +24,16 @@ export function PharmacyCoverageCompareTable({ plans }) {
                     {
                         id: "name",
                         accessorKey: "name",
-                        header: "",
-                        hideHeader: true,
+                        header: "Benefit",
                         cell: ({ getValue }) => <div className="extra-padding">{getValue()}</div>,
                     },
                     ...clonedPlans.map((plan, index) => ({
                         id: `plan-${index}`,
                         accessorKey: `plan-${index}`,
-                        header: "",
-                        hideHeader: true,
-                        cell: ({ getValue }) => {
-                            const value = getValue();
-                            if (!plan || !value) return "-";
+                        header: `Plan ${index + 1}`,
+                        cell: ({ row }) => {
+                            const value = row.original[`plan-${index}`];
+                            if (!plan || !value || !value.description) return "-";
                             return <div dangerouslySetInnerHTML={{ __html: value.description }} />;
                         },
                     })),
@@ -45,41 +43,38 @@ export function PharmacyCoverageCompareTable({ plans }) {
         [clonedPlans]
     );
 
-    const defaultData = [
-        {
-            name: "Pharmacy Deductible",
-            [`plan-0`]: {
-                description: plans[0] ? currencyFormatter.format(plans[0].drugDeductible) : "",
+    const defaultData = useMemo(
+        () => [
+            {
+                name: "Pharmacy Deductible",
+                ...clonedPlans.reduce((acc, plan, index) => {
+                    acc[`plan-${index}`] = plan
+                        ? { description: currencyFormatter.format(plan.drugDeductible || 0) }
+                        : null;
+                    return acc;
+                }, {}),
             },
-            [`plan-1`]: {
-                description: plans[1] ? currencyFormatter.format(plans[1].drugDeductible) : "",
+            {
+                name: "Initial Coverage Limit",
+                ...clonedPlans.reduce((acc, plan, index) => {
+                    acc[`plan-${index}`] = plan
+                        ? { description: currencyFormatter.format(plan.initialCoverageLimit || 0) }
+                        : null;
+                    return acc;
+                }, {}),
             },
-            [`plan-2`]: {
-                description: plans[2] ? currencyFormatter.format(plans[2].drugDeductible) : "",
-            },
-        },
-        {
-            name: "Initial Coverage Limit",
-            [`plan-0`]: {
-                description: plans[0] ? currencyFormatter.format(plans[0].initialCoverageLimit) : "",
-            },
-            [`plan-1`]: {
-                description: plans[1] ? currencyFormatter.format(plans[1].initialCoverageLimit) : "",
-            },
-            [`plan-2`]: {
-                description: plans[2] ? currencyFormatter.format(plans[2].initialCoverageLimit) : "",
-            },
-        },
-    ];
+        ],
+        [clonedPlans]
+    );
 
     return (
-        <>
-            <PlanDetailsTableWithCollapse
-                columns={columns}
-                data={defaultData}
-                compareTable={true}
-                header={"Pharmacy Coverage"}
-            />
-        </>
+        <PlanDetailsTableWithCollapse
+            columns={columns}
+            data={defaultData}
+            compareTable={true}
+            header={"Pharmacy Coverage"}
+        />
     );
 }
+
+export default PharmacyCoverageCompareTable;
