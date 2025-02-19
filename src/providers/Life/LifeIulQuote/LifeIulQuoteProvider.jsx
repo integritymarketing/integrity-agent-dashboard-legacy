@@ -1,4 +1,4 @@
-import {useEffect, useState, createContext, useMemo, useCallback} from "react";
+import { useEffect, useState, createContext, useMemo, useCallback } from "react";
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 import PropTypes from "prop-types";
@@ -8,12 +8,12 @@ import removeNullAndEmptyFields from "utils/removeNullAndEmptyFields";
 
 export const LifeIulQuoteContext = createContext();
 
-export const LifeIulQuoteProvider = ({children}) => {
+export const LifeIulQuoteProvider = ({ children }) => {
     const getLifeIulQuoteUrl = `${import.meta.env.VITE_QUOTE_URL}/api/v1/IUL/quotes`;
     const applyLifeIulQuoteUrl = `${import.meta.env.VITE_ENROLLMENT_API}/api/v1.0/IUL/lead`;
     const getLifeIulQuoteDetailsUrl = `${import.meta.env.VITE_QUOTE_URL}/api/v1.0/IUL/policydetails`;
+    const iulQuoteShareUrl = `${import.meta.env.VITE_QUOTE_URL}/api/v1.0/Policy/SendPolicy`;
     const showToast = useToast();
-
     const [lifeIulQuoteResults, setLifeIulQuoteResults] = useState(null);
     const [tempUserDetails, setTempUserDetails] = useState(null);
     const [selectedCarriers, setSelectedCarriers] = useState(["All carriers"]);
@@ -21,6 +21,12 @@ export const LifeIulQuoteProvider = ({children}) => {
     const [showFilters, setShowFilters] = useState(false);
     const [selectedPlans, setSelectedPlans] = useState([]);
     const [lifeIulDetails, setLifeIulDetails] = useState(null);
+
+    const {
+        Post: shareIulQuote,
+        loading: isLoadingShareIulQuote,
+        error: shareIulQuoteError,
+    } = useFetch(iulQuoteShareUrl);
 
     const {
         Post: getLifeIulQuoteResults,
@@ -70,9 +76,6 @@ export const LifeIulQuoteProvider = ({children}) => {
                         const initialselectedTab = tabSelected ? tabSelected : faceAmounts[0];
                         handleTabSelection(initialselectedTab, removeDuplicated, true);
                     }
-                    showToast({
-                        message: `get quote successfully`,
-                    });
                     return response;
                 } else {
                     setLifeIulQuoteResults([]);
@@ -146,10 +149,35 @@ export const LifeIulQuoteProvider = ({children}) => {
         } else {
             setSelectedPlans([
                 ...selectedPlans,
-                {logo: plan.companyLogoImageUrl, name: plan.productName, rowId: plan.rowId, ...plan},
+                { logo: plan.companyLogoImageUrl, name: plan.productName, rowId: plan.rowId, ...plan },
             ]);
         }
     };
+
+    const handleIULQuoteShareClick = useCallback(
+        async (reqData) => {
+            try {
+                const response = await shareIulQuote(reqData, false);
+                if (response === "Email Sent") {
+                    showToast({
+                        message: "Successfully shared plan",
+                    });
+                } else {
+                    showToast({
+                        type: "error",
+                        message: "Failed to share plan",
+                    });
+                }
+            } catch (error) {
+                showToast({
+                    type: "error",
+                    message: `Failed to get quote details`,
+                });
+                return null;
+            }
+        },
+        [shareIulQuote, showToast, shareIulQuoteError]
+    );
 
     const handleIULQuoteApplyClick = useCallback(
         async (reqData, leadId) => {
@@ -233,6 +261,8 @@ export const LifeIulQuoteProvider = ({children}) => {
             getLifeIulQuoteDetailsError,
             lifeIulDetails,
             setSelectedPlans,
+            handleIULQuoteShareClick,
+            isLoadingShareIulQuote,
         }),
         [
             fetchLifeIulQuoteResults,
@@ -257,6 +287,8 @@ export const LifeIulQuoteProvider = ({children}) => {
             getLifeIulQuoteDetailsError,
             lifeIulDetails,
             setSelectedPlans,
+            handleIULQuoteShareClick,
+            isLoadingShareIulQuote,
         ]
     );
 
@@ -264,5 +296,5 @@ export const LifeIulQuoteProvider = ({children}) => {
 };
 
 LifeIulQuoteProvider.propTypes = {
-    children: PropTypes.node.isRequired, // Child components that this provider will wrap
+    children: PropTypes.node.isRequired,
 };

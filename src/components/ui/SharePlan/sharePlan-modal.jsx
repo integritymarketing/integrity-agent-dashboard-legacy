@@ -11,6 +11,7 @@ import { Button } from "../Button";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import ShareInputsValidator from "components/ShareInputsValidator";
+import { Box, Typography } from "@mui/material";
 import "./styles.scss";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
@@ -28,9 +29,6 @@ export const __formatPhoneNumber = (phoneNumberString) => {
 
     return originalInput;
 };
-
-const emailRegex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const SharePlanModal = ({
     modalOpen,
@@ -293,7 +291,7 @@ const SharePlanModal = ({
                                 {isDocumentsSelected || ispolicyShare ? (
                                     <ShareInputsValidator
                                         leadId={leadsId}
-                                        title="Please select where you would like to send the SOA:"
+                                        title="How do you want to share this plan?"
                                         existingSendType={existingSendType}
                                         setExistingSendType={setExistingSendType}
                                         email={email}
@@ -326,6 +324,14 @@ const SharePlanModal = ({
                                             })}
                                         />
                                     </div>
+                                )}
+                                {existingSendType === "newEmailOrMobile" && (
+                                    <Box>
+                                        <Typography variant="body2" color="#434A51" marginTop={0.5}>
+                                            *This {newSelectedType === "mobile" ? "phone number" : "email"} will not be
+                                            saved to the contact.
+                                        </Typography>
+                                    </Box>
                                 )}
                                 <div className={"footer"}>
                                     {isDocumentsSelected || ispolicyShare ? (

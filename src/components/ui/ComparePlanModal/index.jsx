@@ -12,6 +12,7 @@ import useUserProfile from "hooks/useUserProfile";
 import "./index.scss";
 import { useClientServiceContext } from "services/clientServiceProvider";
 import SMSNotification from "components/SMSNotification";
+import { Box, Typography } from "@mui/material";
 
 export const __formatPhoneNumber = (phoneNumberString) => {
     const originalInput = phoneNumberString;
@@ -246,6 +247,14 @@ const ComparePlanModal = ({
                                     newSelectedType={newSelectedType}
                                     setNewSelectedType={setNewSelectedType}
                                 />
+                                {existingSendType === "newEmailOrMobile" && (
+                                    <Box>
+                                        <Typography variant="body2" color="#434A51" marginTop={0.5}>
+                                            *This {newSelectedType === "mobile" ? "phone number" : "email"} will not be
+                                            saved to the contact.
+                                        </Typography>
+                                    </Box>
+                                )}
                                 <SMSNotification />
                                 <div className={"footer"}>
                                     <Button

@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useMemo, useState} from "react";
-import React, { useRef, useEffect, useMemo, useState } from "react";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import {
@@ -9,8 +8,7 @@ import {
     ProductFeature,
     UnderwritingRequirements,
 } from "@integritymarketing/clients-ui-kit";
-import { IulQuoteContainer, ApplyErrorModal } from "../CommonComponents";
-import { IulQuoteContainer, IulShareModal } from "../CommonComponents";
+import { IulQuoteContainer, ApplyErrorModal, IulShareModal } from "../CommonComponents";
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
