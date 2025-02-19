@@ -8,8 +8,7 @@ import {
     ProductFeature,
     UnderwritingRequirements,
 } from "@integritymarketing/clients-ui-kit";
-import { IulQuoteContainer, IulShareModal } from "../CommonComponents";
-
+import { IulQuoteContainer, ApplyErrorModal, IulShareModal } from "../CommonComponents";
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
@@ -36,6 +35,7 @@ const IulAccumulationQuoteDetails = () => {
 
     const { leadDetails } = useLeadDetails();
     const { agentInformation } = useAgentInformationByID();
+    const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
 
     useEffect(() => {
         fetchLifeIulQuoteDetails(planId);
@@ -92,7 +92,7 @@ const IulAccumulationQuoteDetails = () => {
         const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
 
         try {
-            await handleIULQuoteApplyClick(
+           const response= await handleIULQuoteApplyClick(
                 {
                     ...plan,
                     ...agentInformation,
@@ -102,7 +102,16 @@ const IulAccumulationQuoteDetails = () => {
                 },
                 contactId
             );
-        } catch (error) {
+            if (response.success) {
+                setSelectedPlan({});
+            }
+            else{
+                setApplyErrorModalOpen(true);
+                setSelectedPlan({});
+            }
+        } 
+        catch (error) {
+            setApplyErrorModalOpen(true);
             console.error("Error applying for quote:", error);
         }
     };
@@ -208,6 +217,7 @@ const IulAccumulationQuoteDetails = () => {
                     </Grid>
                 </Grid>
             </Grid>
+            <ApplyErrorModal open={applyErrorModalOpen} onClose={() => setApplyErrorModalOpen(false)} />
             {shareModalOpen && (
                 <IulShareModal
                     open={shareModalOpen}

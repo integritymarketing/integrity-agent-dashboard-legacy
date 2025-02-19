@@ -76,9 +76,6 @@ export const LifeIulQuoteProvider = ({ children }) => {
                         const initialselectedTab = tabSelected ? tabSelected : faceAmounts[0];
                         handleTabSelection(initialselectedTab, removeDuplicated, true);
                     }
-                    showToast({
-                        message: `get quote successfully`,
-                    });
                     return response;
                 } else {
                     setLifeIulQuoteResults([]);

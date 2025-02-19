@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { IulQuoteContainer, IulProtectionQuoteFilter } from "../CommonComponents";
+import { IulQuoteContainer, IulProtectionQuoteFilter, ApplyErrorModal } from "../CommonComponents";
 import { IulQuoteCard, NoQuoteResult } from "@integritymarketing/clients-ui-kit";
 import { Grid, Typography, Box, Tab, Tabs, useTheme, useMediaQuery } from "@mui/material";
 import { useLifeIulQuote } from "providers/Life";
@@ -34,6 +34,7 @@ const IulProtectionQuote = () => {
     const [isTobaccoUser, setIsTobaccoUser] = useState(false);
     const { agentInformation } = useAgentInformationByID();
     const [selectedPlan, setSelectedPlan] = useState({});
+    const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
 
     const getQuoteResults = useCallback(async () => {
         const lifeQuoteProtectionDetails = sessionStorage.getItem("lifeQuoteProtectionDetails");
@@ -93,7 +94,7 @@ const IulProtectionQuote = () => {
         const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
 
         try {
-            await handleIULQuoteApplyClick(
+            const response= await handleIULQuoteApplyClick(
                 {
                     ...plan,
                     ...agentInformation,
@@ -103,7 +104,15 @@ const IulProtectionQuote = () => {
                 },
                 contactId
             );
+            if (response.success) {
+                setSelectedPlan({});
+            }
+            else{
+                setApplyErrorModalOpen(true);
+                setSelectedPlan({});
+            }
         } catch (error) {
+            setApplyErrorModalOpen(true);
             console.error("Error applying for quote:", error);
         } finally {
             setSelectedPlan({});
@@ -216,7 +225,9 @@ const IulProtectionQuote = () => {
                                                     handleComparePlanSelect={() => {
                                                         handleComparePlanSelect(plan);
                                                     }}
-                                                    handlePlanDetailsClick={() => handlePlanDetailsClick(policyDetailId)}
+                                                    handlePlanDetailsClick={() =>
+                                                        handlePlanDetailsClick(policyDetailId)
+                                                    }
                                                     disableCompare={
                                                         selectedPlans?.length === 3 &&
                                                         !selectedPlans?.find((p) => p.policyDetailId === policyDetailId)
@@ -238,6 +249,7 @@ const IulProtectionQuote = () => {
                                 <NoQuoteResult navigateLearningCenter={handleNavigateToLearningCenter} />
                             )}
                         </Grid>
+                        <ApplyErrorModal open={applyErrorModalOpen} onClose={() => setApplyErrorModalOpen(false)} />
                     </WithLoader>
                 </Grid>
             )}

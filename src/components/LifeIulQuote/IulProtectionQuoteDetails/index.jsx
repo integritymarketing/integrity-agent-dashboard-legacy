@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo, useState } from "react";
+import React, { useRef, useEffect, useMemo, useState} from "react";
 import { Grid, Typography, Box, useTheme, useMediaQuery } from "@mui/material";
 import PlanDetailsScrollNav from "components/ui/PlanDetailsScrollNav";
 import {
@@ -8,7 +8,7 @@ import {
     ProductFeature,
     UnderwritingRequirements,
 } from "@integritymarketing/clients-ui-kit";
-import { IulQuoteContainer, IulShareModal } from "../CommonComponents";
+import { IulQuoteContainer, ApplyErrorModal, IulShareModal } from "../CommonComponents";
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
 import styles from "./styles.module.scss";
@@ -31,6 +31,7 @@ const IulProtectionQuoteDetails = () => {
     const { planId, contactId } = useParams();
     const { leadDetails } = useLeadDetails();
     const { agentInformation } = useAgentInformationByID();
+    const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
 
     const { fetchLifeIulQuoteDetails, lifeIulDetails, handleIULQuoteApplyClick, isLoadingApplyLifeIulQuote } =
         useLifeIulQuote();
@@ -92,7 +93,7 @@ const IulProtectionQuoteDetails = () => {
         const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
 
         try {
-            await handleIULQuoteApplyClick(
+            const response= await handleIULQuoteApplyClick(
                 {
                     ...plan,
                     ...agentInformation,
@@ -102,7 +103,15 @@ const IulProtectionQuoteDetails = () => {
                 },
                 contactId
             );
+            if (response.success) {
+                setSelectedPlan({});
+            }
+            else{
+                setApplyErrorModalOpen(true);
+                setSelectedPlan({});
+            }
         } catch (error) {
+            setApplyErrorModalOpen(true);
             console.error("Error applying for quote:", error);
         }
     };
@@ -210,6 +219,7 @@ const IulProtectionQuoteDetails = () => {
                     </Grid>
                 </Grid>
             </Grid>
+            <ApplyErrorModal open={applyErrorModalOpen} onClose={() => setApplyErrorModalOpen(false)} />
             {shareModalOpen && (
                 <IulShareModal
                     open={shareModalOpen}
