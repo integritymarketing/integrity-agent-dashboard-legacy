@@ -9,6 +9,7 @@ import {
     UnderwritingRequirements,
 } from "@integritymarketing/clients-ui-kit";
 import { IulQuoteContainer, ApplyErrorModal } from "../CommonComponents";
+import { IulQuoteContainer, IulShareModal } from "../CommonComponents";
 
 import { useLifeIulQuote } from "providers/Life";
 import { useParams } from "react-router-dom";
@@ -29,6 +30,7 @@ const IulAccumulationQuoteDetails = () => {
     const productFeaturesRef = useRef(null);
     const underwritingRequirementsRef = useRef(null);
     const { planId, contactId } = useParams();
+    const [shareModalOpen, setShareModalOpen] = useState(false);
 
     const { fetchLifeIulQuoteDetails, lifeIulDetails, handleIULQuoteApplyClick, isLoadingApplyLifeIulQuote } =
         useLifeIulQuote();
@@ -45,7 +47,7 @@ const IulAccumulationQuoteDetails = () => {
     const underwritingRequirements = lifeIulDetails?.uwRequirements || [];
 
     const features = useMemo(() => {
-        return lifeIulDetails?.benefits.map((feature) => {
+        return lifeIulDetails?.benefits?.map((feature) => {
             return {
                 name: feature.name,
                 description: feature.description || "",
@@ -55,7 +57,7 @@ const IulAccumulationQuoteDetails = () => {
     }, [lifeIulDetails]);
 
     const uwRequirements = useMemo(() => {
-        return underwritingRequirements.map((requirement) => {
+        return underwritingRequirements?.map((requirement) => {
             return {
                 title: requirement.sectionName,
                 displayType: requirement.displayType,
@@ -161,6 +163,7 @@ const IulAccumulationQuoteDetails = () => {
                                         companyName={companyName}
                                         rating={amBest}
                                         handleApplyClick={() => handleApplyClick(planDetails)}
+                                        handlePlanShareClick={() => setShareModalOpen(true)}
                                         logo={companyLogoImageUrl}
                                         cashValueYear10={cashValueYear10}
                                         cashValueYear20={cashValueYear20}
@@ -217,6 +220,14 @@ const IulAccumulationQuoteDetails = () => {
                 </Grid>
             </Grid>
             <ApplyErrorModal open={applyErrorModalOpen} onClose={() => setApplyErrorModalOpen(false)} />
+            {shareModalOpen && (
+                <IulShareModal
+                    open={shareModalOpen}
+                    onClose={() => setShareModalOpen(false)}
+                    planDetails={planDetails}
+                    quoteType="accumulation"
+                />
+            )}
         </IulQuoteContainer>
     );
 };
