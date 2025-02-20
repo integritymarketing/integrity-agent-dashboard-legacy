@@ -56,8 +56,16 @@ const UnLinkedTextAndCallsCard = ({ task }) => {
                 <Grid item md={3} xs={12}>
                     <Box className={styles.contactInfo}>
                         <Box marginRight="8px">
-                            <IconBackGround>
-                                {isSms ? <Sms size="xl" color="#4178FF" /> : <CallHistory color="#4178FF" size="md" />}
+                            <IconBackGround
+                                backgroundColor={task?.callStatusReason === "no-answer" ? "#FBDEDE" : "#ffffff"}
+                            >
+                                {isSms ? (
+                                    <Sms size="xl" color="#4178FF" />
+                                ) : task?.callStatusReason === "no-answer" ? (
+                                    <CallHistory color="#d32f2f" size="md" />
+                                ) : (
+                                    <CallHistory color="#4178FF" size="md" />
+                                )}
                             </IconBackGround>
                         </Box>
 

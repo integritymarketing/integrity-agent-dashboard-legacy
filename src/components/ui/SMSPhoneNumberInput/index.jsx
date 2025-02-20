@@ -151,7 +151,6 @@ const SMSPhoneNumberInput = ({ label, onValidation, size, ...props }) => {
                     ),
                 }}
                 fullWidth
-                autoComplete={false}
                 variant="outlined"
                 {...props}
             />
