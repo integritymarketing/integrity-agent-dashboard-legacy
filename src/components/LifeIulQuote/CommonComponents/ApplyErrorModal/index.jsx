@@ -9,7 +9,7 @@ export const ApplyErrorModal = ({ open, onClose }) => {
     const navigate = useNavigate();
 
     const handleContactSupportNavigation = () => {
-        navigate("/contact-support");
+        navigate("/help");
     };
     return (
         <CustomModal
