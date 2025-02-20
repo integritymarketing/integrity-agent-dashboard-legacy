@@ -69,7 +69,7 @@ const IulProtectionQuote = () => {
 
     useEffect(() => {
         getQuoteResults();
-    }, [getQuoteResults]);
+    }, []);
 
     const handlePlanDetailsClick = (id) => {
         const filteredPlan = lifeIulQuoteResults.filter((item) => id === item.recId);
