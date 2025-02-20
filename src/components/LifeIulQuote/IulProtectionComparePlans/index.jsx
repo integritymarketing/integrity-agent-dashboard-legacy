@@ -89,7 +89,7 @@ const IulProtectionComparePlans = () => {
         return comparePlans.map((plan) => {
             return {
                 logoURL: plan.companyLogoImageUrl,
-                id: plan.policyDetailId,
+                id: plan.recId,
                 annualPlanPremium: plan.targetPremium,
                 deathBenefitAmount: plan.deathBenefit,
                 carrierName: plan.companyName,
@@ -100,7 +100,7 @@ const IulProtectionComparePlans = () => {
     }, [comparePlans]);
 
     const handleComparePlanRemove = (id) => {
-        const updatedPlans = comparePlans.filter((plan) => plan.policyDetailId !== id);
+        const updatedPlans = comparePlans.filter((plan) => plan.recId !== id);
         sessionStorage.setItem("iul-compare-plans", JSON.stringify(updatedPlans));
         window.location.reload();
     };
@@ -114,7 +114,7 @@ const IulProtectionComparePlans = () => {
     };
 
     const handleApplyClick = async (plan) => {
-        const planData = comparePlans.find((p) => p.policyDetailId === plan.id);
+        const planData = comparePlans.find((p) => p.recId === plan.id);
         const emailAddress = leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
         const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
 
