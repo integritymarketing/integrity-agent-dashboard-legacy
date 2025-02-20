@@ -202,4 +202,3 @@ const IulAccumulationQuote = () => {
 };
 
 export default IulAccumulationQuote;
-```
