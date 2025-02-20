@@ -106,7 +106,7 @@ const CommunicationDetails = ({ formik }) => {
                 });
             }
         }
-    }, [values.primaryCommunication, values.email, values.phones.leadPhone, validationMessages]);
+    }, [values.primaryCommunication, values.email, values.phones.leadPhone, validationMessages, values]);
 
     return (
         <Grid container spacing={2}>
