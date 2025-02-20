@@ -8,12 +8,9 @@ import WithLoader from "components/ui/WithLoader";
 import { useLeadDetails } from "providers/ContactDetails";
 import { formatDate } from "utils/dates";
 import { formatMbiNumber } from "utils/shared-utils/sharedUtility";
-import {
-    MEDICARE_ADVANTAGE,
-    CONFIRM_DETAILS_SUBTEXT,
-    CONFIRM_DETAILS_TEXT,
-    GET_COUNTIES,
-} from "./AddZipContainer.constants";
+import { MAPD } from "../../constants";
+
+import { CONFIRM_DETAILS_SUBTEXT, CONFIRM_DETAILS_TEXT, GET_COUNTIES } from "./AddZipContainer.constants";
 import styles from "./AddZipContainer.module.scss";
 import { getTransformedCounties } from "./AddZipContainer.utils";
 import { ContinueCTA } from "./ContinueCTA/ContinueCTA";
@@ -44,7 +41,7 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
 
     const address = useMemo(
         () => [address1, address2, city, stateCode].filter(Boolean).join(", "),
-        [address1, address2, city, stateCode],
+        [address1, address2, city, stateCode]
     );
 
     const [zipCode, setZipCode] = useState(postalCode);
@@ -160,7 +157,7 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
                 }
             }
         },
-        [getCounties],
+        [getCounties]
     );
 
     const debounceZipFn = debounce((zipcode) => setZipCode(zipcode), 1000);
@@ -193,7 +190,7 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
             <div className={styles.addZipContainer}>
                 <Box sx={{ pb: 3 }} display={"flex"} justifyContent={"center"}>
                     <Typography variant="h2" gutterBottom color={"#052a63"}>
-                        {MEDICARE_ADVANTAGE}
+                        {MAPD}
                     </Typography>
                 </Box>
                 <div
@@ -201,8 +198,8 @@ const AddZipContainer = ({ isMobile, contactId, quickQuoteModalCallBack = () => 
                         pageName === "Quick Quote"
                             ? styles.quickQuote
                             : isMobile
-                                ? styles.detailsMContainer
-                                : styles.detailsDContainer
+                            ? styles.detailsMContainer
+                            : styles.detailsDContainer
                     }
                 >
                     <div className={styles.detailsTitle}>{CONFIRM_DETAILS_TEXT}</div>
