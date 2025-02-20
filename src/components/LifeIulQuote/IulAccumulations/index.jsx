@@ -6,7 +6,6 @@ import { useLifeIulQuote } from "providers/Life";
 import styles from "./styles.module.scss";
 import WithLoader from "components/ui/WithLoader";
 import { useParams, useNavigate } from "react-router-dom";
-import _ from "lodash";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { useLeadDetails } from "providers/ContactDetails";
 
@@ -69,9 +68,7 @@ const IulAccumulationQuote = () => {
     }, []);
 
     const handlePlanDetailsClick = (id) => {
-        const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
-
-        const filteredPlan = uniquePoliciesArray.filter((item) => id === item.policyDetailId);
+        const filteredPlan = lifeIulQuoteResults.filter((item) => id === item.recId);
 
         if (filteredPlan.length > 0) {
             sessionStorage.setItem("iul-plan-details", JSON.stringify({ ...filteredPlan[0], isTobaccoUser }));
@@ -93,8 +90,7 @@ const IulAccumulationQuote = () => {
             );
             if (response.success) {
                 setSelectedPlan({});
-            }
-            else{
+            } else {
                 setApplyErrorModalOpen(true);
                 setSelectedPlan({});
             }
@@ -144,7 +140,7 @@ const IulAccumulationQuote = () => {
                                             deathBenefit,
                                             targetPremium,
                                             rowId,
-                                            policyDetailId,
+                                            recId,
                                         } = plan;
                                         return (
                                             <Grid
@@ -174,14 +170,14 @@ const IulAccumulationQuote = () => {
                                                     healthClass={plan?.input?.healthClass}
                                                     handleComparePlanSelect={() => handleComparePlanSelect(plan)}
                                                     handlePlanDetailsClick={() =>
-                                                        handlePlanDetailsClick(policyDetailId)
+                                                        handlePlanDetailsClick(plan.recId)
                                                     }
                                                     disableCompare={
                                                         selectedPlans?.length === 3 &&
-                                                        !selectedPlans?.find((p) => p.policyDetailId === policyDetailId)
+                                                        !selectedPlans?.find((p) => p.recId === recId)
                                                     }
                                                     isChecked={selectedPlans?.find(
-                                                        (p) => p.policyDetailId === policyDetailId
+                                                        (p) => p.recId === recId
                                                     )}
                                                 />
                                                 {selectedPlan.rowId === rowId && (

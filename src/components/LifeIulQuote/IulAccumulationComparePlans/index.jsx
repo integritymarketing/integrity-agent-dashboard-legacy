@@ -94,7 +94,7 @@ const IulAccumulationComparePlans = () => {
         return comparePlans.map((plan) => {
             return {
                 logoURL: plan.companyLogoImageUrl,
-                id: plan.policyDetailId,
+                id: plan.recId,
                 annualPlanPremium: plan.targetPremium,
                 distribution: plan.distribution,
                 carrierName: plan.companyName,
@@ -105,7 +105,7 @@ const IulAccumulationComparePlans = () => {
     }, [comparePlans]);
 
     const handleComparePlanRemove = (id) => {
-        const updatedPlans = comparePlans.filter((plan) => plan.policyDetailId !== id);
+        const updatedPlans = comparePlans.filter((plan) => plan.recId !== id);
         sessionStorage.setItem("iul-compare-plans", JSON.stringify(updatedPlans));
         window.location.reload();
     };
@@ -120,7 +120,7 @@ const IulAccumulationComparePlans = () => {
 
     const handleApplyClick = async (plan) => {
 
-        const planData = comparePlans.find((p) => p.policyDetailId === plan.id);
+        const planData = comparePlans.find((p) => p.recId === plan.id);
         const emailAddress = leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
         const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
 

@@ -2,8 +2,6 @@ import { useEffect, useState, createContext, useMemo, useCallback } from "react"
 import useFetch from "hooks/useFetch";
 import useToast from "hooks/useToast";
 import PropTypes from "prop-types";
-import _ from "lodash";
-
 import removeNullAndEmptyFields from "utils/removeNullAndEmptyFields";
 
 export const LifeIulQuoteContext = createContext();
@@ -58,23 +56,21 @@ export const LifeIulQuoteProvider = ({ children }) => {
             try {
                 const response = await getLifeIulQuoteResults(payload, false);
                 if (response && response?.result && response?.result?.length > 0) {
-                    const removeDuplicated = _.uniqBy(response?.result, "policyDetailId");
-
                     if (!selectedCarriers.includes("All carriers") && selectedCarriers.length > 0) {
-                        const updatedResults = removeDuplicated.filter((result) =>
+                        const updatedResults = response.result.filter((result) =>
                             selectedCarriers.includes(result.companyName)
                         );
 
                         setLifeIulQuoteResults(updatedResults);
                     } else {
-                        setLifeIulQuoteResults(removeDuplicated);
+                        setLifeIulQuoteResults(response.result);
                     }
-                    setTempUserDetails(removeDuplicated);
+                    setTempUserDetails(response.result);
                     if (reqData?.quoteType === "IULPROT-SOLVE") {
                         const faceAmounts = reqData?.inputs[0]?.faceAmounts;
                         const tabSelected = JSON.parse(sessionStorage.getItem("iul-protection-tab"));
                         const initialselectedTab = tabSelected ? tabSelected : faceAmounts[0];
-                        handleTabSelection(initialselectedTab, removeDuplicated, true);
+                        handleTabSelection(initialselectedTab, response.result, true);
                     }
                     return response;
                 } else {
@@ -139,11 +135,11 @@ export const LifeIulQuoteProvider = ({ children }) => {
 
     const handleComparePlanSelect = (plan) => {
         const isPlanSelected = selectedPlans?.filter(
-            (selectedPlan) => selectedPlan.policyDetailId === plan.policyDetailId
+            (selectedPlan) => selectedPlan.recId === plan.recId
         );
         if (isPlanSelected?.length > 0) {
             const updatedPlans = selectedPlans.filter(
-                (selectedPlan) => selectedPlan.policyDetailId !== plan.policyDetailId
+                (selectedPlan) => selectedPlan.recId !== plan.recId
             );
             setSelectedPlans(updatedPlans);
         } else {

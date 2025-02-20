@@ -8,7 +8,6 @@ import styles from "./styles.module.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import { useLeadDetails } from "providers/ContactDetails";
-import _ from "lodash";
 
 const IulProtectionQuote = () => {
     const {
@@ -73,9 +72,7 @@ const IulProtectionQuote = () => {
     }, [getQuoteResults]);
 
     const handlePlanDetailsClick = (id) => {
-        const uniquePoliciesArray = _.uniqBy(lifeIulQuoteResults, "policyDetailId");
-
-        const filteredPlan = uniquePoliciesArray.filter((item) => id === item.policyDetailId);
+        const filteredPlan = lifeIulQuoteResults.filter((item) => id === item.recId);
 
         if (filteredPlan.length > 0) {
             sessionStorage.setItem("iul-plan-details", JSON.stringify({ ...filteredPlan[0], isTobaccoUser }));
@@ -87,6 +84,7 @@ const IulProtectionQuote = () => {
     const handleNavigateToLearningCenter = () => {
         window.open("/learning-center", "_blank");
     };
+
     const handleApplyClick = async (plan) => {
         setSelectedPlan(plan);
 
@@ -94,7 +92,7 @@ const IulProtectionQuote = () => {
         const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
 
         try {
-            const response= await handleIULQuoteApplyClick(
+            const response = await handleIULQuoteApplyClick(
                 {
                     ...plan,
                     ...agentInformation,
@@ -106,8 +104,7 @@ const IulProtectionQuote = () => {
             );
             if (response.success) {
                 setSelectedPlan({});
-            }
-            else{
+            } else {
                 setApplyErrorModalOpen(true);
                 setSelectedPlan({});
             }
@@ -193,7 +190,7 @@ const IulProtectionQuote = () => {
                                             targetPremium,
                                             premium,
                                             rowId,
-                                            policyDetailId,
+                                            recId,
                                         } = plan;
                                         return (
                                             <Grid
@@ -226,14 +223,14 @@ const IulProtectionQuote = () => {
                                                         handleComparePlanSelect(plan);
                                                     }}
                                                     handlePlanDetailsClick={() =>
-                                                        handlePlanDetailsClick(policyDetailId)
+                                                        handlePlanDetailsClick(recId)
                                                     }
                                                     disableCompare={
                                                         selectedPlans?.length === 3 &&
-                                                        !selectedPlans?.find((p) => p.policyDetailId === policyDetailId)
+                                                        !selectedPlans?.find((p) => p.recId === recId)
                                                     }
                                                     isChecked={selectedPlans?.find(
-                                                        (p) => p.policyDetailId === policyDetailId
+                                                        (p) => p.recId === recId
                                                     )}
                                                 />
                                                 {selectedPlan?.rowId === rowId && (
