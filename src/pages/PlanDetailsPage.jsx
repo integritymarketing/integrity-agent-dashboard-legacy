@@ -27,13 +27,12 @@ import { useLeadDetails } from "providers/ContactDetails";
 
 import styles from "./PlanDetailsPage.module.scss";
 
-import { PLAN_TYPE_ENUMS } from "../constants";
+import { PLAN_TYPE_ENUMS, MAPD, MA, PDP } from "../constants";
 
 import { useHealth } from "providers/ContactDetails/ContactDetailsContext";
 import { usePharmacyContext } from "providers/PharmacyProvider";
 import { ContactProfileTabBar } from "components/ContactDetailsContainer";
 import { Box, Typography } from "@mui/material";
-import { MEDICARE_ADVANTAGE } from "components/AddZipContainer/AddZipContainer.constants";
 import { QUOTE_TYPE_LABEL } from "components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants";
 
 const PlanDetailsPage = () => {
@@ -136,7 +135,9 @@ const PlanDetailsPage = () => {
                     <Box sx={{ padding: "56px 24px", pb: 0 }}>
                         <Box sx={{ pb: 3 }} display={"flex"} justifyContent={"center"}>
                             <Typography variant="h2" gutterBottom color={"#052a63"}>
-                                {MEDICARE_ADVANTAGE}
+                                {plan?.planType === 2 && MAPD}
+                                {plan?.planType === 4 && MA}
+                                {plan?.planType === 1 && PDP}
                             </Typography>
                         </Box>
                     </Box>
