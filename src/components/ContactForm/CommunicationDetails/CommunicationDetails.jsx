@@ -21,24 +21,32 @@ const CommunicationDetails = ({ formik }) => {
 
     const validateEmailInput = useCallback(
         ({ email, status, message, title }) => {
-            setFieldValue("email", email);
-            if (!values.primaryCommunication) {
-                setFieldValue("primaryCommunication", "email");
+            if (email && status && message && title) {
+                setFieldValue("email", email);
+                if (!values.primaryCommunication) {
+                    setFieldValue("primaryCommunication", "email");
+                }
+                setValidationMessages((prev) => ({
+                    ...prev,
+                    email: { status, message, title }
+                }));
             }
-
-            setValidationMessages((prev) => ({ ...prev, email: { status, message, title } }));
         },
         [setFieldValue, values.primaryCommunication]
     );
 
     const validatePhoneInput = useCallback(
         ({ phone, status, message, title }) => {
-            setFieldValue("phones.leadPhone", phone);
-            if ( !values.primaryCommunication) {
-                setFieldValue("primaryCommunication", "phone");
+            if (phone && status && message && title) {
+                setFieldValue("phones.leadPhone", phone);
+                if (!values.primaryCommunication) {
+                    setFieldValue("primaryCommunication", "phone");
+                }
+                setValidationMessages((prev) => ({
+                    ...prev,
+                    phone: { status, message, title }
+                }));
             }
-
-            setValidationMessages((prev) => ({ ...prev, phone: { status, message, title } }));
         },
         [setFieldValue, values.primaryCommunication]
     );
