@@ -1,6 +1,7 @@
 import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { SourceMap } from "module";
 
 export default defineConfig(({mode}) => {
     const isAuthBuild = process.env.VITE_APP_BUILD_TARGET === "auth";
@@ -16,6 +17,7 @@ export default defineConfig(({mode}) => {
             rollupOptions: {
                 input: path.resolve(__dirname, "index.html"),
             },
+            sourcemap: true,
         },
 
         // Dev server configuration
