@@ -54,9 +54,9 @@ export const PLAN_TYPE_ENUMS = {
     4: "MA",
 };
 
-export const MA = "Medicare Advantage ";
-export const MAPD = "Medicare Advantage Prescription Drug ";
-export const PDP = "Prescription Drug";
+export const MA = "Medicare Advantage Plans";
+export const MAPD = "Medicare Advantage Prescription Drug Plans";
+export const PDP = "Prescription Drug Plans";
 
 export const STATES_OPTIONS = [
     { label: "AL", value: "AL" },
