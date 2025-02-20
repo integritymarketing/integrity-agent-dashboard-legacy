@@ -21,32 +21,30 @@ const CommunicationDetails = ({ formik }) => {
 
     const validateEmailInput = useCallback(
         ({ email, status, message, title }) => {
-            if (email && status && message && title) {
-                setFieldValue("email", email);
-                if (!values.primaryCommunication) {
-                    setFieldValue("primaryCommunication", "email");
-                }
-                setValidationMessages((prev) => ({
-                    ...prev,
-                    email: { status, message, title }
-                }));
+            setFieldValue("email", email);
+            if (!values.primaryCommunication) {
+                setFieldValue("primaryCommunication", "email");
             }
+            setValidationMessages(prev => ({
+                ...prev,
+                email: { status, message, title },
+                phone: prev.phone
+            }));
         },
         [setFieldValue, values.primaryCommunication]
     );
 
     const validatePhoneInput = useCallback(
         ({ phone, status, message, title }) => {
-            if (phone && status && message && title) {
-                setFieldValue("phones.leadPhone", phone);
-                if (!values.primaryCommunication) {
-                    setFieldValue("primaryCommunication", "phone");
-                }
-                setValidationMessages((prev) => ({
-                    ...prev,
-                    phone: { status, message, title }
-                }));
+            setFieldValue("phones.leadPhone", phone);
+            if (!values.primaryCommunication) {
+                setFieldValue("primaryCommunication", "phone");
             }
+            setValidationMessages(prev => ({
+                ...prev,
+                phone: { status, message, title },
+                email: prev.email
+            }));
         },
         [setFieldValue, values.primaryCommunication]
     );
@@ -54,7 +52,6 @@ const CommunicationDetails = ({ formik }) => {
     useEffect(() => {
         if (values?.primaryCommunication === "email") {
             if (values?.email === "") {
-                // emailFieldRef.current?.focus();
                 setValidationMessages(() => {
                     if (values?.phones?.leadPhone === "") {
                         return {
@@ -114,7 +111,7 @@ const CommunicationDetails = ({ formik }) => {
                 });
             }
         }
-    }, [values.primaryCommunication, values.email, values.phones.leadPhone, validationMessages, values]);
+    }, [values.primaryCommunication, values.email, values.phones.leadPhone, values]);
 
     return (
         <Grid container spacing={2}>
