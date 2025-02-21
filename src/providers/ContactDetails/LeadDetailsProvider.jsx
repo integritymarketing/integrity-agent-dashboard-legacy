@@ -101,6 +101,7 @@ export const LeadDetailsProvider = ({ children }) => {
         async (payload) => {
             try {
                 await updatePhoneAPICall(payload, false, null);
+                await getLeadDetails(payload?.leadsId);
             } catch (err) {
                 showToast({
                     type: "error",
@@ -108,7 +109,7 @@ export const LeadDetailsProvider = ({ children }) => {
                 });
             }
         },
-        [updatePhoneAPICall, getLeadDetails, showToast]
+        [updatePhoneAPICall, showToast, getLeadDetails]
     );
 
     const updateLeadDetails = async (newPayload) => {

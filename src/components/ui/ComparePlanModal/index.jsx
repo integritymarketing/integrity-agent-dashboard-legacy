@@ -74,8 +74,6 @@ const ComparePlanModal = ({
         setEmail("");
         setPhone();
         handleCloseModal();
-        setIsDocumentsSelected(false);
-        setSelectedDocuments([]);
     };
 
     const handleShareComparePlans = async () => {
@@ -132,14 +130,14 @@ const ComparePlanModal = ({
                 roles: updatedRoles,
                 agentPurl,
             };
-            if (selectOption === "email") {
+            if (existingSendType === "email") {
                 const data = {
                     ...payload,
                     messageDestination: leadEmail,
                     messageType: "email",
                 };
                 await plansService.sendPlanCompare(data);
-            } else if (selectOption === "textMessage") {
+            } else if (existingSendType === "textMessage") {
                 const data = {
                     ...payload,
                     messageDestination: leadPhone,
@@ -147,7 +145,7 @@ const ComparePlanModal = ({
                 };
                 await plansService.sendPlanCompare(data);
             } else {
-                if (selectLabel === "email") {
+                if (newSelectedType === "email") {
                     const data = {
                         ...payload,
                         messageDestination: email,
@@ -168,6 +166,7 @@ const ComparePlanModal = ({
             });
         } catch (error) {
             Sentry.captureException(error);
+            console.error("Failed to share plan", error);
             showToast({
                 type: "error",
                 message: "Failed to share plan",

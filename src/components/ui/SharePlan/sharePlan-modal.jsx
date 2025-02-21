@@ -144,7 +144,7 @@ const SharePlanModal = ({
                 appSubmitDate: enrollData?.submittedDate,
                 agentPurl,
             };
-            if (selectOption === "email") {
+            if (existingSendType === "email") {
                 const data = {
                     ...payload,
                     messageDestination: leadEmail,
@@ -160,7 +160,7 @@ const SharePlanModal = ({
                 } else {
                     await plansService.sendPlan(data, leadsId, id);
                 }
-            } else if (selectOption === "textMessage") {
+            } else if (existingSendType === "textMessage") {
                 const data = {
                     ...payload,
                     messageDestination: leadPhone,
@@ -177,7 +177,7 @@ const SharePlanModal = ({
                     await plansService.sendPlan(data, leadsId, id);
                 }
             } else {
-                if (selectLabel === "email") {
+                if (newSelectedType === "email") {
                     const data = {
                         ...payload,
                         messageDestination: email,

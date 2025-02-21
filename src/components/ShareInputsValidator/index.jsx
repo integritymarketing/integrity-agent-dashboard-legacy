@@ -116,7 +116,12 @@ const ShareInputsValidator = ({
                         },
                     ],
                 };
-                await updateLeadPhone(payload);
+                const response = await updateLeadPhone(payload);
+                if (response) {
+                    setIsPhoneCompatabile(true);
+                } else {
+                    setIsPhoneCompatabile(false);
+                }
             } catch (error) {
                 setIsPhoneCompatabile(null);
             }
@@ -145,7 +150,7 @@ const ShareInputsValidator = ({
                             value={existingSendType}
                             onChange={(event) => setExistingSendType(event.target.value)}
                         >
-                            {leadEmail && isEmailCompatabile &&  (
+                            {leadEmail && isEmailCompatabile && (
                                 <FormControlLabel
                                     value="email"
                                     control={<Radio />}
