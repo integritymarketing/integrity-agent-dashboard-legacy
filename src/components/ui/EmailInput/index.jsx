@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import PropTypes from "prop-types";
 import { InputAdornment, CircularProgress } from "@mui/material";
 import { TextInput } from "components/MuiComponents";
@@ -25,7 +25,7 @@ const EmailInput = ({ label, onValidation, size, ...props }) => {
     const [value, setValue] = useState("");
 
     const { validateEmail } = useLeadDetails();
-
+    const latestValueRef = useRef(value);
     // Email validation schema
     const emailSchema = yup
         .string()
@@ -38,7 +38,7 @@ const EmailInput = ({ label, onValidation, size, ...props }) => {
 
     const checkEmailValidity = useCallback(
         debounce(async (email) => {
-            if (!email) {
+            if (!email || email !== latestValueRef.current) {
                 return;
             }
             try {
@@ -46,6 +46,7 @@ const EmailInput = ({ label, onValidation, size, ...props }) => {
                 setMessage(null);
                 const response = await validateEmail(email);
                 const isValid = response === true;
+
                 setIsEmailValid(isValid);
                 onValidation({
                     email,
@@ -54,8 +55,10 @@ const EmailInput = ({ label, onValidation, size, ...props }) => {
                     message: isValid ? validEmailMessage : emailUndeliverMsg,
                 });
                 setMessage(isValid ? validEmailMessage : emailUndeliverMsg);
+                setMessage(isValid ? validEmailMessage : emailUndeliverMsg);
             } catch (error) {
                 setIsEmailValid(null);
+                setMessage(null);
                 setMessage(null);
                 setError(serverErrorMessage);
             } finally {
@@ -68,6 +71,7 @@ const EmailInput = ({ label, onValidation, size, ...props }) => {
     const onChange = (event) => {
         const inputValue = event.target.value;
         setValue(inputValue);
+        latestValueRef.current = inputValue;
         setIsEmailValid(null);
         setError(null);
 
