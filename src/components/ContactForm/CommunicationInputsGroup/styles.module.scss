@@ -1,0 +1,19 @@
+.nonSelectedOption {
+  padding: 10px !important;
+  text-align: left !important;
+  color: #434a51 !important;
+  &:hover {
+    border-color: #434a51 !important;
+  }
+}
+
+.selectedOption {
+  background-color: #4178ff !important;
+  color: #fff !important;
+  padding: 10px !important;
+  text-align: left !important;
+  &:hover {
+    color: #fff !important;
+    background-color: #4178ff !important;
+  }
+}

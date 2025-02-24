@@ -21,12 +21,12 @@ const server500Message = "There was an error validating this phone number. You c
  * SMSPhoneNumberInput Component
  * A reusable phone number input field that verifies SMS compatibility.
  */
-const SMSPhoneNumberInput = ({ label, onValidation, size, ...props }) => {
+const SMSPhoneNumberInput = ({ label, onValidation, size, defaultValue, ...props }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSMSCompatible, setIsSMSCompatible] = useState(null);
     const [error, setError] = useState(null);
     const [message, setMessage] = useState(null);
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(defaultValue);
 
     const { validatePhone } = useLeadDetails();
 
