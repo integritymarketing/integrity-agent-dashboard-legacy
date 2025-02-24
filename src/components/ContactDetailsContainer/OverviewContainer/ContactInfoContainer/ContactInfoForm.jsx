@@ -1,26 +1,26 @@
-import {useCallback, useContext, useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 
-import {Form, Formik} from "formik";
-import {useLeadDetails} from "providers/ContactDetails";
+import { Form, Formik } from "formik";
+import { useLeadDetails } from "providers/ContactDetails";
 
-import {formatDate, getLocalDateTime} from "utils/dates";
-import {formatPhoneNumber} from "utils/phones";
-import {primaryContactOptions} from "utils/primaryContact";
-import {onlyAlphabets} from "utils/shared-utils/sharedUtility";
+import { formatDate, getLocalDateTime } from "utils/dates";
+import { formatPhoneNumber } from "utils/phones";
+import { primaryContactOptions } from "utils/primaryContact";
+import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 
 import useToast from "hooks/useToast";
 
 import DatePickerMUI from "components/DatePicker";
-import {Button} from "components/ui/Button";
-import {Select} from "components/ui/Select";
+import { Button } from "components/ui/Button";
+import { Select } from "components/ui/Select";
 import Textfield from "components/ui/textfield";
 
 import CountyContext from "contexts/counties";
 
-import {useClientServiceContext} from "services/clientServiceProvider";
+import { useClientServiceContext } from "services/clientServiceProvider";
 import validationService from "services/validationService";
 
 import styles from "./ContactInfoContainer.module.scss";
@@ -29,11 +29,12 @@ import { Divider, FormControlLabel, Paper, Radio, RadioGroup, Stack, Typography 
 
 import Label from "../CommonComponents/Label";
 import SectionContainer from "../CommonComponents/SectionContainer";
-import {ArrowForwardWithCircle} from "../Icons";
-import {contactFormMaritalStatusOptions, contactFormPrefixOptions, contactFormSuffixOptions} from "utils/contactForm";
+import { ArrowForwardWithCircle } from "../Icons";
+import { contactFormMaritalStatusOptions, contactFormPrefixOptions, contactFormSuffixOptions } from "utils/contactForm";
+import CommunicationInputsGroup from "components/ContactForm/CommunicationInputsGroup";
 
-function ContactInfoForm({editLeadDetails, setIsEditMode}) {
-    const {leadDetails} = useLeadDetails();
+function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
+    const { leadDetails } = useLeadDetails();
 
     const {
         firstName = "",
@@ -66,7 +67,7 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
     } = useContext(CountyContext);
 
     const showToast = useToast();
-    const {clientsService} = useClientServiceContext();
+    const { clientsService } = useClientServiceContext();
 
     const email = emails.length > 0 ? emails[0].leadEmail : null;
     const phoneData = phones.length > 0 ? phones[0] : null;
@@ -143,7 +144,7 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                 };
             }
         },
-        [showToast],
+        [showToast]
     );
 
     return (
@@ -241,10 +242,10 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                             args: ["Medicare Beneficiary ID Number"],
                         },
                     ],
-                    values,
+                    values
                 );
             }}
-            onSubmit={async (values, {setErrors, setSubmitting}) => {
+            onSubmit={async (values, { setErrors, setSubmitting }) => {
                 const duplicateCheckResult = await isDuplicateContact(values, setDuplicateLeadIds);
                 // if duplicate contact, show error and return and don't submit form
                 if (duplicateCheckResult?.isExactDuplicate && duplicateLeadIds?.length > 1) {
@@ -263,7 +264,7 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                 setIsEditMode(false);
             }}
         >
-            {({values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit, setFieldValue}) => {
+            {({ values, errors, touched, isValid, dirty, handleChange, handleBlur, handleSubmit, setFieldValue }) => {
                 const isInvalidZip =
                     (values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0) ||
                     (values.address.postalCode > 0 && values.address.postalCode.length < 5);
@@ -283,14 +284,21 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                     setFieldValue("address.stateCode", allStates[0].value);
                 }
 
+                const formik = {
+                    values,
+                    handleBlur,
+                    setFieldValue,
+                };
+
                 return (
                     <Box>
                         <div>
                             <Form>
                                 <SectionContainer>
                                     <StyledFormItem>
-                                        <StyledElementName>First Name</StyledElementName>
-
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            First Name
+                                        </Typography>
                                         <Textfield
                                             id="contact-fname"
                                             placeholder={"Enter first name"}
@@ -308,7 +316,9 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                         )}
                                     </StyledFormItem>
                                     <StyledFormItem>
-                                        <StyledElementName>Middle Initial</StyledElementName>
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            Middle Initial
+                                        </Typography>
                                         <Textfield
                                             id="contact-mname"
                                             type="text"
@@ -323,7 +333,9 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                         />
                                     </StyledFormItem>
                                     <StyledFormItem>
-                                        <StyledElementName>Last Name</StyledElementName>
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            Last Name
+                                        </Typography>
 
                                         <Textfield
                                             id="contact-lname"
@@ -342,7 +354,9 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                         )}
                                     </StyledFormItem>
                                     <StyledFormItem>
-                                        <StyledElementName>Prefix</StyledElementName>
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            Prefix
+                                        </Typography>
 
                                         <Select
                                             // error={isInvalid("state")}
@@ -356,8 +370,9 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                         />
                                     </StyledFormItem>
                                     <StyledFormItem>
-                                        <StyledElementName>Suffix</StyledElementName>
-
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            Suffix
+                                        </Typography>
                                         <Select
                                             // error={isInvalid("state")}
                                             options={contactFormSuffixOptions}
@@ -370,7 +385,9 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                         />
                                     </StyledFormItem>
                                     <StyledFormItem>
-                                        <StyledElementName>Marital Status</StyledElementName>
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            Marital Status
+                                        </Typography>
 
                                         <Select
                                             // error={isInvalid("state")}
@@ -386,7 +403,9 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
 
                                 <SectionContainer>
                                     <StyledFormItem>
-                                        <StyledElementName>Birthdate</StyledElementName>
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            Birthdate
+                                        </Typography>
                                         <DatePickerMUI
                                             value={values.birthdate}
                                             disableFuture={true}
@@ -404,7 +423,9 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
 
                                 <SectionContainer>
                                     <StyledFormItem>
-                                        <StyledElementName>Primary Contact</StyledElementName>
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            Primary Contact
+                                        </Typography>
 
                                         <Select
                                             // error={isInvalid("state")}
@@ -432,45 +453,14 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                         </Typography>
                                     )}
                                 </SectionContainer>
-
                                 <SectionContainer>
-                                    <StyledFormItem>
-                                        <StyledElementName>Email</StyledElementName>
-
-                                        <Textfield
-                                            id="contact-email"
-                                            type="email"
-                                            placeholder="Enter your email address"
-                                            name="email"
-                                            value={values.email}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            error={touched.email && errors.email}
-                                        />
-                                    </StyledFormItem>
+                                    <CommunicationInputsGroup formik={formik} page="overview" />
                                 </SectionContainer>
-
                                 <SectionContainer>
                                     <StyledFormItem>
-                                        <StyledElementName>Phone Number</StyledElementName>
-
-                                        <Textfield
-                                            id="contact-phone"
-                                            type="tel"
-                                            placeholder="(   )_ _ _  - _ _ _ _ "
-                                            name="phones.leadPhone"
-                                            value={formatPhoneNumber(values.phones.leadPhone)}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            error={touched.phones?.leadPhone && errors.phones?.leadPhone}
-                                        />
-                                    </StyledFormItem>
-                                </SectionContainer>
-
-                                <SectionContainer>
-                                    <StyledFormItem>
-                                        <StyledElementName>Address</StyledElementName>
-
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            Address
+                                        </Typography>
                                         <Textfield
                                             id="contact-address"
                                             className={`${styles["contact-address"]} hide-field-error`}
@@ -535,7 +525,7 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                                 name="address.postalCode"
                                                 placeholder="Zip Code"
                                                 value={values.address.postalCode}
-                                                inputprops={{maxLength: 5}}
+                                                inputprops={{ maxLength: 5 }}
                                                 onChange={(e) => {
                                                     setFieldValue("address.postalCode", e.target.value);
                                                     setFieldValue("address.county", "");
@@ -591,7 +581,7 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                                 Invalid ZIP Code
                                             </Typography>
                                         )}
-                                    <StyledFormItem style={{width: "100%", marginTop: "10px"}}>
+                                    <StyledFormItem style={{ width: "100%", marginTop: "10px" }}>
                                         <Select
                                             placeholder="Select County"
                                             className={`${styles["contact-address--statecode"]} `}
@@ -602,8 +592,8 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                             }
                                             onChange={(value) => {
                                                 setFieldValue("address.county", value);
-                                                const {key: fip, state} = allCounties.filter(
-                                                    (item) => item.value === value,
+                                                const { key: fip, state } = allCounties.filter(
+                                                    (item) => item.value === value
                                                 )[0];
                                                 setFieldValue("address.countyFips", fip);
                                                 if (allCounties.length > 1) {
@@ -617,8 +607,9 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
 
                                 <SectionContainer>
                                     <StyledFormItem>
-                                        <StyledElementName>Medicare Beneficiary ID</StyledElementName>
-
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            Medicare Beneficiary ID
+                                        </Typography>
                                         <Textfield
                                             id="mbi-number"
                                             type="text"
@@ -630,7 +621,7 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                                 handleBlur(e);
                                                 setFieldValue(
                                                     "medicareBeneficiaryID",
-                                                    formatMbiNumber(values.medicareBeneficiaryID),
+                                                    formatMbiNumber(values.medicareBeneficiaryID)
                                                 );
                                             }}
                                         />
@@ -644,8 +635,9 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
 
                                 <SectionContainer>
                                     <StyledFormItem>
-                                        <StyledElementName>Medicare Part A Effective Date</StyledElementName>
-
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            Medicare Part A Effective Date
+                                        </Typography>
                                         <DatePickerMUI
                                             value={values.partA === null ? "" : values.partA}
                                             onChange={(value) => {
@@ -662,8 +654,9 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                 </SectionContainer>
                                 <SectionContainer>
                                     <StyledFormItem>
-                                        <StyledElementName>Medicare Part B Effective Date</StyledElementName>
-
+                                        <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
+                                            Medicare Part B Effective Date
+                                        </Typography>
                                         <DatePickerMUI
                                             value={values.partB === null ? "" : values.partB}
                                             onChange={(value) => {
@@ -681,7 +674,7 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                 <SectionContainer>
                                     <Paper className={styles.specialAssistanceCard} elevation="0">
                                         <Stack className={styles.specialAssistanceFormWrapper} direction="row">
-                                            <Typography className={styles.specialAssistanceHeader} variant="custom">
+                                            <Typography variant="h5" color={"#052a63"} marginBottom={0.5}>
                                                 Special Assistance
                                             </Typography>
                                             <Stack className={styles.specialAssistanceOptions}>
@@ -709,11 +702,11 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                                         }}
                                                     >
                                                         {[1, 0].map((option) => (
-                                                            <FormControlLabel value={option} control={<Radio/>}/>
+                                                            <FormControlLabel value={option} control={<Radio />} />
                                                         ))}
                                                     </RadioGroup>
                                                 </Stack>
-                                                <Divider/>
+                                                <Divider />
                                                 <Stack direction="row" className={styles.specialAssistanceRadios}>
                                                     <Typography variant="body1" color="#434A51">
                                                         LIS
@@ -727,7 +720,7 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                                         }}
                                                     >
                                                         {["Yes", "No", "I Don't Know"].map((option) => (
-                                                            <FormControlLabel value={option} control={<Radio/>}/>
+                                                            <FormControlLabel value={option} control={<Radio />} />
                                                         ))}
                                                     </RadioGroup>
                                                 </Stack>
@@ -739,7 +732,7 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                 {duplicateLeadIds?.length > 0 && (
                                     <div className={`${styles["duplicate-lead"]} mt-5 mb-4`}>
                                         <div>
-                                            <Warning/>
+                                            <Warning />
                                         </div>
                                         <div className={`${styles["duplicate-lead--text"]} pl-1`}>
                                             You can create this contact, but the entry is a potential duplicate to{" "}
@@ -795,7 +788,7 @@ function ContactInfoForm({editLeadDetails, setIsEditMode}) {
                                 disabled={!dirty || !isValid || isInvalidZip}
                                 onClick={handleSubmit}
                                 type="tertiary"
-                                icon={<ArrowForwardWithCircle/>}
+                                icon={<ArrowForwardWithCircle />}
                                 iconPosition="right"
                             />
                         </Box>

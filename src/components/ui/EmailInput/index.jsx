@@ -17,12 +17,11 @@ const emailUndeliverMsg = "This email address may not be able to receive emails.
  * EmailInput Component
  * A reusable email input field with validation and async compatibility check.
  */
-const EmailInput = ({ label, onValidation, size, ...props }) => {
+const EmailInput = ({ label, onValidation, size, defaultValue, ...props }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(null);
     const [error, setError] = useState(null);
-    const [message, setMessage] = useState(null);
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(defaultValue);
 
     const { validateEmail } = useLeadDetails();
     const latestValueRef = useRef(value);
@@ -43,7 +42,6 @@ const EmailInput = ({ label, onValidation, size, ...props }) => {
             }
             try {
                 setIsLoading(true);
-                setMessage(null);
                 const response = await validateEmail(email);
                 const isValid = response === true;
 
@@ -55,10 +53,8 @@ const EmailInput = ({ label, onValidation, size, ...props }) => {
                     message: isValid ? validEmailMessage : emailUndeliverMsg,
                 });
                 setMessage(isValid ? validEmailMessage : emailUndeliverMsg);
-                setMessage(isValid ? validEmailMessage : emailUndeliverMsg);
             } catch (error) {
                 setIsEmailValid(null);
-                setMessage(null);
                 setMessage(null);
                 setError(serverErrorMessage);
             } finally {
