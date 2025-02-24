@@ -337,7 +337,7 @@ export const PlanDetailsContainer = ({
                         callbackFunc: () => navigate(`/simplified-iul/create/${contactId}`),
                     },
                     {
-                        text: "Show Excluded plans",
+                        text: "Show Excluded Products",
                         callbackFunc: () => {
                             handleIsShowExcludedProductsCheck(true);
                             handleMyAppointedProductsCheck(true);
@@ -349,7 +349,7 @@ export const PlanDetailsContainer = ({
             if (rtsPlans.length) {
                 return renderAlertMessage(ERROR_5, [
                     {
-                        text: "View available plans",
+                        text: "View available products",
                         callbackFunc: () => navigate(`/finalexpenses/plans/${contactId}`),
                     },
                 ]);
