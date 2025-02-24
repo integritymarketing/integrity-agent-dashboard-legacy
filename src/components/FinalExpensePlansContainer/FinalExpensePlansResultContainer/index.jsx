@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Media from "react-media";
 import { useLocation, useParams } from "react-router-dom";
 
-import { Text } from "@integritymarketing/ui-text-components";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useFetch from "hooks/useFetch";
 import usePreferences from "hooks/usePreferences";
@@ -27,7 +26,6 @@ import {
     COVERAGE_AMT_VALIDATION,
     COVERAGE_AMT_VALIDATION_SIMPLIFIED_IUL,
     COVERAGE_TYPE,
-    COVERAGE_TYPE_HEADING,
     DEFAULT_COVERAGE_AMOUNT,
     DEFAULT_COVERAGE_AMOUNT_SIMPLIFIED_IUL,
     DEFAULT_MONTHLY_PREMIUM,
@@ -36,7 +34,6 @@ import {
     MONTHLY_PREMIUM_VALIDATION,
     MONTHLY_PREMIUM_VALIDATION_SIMPLIFIED_IUL,
     MY_APPOINTED_LABEL,
-    PLAN_OPTIONS_HEADING,
     STEPPER_FILTER,
     STEPPER_FILTER_SIMPLIFIED_IUL,
     ALTERNATIVE_PRODUCTS_LABEL,
@@ -44,7 +41,7 @@ import {
 import styles from "./FinalExpensePlansResultContainer.module.scss";
 import { PlanDetailsContainer } from "./PlanDetailsContainer/PlanDetailsContainer";
 import { useCreateNewQuote } from "../../../providers/CreateNewQuote";
-import QuoteConditions from "components/FinalExpenseHealthConditionsContainer/QuoteConditions";
+import QuoteConditions from "../QuoteConditions";
 import QuoteOptionsInfoModal from "./InfoModals/QuoteOptionsInfoModal";
 import CoverageTypeInfoModal from "./InfoModals/CoverageTypeInfoModal";
 
@@ -427,21 +424,7 @@ const FinalExpensePlansResultContainer = () => {
                                     </Box>
                                 )}
                                 <Box marginTop={2}>
-                                    <CollapsibleSection
-                                        title="Conditions"
-                                        togglePosition="left"
-                                        infoIcon={
-                                            <Popover
-                                                openOn="hover"
-                                                description="The conditions you have entered here are filtering your quote results to plans which you are likely eligible"
-                                                positions={isMobile ? ["bottom"] : ["right", "bottom"]}
-                                            >
-                                                <FontAwesomeIcon icon={faCircleInfo} color="blue" />
-                                            </Popover>
-                                        }
-                                    >
-                                        <QuoteConditions contactId={contactId} />
-                                    </CollapsibleSection>
+                                    <QuoteConditions contactId={contactId} isMobile={isMobile} />
                                 </Box>
                             </Box>
                         </Box>

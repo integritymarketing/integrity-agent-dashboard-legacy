@@ -1,22 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import useFetch from "hooks/useFetch";
-import Icon from "components/Icon";
 import EditIcon from "components/icons/icon-edit";
-import AddNewConditionDialog from "../AddNewConditionDialog";
-
+import AddNewConditionDialog from "../../FinalExpenseHealthConditionsContainer/AddNewConditionDialog";
+import { CollapsibleSection } from "@integritymarketing/clients-ui-kit";
 import {
     COMPLETED,
     HEALTH_CONDITION_API,
-    INCOMPLETE,
-    OUTDATED,
-} from "../FinalExpenseHealthConditionsContainer.constants";
+} from "../../FinalExpenseHealthConditionsContainer/FinalExpenseHealthConditionsContainer.constants";
 import styles from "./styles.module.scss";
-import { Complete } from "../icons/Complete";
-import { Incomplete } from "../icons/Incomplete";
-import OutdatedSvg from "../icons/outdated.svg";
-import { Typography, Box, IconButton } from "@mui/material";
+import { Complete } from "../../FinalExpenseHealthConditionsContainer/icons/Complete";
+import { Typography, Box, Button } from "@mui/material";
+import { faCircleInfo } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Popover from "components/ui/Popover";
 
-const QuoteConditions = ({ contactId, isHealthPage }) => {
+const QuoteConditions = ({ contactId, isHealthPage, isMobile }) => {
     const [selectedConditionForEdit, setSelectedConditionForEdit] = useState(null);
     const [isAddNewActivityDialogOpen, setIsAddNewActivityDialogOpen] = useState(false);
     const [healthConditions, setHealthConditions] = useState([]);
@@ -43,11 +41,27 @@ const QuoteConditions = ({ contactId, isHealthPage }) => {
         setIsAddNewActivityDialogOpen(false);
     }, []);
 
+    const completedConditions = useMemo(() => {
+        return healthConditions.filter((condition) => condition.isComplete);
+    }, [healthConditions]);
+
     return (
-        <>
+        <CollapsibleSection
+            title="Conditions"
+            togglePosition="left"
+            infoIcon={
+                <Popover
+                    openOn="hover"
+                    description="The conditions you have entered here are filtering your quote results to plans which you are likely eligible"
+                    positions={isMobile ? ["bottom"] : ["right", "bottom"]}
+                >
+                    <FontAwesomeIcon icon={faCircleInfo} color="blue" />
+                </Popover>
+            }
+        >
             <Box className={styles.conditionsListContainer}>
-                {healthConditions.length > 0 &&
-                    healthConditions?.map((condition, index) => {
+                {completedConditions.length > 0 &&
+                    completedConditions?.map((condition, index) => {
                         return (
                             <Box className={styles.conditionCardContainer} key={`${condition.id}-${index}`}>
                                 <Typography variant="h5" color="#052A63">
@@ -55,35 +69,22 @@ const QuoteConditions = ({ contactId, isHealthPage }) => {
                                 </Typography>
                                 <Box className={styles.conditionInfo}>
                                     <Box className={styles.status}>
-                                        {condition.isComplete ? (
-                                            <>
-                                                <Complete />
-                                                <span className={styles.completedStatus}>{COMPLETED}</span>
-                                            </>
-                                        ) : condition.isComplete === false ? (
-                                            <>
-                                                <Incomplete />
-                                                <span className={styles.incompleteStatus}>{INCOMPLETE}</span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Icon image={OutdatedSvg} className={styles.statusIcon} />
-                                                <span className={styles.outdatedStatus}>{OUTDATED}</span>
-                                            </>
-                                        )}
+                                        <Complete />
+                                        <span className={styles.completedStatus}>{COMPLETED}</span>
                                     </Box>
                                     <Box>
-                                        <IconButton
-                                            size="small"
-                                            aria-label="conditions page edit"
+                                        <Button
+                                            variant="text"
                                             color="primary"
+                                            size="small"
                                             onClick={() => {
                                                 setSelectedConditionForEdit(condition);
                                                 setIsAddNewActivityDialogOpen(true);
                                             }}
+                                            endIcon={<EditIcon />}
                                         >
-                                            <EditIcon />
-                                        </IconButton>
+                                            Edit
+                                        </Button>
                                     </Box>
                                 </Box>
                             </Box>
@@ -103,7 +104,7 @@ const QuoteConditions = ({ contactId, isHealthPage }) => {
                     page={isHealthPage ? "health_profile" : "final_expense"}
                 />
             )}
-        </>
+        </CollapsibleSection>
     );
 };
 
