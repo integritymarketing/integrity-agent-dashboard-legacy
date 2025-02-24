@@ -9,7 +9,7 @@ import { useLeadDetails } from "providers/ContactDetails";
 import styles from "./styles.module.scss";
 
 const errorMessage = "Invalid email address format.";
-const validEmailMessage = "This email address is valid.";
+const validEmailMessage = "This email address can receive emails.";
 const serverErrorMessage = "There was an error validating this email address.";
 const emailUndeliverMsg = "This email address may not be able to receive emails. Please verify the address.";
 
