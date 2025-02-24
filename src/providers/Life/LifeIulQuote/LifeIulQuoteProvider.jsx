@@ -71,7 +71,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
                         const faceAmounts = reqData?.inputs[0]?.faceAmounts;
                         const tabSelected = JSON.parse(sessionStorage.getItem("iul-protection-tab"));
                         const initialselectedTab = tabSelected ? tabSelected : faceAmounts[0];
-                        handleTabSelection(initialselectedTab, response.result, true);
+                        handleTabSelection(initialselectedTab, response.result);
                     }
                     return response;
                 } else {
@@ -125,13 +125,10 @@ export const LifeIulQuoteProvider = ({ children }) => {
         }
     };
 
-    const handleTabSelection = (tab, list, dontReset) => {
+    const handleTabSelection = (tab, list) => {
         setTabSelected(tab);
         const updatedResults = list?.filter((result) => result.input.faceAmount === parseInt(tab));
         setLifeIulQuoteResults(updatedResults);
-        if (!dontReset) {
-            setSelectedPlans([]);
-        }
     };
 
     const handleComparePlanSelect = (plan) => {
