@@ -8,12 +8,15 @@ import {
 } from "@tanstack/react-table";
 import PropTypes from "prop-types";
 import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
+import { useContactsListModalContext } from "../../providers/ContactsListModalProvider";
+
 import { TableHeader } from "../TableHeader";
 import { TableBody } from "../TableBody";
 import styles from "./styles.module.scss";
 
 const Table = ({ isLoading = false, columns }) => {
     const { setSelectedContacts, tableData } = useContactsListContext();
+    const { isExportSuccess } = useContactsListModalContext();
 
     // State for sorting and row selection
     const [sorting, setSorting] = useState([]);
@@ -34,7 +37,7 @@ const Table = ({ isLoading = false, columns }) => {
         getFilteredRowModel: getFilteredRowModel(),
         onSortingChange: handleSortingChange,
         onRowSelectionChange: handleRowSelectionChange,
-        manualPagination: true, // Ensures proper pagination control
+        manualPagination: true,
     });
 
     // Ensure selected contacts update when rows are selected
@@ -46,6 +49,11 @@ const Table = ({ isLoading = false, columns }) => {
 
         setSelectedContacts(selectedContacts); // Always update, even if empty
     }, [rowSelection, tableInstance, setSelectedContacts]);
+
+    // Clear row selection when table data changes
+    useEffect(() => {
+        setRowSelection({});
+    }, [tableData, isExportSuccess]);
 
     return (
         <table className={styles.customTable}>

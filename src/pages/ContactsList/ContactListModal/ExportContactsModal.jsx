@@ -37,9 +37,11 @@ const ExportContactsModal = () => {
     const csvLinkRef = useRef();
     const [selectedOption, setSelectedOption] = useState("selectedContacts");
     const [exportData, setExportData] = useState([]);
-    const { isExportModalOpen, setIsExportModalOpen } = useContactsListModalContext();
+    const { isExportModalOpen, setIsExportModalOpen,
+        setIsExportSuccess} = useContactsListModalContext();
     const { selectedContacts, allLeads } = useContactsListContext();
     const { clientsService } = useClientServiceContext();
+    
 
     const handleExportContactsData = async (event) => {
         event.stopPropagation();
@@ -56,6 +58,7 @@ const ExportContactsModal = () => {
                 type: "success",
                 message: "Download successfully",
             });
+
             setTimeout(() => {
                 if (result.length && csvLinkRef?.current?.link) {
                     csvLinkRef.current.link.click();
@@ -70,6 +73,8 @@ const ExportContactsModal = () => {
             });
         } finally {
             setIsExportModalOpen(false);
+            setIsExportSuccess(true);
+
         }
     };
 

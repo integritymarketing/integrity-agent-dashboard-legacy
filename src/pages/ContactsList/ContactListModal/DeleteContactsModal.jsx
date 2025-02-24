@@ -15,7 +15,7 @@ import { useContactsListContext } from "../providers/ContactsListProvider";
 
 const DeleteContactsModal = () => {
     const { isDeleteModalOpen, setIsDeleteModalOpen } = useContactsListModalContext();
-    const { selectedContacts, refreshData } = useContactsListContext();
+    const { selectedContacts, refreshData, setSelectedContacts } = useContactsListContext();
     const showToast = useToast();
     const { clientsService } = useClientServiceContext();
 
@@ -39,7 +39,9 @@ const DeleteContactsModal = () => {
     };
 
     const handleDeleteContacts = async () => {
-        await clientsService.deleteContactLeads(selectedContacts);
+        const response = await clientsService.deleteContactLeads(selectedContacts);
+        if (response.ok) {
+        setSelectedContacts([]);
         refreshData();
         showToast({
             type: "success",
@@ -50,6 +52,7 @@ const DeleteContactsModal = () => {
             closeToastRequired: true,
         });
         setIsDeleteModalOpen(false);
+    }
     };
 
     return (

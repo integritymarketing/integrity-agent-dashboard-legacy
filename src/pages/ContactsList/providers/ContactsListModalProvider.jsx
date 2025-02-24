@@ -7,6 +7,7 @@ const ContactsListModalContext = createContext(null);
 export const ContactsListModalProvider = ({ children }) => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+    const [isExportSuccess, setIsExportSuccess] = useState(false);
 
     // Memoize the context value using useMemo
     const contextValue = useMemo(
@@ -15,6 +16,8 @@ export const ContactsListModalProvider = ({ children }) => {
             setIsDeleteModalOpen,
             isExportModalOpen,
             setIsExportModalOpen,
+            isExportSuccess,
+            setIsExportSuccess,
         }),
         [isDeleteModalOpen, isExportModalOpen]
     );
