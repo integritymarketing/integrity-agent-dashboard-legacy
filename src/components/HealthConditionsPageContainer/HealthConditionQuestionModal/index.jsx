@@ -44,7 +44,7 @@ function HealthConditionQuestionModal({ open, onClose, selectedCondition, contac
 
     const handleApplyClick = async () => {
         try {
-            if (values) {
+            if (values != null) {
                 let payload = {
                     conditionId: currentQuestion.conditionId,
                     underwritingQuestionsAnswers: [

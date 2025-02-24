@@ -19,6 +19,7 @@ function AddPrescriptionModal({
         addHealthConditions,
         healthConditionsQuestions,
         getPrescriptionConditionsLoading,
+        postHealthConditionsLoading,
     } = useConditions();
 
     const { agentInformation } = useAgentInformationByID();
@@ -78,7 +79,7 @@ function AddPrescriptionModal({
                             handleHealthConditionClose();
                         }}
                         conditions={prescriptionConditions}
-                        loading={getPrescriptionConditionsLoading}
+                        loading={getPrescriptionConditionsLoading || postHealthConditionsLoading}
                     />
                 </DialogContent>
             </Dialog>
