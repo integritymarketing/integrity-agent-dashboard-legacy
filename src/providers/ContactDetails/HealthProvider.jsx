@@ -63,10 +63,10 @@ export const HealthProvider = ({ children }) => {
             await performAsyncOperation(
                 () => fetchLeadPrescriptions(null, false, path),
                 setPrescriptionLoading,
-                (data) => setPrescriptions(data || [])
+                (data) => setPrescriptions(data || []),
             );
         },
-        [fetchLeadPrescriptions]
+        [fetchLeadPrescriptions],
     );
 
     const fetchPharmacies = useCallback(
@@ -78,11 +78,11 @@ export const HealthProvider = ({ children }) => {
             const updatedData = await performAsyncOperation(
                 () => fetchLeadPharmacies(null, false, path),
                 setPharmacyLoading,
-                (data) => setPharmacies(data || [])
+                (data) => setPharmacies(data || []),
             );
             return updatedData || [];
         },
-        [fetchLeadPharmacies]
+        [fetchLeadPharmacies],
     );
 
     const putLeadPharmacy = useCallback(
@@ -91,10 +91,10 @@ export const HealthProvider = ({ children }) => {
             await performAsyncOperation(
                 () => putLeadPharmacies(pharmacyData, false, path),
                 setPharmacyLoading,
-                (data) => { }
+                (data) => {},
             );
         },
-        [putLeadPharmacies]
+        [putLeadPharmacies],
     );
 
     const fetchProviders = useCallback(
@@ -106,10 +106,10 @@ export const HealthProvider = ({ children }) => {
             await performAsyncOperation(
                 () => fetchLeadProviders(null, false, path),
                 setProviderLoading,
-                (data) => setProviders(data?.providers || [])
+                (data) => setProviders(data?.providers || []),
             );
         },
-        [fetchLeadProviders]
+        [fetchLeadProviders],
     );
 
     const addPrescription = useCallback(
@@ -136,10 +136,10 @@ export const HealthProvider = ({ children }) => {
                     }
                     showToast({ message: "Prescription Added" });
                 },
-                () => showToast({ type: "error", message: "Failed to add prescription" })
+                () => showToast({ type: "error", message: "Failed to add prescription" }),
             );
         },
-        [consumerId, createPrescription, fetchPrescriptions, showToast]
+        [consumerId, createPrescription, fetchPrescriptions, showToast],
     );
 
     const editPrescription = useCallback(
@@ -166,10 +166,10 @@ export const HealthProvider = ({ children }) => {
                     }
                     showToast({ message: "Prescription Updated" });
                 },
-                () => showToast({ type: "error", message: "Failed to update prescription" })
+                () => showToast({ type: "error", message: "Failed to update prescription" }),
             );
         },
-        [consumerId, fetchPrescriptions, showToast, updateLeadPrescription]
+        [consumerId, fetchPrescriptions, showToast, updateLeadPrescription],
     );
 
     const deletePrescription = useCallback(
@@ -201,10 +201,10 @@ export const HealthProvider = ({ children }) => {
                         closeToastRequired: true,
                     });
                 },
-                () => showToast({ type: "error", message: "Failed to delete prescription" })
+                () => showToast({ type: "error", message: "Failed to delete prescription" }),
             );
         },
-        [addPrescription, consumerId, deleteLeadPrescription, fetchPrescriptions, showToast]
+        [addPrescription, consumerId, deleteLeadPrescription, fetchPrescriptions, showToast],
     );
 
     const addPharmacy = useCallback(
@@ -223,10 +223,10 @@ export const HealthProvider = ({ children }) => {
                     }
                     showToast({ message: "Pharmacy Added" });
                 },
-                () => showToast({ type: "error", message: "Failed to add pharmacy" })
+                () => showToast({ type: "error", message: "Failed to add pharmacy" }),
             );
         },
-        [consumerId, fetchPharmacies, saveLeadPharmacies, showToast]
+        [consumerId, fetchPharmacies, saveLeadPharmacies, showToast],
     );
 
     const deletePharmacy = useCallback(
@@ -255,10 +255,10 @@ export const HealthProvider = ({ children }) => {
                         closeToastRequired: true,
                     });
                 },
-                () => showToast({ type: "error", message: "Failed to delete pharmacy" })
+                () => showToast({ type: "error", message: "Failed to delete pharmacy" }),
             );
         },
-        [addPharmacy, consumerId, deleteLeadPharmacies, fetchPharmacies, showToast]
+        [addPharmacy, consumerId, deleteLeadPharmacies, fetchPharmacies, showToast],
     );
 
     const addProvider = useCallback(
@@ -278,10 +278,10 @@ export const HealthProvider = ({ children }) => {
                     }
                     showToast({ message: `${providerName} ${isUpdate ? "updated" : "added to the list."}` });
                 },
-                () => showToast({ type: "error", message: `Failed to ${isUpdate ? "update" : "add"} Provider` })
+                () => showToast({ type: "error", message: `Failed to ${isUpdate ? "update" : "add"} Provider` }),
             );
         },
-        [consumerId, fetchProviders, saveLeadProviders, showToast]
+        [consumerId, fetchProviders, saveLeadProviders, showToast],
     );
 
     const deleteProvider = useCallback(
@@ -309,10 +309,10 @@ export const HealthProvider = ({ children }) => {
                         });
                     }
                 },
-                () => showToast({ type: "error", message: `Failed to update Provider` })
+                () => showToast({ type: "error", message: `Failed to update Provider` }),
             );
         },
-        [addProvider, consumerId, deleteLeadProviders, fetchProviders, showToast]
+        [addProvider, consumerId, deleteLeadProviders, fetchProviders, showToast],
     );
 
     const contextValue = useMemo(
@@ -353,7 +353,7 @@ export const HealthProvider = ({ children }) => {
             fetchPrescriptions,
             fetchPharmacies,
             fetchProviders,
-        ]
+        ],
     );
 
     return <HealthContext.Provider value={contextValue}>{children}</HealthContext.Provider>;

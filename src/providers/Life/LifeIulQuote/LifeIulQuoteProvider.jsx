@@ -53,6 +53,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
         async (reqData) => {
             reset();
             const payload = removeNullAndEmptyFields(reqData);
+
             try {
                 const response = await getLifeIulQuoteResults(payload, false);
                 if (response && response?.result && response?.result?.length > 0) {
@@ -84,7 +85,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
                 return null;
             }
         },
-        [getLifeIulQuoteResults, showToast, selectedCarriers, sessionStorage]
+        [getLifeIulQuoteResults, showToast, sessionStorage]
     );
 
     const fetchLifeIulQuoteDetails = useCallback(
@@ -134,13 +135,9 @@ export const LifeIulQuoteProvider = ({ children }) => {
     };
 
     const handleComparePlanSelect = (plan) => {
-        const isPlanSelected = selectedPlans?.filter(
-            (selectedPlan) => selectedPlan.recId === plan.recId
-        );
+        const isPlanSelected = selectedPlans?.filter((selectedPlan) => selectedPlan.recId === plan.recId);
         if (isPlanSelected?.length > 0) {
-            const updatedPlans = selectedPlans.filter(
-                (selectedPlan) => selectedPlan.recId !== plan.recId
-            );
+            const updatedPlans = selectedPlans.filter((selectedPlan) => selectedPlan.recId !== plan.recId);
             setSelectedPlans(updatedPlans);
         } else {
             setSelectedPlans([

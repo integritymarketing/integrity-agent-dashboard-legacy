@@ -1,0 +1,85 @@
+@use "scss/globalDefines" as defines_global;
+
+.pageContainerWrapper {
+    background-color: #f1f1f1;
+    min-height: 90vh;
+    padding-bottom: 80px;
+}
+
+.conditionsLabel {
+    color: #434a51;
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+
+    @include defines_global.small {
+        color: #434a51;
+        font-size: 12px;
+    }
+}
+
+.nextButton {
+    background-color: #4178ff;
+    width: 100%;
+
+    svg {
+        margin-left: 100px;
+    }
+}
+
+.pageContainer {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 8px;
+    padding: 56px;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 5%);
+    max-width: 90%;
+    width: 900px;
+    gap: 16px;
+
+    @include defines_global.small {
+        padding: 16px;
+    }
+
+    & {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.headerTitle h4 {
+    font-size: 24px;
+    line-height: 32px;
+    color: #052a63;
+    font-family: Lato, sans-serif;
+    font-weight: 400;
+
+    @include defines_global.small {
+        font-size: 18px;
+    }
+}
+
+.pageHeading {
+    display: flex;
+    justify-content: center;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    background-color: #f1f1f1;
+}
+
+.conditionsContainer {
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.prescriptionCard:hover {
+    background-color: #f1faff;
+    cursor: pointer;
+}

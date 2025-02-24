@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import ConditionalPopupLayout from "./ConditionalPopupLayout";
 import DatePickerMUI from "components/DatePicker";
 import styles from "./styles.module.scss";
+import { Typography } from "@mui/material";
 
 function ConditionalPopupDatePicker({
     header,
@@ -14,6 +15,8 @@ function ConditionalPopupDatePicker({
     onChange,
     open,
     onClose,
+    applyButtonText = "Next",
+    error,
 }) {
     return (
         <ConditionalPopupLayout
@@ -23,6 +26,7 @@ function ConditionalPopupDatePicker({
             handleApplyClick={handleApplyClick}
             handleCancelClick={handleCancelClick}
             applyButtonDisabled={applyButtonDisabled}
+            applyButtonText={applyButtonText}
             open={open}
             onClose={onClose}
         >
@@ -33,6 +37,11 @@ function ConditionalPopupDatePicker({
                 className={styles.datepicker}
                 iconPosition="left"
             />
+            {error && (
+                <Typography variant="body2" color="error" mt={0.5}>
+                    {error}
+                </Typography>
+            )}
         </ConditionalPopupLayout>
     );
 }
@@ -48,5 +57,7 @@ ConditionalPopupDatePicker.propTypes = {
     onChange: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    applyButtonText: PropTypes.string,
+    error: PropTypes.string,
 };
 export default ConditionalPopupDatePicker;

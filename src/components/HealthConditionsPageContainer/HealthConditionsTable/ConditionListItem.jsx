@@ -1,0 +1,78 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { Button, Grid, Stack, Typography } from "@mui/material";
+import { Incomplete, ActionsRename } from "@integritymarketing/icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark, faCircleCheck } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+function ConditionListItem({ label, onEdit, isComplete, isExpired, isIncomplete }) {
+    return (
+        <Grid
+            container
+            direction="row"
+            sx={{ padding: "16px 24px" }}
+            justifyContent="space-between"
+            alignItems="center"
+            alignSelf="stretch"
+            gap={2}
+        >
+            <Grid item>
+                <Typography variant="h4" sx={{ color: "#052A63" }}>
+                    {label}
+                </Typography>
+            </Grid>
+
+            <Grid item>
+                <Stack direction="row" gap={3}>
+                    <Button
+                        disabled
+                        size="small"
+                        variant="link"
+                        sx={{ color: "#6366F1", border: "none" }}
+                        startIcon={
+                            isComplete ? (
+                                <FontAwesomeIcon icon={faCircleCheck} size="lg" color="#717171" />
+                            ) : isExpired ? (
+                                <FontAwesomeIcon icon={faCircleXmark} size="lg" color="#C81E27" />
+                            ) : (
+                                <Incomplete />
+                            )
+                        }
+                    >
+                        {isComplete ? "Complete" : isExpired ? "Expired" : "Incomplete"}
+                    </Button>
+
+                    <Button
+                        size="small"
+                        variant="link"
+                        sx={{
+                            padding: "5px 20px",
+                            borderRadius: "25px",
+                            color: "#6366F1",
+                            border: "none",
+                            "&:hover": {
+                                background: "#fff 0 0 no-repeat padding-box",
+                                borderRadius: "20px",
+                                boxShadow: "0 0 10px 1px rgb(0 0 0 / 20%)",
+                                color: "#1357ff",
+                            },
+                        }}
+                        endIcon={<ActionsRename />}
+                        onClick={onEdit}
+                    >
+                        Edit
+                    </Button>
+                </Stack>
+            </Grid>
+        </Grid>
+    );
+}
+
+ConditionListItem.propTypes = {
+    label: PropTypes.string.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    isComplete: PropTypes.bool,
+    isExpired: PropTypes.bool,
+    isIncomplete: PropTypes.bool,
+};
+
+export default ConditionListItem;

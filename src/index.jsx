@@ -38,6 +38,7 @@ import { ClientServiceContextProvider } from "services/clientServiceProvider";
 import Auth0ProviderWithHistory from "auth/Auth0ProviderWithHistory";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { ContactMapMarkersDataProvider } from "providers/ContactMapMarkersDataProvider";
+import { ConditionsProvider } from "providers/Life/Conditions/ConditionsProvider";
 
 // error logging disabled for netlify deploy-preview and branch-deploy builds
 // DSN only defined in production apps.  see netlify.toml
@@ -79,27 +80,29 @@ root.render(
                                                                                                 <CreateNewQuoteProvider>
                                                                                                     <MarketingProvider>
                                                                                                         <PharmacyProvider>
-                                                                                                            <HelmetProvider>
-                                                                                                                <Helmet>
-                                                                                                                    <title>
-                                                                                                                        Integrity
-                                                                                                                    </title>
-                                                                                                                </Helmet>
-                                                                                                                <Suspense
-                                                                                                                    fallback={
-                                                                                                                        <div>
-                                                                                                                            Loading...
-                                                                                                                        </div>
-                                                                                                                    }
-                                                                                                                >
-                                                                                                                    <AppRouter>
-                                                                                                                        <div className="content-frame">
-                                                                                                                            <AppRoutes />
-                                                                                                                        </div>
-                                                                                                                    </AppRouter>
-                                                                                                                </Suspense>
-                                                                                                                <PortalUrl />
-                                                                                                            </HelmetProvider>
+                                                                                                            <ConditionsProvider>
+                                                                                                                <HelmetProvider>
+                                                                                                                    <Helmet>
+                                                                                                                        <title>
+                                                                                                                            Integrity
+                                                                                                                        </title>
+                                                                                                                    </Helmet>
+                                                                                                                    <Suspense
+                                                                                                                        fallback={
+                                                                                                                            <div>
+                                                                                                                                Loading...
+                                                                                                                            </div>
+                                                                                                                        }
+                                                                                                                    >
+                                                                                                                        <AppRouter>
+                                                                                                                            <div className="content-frame">
+                                                                                                                                <AppRoutes />
+                                                                                                                            </div>
+                                                                                                                        </AppRouter>
+                                                                                                                    </Suspense>
+                                                                                                                    <PortalUrl />
+                                                                                                                </HelmetProvider>
+                                                                                                            </ConditionsProvider>
                                                                                                         </PharmacyProvider>
                                                                                                     </MarketingProvider>
                                                                                                 </CreateNewQuoteProvider>

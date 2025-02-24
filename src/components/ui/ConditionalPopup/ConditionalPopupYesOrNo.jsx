@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import PropTypes from "prop-types";
 import ConditionalPopupLayout from "./ConditionalPopupLayout";
 import styles from "./styles.module.scss";
+import { Typography } from "@mui/material";
 
 const OPTIONS = [
     { label: "Yes", value: true },
@@ -19,6 +20,8 @@ function ConditionalPopupYesOrNo({
     onChange,
     open,
     onClose,
+    applyButtonText = "Next",
+    error,
 }) {
     const options = useMemo(
         () =>
@@ -31,7 +34,7 @@ function ConditionalPopupYesOrNo({
                     {option.label}
                 </div>
             )),
-        [values]
+        [values],
     );
     return (
         <ConditionalPopupLayout
@@ -43,8 +46,14 @@ function ConditionalPopupYesOrNo({
             applyButtonDisabled={applyButtonDisabled}
             open={open}
             onClose={onClose}
+            applyButtonText={applyButtonText}
         >
             <div className={styles.optionValueWrapper}>{options}</div>
+            {error && (
+                <Typography variant="body2" color="error" mt={0.5}>
+                    {error}
+                </Typography>
+            )}
         </ConditionalPopupLayout>
     );
 }
@@ -60,5 +69,7 @@ ConditionalPopupYesOrNo.propTypes = {
     onChange: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    applyButtonText: PropTypes.string,
+    error: PropTypes.string,
 };
 export default ConditionalPopupYesOrNo;
