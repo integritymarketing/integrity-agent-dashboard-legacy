@@ -6,7 +6,9 @@ const Auth0ProviderWithHistory = ({ children }) => {
     const navigate = useNavigate();
 
     const onRedirectCallback = (appState) => {
-        navigate(appState?.returnTo || window.location.pathname);
+        const redirectTo = sessionStorage.getItem("redirectTo") || appState?.returnTo || window.location.pathname;
+        sessionStorage.removeItem("redirectTo"); // Clean up after redirection
+        navigate(redirectTo);
     };
 
     const providerConfig = {
