@@ -21,11 +21,7 @@ export const ConditionsProvider = ({ children }) => {
     }/api/${QUOTES_API_VERSION}/Underwriting/healthcondition/questions`;
     const GET_HEALTH_CONDITIONS = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/HealthCondition/Lead`;
 
-    const {
-        Get: searchHealthConditions,
-        loading: searchHealthConditionsLoading,
-        data: searchHealthConditionsData,
-    } = useFetch(URL_V3);
+    const { Get: searchHealthConditions, loading: searchHealthConditionsLoading } = useFetch(URL_V3);
     const { Get: getPrescriptionConditions, loading: getPrescriptionConditionsLoading } = useFetch(URL_V4);
 
     const { Post: postHealthConditions, loading: postHealthConditionsLoading } = useFetch(POST_HEALTH_CONDITIONS);
@@ -66,7 +62,7 @@ export const ConditionsProvider = ({ children }) => {
         async (healthCondition) => {
             try {
                 const path = `${encodeURIComponent(healthCondition)}`;
-                await searchHealthConditions(null, false, path);
+                return await searchHealthConditions(null, false, path);
             } catch (error) {
                 console.log("error", error);
                 showToast({ type: "error", message: "Failed to search health conditions" });
@@ -157,7 +153,6 @@ export const ConditionsProvider = ({ children }) => {
 
     const contextValue = useMemo(
         () => ({
-            searchHealthConditionsData,
             fetchSearchHealthConditions,
             searchHealthConditionsLoading,
             fetchPrescriptionConditions,
@@ -178,7 +173,6 @@ export const ConditionsProvider = ({ children }) => {
             postHealthConditionsLoading,
         }),
         [
-            searchHealthConditionsData,
             fetchSearchHealthConditions,
             searchHealthConditionsLoading,
             fetchPrescriptionConditions,

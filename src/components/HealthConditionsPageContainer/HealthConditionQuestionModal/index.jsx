@@ -5,7 +5,13 @@ import ConditionalPopupYesOrNo from "components/ui/ConditionalPopup/ConditionalP
 import { useConditions } from "providers/Conditions";
 import { Dialog, DialogContent } from "@mui/material";
 
-function HealthConditionQuestionModal({ open, onClose, selectedCondition, contactId }) {
+function HealthConditionQuestionModal({
+    open,
+    onClose,
+    selectedCondition,
+    contactId,
+    onSuccessOfHealthConditionQuestionModal,
+}) {
     const { healthConditionsQuestions, clearConditionalQuestionData, updateHealthConditionsQuestionsPost } =
         useConditions();
 
@@ -20,7 +26,7 @@ function HealthConditionQuestionModal({ open, onClose, selectedCondition, contac
         if (healthConditionsQuestions.length > 0 && selectedCondition.length > 0) {
             let tempQuestionData = [];
             healthConditionsQuestions.slice(0, selectedCondition.length).forEach((element, index) => {
-                tempQuestionData = element.questions.items.reduce((acc, item) => {
+                let data = element.questions.items.reduce((acc, item) => {
                     acc.push({
                         ...item,
                         conditionId: selectedCondition[index].conditionId,
@@ -28,9 +34,9 @@ function HealthConditionQuestionModal({ open, onClose, selectedCondition, contac
                     });
                     return acc;
                 }, []);
+                tempQuestionData = [...tempQuestionData, ...data];
             });
 
-            console.log(tempQuestionData);
             setQuestionData(tempQuestionData);
         }
     }, [healthConditionsQuestions, selectedCondition]);
@@ -62,9 +68,13 @@ function HealthConditionQuestionModal({ open, onClose, selectedCondition, contac
                 };
 
                 await updateHealthConditionsQuestionsPost(payload, contactId);
-                setCurrentQuestion(questionData[currentQuestionIndex + 1]);
-                setCurrentQuestionIndex(currentQuestionIndex + 1);
-                setValues(null);
+                if (currentQuestionIndex === questionData.length - 1) {
+                    onSuccessOfHealthConditionQuestionModal();
+                } else {
+                    setCurrentQuestion(questionData[currentQuestionIndex + 1]);
+                    setCurrentQuestionIndex(currentQuestionIndex + 1);
+                    setValues(null);
+                }
             } else {
                 setError("Please select an answer");
             }
@@ -138,6 +148,7 @@ HealthConditionQuestionModal.propTypes = {
     question: PropTypes.string.isRequired,
     selectedCondition: PropTypes.string.isRequired,
     contactId: PropTypes.string.isRequired,
+    onSuccessOfHealthConditionQuestionModal: PropTypes.func.isRequired,
 };
 
 export default HealthConditionQuestionModal;

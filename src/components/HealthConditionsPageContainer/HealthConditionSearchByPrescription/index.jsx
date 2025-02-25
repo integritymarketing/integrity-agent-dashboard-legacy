@@ -9,21 +9,21 @@ function HealthConditionSearchByPrescription({
     setOpenAddPrescriptionModal,
     setPrescriptionDetails,
 }) {
-    const [healthCondition, setHealthCondition] = useState("");
     const [inputValue, setInputValue] = useState("");
     const [loaded, setLoaded] = useState(false);
-    const { fetchSearchHealthConditions, searchHealthConditionsLoading, searchHealthConditionsData } = useConditions();
+    const [healthConditionsData, setHealthConditionsData] = useState([]);
+    const { fetchSearchHealthConditions, searchHealthConditionsLoading } = useConditions();
 
     useEffect(() => {
         if (selectedPrescription) {
-            setHealthCondition(selectedPrescription.dosage.drugName);
             setInputValue(selectedPrescription.dosage.drugName);
         }
     }, [selectedPrescription]);
 
     const debouncedSearch = useCallback(
         debounce(async (query) => {
-            await fetchSearchHealthConditions(query);
+            let data = await fetchSearchHealthConditions(query);
+            setHealthConditionsData(data);
         }, 500),
         [fetchSearchHealthConditions],
     );
@@ -40,20 +40,22 @@ function HealthConditionSearchByPrescription({
     };
 
     useEffect(() => {
-        if (searchHealthConditionsData && searchHealthConditionsData.length && selectedPrescription) {
-            const healthCondition = searchHealthConditionsData.find(
+        if (healthConditionsData && healthConditionsData.length && selectedPrescription) {
+            const healthCondition = healthConditionsData.find(
                 (condition) => condition.name.toLowerCase() === selectedPrescription.dosage.drugName.toLowerCase(),
             );
             handleChange(healthCondition);
         }
 
-        if (searchHealthConditionsData && searchHealthConditionsData.length === 0) {
+        if (healthConditionsData && healthConditionsData.length === 0) {
             setLoaded(true);
         }
-    }, [searchHealthConditionsData, selectedPrescription]);
+    }, [healthConditionsData, selectedPrescription]);
 
     const handleChange = (value) => {
         if (value) {
+            setInputValue("");
+            setHealthConditionsData([]);
             setPrescriptionDetails(value);
             setOpenAddPrescriptionModal(true);
         }
@@ -66,7 +68,7 @@ function HealthConditionSearchByPrescription({
                 placeholder="Search"
                 value={inputValue}
                 handleSelect={(value) => handleChange(value)}
-                conditions={searchHealthConditionsData || []}
+                conditions={healthConditionsData || []}
                 loading={searchHealthConditionsLoading}
                 onChange={(value) => setInputValue(value)}
                 loaded={loaded}

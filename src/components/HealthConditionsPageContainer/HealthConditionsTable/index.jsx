@@ -72,7 +72,7 @@ function HealthConditionsTable({ contactId }) {
                     onClose={handleOnClose}
                     healthConditions={healthConditions}
                     setHealthConditions={setHealthConditions}
-                    refetchConditionsList={fetchHealthConditions}
+                    refetchConditionsList={() => fetchHealthConditions(contactId)}
                     disableLastTreatmentDate={false}
                     page={"final_expense"}
                 />

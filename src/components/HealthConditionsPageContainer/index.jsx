@@ -57,6 +57,12 @@ const HealthConditionsPageContainer = () => {
         setOpenQuestionModal(true);
     };
 
+    const onSuccessOfHealthConditionQuestionModal = () => {
+        setOpenQuestionModal(false);
+        setSelectedCondition(null);
+        fetchHealthConditions(contactId);
+    };
+
     return (
         <>
             <ContactProfileTabBar
@@ -134,6 +140,7 @@ const HealthConditionsPageContainer = () => {
                         setSelectedCondition(null);
                     }}
                     contactId={contactId}
+                    onSuccessOfHealthConditionQuestionModal={onSuccessOfHealthConditionQuestionModal}
                     selectedCondition={selectedCondition}
                 />
             ) : null}
