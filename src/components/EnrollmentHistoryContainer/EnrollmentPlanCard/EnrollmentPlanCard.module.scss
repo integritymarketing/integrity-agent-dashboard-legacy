@@ -66,12 +66,8 @@
     @include defines_global.small {
       width: 100%;
       align-items: flex-start;
+      flex-direction: column;
     }
-
-    & {
-      flex-direction: column; // Explicitly scoped
-    }
-
   }
 
   .planDetails {
