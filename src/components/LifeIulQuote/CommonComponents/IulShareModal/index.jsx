@@ -11,14 +11,15 @@ import useAgentInformationByID from "hooks/useAgentInformationByID";
 import useUserProfile from "hooks/useUserProfile";
 import ShareInputsValidator from "components/ShareInputsValidator";
 import { useLifeIulQuote } from "providers/Life";
-import { faArrowShare} from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
+import { faArrowShare } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
     const { handleIULQuoteShareClick, isLoadingShareIulQuote } = useLifeIulQuote();
-    const { productName, companyName, amBest, deathBenefit, premium, policyDetailId, recId, input } = useMemo(() => {
-        return planDetails;
-    }, [planDetails]);
+    const { productName, companyName, amBest, distribution, deathBenefit, premium, policyDetailId, recId, input } =
+        useMemo(() => {
+            return planDetails;
+        }, [planDetails]);
 
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
@@ -156,7 +157,7 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
             footer
             handleSave={handleSend}
             saveLabel="Share"
-            footerActionIcon={<FontAwesomeIcon icon={faArrowShare}  size={"lg"} />}
+            footerActionIcon={<FontAwesomeIcon icon={faArrowShare} size={"lg"} />}
             isSaveButtonDisabled={!isDisable || isLoadingShareIulQuote}
         >
             <Box className={styles.modalSection}>
@@ -178,24 +179,24 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
                                 </Typography>
                             </Box>
                         </Grid>
-                        <Grid md={3}>
-                            <Box className={styles.policyDetails}>
-                                <Box>
-                                    <Typography variant="h5" color="#052A63">
-                                        Death Benefit
-                                    </Typography>
-                                    <Typography variant="body1" color="#717171">
-                                        {formatCurrency(deathBenefit)}
-                                    </Typography>
-                                </Box>
-                                <Box>
-                                    <Typography variant="h5" color="#052A63">
-                                        Premium
-                                    </Typography>
-                                    <Typography variant="body1" color="#717171">
-                                        {formatCurrency(premium)}
-                                    </Typography>
-                                </Box>
+                        <Grid md={3} className={styles.policyDetails} flexDirection="column">
+                            <Box>
+                                <Typography variant="h5" color="#052A63">
+                                    {quoteType === "accumulation" ? "Max Dist" : "Death Benefit"}
+                                </Typography>
+                                <Typography variant="body1" color="#717171">
+                                    {quoteType === "accumulation"
+                                        ? formatCurrency(distribution)
+                                        : formatCurrency(deathBenefit)}
+                                </Typography>
+                            </Box>
+                            <Box>
+                                <Typography variant="h5" color="#052A63">
+                                    Premium
+                                </Typography>
+                                <Typography variant="body1" color="#717171">
+                                    {formatCurrency(premium)}
+                                </Typography>
                             </Box>
                         </Grid>
                     </Grid>

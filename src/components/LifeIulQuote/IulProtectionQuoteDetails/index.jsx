@@ -225,7 +225,7 @@ const IulProtectionQuoteDetails = () => {
                     open={shareModalOpen}
                     onClose={() => setShareModalOpen(false)}
                     planDetails={planDetails}
-                    quoteType="accumulation"
+                    quoteType="protection"
                 />
             )}
         </IulQuoteContainer>
