@@ -23,7 +23,7 @@ function HealthConditionQuestionModal({
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (healthConditionsQuestions.length > 0 && selectedCondition.length > 0) {
+        if (healthConditionsQuestions?.length > 0 && selectedCondition?.length > 0) {
             let tempQuestionData = [];
             healthConditionsQuestions.slice(0, selectedCondition.length).forEach((element, index) => {
                 let data = element.questions.items.reduce((acc, item) => {

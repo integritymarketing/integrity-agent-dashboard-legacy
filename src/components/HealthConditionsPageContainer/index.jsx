@@ -91,6 +91,7 @@ const HealthConditionsPageContainer = () => {
                                 selectedPrescription={selectedPrescription}
                                 setOpenAddPrescriptionModal={setOpenAddPrescriptionModal}
                                 setPrescriptionDetails={setPrescriptionDetails}
+                                setSelectedPrescription={setSelectedPrescription}
                             />
                             {prescriptions.length > 0 && (
                                 <SavedPrescriptions

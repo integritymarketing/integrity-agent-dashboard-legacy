@@ -8,6 +8,7 @@ function HealthConditionSearchByPrescription({
     selectedPrescription,
     setOpenAddPrescriptionModal,
     setPrescriptionDetails,
+    setSelectedPrescription,
 }) {
     const [inputValue, setInputValue] = useState("");
     const [loaded, setLoaded] = useState(false);
@@ -25,7 +26,7 @@ function HealthConditionSearchByPrescription({
             let data = await fetchSearchHealthConditions(query);
             setHealthConditionsData(data);
         }, 500),
-        [fetchSearchHealthConditions],
+        [fetchSearchHealthConditions]
     );
 
     useEffect(() => {
@@ -42,7 +43,7 @@ function HealthConditionSearchByPrescription({
     useEffect(() => {
         if (healthConditionsData && healthConditionsData.length && selectedPrescription) {
             const healthCondition = healthConditionsData.find(
-                (condition) => condition.name.toLowerCase() === selectedPrescription.dosage.drugName.toLowerCase(),
+                (condition) => condition.name.toLowerCase() === selectedPrescription.dosage.drugName.toLowerCase()
             );
             handleChange(healthCondition);
         }
@@ -59,6 +60,7 @@ function HealthConditionSearchByPrescription({
             setPrescriptionDetails(value);
             setOpenAddPrescriptionModal(true);
         }
+        setSelectedPrescription(value?.length ? value?.name : null);
     };
 
     return (

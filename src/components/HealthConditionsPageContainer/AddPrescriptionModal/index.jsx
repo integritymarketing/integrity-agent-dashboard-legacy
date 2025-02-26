@@ -31,10 +31,6 @@ function AddPrescriptionModal({
         }
     }, [prescriptionDetails.name]);
 
-    useEffect(() => {
-        console.log("getHealthConditionsQuestionsLoading", getPrescriptionConditionsLoading);
-    }, [getPrescriptionConditionsLoading]);
-
     const onApplyClick = async (value) => {
         setSelectedCondition(value);
         let payloadData = value.map((condition) => ({
@@ -69,9 +65,9 @@ function AddPrescriptionModal({
             >
                 <DialogContent sx={{ padding: 0 }}>
                     <MultiSelectDropdown
-                        header={"Search for a Condition by Prescription"}
+                        header="Search for a Condition by Prescription"
                         title={prescriptionDetails?.name}
-                        subtitle={"Select the associated condition(s) for this medication"}
+                        subtitle="Select the associated condition(s) for this medication"
                         submitLabel={"Next"}
                         handleApplyClick={onApplyClick}
                         handleCancelClick={() => {
