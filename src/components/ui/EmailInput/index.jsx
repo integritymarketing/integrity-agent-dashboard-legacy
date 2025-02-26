@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { InputAdornment, CircularProgress } from "@mui/material";
 import { TextInput } from "components/MuiComponents";
@@ -21,7 +21,7 @@ const EmailInput = ({ label, onValidation, size, defaultValue, ...props }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isEmailValid, setIsEmailValid] = useState(null);
     const [error, setError] = useState(null);
-    const [value, setValue] = useState(defaultValue);
+    const [value, setValue] = useState("");
 
     const { validateEmail } = useLeadDetails();
     const latestValueRef = useRef(value);
@@ -52,10 +52,8 @@ const EmailInput = ({ label, onValidation, size, defaultValue, ...props }) => {
                     status: isValid ? "success" : "error",
                     message: isValid ? validEmailMessage : emailUndeliverMsg,
                 });
-                setMessage(isValid ? validEmailMessage : emailUndeliverMsg);
             } catch (error) {
                 setIsEmailValid(null);
-                setMessage(null);
                 setError(serverErrorMessage);
             } finally {
                 setIsLoading(false);
@@ -94,6 +92,14 @@ const EmailInput = ({ label, onValidation, size, defaultValue, ...props }) => {
             });
         }
     };
+
+    useEffect(() => {
+        if (defaultValue) {
+            latestValueRef.current = defaultValue;
+            setValue(defaultValue);
+            checkEmailValidity(defaultValue);
+        }
+    }, [defaultValue, checkEmailValidity]);
 
     return (
         <div className={styles.inputContainer}>

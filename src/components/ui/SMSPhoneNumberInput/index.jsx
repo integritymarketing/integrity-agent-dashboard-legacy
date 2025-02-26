@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { InputAdornment, CircularProgress, Chip, Box } from "@mui/material";
 import { TextInput } from "components/MuiComponents";
@@ -110,6 +110,13 @@ const SMSPhoneNumberInput = ({ label, onValidation, size, defaultValue, ...props
             onValidation({ phone: digitsOnly, status: "", message: "", title: "" });
         }
     };
+
+    useEffect(() => {
+        if (defaultValue) {
+            setValue(defaultValue);
+            checkSMSCompatibility(defaultValue);
+        }
+    }, [defaultValue, checkSMSCompatibility]);
 
     return (
         <div className={styles.inputContainer}>
