@@ -19,6 +19,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
     const [showFilters, setShowFilters] = useState(false);
     const [selectedPlans, setSelectedPlans] = useState([]);
     const [lifeIulDetails, setLifeIulDetails] = useState(null);
+    const [quoteType, setQuoteType] = useState(null);
 
     const {
         Post: shareIulQuote,
@@ -67,6 +68,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
                         setLifeIulQuoteResults(response.result);
                     }
                     setTempUserDetails(response.result);
+                    setQuoteType(reqData?.quoteType);
                     if (reqData?.quoteType === "IULPROT-SOLVE") {
                         const faceAmounts = reqData?.inputs[0]?.faceAmounts;
                         const tabSelected = JSON.parse(sessionStorage.getItem("iul-protection-tab"));
@@ -116,6 +118,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
                 const updatedCarriers = individualCarriers.filter((carrier) => carrier !== value);
                 if (updatedCarriers.length === 0) {
                     setSelectedCarriers(["All carriers"]);
+                    setLifeIulQuoteResults(tempUserDetails);
                 } else {
                     setSelectedCarriers(individualCarriers.filter((carrier) => carrier !== value));
                 }
@@ -125,10 +128,29 @@ export const LifeIulQuoteProvider = ({ children }) => {
         }
     };
 
+    useEffect(() => {
+        const list =
+            quoteType === "IULPROT-SOLVE"
+                ? tempUserDetails?.filter((result) => result.input.faceAmount === parseInt(tabSelected))
+                : tempUserDetails;
+        if (selectedCarriers.includes("All carriers")) {
+            setLifeIulQuoteResults(list);
+        } else {
+            const updatedResults = list?.filter((result) => selectedCarriers.includes(result.companyName));
+            setLifeIulQuoteResults(updatedResults);
+        }
+    }, [selectedCarriers]);
+
     const handleTabSelection = (tab, list) => {
         setTabSelected(tab);
         const updatedResults = list?.filter((result) => result.input.faceAmount === parseInt(tab));
         setLifeIulQuoteResults(updatedResults);
+        if (selectedCarriers.includes("All carriers")) {
+            setLifeIulQuoteResults(updatedResults);
+        } else {
+            const results = updatedResults?.filter((result) => selectedCarriers.includes(result.companyName));
+            setLifeIulQuoteResults(results);
+        }
     };
 
     const handleComparePlanSelect = (plan) => {
@@ -217,15 +239,6 @@ export const LifeIulQuoteProvider = ({ children }) => {
         },
         [applyLifeIulQuoteDetails]
     );
-
-    useEffect(() => {
-        if (selectedCarriers.includes("All carriers")) {
-            setLifeIulQuoteResults(tempUserDetails);
-        } else {
-            const updatedResults = tempUserDetails.filter((result) => selectedCarriers.includes(result.companyName));
-            setLifeIulQuoteResults(updatedResults);
-        }
-    }, [selectedCarriers]);
 
     const contextValue = useMemo(
         () => ({
