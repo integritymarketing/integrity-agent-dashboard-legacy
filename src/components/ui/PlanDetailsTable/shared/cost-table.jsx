@@ -246,30 +246,25 @@ export function CostCompareTable({ plans, effectiveDate }) {
         return copyPlans;
     }, [plans]);
 
-    const columns = useMemo(
-        () => [
+    const columns = useMemo(() => {
+        return [
             {
-                Header: "Costs",
-                columns: [
-                    {
-                        id: "label",
-                        hideHeader: true,
-                        cell: ({ row }) => row.original.label,
-                    },
-                    ...clonedPlans.map((plan, index) => ({
-                        id: `plan-${index}`,
-                        header: "Value",
-                        cell: ({ row }) => row.original[`plan-${index}`],
-                    })),
-                ],
+                id: "cost-label",
+                header: "Label",
+                cell: ({ row }) => row.original.label, // ✅ Ensuring labels appear
             },
-        ],
-        [clonedPlans]
-    );
+            ...clonedPlans.map((plan, index) => ({
+                id: `plan-${index}`,
+                header: `Plan ${index + 1}`,
+                cell: ({ row }) => row.original[`plan-${index}`] ?? "-",
+            })),
+        ];
+    }, [clonedPlans]);
+
     const data = [
         {
             label: <PremiumLabel />,
-            ...clonedPlans?.reduce((acc, plan, index) => {
+            ...clonedPlans.reduce((acc, plan, index) => {
                 acc[`plan-${index}`] = plan ? <PremiumCell planData={plan} /> : "-";
                 return acc;
             }, {}),
@@ -279,14 +274,10 @@ export function CostCompareTable({ plans, effectiveDate }) {
                 <EstRxLabel
                     effectiveYear={y}
                     effectiveMonth={getMonthShortName(parseInt(m) - 1)}
-                    drugsCount={
-                        (clonedPlans?.[0]?.pharmacyCosts?.length > 0 &&
-                            clonedPlans?.[0]?.pharmacyCosts[0]?.drugCosts?.length) ||
-                        0
-                    }
+                    drugsCount={clonedPlans[0]?.pharmacyCosts?.[0]?.drugCosts?.length || 0}
                 />
             ),
-            ...clonedPlans?.reduce((acc, plan, index) => {
+            ...clonedPlans.reduce((acc, plan, index) => {
                 acc[`plan-${index}`] = plan ? (
                     <EstRxValue planData={plan} monthNumber={parseInt(m)} effectiveStartDate={effectiveStartDate} />
                 ) : (
@@ -297,7 +288,7 @@ export function CostCompareTable({ plans, effectiveDate }) {
         },
         {
             label: <TotalEstLabel effectiveMonth={getMonthShortName(parseInt(m) - 1)} effectiveYear={y} />,
-            ...clonedPlans?.reduce((acc, plan, index) => {
+            ...clonedPlans.reduce((acc, plan, index) => {
                 acc[`plan-${index}`] = plan ? (
                     <TotalEstValue planData={plan} effectiveStartDate={effectiveStartDate} monthNumber={parseInt(m)} />
                 ) : (

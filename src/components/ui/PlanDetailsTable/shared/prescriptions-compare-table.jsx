@@ -43,7 +43,7 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
 
     for (let i = 0, len = prescriptions.length; i < len; i++) {
         const planDrugCoverage = plans[0]?.planDrugCoverage?.[i];
-        rows[i] = {
+        rows.push({
             data: {
                 gap: [],
                 copay: [],
@@ -54,17 +54,16 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
                 drugName: planDrugCoverage?.labelName,
                 type: planDrugCoverage?.tierDescription || "Non-Preferred Drug",
             },
-        };
+        });
+
         plans.forEach(({ pharmacyCosts } = {}, planIndex) => {
             const currentDrugCoverage = plans[planIndex]?.planDrugCoverage?.[i];
             const rowData = rows[i]?.data;
 
-            let pharmacy;
-            if (Object.keys(selectedPharmacy).length && selectedPharmacy?.pharmacyId) {
-                pharmacy = pharmacyCosts?.find((rx) => rx?.pharmacyID === selectedPharmacy?.pharmacyId);
-            } else {
-                pharmacy = pharmacyCosts?.find((rx) => rx?.pharmacyType === 2);
-            }
+            let pharmacy =
+                selectedPharmacy?.pharmacyId && Object.keys(selectedPharmacy).length
+                    ? pharmacyCosts?.find((rx) => rx?.pharmacyID === selectedPharmacy?.pharmacyId)
+                    : pharmacyCosts?.find((rx) => rx?.pharmacyType === 2);
 
             const costs = pharmacy?.drugCosts?.find((pres) => pres.labelName === planDrugCoverage?.labelName) || {};
 
@@ -82,23 +81,24 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
             rowData.covered[planIndex] = currentDrugCoverage?.tierNumber > 0;
         });
     }
+
+    // ✅ Ensure last row is pushed properly, not overwriting any prescriptions
     rows.push({
         data: {
             startMonth,
             cost: plans.map((plan) => {
-                let pharmacy;
-                if (Object.keys(selectedPharmacy).length && selectedPharmacy?.pharmacyId) {
-                    pharmacy = plan?.estimatedCostCalculationRxs?.find(
-                        (rx) => rx?.pharmacyId === selectedPharmacy?.pharmacyId
-                    );
-                } else {
-                    pharmacy = plan?.estimatedCostCalculationRxs?.find((rx) => rx?.isMailOrder);
-                }
+                let pharmacy =
+                    selectedPharmacy?.pharmacyId && Object.keys(selectedPharmacy).length
+                        ? plan?.estimatedCostCalculationRxs?.find(
+                              (rx) => rx?.pharmacyId === selectedPharmacy?.pharmacyId
+                          )
+                        : plan?.estimatedCostCalculationRxs?.find((rx) => rx?.isMailOrder);
 
                 return pharmacy?.estimatedYearlyRxDrugCost;
             }),
         },
     });
+
     return rows;
 };
 
@@ -110,13 +110,14 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
     const columns = useMemo(() => {
         return [
             {
-                Header: "Prescriptions",
+                id: "prescriptions-group",
+                header: "Prescriptions",
                 columns: [
                     {
                         id: "drugName",
                         header: "Drug Name",
                         cell: ({ row }) =>
-                            renderCell(row.original.data, row.index, prescriptions.length, prescriptions),
+                            renderCell(row.original.data, row.index, prescriptions.length + 1, prescriptions),
                     },
                 ],
             },
@@ -141,7 +142,8 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
 
     const emptyColumnsData = [
         {
-            Header: "Prescriptions",
+            id: "empty-prescriptions-group",
+            header: "Prescriptions",
             columns: [
                 {
                     id: "noData",
@@ -152,12 +154,7 @@ export function PrescriptionsCompareTable({ plans = [], prescriptions = [], apiE
         },
     ];
 
-    const rowData = [
-        {
-            unAvailable: <APIFail title={"Prescription"} />,
-        },
-    ];
-
+    const rowData = [{ unAvailable: <APIFail title={"Prescription"} /> }];
     const emptyRowData = [];
 
     return (

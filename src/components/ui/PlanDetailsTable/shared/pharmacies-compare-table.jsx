@@ -31,12 +31,6 @@ export function PharmaciesCompareTable({ plans, pharmacies, apiError }) {
                         header: "Pharmacy Name",
                         cell: ({ row }) => <span className="label">{row.original.name}</span>,
                     },
-                    {
-                        id: "address",
-                        accessorKey: "address",
-                        header: "Address",
-                        cell: ({ row }) => <span>{row.original.address}</span>,
-                    },
                     ...clonedPlans.map((plan, index) => ({
                         id: `plan-${index}`,
                         accessorKey: `plan-${index}`,
