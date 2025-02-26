@@ -82,7 +82,6 @@ const getTableData = (plans = [], prescriptions = [], startMonth) => {
         });
     }
 
-    // ✅ Ensure last row is pushed properly, not overwriting any prescriptions
     rows.push({
         data: {
             startMonth,

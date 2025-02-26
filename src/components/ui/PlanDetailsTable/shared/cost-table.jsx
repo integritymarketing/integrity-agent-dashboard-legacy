@@ -161,12 +161,12 @@ const CostTable = ({ planData }) => {
                     {
                         id: "cost-label",
                         header: "Label",
-                        cell: ({ row }) => row.original.label, // ✅ Corrected from `accessor`
+                        cell: ({ row }) => row.original.label,
                     },
                     {
                         id: "cost-value",
                         header: "Value",
-                        cell: ({ row }) => row.original.value, // ✅ Corrected from `accessor`
+                        cell: ({ row }) => row.original.value, 
                     },
                 ],
             },
@@ -251,7 +251,7 @@ export function CostCompareTable({ plans, effectiveDate }) {
             {
                 id: "cost-label",
                 header: "Label",
-                cell: ({ row }) => row.original.label, // ✅ Ensuring labels appear
+                cell: ({ row }) => row.original.label,
             },
             ...clonedPlans.map((plan, index) => ({
                 id: `plan-${index}`,
