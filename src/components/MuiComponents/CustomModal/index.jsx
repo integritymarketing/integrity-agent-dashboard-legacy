@@ -31,7 +31,11 @@ export default function CustomModal({
     return (
         <Dialog onClose={handleClose} open={open} maxWidth={maxWidth} fullWidth>
             <DialogTitle className={styles.dialogTitle}>
-                {title && <Typography variant={isSmallScreen ? "h3" : "h2"}>{title}</Typography>}
+                {title && (
+                    <Typography variant={isSmallScreen ? "h3" : "h2"} style={{ color: "#052A63" }}>
+                        {title}
+                    </Typography>
+                )}
                 {showCloseButton && (
                     <Box className={styles.closeButton} onClick={handleClose}>
                         <CloseIcon />
