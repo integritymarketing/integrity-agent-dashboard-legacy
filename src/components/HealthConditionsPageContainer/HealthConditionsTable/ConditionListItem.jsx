@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { Incomplete, ActionsRename } from "@integritymarketing/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faCircleCheck } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
-function ConditionListItem({ label, onEdit, isComplete, isExpired, isIncomplete }) {
+
+function ConditionListItem({ label, onEdit, areUwQuestionsComplete, areUwQuestionsExpired }) {
     return (
         <Grid
             container
@@ -22,25 +23,19 @@ function ConditionListItem({ label, onEdit, isComplete, isExpired, isIncomplete 
             </Grid>
 
             <Grid item>
-                <Stack direction="row" gap={3}>
-                    <Button
-                        disabled
-                        size="small"
-                        variant="link"
-                        sx={{ color: "#6366F1", border: "none" }}
-                        startIcon={
-                            isComplete ? (
-                                <FontAwesomeIcon icon={faCircleCheck} size="lg" color="#717171" />
-                            ) : isExpired ? (
-                                <FontAwesomeIcon icon={faCircleXmark} size="lg" color="#C81E27" />
-                            ) : (
-                                <Incomplete />
-                            )
-                        }
-                    >
-                        {isComplete ? "Complete" : isExpired ? "Expired" : "Incomplete"}
-                    </Button>
-
+                <Stack direction="row" gap={3} alignItems="center">
+                    <Box display="flex" gap={1}>
+                        {areUwQuestionsComplete ? (
+                            <FontAwesomeIcon icon={faCircleCheck} size="lg" color="#717171" />
+                        ) : areUwQuestionsExpired ? (
+                            <FontAwesomeIcon icon={faCircleXmark} size="lg" color="#C81E27" />
+                        ) : (
+                            <Incomplete />
+                        )}
+                        <Typography sx={{ color: areUwQuestionsExpired ? "#C81E27" : "" }}>
+                            {areUwQuestionsComplete ? "Complete" : areUwQuestionsExpired ? "Expired" : "Incomplete"}
+                        </Typography>
+                    </Box>
                     <Button
                         size="small"
                         variant="link"

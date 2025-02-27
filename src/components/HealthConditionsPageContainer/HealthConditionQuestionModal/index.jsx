@@ -12,8 +12,12 @@ function HealthConditionQuestionModal({
     contactId,
     onSuccessOfHealthConditionQuestionModal,
 }) {
-    const { healthConditionsQuestions, clearConditionalQuestionData, updateHealthConditionsQuestionsPost } =
-        useConditions();
+    const {
+        healthConditionsQuestions,
+        clearConditionalQuestionData,
+        updateHealthConditionsQuestionsPost,
+        fetchHealthConditions,
+    } = useConditions();
 
     const [currentQuestion, setCurrentQuestion] = useState(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
@@ -87,6 +91,7 @@ function HealthConditionQuestionModal({
         setValues(null);
         clearConditionalQuestionData();
         onClose();
+        fetchHealthConditions(contactId);
     };
 
     return (
