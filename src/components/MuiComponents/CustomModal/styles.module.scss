@@ -1,45 +1,45 @@
 @use "scss/globalDefines" as defines_global;
 
 .dialogTitle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .closeButton {
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
 }
 
 .modalBody {
-  overflow: auto;
-  padding: 24px;
-  color: var(--Integrity-Theme-Integrity-gray-dark-4);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 16px;
-  background-color: rgb(241, 241, 241);
+    overflow: auto;
+    padding: 24px;
+    color: var(--Integrity-Theme-Integrity-gray-dark-4);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 16px;
+    background-color: rgb(241, 241, 241);
 
-  @include defines_global.small {
-    padding: 24px 16px;
-  }
+    @include defines_global.small {
+        padding: 24px 16px;
+    }
 }
 
 .content {
-  color: var(--Integrity-Theme-Integrity-gray-dark-4);
-  line-height: 20px;
-  display: flex;
-  flex-direction: column;
-  border-radius: 8px;
+    color: var(--Integrity-Theme-Integrity-gray-dark-4);
+    line-height: 20px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
 }
 
 .footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--Integrity-Theme-Integrity-gray-light-1);
-  padding: 0 24px 24px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(241, 241, 241);
+    padding: 24px !important;
 }

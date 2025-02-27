@@ -1,22 +1,26 @@
 @use "scss/globalDefines" as defines_global;
 
-.addNewButton{
-  padding: 8px 14px !important;
-  border-radius: 20px !important;
+.container {
+    padding: 15px 0;
+}
 
-  span {
-     font-size: 16px !important;
-     color: #4178FF !important;
-     font-weight: 500;
- }
+.addNewButton {
+    padding: 8px 10px !important;
+    border-radius: 20px !important;
 
- &:hover {
-     background-color: #FFF !important;
-     box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
- }
+    span {
+        font-size: 16px !important;
+        color: #4178ff !important;
+        font-weight: 500;
+    }
 
- @include defines_global.small {
-     background-color: #FFF !important;
-     box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
- }
+    &:hover {
+        background-color: #fff !important;
+        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
+    }
+
+    @include defines_global.small {
+        background-color: #fff !important;
+        box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
+    }
 }

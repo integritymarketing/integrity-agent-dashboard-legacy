@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Box from "@mui/material/Box";
 import { useOverView, useLeadDetails } from "providers/ContactDetails";
 import { AddNewTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/AddNewTagModal/AddNewTagModal";
 import { AssignNewTagModal } from "components/ContactDetailsContainer/ContactDetailsModals/AssignNewTagModal/AssignNewTagModal";
@@ -91,21 +90,19 @@ const AssignNewTagContainer = ({ allTags, selectedTags, leadId, categoryID, isMo
 
     return (
         <div className={styles.container}>
-            <Box>
-                <Button
-                    label={"Assign New Tag"}
-                    className={styles.addNewButton}
-                    type="tertiary"
-                    onClick={() => {
-                        setAssignNewTagModal(true);
-                        fireEvent("Contact Profile Tag Interaction", {
-                            leadid: leadId,
-                        });
-                    }}
-                    icon={<AddCircleOutlineIcon sx={{ color: "#4178ff" }} />}
-                    iconPosition="left"
-                />
-            </Box>
+            <Button
+                label={"Assign New Tag"}
+                className={styles.addNewButton}
+                type="tertiary"
+                onClick={() => {
+                    setAssignNewTagModal(true);
+                    fireEvent("Contact Profile Tag Interaction", {
+                        leadid: leadId,
+                    });
+                }}
+                icon={<AddCircleOutlineIcon sx={{ color: "#4178ff" }} />}
+                iconPosition="left"
+            />
 
             {isDeleteTagModalOpen && (
                 <DeleteTagModal
