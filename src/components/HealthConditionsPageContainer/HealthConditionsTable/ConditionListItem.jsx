@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import { Incomplete, ActionsRename } from "@integritymarketing/icons";
+import { ActionsRename } from "@integritymarketing/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark, faCircleCheck } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+import { faCheckIncomplete } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
 
 function ConditionListItem({ label, onEdit, areUwQuestionsComplete, areUwQuestionsExpired }) {
     return (
@@ -30,9 +31,17 @@ function ConditionListItem({ label, onEdit, areUwQuestionsComplete, areUwQuestio
                         ) : areUwQuestionsExpired ? (
                             <FontAwesomeIcon icon={faCircleXmark} size="lg" color="#C81E27" />
                         ) : (
-                            <Incomplete />
+                            <FontAwesomeIcon icon={faCheckIncomplete} size="lg" color="#4178FF" />
                         )}
-                        <Typography sx={{ color: areUwQuestionsExpired ? "#C81E27" : "" }}>
+                        <Typography
+                            sx={{
+                                color: areUwQuestionsExpired
+                                    ? "#C81E27"
+                                    : areUwQuestionsComplete
+                                    ? "#717171"
+                                    : "#4178FF",
+                            }}
+                        >
                             {areUwQuestionsComplete ? "Complete" : areUwQuestionsExpired ? "Expired" : "Incomplete"}
                         </Typography>
                     </Box>
@@ -65,9 +74,8 @@ function ConditionListItem({ label, onEdit, areUwQuestionsComplete, areUwQuestio
 ConditionListItem.propTypes = {
     label: PropTypes.string.isRequired,
     onEdit: PropTypes.func.isRequired,
-    isComplete: PropTypes.bool,
-    isExpired: PropTypes.bool,
-    isIncomplete: PropTypes.bool,
+    areUwQuestionsComplete: PropTypes.bool,
+    areUwQuestionsExpired: PropTypes.bool,
 };
 
 export default ConditionListItem;

@@ -117,7 +117,7 @@ function HealthConditionQuestionModal({
                     <>
                         {currentQuestion.type == "DATE" ? (
                             <ConditionalPopupDatePicker
-                                header={"Search for a Condition by Prescription"}
+                                header={"Search for a Condition"}
                                 title={currentQuestion.conditionName}
                                 contentHeading={currentQuestion.displayLabel}
                                 handleApplyClick={handleApplyClick}
