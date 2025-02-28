@@ -43,6 +43,16 @@ function HealthConditionQuestionModal({
 
             setQuestionData(tempQuestionData);
         }
+
+        if (
+            !Array.isArray(healthConditionsQuestions) &&
+            "questions" in healthConditionsQuestions &&
+            healthConditionsQuestions
+        ) {
+            setQuestionData(
+                healthConditionsQuestions.questions.items.map((question) => ({ ...question, ...selectedCondition[0] }))
+            );
+        }
     }, [healthConditionsQuestions, selectedCondition]);
 
     useEffect(() => {
@@ -150,7 +160,6 @@ function HealthConditionQuestionModal({
 HealthConditionQuestionModal.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    question: PropTypes.string.isRequired,
     selectedCondition: PropTypes.string.isRequired,
     contactId: PropTypes.string.isRequired,
     onSuccessOfHealthConditionQuestionModal: PropTypes.func.isRequired,

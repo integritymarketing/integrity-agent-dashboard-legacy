@@ -25,11 +25,13 @@ export const ConditionsProvider = ({ children }) => {
     const { Get: getPrescriptionConditions, loading: getPrescriptionConditionsLoading } = useFetch(URL_V4);
 
     const { Post: postHealthConditions, loading: postHealthConditionsLoading } = useFetch(POST_HEALTH_CONDITIONS);
-    const { Get: getHealthConditionsQuestions, loading: getHealthConditionsQuestionsLoading } = useFetch(
-        GET_HEALTH_CONDITIONS_QUESTIONS,
-    );
+    const {
+        Get: getHealthConditionsQuestions,
+        loading: getHealthConditionsQuestionsLoading,
+        data: getHealthConditionsQuestionsData,
+    } = useFetch(GET_HEALTH_CONDITIONS_QUESTIONS);
     const { Patch: updateHealthConditionsQuestions, loading: updateHealthConditionsQuestionsLoading } = useFetch(
-        UPDATE_HEALTH_CONDITIONS_QUESTIONS,
+        UPDATE_HEALTH_CONDITIONS_QUESTIONS
     );
 
     const { Post: updateHealthConditionsQuestionsPostCall, isLoading: updateHealthConditionsQuestionsPostCallLoading } =
@@ -55,7 +57,7 @@ export const ConditionsProvider = ({ children }) => {
                 showToast({ type: "error", message: "Failed to search health conditions" });
             }
         },
-        [getHealthConditions],
+        [getHealthConditions]
     );
 
     const fetchSearchHealthConditions = useCallback(
@@ -68,7 +70,7 @@ export const ConditionsProvider = ({ children }) => {
                 showToast({ type: "error", message: "Failed to search health conditions" });
             }
         },
-        [searchHealthConditions, showToast],
+        [searchHealthConditions, showToast]
     );
 
     const fetchPrescriptionConditions = useCallback(
@@ -82,7 +84,7 @@ export const ConditionsProvider = ({ children }) => {
                 showToast({ type: "error", message: "Failed to get the prescription conditions" });
             }
         },
-        [getPrescriptionConditions, showToast],
+        [getPrescriptionConditions, showToast]
     );
 
     const addHealthConditions = useCallback(
@@ -97,10 +99,10 @@ export const ConditionsProvider = ({ children }) => {
                 async () => {
                     showToast({ message: "Health Conditions Applied" });
                     await fetchHealthConditionsQuestions(leadId);
-                },
+                }
             );
         },
-        [postHealthConditions],
+        [postHealthConditions]
     );
 
     const fetchHealthConditionsQuestions = useCallback(
@@ -114,8 +116,19 @@ export const ConditionsProvider = ({ children }) => {
                 showToast({ type: "error", message: "Failed to get the health conditions questions" });
             }
         },
-        [getHealthConditionsQuestions, showToast],
+        [getHealthConditionsQuestions, showToast]
     );
+
+    const fetchHealthConditionsQuestionsByCondtionId = useCallback(async (leadId, conditionId) => {
+        try {
+            const path = `${leadId}/condition/${conditionId}`;
+            let data = await getHealthConditionsQuestions(null, false, path);
+            setHealthConditionsQuestions(data);
+        } catch (error) {
+            console.log("error", error);
+            showToast({ type: "error", message: "Failed to get the health conditions questions" });
+        }
+    }, []);
 
     const updateHealthConditionsQuestion = useCallback(
         async (payload, leadId) => {
@@ -127,7 +140,7 @@ export const ConditionsProvider = ({ children }) => {
                 showToast({ type: "error", message: "Failed to update the health conditions questions" });
             }
         },
-        [updateHealthConditionsQuestions, showToast],
+        [updateHealthConditionsQuestions, showToast]
     );
 
     const updateHealthConditionsQuestionsPost = useCallback(
@@ -140,7 +153,7 @@ export const ConditionsProvider = ({ children }) => {
                 showToast({ type: "error", message: "Failed to update the health conditions questions" });
             }
         },
-        [updateHealthConditionsQuestionsPostCall, showToast],
+        [updateHealthConditionsQuestionsPostCall, showToast]
     );
 
     const handleHealthConditionClose = useCallback(() => {
@@ -171,6 +184,8 @@ export const ConditionsProvider = ({ children }) => {
             updateHealthConditionsQuestionsPost,
             updateHealthConditionsQuestionsPostCallLoading,
             postHealthConditionsLoading,
+            fetchHealthConditionsQuestionsByCondtionId,
+            getHealthConditionsQuestionsData,
         }),
         [
             fetchSearchHealthConditions,
@@ -191,7 +206,10 @@ export const ConditionsProvider = ({ children }) => {
             updateHealthConditionsQuestionsPost,
             updateHealthConditionsQuestionsPostCallLoading,
             postHealthConditionsLoading,
-        ],
+            fetchHealthConditionsQuestionsByCondtionId,
+            getHealthConditionsQuestionsData,
+            getHealthConditionsQuestionsLoading,
+        ]
     );
     return <ConditionsContext.Provider value={contextValue}>{children}</ConditionsContext.Provider>;
 };

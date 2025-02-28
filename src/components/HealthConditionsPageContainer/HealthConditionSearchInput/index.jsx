@@ -3,15 +3,21 @@ import { debounce } from "lodash";
 import HealthConditionSearchSection from "../HealthConditionSearch";
 import { useConditions } from "providers/Life/Conditions/ConditionsContext";
 import useUserProfile from "hooks/useUserProfile";
+import HealthConditionQuestionModal from "../HealthConditionQuestionModal";
+import { useConditions as useConditionsHook } from "providers/Conditions";
 
 function HealthConditionSearchInput({ contactId }) {
     const [searchValue, setSearchValue] = useState("");
     const [conditions, setConditions] = useState([]);
+    const [selectedCondition, setSelectedCondition] = useState(null);
 
     const agentUserProfile = useUserProfile();
 
     const { fetchConditionsList, isLoadingConditions, saveHealthConditionDetails, isSavingHealthCondition } =
         useConditions();
+
+    const { fetchHealthConditionsQuestionsByCondtionId, getHealthConditionsQuestionsData, fetchHealthConditions } =
+        useConditionsHook();
 
     const fetchConditions = useCallback(
         debounce(async (query) => {
@@ -46,7 +52,6 @@ function HealthConditionSearchInput({ contactId }) {
             hasLookBackPeriod: false,
             consumerId: 0,
         };
-
         try {
             const response = await saveHealthConditionDetails(payload);
             if (response) {
@@ -58,16 +63,40 @@ function HealthConditionSearchInput({ contactId }) {
         }
     };
 
+    const handleOptionSelection = async (condition) => {
+        await saveSelectedCondition(condition);
+        setSelectedCondition(condition);
+        await fetchHealthConditionsQuestionsByCondtionId(contactId, condition?.conditionId);
+    };
+
+    const onSuccessOfHealthConditionQuestionModal = async () => {
+        setSelectedCondition(null);
+        await fetchHealthConditions(contactId);
+    };
+
     return (
-        <HealthConditionSearchSection
-            title="Or search for a health condition"
-            placeholder="Search"
-            value={searchValue}
-            onChange={handleInputChange}
-            conditions={conditions}
-            handleSelect={saveSelectedCondition}
-            loading={isLoadingConditions || isSavingHealthCondition}
-        />
+        <>
+            <HealthConditionSearchSection
+                title="Or search for a health condition"
+                placeholder="Search"
+                value={searchValue}
+                onChange={handleInputChange}
+                conditions={conditions}
+                handleSelect={handleOptionSelection}
+                loading={isLoadingConditions || isSavingHealthCondition}
+            />
+            {selectedCondition && getHealthConditionsQuestionsData && (
+                <HealthConditionQuestionModal
+                    open={selectedCondition && getHealthConditionsQuestionsData}
+                    onClose={() => {
+                        setSelectedCondition(null);
+                    }}
+                    contactId={contactId}
+                    onSuccessOfHealthConditionQuestionModal={onSuccessOfHealthConditionQuestionModal}
+                    selectedCondition={[selectedCondition]}
+                />
+            )}
+        </>
     );
 }
 
