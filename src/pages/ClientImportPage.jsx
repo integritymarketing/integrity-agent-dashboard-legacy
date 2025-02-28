@@ -40,7 +40,8 @@ const ClientImportPage = () => {
                 <p className="mt-2 mb-2">
                     Import a list of contacts in .csv format. To create a .csv file in Microsoft Excel, click on the
                     File menu, then click Save As. In the file format dropdown, choose Comma Separated Values (.csv).
-                    The following fields are available for import (all are optional except Email and Phone):
+                    The following fields are available for import (all are optional except first/last name, email, and
+                    phone):
                 </p>
                 <ul className="list-disc">
                     <li>First Name</li>
