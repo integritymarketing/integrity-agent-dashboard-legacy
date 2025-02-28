@@ -6,7 +6,7 @@ export class CallRecordingsService {
     }
 
     getAllCallRecordingsByAgent = async (isLinkToContact = false) => {
-        const baseUrl = `${import.meta.env.VITE_COMMUNICATION_API}/Call/Records?UnAssistedCallRecordingsOnly=true`;
+        const baseUrl = `${import.meta.env.VITE_COMMUNICATION_API}/Call/Records`;
         const url = isLinkToContact ? `${baseUrl}&Sort=callStartTime:desc` : `${baseUrl}&CallStatus=in-progress`;
 
         const response = await this._clientAPIRequest(url);
