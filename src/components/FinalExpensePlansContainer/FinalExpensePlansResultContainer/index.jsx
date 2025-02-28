@@ -52,6 +52,7 @@ const FinalExpensePlansResultContainer = () => {
     const [isRTS, setIsRTS] = useState();
     const [quoteOptionsInfoModalOpen, setQuoteOptionsInfoModalOpen] = useState(false);
     const [coverageTypeInfoModalOpen, setCoverageTypeInfoModalOpen] = useState(false);
+    const [rateClasses, setRateClasses] = useState(["Standard"]);
 
     const { agentInformation } = useAgentInformationByID();
     const { isSimplifiedIUL } = useCreateNewQuote();
@@ -210,6 +211,15 @@ const FinalExpensePlansResultContainer = () => {
         [isShowExcludedProducts]
     );
 
+    const handleRateClassChange = (value) => {
+        const newRateClass = rateClasses.includes(value);
+        if (newRateClass) {
+            setRateClasses(rateClasses.filter((item) => item !== value));
+        } else {
+            setRateClasses([...rateClasses, value]);
+        }
+    };
+
     const covAmtError = useMemo(() => {
         return coverageAmount < covMin || coverageAmount > covMax;
     }, [coverageAmount, covMin, covMax]);
@@ -363,7 +373,7 @@ const FinalExpensePlansResultContainer = () => {
                                             infoIcon={
                                                 <Popover
                                                     openOn="hover"
-                                                    description="Select the rating classes displayed in results. Note: Some products may have additional qualifications for preferred rates.  Please validate eligibility with the carrier when applying for preferred rates"
+                                                    description="Select the rating classes displayed in results. Note: Some products may have additional qualifications for preferred rates.&nbsp; Please validate eligibility with the carrier when applying for preferred rates"
                                                     positions={isMobile ? ["bottom"] : ["right", "bottom"]}
                                                 >
                                                     <FontAwesomeIcon icon={faCircleInfo} color="blue" />
@@ -373,48 +383,68 @@ const FinalExpensePlansResultContainer = () => {
                                             <div className={styles.checkboxesWrapper}>
                                                 <div
                                                     className={`${styles.checkbox} ${
-                                                        isMyAppointedProducts ? styles.selectedCheckbox : ""
+                                                        rateClasses.includes("Standard") ? styles.selectedCheckbox : ""
                                                     } ${!isRTS ? styles.inActive : ""}`}
-                                                    onClick={() =>
-                                                        handleMyAppointedProductsCheck(!isMyAppointedProducts)
-                                                    }
+                                                    onClick={() => handleRateClassChange("Standard")}
                                                 >
-                                                    {isMyAppointedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                                    {rateClasses.includes("Standard") ? (
+                                                        <CheckedIcon />
+                                                    ) : (
+                                                        <UnCheckedIcon />
+                                                    )}{" "}
                                                     <Typography variant="body2" color="#434A51">
                                                         Standard
                                                     </Typography>
                                                 </div>
                                                 <div
                                                     className={`${styles.checkbox} ${
-                                                        isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                                        rateClasses.includes("Preferred") ? styles.selectedCheckbox : ""
                                                     }`}
-                                                    onClick={() =>
-                                                        handleIsShowExcludedProductsCheck(!isShowExcludedProducts)
-                                                    }
+                                                    onClick={() => handleRateClassChange("Preferred")}
                                                 >
-                                                    {isShowExcludedProducts ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                                    {rateClasses.includes("Preferred") ? (
+                                                        <CheckedIcon />
+                                                    ) : (
+                                                        <UnCheckedIcon />
+                                                    )}{" "}
                                                     <Typography variant="body2" color="#434A51">
                                                         Preferred
                                                     </Typography>
                                                 </div>
                                                 <div
                                                     className={`${styles.checkbox} ${
-                                                        isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                                        rateClasses.includes("Super Preferred")
+                                                            ? styles.selectedCheckbox
+                                                            : ""
                                                     }`}
-                                                    onClick={() => {}}
+                                                    onClick={() => {
+                                                        handleRateClassChange("Super Preferred");
+                                                    }}
                                                 >
-                                                    {false ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                                    {rateClasses.includes("Super Preferred") ? (
+                                                        <CheckedIcon />
+                                                    ) : (
+                                                        <UnCheckedIcon />
+                                                    )}{" "}
                                                     <Typography variant="body2" color="#434A51">
                                                         Super Preferred
                                                     </Typography>
                                                 </div>
                                                 <div
                                                     className={`${styles.checkbox} ${
-                                                        isShowExcludedProducts ? styles.selectedCheckbox : ""
+                                                        rateClasses.includes("Sub Standard")
+                                                            ? styles.selectedCheckbox
+                                                            : ""
                                                     }`}
-                                                    onClick={() => {}}
+                                                    onClick={() => {
+                                                        handleRateClassChange("Sub Standard");
+                                                    }}
                                                 >
-                                                    {false ? <CheckedIcon /> : <UnCheckedIcon />}{" "}
+                                                    {rateClasses.includes("Sub Standard") ? (
+                                                        <CheckedIcon />
+                                                    ) : (
+                                                        <UnCheckedIcon />
+                                                    )}{" "}
                                                     <Typography variant="body2" color="#434A51">
                                                         Sub Standard
                                                     </Typography>
@@ -443,6 +473,7 @@ const FinalExpensePlansResultContainer = () => {
                         coverageAmount={coverageAmount}
                         monthlyPremium={monthlyPremiumAmount}
                         coverageType={coverageType}
+                        rateClasses={rateClasses}
                         handleTabSelect={handleTabSelect}
                         selectedTab={selectedTab}
                         isMyAppointedProducts={isMyAppointedProducts}

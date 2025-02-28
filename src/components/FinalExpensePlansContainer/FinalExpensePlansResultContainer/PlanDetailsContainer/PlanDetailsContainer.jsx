@@ -53,6 +53,7 @@ import { useCreateNewQuote } from "../../../../providers/CreateNewQuote";
 export const PlanDetailsContainer = ({
     selectedTab,
     coverageType,
+    rateClasses,
     coverageAmount,
     monthlyPremium,
     isShowExcludedProducts,
@@ -87,7 +88,7 @@ export const PlanDetailsContainer = ({
     const { Get: getHealthConditions } = useFetch(`${HEALTH_CONDITION_API}${contactId}`);
     const { updateErrorMesssage, errorMessage, actionLink } = useFinalExpenseErrorMessage(
         handleMyAppointedProductsCheck,
-        handleIsShowExcludedProductsCheck,
+        handleIsShowExcludedProductsCheck
     );
     const navigate = useNavigate();
     const leadDetailsData = Boolean(leadDetails);
@@ -110,7 +111,7 @@ export const PlanDetailsContainer = ({
         if (!code || !birthdate) {
             return;
         }
-        const covType = coverageType === "Standard Final Expense" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
+        const covType = coverageType === "Best Available" ? COVERAGE_TYPE_FINALOPTION : [coverageType];
         const age = getAgeFromBirthDate(birthdate);
         const todayDate = formatDate(new Date(), "yyyy-MM-dd");
         const conditions = [];
@@ -135,6 +136,7 @@ export const PlanDetailsContainer = ({
             desiredFaceValue: selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
             desiredMonthlyRate: selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
             coverageTypes: isSimplifiedIUL() ? ["SIMPLIFIED_IUL"] : covType || [COVERAGE_TYPE[4].value],
+            rateClasses: rateClasses || ["Standard"],
             effectiveDate: todayDate,
             underWriting: {
                 user: { height: height || 0, weight: weight || 0 },
@@ -168,6 +170,7 @@ export const PlanDetailsContainer = ({
         selectedTab,
         updateErrorMesssage,
         isSimplifiedIUL,
+        rateClasses,
     ]);
 
     const setFinalExpensePlansFromResult = useCallback(
@@ -210,7 +213,7 @@ export const PlanDetailsContainer = ({
                 }
             }
         },
-        [isMyAppointedProducts, isRTS, isShowExcludedProducts, isSimplifiedIUL],
+        [isMyAppointedProducts, isRTS, isShowExcludedProducts, isSimplifiedIUL]
     );
 
     useEffect(() => {
@@ -263,6 +266,7 @@ export const PlanDetailsContainer = ({
         monthlyPremium,
         selectedTab,
         coverageType,
+        rateClasses,
         isLoadingHealthConditions,
         leadDetailsData,
         isShowExcludedProducts,
@@ -278,10 +282,10 @@ export const PlanDetailsContainer = ({
                 isShowExcludedProducts && isMyAppointedProducts
                     ? ["My Appointed Products", "Show Excluded Products"]
                     : isMyAppointedProducts
-                        ? ["My Appointed Products"]
-                        : isShowExcludedProducts
-                            ? ["Show Excluded Products"]
-                            : [],
+                    ? ["My Appointed Products"]
+                    : isShowExcludedProducts
+                    ? ["Show Excluded Products"]
+                    : [],
             coverage_vs_premium: selectedTab === COVERAGE_AMOUNT ? "coverage" : "premium",
             quote_coverage_amount: selectedTab === COVERAGE_AMOUNT ? coverageAmount : null,
             quote_monthly_premium: selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
@@ -389,10 +393,10 @@ export const PlanDetailsContainer = ({
             </Box>
             {actions.length
                 ? actions.map((_actionLink, index) => (
-                    <Box key={index} onClick={_actionLink.callbackFunc} className={styles.link}>
-                        {_actionLink.text}
-                    </Box>
-                ))
+                      <Box key={index} onClick={_actionLink.callbackFunc} className={styles.link}>
+                          {_actionLink.text}
+                      </Box>
+                  ))
                 : ""}
         </Box>
     );
@@ -468,7 +472,7 @@ export const PlanDetailsContainer = ({
                                 if (reason?.categoryReasons?.length > 0) {
                                     conditionList = reason?.categoryReasons?.map(({ categoryId, lookBackPeriod }) => {
                                         const condition = healthConditionsDataRef.current.find(
-                                            (item) => item.conditionId == categoryId,
+                                            (item) => item.conditionId == categoryId
                                         );
                                         if (condition) {
                                             return { name: condition?.conditionName, lookBackPeriod };
@@ -488,20 +492,17 @@ export const PlanDetailsContainer = ({
                                 const monthlyRate =
                                     Array.isArray(modalRates) && modalRates.length > 0
                                         ? formatRate(
-                                            parseFloat(
-                                                modalRates.find((rate) => rate?.type === "month")?.totalPremium ||
-                                                "0",
-                                            ).toFixed(2),
-                                        )
+                                              parseFloat(
+                                                  modalRates.find((rate) => rate?.type === "month")?.totalPremium || "0"
+                                              ).toFixed(2)
+                                          )
                                         : "N/A";
 
                                 const productMonthlyPremium =
                                     Array.isArray(modalRates) && modalRates.length > 0
                                         ? formatRate(
-                                            parseFloat(
-                                                modalRates.find((rate) => rate?.type === "month")?.rate || "0",
-                                            ),
-                                        )
+                                              parseFloat(modalRates.find((rate) => rate?.type === "month")?.rate || "0")
+                                          )
                                         : "N/A";
 
                                 const formattedCoverageAmount =

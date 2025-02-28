@@ -19,8 +19,10 @@ export const FinalExpensePlansContext = createContext();
 export const FinalExpensePlansProvider = ({ children }) => {
     const showToast = useToast();
     const URL = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/plans`;
-    const QUOTE_URL = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/quotes/Lead`;
-    const CARRIERS_URL = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/FinalExpenses/selfattest/carriers`;
+    const QUOTE_URL = `${import.meta.env.VITE_QUOTE_URL}/api/${QUOTES_API_VERSION}/PlanQuote/quotes/Lead`;
+    const CARRIERS_URL = `${
+        import.meta.env.VITE_QUOTE_URL
+    }/api/${QUOTES_API_VERSION}/FinalExpenses/selfattest/carriers`;
 
     const { isSimplifiedIUL } = useCreateNewQuote();
 
@@ -46,7 +48,7 @@ export const FinalExpensePlansProvider = ({ children }) => {
             const data = await fetchFinalExpensePlans(null, false, quoteId);
             setFinalExpensePlans(data?.Results || []);
         },
-        [fetchFinalExpensePlans],
+        [fetchFinalExpensePlans]
     );
 
     const fetchAndSetFilteredExpensePlans = useCallback(
@@ -55,14 +57,14 @@ export const FinalExpensePlansProvider = ({ children }) => {
             const data = await fetchFinalExpensePlans(filteredURL);
             setFinalExpensePlans(data?.Results || []);
         },
-        [fetchFinalExpensePlans],
+        [fetchFinalExpensePlans]
     );
 
     const getFinalExpenseQuotePlans = useCallback(
         async (body, leadsId) => {
             return await fetchFinalExpenseQuotePlans(body, false, `${leadsId}`);
         },
-        [fetchFinalExpensePlans, isSimplifiedIUL, fetchFinalExpenseQuotePlans],
+        [fetchFinalExpensePlans, isSimplifiedIUL, fetchFinalExpenseQuotePlans]
     );
 
     const getCarriersInfo = async () => {
@@ -76,7 +78,7 @@ export const FinalExpensePlansProvider = ({ children }) => {
                 showToast({
                     type: "error",
                     message: `Failed to get Carriers info`,
-                }),
+                })
         );
     };
 
