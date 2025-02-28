@@ -4,13 +4,13 @@ import CommunicationInputsGroup from "components/ContactForm/CommunicationInputs
 import { SelectableButtonGroup } from "@integritymarketing/clients-ui-kit";
 import styles from "./CommunicationDetails.module.scss";
 
-const CommunicationDetails = ({ formik }) => {
+const CommunicationDetails = ({ formik, setIsEmailDeliverable }) => {
     const { touched, errors, values, submitCount, setFieldValue } = formik;
 
     return (
         <Grid container spacing={2}>
             {/* Email Input */}
-            <CommunicationInputsGroup formik={formik} page="addNew" />
+            <CommunicationInputsGroup formik={formik} page="addNew" setIsEmailDeliverable={setIsEmailDeliverable} />
 
             {/* Primary Communication Selection */}
             <Grid item xs={12}>

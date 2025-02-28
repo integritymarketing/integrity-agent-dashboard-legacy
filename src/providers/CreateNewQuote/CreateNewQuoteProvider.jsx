@@ -29,7 +29,11 @@ export const CreateNewQuoteProvider = ({ children }) => {
         firstName: "",
         lastName: "",
         email: "",
-        phone: "",
+        phones: {
+            leadPhone: "",
+            phoneLabel: "",
+        },
+        primaryCommunication: "email",
     });
     const [showStartQuoteModal, setShowStartQuoteModal] = useState(false);
     const [quoteModalStage, setQuoteModalStage] = useState("");
@@ -90,7 +94,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 });
             }
         },
-        [agentId, leadPreference, showToast, updateAgentPreferences],
+        [agentId, leadPreference, showToast, updateAgentPreferences]
     );
 
     const handleAgentProductPreferenceType = useCallback(
@@ -124,7 +128,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 }
             }
         },
-        [leadPreference, IUL_FEATURE_FLAG, fireEvent, navigate, newLeadDetails, handleClose],
+        [leadPreference, IUL_FEATURE_FLAG, fireEvent, navigate, newLeadDetails, handleClose]
     );
 
     const handleSelectedLead = useCallback(
@@ -145,7 +149,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 handleAgentProductPreferenceType(lead);
             }
         },
-        [newLeadDetails, handleAgentProductPreferenceType],
+        [newLeadDetails, handleAgentProductPreferenceType]
     );
 
     const showUpArrow = useMemo(() => {
@@ -192,7 +196,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             selectedLead,
             IUL_FEATURE_FLAG,
             newLeadDetails,
-        ],
+        ]
     );
 
     const handleSelectLifeProductType = useCallback(
@@ -215,7 +219,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                     break;
             }
         },
-        [navigate, selectedLead, setSelectedLifeProductType],
+        [navigate, selectedLead, setSelectedLifeProductType]
     );
 
     const handleSelectIulGoalType = useCallback(
@@ -232,7 +236,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             }
             setShowStartQuoteModal(false);
         },
-        [navigate, selectedLead],
+        [navigate, selectedLead]
     );
 
     const handleSelectedHealthProductType = useCallback(
@@ -252,7 +256,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
                 setQuoteModalStage("zipCodeInputCard");
             }
         },
-        [selectedLead, fireEvent, navigate, newLeadDetails, handleClose],
+        [selectedLead, fireEvent, navigate, newLeadDetails, handleClose]
     );
 
     const handleSelectIulGoal = useCallback((goal) => {

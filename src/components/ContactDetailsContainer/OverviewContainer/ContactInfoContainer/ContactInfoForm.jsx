@@ -7,7 +7,6 @@ import { Form, Formik } from "formik";
 import { useLeadDetails } from "providers/ContactDetails";
 
 import { formatDate, getLocalDateTime } from "utils/dates";
-import { formatPhoneNumber } from "utils/phones";
 import { primaryContactOptions } from "utils/primaryContact";
 import { onlyAlphabets } from "utils/shared-utils/sharedUtility";
 
@@ -24,7 +23,7 @@ import { useClientServiceContext } from "services/clientServiceProvider";
 import validationService from "services/validationService";
 
 import styles from "./ContactInfoContainer.module.scss";
-import { StyledElementName, StyledFormItem } from "./StyledComponents";
+import { StyledFormItem } from "./StyledComponents";
 import { Divider, FormControlLabel, Paper, Radio, RadioGroup, Stack, Typography } from "@mui/material";
 
 import Label from "../CommonComponents/Label";
@@ -89,6 +88,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
     const isPrimary = contactPreferences?.primary ? contactPreferences?.primary : "email";
     const [zipLengthValid, setZipLengthValid] = useState(false);
     const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
+    const [isEmailDeliverable, setIsEmailDeliverable] = useState(true);
 
     useEffect(() => {
         fetchCountyAndState(postalCode);
@@ -155,7 +155,6 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 middleName: middleName,
                 suffix: suffix || "",
                 prefix: prefix || "",
-                // maritalStatus: maritalStatus || "", //TODO: Duplicate key
                 email: email,
                 birthdate: birthdate ? formatDate(birthdate) : "",
                 phones: {
@@ -454,7 +453,13 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                                     )}
                                 </SectionContainer>
                                 <SectionContainer>
-                                    <CommunicationInputsGroup formik={formik} page="overview" />
+                                    <CommunicationInputsGroup
+                                        formik={formik}
+                                        page="overview"
+                                        defaultEmail={email}
+                                        defaultPhone={phone}
+                                        setIsEmailDeliverable={setIsEmailDeliverable}
+                                    />
                                 </SectionContainer>
                                 <SectionContainer>
                                     <StyledFormItem>
@@ -785,7 +790,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                             <Button
                                 label={"Save"}
                                 className={styles.editButton}
-                                disabled={!dirty || !isValid || isInvalidZip}
+                                disabled={!dirty || !isValid || isInvalidZip || !isEmailDeliverable}
                                 onClick={handleSubmit}
                                 type="tertiary"
                                 icon={<ArrowForwardWithCircle />}

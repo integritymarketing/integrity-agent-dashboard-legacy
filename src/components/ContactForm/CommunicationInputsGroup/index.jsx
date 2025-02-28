@@ -6,7 +6,7 @@ import SMSPhoneNumberInput from "components/ui/SMSPhoneNumberInput";
 import EmailInput from "components/ui/EmailInput";
 import AlertMessage from "components/Alert";
 
-const CommunicationInputsGroup = ({ formik, page }) => {
+const CommunicationInputsGroup = ({ formik, page, defaultEmail, defaultPhone, setIsEmailDeliverable }) => {
     const { values, handleBlur, setFieldValue } = formik;
 
     const emailFieldRef = useRef(null);
@@ -20,6 +20,11 @@ const CommunicationInputsGroup = ({ formik, page }) => {
     const validateEmailInput = useCallback(
         ({ email, status, message, title }) => {
             setFieldValue("email", email);
+            if (status === "success") {
+                setIsEmailDeliverable(true);
+            } else {
+                setIsEmailDeliverable(false);
+            }
             if (!values.primaryCommunication) {
                 setFieldValue("primaryCommunication", "email");
             }
@@ -122,7 +127,7 @@ const CommunicationInputsGroup = ({ formik, page }) => {
                         size={page === "addNew" ? "medium" : "small"}
                         inputRef={emailFieldRef}
                         onBlur={handleBlur}
-                        defaultValue={values.email}
+                        defaultValue={defaultEmail}
                     />
                     {validationMessages.email.status && (
                         <Box>
@@ -144,7 +149,7 @@ const CommunicationInputsGroup = ({ formik, page }) => {
                         label="Phone Number"
                         size={page === "addNew" ? "medium" : "small"}
                         inputRef={phoneFieldRef}
-                        defaultValue={values.phones.leadPhone}
+                        defaultValue={defaultPhone}
                     />
                     {validationMessages.phone.status && (
                         <Box>

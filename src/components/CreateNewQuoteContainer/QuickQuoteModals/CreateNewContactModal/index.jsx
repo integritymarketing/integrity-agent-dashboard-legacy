@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Box, Typography, InputAdornment, Grid } from "@mui/material";
 import ErrorIcon from "@mui/icons-material/Error";
 
@@ -9,9 +9,9 @@ import useToast from "hooks/useToast";
 import useAnalytics from "hooks/useAnalytics";
 import { useFormik } from "formik";
 import { LeadDetails } from "schemas";
-import { formatPhoneNumber } from "utils/formatPhoneNumber";
 import styles from "./styles.module.scss";
 import ContinueIcon from "components/icons/Continue";
+import CommunicationInputsGroup from "components/ContactForm/CommunicationInputsGroup";
 
 const CreateNewContactModal = () => {
     const {
@@ -23,6 +23,8 @@ const CreateNewContactModal = () => {
     const { fireEvent } = useAnalytics();
     const { clientsService } = useClientServiceContext();
     const showToast = useToast();
+
+    const [isEmailDeliverable, setIsEmailDeliverable] = useState(false);
 
     const isDuplicateContact = useCallback(
         async (values) => {
@@ -131,23 +133,7 @@ const CreateNewContactModal = () => {
         onSubmit: onSubmitHandler,
     });
 
-    const {
-        values,
-        errors,
-        isValid,
-        dirty,
-        touched,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        setFieldValue,
-        isSubmitting,
-    } = formik;
-
-    const handlePhoneChange = (e) => {
-        const formattedPhoneNumber = formatPhoneNumber(e.target.value);
-        setFieldValue("phone", formattedPhoneNumber);
-    };
+    const { values, errors, isValid, dirty, handleChange, handleBlur, handleSubmit, isSubmitting } = formik;
 
     const onClose = () => {
         handleClose(false);
@@ -162,7 +148,7 @@ const CreateNewContactModal = () => {
             handleSave={handleSubmit}
             showCloseButton
             shouldShowCancelButton={true}
-            isSaveButtonDisabled={!isValid || !dirty || isSubmitting}
+            isSaveButtonDisabled={!isValid || !dirty || isSubmitting || !isEmailDeliverable}
             maxWidth="sm"
             disableContentBackground
             saveLabel="Continue"
@@ -216,46 +202,12 @@ const CreateNewContactModal = () => {
                         Please add one of the following in order to create your contact.
                     </Typography>
                 </Box>
-
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                        <TextInput
-                            name="phone"
-                            value={values.phone}
-                            onChange={handlePhoneChange}
-                            onBlur={handleBlur}
-                            error={touched.phone && Boolean(errors.phone)}
-                            fullWidth
-                            label="Phone*"
-                            type="tel"
-                            placeholder="(___) ___-____"
-                            size="small"
-                            helperText={touched.phone && errors.phone}
-                            InputProps={{
-                                inputProps: {
-                                    maxLength: 14,
-                                },
-                                endAdornment: touched.phone && Boolean(errors.phone) && <ErrorInfoIcon />,
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <TextInput
-                            name="email"
-                            value={values.email}
-                            placeholder="Enter your email address"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={touched.email && Boolean(errors.email)}
-                            fullWidth
-                            label="Email*"
-                            size="small"
-                            helperText={touched.email && errors.email}
-                            InputProps={{
-                                endAdornment: touched.email && Boolean(errors.email) && <ErrorInfoIcon />,
-                            }}
-                        />
-                    </Grid>
+                    <CommunicationInputsGroup
+                        formik={formik}
+                        page="addNew"
+                        setIsEmailDeliverable={setIsEmailDeliverable}
+                    />
                 </Grid>
             </Box>
 

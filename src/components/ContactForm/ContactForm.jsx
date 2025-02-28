@@ -55,6 +55,7 @@ const ContactForm = ({
     const inbound = get("inbound") === "true";
     const name = get("name");
     const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
+    const [isEmailDeliverable, setIsEmailDeliverable] = useState(false);
 
     const initialFormValues = {
         prefix: null,
@@ -226,16 +227,25 @@ const ContactForm = ({
 
     const { values, errors, isValid, dirty, handleSubmit, isSubmitting } = formik;
 
-    const emailPhoneValid = useMemo(() => {
-        if (values.phones?.leadPhone && values?.primaryCommunication === "phone") {
+    const isPhoneValid = useMemo(() => {
+        if (values.phones?.leadPhone) {
             const digitsOnly = values.phones?.leadPhone?.replace(/\D/g, "");
             return digitsOnly.length === 10;
+        } else if (values.phones?.leadPhone === "" && values.primaryCommunication === "phone") {
+            return false;
         }
-        if (values.email && values?.primaryCommunication === "email") {
+        return true;
+    }, [values.phones?.leadPhone, values.primaryCommunication]);
+
+    const isEmailValid = useMemo(() => {
+        if (values.email) {
             const emailPattern = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
-            return emailPattern.test(values.email);
+            return emailPattern.test(values.email) && isEmailDeliverable;
+        } else if (values.email === "" && values.primaryCommunication === "email") {
+            return false;
         }
-    }, [values.phones?.leadPhone, values.email, values?.primaryCommunication]);
+        return true;
+    }, [values.email, values.primaryCommunication, isEmailDeliverable]);
 
     const isInvalidZip =
         (values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0) ||
@@ -246,6 +256,25 @@ const ContactForm = ({
         allCounties?.length > 0 &&
         !loadingCountyAndState &&
         (values.address.stateCode.length === 0 || values.address.county.length === 0);
+
+    const isValidPrimaryCommunication = useMemo(() => {
+        const isPrimaryCommunicationValid =
+            values.primaryCommunication === "phone" || values.primaryCommunication === "email";
+        return isPrimaryCommunicationValid;
+    }, [values.primaryCommunication]);
+
+    const formValid = useMemo(() => {
+        return (
+            isValid &&
+            !isInvalidZip &&
+            !isSubmitting &&
+            !isNotStateOrCounty &&
+            isPhoneValid &&
+            isEmailValid &&
+            dirty &&
+            isValidPrimaryCommunication
+        );
+    }, [isValid, isInvalidZip, isSubmitting, isNotStateOrCounty, isPhoneValid, isEmailValid, dirty]);
 
     return (
         <Box className={styles.formSection}>
@@ -258,7 +287,7 @@ const ContactForm = ({
                         <AddressDetails formik={formik} />
                     </Box>
                     <Box className={styles.subContainer}>
-                        <CommunicationDetails formik={formik} />
+                        <CommunicationDetails formik={formik} setIsEmailDeliverable={setIsEmailDeliverable} />
                     </Box>
                     <Box className={styles.subContainer}>
                         <MedicareIDDetails formik={formik} />
@@ -278,9 +307,7 @@ const ContactForm = ({
                                 type="submit"
                                 variant="contained"
                                 color="primary"
-                                disabled={
-                                    !isValid || isInvalidZip || !emailPhoneValid || isSubmitting || isNotStateOrCounty
-                                }
+                                disabled={!formValid}
                             >
                                 Create Contact
                             </Button>
