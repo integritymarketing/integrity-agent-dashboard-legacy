@@ -82,7 +82,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
             } catch (error) {
                 showToast({
                     type: "error",
-                    message: `Failed to get quote`,
+                    message: `Failed to get quote`
                 });
                 return null;
             }
@@ -166,18 +166,19 @@ export const LifeIulQuoteProvider = ({ children }) => {
         }
     };
 
+
     const handleIULQuoteShareClick = useCallback(
         async (reqData) => {
             try {
                 const response = await shareIulQuote(reqData, false);
-                if (response === "Email Sent") {
+                if (response === "Email Sent" || "SMS Sent") {
                     showToast({
-                        message: "Successfully shared plan",
+                        message: "Successfully shared plan"
                     });
                 } else {
                     showToast({
                         type: "error",
-                        message: "Failed to share plan",
+                        message: "Failed to share plan"
                     });
                 }
             } catch (error) {

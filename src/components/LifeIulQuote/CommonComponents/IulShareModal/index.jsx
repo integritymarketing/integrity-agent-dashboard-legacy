@@ -8,7 +8,6 @@ import { CustomModal } from "components/MuiComponents";
 import { formatCurrency } from "utils/shared-utils/sharedUtility";
 import { useLeadDetails } from "providers/ContactDetails";
 import useAgentInformationByID from "hooks/useAgentInformationByID";
-import useUserProfile from "hooks/useUserProfile";
 import ShareInputsValidator from "components/ShareInputsValidator";
 import { useLifeIulQuote } from "providers/Life";
 import { faArrowShare } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
@@ -27,20 +26,17 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
     const [existingSendType, setExistingSendType] = useState("");
 
     const showToast = useToast();
-    const agentUserProfile = useUserProfile();
 
-    const {
-        agentInformation: { agentPurl },
-    } = useAgentInformationByID();
+    const { agentInformation } = useAgentInformationByID();
     const { leadDetails } = useLeadDetails();
 
     const { firstName = "", lastName = "", emails = [], phones = [], leadsId } = leadDetails;
 
-    const agentFirstName = agentUserProfile?.firstName;
-    const agentLastName = agentUserProfile?.lastName;
-    const agentEmail = agentUserProfile?.email;
-    const agentPhoneNumber = agentUserProfile?.phone;
-    const npnNumber = agentUserProfile?.npn;
+    const agentFirstName = agentInformation?.agentFirstName;
+    const agentLastName = agentInformation?.agentLastName;
+    const agentEmail = agentInformation?.email;
+    const agentPhoneNumber = agentInformation?.phone;
+    const npnNumber = agentInformation?.agentNPN;
     const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? "";
     const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? "";
     const isEmailCompatabileStatus = emails?.find(({ leadEmail }) => leadEmail)?.isValid;
@@ -58,7 +54,8 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
                 agentPhoneNumber: agentPhoneNumber,
                 agentEmail: agentEmail,
                 agentNpn: npnNumber,
-                agentPurl,
+                agentPurl: agentInformation?.agentPurl,
+                caLicense: agentInformation?.caLicense,
                 policyDetailId,
                 recIds: [recId],
                 policyDetailsUrl: "https://qa.planenroll.com/life/products/details",

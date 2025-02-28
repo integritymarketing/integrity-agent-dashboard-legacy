@@ -87,7 +87,7 @@ const SharePlanModal = ({
     };
 
     const handleCleanUp = () => {
-        setNewSelectedType("");
+        setNewSelectedType("email");
         setExistingSendType("");
         setEmail("");
         setPhone();

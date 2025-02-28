@@ -1,130 +1,134 @@
 @use "scss/globalDefines" as defines_global;
 
 .shareplan-modal {
-  &.modal .modal__card.card {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    &.modal .modal__card.card {
+        padding-top: 10px;
+        padding-bottom: 10px;
 
-    .modal__exit.icon-btn {
-      right: auto;
-    }
-  }
+        @include defines_global.small {
+            padding-top: 40px;
+        }
 
-  .dialog--title {
-    margin-left: 0;
-    margin-bottom: 31px;
-    margin-top: 39px;
-    color: var(--v2-dark-blue);
-  }
-
-  .plan-card {
-    margin-bottom: 24px;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 5%);
-  }
-
-  .shareplan-label {
-    font-size: 16px;
-    line-height: 130%;
-    height: 40px;
-  }
-
-  .document-wrapper {
-    max-height: 250px;
-    overflow: auto;
-  }
-
-  .radio-label {
-    margin-bottom: 16px;
-  }
-
-  label {
-    font-weight: normal;
-    color: #2b323b;
-  }
-
-  .new-email-or-mobile {
-    display: flex;
-    align-items: flex-start;
-
-    & > div:first-child {
-      margin-right: 16px;
+        .modal__exit.icon-btn {
+            right: auto;
+        }
     }
 
-    @media screen and (width >= 320px) and (width <= 480px) {
-      flex-direction: column;
+    .dialog--title {
+        margin-left: 0;
+        margin-bottom: 31px;
+        margin-top: 39px;
+        color: var(--v2-dark-blue);
+    }
+
+    .plan-card {
+        margin-bottom: 24px;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 5%);
+    }
+
+    .shareplan-label {
+        font-size: 16px;
+        line-height: 130%;
+        height: 40px;
+    }
+
+    .document-wrapper {
+        max-height: 250px;
+        overflow: auto;
+    }
+
+    .radio-label {
+        margin-bottom: 16px;
+    }
+
+    label {
+        font-weight: normal;
+        color: #2b323b;
+    }
+
+    .new-email-or-mobile {
+        display: flex;
+        align-items: flex-start;
+
+        & > div:first-child {
+            margin-right: 16px;
+        }
+
+        @media screen and (width >= 320px) and (width <= 480px) {
+            flex-direction: column;
+        }
+
+        .email-mobile-section {
+            width: 40%;
+
+            @media screen and (width >= 320px) and (width <= 480px) {
+                margin-top: 10px;
+                width: 100%;
+            }
+
+            .text-input {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .email-mobile-error {
+                background: #fff2f2;
+                border: 1px solid #cf3c28;
+                color: #2b323b;
+                margin-bottom: 5px;
+            }
+        }
     }
 
     .email-mobile-section {
-      width: 40%;
+        width: 40%;
 
-      @media screen and (width >= 320px) and (width <= 480px) {
-        margin-top: 10px;
-        width: 100%;
-      }
+        @media screen and (width >= 320px) and (width <= 480px) {
+            margin-top: 10px;
+            width: 100%;
+        }
 
-      .text-input {
-        width: 100%;
-        padding: 10px;
-      }
+        .text-input {
+            width: 100%;
+            padding: 10px;
+        }
 
-      .email-mobile-error {
+        .email-mobile-error {
+            background: #fff2f2;
+            border: 1px solid #cf3c28;
+            color: #2b323b;
+            margin-bottom: 5px;
+        }
+    }
+
+    .error-class {
         background: #fff2f2;
         border: 1px solid #cf3c28;
         color: #2b323b;
         margin-bottom: 5px;
-      }
-    }
-  }
-
-  .email-mobile-section {
-    width: 40%;
-
-    @media screen and (width >= 320px) and (width <= 480px) {
-      margin-top: 10px;
-      width: 100%;
     }
 
-    .text-input {
-      width: 100%;
-      padding: 10px;
+    .validation-msg {
+        font-family: Lato;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 130%;
+        color: #cf3c28;
     }
 
-    .email-mobile-error {
-      background: #fff2f2;
-      border: 1px solid #cf3c28;
-      color: #2b323b;
-      margin-bottom: 5px;
+    .footer {
+        border-top: 1px solid #cbd5e1;
+        margin-top: 40px;
+        display: flex;
+        flex-flow: row-reverse;
+        margin-left: -5rem;
+        margin-right: -5rem;
+        padding-top: 10px;
+        padding-right: 35px;
+
+        .button {
+            margin-right: 16px;
+        }
     }
-  }
-
-  .error-class {
-    background: #fff2f2;
-    border: 1px solid #cf3c28;
-    color: #2b323b;
-    margin-bottom: 5px;
-  }
-
-  .validation-msg {
-    font-family: Lato;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 130%;
-    color: #cf3c28;
-  }
-
-  .footer {
-    border-top: 1px solid #cbd5e1;
-    margin-top: 40px;
-    display: flex;
-    flex-flow: row-reverse;
-    margin-left: -5rem;
-    margin-right: -5rem;
-    padding-top: 10px;
-    padding-right: 35px;
-
-    .button {
-      margin-right: 16px;
-    }
-  }
 }
