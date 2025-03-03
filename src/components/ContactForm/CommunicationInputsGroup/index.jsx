@@ -119,11 +119,11 @@ const CommunicationInputsGroup = ({ formik, page, defaultEmail, defaultPhone, se
     return (
         <>
             {/* Email Input */}
-            <Grid item xs={12} md={page === "addNew" ? 6 : 12}>
+            <Grid item xs={12} md={page === "addNew" || page === "quickQuote" ? 6 : 12}>
                 <Box>
                     <EmailInput
                         onValidation={validateEmailInput}
-                        label="Email Address"
+                        label={`Email Address${page === "quickQuote" ? " *" : ""}`}
                         size={page === "addNew" ? "medium" : "small"}
                         inputRef={emailFieldRef}
                         onBlur={handleBlur}
@@ -142,11 +142,11 @@ const CommunicationInputsGroup = ({ formik, page, defaultEmail, defaultPhone, se
             </Grid>
 
             {/* Phone Input */}
-            <Grid item xs={12} md={page === "addNew" ? 6 : 12}>
+            <Grid item xs={12} md={page === "addNew" || page === "quickQuote" ? 6 : 12}>
                 <Box>
                     <SMSPhoneNumberInput
                         onValidation={validatePhoneInput}
-                        label="Phone Number"
+                        label={`Phone Number${page === "quickQuote" ? " *" : ""}`}
                         size={page === "addNew" ? "medium" : "small"}
                         inputRef={phoneFieldRef}
                         defaultValue={defaultPhone}

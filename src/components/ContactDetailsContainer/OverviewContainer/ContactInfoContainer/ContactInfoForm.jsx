@@ -259,7 +259,11 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 }
 
                 setSubmitting(true);
-                editLeadDetails(values);
+                const payload = {
+                    ...values,
+                    email: isEmailDeliverable ? values.email : "",
+                };
+                editLeadDetails(payload);
                 setIsEditMode(false);
             }}
         >
@@ -790,7 +794,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                             <Button
                                 label={"Save"}
                                 className={styles.editButton}
-                                disabled={!dirty || !isValid || isInvalidZip || !isEmailDeliverable}
+                                disabled={!dirty || !isValid || isInvalidZip}
                                 onClick={handleSubmit}
                                 type="tertiary"
                                 icon={<ArrowForwardWithCircle />}

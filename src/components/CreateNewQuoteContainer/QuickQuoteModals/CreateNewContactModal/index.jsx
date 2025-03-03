@@ -66,7 +66,7 @@ const CreateNewContactModal = () => {
                     const newData = {
                         firstName: values.firstName,
                         lastName: values.lastName,
-                        email: values?.email,
+                        email: isEmailDeliverable ? values.email : "",
                         phones: {
                             leadPhone: values?.phone || "",
                             phoneLabel: "mobile",
@@ -148,7 +148,7 @@ const CreateNewContactModal = () => {
             handleSave={handleSubmit}
             showCloseButton
             shouldShowCancelButton={true}
-            isSaveButtonDisabled={!isValid || !dirty || isSubmitting || !isEmailDeliverable}
+            isSaveButtonDisabled={!isValid || !dirty || isSubmitting}
             maxWidth="sm"
             disableContentBackground
             saveLabel="Continue"
@@ -202,10 +202,10 @@ const CreateNewContactModal = () => {
                         Please add one of the following in order to create your contact.
                     </Typography>
                 </Box>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} display={"flex"} flexDirection="row-reverse">
                     <CommunicationInputsGroup
                         formik={formik}
-                        page="addNew"
+                        page="quickQuote"
                         setIsEmailDeliverable={setIsEmailDeliverable}
                     />
                 </Grid>
