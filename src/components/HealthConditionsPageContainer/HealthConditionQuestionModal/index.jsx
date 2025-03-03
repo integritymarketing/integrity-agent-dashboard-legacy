@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import ConditionalPopupDatePicker from "components/ui/ConditionalPopup/ConditionalPopupDatePicker";
 import ConditionalPopupYesOrNo from "components/ui/ConditionalPopup/ConditionalPopupYesOrNo";
 import { useConditions } from "providers/Conditions";
-import { Dialog, DialogContent } from "@mui/material";
+import { Box, Button, Dialog, DialogContent } from "@mui/material";
+import { faTrash } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function HealthConditionQuestionModal({
     open,

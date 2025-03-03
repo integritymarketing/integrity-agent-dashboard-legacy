@@ -16,7 +16,7 @@ import SavedPrescriptions from "./SavedPrescriptions";
 import HealthConditionsTable from "./HealthConditionsTable";
 import HealthConditionSearchByPrescription from "./HealthConditionSearchByPrescription";
 import { useHealth } from "providers/ContactDetails";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import AddPrescriptionModal from "./AddPrescriptionModal";
 import ButtonCircleArrow from "components/icons/button-circle-arrow";
 import { FullWidthButton } from "@integritymarketing/clients-ui-kit";
@@ -30,38 +30,25 @@ const HealthConditionsPageContainer = () => {
     const { isSimplifiedIUL } = useCreateNewQuote();
     const { fetchHealthConditions } = useConditions();
     const { prescriptions, fetchPrescriptions } = useHealth();
-    const [selectedPrescription, setSelectedPrescription] = useState(null);
-    const [openAddPrescriptionModal, setOpenAddPrescriptionModal] = useState(false);
-    const [prescriptionDetails, setPrescriptionDetails] = useState(null);
-    const [selectedCondition, setSelectedCondition] = useState(null);
-    const [openQuestionModal, setOpenQuestionModal] = useState(false);
+    const {
+        selectedPrescription,
+        openAddPrescriptionModal,
+        prescriptionDetails,
+        selectedCondition,
+        openQuestionModal,
+        handlePrescriptionClick,
+        setOpenAddPrescriptionModal,
+        setPrescriptionDetails,
+        setSelectedPrescription,
+        handleApplyClickOfAddPrescriptionModal,
+        handleCloseQuestionModal,
+    } = useConditions();
 
     useEffect(() => {
         if (contactId) {
-            fetchPrescriptionsData();
+            fetchPrescriptions(contactId);
         }
-    }, [contactId]);
-
-    const fetchPrescriptionsData = useCallback(async () => {
-        await fetchPrescriptions(contactId);
     }, [contactId, fetchPrescriptions]);
-
-    const handlePrescriptionClick = (prescription) => {
-        setSelectedPrescription(prescription);
-    };
-
-    const onHandleApplyClickOfAddPrescriptionModal = (value) => {
-        setSelectedCondition(value);
-        fetchHealthConditions(contactId);
-        setOpenAddPrescriptionModal(false);
-        setOpenQuestionModal(true);
-    };
-
-    const onSuccessOfHealthConditionQuestionModal = () => {
-        setOpenQuestionModal(false);
-        setSelectedCondition(null);
-        fetchHealthConditions(contactId);
-    };
 
     return (
         <>
@@ -124,27 +111,30 @@ const HealthConditionsPageContainer = () => {
                     />
                 </Box>
             </Box>
-            {openAddPrescriptionModal ? (
+            {openAddPrescriptionModal && (
                 <AddPrescriptionModal
                     open={openAddPrescriptionModal}
                     onClose={() => setOpenAddPrescriptionModal(false)}
                     prescriptionDetails={prescriptionDetails}
                     contactId={contactId}
-                    onHandleApplyClickOfAddPrescriptionModal={onHandleApplyClickOfAddPrescriptionModal}
+                    onHandleApplyClickOfAddPrescriptionModal={(value) => {
+                        handleApplyClickOfAddPrescriptionModal(value);
+                        fetchHealthConditions(contactId);
+                    }}
                 />
-            ) : null}
-            {openQuestionModal ? (
+            )}
+            {openQuestionModal && (
                 <HealthConditionQuestionModal
                     open={openQuestionModal}
-                    onClose={() => {
-                        setOpenQuestionModal(false);
-                        setSelectedCondition(null);
-                    }}
+                    onClose={handleCloseQuestionModal}
                     contactId={contactId}
-                    onSuccessOfHealthConditionQuestionModal={onSuccessOfHealthConditionQuestionModal}
+                    onSuccessOfHealthConditionQuestionModal={() => {
+                        handleCloseQuestionModal();
+                        fetchHealthConditions(contactId);
+                    }}
                     selectedCondition={selectedCondition}
                 />
-            ) : null}
+            )}
         </>
     );
 };

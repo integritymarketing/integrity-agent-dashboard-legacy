@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Stack, Typography, Paper, Divider, Box } from "@mui/material";
 import ConditionListItem from "components/HealthConditionsPageContainer/HealthConditionsTable/ConditionListItem";
@@ -7,26 +7,22 @@ import WithLoader from "components/ui/WithLoader";
 import AddNewConditionDialog from "components/FinalExpenseHealthConditionsContainer/AddNewConditionDialog";
 
 function HealthConditionsTable({ contactId }) {
-    const { getHealthConditionsData, getHealthConditionsLoading, fetchHealthConditions } = useConditions();
-    const [healthConditions, setHealthConditions] = useState([]);
-    const [selectedConditionForEdit, setSelectedConditionForEdit] = useState(null);
-    const [isAddNewActivityDialogOpen, setIsAddNewActivityDialogOpen] = useState(false);
+    const {
+        getHealthConditionsLoading,
+        fetchHealthConditions,
+        healthConditions,
+        setHealthConditions,
+        selectedConditionForEdit,
+        isAddNewActivityDialogOpen,
+        handleOnClose,
+        handleOnEdit,
+    } = useConditions();
 
     useEffect(() => {
         if (contactId) {
             fetchHealthConditions(contactId);
         }
     }, [fetchHealthConditions, contactId]);
-
-    const handleOnClose = useCallback(() => {
-        setIsAddNewActivityDialogOpen(false);
-    }, []);
-
-    useEffect(() => {
-        if (getHealthConditionsData) {
-            setHealthConditions(getHealthConditionsData);
-        }
-    }, [getHealthConditionsData]);
 
     return (
         <>
@@ -46,10 +42,7 @@ function HealthConditionsTable({ contactId }) {
                                         <ConditionListItem
                                             key={index}
                                             label={condition.conditionName}
-                                            onEdit={() => {
-                                                setSelectedConditionForEdit(condition);
-                                                setIsAddNewActivityDialogOpen(true);
-                                            }}
+                                            onEdit={() => handleOnEdit(condition, contactId)}
                                             {...condition}
                                         />
                                     ))}
