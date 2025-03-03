@@ -5,6 +5,7 @@ import { useConditions } from "providers/Life/Conditions/ConditionsContext";
 import useUserProfile from "hooks/useUserProfile";
 import HealthConditionQuestionModal from "../HealthConditionQuestionModal";
 import { useConditions as useConditionsHook } from "providers/Conditions";
+import useToast from "hooks/useToast";
 
 function HealthConditionSearchInput({ contactId }) {
     const [searchValue, setSearchValue] = useState("");
@@ -12,12 +13,17 @@ function HealthConditionSearchInput({ contactId }) {
     const [selectedCondition, setSelectedCondition] = useState(null);
 
     const agentUserProfile = useUserProfile();
+    const showToast = useToast();
 
     const { fetchConditionsList, isLoadingConditions, saveHealthConditionDetails, isSavingHealthCondition } =
         useConditions();
 
-    const { fetchHealthConditionsQuestionsByCondtionId, getHealthConditionsQuestionsData, fetchHealthConditions } =
-        useConditionsHook();
+    const {
+        fetchHealthConditionsQuestionsByCondtionId,
+        getHealthConditionsQuestionsData,
+        fetchHealthConditions,
+        healthConditions,
+    } = useConditionsHook();
 
     const fetchConditions = useCallback(
         debounce(async (query) => {
@@ -49,7 +55,7 @@ function HealthConditionSearchInput({ contactId }) {
             agentNPN: agentUserProfile?.npn,
             leadId: contactId,
             lastTreatmentDate: null,
-            hasLookBackPeriod: false,
+            hasLookBackPeriod: condition.hasLookBackPeriod,
             consumerId: 0,
         };
         try {
@@ -64,6 +70,20 @@ function HealthConditionSearchInput({ contactId }) {
     };
 
     const handleOptionSelection = async (condition) => {
+        if (healthConditions) {
+            const healthCondition = healthConditions.find(
+                (healthCondition) => parseInt(healthCondition.conditionId, 10) === condition.conditionId
+            );
+
+            if (healthCondition) {
+                showToast({
+                    type: "error",
+                    message: "Condition is already added...",
+                });
+                return;
+            }
+        }
+
         await saveSelectedCondition(condition);
         setSelectedCondition(condition);
         await fetchHealthConditionsQuestionsByCondtionId(contactId, condition?.conditionId);

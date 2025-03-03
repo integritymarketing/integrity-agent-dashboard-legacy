@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import ConditionalPopupDatePicker from "components/ui/ConditionalPopup/ConditionalPopupDatePicker";
 import ConditionalPopupYesOrNo from "components/ui/ConditionalPopup/ConditionalPopupYesOrNo";
@@ -6,6 +6,7 @@ import { useConditions } from "providers/Conditions";
 import { Box, Button, Dialog, DialogContent } from "@mui/material";
 import { faTrash } from "@awesome.me/kit-7ab3488df1/icons/classic/light";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ConditionalPopupMultiSelect from "components/ui/ConditionalPopup/ConditionPopupMultiSelect";
 
 function HealthConditionQuestionModal({
     open,
@@ -66,6 +67,7 @@ function HealthConditionQuestionModal({
 
     const handleApplyClick = async () => {
         try {
+            setLoading(true);
             if (values != null) {
                 let payload = {
                     conditionId: currentQuestion.conditionId,
@@ -75,7 +77,12 @@ function HealthConditionQuestionModal({
                             conditionId: currentQuestion.conditionId,
                             questionId: currentQuestion.id,
                             question: currentQuestion.displayLabel,
-                            answer: currentQuestion.type === "DATE" ? values : values ? "Y" : "N",
+                            answer:
+                                currentQuestion.type === "DATE" || currentQuestion.type === "CHECKBOX"
+                                    ? values
+                                    : values
+                                    ? "Y"
+                                    : "N",
                             type: currentQuestion.type,
                             required: currentQuestion.required,
                             orderBy: 0,
@@ -83,19 +90,23 @@ function HealthConditionQuestionModal({
                     ],
                 };
 
-                await updateHealthConditionsQuestionsPost(payload, contactId);
-                if (currentQuestionIndex === questionData.length - 1) {
-                    onSuccessOfHealthConditionQuestionModal();
-                } else {
-                    setCurrentQuestion(questionData[currentQuestionIndex + 1]);
-                    setCurrentQuestionIndex(currentQuestionIndex + 1);
-                    setValues(null);
+                const resp = await updateHealthConditionsQuestionsPost(payload, contactId);
+                if (resp) {
+                    if (currentQuestionIndex === questionData.length - 1) {
+                        onSuccessOfHealthConditionQuestionModal();
+                    } else {
+                        setCurrentQuestion(questionData[currentQuestionIndex + 1]);
+                        setCurrentQuestionIndex(currentQuestionIndex + 1);
+                        setValues(null);
+                    }
                 }
             } else {
                 setError("Please select an answer");
             }
         } catch (error) {
             console.log("error", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -105,6 +116,8 @@ function HealthConditionQuestionModal({
         onClose();
         fetchHealthConditions(contactId);
     };
+
+    const isButtonDisabled = useMemo(() => loading || values === null, [values, loading]);
 
     return (
         <Dialog
@@ -117,14 +130,14 @@ function HealthConditionQuestionModal({
             <DialogContent sx={{ padding: 0 }}>
                 {currentQuestion && currentQuestion.type && (
                     <>
-                        {currentQuestion.type == "DATE" ? (
+                        {currentQuestion.type == "DATE" && (
                             <ConditionalPopupDatePicker
-                                header={"Search for a Condition"}
+                                header="Search for a Condition"
                                 title={currentQuestion.conditionName}
                                 contentHeading={currentQuestion.displayLabel}
                                 handleApplyClick={handleApplyClick}
                                 handleCancelClick={handleCancelClick}
-                                applyButtonDisabled={loading}
+                                applyButtonDisabled={isButtonDisabled}
                                 values={values}
                                 onChange={(value) => setValues(value)}
                                 open={open}
@@ -134,14 +147,33 @@ function HealthConditionQuestionModal({
                                     currentQuestionIndex === questionData.length - 1 ? "Add Condition" : "Next"
                                 }
                             />
-                        ) : (
+                        )}
+                        {currentQuestion.type == "RADIO" && (
                             <ConditionalPopupYesOrNo
-                                header={"Search for a Condition by Prescription"}
+                                header="Search for a Condition by Prescription"
                                 title={currentQuestion.conditionName}
                                 contentHeading={currentQuestion.displayLabel}
                                 handleApplyClick={handleApplyClick}
                                 handleCancelClick={handleCancelClick}
-                                applyButtonDisabled={loading}
+                                applyButtonDisabled={isButtonDisabled}
+                                values={values}
+                                onChange={(value) => setValues(value)}
+                                open={open}
+                                error={error}
+                                onClose={handleCancelClick}
+                                applyButtonText={
+                                    currentQuestionIndex === questionData.length - 1 ? "Add Condition" : "Next"
+                                }
+                            />
+                        )}
+                        {currentQuestion.type == "CHECKBOX" && (
+                            <ConditionalPopupMultiSelect
+                                header="Search for a Condition by Prescription"
+                                title={currentQuestion.conditionName}
+                                contentHeading={currentQuestion.displayLabel}
+                                handleApplyClick={handleApplyClick}
+                                handleCancelClick={handleCancelClick}
+                                applyButtonDisabled={isButtonDisabled}
                                 values={values}
                                 onChange={(value) => setValues(value)}
                                 open={open}
