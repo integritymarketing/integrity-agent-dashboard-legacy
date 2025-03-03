@@ -1,14 +1,23 @@
 import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import { SourceMap } from "module";
+import { createHtmlPlugin } from 'vite-plugin-html';
 
 export default defineConfig(({mode}) => {
     const isAuthBuild = process.env.VITE_APP_BUILD_TARGET === "auth";
 
     return {
         base: "/",
-        plugins: [react()],
+        plugins: [react(),
+          createHtmlPlugin({
+            inject: {
+              data: {
+                VITE_GTM_ID: process.env.VITE_GTM_ID,
+                VITE_GTM_PARAMS: process.env.VITE_GTM_PARAMS,
+              },
+            },
+          }),
+        ],
         publicDir: "public", // Ensure the public directory is picked up (default is "public")
 
         // Build configuration
