@@ -43,13 +43,13 @@ const ShareInputsValidator = ({
 
     const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? "";
     const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? "";
-    const isEmailCompatabileStatus = emails?.find(({ leadEmail }) => leadEmail)?.isValid;
-    const isPhoneCompatabileStatus = phones?.find(({ leadPhone }) => leadPhone)?.isSmsCompatible;
+    const isEmailCompatibleStatus = emails?.find(({ leadEmail }) => leadEmail)?.isValid;
+    const isPhoneCompatibleStatus = phones?.find(({ leadPhone }) => leadPhone)?.isSmsCompatible;
     const phoneId = phones?.find(({ leadPhone }) => leadPhone)?.phoneId ?? null;
     const phoneLabel = phones?.find(({ leadPhone }) => leadPhone)?.phoneLabel ?? null;
 
-    const [isEmailCompatabile, setIsEmailCompatabile] = useState(isEmailCompatabileStatus);
-    const [isPhoneCompatabile, setIsPhoneCompatabile] = useState(isPhoneCompatabileStatus);
+    const [isEmailCompatabile, setIsEmailCompatabile] = useState(isEmailCompatibleStatus);
+    const [isPhoneCompatabile, setIsPhoneCompatabile] = useState(isPhoneCompatibleStatus);
 
     const [validationMessages, setValidationMessages] = useState({
         email: { status: null, message: "", title: "" },
@@ -264,7 +264,7 @@ const ShareInputsValidator = ({
                 )}
 
                 <Box width={"90%"} margin="auto">
-                    {existingSendType === "email" && isEmailCompatabileStatus !== true && (
+                    {existingSendType === "email" && isEmailCompatibleStatus !== true && (
                         <Box>
                             <AlertMessage
                                 status="error"
@@ -273,7 +273,7 @@ const ShareInputsValidator = ({
                             />
                         </Box>
                     )}
-                    {existingSendType === "textMessage" && isPhoneCompatabileStatus !== true && (
+                    {existingSendType === "textMessage" && isPhoneCompatibleStatus !== true && (
                         <Box>
                             <AlertMessage
                                 status="error"

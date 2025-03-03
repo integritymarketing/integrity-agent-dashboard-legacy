@@ -70,8 +70,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
     const npnNumber = agentUserProfile?.npn;
     const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? "";
     const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? "";
-    const isEmailCompatabileStatus = emails?.find(({ leadEmail }) => leadEmail)?.isValid;
-    const isPhoneCompatabileStatus = phones?.find(({ leadPhone }) => leadPhone)?.isSmsCompatible;
+    const isEmailCompatibleStatus = emails?.find(({ leadEmail }) => leadEmail)?.isValid;
+    const isPhoneCompatibleStatus = phones?.find(({ leadPhone }) => leadPhone)?.isSmsCompatible;
 
     const nonFormatPhoneNumber = useMemo(() => (phone ? `${phone}`.replace(/\D/g, "") : ""), [phone]);
 
@@ -137,9 +137,9 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
     };
 
     const isDisable = useMemo(() => {
-        if (existingSendType === "email" && leadEmail && isEmailCompatabileStatus) {
+        if (existingSendType === "email" && leadEmail && isEmailCompatibleStatus) {
             return true;
-        } else if (existingSendType === "textMessage" && leadPhone && isPhoneCompatabileStatus) {
+        } else if (existingSendType === "textMessage" && leadPhone && isPhoneCompatibleStatus) {
             return true;
         } else if (existingSendType === "newEmailOrMobile") {
             if (newSelectedType === "email" && email) {
@@ -155,8 +155,8 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
         newSelectedType,
         email,
         phone,
-        isPhoneCompatabileStatus,
-        isEmailCompatabileStatus,
+        isPhoneCompatibleStatus,
+        isEmailCompatibleStatus,
     ]);
 
     return (

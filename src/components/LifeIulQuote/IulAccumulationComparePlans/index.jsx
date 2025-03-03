@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { Grid, Box } from "@mui/material";
 
 import { CompareHeader, ProductFeature, UnderwritingRequirements } from "@integritymarketing/clients-ui-kit";
-import { IulQuoteContainer, ApplyErrorModal } from "../CommonComponents";
+import { IulQuoteContainer, ApplyErrorModal, IulCompareShareModal } from "../CommonComponents";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useLifeIulQuote } from "providers/Life";
@@ -25,6 +25,7 @@ const IulAccumulationComparePlans = () => {
     const comparePlans = JSON.parse(comparePlansSessionData);
     const navigate = useNavigate();
     const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
+    const [compareShareModalOpen, setCompareShareModalOpen] = useState(false);
 
     const { fetchLifeIulQuoteDetails, handleIULQuoteApplyClick, isLoadingApplyLifeIulQuote } = useLifeIulQuote();
 
@@ -111,7 +112,7 @@ const IulAccumulationComparePlans = () => {
     };
 
     const handleShareModal = (val) => {
-        console.log("IulAccumulationComparePlans -> val", val);
+        setCompareShareModalOpen(true);
     };
 
     const returnBackToPlansPage = () => {
@@ -119,7 +120,6 @@ const IulAccumulationComparePlans = () => {
     };
 
     const handleApplyClick = async (plan) => {
-
         const planData = comparePlans.find((p) => p.recId === plan.id);
         const emailAddress = leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
         const phoneNumber = leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
@@ -139,8 +139,7 @@ const IulAccumulationComparePlans = () => {
             );
             if (response.success) {
                 setSelectedPlan({});
-            }
-            else{
+            } else {
                 setApplyErrorModalOpen(true);
                 setSelectedPlan({});
             }
@@ -184,6 +183,14 @@ const IulAccumulationComparePlans = () => {
                 </Grid>
             </Grid>
             <ApplyErrorModal open={applyErrorModalOpen} onClose={() => setApplyErrorModalOpen(false)} />
+            {compareShareModalOpen && (
+                <IulCompareShareModal
+                    open={compareShareModalOpen}
+                    onClose={() => setCompareShareModalOpen(false)}
+                    plans={comparePlans}
+                    quoteType="accumulation"
+                />
+            )}
         </IulQuoteContainer>
     );
 };

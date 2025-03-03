@@ -62,8 +62,8 @@ const SharePlanModal = ({
     const [existingSendType, setExistingSendType] = useState("");
     const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? "";
     const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? "";
-    const isEmailCompatabileStatus = emails?.find(({ leadEmail }) => leadEmail)?.isValid;
-    const isPhoneCompatabileStatus = phones?.find(({ leadPhone }) => leadPhone)?.isSmsCompatible;
+    const isEmailCompatibleStatus = emails?.find(({ leadEmail }) => leadEmail)?.isValid;
+    const isPhoneCompatibleStatus = phones?.find(({ leadPhone }) => leadPhone)?.isSmsCompatible;
 
     const nonFormatPhoneNumber = useMemo(() => (phone ? `${phone}`.replace(/\D/g, "") : ""), [phone]);
 
@@ -228,9 +228,9 @@ const SharePlanModal = ({
     };
 
     const isDisable = useMemo(() => {
-        if (existingSendType === "email" && leadEmail && isEmailCompatabileStatus) {
+        if (existingSendType === "email" && leadEmail && isEmailCompatibleStatus) {
             return true;
-        } else if (existingSendType === "textMessage" && leadPhone && isPhoneCompatabileStatus) {
+        } else if (existingSendType === "textMessage" && leadPhone && isPhoneCompatibleStatus) {
             return true;
         } else if (existingSendType === "newEmailOrMobile") {
             if (newSelectedType === "email" && email) {
@@ -246,8 +246,8 @@ const SharePlanModal = ({
         newSelectedType,
         email,
         phone,
-        isPhoneCompatabileStatus,
-        isEmailCompatabileStatus,
+        isPhoneCompatibleStatus,
+        isEmailCompatibleStatus,
     ]);
 
     const handleOnDocumentChange = (e) => {

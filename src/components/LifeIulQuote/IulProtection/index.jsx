@@ -222,16 +222,12 @@ const IulProtectionQuote = () => {
                                                     handleComparePlanSelect={() => {
                                                         handleComparePlanSelect(plan);
                                                     }}
-                                                    handlePlanDetailsClick={() =>
-                                                        handlePlanDetailsClick(recId)
-                                                    }
+                                                    handlePlanDetailsClick={() => handlePlanDetailsClick(recId)}
                                                     disableCompare={
                                                         selectedPlans?.length === 3 &&
                                                         !selectedPlans?.find((p) => p.recId === recId)
                                                     }
-                                                    isChecked={selectedPlans?.find(
-                                                        (p) => p.recId === recId
-                                                    )}
+                                                    isChecked={selectedPlans?.find((p) => p.recId === recId)}
                                                 />
                                                 {selectedPlan?.rowId === rowId && (
                                                     <Box sx={{ position: "absolute", top: 0, left: "50%" }}>

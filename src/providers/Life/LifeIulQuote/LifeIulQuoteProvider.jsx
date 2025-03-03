@@ -10,7 +10,8 @@ export const LifeIulQuoteProvider = ({ children }) => {
     const getLifeIulQuoteUrl = `${import.meta.env.VITE_QUOTE_URL}/api/v1/IUL/quotes`;
     const applyLifeIulQuoteUrl = `${import.meta.env.VITE_ENROLLMENT_API}/api/v1.0/IUL/lead`;
     const getLifeIulQuoteDetailsUrl = `${import.meta.env.VITE_QUOTE_URL}/api/v1.0/IUL/policydetails`;
-    const iulQuoteShareUrl = `${import.meta.env.VITE_QUOTE_URL}/api/v1.0/Policy/SendPolicy`;
+    const iulQuoteShareUrl = `${import.meta.env.VITE_QUOTE_URL}/api/v1.0/Policy`;
+
     const showToast = useToast();
     const [lifeIulQuoteResults, setLifeIulQuoteResults] = useState(null);
     const [tempUserDetails, setTempUserDetails] = useState(null);
@@ -82,7 +83,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
             } catch (error) {
                 showToast({
                     type: "error",
-                    message: `Failed to get quote`
+                    message: `Failed to get quote`,
                 });
                 return null;
             }
@@ -166,19 +167,19 @@ export const LifeIulQuoteProvider = ({ children }) => {
         }
     };
 
-
     const handleIULQuoteShareClick = useCallback(
-        async (reqData) => {
+        async (reqData, isCompare) => {
+            const path = isCompare ? "PolicyCompare" : "SendPolicy";
             try {
-                const response = await shareIulQuote(reqData, false);
-                if (response === "Email Sent" || "SMS Sent") {
+                const response = await shareIulQuote(reqData, false, path);
+                if (response === "Email Sent" || "SMS Sent" || response?.status === "Email Sent" || "SMS Sent") {
                     showToast({
-                        message: "Successfully shared plan"
+                        message: "Successfully shared plan",
                     });
                 } else {
                     showToast({
                         type: "error",
-                        message: "Failed to share plan"
+                        message: "Failed to share plan",
                     });
                 }
             } catch (error) {
