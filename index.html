@@ -88,9 +88,9 @@
             "https://www.googletagmanager.com/gtm.js?id=" +
             i +
             dl +
-            "&%REACT_APP_GTM_PARAMS%";
+            "&${import.meta.env.VITE_GTM_PARAMS}";
         f.parentNode.insertBefore(j, f);
-    })(window, document, "script", "dataLayer", "%REACT_APP_GTM_ID%");
+    })(window, document, "script", "dataLayer", "${import.meta.env.VITE_GTM_ID}");
 </script>
 <!-- End Google Tag Manager -->
 
