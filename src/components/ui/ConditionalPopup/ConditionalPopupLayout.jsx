@@ -12,6 +12,7 @@ function ConditionalPopupLayout({
     children,
     open,
     onClose,
+    applyButtonText,
 }) {
     return (
         <>
@@ -19,7 +20,7 @@ function ConditionalPopupLayout({
                 <ConditionalCardLayout
                     header={header}
                     title={title}
-                    submitLabel={"Next"}
+                    submitLabel={applyButtonText}
                     handleApplyClick={handleApplyClick}
                     handleCancelClick={handleCancelClick}
                     applyButtonDisabled={applyButtonDisabled}
@@ -27,7 +28,9 @@ function ConditionalPopupLayout({
                     <Paper sx={{ padding: 3, borderRadius: "8px", backgroundColor: "#FFFFF", boxShadow: "none" }}>
                         <Stack direction="column" spacing={1}>
                             <Stack>
-                                <Typography variant="h5">{contentHeading}</Typography>
+                                <Typography variant="h5" color="#052A63">
+                                    {contentHeading}
+                                </Typography>
                             </Stack>
                             <Stack>{children}</Stack>
                         </Stack>

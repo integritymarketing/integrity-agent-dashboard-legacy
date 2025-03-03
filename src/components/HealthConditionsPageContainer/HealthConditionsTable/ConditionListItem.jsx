@@ -25,7 +25,7 @@ function ConditionListItem({ label, onEdit, areUwQuestionsComplete, areUwQuestio
 
             <Grid item>
                 <Stack direction="row" gap={3} alignItems="center">
-                    <Box display="flex" gap={1}>
+                    <Box display="flex" gap={1} minWidth={120}>
                         {areUwQuestionsComplete ? (
                             <FontAwesomeIcon icon={faCircleCheck} size="lg" color="#717171" />
                         ) : areUwQuestionsExpired ? (

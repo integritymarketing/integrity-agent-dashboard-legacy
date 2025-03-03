@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { MultiSelectDropdown } from "@integritymarketing/clients-ui-kit";
 import { useConditions } from "providers/Conditions";
@@ -24,9 +24,11 @@ function AddPrescriptionModal({
 
     const { agentInformation } = useAgentInformationByID();
     const [selectedCondition, setSelectedCondition] = useState(null);
+    const hasFetchedConditions = useRef(false);
 
     useEffect(() => {
-        if (prescriptionDetails) {
+        if (prescriptionDetails && !hasFetchedConditions.current) {
+            hasFetchedConditions.current = true;
             fetchPrescriptionConditions(prescriptionDetails.name);
         }
     }, [prescriptionDetails.name]);
