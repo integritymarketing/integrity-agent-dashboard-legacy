@@ -17,7 +17,6 @@ export default defineConfig(({mode}) => {
             rollupOptions: {
                 input: path.resolve(__dirname, "index.html"),
             },
-            sourcemap: true,
         },
 
         // Dev server configuration
