@@ -1,23 +1,12 @@
 import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import { createHtmlPlugin } from 'vite-plugin-html';
 
 export default defineConfig(({mode}) => {
-    const isAuthBuild = process.env.VITE_APP_BUILD_TARGET === "auth";
 
     return {
         base: "/",
-        plugins: [react(),
-          createHtmlPlugin({
-            inject: {
-              data: {
-                VITE_GTM_ID: process.env.VITE_GTM_ID,
-                VITE_GTM_PARAMS: process.env.VITE_GTM_PARAMS,
-              },
-            },
-          }),
-        ],
+        plugins: [react()],
         publicDir: "public", // Ensure the public directory is picked up (default is "public")
 
         // Build configuration
@@ -44,7 +33,7 @@ export default defineConfig(({mode}) => {
         // Resolve aliases for src path
         resolve: {
             alias: {
-                "@": path.resolve(__dirname, "src"),
+              "@": path.resolve(__dirname, "src"),
                 src: path.resolve(__dirname, "src"),
                 providers: path.resolve(__dirname, "src/providers"), // Alias for 'providers' directory
                 routeConfigs: path.resolve(__dirname, "src/routeConfigs"), // Alias for 'routeConfigs' directory
@@ -72,15 +61,14 @@ export default defineConfig(({mode}) => {
             preprocessorOptions: {
                 scss: {
                     sassOptions: {
-                        // additionalData: `@import "src/scss/_global.scss";`, // Add the correct global path here
-                        quietDeps: true, // Suppresses SCSS deprecation warnings from dependencies
+                        quietDeps: true,
                     },
                 },
             },
         },
 
         optimizeDeps: {
-            exclude: ["moment"], // Exclude Recoil from dependency pre-bundling
+            exclude: ['moment'],
         },
     };
 });

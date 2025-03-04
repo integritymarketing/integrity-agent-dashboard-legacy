@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630"/>
     <link rel="apple-touch-icon" href="/logo192.png"/>
     <script src="https://cdn.mxpnl.com/libs/mixpanel-js-wrapper.js" async></script>
-    <script src="//fw-cdn.com/12072373/4593409.js" chat="true" async></script>
+    <script src="https://fw-cdn.com/12072373/4593409.js" chat="true" async></script>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&family=Lato&display=swap"
@@ -37,13 +37,25 @@
 
 <body>
 <!-- Google Tag Manager (noscript) -->
-<noscript>
+<!--<noscript>
     <iframe
-        src="https://www.googletagmanager.com/ns.html?id=<%= VITE_GTM_ID %>&<%= VITE_GTM_PARAMS %>"
+    src="https://www.googletagmanager.com/ns.html?id=<%= VITE_GTM_ID %>&<%= VITE_GTM_PARAMS %>"
         height="0"
         width="0"
         style="display: none; visibility: hidden"
     ></iframe>
+</noscript>-->
+<noscript>
+    <script type="text/javascript">
+        const iframe = document.createElement("iframe");
+        iframe.src =
+            `https://www.googletagmanager.com/ns.html?id=${import.meta.env.VITE_GTM_ID}&${import.meta.env.VITE_GTM_PARAMS}`;
+        iframe.height = "0";
+        iframe.width = "0";
+        iframe.style.display = "none";
+        iframe.style.visibility = "hidden";
+        document.body.appendChild(iframe);
+    </script>
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -55,7 +67,7 @@
     }
 </script>
 <!-- Google Tag Manager -->
-<script type="module">
+<script>
     (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({
@@ -68,11 +80,9 @@
         j.async = true;
         j.src =
             "https://www.googletagmanager.com/gtm.js?id=" +
-            i +
-            dl +
-            "&<%= VITE_GTM_PARAMS %>";
+            i + dl + import.meta.env.VITE_GTM_PARAMS;
         f.parentNode.insertBefore(j, f);
-    })(window, document, "script", "dataLayer", "<%= VITE_GTM_ID %>");
+    })(window, document, "script", "dataLayer", import.meta.env.VITE_GTM_ID);
 </script>
 <!-- End Google Tag Manager -->
 
