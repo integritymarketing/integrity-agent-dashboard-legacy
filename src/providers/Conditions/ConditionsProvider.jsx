@@ -1,13 +1,7 @@
 import useFetch from 'hooks/useFetch';
 import useToast from 'hooks/useToast';
 import PropTypes from 'prop-types';
-import {
-  createContext,
-  useCallback,
-  useMemo,
-  useState,
-  useEffect,
-} from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 import { QUOTES_API_VERSION } from 'services/clientsService';
 import performAsyncOperation from 'utilities/performAsyncOperation';
 
@@ -172,10 +166,10 @@ export const ConditionsProvider = ({ children }) => {
     async (leadId, conditionId) => {
       try {
         const path = `${leadId}/condition/${conditionId}`;
-        let data = await getHealthConditionsQuestions(null, false, path);
+        const data = await getHealthConditionsQuestions(null, false, path);
         setHealthConditionsQuestions(data);
+        return data;
       } catch (error) {
-        console.log('error', error);
         showToast({
           type: 'error',
           message: 'Failed to get the health conditions questions',
