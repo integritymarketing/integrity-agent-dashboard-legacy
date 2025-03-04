@@ -1,4 +1,4 @@
-@use "scss/globalDefines" as defines_global;
+@use 'scss/globalDefines' as defines_global;
 
 .miniContainer {
   display: flex;
@@ -21,6 +21,7 @@
   display: flex;
   position: relative;
   gap: 5px;
+  align-items: center;
 
   .editIcon {
     cursor: pointer;
@@ -211,8 +212,7 @@
 
   .specialAssistanceHeader {
     color: var(--Integrity-navy-default, #052a63);
-    font-feature-settings: "liga" off,
-    "clig" off;
+    font-feature-settings: 'liga' off, 'clig' off;
 
     /* table/header */
     font-family: Lato, sans-serif;
