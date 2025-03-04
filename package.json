@@ -65,7 +65,6 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "build:auth": "cross-env VITE_APP_BUILD_TARGET=auth vite build",
         "preview": "vite preview",
         "clean": "rm -rf dist distAuth node_modules && yarn",
         "test": "jest --watch",
@@ -73,7 +72,6 @@
         "lint:one": "eslint --max-warnings 0",
         "lint:fix": "yarn lint:all -- --fix",
         "start": "vite",
-        "start:auth": "cross-env VITE_APP_BUILD_TARGET=auth PORT=3001 vite",
         "analyze": "source-map-explorer 'build/static/js/*.js'",
         "postbuild": "node generate-redirects.mjs",
         "sonar": "sonar-scanner"
