@@ -20,7 +20,7 @@ import { StageSelect } from "./StageSelect";
 
 const StageCell = ({ initialValue, originalData, customWidth, customRefresh }) => {
     const [isLostReasonModalVisible, setLostReasonModalVisibility] = useState(false);
-    const [selectedStage, setSelectedStage] = useState(initialValue);
+    const [selectedStage, setSelectedStage] = useState("New");
     const { loadStageSummary } = useContext(stageSummaryContext);
     const { allStatuses, statusOptions, lostSubStatusesOptions } = useContext(StageStatusContext);
     const { refreshData, layout } = useContactsListContext();
@@ -58,7 +58,7 @@ const StageCell = ({ initialValue, originalData, customWidth, customRefresh }) =
                 if (customRefresh) {
                     customRefresh();
                 } else {
-                    refreshData();
+                    await refreshData();
                 }
                 showToast({ type: "success", message: "Contact successfully updated.", time: 3000 });
             } else {
@@ -81,6 +81,8 @@ const StageCell = ({ initialValue, originalData, customWidth, customRefresh }) =
     useEffect(() => {
         if (lostSubStatusesOptions.some((opt) => opt?.label === initialValue)) {
             setSelectedStage("Lost");
+        } else {
+            setSelectedStage(initialValue);
         }
     }, [lostSubStatusesOptions, initialValue]);
 
