@@ -33,7 +33,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
             leadPhone: "",
             phoneLabel: "",
         },
-        primaryCommunication: "email",
+        primaryCommunication: "",
     });
     const [showStartQuoteModal, setShowStartQuoteModal] = useState(false);
     const [quoteModalStage, setQuoteModalStage] = useState("");

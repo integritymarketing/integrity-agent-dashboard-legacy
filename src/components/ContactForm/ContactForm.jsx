@@ -156,7 +156,11 @@ const ContactForm = ({
             }
 
             try {
-                const newContactResponse = await addNewContact(values);
+                const payload = {
+                    ...values,
+                    email: isEmailDeliverable ? values.email : "",
+                };
+                const newContactResponse = await addNewContact(payload);
                 const leadId = newContactResponse.leadsId;
 
                 fireEvent("event-form-submit", { formName: "New Contact" });
@@ -240,12 +244,12 @@ const ContactForm = ({
     const isEmailValid = useMemo(() => {
         if (values.email) {
             const emailPattern = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
-            return emailPattern.test(values.email) && isEmailDeliverable;
+            return emailPattern.test(values.email);
         } else if (values.email === "" && values.primaryCommunication === "email") {
             return false;
         }
         return true;
-    }, [values.email, values.primaryCommunication, isEmailDeliverable]);
+    }, [values.email, values.primaryCommunication]);
 
     const isInvalidZip =
         (values.address.postalCode.length === 5 && !loadingCountyAndState && allStates?.length === 0) ||
