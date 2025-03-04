@@ -18,9 +18,10 @@ import Button from "@mui/material/Button";
 import PropTypes from "prop-types";
 import CountyContext from "contexts/counties";
 import useAddNewContact from "hooks/ContactForm/useAddNewContact";
-import useAssignLead from "hooks/ContactForm/useAssignLead";
 import useDuplicateContact from "hooks/ContactForm/useDuplicateContact";
 import useLinkContact from "hooks/ContactForm/useLinkContact";
+import { useClientServiceContext } from "services/clientServiceProvider";
+
 import { Box } from "@mui/system";
 import * as Yup from "yup";
 import {
@@ -28,7 +29,6 @@ import {
     getTextFieldSchema,
     getAddressSchema,
     getMedicareBeneficiaryIDSchema,
-    getEmailOrPhonePrimaryCommunicationSchema,
 } from "ValidationSchemas";
 
 const ContactForm = ({
@@ -47,7 +47,7 @@ const ContactForm = ({
     const { checkDuplicateContact } = useDuplicateContact();
     const { addNewContact } = useAddNewContact();
     const { linkContact } = useLinkContact();
-    const { assignLeadToInboundCallRecord, assignLeadToOutboundSmsRecord } = useAssignLead();
+    const { callRecordingsService } = useClientServiceContext();
     const addNewDuplicateErrorRef = useRef();
     const { fireEvent } = useAnalytics();
     const callFrom = decodeURIComponent(get("callFrom")?.replace(/\s/g, "+") || "").replace(/^\+?1/, "");
@@ -164,13 +164,13 @@ const ContactForm = ({
                 if (callLogId && callLogId !== "undefined") {
                     const tagsArray = tags?.split(",").map(Number);
                     if (name === "Text") {
-                        await assignLeadToOutboundSmsRecord({
+                        await callRecordingsService.assignsLeadToOutboundSmsRecord({
                             smsLogId: callLogId,
                             leadId,
                             tagIds: tagsArray,
                         });
                     } else {
-                        await assignLeadToInboundCallRecord({
+                        await callRecordingsService.assignsLeadToInboundCallRecord({
                             callLogId,
                             leadId,
                             isInbound: inbound,
@@ -274,7 +274,16 @@ const ContactForm = ({
             dirty &&
             isValidPrimaryCommunication
         );
-    }, [isValid, isInvalidZip, isSubmitting, isNotStateOrCounty, isPhoneValid, isEmailValid, dirty]);
+    }, [
+        isValid,
+        isInvalidZip,
+        isSubmitting,
+        isNotStateOrCounty,
+        isPhoneValid,
+        isEmailValid,
+        dirty,
+        isValidPrimaryCommunication,
+    ]);
 
     return (
         <Box className={styles.formSection}>

@@ -1,10 +1,10 @@
 import useFetch from "../useFetch";
 
 const useAssignLead = () => {
-    const smsUrl = `${import.meta.env.VITE_CALL_RECORDINGS_URL}/api/v1.0/OutboundSmsRecord`;
-    const callUrl = `${import.meta.env.VITE_CALL_RECORDINGS_URL}/api/v1.0/InboundCallRecord`;
-    const { Post: postSms, loading: smsLoading, error: smsError } = useFetch(smsUrl);
-    const { Post: postCall, loading: callLoading, error: callError } = useFetch(callUrl);
+    const smsUrl = `${import.meta.env.VITE_COMMUNICATION_API}/SmsLog/Records/AssignToLead`;
+    const callUrl = `${import.meta.env.VITE_COMMUNICATION_API}/Call/Records/AssignToLead`;
+    const { Put: postSms, loading: smsLoading, error: smsError } = useFetch(smsUrl);
+    const { Put: postCall, loading: callLoading, error: callError } = useFetch(callUrl);
 
     const assignLeadToOutboundSmsRecord = async (payload) => {
         try {
