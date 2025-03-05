@@ -1,75 +1,72 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from 'react';
 import {
-    useReactTable,
-    getCoreRowModel,
-    getSortedRowModel,
-    getPaginationRowModel,
-    getFilteredRowModel,
-} from "@tanstack/react-table";
-import PropTypes from "prop-types";
-import { useContactsListContext } from "pages/ContactsList/providers/ContactsListProvider";
-import { useContactsListModalContext } from "../../providers/ContactsListModalProvider";
+  useReactTable,
+  getCoreRowModel,
+  getSortedRowModel,
+  getPaginationRowModel,
+  getFilteredRowModel,
+} from '@tanstack/react-table';
+import PropTypes from 'prop-types';
+import { useContactsListContext } from 'pages/ContactsList/providers/ContactsListProvider';
+import { useContactsListModalContext } from '../../providers/ContactsListModalProvider';
 
-import { TableHeader } from "../TableHeader";
-import { TableBody } from "../TableBody";
-import styles from "./styles.module.scss";
+import { TableHeader } from '../TableHeader';
+import { TableBody } from '../TableBody';
+import styles from './styles.module.scss';
 
 const Table = ({ isLoading = false, columns }) => {
-    const { setSelectedContacts, tableData } = useContactsListContext();
-    const { isExportSuccess } = useContactsListModalContext();
+  const { setSelectedContacts, tableData } = useContactsListContext();
+  const { isExportSuccess } = useContactsListModalContext();
+  const [sorting, setSorting] = useState([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const handleSortingChange = useCallback(setSorting, []);
+  const handleRowSelectionChange = useCallback(setRowSelection, []);
 
-    // State for sorting and row selection
-    const [sorting, setSorting] = useState([]);
-    const [rowSelection, setRowSelection] = useState({});
+  const memoizedTableData = React.useMemo(() => tableData, [tableData]);
+  const memoizedColumns = React.useMemo(() => columns, [columns]);
+  const tableInstance = useReactTable({
+    data: memoizedTableData,
+    columns: memoizedColumns,
+    state: { sorting, rowSelection },
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: handleSortingChange,
+    onRowSelectionChange: handleRowSelectionChange,
+    manualPagination: true,
+  });
+  useEffect(() => {
+    const selectedContacts = tableInstance
+      .getSelectedRowModel()
+      .flatRows.map(row => row.original?.leadsId)
+      .filter(Boolean);
 
-    // Memoized handlers
-    const handleSortingChange = useCallback(setSorting, []);
-    const handleRowSelectionChange = useCallback(setRowSelection, []);
+    setSelectedContacts(selectedContacts);
+  }, [rowSelection, tableInstance, setSelectedContacts]);
 
-    // Initializing table instance
-    const tableInstance = useReactTable({
-        data: tableData,
-        columns,
-        state: { sorting, rowSelection },
-        getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        onSortingChange: handleSortingChange,
-        onRowSelectionChange: handleRowSelectionChange,
-        manualPagination: true,
-    });
+  useEffect(() => {
+    setRowSelection({});
+  }, [tableData, isExportSuccess]);
 
-    // Ensure selected contacts update when rows are selected
-    useEffect(() => {
-        const selectedContacts = tableInstance
-            .getSelectedRowModel()
-            .flatRows.map((row) => row.original?.leadsId)
-            .filter(Boolean);
-
-        setSelectedContacts(selectedContacts); // Always update, even if empty
-    }, [rowSelection, tableInstance, setSelectedContacts]);
-
-    // Clear row selection when table data changes
-    useEffect(() => {
-        setRowSelection({});
-    }, [tableData, isExportSuccess]);
-
-    return (
-        <table className={styles.customTable}>
-            <TableHeader headerGroups={tableInstance.getHeaderGroups()} />
-            <TableBody rows={tableInstance.getRowModel().rows} isLoading={isLoading} />
-        </table>
-    );
+  return (
+    <table className={styles.customTable}>
+      <TableHeader headerGroups={tableInstance.getHeaderGroups()} />
+      <TableBody
+        rows={tableInstance.getRowModel().rows}
+        isLoading={isLoading}
+      />
+    </table>
+  );
 };
 
 Table.propTypes = {
-    isLoading: PropTypes.bool, // Indicates if data is loading
-    columns: PropTypes.arrayOf(PropTypes.object).isRequired, // Column definitions
+  isLoading: PropTypes.bool,
+  columns: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 Table.defaultProps = {
-    isLoading: false,
+  isLoading: false,
 };
 
 export default Table;
