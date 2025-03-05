@@ -113,7 +113,7 @@ export const ConditionsProvider = ({ children }) => {
   const fetchPrescriptionConditions = useCallback(
     async prescription => {
       try {
-        const path = `MED/${prescription}`;
+        const path = `MED/TERM/${prescription}`;
         let data = await getPrescriptionConditions(null, false, path);
         setPrescriptionConditions(data?.uwConditions || []);
       } catch (error) {
