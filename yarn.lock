@@ -28,9 +28,9 @@
   integrity sha512-NMTBNuuG4g3rame1aCnNS5qFYIzsTUV5qTFPRfTyYFS1feS6jsCBR+eTq9YkxCp1yuoM2UIcjunPaoPl77U9xQ==
 
 "@awesome.me/kit-7ab3488df1@^1.0.442":
-  version "1.0.461"
-  resolved "https://npm.fontawesome.com/@awesome.me/kit-7ab3488df1/-/1.0.461/kit-7ab3488df1-1.0.461.tgz#4ec965e0c98a64714851fd8328f75a3ca85492fb"
-  integrity sha512-uVMp3EYqJQj1ge6SJOPwmnkSnlYf02lVAnoDC0a2xgAvpAhUKStMV4Mbo/91ivUuGAe6u2+Xnnji3gk2SeQ2cw==
+  version "1.0.508"
+  resolved "https://npm.fontawesome.com/@awesome.me/kit-7ab3488df1/-/1.0.508/kit-7ab3488df1-1.0.508.tgz#114b371501420a34f007fbcdea20c50d8cab07cb"
+  integrity sha512-sZGpYsF098p6uIU9EOZtedsDQJtk1RIaGp2ixImay+QCi6lM4BchvQGo6v3dGiwMI/gnqeF7i9QWhpRdps+z6w==
   dependencies:
     "@fortawesome/fontawesome-common-types" "^6.7.2"
 
@@ -1384,10 +1384,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.3.tgz#4a2868d75d6d6963e423bcf90b7fd1be343409d3"
   integrity sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==
 
-"@integritymarketing/clients-ui-kit@^1.5.3":
-  version "1.5.3"
-  resolved "https://npm.pkg.github.com/download/@integritymarketing/clients-ui-kit/1.5.3/baa8935272ab90fa012b70fa245ac97bbf9bc5ed#baa8935272ab90fa012b70fa245ac97bbf9bc5ed"
-  integrity sha512-s0ttvXdBqDvs8YurDPJO+mXAaV9qr6u+CoToqeSCBU7Rn2bE6TP+x7fjFbiweB0bOALCRwf4P1dQN80M21EcCQ==
+"@integritymarketing/clients-ui-kit@^1.5.4":
+  version "1.5.4"
+  resolved "https://npm.pkg.github.com/download/@integritymarketing/clients-ui-kit/1.5.4/ca30f2459441389c9846837fcf35850965f9f41e#ca30f2459441389c9846837fcf35850965f9f41e"
+  integrity sha512-2BdmyrIAyfZQZg+MpNE3La8J4dPal1MM4iFRaPJUdoSG5s4tFi3aSgVW/yJFbqLL6RuoPZ1UUsFD4py4+/sjhQ==
   dependencies:
     "@awesome.me/kit-7ab3488df1" "^1.0.442"
     "@fortawesome/fontawesome-svg-core" "^6.7.1"
