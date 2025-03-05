@@ -75,7 +75,7 @@ const GlobalFooter = ({ className = "", hideMedicareIcon = false, ...props }) =>
                                 </Media>
                                 <li>
                                     <a
-                                        href={`${import.meta.env.VITE_CONNECTURE_LINK}/${npn}/${import.meta.env.VITE_CURRENT_PLAN_YEAR}`}
+                                        href={import.meta.env.VITE_CONNECTURE_LINK}
                                         rel="noopener noreferrer"
                                         target="_blank"
                                         className="link link--inherit"
