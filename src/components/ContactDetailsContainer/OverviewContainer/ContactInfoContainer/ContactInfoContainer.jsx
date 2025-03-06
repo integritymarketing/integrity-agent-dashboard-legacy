@@ -11,13 +11,15 @@ import styles from './ContactInfoContainer.module.scss';
 import ContactInfoForm from './ContactInfoForm';
 import Label from '../CommonComponents/Label';
 import SectionContainer from '../CommonComponents/SectionContainer';
-import { EditWithIcon, Favorite } from '../Icons';
+import { EditWithIcon } from '../Icons';
 import { Hide } from '../Icons/Hide';
 import { Show } from '../Icons/Show';
 import ArrowDownBig from 'components/icons/version-2/ArrowDownBig';
 import { Paper, Stack, Typography, Chip, Box } from '@mui/material';
 import { faMobile } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AlertMessage from 'components/Alert';
+
 const NOT_AVAILABLE = '-';
 
 export const ContactInfoContainer = ({ isMobile }) => {
@@ -146,6 +148,9 @@ export const ContactInfoContainer = ({ isMobile }) => {
   const leadCreatedDate = useMemo(() => {
     return createDate ? getLocalDateTime(createDate)?.fullDate : NOT_AVAILABLE;
   }, [leadDetails]);
+
+  const isSmsCompatible = phonesData?.[0]?.isSmsCompatible;
+  const isEmailValid = emails?.[0]?.isValid;
 
   const leadData = {
     firstName,
@@ -298,6 +303,23 @@ export const ContactInfoContainer = ({ isMobile }) => {
                   <Box className={styles.emailText}>
                     <Label value={leadEmail} color='#4178FF' size='16px' />
                   </Box>
+                  {!isEmailValid && (
+                    <Box>
+                      <AlertMessage
+                        status='error'
+                        title='Emails Undeliverable'
+                        message={
+                          <>
+                            This email address may not be able to receive
+                            emails. Please verify the address.{' '}
+                            <span style={{ fontWeight: 'bold', color: '#434A51' }}>
+                              This address will not be saved.
+                            </span>
+                          </>
+                        }
+                      />
+                    </Box>
+                  )}
                 </Box>
               </Box>
             </SectionContainer>
@@ -307,7 +329,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
                 <Box className={styles.horizontalLayout}>
                   <Label value={` ${leadPhone}`} color='#4178FF' size='16px' />
                 </Box>
-                {isPrimary === 'phone' && (
+                {isSmsCompatible && (
                   <Box>
                     <Chip
                       color='primary'

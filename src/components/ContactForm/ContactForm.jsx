@@ -271,32 +271,6 @@ const ContactForm = ({
     return isPrimaryCommunicationValid;
   }, [values.primaryCommunication]);
 
-  //    const isPhoneValid = useMemo(() => {
-  //      if (values.phones?.leadPhone) {
-  //        const digitsOnly = values.phones?.leadPhone?.replace(/\D/g, '');
-  //        return digitsOnly.length === 10;
-  //      } else if (
-  //        values.phones?.leadPhone === '' &&
-  //        values.primaryCommunication === 'phone'
-  //      ) {
-  //        return false;
-  //      }
-  //      return true;
-  //    }, [values.phones?.leadPhone, values.primaryCommunication]);
-
-  //    const isEmailValid = useMemo(() => {
-  //      if (values.email) {
-  //        const emailPattern = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
-  //        return emailPattern.test(values.email);
-  //      } else if (
-  //        values.email === '' &&
-  //        values.primaryCommunication === 'email'
-  //      ) {
-  //        return false;
-  //      }
-  //      return true;
-  //    }, [values.email, values.primaryCommunication]);
-
   const isPhoneorEmailValid = useMemo(() => {
     if (
       values?.email &&

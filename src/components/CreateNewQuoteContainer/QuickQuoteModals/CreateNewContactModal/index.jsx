@@ -143,6 +143,7 @@ const CreateNewContactModal = () => {
     handleBlur,
     handleSubmit,
     isSubmitting,
+    setFieldValue,
   } = formik;
 
   const onClose = () => {
@@ -155,13 +156,27 @@ const CreateNewContactModal = () => {
       values?.primaryCommunication === 'email' &&
       isEmailDeliverable
     ) {
-      return true;
+      const emailPattern = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
+      return emailPattern.test(values.email);
     }
     if (values?.phones?.leadPhone && values?.primaryCommunication === 'phone') {
-      return true;
+      const digitsOnly = values?.phones?.leadPhone.replace(/\D/g, '');
+      return digitsOnly.length === 10;
+    }
+    if (
+      values?.email &&
+      values?.primaryCommunication === 'email' &&
+      !isEmailDeliverable
+    ) {
+      const digitsOnly = values?.phones?.leadPhone.replace(/\D/g, '');
+
+      if (values?.phones?.leadPhone && digitsOnly.length === 10) {
+        setFieldValue('primaryCommunication', 'phone');
+        return true;
+      }
     }
     return false;
-  }, [values, isEmailDeliverable]);
+  }, [values, isEmailDeliverable, setFieldValue]);
 
   const formValid = useMemo(() => {
     return isValid && dirty && isPhoneorEmailValid && !isSubmitting;

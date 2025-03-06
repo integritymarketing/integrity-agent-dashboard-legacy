@@ -11,7 +11,14 @@ import styles from "./styles.module.scss";
 const errorMessage = "Invalid email address format.";
 const validEmailMessage = "This email address can receive emails.";
 const serverErrorMessage = "There was an error validating this email address.";
-const emailUndeliverMsg = "This email address may not be able to receive emails. Please verify the address.";
+const emailUndeliverMsg = (
+  <>
+    This email address may not be able to receive emails. Please verify the address.{' '}
+    <span style={{ fontWeight: 'bold', color: '#434A51' }}>
+      This address will not be saved.
+    </span>
+  </>
+);
 
 /**
  * EmailInput Component
@@ -48,7 +55,7 @@ const EmailInput = ({ label, onValidation, size, defaultValue, ...props }) => {
                 setIsEmailValid(isValid);
                 onValidation({
                     email,
-                    title: isValid ? "Email Verified" : "Email is Undeliverable",
+                    title: isValid ? "Email Verified" : "Emails Undeliverable",
                     status: isValid ? "success" : "error",
                     message: isValid ? validEmailMessage : emailUndeliverMsg,
                 });
