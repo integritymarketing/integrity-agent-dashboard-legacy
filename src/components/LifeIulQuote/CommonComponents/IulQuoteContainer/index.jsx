@@ -1,104 +1,114 @@
-import { Grid, Box } from "@mui/material";
-import { ContactProfileTabBar } from "components/ContactDetailsContainer";
-import { IulQuoteHeader } from "../IulQuoteHeader";
-import { IulFilterHeader } from "../QuoteFilterHeader";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
-import WithLoader from "components/ui/WithLoader";
-import { useLeadDetails } from "providers/ContactDetails";
-import { useLifeIulQuote } from "providers/Life";
-import { ComparePlanFooter } from "@integritymarketing/clients-ui-kit";
-import styles from "./styles.module.scss";
-import PropTypes from "prop-types";
-import _ from "lodash";
-import { useEffect, useMemo } from "react";
+import { Grid, Box } from '@mui/material';
+import { ContactProfileTabBar } from 'components/ContactDetailsContainer';
+import { IulQuoteHeader } from '../IulQuoteHeader';
+import { IulFilterHeader } from '../QuoteFilterHeader';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import WithLoader from 'components/ui/WithLoader';
+import { useLeadDetails } from 'providers/ContactDetails';
+import { useLifeIulQuote } from 'providers/Life';
+import { ComparePlanFooter } from '@integritymarketing/clients-ui-kit';
+import styles from './styles.module.scss';
+import PropTypes from 'prop-types';
+import _ from 'lodash';
+import { useEffect, useMemo } from 'react';
 
 function useQuery() {
-    const { search } = useLocation();
-    return useMemo(() => new URLSearchParams(search), [search]);
+  const { search } = useLocation();
+  return useMemo(() => new URLSearchParams(search), [search]);
 }
 
 export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
-    const { contactId } = useParams();
-    const query = useQuery();
-    const sessionPlansStatus = query && query.get("preserveSelected");
-    const navigate = useNavigate();
-    const { isLoadingLeadDetails } = useLeadDetails();
-    const {
-        showFilters,
-        setShowFilters,
-        selectedPlans,
-        handleComparePlanSelect,
-        setSelectedPlans,
-        tabSelected,
-        isLoadingLifeIulQuote,
-    } = useLifeIulQuote();
+  const { contactId } = useParams();
+  const query = useQuery();
+  const sessionPlansStatus = query && query.get('preserveSelected');
+  const navigate = useNavigate();
+  const { isLoadingLeadDetails } = useLeadDetails();
+  const {
+    showFilters,
+    setShowFilters,
+    selectedPlans,
+    handleComparePlanSelect,
+    setSelectedPlans,
+    tabSelected,
+    isLoadingLifeIulQuote,
+  } = useLifeIulQuote();
 
-    const handleOnCompare = () => {
-        const planIds = [
-            "IUL-United of Omaha-Income Advantage IUL",
-            "IUL-United of Omaha-Life Protection Advantage IUL",
-            "IUL-United of Omaha-Income Advantage IUL",
-        ];
-        sessionStorage.setItem("iul-compare-plans", JSON.stringify(selectedPlans));
-        sessionStorage.setItem("iul-protection-tab", JSON.stringify(tabSelected));
-        const url = `/life/iul-${quoteType}/${contactId}/${planIds?.map((id) => id).join(",")}/compare-plans`;
-        navigate(url);
-    };
+  const handleOnCompare = () => {
+    const planIds = [
+      'IUL-United of Omaha-Income Advantage IUL',
+      'IUL-United of Omaha-Life Protection Advantage IUL',
+      'IUL-United of Omaha-Income Advantage IUL',
+    ];
+    sessionStorage.setItem('iul-compare-plans', JSON.stringify(selectedPlans));
+    console.log('selectedPlans', selectedPlans);
+    sessionStorage.setItem('iul-protection-tab', JSON.stringify(tabSelected));
+    const url = `/life/iul-${quoteType}/${contactId}/${planIds
+      ?.map(id => id)
+      .join(',')}/compare-plans`;
+    navigate(url);
+  };
 
-    useEffect(() => {
-        if (page === "plans page" && sessionPlansStatus) {
-            const plans = JSON.parse(sessionStorage.getItem("iul-compare-plans"));
-            if (plans && plans.length > 0) {
-                setSelectedPlans([...plans]);
-            }
-        }
-    }, [sessionPlansStatus, page, setSelectedPlans]);
+  useEffect(() => {
+    if (page === 'plans page' && sessionPlansStatus) {
+      const plans = JSON.parse(sessionStorage.getItem('iul-compare-plans'));
+      if (plans && plans.length > 0) {
+        setSelectedPlans([...plans]);
+      }
+    }
+  }, [sessionPlansStatus, page, setSelectedPlans]);
 
-    const backRoute = useMemo(() => {
-        return page === "plan compare page"
-            ? `/life/iul-${quoteType}/${contactId}/quote?preserveSelected=true`
-            : page === "plans details page"
-            ? `/life/iul-${quoteType}/${contactId}/quote`
-            : `/life/iul-${quoteType}/${contactId}/product-preferences`;
-    }, [contactId, page, quoteType]);
-
-    return (
-        <WithLoader isLoading={isLoadingLeadDetails}>
-            {!showFilters && (
-                <ContactProfileTabBar
-                    contactId={contactId}
-                    showTabs={false}
-                    backButtonRoute={backRoute}
-                    backButtonLabel="Back"
-                />
-            )}
-            {showFilters && <IulFilterHeader title={"Filters"} onClick={() => setShowFilters(false)} />}
-            <Box className={styles.iulQuoteContainer}>
-                <Grid container gap={3}>
-                    {!showFilters && (
-                        <Grid item md={12} xs={12}>
-                            <IulQuoteHeader title={title} />
-                        </Grid>
-                    )}
-                    {children}
-                </Grid>
-            </Box>
-            {page === "plans page" && selectedPlans.length > 0 && !isLoadingLifeIulQuote && (
-                <ComparePlanFooter
-                    plans={selectedPlans}
-                    onClose={handleComparePlanSelect}
-                    onCompare={handleOnCompare}
-                />
-            )}
-        </WithLoader>
-    );
+  const backRoute = useMemo(() => {
+    return page === 'plan compare page'
+      ? `/life/iul-${quoteType}/${contactId}/quote?preserveSelected=true`
+      : page === 'plans details page'
+      ? `/life/iul-${quoteType}/${contactId}/quote`
+      : `/life/iul-${quoteType}/${contactId}/product-preferences`;
+  }, [contactId, page, quoteType]);
+  console.log('selectedPlans', selectedPlans);
+  return (
+    <WithLoader isLoading={isLoadingLeadDetails}>
+      {!showFilters && (
+        <ContactProfileTabBar
+          contactId={contactId}
+          showTabs={false}
+          backButtonRoute={backRoute}
+          backButtonLabel='Back'
+        />
+      )}
+      {showFilters && (
+        <IulFilterHeader
+          title={'Filters'}
+          onClick={() => setShowFilters(false)}
+        />
+      )}
+      <Box className={styles.iulQuoteContainer}>
+        <Grid container gap={3}>
+          {!showFilters && (
+            <Grid item md={12} xs={12}>
+              <IulQuoteHeader title={title} />
+            </Grid>
+          )}
+          {children}
+        </Grid>
+      </Box>
+      {page === 'plans page' &&
+        selectedPlans.length > 0 &&
+        !isLoadingLifeIulQuote && (
+          <ComparePlanFooter
+            plans={selectedPlans}
+            onClose={handleComparePlanSelect}
+            onCompare={handleOnCompare}
+          />
+        )}
+    </WithLoader>
+  );
 };
 
 IulQuoteContainer.propTypes = {
-    title: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-    page: PropTypes.string.isRequired,
-    quoteType: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  page: PropTypes.string.isRequired,
+  quoteType: PropTypes.string.isRequired,
 };
 
 export default IulQuoteContainer;

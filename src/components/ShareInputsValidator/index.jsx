@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import {
   FormControl,
@@ -51,7 +51,7 @@ const ShareInputsValidator = ({
   const { validateEmail, validatePhone, updateLeadPhone, leadDetails } =
     useLeadDetails();
 
-  const { emails = [], phones = [] } = leadDetails;
+  const { emails = [], phones = [], contactPreferences } = leadDetails;
 
   const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? '';
   const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? '';
@@ -64,6 +64,10 @@ const ShareInputsValidator = ({
   const phoneId = phones?.find(({ leadPhone }) => leadPhone)?.phoneId ?? null;
   const phoneLabel =
     phones?.find(({ leadPhone }) => leadPhone)?.phoneLabel ?? null;
+
+  const isPrimary = useMemo(() => {
+    return contactPreferences?.primary ? contactPreferences?.primary : 'phone';
+  }, [contactPreferences]);
 
   const [isEmailCompatabile, setIsEmailCompatabile] = useState(
     isEmailCompatibleStatus
@@ -117,6 +121,14 @@ const ShareInputsValidator = ({
     });
   };
 
+  const handleSelectExistingMethod = value => {
+    setExistingSendType(value);
+    setValidationMessages({
+      email: { status: null, message: '', title: '' },
+      phone: { status: null, message: '', title: '' },
+    });
+  };
+
   const checkEmailValidity = useCallback(
     async email => {
       try {
@@ -157,6 +169,27 @@ const ShareInputsValidator = ({
   );
 
   useEffect(() => {
+    if (isPrimary === 'email' && leadEmail && isEmailCompatabile === true) {
+      setExistingSendType('email');
+    } else if (
+      isPrimary === 'phone' &&
+      leadPhone &&
+      isPhoneCompatabile === true
+    ) {
+      setExistingSendType('textMessage');
+    } else if (!leadEmail && !leadPhone) {
+      setExistingSendType('newEmailOrMobile');
+    }
+  }, [
+    isPrimary,
+    setExistingSendType,
+    leadEmail,
+    isEmailCompatabile,
+    leadPhone,
+    isPhoneCompatabile,
+  ]);
+
+  useEffect(() => {
     if (leadEmail && isEmailCompatabile === null) {
       checkEmailValidity(leadEmail);
     }
@@ -182,7 +215,7 @@ const ShareInputsValidator = ({
           <Box>
             <RadioGroup
               value={existingSendType}
-              onChange={event => setExistingSendType(event.target.value)}
+              onChange={event => handleSelectExistingMethod(event.target.value)}
             >
               {leadEmail && isEmailCompatabile && (
                 <FormControlLabel
@@ -321,17 +354,20 @@ const ShareInputsValidator = ({
         )}
 
         <Box width={'90%'} margin='auto'>
-          {existingSendType === 'email' && isEmailCompatibleStatus !== true && (
-            <Box>
-              <AlertMessage
-                status='error'
-                title='Email is Undeliverable'
-                message='This email address may not be able to receive emails. Please verify the address.'
-              />
-            </Box>
-          )}
-          {existingSendType === 'textMessage' &&
-            isPhoneCompatibleStatus !== true && (
+          {leadEmail &&
+            existingSendType === 'email' &&
+            isEmailCompatabile !== true && (
+              <Box>
+                <AlertMessage
+                  status='error'
+                  title='Email is Undeliverablddfe'
+                  message='This email address may not be able to receive emails. Please verify the address.'
+                />
+              </Box>
+            )}
+          {leadPhone &&
+            existingSendType === 'textMessage' &&
+            isPhoneCompatabile !== true && (
               <Box>
                 <AlertMessage
                   status='error'

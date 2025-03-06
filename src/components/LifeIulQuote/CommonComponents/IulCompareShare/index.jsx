@@ -161,7 +161,7 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
 
   return (
     <CustomModal
-      title='Share this Policy'
+      title='Share Policies'
       open={open}
       handleClose={onClose}
       showCloseButton
