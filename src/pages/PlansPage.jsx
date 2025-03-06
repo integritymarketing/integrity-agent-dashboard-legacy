@@ -656,7 +656,7 @@ const PlansPage = () => {
                     <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE} />
 
                     {((contact && !isMobile) || (isMobile && !filtersOpen)) && (
-                        <ContactProfileTabBar contactId={id} showTabs={false} backButtonLabel="Back" />
+                        <ContactProfileTabBar contactId={id} showTabs={false} backButtonLabel="Back" backButtonRoute={`/contact/${id}/overview`}/>
                     )}
 
                     {isMobile && !filtersOpen && (
