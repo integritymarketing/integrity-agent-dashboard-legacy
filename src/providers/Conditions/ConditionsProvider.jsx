@@ -152,11 +152,12 @@ export const ConditionsProvider = ({ children }) => {
         let data = await getHealthConditionsQuestions(null, false, path);
         setHealthConditionsQuestions(data);
       } catch (error) {
-        console.log('error', error);
         showToast({
           type: 'error',
           message: 'Failed to get the health conditions questions',
         });
+        setOpenQuestionModal(false);
+        fetchHealthConditions(leadId);
       }
     },
     [getHealthConditionsQuestions, showToast]

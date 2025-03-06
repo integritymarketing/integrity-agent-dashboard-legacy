@@ -32,27 +32,46 @@ function HealthConditionQuestionModal({
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(null);
   const [error, setError] = useState(null);
+  const [options, setOptions] = useState();
   const hasAPICalled = useRef(false);
 
-  const fetchAllConditionsQuestions = useCallback(async () => {
-    const promises = selectedCondition.map(_ => {
-      return fetchHealthConditionsQuestionsByCondtionId(
-        contactId,
-        _.conditionId
-      );
-    });
-    const response = await Promise.all(promises);
+  const handleCancelClick = () => {
+    setValues(null);
+    clearConditionalQuestionData();
+    onClose();
+    fetchHealthConditions(contactId);
+  };
 
-    const questions = response
-      .filter(res => Boolean(res))
-      .flatMap((conditionResponse, index) =>
-        conditionResponse.questions.items.map(question => ({
-          ...question,
-          conditionId: selectedCondition[index].conditionId,
-          conditionName: selectedCondition[index].conditionName,
-        }))
-      );
-    setQuestionData(questions);
+  const fetchAllConditionsQuestions = useCallback(async () => {
+    try {
+      setLoading(true);
+      const promises = selectedCondition.map(_ => {
+        return fetchHealthConditionsQuestionsByCondtionId(
+          contactId,
+          _.conditionId
+        );
+      });
+      const response = await Promise.all(promises);
+
+      const questions = response
+        .filter(res => Boolean(res))
+        .flatMap((conditionResponse, index) =>
+          conditionResponse.questions.items.map(question => ({
+            ...question,
+            conditionId: selectedCondition[index].conditionId,
+            conditionName: selectedCondition[index].conditionName,
+          }))
+        );
+      setOptions(response.flatMap(res => res.options));
+      setLoading(false);
+      if (questions.length === 0) {
+        handleCancelClick();
+      } else {
+        setQuestionData(questions);
+      }
+    } catch (error) {
+      setLoading(false);
+    }
   }, [
     selectedCondition,
     fetchHealthConditionsQuestionsByCondtionId,
@@ -107,6 +126,7 @@ function HealthConditionQuestionModal({
         if (resp) {
           if (currentQuestionIndex === questionData.length - 1) {
             onSuccessOfHealthConditionQuestionModal();
+            handleCancelClick();
           } else {
             setCurrentQuestion(questionData[currentQuestionIndex + 1]);
             setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -121,13 +141,6 @@ function HealthConditionQuestionModal({
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleCancelClick = () => {
-    setValues(null);
-    clearConditionalQuestionData();
-    onClose();
-    fetchHealthConditions(contactId);
   };
 
   const isButtonDisabled = useMemo(
@@ -204,6 +217,10 @@ function HealthConditionQuestionModal({
                     ? 'Add Condition'
                     : 'Next'
                 }
+                options={options.filter(
+                  option => option.questionId === currentQuestion.id
+                )}
+                setValues={setValues}
               />
             )}
           </>
