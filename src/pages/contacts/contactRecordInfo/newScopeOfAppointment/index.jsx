@@ -53,7 +53,6 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
     } = useAgentInformationByID();
 
     const handleCloseModal = () => {
-        setNewSoaContactDetails({});
         onCloseModal();
     };
 
@@ -217,6 +216,7 @@ const NewScopeOfAppointment = ({ leadId, onCloseModal, refreshSOAList }) => {
 NewScopeOfAppointment.propTypes = {
     leadId: PropTypes.string.isRequired,
     onCloseModal: PropTypes.func.isRequired,
+    refreshSOAList: PropTypes.func.isRequired,
 };
 
 export default NewScopeOfAppointment;
