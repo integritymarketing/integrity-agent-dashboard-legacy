@@ -34,6 +34,13 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "^6.7.2"
 
+"@awesome.me/kit-7ab3488df1@^1.0.512":
+  version "1.0.512"
+  resolved "https://npm.fontawesome.com/@awesome.me/kit-7ab3488df1/-/1.0.512/kit-7ab3488df1-1.0.512.tgz#46aa90b6a8422cb8262f55b1fff6451036931dca"
+  integrity sha512-ytYxe9llVz7oSjcmk/WCw5C78xI07+v97gNt9XZAK8dRlQbDRS09O4KSA23vDUScF65ZrPws85Ic9FiYMpko5Q==
+  dependencies:
+    "@fortawesome/fontawesome-common-types" "^6.7.2"
+
 "@babel/cli@^7.17.6":
   version "7.26.4"
   resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.26.4.tgz#4101ff8ee5de8447a6c395397a97921056411d20"
@@ -1384,10 +1391,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.3.tgz#4a2868d75d6d6963e423bcf90b7fd1be343409d3"
   integrity sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==
 
-"@integritymarketing/clients-ui-kit@^1.5.4":
-  version "1.5.4"
-  resolved "https://npm.pkg.github.com/download/@integritymarketing/clients-ui-kit/1.5.4/ca30f2459441389c9846837fcf35850965f9f41e#ca30f2459441389c9846837fcf35850965f9f41e"
-  integrity sha512-2BdmyrIAyfZQZg+MpNE3La8J4dPal1MM4iFRaPJUdoSG5s4tFi3aSgVW/yJFbqLL6RuoPZ1UUsFD4py4+/sjhQ==
+"@integritymarketing/clients-ui-kit@^1.5.5":
+  version "1.5.5"
+  resolved "https://npm.pkg.github.com/download/@integritymarketing/clients-ui-kit/1.5.5/ccd8608ca73f9ac6e2701acc3c82970d967d2a82#ccd8608ca73f9ac6e2701acc3c82970d967d2a82"
+  integrity sha512-sTp4BYiW8ACtjqHp2ArS7qIAWBcT+fT+0CB3a5LqjV6IOCXTvUTQ+I6tfSDK0iaaekScouOhg+3vaxEXRP+6iw==
   dependencies:
     "@awesome.me/kit-7ab3488df1" "^1.0.442"
     "@fortawesome/fontawesome-svg-core" "^6.7.1"

@@ -69,13 +69,13 @@ function ConditionListItem({
             sx={{
               padding: '5px 20px',
               borderRadius: '25px',
-              color: '#6366F1',
+              color: '#4178FF',
               border: 'none',
               '&:hover': {
                 background: '#fff 0 0 no-repeat padding-box',
                 borderRadius: '20px',
                 boxShadow: '0 0 10px 1px rgb(0 0 0 / 20%)',
-                color: '#1357ff',
+                color: '#4178FF',
               },
             }}
             endIcon={<ActionsRename />}
