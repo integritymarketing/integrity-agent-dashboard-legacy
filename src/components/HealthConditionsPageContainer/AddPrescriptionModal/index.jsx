@@ -20,6 +20,8 @@ function AddPrescriptionModal({
     healthConditionsQuestions,
     getPrescriptionConditionsLoading,
     postHealthConditionsLoading,
+    selectedPrescription,
+    setSelectedPrescription,
   } = useConditions();
 
   const { agentInformation } = useAgentInformationByID();
@@ -31,7 +33,15 @@ function AddPrescriptionModal({
       hasFetchedConditions.current = true;
       fetchPrescriptionConditions(prescriptionDetails.name);
     }
-  }, [prescriptionDetails.name]);
+    if (
+      selectedPrescription &&
+      'dosage' in selectedPrescription &&
+      !hasFetchedConditions.current
+    ) {
+      hasFetchedConditions.current = true;
+      fetchPrescriptionConditions(selectedPrescription.dosage.ndc);
+    }
+  }, [prescriptionDetails?.name, selectedPrescription]);
 
   const onApplyClick = async value => {
     setSelectedCondition(value);
@@ -44,7 +54,7 @@ function AddPrescriptionModal({
       consumerId: 0,
       agentNPN: agentInformation?.agentNPN,
     }));
-
+    setSelectedPrescription(null);
     await addHealthConditions(payloadData, contactId);
   };
 
@@ -67,14 +77,18 @@ function AddPrescriptionModal({
       >
         <DialogContent sx={{ padding: 0 }}>
           <MultiSelectDropdown
-            header='Search for a Condition by Prescription'
-            title={prescriptionDetails?.name}
+            header='Search for a Condition b Prescription'
+            title={
+              prescriptionDetails?.name ||
+              selectedPrescription?.dosage?.labelName
+            }
             subtitle='Select the associated condition(s) for this medication'
             submitLabel='Next'
             handleApplyClick={onApplyClick}
             handleCancelClick={() => {
               onClose();
               handleHealthConditionClose();
+              setSelectedPrescription(null);
             }}
             conditions={prescriptionConditions}
             loading={

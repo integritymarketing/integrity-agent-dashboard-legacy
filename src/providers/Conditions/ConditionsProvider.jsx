@@ -113,11 +113,13 @@ export const ConditionsProvider = ({ children }) => {
   const fetchPrescriptionConditions = useCallback(
     async prescription => {
       try {
-        const path = `MED/TERM/${prescription}`;
+        let path = `MED/TERM/${prescription}`;
+        if (selectedPrescription && selectedPrescription['dosage']) {
+          path = `MED/NDC11/${prescription}`;
+        }
         let data = await getPrescriptionConditions(null, false, path);
         setPrescriptionConditions(data?.uwConditions || []);
       } catch (error) {
-        console.log('error', error);
         showToast({
           type: 'error',
           message: 'Failed to get the prescription conditions',
@@ -248,7 +250,6 @@ export const ConditionsProvider = ({ children }) => {
   const handleOnEdit = useCallback(
     async (condition, leadId) => {
       try {
-        console.log('condition', condition);
         const questions = await fetchQuestionsByConditionIdAndLeadId(
           condition.conditionId,
           leadId
@@ -273,6 +274,7 @@ export const ConditionsProvider = ({ children }) => {
 
   const handlePrescriptionClick = useCallback(prescription => {
     setSelectedPrescription(prescription);
+    setOpenAddPrescriptionModal(true);
   }, []);
 
   const handleApplyClickOfAddPrescriptionModal = useCallback(value => {
