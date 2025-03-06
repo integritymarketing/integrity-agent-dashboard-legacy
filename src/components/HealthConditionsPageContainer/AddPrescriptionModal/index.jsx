@@ -80,7 +80,7 @@ function AddPrescriptionModal({
             header='Search for a Condition b Prescription'
             title={
               prescriptionDetails?.name ||
-              selectedPrescription?.dosage?.labelName
+              selectedPrescription?.dosage?.drugName
             }
             subtitle='Select the associated condition(s) for this medication'
             submitLabel='Next'
