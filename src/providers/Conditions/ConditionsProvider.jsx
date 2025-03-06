@@ -113,11 +113,13 @@ export const ConditionsProvider = ({ children }) => {
   const fetchPrescriptionConditions = useCallback(
     async prescription => {
       try {
-        let path = `MED/TERM/${prescription}`;
-        if (selectedPrescription && selectedPrescription['dosage']) {
+        let path;
+        if (selectedPrescription && selectedPrescription.dosage) {
           path = `MED/NDC11/${prescription}`;
+        } else {
+          path = `search/MED/TERM/${prescription}`;
         }
-        let data = await getPrescriptionConditions(null, false, path);
+        const data = await getPrescriptionConditions(null, false, path);
         setPrescriptionConditions(data?.uwConditions || []);
       } catch (error) {
         showToast({
@@ -126,7 +128,7 @@ export const ConditionsProvider = ({ children }) => {
         });
       }
     },
-    [getPrescriptionConditions, showToast]
+    [getPrescriptionConditions, showToast, selectedPrescription]
   );
 
   const addHealthConditions = useCallback(
