@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import Cookies from 'universal-cookie';
 
 const useUserProfile = () => {
@@ -18,8 +18,8 @@ const useUserProfile = () => {
             } = auth.user;
 
             const fullName = `${firstName} ${lastName}`;
-            const cookies = new Cookies();  
-            cookies.set('userNPN', npn, { path: '/' }); 
+            const cookies = new Cookies();
+            cookies.set('userNPN', npn, { path: '/' });
             return {
                 fullName,
                 firstName,
@@ -42,6 +42,23 @@ const useUserProfile = () => {
             agentId: "",
             roles: [],
         };
+    }, [auth.user]);
+
+    useEffect(() => {
+        if (auth.user) {
+            const { npn } = auth.user;
+
+            window.amplitude.init('bdb9ff9f9b4050ae0f8a387d65052a72', npn, {
+                fetchRemoteConfig: true,
+                autocapture: true
+            });
+
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                event: 'Amp User ID Ready',
+                ampUserId: npn
+            });
+        }
     }, [auth.user]);
 
     return userProfile;
