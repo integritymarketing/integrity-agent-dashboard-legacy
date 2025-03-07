@@ -109,7 +109,7 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
     : 'email';
   const [zipLengthValid, setZipLengthValid] = useState(false);
   const [duplicateLeadIds, setDuplicateLeadIds] = useState([]);
-  const [isEmailDeliverable, setIsEmailDeliverable] = useState(true);
+  const [isEmailDeliverable, setIsEmailDeliverable] = useState(false);
 
   useEffect(() => {
     fetchCountyAndState(postalCode);
@@ -553,8 +553,8 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                   <CommunicationInputsGroup
                     formik={formik}
                     page='overview'
-                    defaultEmail={email}
-                    defaultPhone={phone}
+                    defaultEmail={values.email}
+                    defaultPhone={values.phones.leadPhone}
                     setIsEmailDeliverable={setIsEmailDeliverable}
                   />
                 </SectionContainer>
@@ -933,7 +933,10 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                 label={'Save'}
                 className={styles.editButton}
                 disabled={
-                  !dirty || !isValid || isInvalidZip || !isEmailDeliverable
+                  !dirty ||
+                  !isValid ||
+                  isInvalidZip ||
+                  (!isEmailDeliverable && values.email !== '')
                 }
                 onClick={handleSubmit}
                 type='tertiary'

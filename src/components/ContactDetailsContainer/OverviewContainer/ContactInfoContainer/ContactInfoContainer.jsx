@@ -303,7 +303,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
                   <Box className={styles.emailText}>
                     <Label value={leadEmail} color='#4178FF' size='16px' />
                   </Box>
-                  {!isEmailValid && (
+                  {!isEmailValid && leadEmail && (
                     <Box>
                       <AlertMessage
                         status='error'
@@ -312,7 +312,9 @@ export const ContactInfoContainer = ({ isMobile }) => {
                           <>
                             This email address may not be able to receive
                             emails. Please verify the address.{' '}
-                            <span style={{ fontWeight: 'bold', color: '#434A51' }}>
+                            <span
+                              style={{ fontWeight: 'bold', color: '#434A51' }}
+                            >
                               This address will not be saved.
                             </span>
                           </>

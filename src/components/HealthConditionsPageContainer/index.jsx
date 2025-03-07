@@ -44,6 +44,7 @@ const HealthConditionsPageContainer = () => {
     setSelectedPrescription,
     handleApplyClickOfAddPrescriptionModal,
     handleCloseQuestionModal,
+    healthConditions,
   } = useConditions();
 
   useEffect(() => {
@@ -104,6 +105,7 @@ const HealthConditionsPageContainer = () => {
             >
               {DISCLAIMER_TEXT}
             </Typography>
+            {healthConditions?.length === 0 && (
             <Link
               component={'button'}
               variant='body2'
@@ -121,6 +123,7 @@ const HealthConditionsPageContainer = () => {
             >
               {NO_CONDITIONS}
             </Link>
+          )}
           </Box>
           <FullWidthButton
             label={CONTINUE_TO_QUOTE}

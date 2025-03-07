@@ -62,13 +62,13 @@ const CreateNewContactModal = () => {
       try {
         setSubmitting(true);
 
-        if (values?.phone || values?.email) {
+        if (values?.phones?.leadPhone || values?.email) {
           const newData = {
             firstName: values.firstName,
             lastName: values.lastName,
             email: isEmailDeliverable ? values.email : '',
             phones: {
-              leadPhone: values?.phone || '',
+              leadPhone: values?.phones?.leadPhone || '',
               phoneLabel: 'mobile',
             },
           };
@@ -90,7 +90,7 @@ const CreateNewContactModal = () => {
           if (response.ok) {
             const resData = await response.json();
             handleSelectedLead(resData);
-            fireEvent('New Contact Created With Quote Quote');
+            fireEvent('New Contact Created With Quick Quote');
             showToast({
               type: 'success',
               message: 'Lead Created successfully',
@@ -118,7 +118,14 @@ const CreateNewContactModal = () => {
         setSubmitting(false);
       }
     },
-    [clientsService, fireEvent, handleSelectedLead, showToast]
+    [
+      clientsService,
+      fireEvent,
+      handleSelectedLead,
+      showToast,
+      isEmailDeliverable,
+      isDuplicateContact,
+    ]
   );
 
   const ErrorInfoIcon = () => (
