@@ -1,9 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import Cookies from 'universal-cookie';
 
 const useUserProfile = () => {
     const auth = useAuth0();
+    const [isAmplitudeInitialized, setIsAmplitudeInitialized] = useState(false);
 
     const userProfile = useMemo(() => {
         if (auth.user) {
@@ -45,7 +46,7 @@ const useUserProfile = () => {
     }, [auth.user]);
 
     useEffect(() => {
-        if (auth.user) {
+        if (auth.user && !isAmplitudeInitialized) {
             const { npn } = auth.user;
 
             window.amplitude.init('bdb9ff9f9b4050ae0f8a387d65052a72', npn, {
@@ -58,8 +59,10 @@ const useUserProfile = () => {
                 event: 'Amp User ID Ready',
                 ampUserId: npn
             });
+
+            setIsAmplitudeInitialized(true);
         }
-    }, [auth.user]);
+    }, [auth.user, isAmplitudeInitialized]);
 
     return userProfile;
 };
