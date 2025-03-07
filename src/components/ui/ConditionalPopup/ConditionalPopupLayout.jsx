@@ -21,7 +21,7 @@ function ConditionalPopupLayout({
 }) {
   return (
     <>
-      <Dialog open={open} onClose={onClose} maxWidth='sm'>
+      <Dialog open={open} onClose={onClose} maxWidth='sm' fullWidth>
         <ConditionalCardLayout
           header={header}
           title={title}

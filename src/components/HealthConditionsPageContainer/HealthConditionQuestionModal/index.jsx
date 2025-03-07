@@ -270,6 +270,7 @@ function HealthConditionQuestionModal({
                     : 'Next'
                 }
                 handleRemoveClick={handleRemoveClick}
+                showAddIcon={currentQuestionIndex === questionData.length - 1}
               />
             )}
             {currentQuestion.type == 'RADIO' && (
@@ -291,6 +292,7 @@ function HealthConditionQuestionModal({
                     : 'Next'
                 }
                 handleRemoveClick={handleRemoveClick}
+                showAddIcon={currentQuestionIndex === questionData.length - 1}
               />
             )}
             {currentQuestion.type == 'CHECKBOX' && (
@@ -316,6 +318,7 @@ function HealthConditionQuestionModal({
                 )}
                 setValues={setValues}
                 handleRemoveClick={handleRemoveClick}
+                showAddIcon={currentQuestionIndex === questionData.length - 1}
               />
             )}
           </>

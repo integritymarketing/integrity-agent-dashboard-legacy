@@ -3,7 +3,7 @@ export const HEALTH_CONDITION_API = `${import.meta.env.VITE_QUOTE_URL}/api/${QUO
 export const DISCLAIMER_TEXT =
   'Underwriting prescreening is not a determination of eligibility. Quote eligibility will be determined by the carrier at time of application.';
 export const CARD_TITLE =
-  'Please add health conditions to prescreen for coverage eligibility.';
+  'Add your health conditions using your prescriptions or by searching directly for a condition for coverage eligibility.';
 export const ADD_NEW = 'Add New';
 export const COMPLETED = 'Completed';
 export const INCOMPLETE = 'Incomplete';

@@ -23,16 +23,20 @@ function ConditionListItem({
       justifyContent='space-between'
       alignItems='center'
       alignSelf='stretch'
-      gap={2}
     >
-      <Grid item>
+      <Grid item xs={12} sm={8}>
         <Typography variant='h4' sx={{ color: '#052A63' }}>
           {label}
         </Typography>
       </Grid>
 
-      <Grid item>
-        <Stack direction='row' gap={3} alignItems='center'>
+      <Grid item xs={12} sm={4}>
+        <Stack
+          direction='row'
+          gap={3}
+          alignItems='center'
+          justifyContent='space-between'
+        >
           <Box display='flex' gap={1} minWidth={120}>
             {areUwQuestionsExpired ? (
               <>

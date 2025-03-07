@@ -137,9 +137,9 @@ export const ConditionsProvider = ({ children }) => {
       try {
         let path;
         if (selectedPrescription && selectedPrescription.dosage) {
-          path = `MED/NDC11/${prescription}`;
+          path = `MED/NDC11/${encodeURIComponent(prescription)}`;
         } else {
-          path = `MED/TERM/${prescription}`;
+          path = `MED/TERM/${encodeURIComponent(prescription)}`;
         }
         const data = await getPrescriptionConditions(null, false, path);
         setPrescriptionConditions(data?.uwConditions || []);

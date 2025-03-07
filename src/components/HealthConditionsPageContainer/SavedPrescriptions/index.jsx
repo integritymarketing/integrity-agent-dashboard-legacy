@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Box,
@@ -12,6 +12,7 @@ import { styled } from '@mui/material/styles';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { PRESCRIPTION_TOOLTIP } from '../HealthConditionContainer.constants';
 import styles from '../styles.module.scss';
+import Media from 'react-media';
 
 const PrescriptionCard = styled(Card)({
   padding: '14px 16px',
@@ -23,8 +24,15 @@ const PrescriptionCard = styled(Card)({
 });
 
 function SavedPrescriptions({ prescriptions, onPrescriptionClick }) {
+  const [isMobile, setIsMobile] = useState(false);
   return (
     <>
+      <Media
+        query='(max-width: 500px)'
+        onChange={isMobile => {
+          setIsMobile(isMobile);
+        }}
+      />
       <Typography
         variant='h4'
         sx={{ color: '#052A63', display: 'flex', alignItems: 'center' }}
@@ -32,12 +40,13 @@ function SavedPrescriptions({ prescriptions, onPrescriptionClick }) {
         Search with saved prescription
         <Tooltip
           title={PRESCRIPTION_TOOLTIP}
-          placement='right'
           sx={{
             '& .MuiTooltip-tooltip': {
               boxShadow: 'none',
             },
           }}
+          placement={isMobile ? 'bottom' : 'right'}
+          enterTouchDelay={0}
         >
           <IconButton
             size='small'

@@ -17,6 +17,7 @@ function ConditionalPopupMultiSelect({
   error,
   options,
   setValues,
+  showAddIcon,
 }) {
   const handleMultiSelection = useCallback(
     selectedOption => {
@@ -53,11 +54,13 @@ function ConditionalPopupMultiSelect({
       open={open}
       onClose={onClose}
       applyButtonText={applyButtonText}
+      showAddIcon={showAddIcon}
     >
       {options.map(option => (
         <Box
           key={option.id}
           border={1}
+          borderColor='#DDDDDD'
           m={0.5}
           p={2}
           display='flex'
@@ -105,6 +108,7 @@ ConditionalPopupMultiSelect.propTypes = {
   error: PropTypes.string,
   options: PropTypes.array.isRequired,
   setValues: PropTypes.func.isRequired,
+  showAddIcon: PropTypes.bool,
 };
 
 export default ConditionalPopupMultiSelect;
