@@ -34,23 +34,26 @@
 
     <title>Integrity</title>
 
-    <!-- Load Amplitude script -->
-    <script src="https://cdn.amplitude.com/script/AMPLITUDE_API_KEY.js"></script>
+      <!-- Load Amplitude script -->
+      <script src="https://cdn.amplitude.com/script/AMPLITUDE_API_KEY.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/universal-cookie@4.0.4/umd/universal-cookie.min.js"></script>
 
-    <script>
-        // Initialize Amplitude with API key and User ID
-        window.amplitude.init('bdb9ff9f9b4050ae0f8a387d65052a72', 'USER_ID', {
-            fetchRemoteConfig: true,
-            autocapture: true
-        });
+      <script>
+          const cookies = new UniversalCookie();
+          const userNPN = cookies.get('userNPN');
 
-        // Push Amplitude User ID to dataLayer for tracking
-        window.dataLayer = window.dataLayer || [];
-        dataLayer.push({
-            event: 'Amp User ID Ready',
-            ampUserId: 'USER_ID'
-        });
-    </script>
+          // Initialize Amplitude with API key and userNPN as User ID
+          window.amplitude.init('bdb9ff9f9b4050ae0f8a387d65052a72', userNPN, {
+              fetchRemoteConfig: true,
+              autocapture: true
+          });
+
+          window.dataLayer = window.dataLayer || [];
+          dataLayer.push({
+              event: 'Amp User ID Ready',
+              ampUserId: userNPN
+          });
+      </script>
 </head>
 
 <body>
