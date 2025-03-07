@@ -17,9 +17,9 @@ function HealthConditionSearchByPrescription({
     useConditions();
 
   useEffect(() => {
-    if (selectedPrescription) {
-      setInputValue(selectedPrescription.dosage.drugName);
-    }
+    setInputValue(
+      selectedPrescription ? selectedPrescription.dosage.drugName : ''
+    );
   }, [selectedPrescription]);
 
   const debouncedSearch = useCallback(

@@ -21,23 +21,23 @@ function ConditionalPopupMultiSelect({
   const handleMultiSelection = useCallback(
     selectedOption => {
       setValues(prev =>
-        prev === null
-          ? [selectedOption]
-          : prev.includes(selectedOption)
-          ? prev.filter(opt => opt !== selectedOption)
-          : [...prev, selectedOption]
+        Array.isArray(prev)
+          ? prev.includes(selectedOption)
+            ? prev.filter(opt => opt !== selectedOption)
+            : [...prev, selectedOption]
+          : [selectedOption]
       );
     },
     [setValues]
   );
 
   const handleBoxClick = optionValue => {
-    handleMultiSelection(optionValue);
+    handleMultiSelection(optionValue.toLowerCase());
   };
 
   const handleCheckboxClick = (e, optionValue) => {
     e.stopPropagation();
-    handleMultiSelection(optionValue);
+    handleMultiSelection(optionValue.toLowerCase());
   };
 
   return (
@@ -45,7 +45,9 @@ function ConditionalPopupMultiSelect({
       header={header}
       title={title}
       contentHeading={contentHeading}
-      handleApplyClick={handleApplyClick}
+      handleApplyClick={() => {
+        handleApplyClick();
+      }}
       handleCancelClick={handleCancelClick}
       applyButtonDisabled={applyButtonDisabled}
       open={open}
@@ -60,13 +62,20 @@ function ConditionalPopupMultiSelect({
           p={2}
           display='flex'
           alignItems='center'
-          bgcolor={values?.includes(option.value) ? '#F1FAFF' : ''}
+          bgcolor={
+            Array.isArray(values) && values.includes(option.value.toLowerCase())
+              ? '#F1FAFF'
+              : ''
+          }
           borderRadius={2}
           onClick={() => handleBoxClick(option.value)}
           sx={{ cursor: 'pointer' }}
         >
           <Checkbox
-            checked={values?.includes(option.value)}
+            checked={
+              Array.isArray(values) &&
+              values.includes(option.value.toLowerCase())
+            }
             onClick={e => handleCheckboxClick(e, option.value)}
           />
           {option.displayText}
@@ -89,8 +98,7 @@ ConditionalPopupMultiSelect.propTypes = {
   handleApplyClick: PropTypes.func.isRequired,
   handleCancelClick: PropTypes.func.isRequired,
   applyButtonDisabled: PropTypes.bool,
-  values: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired,
+  values: PropTypes.array,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   applyButtonText: PropTypes.string,
