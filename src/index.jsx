@@ -39,6 +39,7 @@ import Auth0ProviderWithHistory from "auth/Auth0ProviderWithHistory";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { ContactMapMarkersDataProvider } from "providers/ContactMapMarkersDataProvider";
 import { ConditionsProvider } from "providers/Life/Conditions/ConditionsProvider";
+import { AmplitudeProvider } from "providers/AmplitudeProvider";
 
 // error logging disabled for netlify deploy-preview and branch-deploy builds
 // DSN only defined in production apps.  see netlify.toml
@@ -57,6 +58,7 @@ root.render(
         <ParallaxProvider>
             <Router>
                 <Auth0ProviderWithHistory>
+                  <AmplitudeProvider>
                     <ClientServiceContextProvider>
                         <ThemeProvider theme={customTheme}>
                             <CssBaseline />
@@ -125,6 +127,7 @@ root.render(
                             </RecoilRoot>
                         </ThemeProvider>
                     </ClientServiceContextProvider>
+                  </AmplitudeProvider>
                 </Auth0ProviderWithHistory>
             </Router>
         </ParallaxProvider>
