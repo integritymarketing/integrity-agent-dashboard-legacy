@@ -33,6 +33,24 @@
     <link rel="manifest" href="/manifest.json"/>
 
     <title>Integrity</title>
+
+    <!-- Load Amplitude script -->
+    <script src="https://cdn.amplitude.com/script/AMPLITUDE_API_KEY.js"></script>
+
+    <script>
+        // Initialize Amplitude with API key and User ID
+        window.amplitude.init('bdb9ff9f9b4050ae0f8a387d65052a72', 'USER_ID', {
+            fetchRemoteConfig: true,
+            autocapture: true
+        });
+
+        // Push Amplitude User ID to dataLayer for tracking
+        window.dataLayer = window.dataLayer || [];
+        dataLayer.push({
+            event: 'Amp User ID Ready',
+            ampUserId: 'USER_ID'
+        });
+    </script>
 </head>
 
 <body>
