@@ -4,13 +4,14 @@ import {
     DISCLAIMER_TEXT,
     HEADER_TITLE,
     CONTINUE_TO_QUOTE,
+    NO_CONDITIONS,
     SIMPLIFIED_IUL_TITLE,
 } from "./HealthConditionContainer.constants";
 import styles from "./styles.module.scss";
 import { useCreateNewQuote } from "../../providers/CreateNewQuote";
 import { ContactProfileTabBar } from "../ContactDetailsContainer";
 import Typography from "@mui/material/Typography";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Link } from "@mui/material";
 import HealthConditionSearchInput from "./HealthConditionSearchInput";
 import SavedPrescriptions from "./SavedPrescriptions";
 import HealthConditionsTable from "./HealthConditionsTable";
@@ -94,6 +95,18 @@ const HealthConditionsPageContainer = () => {
                         <Typography variant="body2" sx={{ color: "#6B7280", fontStyle: "italic" }}>
                             {DISCLAIMER_TEXT}
                         </Typography>
+                        <Link
+                        component={"button"}
+                        variant="body2"
+            onClick={() =>
+              navigate(`${isSimplifiedIUL() ? "/simplified-iul" : "/finalexpenses"}/plans/${contactId}`, {
+                  state: { from: loc?.pathname },
+              })
+          }
+            sx={{ marginLeft: 2 }}
+        >
+            {NO_CONDITIONS}
+        </Link>
                     </Box>
                     <FullWidthButton
                         label={CONTINUE_TO_QUOTE}

@@ -17,3 +17,4 @@ export const HEALTH_CONDITION_SEARCH_API = `${import.meta.env.VITE_QUOTE_URL
     }/api/${QUOTES_API_VERSION}/Underwriting/healthcondition/search/HEALTH`;
 export const PRESCRIPTION_TOOLTIP =
     "The prescriptions listed were entered from a previous visit. Let us know what condition you take these medications for to get the most accurate quote.";
+export const NO_CONDITIONS="I currently don’t have any health conditions"
