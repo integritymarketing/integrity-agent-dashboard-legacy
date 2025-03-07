@@ -6,6 +6,7 @@ import useUserProfile from 'hooks/useUserProfile';
 import HealthConditionQuestionModal from '../HealthConditionQuestionModal';
 import { useConditions as useConditionsHook } from 'providers/Conditions';
 import useToast from 'hooks/useToast';
+import { SEARCH_BY_CONDITION } from '../HealthConditionContainer.constants';
 
 function HealthConditionSearchInput({ contactId }) {
   const [searchValue, setSearchValue] = useState('');
@@ -24,8 +25,7 @@ function HealthConditionSearchInput({ contactId }) {
   const {
     fetchHealthConditions,
     healthConditions,
-    setSelectedCondition,
-    selectedCondition,
+    handleApplyClickOfAddPrescriptionModal,
   } = useConditionsHook();
 
   const fetchConditions = useCallback(
@@ -66,7 +66,6 @@ function HealthConditionSearchInput({ contactId }) {
       if (response) {
         setConditions([]);
         setSearchValue('');
-        await fetchHealthConditions(contactId);
       }
     } catch (error) {
       console.error('Failed to save health condition details', error);
@@ -90,12 +89,9 @@ function HealthConditionSearchInput({ contactId }) {
     }
 
     await saveSelectedCondition(condition);
-    setSelectedCondition([condition]);
-    await fetchHealthConditions(contactId);
-  };
+    handleApplyClickOfAddPrescriptionModal([condition], SEARCH_BY_CONDITION);
 
-  const onSuccessOfHealthConditionQuestionModal = async () => {
-    setSelectedCondition(null);
+    await fetchHealthConditions(contactId);
   };
 
   return (
@@ -109,19 +105,6 @@ function HealthConditionSearchInput({ contactId }) {
         handleSelect={handleOptionSelection}
         loading={isLoadingConditions || isSavingHealthCondition}
       />
-      {selectedCondition && (
-        <HealthConditionQuestionModal
-          open={selectedCondition}
-          onClose={() => {
-            setSelectedCondition(null);
-          }}
-          contactId={contactId}
-          onSuccessOfHealthConditionQuestionModal={
-            onSuccessOfHealthConditionQuestionModal
-          }
-          selectedCondition={selectedCondition}
-        />
-      )}
     </>
   );
 }

@@ -13,7 +13,7 @@ import { Dialog, DialogContent } from '@mui/material';
 import ConditionalPopupMultiSelect from 'components/ui/ConditionalPopup/ConditionPopupMultiSelect';
 
 function HealthConditionQuestionModal({
-  open,
+  modelHeader,
   onClose,
   selectedCondition,
   contactId,
@@ -22,8 +22,10 @@ function HealthConditionQuestionModal({
   const {
     clearConditionalQuestionData,
     updateHealthConditionsQuestionsPost,
+    updateHealthConditionsQuestion,
     fetchHealthConditions,
     fetchHealthConditionsQuestionsByCondtionId,
+    deleteHealthCondition,
   } = useConditions();
 
   const [currentQuestion, setCurrentQuestion] = useState(null);
@@ -32,7 +34,8 @@ function HealthConditionQuestionModal({
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(null);
   const [error, setError] = useState(null);
-  const [options, setOptions] = useState();
+  const [options, setOptions] = useState([]);
+  const [answer, setAnswer] = useState([]);
   const hasAPICalled = useRef(false);
 
   const handleCancelClick = () => {
@@ -62,6 +65,7 @@ function HealthConditionQuestionModal({
             conditionName: selectedCondition[index].conditionName,
           }))
         );
+      setAnswer(response.flatMap(res => res.answers || []));
       setOptions(response.flatMap(res => res.options));
       setLoading(false);
       if (questions.length === 0) {
@@ -89,9 +93,73 @@ function HealthConditionQuestionModal({
   useEffect(() => {
     if (questionData.length > 0) {
       setCurrentQuestion(questionData[0]);
+      if (answer.length > 0) {
+        setValues(answer[0].answers[0]?.answer);
+      }
       setCurrentQuestionIndex(0);
     }
   }, [questionData]);
+
+  const getAnswerObject = uwAnswerId => {
+    let searchOption = {
+      answerId: 0,
+      order: 0,
+    };
+
+    if (currentQuestion.type !== 'DATE') {
+      let optionData = options.find(
+        option =>
+          option.questionId === currentQuestion.id &&
+          option.value == values.toString()
+      );
+      if (optionData && optionData.id) {
+        searchOption.answerId = optionData.id;
+        searchOption.order = optionData.order;
+      }
+    }
+
+    let answer;
+
+    if (
+      currentQuestion.type === 'DATE' ||
+      currentQuestion.type === 'CHECKBOX'
+    ) {
+      answer = values;
+    } else {
+      if (values) {
+        answer = 'Y';
+      } else {
+        answer = 'N';
+      }
+    }
+
+    if (Array.isArray(values)) {
+      return values.map(value => {
+        const opt =
+          options.find(
+            opt => opt.value.toLowerCase() === value.toLowerCase()
+          ) || {};
+        return {
+          ...searchOption,
+          answerType: currentQuestion.type,
+          answerId: opt.id,
+          answer: value,
+          order: opt.order,
+          uwAnswerId,
+        };
+      });
+    }
+
+    return [
+      {
+        answerId: searchOption.answerId,
+        answer: answer,
+        answerType: currentQuestion.type,
+        order: searchOption.order,
+        uwAnswerId,
+      },
+    ];
+  };
 
   const handleApplyClick = async () => {
     try {
@@ -99,30 +167,34 @@ function HealthConditionQuestionModal({
       if (values != null) {
         let payload = {
           conditionId: currentQuestion.conditionId,
+          uwQuestionId: answer[currentQuestionIndex]?.uwQuestionId || 0,
           underwritingQuestionsAnswers: [
             {
-              uwQuestionId: 0,
-              conditionId: currentQuestion.conditionId,
+              uwAnswerId:
+                answer[currentQuestionIndex]?.answers[0]?.uwAnswerId || 0,
               questionId: currentQuestion.id,
               question: currentQuestion.displayLabel,
-              answer:
-                currentQuestion.type === 'DATE' ||
-                currentQuestion.type === 'CHECKBOX'
-                  ? values
-                  : values
-                  ? 'Y'
-                  : 'N',
               type: currentQuestion.type,
               required: currentQuestion.required,
-              orderBy: 0,
+              answers: getAnswerObject(
+                answer[currentQuestionIndex]?.answers[0]?.uwAnswerId || 0
+              ),
             },
           ],
         };
 
-        const resp = await updateHealthConditionsQuestionsPost(
-          payload,
-          contactId
-        );
+        let resp = null;
+        if (payload.uwQuestionId) {
+          payload.answers = payload.underwritingQuestionsAnswers[0].answers;
+          payload.questionId =
+            payload.underwritingQuestionsAnswers[0].questionId;
+          payload.question = payload.underwritingQuestionsAnswers[0].question;
+          delete payload.underwritingQuestionsAnswers;
+          resp = await updateHealthConditionsQuestion(payload, contactId);
+        } else {
+          resp = await updateHealthConditionsQuestionsPost(payload, contactId);
+        }
+
         if (resp) {
           if (currentQuestionIndex === questionData.length - 1) {
             onSuccessOfHealthConditionQuestionModal();
@@ -130,7 +202,22 @@ function HealthConditionQuestionModal({
           } else {
             setCurrentQuestion(questionData[currentQuestionIndex + 1]);
             setCurrentQuestionIndex(currentQuestionIndex + 1);
-            setValues(null);
+            let prevResponse = null;
+            if (answer.length > 0) {
+              const ansObj = answer[currentQuestionIndex + 1];
+
+              if (ansObj.type === 'CHECKBOX') {
+                prevResponse = ansObj.answers.map(_ => _.answer.toLowerCase());
+              } else {
+                prevResponse =
+                  answer[currentQuestionIndex + 1].answers[0].answer;
+                if (ansObj.type === 'RADIO') {
+                  prevResponse = prevResponse === 'N' ? false : true;
+                }
+              }
+            }
+
+            setValues(prevResponse);
           }
         }
       } else {
@@ -143,6 +230,11 @@ function HealthConditionQuestionModal({
     }
   };
 
+  const handleRemoveClick = async () => {
+    await deleteHealthCondition(contactId, selectedCondition[0].id);
+    handleCancelClick();
+  };
+
   const isButtonDisabled = useMemo(
     () => loading || values === null,
     [values, loading]
@@ -150,9 +242,9 @@ function HealthConditionQuestionModal({
 
   return (
     <Dialog
-      open={open}
+      open={!!modelHeader}
       onClose={() => {
-        handleCancelClick;
+        handleCancelClick();
       }}
       maxWidth='sm'
     >
@@ -161,7 +253,7 @@ function HealthConditionQuestionModal({
           <>
             {currentQuestion.type == 'DATE' && (
               <ConditionalPopupDatePicker
-                header='Search for a Condition'
+                header={modelHeader}
                 title={currentQuestion.conditionName}
                 contentHeading={currentQuestion.displayLabel}
                 handleApplyClick={handleApplyClick}
@@ -169,7 +261,7 @@ function HealthConditionQuestionModal({
                 applyButtonDisabled={isButtonDisabled}
                 values={values}
                 onChange={value => setValues(value)}
-                open={open}
+                open={!!modelHeader}
                 error={error}
                 onClose={handleCancelClick}
                 applyButtonText={
@@ -177,11 +269,12 @@ function HealthConditionQuestionModal({
                     ? 'Add Condition'
                     : 'Next'
                 }
+                handleRemoveClick={handleRemoveClick}
               />
             )}
             {currentQuestion.type == 'RADIO' && (
               <ConditionalPopupYesOrNo
-                header='Search for a Condition by Prescription'
+                header={modelHeader}
                 title={currentQuestion.conditionName}
                 contentHeading={currentQuestion.displayLabel}
                 handleApplyClick={handleApplyClick}
@@ -189,7 +282,7 @@ function HealthConditionQuestionModal({
                 applyButtonDisabled={isButtonDisabled}
                 values={values}
                 onChange={value => setValues(value)}
-                open={open}
+                open={!!modelHeader}
                 error={error}
                 onClose={handleCancelClick}
                 applyButtonText={
@@ -197,11 +290,12 @@ function HealthConditionQuestionModal({
                     ? 'Add Condition'
                     : 'Next'
                 }
+                handleRemoveClick={handleRemoveClick}
               />
             )}
             {currentQuestion.type == 'CHECKBOX' && (
               <ConditionalPopupMultiSelect
-                header='Search for a Condition by Prescription'
+                header={modelHeader}
                 title={currentQuestion.conditionName}
                 contentHeading={currentQuestion.displayLabel}
                 handleApplyClick={handleApplyClick}
@@ -209,7 +303,7 @@ function HealthConditionQuestionModal({
                 applyButtonDisabled={isButtonDisabled}
                 values={values}
                 onChange={value => setValues(value)}
-                open={open}
+                open={!!modelHeader}
                 error={error}
                 onClose={handleCancelClick}
                 applyButtonText={
@@ -221,6 +315,7 @@ function HealthConditionQuestionModal({
                   option => option.questionId === currentQuestion.id
                 )}
                 setValues={setValues}
+                handleRemoveClick={handleRemoveClick}
               />
             )}
           </>
@@ -231,7 +326,7 @@ function HealthConditionQuestionModal({
 }
 
 HealthConditionQuestionModal.propTypes = {
-  open: PropTypes.bool.isRequired,
+  modelHeader: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   selectedCondition: PropTypes.string.isRequired,
   contactId: PropTypes.string.isRequired,

@@ -1,9 +1,14 @@
+import {
+  SEARCH_BY_PRESCRIPTION,
+  UPDATE_CONDITION,
+} from 'components/HealthConditionsPageContainer/HealthConditionContainer.constants';
 import useFetch from 'hooks/useFetch';
 import useToast from 'hooks/useToast';
 import PropTypes from 'prop-types';
 import { createContext, useCallback, useMemo, useState } from 'react';
 import { QUOTES_API_VERSION } from 'services/clientsService';
 import performAsyncOperation from 'utilities/performAsyncOperation';
+import * as Sentry from '@sentry/react';
 
 export const ConditionsContext = createContext();
 
@@ -58,6 +63,11 @@ export const ConditionsProvider = ({ children }) => {
     data: getQuestionsByConditionIdAndLeadIdData,
   } = useFetch(HEALTH_CONDITION_QUESTIONS_URL);
 
+  const {
+    Delete: deleteHealthConditionByConditionId,
+    loading: isHealthConditionInProgress,
+  } = useFetch(DELETE_HEALTH_CONDITION_QUESTION);
+
   const [prescriptionConditions, setPrescriptionConditions] = useState([]);
   const [healthConditionsQuestions, setHealthConditionsQuestions] = useState(
     []
@@ -72,9 +82,22 @@ export const ConditionsProvider = ({ children }) => {
     useState(false);
   const [prescriptionDetails, setPrescriptionDetails] = useState(null);
   const [selectedCondition, setSelectedCondition] = useState(null);
-  const [openQuestionModal, setOpenQuestionModal] = useState(false);
+  const [openQuestionModal, setOpenQuestionModal] = useState(null);
 
   const showToast = useToast();
+
+  const deleteHealthCondition = useCallback(async (leadId, conditionId) => {
+    try {
+      const path = `${leadId}/id/${conditionId}`;
+      await deleteHealthConditionByConditionId(null, false, path);
+    } catch (error) {
+      Sentry.captureException(error);
+      showToast({
+        type: 'error',
+        message: 'Failed to delete health conditions',
+      });
+    }
+  }, []);
 
   const fetchHealthConditions = useCallback(
     async leadId => {
@@ -84,7 +107,6 @@ export const ConditionsProvider = ({ children }) => {
 
         setHealthConditions(data);
       } catch (error) {
-        console.log('error', error);
         showToast({
           type: 'error',
           message: 'Failed to search health conditions',
@@ -160,7 +182,7 @@ export const ConditionsProvider = ({ children }) => {
           type: 'error',
           message: 'Failed to get the health conditions questions',
         });
-        setOpenQuestionModal(false);
+        setOpenQuestionModal(SEARCH_BY_PRESCRIPTION);
         fetchHealthConditions(leadId);
       }
     },
@@ -259,7 +281,10 @@ export const ConditionsProvider = ({ children }) => {
         if (questions.questions.items.length > 0) {
           setHealthConditionsQuestions([questions]);
 
-          handleApplyClickOfAddPrescriptionModal([{ ...condition }]);
+          handleApplyClickOfAddPrescriptionModal(
+            [{ ...condition }],
+            UPDATE_CONDITION
+          );
         } else {
           setSelectedConditionForEdit(condition);
           setIsAddNewActivityDialogOpen(true);
@@ -279,14 +304,17 @@ export const ConditionsProvider = ({ children }) => {
     setOpenAddPrescriptionModal(true);
   }, []);
 
-  const handleApplyClickOfAddPrescriptionModal = useCallback(value => {
-    setSelectedCondition(value);
-    setOpenAddPrescriptionModal(false);
-    setOpenQuestionModal(true);
-  }, []);
+  const handleApplyClickOfAddPrescriptionModal = useCallback(
+    (value, modelHeader) => {
+      setSelectedCondition(value);
+      setOpenAddPrescriptionModal(false);
+      setOpenQuestionModal(modelHeader);
+    },
+    []
+  );
 
   const handleCloseQuestionModal = useCallback(() => {
-    setOpenQuestionModal(false);
+    setOpenQuestionModal(null);
     setSelectedCondition(null);
   }, []);
 
@@ -335,6 +363,7 @@ export const ConditionsProvider = ({ children }) => {
       handleCloseQuestionModal,
       fetchHealthConditionsQuestionsByCondtionId,
       getHealthConditionsQuestionsData,
+      deleteHealthCondition,
     }),
     [
       fetchSearchHealthConditions,
@@ -351,7 +380,6 @@ export const ConditionsProvider = ({ children }) => {
       getHealthConditionsQuestionsLoading,
       fetchHealthConditions,
       getHealthConditionsLoading,
-
       updateHealthConditionsQuestionsPost,
       updateHealthConditionsQuestionsPostCallLoading,
       postHealthConditionsLoading,
@@ -373,6 +401,7 @@ export const ConditionsProvider = ({ children }) => {
       handleCloseQuestionModal,
       fetchHealthConditionsQuestionsByCondtionId,
       getHealthConditionsQuestionsData,
+      deleteHealthCondition,
     ]
   );
   return (
