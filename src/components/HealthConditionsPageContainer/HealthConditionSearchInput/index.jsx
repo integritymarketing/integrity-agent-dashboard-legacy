@@ -3,9 +3,7 @@ import { debounce } from 'lodash';
 import HealthConditionSearchSection from '../HealthConditionSearch';
 import { useConditions } from 'providers/Life/Conditions/ConditionsContext';
 import useUserProfile from 'hooks/useUserProfile';
-import HealthConditionQuestionModal from '../HealthConditionQuestionModal';
 import { useConditions as useConditionsHook } from 'providers/Conditions';
-import useToast from 'hooks/useToast';
 import { SEARCH_BY_CONDITION } from '../HealthConditionContainer.constants';
 
 function HealthConditionSearchInput({ contactId }) {
@@ -13,7 +11,6 @@ function HealthConditionSearchInput({ contactId }) {
   const [conditions, setConditions] = useState([]);
 
   const agentUserProfile = useUserProfile();
-  const showToast = useToast();
 
   const {
     fetchConditionsList,
@@ -26,6 +23,7 @@ function HealthConditionSearchInput({ contactId }) {
     fetchHealthConditions,
     healthConditions,
     handleApplyClickOfAddPrescriptionModal,
+    setIsConditionAddedAlready,
   } = useConditionsHook();
 
   const fetchConditions = useCallback(
@@ -47,6 +45,7 @@ function HealthConditionSearchInput({ contactId }) {
   const handleInputChange = value => {
     setSearchValue(value);
     fetchConditions(value);
+    setIsConditionAddedAlready(false);
   };
 
   const saveSelectedCondition = async condition => {
@@ -80,11 +79,10 @@ function HealthConditionSearchInput({ contactId }) {
       );
 
       if (healthCondition) {
-        showToast({
-          type: 'error',
-          message: 'Condition is already added...',
-        });
+        setIsConditionAddedAlready(true);
         return;
+      } else {
+        setIsConditionAddedAlready(false);
       }
     }
 

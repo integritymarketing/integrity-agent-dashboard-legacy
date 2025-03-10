@@ -83,6 +83,7 @@ export const ConditionsProvider = ({ children }) => {
   const [prescriptionDetails, setPrescriptionDetails] = useState(null);
   const [selectedCondition, setSelectedCondition] = useState(null);
   const [openQuestionModal, setOpenQuestionModal] = useState(null);
+  const [isConditionAddedAlready, setIsConditionAddedAlready] = useState(false);
 
   const showToast = useToast();
 
@@ -364,6 +365,8 @@ export const ConditionsProvider = ({ children }) => {
       fetchHealthConditionsQuestionsByCondtionId,
       getHealthConditionsQuestionsData,
       deleteHealthCondition,
+      isConditionAddedAlready,
+      setIsConditionAddedAlready,
     }),
     [
       fetchSearchHealthConditions,
@@ -402,6 +405,8 @@ export const ConditionsProvider = ({ children }) => {
       fetchHealthConditionsQuestionsByCondtionId,
       getHealthConditionsQuestionsData,
       deleteHealthCondition,
+      isConditionAddedAlready,
+      setIsConditionAddedAlready,
     ]
   );
   return (

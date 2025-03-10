@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { MultiSelectDropdown } from '@integritymarketing/clients-ui-kit';
 import { useConditions } from 'providers/Conditions';
-import { Dialog, DialogContent } from '@mui/material';
+import { Alert, AlertTitle, Dialog, DialogContent } from '@mui/material';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
 
 function AddPrescriptionModal({
@@ -22,11 +22,13 @@ function AddPrescriptionModal({
     postHealthConditionsLoading,
     selectedPrescription,
     setSelectedPrescription,
+    healthConditions,
   } = useConditions();
 
   const { agentInformation } = useAgentInformationByID();
   const [selectedCondition, setSelectedCondition] = useState(null);
   const hasFetchedConditions = useRef(false);
+  const [isConditionAddedAlready, setIsConditionAddedAlready] = useState(false);
 
   useEffect(() => {
     if (prescriptionDetails && !hasFetchedConditions.current) {
@@ -44,6 +46,21 @@ function AddPrescriptionModal({
   }, [prescriptionDetails?.name, selectedPrescription]);
 
   const onApplyClick = async value => {
+    const selectedConditionIds = value.map(_ => _.conditionId);
+
+    if (healthConditions) {
+      const healthCondition = healthConditions.find(healthCondition =>
+        selectedConditionIds.includes(parseInt(healthCondition.conditionId, 10))
+      );
+
+      if (healthCondition) {
+        setIsConditionAddedAlready(true);
+        return;
+      } else {
+        setIsConditionAddedAlready(false);
+      }
+    }
+
     setSelectedCondition(value);
     let payloadData = value.map(condition => ({
       ...condition,
@@ -93,6 +110,14 @@ function AddPrescriptionModal({
             conditions={prescriptionConditions}
             loading={
               getPrescriptionConditionsLoading || postHealthConditionsLoading
+            }
+            renderMessage={
+              isConditionAddedAlready && (
+                <Alert severity='error' sx={{ margin: '10px' }}>
+                  <AlertTitle>Duplicated Condition</AlertTitle>
+                  This condition has already been added.
+                </Alert>
+              )
             }
           />
         </DialogContent>

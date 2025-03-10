@@ -12,7 +12,7 @@ import styles from './styles.module.scss';
 import { useCreateNewQuote } from '../../providers/CreateNewQuote';
 import { ContactProfileTabBar } from '../ContactDetailsContainer';
 import Typography from '@mui/material/Typography';
-import { Box, Stack, Link } from '@mui/material';
+import { Box, Stack, Link, Alert, AlertTitle } from '@mui/material';
 import HealthConditionSearchInput from './HealthConditionSearchInput';
 import SavedPrescriptions from './SavedPrescriptions';
 import HealthConditionsTable from './HealthConditionsTable';
@@ -45,6 +45,7 @@ const HealthConditionsPageContainer = () => {
     handleApplyClickOfAddPrescriptionModal,
     handleCloseQuestionModal,
     healthConditions,
+    isConditionAddedAlready,
   } = useConditions();
 
   useEffect(() => {
@@ -70,6 +71,12 @@ const HealthConditionsPageContainer = () => {
       </Box>
       <Box className={styles.pageContainerWrapper}>
         <Box className={styles.pageContainer}>
+          {isConditionAddedAlready && (
+            <Alert severity='error'>
+              <AlertTitle>Duplicated Condition</AlertTitle>
+              This condition has already been added.
+            </Alert>
+          )}
           <Box>
             <Box className={styles.headerTitle}>
               <h4>{HEADER_TITLE}</h4>
@@ -99,31 +106,31 @@ const HealthConditionsPageContainer = () => {
           </Box>
           <Box className={styles.conditionsContainer}>
             <HealthConditionsTable contactId={contactId} />
+            {healthConditions?.length === 0 && (
+              <Link
+                component={'button'}
+                variant='body2'
+                onClick={() =>
+                  navigate(
+                    `${
+                      isSimplifiedIUL() ? '/simplified-iul' : '/finalexpenses'
+                    }/plans/${contactId}`,
+                    {
+                      state: { from: loc?.pathname },
+                    }
+                  )
+                }
+                sx={{ marginLeft: 2 }}
+              >
+                {NO_CONDITIONS}
+              </Link>
+            )}
             <Typography
               variant='body2'
               sx={{ color: '#6B7280', fontStyle: 'italic' }}
             >
               {DISCLAIMER_TEXT}
             </Typography>
-            {healthConditions?.length === 0 && (
-            <Link
-              component={'button'}
-              variant='body2'
-              onClick={() =>
-                navigate(
-                  `${
-                    isSimplifiedIUL() ? '/simplified-iul' : '/finalexpenses'
-                  }/plans/${contactId}`,
-                  {
-                    state: { from: loc?.pathname },
-                  }
-                )
-              }
-              sx={{ marginLeft: 2 }}
-            >
-              {NO_CONDITIONS}
-            </Link>
-          )}
           </Box>
           <FullWidthButton
             label={CONTINUE_TO_QUOTE}
