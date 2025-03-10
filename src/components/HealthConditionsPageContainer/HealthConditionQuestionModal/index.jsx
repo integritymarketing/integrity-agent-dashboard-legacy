@@ -133,6 +133,11 @@ function HealthConditionQuestionModal({
       }
     }
 
+    const mapQuestionType = {
+      RADIO: 'BOOL',
+      CHECKBOX: 'STRING',
+    };
+
     if (Array.isArray(values)) {
       return values.map(value => {
         const opt =
@@ -141,11 +146,12 @@ function HealthConditionQuestionModal({
           ) || {};
         return {
           ...searchOption,
-          answerType: currentQuestion.type,
+          answerType:
+            mapQuestionType[currentQuestion.type] ?? currentQuestion.type,
           answerId: opt.id,
           answer: value,
           order: opt.order,
-          uwAnswerId,
+          uwAnswerId: uwAnswerId ? uwAnswerId : undefined,
         };
       });
     }
@@ -154,9 +160,10 @@ function HealthConditionQuestionModal({
       {
         answerId: searchOption.answerId,
         answer: answer,
-        answerType: currentQuestion.type,
+        answerType:
+          mapQuestionType[currentQuestion.type] ?? currentQuestion.type,
         order: searchOption.order,
-        uwAnswerId,
+        uwAnswerId: uwAnswerId ? uwAnswerId : undefined,
       },
     ];
   };
@@ -170,8 +177,6 @@ function HealthConditionQuestionModal({
           uwQuestionId: answer[currentQuestionIndex]?.uwQuestionId || 0,
           underwritingQuestionsAnswers: [
             {
-              uwAnswerId:
-                answer[currentQuestionIndex]?.answers[0]?.uwAnswerId || 0,
               questionId: currentQuestion.id,
               question: currentQuestion.displayLabel,
               type: currentQuestion.type,
@@ -196,6 +201,7 @@ function HealthConditionQuestionModal({
         }
 
         if (resp) {
+          setValues(() => null);
           if (currentQuestionIndex === questionData.length - 1) {
             onSuccessOfHealthConditionQuestionModal();
             handleCancelClick();
@@ -203,10 +209,9 @@ function HealthConditionQuestionModal({
             setCurrentQuestion(questionData[currentQuestionIndex + 1]);
             setCurrentQuestionIndex(currentQuestionIndex + 1);
             let prevResponse = null;
-            if (answer.length > 0) {
+            if (answer[currentQuestionIndex + 1]) {
               const ansObj = answer[currentQuestionIndex + 1];
-
-              if (ansObj.type === 'CHECKBOX') {
+              if (ansObj?.type === 'CHECKBOX') {
                 prevResponse = ansObj.answers.map(_ => _.answer.toLowerCase());
               } else {
                 prevResponse =
@@ -240,6 +245,20 @@ function HealthConditionQuestionModal({
     [values, loading]
   );
 
+  const isLastQuestion = useMemo(() => {
+    return currentQuestionIndex === questionData.length - 1;
+  }, [currentQuestionIndex, questionData]);
+
+  const applyButtonText = useMemo(() => {
+    if (isLastQuestion) {
+      return answer[currentQuestionIndex]?.uwQuestionId
+        ? 'Update Condition'
+        : 'Add Condition';
+    }
+
+    return 'Next';
+  }, [currentQuestionIndex, questionData, answer]);
+
   return (
     <Dialog
       open={!!modelHeader}
@@ -264,13 +283,9 @@ function HealthConditionQuestionModal({
                 open={!!modelHeader}
                 error={error}
                 onClose={handleCancelClick}
-                applyButtonText={
-                  currentQuestionIndex === questionData.length - 1
-                    ? 'Add Condition'
-                    : 'Next'
-                }
+                applyButtonText={applyButtonText}
                 handleRemoveClick={handleRemoveClick}
-                showAddIcon={currentQuestionIndex === questionData.length - 1}
+                showAddIcon={isLastQuestion}
               />
             )}
             {currentQuestion.type == 'RADIO' && (
@@ -286,13 +301,9 @@ function HealthConditionQuestionModal({
                 open={!!modelHeader}
                 error={error}
                 onClose={handleCancelClick}
-                applyButtonText={
-                  currentQuestionIndex === questionData.length - 1
-                    ? 'Add Condition'
-                    : 'Next'
-                }
+                applyButtonText={applyButtonText}
                 handleRemoveClick={handleRemoveClick}
-                showAddIcon={currentQuestionIndex === questionData.length - 1}
+                showAddIcon={isLastQuestion}
               />
             )}
             {currentQuestion.type == 'CHECKBOX' && (
@@ -308,17 +319,13 @@ function HealthConditionQuestionModal({
                 open={!!modelHeader}
                 error={error}
                 onClose={handleCancelClick}
-                applyButtonText={
-                  currentQuestionIndex === questionData.length - 1
-                    ? 'Add Condition'
-                    : 'Next'
-                }
+                applyButtonText={applyButtonText}
                 options={options.filter(
                   option => option.questionId === currentQuestion.id
                 )}
                 setValues={setValues}
                 handleRemoveClick={handleRemoveClick}
-                showAddIcon={currentQuestionIndex === questionData.length - 1}
+                showAddIcon={isLastQuestion}
               />
             )}
           </>

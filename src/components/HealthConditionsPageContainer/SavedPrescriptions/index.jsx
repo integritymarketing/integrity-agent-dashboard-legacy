@@ -61,7 +61,7 @@ function SavedPrescriptions({ prescriptions, onPrescriptionClick }) {
         </Tooltip>
       </Typography>
 
-      <Box sx={{ maxHeight: '120px', overflowY: 'auto' }}>
+      <Box sx={{ maxHeight: '120px', overflowY: 'auto' }} px={2}>
         <Grid container spacing={2}>
           {prescriptions.map((prescription, index) => (
             <Grid item xs={12} sm={6} key={index}>
