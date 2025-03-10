@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { InputAdornment, CircularProgress, Chip, Box } from '@mui/material';
 import { TextInput } from 'components/MuiComponents';
@@ -34,6 +34,7 @@ const SMSPhoneNumberInput = ({
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const [value, setValue] = useState(defaultValue);
+  const initialCheckDone = useRef(false);
 
   const { validatePhone } = useLeadDetails();
 
@@ -46,7 +47,7 @@ const SMSPhoneNumberInput = ({
     });
 
   const checkSMSCompatibility = useCallback(
-    debounce(async phoneNumber => {
+    debounce(async (phoneNumber) => {
       if (!phoneNumber) {
         return;
       }
@@ -77,7 +78,7 @@ const SMSPhoneNumberInput = ({
     [onValidation]
   );
 
-  const formatInput = input => {
+  const formatInput = (input) => {
     if (!input) {
       return '';
     }
@@ -91,7 +92,7 @@ const SMSPhoneNumberInput = ({
     return formatted;
   };
 
-  const onChange = event => {
+  const onChange = (event) => {
     const inputValue = event.target.value;
     const formattedValue = formatInput(inputValue);
     setValue(formattedValue);
@@ -121,9 +122,10 @@ const SMSPhoneNumberInput = ({
   };
 
   useEffect(() => {
-    if (defaultValue && !value) {
+    if (defaultValue  && !initialCheckDone.current) {
       setValue(defaultValue);
       checkSMSCompatibility(defaultValue);
+      initialCheckDone.current = true;
     }
   }, [defaultValue, checkSMSCompatibility]);
 

@@ -29,6 +29,7 @@ const EmailInput = ({ label, onValidation, size, defaultValue, ...props }) => {
     const [isEmailValid, setIsEmailValid] = useState(null);
     const [error, setError] = useState(null);
     const [value, setValue] = useState("");
+    const initialCheckDone = useRef(false);
 
     const { validateEmail } = useLeadDetails();
     const latestValueRef = useRef(value);
@@ -101,10 +102,11 @@ const EmailInput = ({ label, onValidation, size, defaultValue, ...props }) => {
     };
 
     useEffect(() => {
-        if (defaultValue) {
+        if (defaultValue && !initialCheckDone.current) {
             latestValueRef.current = defaultValue;
             setValue(defaultValue);
             checkEmailValidity(defaultValue);
+            initialCheckDone.current = true;
         }
     }, [defaultValue, checkEmailValidity]);
 

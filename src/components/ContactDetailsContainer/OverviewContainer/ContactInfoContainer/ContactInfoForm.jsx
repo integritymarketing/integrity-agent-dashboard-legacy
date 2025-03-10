@@ -936,7 +936,10 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
                   !dirty ||
                   !isValid ||
                   isInvalidZip ||
-                  (!isEmailDeliverable && values.email !== '')
+                  (!isEmailDeliverable &&
+                    values.email &&
+                    values.email !== '') ||
+                  (values.email === '' && !dirty)
                 }
                 onClick={handleSubmit}
                 type='tertiary'

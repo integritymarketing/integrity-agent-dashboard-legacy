@@ -303,7 +303,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
                   <Box className={styles.emailText}>
                     <Label value={leadEmail} color='#4178FF' size='16px' />
                   </Box>
-                  {!isEmailValid && leadEmail && (
+                  {isEmailValid == false && leadEmail && (
                     <Box>
                       <AlertMessage
                         status='error'
