@@ -49,6 +49,9 @@ const SMUITable = styled(MUITable)(() => ({
         borderBottomLeftRadius: "10px",
         borderBottomRightRadius: "10px",
     },
+    ".MuiTableCell-root": {
+        borderBottom: "0px solid #E0E0E0",
+    },
 }));
 
 function Table({ columns, data, footer, initialState, fixedRows = [], overflowHide = false, handleSort }) {
