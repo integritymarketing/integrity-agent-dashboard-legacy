@@ -119,18 +119,18 @@ function HealthConditionQuestionModal({
       }
     }
 
-    let answer;
+    let answered;
 
     if (
       currentQuestion.type === 'DATE' ||
       currentQuestion.type === 'CHECKBOX'
     ) {
-      answer = values;
+      answered = values;
     } else {
       if (values) {
-        answer = 'Y';
+        answered = 'Y';
       } else {
-        answer = 'N';
+        answered = 'N';
       }
     }
 
@@ -145,6 +145,19 @@ function HealthConditionQuestionModal({
           options.find(
             opt => opt.value.toLowerCase() === value.toLowerCase()
           ) || {};
+
+        let uwAnswerIdCheck;
+        if (uwAnswerId) {
+          const answerResp = answer[currentQuestionIndex]?.answers?.find(
+            _ => _.answerId === opt.id
+          );
+          if (answerResp) {
+            uwAnswerIdCheck = answerResp.uwAnswerId;
+          } else {
+            uwAnswerIdCheck = 0;
+          }
+        }
+
         return {
           ...searchOption,
           answerType:
@@ -152,7 +165,7 @@ function HealthConditionQuestionModal({
           answerId: opt.id,
           answer: value,
           order: opt.order,
-          uwAnswerId: uwAnswerId ? uwAnswerId : undefined,
+          uwAnswerId: uwAnswerIdCheck,
         };
       });
     }
@@ -160,7 +173,7 @@ function HealthConditionQuestionModal({
     return [
       {
         answerId: searchOption.answerId,
-        answer: answer,
+        answer: answered,
         answerType:
           mapQuestionType[currentQuestion.type] ?? currentQuestion.type,
         order: searchOption.order,
