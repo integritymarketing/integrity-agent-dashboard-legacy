@@ -96,19 +96,6 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
       </div>
     );
   };
-  const sectionMedicationHeaderChildren = () => {
-    return (
-      <div className={styles.wrapper}>
-        <Button
-          icon={<Plus />}
-          iconPosition='right'
-          label={ADD_NEW}
-          type='tertiary'
-          className={styles.buttonWithIcon}
-        />
-      </div>
-    );
-  };
 
   const columns = [
     {
@@ -249,14 +236,19 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
         actions={<div className='actions'>{sectionHeaderChildren()}</div>}
       >
         {healthConditions.length === 0 && (
-          <Box className={styles.noItemsContainer}>
-            <Typography variant='body1' color='#434A51' marginBottom='8px'>
-              This contact has no conditions.
-            </Typography>
-            <Link onClick={onAddClick} className={styles.addConditionLink}>
-              Add a condition
-            </Link>
-          </Box>
+          <div className={styles.noItemsWrapper}>
+            <div className='no-items'>
+              <span>This contact has no conditions.&nbsp;</span>
+              <button
+                className='link'
+                data-gtm={`button-add-${CONDITIONS}`}
+                onClick={onAddClick}
+              >
+                {' '}
+                Add a condition
+              </button>
+            </div>
+          </div>
         )}
         {healthConditions.length > 0 && (
           <Table

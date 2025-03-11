@@ -107,23 +107,30 @@ const HealthConditionsPageContainer = () => {
           <Box className={styles.conditionsContainer}>
             <HealthConditionsTable contactId={contactId} />
             {healthConditions?.length === 0 && (
-              <Link
-                component={'button'}
-                variant='body2'
-                onClick={() =>
-                  navigate(
-                    `${
-                      isSimplifiedIUL() ? '/simplified-iul' : '/finalexpenses'
-                    }/plans/${contactId}`,
-                    {
-                      state: { from: loc?.pathname },
-                    }
-                  )
-                }
-                sx={{ marginLeft: 2 }}
-              >
-                {NO_CONDITIONS}
-              </Link>
+              <Typography variant='body2' sx={{ textAlign: 'center' }}>
+                <Link
+                  component='button'
+                  variant='body2'
+                  onClick={e => {
+                    e.stopPropagation();
+                    navigate(
+                      `${
+                        isSimplifiedIUL() ? '/simplified-iul' : '/finalexpenses'
+                      }/plans/${contactId}`,
+                      {
+                        state: { from: loc?.pathname },
+                      }
+                    );
+                  }}
+                  sx={{
+                    display: 'inline',
+                    padding: 0,
+                    minWidth: 'auto',
+                  }}
+                >
+                  {NO_CONDITIONS}
+                </Link>
+              </Typography>
             )}
             <Typography
               variant='body2'

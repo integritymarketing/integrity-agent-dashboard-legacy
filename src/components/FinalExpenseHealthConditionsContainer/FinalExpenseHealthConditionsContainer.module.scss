@@ -1,25 +1,11 @@
 @use "scss/globalDefines" as defines_global;
 
-.medicationContainer {
-  border-radius: 8px 8px 0 0;
-  background-color: #f1f1f1;
-  padding: 1rem;
-
-  > div {
-    box-shadow: none !important;
-  }
-
-  @include defines_global.small {
-    padding: 0.5rem;
-  }
-}
-
 .activitiesContainer {
-  border-radius: 0 0 8px 8px;
+  border-radius: 8px;
   background-color: #f1f1f1;
   padding: 1rem;
 
-  > div {
+  >div {
     box-shadow: none !important;
   }
 
@@ -207,17 +193,6 @@
   margin-top: 2px;
 }
 
-.noItemsContainer {
+.noItemsWrapper {
   background-color: #ffffff;
-  padding: 16px;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.addConditionLink {
-  color: #4178ff;
-  cursor: pointer;
 }
