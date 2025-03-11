@@ -26,7 +26,6 @@ function AddPrescriptionModal({
   } = useConditions();
 
   const { agentInformation } = useAgentInformationByID();
-  const [selectedCondition, setSelectedCondition] = useState(null);
   const hasFetchedConditions = useRef(false);
   const [isConditionAddedAlready, setIsConditionAddedAlready] = useState(false);
 
@@ -61,7 +60,6 @@ function AddPrescriptionModal({
       }
     }
 
-    setSelectedCondition(value);
     let payloadData = value.map(condition => ({
       ...condition,
       conditionId: condition.conditionId.toString(),
@@ -73,14 +71,9 @@ function AddPrescriptionModal({
     }));
     setSelectedPrescription(null);
     await addHealthConditions(payloadData, contactId);
+    handleHealthConditionClose();
+    onHandleApplyClickOfAddPrescriptionModal(value);
   };
-
-  useEffect(() => {
-    if (healthConditionsQuestions.length > 0) {
-      handleHealthConditionClose();
-      onHandleApplyClickOfAddPrescriptionModal(selectedCondition);
-    }
-  }, [healthConditionsQuestions]);
 
   return (
     <>

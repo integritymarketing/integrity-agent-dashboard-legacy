@@ -165,7 +165,7 @@ export const ConditionsProvider = ({ children }) => {
         () => {},
         async () => {
           showToast({ message: 'Health Conditions Applied' });
-          await fetchHealthConditionsQuestions(leadId);
+          //await fetchHealthConditionsQuestions(leadId);
         }
       );
     },

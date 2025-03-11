@@ -11,6 +11,7 @@ import ConditionalPopupYesOrNo from 'components/ui/ConditionalPopup/ConditionalP
 import { useConditions } from 'providers/Conditions';
 import { Dialog, DialogContent } from '@mui/material';
 import ConditionalPopupMultiSelect from 'components/ui/ConditionalPopup/ConditionPopupMultiSelect';
+import { UPDATE_CONDITION } from '../HealthConditionContainer.constants';
 
 function HealthConditionQuestionModal({
   modelHeader,
@@ -251,7 +252,7 @@ function HealthConditionQuestionModal({
 
   const applyButtonText = useMemo(() => {
     if (isLastQuestion) {
-      return answer[currentQuestionIndex]?.uwQuestionId
+      return modelHeader === UPDATE_CONDITION
         ? 'Update Condition'
         : 'Add Condition';
     }
