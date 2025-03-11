@@ -255,7 +255,7 @@ function HealthConditionQuestionModal({
   };
 
   const isButtonDisabled = useMemo(
-    () => loading || values === null,
+    () => loading || values === null || values?.length === 0,
     [values, loading]
   );
 
