@@ -67,6 +67,8 @@ export const PlanDetailsContainer = ({
   setIsRTS,
   handleMyAppointedProductsCheck,
   handleIsShowExcludedProductsCheck,
+  isShowAlternativeProducts,
+  handleIsShowAlternativeProductsCheck,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [pagedResults, setPagedResults] = useState([]);
@@ -91,16 +93,20 @@ export const PlanDetailsContainer = ({
   const [hasNoIULPlansAvailable, setHasNoIULPlansAvailable] = useState(false);
   const [rtsPlans, setRtsPlans] = useState([]);
   const [rtsPlansWithExclusions, setRtsPlansWithExclusions] = useState([]);
+  const [showAlternativeProductsMessage, setShowAlternativeProductsMessage] =
+    useState(false);
 
   const noPlanResults = pagedResults.length === 0;
   const { Get: getHealthConditions } = useFetch(
     `${HEALTH_CONDITION_API}${contactId}`
   );
-  const { updateErrorMesssage, errorMessage, actionLink } =
+  const { updateErrorMessage, errorMessage, actionLink } =
     useFinalExpenseErrorMessage(
       handleMyAppointedProductsCheck,
-      handleIsShowExcludedProductsCheck
+      handleIsShowExcludedProductsCheck,
+      handleIsShowAlternativeProductsCheck
     );
+
   const navigate = useNavigate();
   const leadDetailsData = Boolean(leadDetails);
 
@@ -130,17 +136,23 @@ export const PlanDetailsContainer = ({
     const age = getAgeFromBirthDate(birthdate);
     const todayDate = formatDate(new Date(), 'yyyy-MM-dd');
     const conditions = [];
+    const questions = [];
     const healthConditions = healthConditionsDataRef.current;
 
     if (!healthConditions || healthConditions.length === 0) {
       conditions.push({ categoryId: 0, lastTreatmentDate: null });
     } else {
-      healthConditions.forEach(({ conditionId, lastTreatmentDate }) => {
+      healthConditions.forEach(({ conditionId, id, lastTreatmentDate }) => {
         conditions.push({
           categoryId: conditionId,
           lastTreatmentDate: lastTreatmentDate
             ? formatServerDate(lastTreatmentDate)
             : null,
+        });
+        questions.push({
+          categoryId: conditionId,
+          questionId: id,
+          response: 'Yes',
         });
       });
     }
@@ -157,15 +169,20 @@ export const PlanDetailsContainer = ({
       coverageTypes: isSimplifiedIUL()
         ? ['SIMPLIFIED_IUL']
         : covType || [COVERAGE_TYPE[4].value],
-      rateClasses: rateClasses?.map(rate =>
-        rate === 'Sub Standard' ? 'Sub-Standard' : rate
-      ) || ['Standard'],
+
       effectiveDate: todayDate,
       underWriting: {
         user: { height: height || 0, weight: weight || 0 },
         conditions,
+        questions,
       },
     };
+
+    if (!isSimplifiedIUL()) {
+      quotePlansPostBody.rateClasses = rateClasses?.map(rate =>
+        rate === 'Sub Standard' ? 'Sub-Standard' : rate
+      ) || ['Standard'];
+    }
 
     if (isSimplifiedIUL()) {
       quotePlansPostBody.showOnlyExcludedProducts =
@@ -195,7 +212,7 @@ export const PlanDetailsContainer = ({
     leadDetails,
     monthlyPremium,
     selectedTab,
-    updateErrorMesssage,
+    updateErrorMessage,
     isSimplifiedIUL,
     rateClasses,
   ]);
@@ -210,17 +227,34 @@ export const PlanDetailsContainer = ({
         }
         if (isMyAppointedProducts && !isShowExcludedProducts) {
           setRtsPlans(result?.rtsPlans || []);
+        } else if (
+          isMyAppointedProducts &&
+          !isShowExcludedProducts &&
+          result?.alternativePlans
+        ) {
+          setRtsPlans(result?.alternativePlans || []);
         } else {
           setRtsPlans([]);
         }
         setRtsPlansWithExclusions(result?.rtsPlansWithExclusions || []);
       }
 
+      if (
+        isMyAppointedProducts &&
+        result?.rtsPlans?.length === 0 &&
+        result?.alternativePlans
+      ) {
+        setShowAlternativeProductsMessage(true);
+      } else {
+        setShowAlternativeProductsMessage(false);
+      }
+
       // Update error message based on business logic
-      updateErrorMesssage(
+      updateErrorMessage(
         result,
         isMyAppointedProducts,
-        isShowExcludedProducts
+        isShowExcludedProducts,
+        isShowAlternativeProducts
       );
 
       if (!isRTS) {
@@ -233,7 +267,9 @@ export const PlanDetailsContainer = ({
 
       // Life RTS Experience (My Appointed Products checked by default)
       if (isRTS) {
-        if (isMyAppointedProducts && isShowExcludedProducts) {
+        if (isShowAlternativeProducts) {
+          setFinalExpensePlans(result?.alternativePlans); // Show Alternative Products
+        } else if (isMyAppointedProducts && isShowExcludedProducts) {
           setFinalExpensePlans(result?.rtsPlansWithExclusions); // Condition 1
         } else if (!isMyAppointedProducts && !isShowExcludedProducts) {
           setFinalExpensePlans(result?.nonRTSPlans); // Condition 2
@@ -244,7 +280,13 @@ export const PlanDetailsContainer = ({
         }
       }
     },
-    [isMyAppointedProducts, isRTS, isShowExcludedProducts, isSimplifiedIUL]
+    [
+      isMyAppointedProducts,
+      isRTS,
+      isShowExcludedProducts,
+      isSimplifiedIUL,
+      isShowAlternativeProducts,
+    ]
   );
 
   useEffect(() => {
@@ -253,6 +295,7 @@ export const PlanDetailsContainer = ({
   }, [
     isShowExcludedProducts,
     isMyAppointedProducts,
+    isShowAlternativeProducts,
     finalExpenseQuoteAPIResponse,
     isRTS,
   ]);
@@ -312,6 +355,7 @@ export const PlanDetailsContainer = ({
     leadDetailsData,
     isShowExcludedProducts,
     isMyAppointedProducts,
+    isShowAlternativeProducts,
   ]);
 
   const lifeQuoteEvent = eventName => {
@@ -368,6 +412,7 @@ export const PlanDetailsContainer = ({
     monthlyPremium,
     isShowExcludedProducts,
     isMyAppointedProducts,
+    isShowAlternativeProducts,
     conditionsListState,
   ]);
 
@@ -432,22 +477,22 @@ export const PlanDetailsContainer = ({
     rtsPlansWithExclusions,
   ]);
 
-  const renderAlertMessage = (message, actions = []) => (
+  const renderAlertMessage = (message, actions) => (
     <Box className={styles.noPlans}>
-      <Box display='flex' gap='10px'>
+      <Box display='flex' gap='10px' alignItems='center'>
         <Box className={styles.alertIcon}>
           <AlertIcon />
         </Box>
         <Box>{message}</Box>
       </Box>
-      {actions.length
-        ? actions.map((_actionLink, index) => (
+      {actions?.length
+        ? actions?.map((_actionLink, index) => (
             <Box
               key={index}
-              onClick={_actionLink.callbackFunc}
+              onClick={_actionLink?.callbackFunc}
               className={styles.link}
             >
-              {_actionLink.text}
+              {_actionLink?.text}
             </Box>
           ))
         : ''}
@@ -497,9 +542,23 @@ export const PlanDetailsContainer = ({
           <>
             {<PersonalisedQuoteBox />}
             {renderActiveSellingPermissionsSection()}
+            {!isLoadingHealthConditions &&
+              !isLoadingFinalExpensePlans &&
+              showAlternativeProductsMessage && (
+                <>
+                  {renderAlertMessage(ERROR_5, [
+                    {
+                      text: 'Show Alternative Policies',
+                      callbackFunc: () =>
+                        handleIsShowAlternativeProductsCheck(true),
+                    },
+                  ])}
+                </>
+              )}
             {renderNoPlansMessage()}
           </>
         )}
+
         {pagedResults.length > 0 &&
           ((hasNoIULPlansAvailable && !rtsPlans.length) ||
             !hasNoIULPlansAvailable) &&
