@@ -483,6 +483,7 @@ export const PlanDetailsContainer = ({
         : FETCH_PLANS_ERROR;
       return renderAlertMessage(plansErrorMessage, [
         {
+          text: 'View Excluded Products',
           callbackFunc: () => {
             handleIsShowExcludedProductsCheck(true);
             handleMyAppointedProductsCheck(true);
