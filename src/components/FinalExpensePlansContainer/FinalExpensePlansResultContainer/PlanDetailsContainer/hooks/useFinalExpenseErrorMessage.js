@@ -96,7 +96,7 @@ function useFinalExpenseErrorMessage(
         } else if (hasAlternativePlans && !hasRtsPlans && !hasNonRtsPlans) {
           setErrorMessage(ERROR_5);
           setActionLink({
-            text: 'Show Alterxfxfnative Policies',
+            text: 'Show Alternative Policies',
             callbackFunc: () => handleIsShowAlternativeProductsCheck(true),
           });
         }
