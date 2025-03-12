@@ -54,6 +54,13 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
     [phone]
   );
 
+  const [isEmailCompatabile, setIsEmailCompatabile] = useState(
+    isEmailCompatibleStatus
+  );
+  const [isPhoneCompatabile, setIsPhoneCompatabile] = useState(
+    isPhoneCompatibleStatus
+  );
+
   const handleSend = async () => {
     const { policyDetailId, recId, input } = plans[0];
     const recIds = plans.map(({ recId }) => recId);
@@ -133,12 +140,12 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
   };
 
   const isDisable = useMemo(() => {
-    if (existingSendType === 'email' && leadEmail && isEmailCompatibleStatus) {
+    if (existingSendType === 'email' && leadEmail && isEmailCompatabile) {
       return true;
     } else if (
       existingSendType === 'textMessage' &&
       leadPhone &&
-      isPhoneCompatibleStatus
+      isPhoneCompatabile
     ) {
       return true;
     } else if (existingSendType === 'newEmailOrMobile') {
@@ -155,8 +162,8 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
     newSelectedType,
     email,
     phone,
-    isPhoneCompatibleStatus,
-    isEmailCompatibleStatus,
+    isPhoneCompatabile,
+    isEmailCompatabile,
   ]);
 
   return (
@@ -251,6 +258,10 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
             setPhone={setPhone}
             newSelectedType={newSelectedType}
             setNewSelectedType={setNewSelectedType}
+            isEmailCompatabile={isEmailCompatabile}
+            setIsEmailCompatabile={setIsEmailCompatabile}
+            isPhoneCompatabile={isPhoneCompatabile}
+            setIsPhoneCompatabile={setIsPhoneCompatabile}
           />
         </Box>
       </Box>

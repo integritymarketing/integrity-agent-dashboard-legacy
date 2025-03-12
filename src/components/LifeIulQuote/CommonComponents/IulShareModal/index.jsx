@@ -61,9 +61,17 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
   const isEmailCompatibleStatus = emails?.find(
     ({ leadEmail }) => leadEmail
   )?.isValid;
+
   const isPhoneCompatibleStatus = phones?.find(
     ({ leadPhone }) => leadPhone
   )?.isSmsCompatible;
+
+  const [isEmailCompatabile, setIsEmailCompatabile] = useState(
+    isEmailCompatibleStatus
+  );
+  const [isPhoneCompatabile, setIsPhoneCompatabile] = useState(
+    isPhoneCompatibleStatus
+  );
 
   const nonFormatPhoneNumber = useMemo(
     () => (phone ? `${phone}`.replace(/\D/g, '') : ''),
@@ -147,12 +155,12 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
   };
 
   const isDisable = useMemo(() => {
-    if (existingSendType === 'email' && leadEmail && isEmailCompatibleStatus) {
+    if (existingSendType === 'email' && leadEmail && isEmailCompatabile) {
       return true;
     } else if (
       existingSendType === 'textMessage' &&
       leadPhone &&
-      isPhoneCompatibleStatus
+      isPhoneCompatabile
     ) {
       return true;
     } else if (existingSendType === 'newEmailOrMobile') {
@@ -170,8 +178,8 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
     newSelectedType,
     email,
     phone,
-    isPhoneCompatibleStatus,
-    isEmailCompatibleStatus,
+    isPhoneCompatabile,
+    isEmailCompatabile,
   ]);
 
   return (
@@ -246,6 +254,10 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
             setPhone={setPhone}
             newSelectedType={newSelectedType}
             setNewSelectedType={setNewSelectedType}
+            isEmailCompatabile={isEmailCompatabile}
+            setIsEmailCompatabile={setIsEmailCompatabile}
+            isPhoneCompatabile={isPhoneCompatabile}
+            setIsPhoneCompatabile={setIsPhoneCompatabile}
           />
         </Box>
       </Box>

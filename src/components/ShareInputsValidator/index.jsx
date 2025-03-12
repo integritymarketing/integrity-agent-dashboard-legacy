@@ -43,10 +43,12 @@ const ShareInputsValidator = ({
   setExistingSendType = () => {},
   existingSendType = '',
   newSelectedType = '',
-  email,
-  phone,
   setEmail = () => {},
   setPhone = () => {},
+  isEmailCompatabile,
+  setIsEmailCompatabile,
+  isPhoneCompatabile,
+  setIsPhoneCompatabile,
 }) => {
   const { validateEmail, validatePhone, updateLeadPhone, leadDetails } =
     useLeadDetails();
@@ -55,12 +57,7 @@ const ShareInputsValidator = ({
 
   const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? '';
   const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? '';
-  const isEmailCompatibleStatus = emails?.find(
-    ({ leadEmail }) => leadEmail
-  )?.isValid;
-  const isPhoneCompatibleStatus = phones?.find(
-    ({ leadPhone }) => leadPhone
-  )?.isSmsCompatible;
+
   const phoneId = phones?.find(({ leadPhone }) => leadPhone)?.phoneId ?? null;
   const phoneLabel =
     phones?.find(({ leadPhone }) => leadPhone)?.phoneLabel ?? null;
@@ -68,13 +65,6 @@ const ShareInputsValidator = ({
   const isPrimary = useMemo(() => {
     return contactPreferences?.primary ? contactPreferences?.primary : 'phone';
   }, [contactPreferences]);
-
-  const [isEmailCompatabile, setIsEmailCompatabile] = useState(
-    isEmailCompatibleStatus
-  );
-  const [isPhoneCompatabile, setIsPhoneCompatabile] = useState(
-    isPhoneCompatibleStatus
-  );
 
   const [validationMessages, setValidationMessages] = useState({
     email: { status: null, message: '', title: '' },
@@ -177,7 +167,10 @@ const ShareInputsValidator = ({
       isPhoneCompatabile === true
     ) {
       setExistingSendType('textMessage');
-    } else if (!leadEmail && !leadPhone) {
+    } else if (
+      (!leadEmail && !leadPhone) ||
+      (isEmailCompatabile === false && isPhoneCompatabile === false)
+    ) {
       setExistingSendType('newEmailOrMobile');
     }
   }, [
