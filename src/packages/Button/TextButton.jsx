@@ -8,7 +8,7 @@ const StyledTextButton = styled(MUIButton)(({ theme, variant }) => ({
     fontSize: "16px",
     lineHeight: " 20px",
     fontWeight: "bold",
-    color: "#002D72",
+    color: "#4178ff",
     "&:disabled": {
         color: "#a0c4f8",
         backgroundColor: "#ffffff",
