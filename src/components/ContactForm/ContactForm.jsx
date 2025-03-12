@@ -287,6 +287,22 @@ const ContactForm = ({
     return false;
   }, [values, isEmailDeliverable]);
 
+  const isPhoneValid = useMemo(() => {
+    if (values?.phones?.leadPhone) {
+      const digitsOnly = values.phones?.leadPhone?.replace(/\D/g, '');
+      return digitsOnly.length === 10;
+    }
+    return true;
+  }, [values]);
+
+  const isEmailValid = useMemo(() => {
+    if (values?.email) {
+      const emailPattern = /^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i;
+      return emailPattern.test(values.email);
+    }
+    return true;
+  }, [values]);
+
   const formValid = useMemo(() => {
     return (
       isValid &&
@@ -295,7 +311,9 @@ const ContactForm = ({
       !isNotStateOrCounty &&
       isPhoneorEmailValid &&
       dirty &&
-      isValidPrimaryCommunication
+      isValidPrimaryCommunication &&
+      isPhoneValid &&
+      isEmailValid
     );
   }, [
     isValid,
@@ -305,6 +323,8 @@ const ContactForm = ({
     isPhoneorEmailValid,
     dirty,
     isValidPrimaryCommunication,
+    isPhoneValid,
+    isEmailValid,
   ]);
 
   return (
