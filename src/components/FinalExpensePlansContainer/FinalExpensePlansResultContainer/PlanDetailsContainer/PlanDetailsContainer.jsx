@@ -142,19 +142,32 @@ export const PlanDetailsContainer = ({
     if (!healthConditions || healthConditions.length === 0) {
       conditions.push({ categoryId: 0, lastTreatmentDate: null });
     } else {
-      healthConditions.forEach(({ conditionId, id, lastTreatmentDate }) => {
-        conditions.push({
-          categoryId: conditionId,
-          lastTreatmentDate: lastTreatmentDate
-            ? formatServerDate(lastTreatmentDate)
-            : null,
-        });
-        questions.push({
-          categoryId: conditionId,
-          questionId: id,
-          response: 'Yes',
-        });
-      });
+      healthConditions.forEach(
+        ({ conditionId, lastTreatmentDate, underwritingQuestionsAnswers }) => {
+          conditions.push({
+            categoryId: conditionId,
+            lastTreatmentDate: lastTreatmentDate
+              ? formatServerDate(lastTreatmentDate)
+              : null,
+          });
+          if (underwritingQuestionsAnswers) {
+            underwritingQuestionsAnswers.forEach(
+              ({ questionId, answers, type }) => {
+                answers.forEach(answer => {
+                  questions.push({
+                    questionId,
+                    categoryId: conditionId,
+                    response:
+                      type === 'DATE'
+                        ? formatServerDate(answer.answer)
+                        : answer.answer,
+                  });
+                });
+              }
+            );
+          }
+        }
+      );
     }
 
     const quotePlansPostBody = {
@@ -219,6 +232,10 @@ export const PlanDetailsContainer = ({
 
   const setFinalExpensePlansFromResult = useCallback(
     result => {
+      result = {
+        ...result,
+        rtsPlans: [],
+      };
       if (isSimplifiedIUL()) {
         if (result?.hasNoIULPlansAvailable) {
           setHasNoIULPlansAvailable(true);
@@ -241,8 +258,9 @@ export const PlanDetailsContainer = ({
 
       if (
         isMyAppointedProducts &&
+        !isShowExcludedProducts &&
         result?.rtsPlans?.length === 0 &&
-        result?.alternativePlans
+        result?.alternativePlans?.length > 0
       ) {
         setShowAlternativeProductsMessage(true);
       } else {

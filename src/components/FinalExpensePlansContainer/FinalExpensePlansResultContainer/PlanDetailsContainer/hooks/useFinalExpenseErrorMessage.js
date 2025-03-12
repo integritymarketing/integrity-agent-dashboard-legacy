@@ -90,13 +90,13 @@ function useFinalExpenseErrorMessage(
               : ERROR_3
           );
           setActionLink({
-            text: 'View Excluded Productsss',
-            callbackFunc: () => handleMyAppointedProductsCheck(false),
+            text: 'View Excluded Products',
+            callbackFunc: () => handleIsShowExcludedProductsCheck(false),
           });
-        } else if (hasAlternativePlans) {
+        } else if (hasAlternativePlans && !hasRtsPlans && !hasNonRtsPlans) {
           setErrorMessage(ERROR_5);
           setActionLink({
-            text: 'Show Alternative Policies',
+            text: 'Show Alterxfxfnative Policies',
             callbackFunc: () => handleIsShowAlternativeProductsCheck(true),
           });
         }
@@ -114,8 +114,8 @@ function useFinalExpenseErrorMessage(
               : ERROR_3
           );
           setActionLink({
-            text: 'View Excluded Produceets',
-            callbackFunc: () => handleMyAppointedProductsCheck(true),
+            text: 'View Excluded Products',
+            callbackFunc: () => handleIsShowExcludedProductsCheck(true),
           });
         }
       } else if (isMyAppointedProducts && isShowExcludedProducts) {
