@@ -232,10 +232,12 @@ export const PlanDetailsContainer = ({
 
   const setFinalExpensePlansFromResult = useCallback(
     result => {
-      result = {
-        ...result,
-        rtsPlans: [],
-      };
+      if (!result?.rtsPlans?.length) {
+        result = {
+          ...result,
+          rtsPlans: [],
+        };
+      }
       if (isSimplifiedIUL()) {
         if (result?.hasNoIULPlansAvailable) {
           setHasNoIULPlansAvailable(true);
