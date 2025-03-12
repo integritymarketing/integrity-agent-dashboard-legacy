@@ -477,6 +477,20 @@ export const PlanDetailsContainer = ({
       return renderAlertMessage(errorMessage, [actionLink]);
     }
 
+    if (noPlanResults && !rtsPlans.length) {
+      const plansErrorMessage = fetchPlansError
+        ? NO_PLANS_ERROR
+        : FETCH_PLANS_ERROR;
+      return renderAlertMessage(plansErrorMessage, [
+        {
+          callbackFunc: () => {
+            handleIsShowExcludedProductsCheck(true);
+            handleMyAppointedProductsCheck(true);
+          },
+        },
+      ]);
+    }
+
     if (noPlanResults) {
       const plansErrorMessage = fetchPlansError
         ? NO_PLANS_ERROR
