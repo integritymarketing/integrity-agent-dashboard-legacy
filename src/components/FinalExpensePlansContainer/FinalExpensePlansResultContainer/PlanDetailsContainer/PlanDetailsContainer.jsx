@@ -185,7 +185,7 @@ export const PlanDetailsContainer = ({
 
       effectiveDate: todayDate,
       underWriting: {
-        user: { height: height || 0, weight: weight || 0 },
+        user: { height: height || null, weight: weight || null },
         conditions,
         questions,
       },
@@ -232,12 +232,6 @@ export const PlanDetailsContainer = ({
 
   const setFinalExpensePlansFromResult = useCallback(
     result => {
-      if (!result?.rtsPlans?.length) {
-        result = {
-          ...result,
-          rtsPlans: [],
-        };
-      }
       if (isSimplifiedIUL()) {
         if (result?.hasNoIULPlansAvailable) {
           setHasNoIULPlansAvailable(true);
@@ -475,21 +469,6 @@ export const PlanDetailsContainer = ({
     // Case 2: Error fetching plans or default message
     if (errorMessage) {
       return renderAlertMessage(errorMessage, [actionLink]);
-    }
-
-    if (noPlanResults && !rtsPlans.length) {
-      const plansErrorMessage = fetchPlansError
-        ? NO_PLANS_ERROR
-        : FETCH_PLANS_ERROR;
-      return renderAlertMessage(plansErrorMessage, [
-        {
-          text: 'View Excluded Products',
-          callbackFunc: () => {
-            handleIsShowExcludedProductsCheck(true);
-            handleMyAppointedProductsCheck(true);
-          },
-        },
-      ]);
     }
 
     if (noPlanResults) {

@@ -91,7 +91,7 @@ function useFinalExpenseErrorMessage(
           );
           setActionLink({
             text: 'View Excluded Products',
-            callbackFunc: () => handleIsShowExcludedProductsCheck(false),
+            callbackFunc: () => handleIsShowExcludedProductsCheck(true),
           });
         } else if (hasAlternativePlans && !hasRtsPlans && !hasNonRtsPlans) {
           setErrorMessage(ERROR_5);
