@@ -87,7 +87,7 @@ function AddPrescriptionModal({
       >
         <DialogContent sx={{ padding: 0 }}>
           <MultiSelectDropdown
-            header='Search for a Condition b Prescription'
+            header='Search for a Condition by Prescription'
             title={
               prescriptionDetails?.name ||
               selectedPrescription?.dosage?.drugName
