@@ -52,7 +52,7 @@ const QuoteConditions = ({ contactId, isHealthPage, isMobile }) => {
   }, []);
 
   const completedConditions = useMemo(() => {
-    return healthConditions.filter(condition => condition.isComplete);
+    return healthConditions.filter(condition => condition.areUwQuestionsComplete);
   }, [healthConditions]);
 
   return (
