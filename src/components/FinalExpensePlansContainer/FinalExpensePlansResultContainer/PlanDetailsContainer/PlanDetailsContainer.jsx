@@ -140,7 +140,7 @@ export const PlanDetailsContainer = ({
     const healthConditions = healthConditionsDataRef.current;
 
     if (!healthConditions || healthConditions.length === 0) {
-      conditions.push({ categoryId: 0, lastTreatmentDate: null });
+      conditions.length = 0;
     } else {
       healthConditions.forEach(
         ({ conditionId, lastTreatmentDate, underwritingQuestionsAnswers }) => {
@@ -170,6 +170,9 @@ export const PlanDetailsContainer = ({
       );
     }
 
+    const userHeight = !weight || !height ? null : height;
+    const userWeight = !weight || !height ? null : weight;
+
     const quotePlansPostBody = {
       usState: code,
       age: Number(age),
@@ -185,7 +188,7 @@ export const PlanDetailsContainer = ({
 
       effectiveDate: todayDate,
       underWriting: {
-        user: { height: height || null, weight: weight || null },
+        user: { height: userHeight, weight: userWeight },
         conditions,
         questions,
       },
