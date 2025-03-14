@@ -8,6 +8,7 @@ import { CustomModal } from 'components/MuiComponents';
 import { formatCurrency } from 'utils/shared-utils/sharedUtility';
 import { useLeadDetails } from 'providers/ContactDetails';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
+import useUserProfile from 'hooks/useUserProfile';
 import ShareInputsValidator from 'components/ShareInputsValidator';
 import { useLifeIulQuote } from 'providers/Life';
 import { faArrowShare } from '@awesome.me/kit-7ab3488df1/icons/kit/custom';
@@ -26,19 +27,30 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
 
   const { agentInformation } = useAgentInformationByID();
   const { leadDetails } = useLeadDetails();
-
+  const userProfile = useUserProfile();
   const {
     firstName = '',
     lastName = '',
     emails = [],
     phones = [],
     leadsId,
+    addresses,
+    birthdate,
+    middleName,
   } = leadDetails;
 
   const agentFirstName = agentInformation?.agentFirstName;
   const agentLastName = agentInformation?.agentLastName;
   const agentEmail = agentInformation?.email;
   const agentPhoneNumber = agentInformation?.phone;
+  const addressData = addresses.length > 0 ? addresses?.[0] : null;
+  const stateCode =
+    addressData && addressData.stateCode ? addressData.stateCode : '';
+  const postalCode =
+    addressData && addressData.postalCode ? addressData.postalCode : '';
+  const roles = userProfile?.roles ?? '';
+  const countyFips =
+    addressData && addressData.countyFips ? addressData.countyFips : '';
   const npnNumber = agentInformation?.agentNPN;
   const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? '';
   const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? '';
@@ -64,9 +76,16 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
   const handleSend = async () => {
     const { policyDetailId, recId, input } = plans[0];
     const recIds = plans.map(({ recId }) => recId);
+    let updatedRoles;
+    if (typeof roles === 'string') {
+      updatedRoles = [roles];
+    } else {
+      updatedRoles = roles;
+    }
     try {
       const payload = {
         leadFirstName: firstName,
+        middleInitial: middleName === '' ? null : middleName,
         leadLastName: lastName,
         agentFirstName: agentFirstName,
         agentLastName: agentLastName,
@@ -75,9 +94,14 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
         agentNpn: npnNumber,
         agentPurl: agentInformation?.agentPurl,
         caLicense: agentInformation?.caLicense,
-        policyDetailId,
+        countyFIPS: countyFips,
+        state: stateCode,
+        zipCode: postalCode,
+        dateOfBirth: birthdate,
+        roles: updatedRoles,
         recIds: recIds,
-        policyDetailsUrl: 'https://qa.planenroll.com/life/products/compare',
+        leadId: `${leadsId}`,
+        policyCompareUrl: 'https://qa.planenroll.com/life/products/compare',
         quoteRequest: {
           inputs: [
             {
@@ -111,23 +135,21 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
           messageDestination: leadPhone,
           messageType: 'SMS',
         };
-        await handleIULQuoteShareClick(data);
+        await handleIULQuoteShareClick(data, true);
+      } else if (newSelectedType === 'email') {
+        const data = {
+          ...payload,
+          messageDestination: email,
+          messageType: 'Email',
+        };
+        await handleIULQuoteShareClick(data, true);
       } else {
-        if (newSelectedType === 'email') {
-          const data = {
-            ...payload,
-            messageDestination: email,
-            messageType: 'Email',
-          };
-          await handleIULQuoteShareClick(data, true);
-        } else {
-          const data = {
-            ...payload,
-            messageDestination: nonFormatPhoneNumber,
-            messageType: 'SMS',
-          };
-          await handleIULQuoteShareClick(data, true);
-        }
+        const data = {
+          ...payload,
+          messageDestination: nonFormatPhoneNumber,
+          messageType: 'SMS',
+        };
+        await handleIULQuoteShareClick(data, true);
       }
       onClose();
     } catch (err) {
@@ -195,53 +217,55 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
                 companyLogoImageUrl,
               } = plan;
               return (
-                <>
-                  <Grid md={3.5} className={styles.divider} key={index}>
-                    <Box marginBottom={2}>
-                      <img
-                        src={companyLogoImageUrl}
-                        alt={productName}
-                        className={styles.planImg}
-                      />
-                    </Box>
-                    <Box display='flex' marginBottom={2} flexDirection='column'>
-                      <Typography variant='body1' color='#434A51'>
-                        {companyName}
-                      </Typography>
-                      <Typography variant='body1' color='#434A51'>
-                        {amBest}
-                      </Typography>
-                    </Box>
-                    <Box marginBottom={1}>
-                      <Typography variant='h4' color='#052A63'>
-                        {productName}
-                      </Typography>
-                    </Box>
+                <Grid
+                  md={3.5}
+                  className={styles.divider}
+                  key={plan.policyDetailId}
+                >
+                  <Box marginBottom={2}>
+                    <img
+                      src={companyLogoImageUrl}
+                      alt={productName}
+                      className={styles.planImg}
+                    />
+                  </Box>
+                  <Box display='flex' marginBottom={2} flexDirection='column'>
+                    <Typography variant='body1' color='#434A51'>
+                      {companyName}
+                    </Typography>
+                    <Typography variant='body1' color='#434A51'>
+                      {amBest}
+                    </Typography>
+                  </Box>
+                  <Box marginBottom={1}>
+                    <Typography variant='h4' color='#052A63'>
+                      {productName}
+                    </Typography>
+                  </Box>
 
-                    <Box className={styles.policyDetails}>
-                      <Box marginBottom={1}>
-                        <Typography variant='h5' color='#052A63'>
-                          {quoteType === 'accumulation'
-                            ? 'Max Dist'
-                            : 'Death Benefit'}
-                        </Typography>
-                        <Typography variant='body1' color='#717171'>
-                          {quoteType === 'accumulation'
-                            ? formatCurrency(distribution)
-                            : formatCurrency(deathBenefit)}
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <Typography variant='h5' color='#052A63'>
-                          Premium
-                        </Typography>
-                        <Typography variant='body1' color='#717171'>
-                          {formatCurrency(premium)}
-                        </Typography>
-                      </Box>
+                  <Box className={styles.policyDetails}>
+                    <Box marginBottom={1}>
+                      <Typography variant='h5' color='#052A63'>
+                        {quoteType === 'accumulation'
+                          ? 'Max Dist'
+                          : 'Death Benefit'}
+                      </Typography>
+                      <Typography variant='body1' color='#717171'>
+                        {quoteType === 'accumulation'
+                          ? formatCurrency(distribution)
+                          : formatCurrency(deathBenefit)}
+                      </Typography>
                     </Box>
-                  </Grid>
-                </>
+                    <Box>
+                      <Typography variant='h5' color='#052A63'>
+                        Premium
+                      </Typography>
+                      <Typography variant='body1' color='#717171'>
+                        {formatCurrency(premium)}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Grid>
               );
             })}
           </Grid>
@@ -280,5 +304,6 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
 IulCompareShareModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  planDetails: PropTypes.object.isRequired,
+  plans: PropTypes.array.isRequired,
+  quoteType: PropTypes.string.isRequired,
 };
