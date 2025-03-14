@@ -134,8 +134,8 @@ const IulProtectionQuoteDetails = () => {
                                 hidePharmacy
                                 sections={[
                                     { id: "quoteDetails", label: "Quote Details" },
-                                    { id: "productDescription", label: "Product Description" },
-                                    { id: "productFeatures", label: "Product Features" },
+                                    { id: "productDescription", label: "Description" },
+                                    { id: "productFeatures", label: "Features" },
                                     { id: "underwritingRequirements", label: "Underwriting Requirements" },
                                 ]}
                                 ref={{
@@ -188,7 +188,7 @@ const IulProtectionQuoteDetails = () => {
                         </Grid>
                         <Grid item md={12} xs={12}>
                             <div ref={productDescriptionRef} id="productDescription">
-                                <IulQuoteDetailsSection title="Product Description">
+                                <IulQuoteDetailsSection title="Description">
                                     <Typography variant="body1" color="#434A51">
                                         {description}
                                     </Typography>
@@ -198,7 +198,7 @@ const IulProtectionQuoteDetails = () => {
                         {features?.length > 0 && (
                             <Grid item md={12} xs={12}>
                                 <div ref={productFeaturesRef} id="productFeatures">
-                                    <ProductFeature title="Product Features" features={features} />
+                                    <ProductFeature title="Features" features={features} />
                                 </div>
                             </Grid>
                         )}

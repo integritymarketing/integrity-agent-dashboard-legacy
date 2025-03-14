@@ -7,7 +7,8 @@ import PolicyList from "./PolicyList";
 import useToast from "hooks/useToast";
 import usePreferences from "hooks/usePreferences";
 import Info from "components/icons/info-blue";
-import Popover from "components/ui/Popover";
+import InfoModal from "components/PolicySnapShot/InfoModal/InfoModal";
+import styles from "components/PolicySnapShot/InfoModal/InfoModal.module.scss";
 import ErrorState from "components/ErrorState";
 import PolicyNoData from "components/PolicySnapShot/policy-no-data.svg";
 import NoUnlinkedPolicy from "images/no-unlinked-policies.svg";
@@ -36,6 +37,8 @@ export default function PlanSnapShot({ isMobile, npn }) {
     const [statusIndex, setStatusIndex] = useState(index);
     const [isError, setIsError] = useState(false);
     const [tabs, setTabs] = useState([]);
+
+    const[showPolicyListInfoModal, setShowPolicyListInfoModal] = useState(false);
 
     const [page, setPage] = useState(1);
     const [totalPageSize, setTotalPageSize] = useState(1);
@@ -194,19 +197,16 @@ export default function PlanSnapShot({ isMobile, npn }) {
     };
 
     return (
+      <>
         <SectionCard
             title="Policy Snapshot"
             className={"enrollmentPlanContainer_dashboard"}
             isDashboard={true}
             infoIcon={
-                <Popover
-                    openOn="hover"
-                    isPolicyList={true}
-                    description={TitleData}
-                    positions={isMobile ? ["bottom"] : ["right", "bottom"]}
-                >
-                    <Info />
-                </Popover>
+              <div onClick={() => setShowPolicyListInfoModal(true)} className={styles.infoIcon}>
+              <Info />
+          </div>
+
             }
             actions={
                 <DateRangeSort
@@ -256,5 +256,13 @@ export default function PlanSnapShot({ isMobile, npn }) {
                 )}
             </WithLoader>
         </SectionCard>
+                    {showPolicyListInfoModal && (
+                        <InfoModal
+                            open={showPolicyListInfoModal}
+                            onClose={() => setShowPolicyListInfoModal(false)}
+                            isMobile={isMobile}
+                        />
+                    )}
+        </>
     );
 }
