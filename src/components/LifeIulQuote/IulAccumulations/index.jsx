@@ -6,8 +6,9 @@ import {
 } from '../CommonComponents';
 import {
   IulQuoteCard,
-  NoQuoteResult,
+  NoResultsError,
 } from '@integritymarketing/clients-ui-kit';
+import NoResults from 'components/icons/errorImages/noResults';
 import { Grid, Typography, Box, useTheme, useMediaQuery } from '@mui/material';
 import { useLifeIulQuote } from 'providers/Life';
 import styles from './styles.module.scss';
@@ -222,8 +223,13 @@ const IulAccumulationQuote = () => {
                   })}
                 </>
               ) : (
-                <NoQuoteResult
-                  navigateLearningCenter={handleNavigateToLearningCenter}
+                <NoResultsError
+                  title='No Results Found'
+                  subtitle='There are no products available based on your current search settings. Please change your search or reset the filter setting.'
+                  helpText='Need help? Check out our '
+                  helpLinkText='LearningCENTER.'
+                  onHelpLinkClick={handleNavigateToLearningCenter}
+                  image={<NoResults />}
                 />
               )}
             </Grid>
