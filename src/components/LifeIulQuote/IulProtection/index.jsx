@@ -6,8 +6,9 @@ import {
 } from '../CommonComponents';
 import {
   IulQuoteCard,
-  NoQuoteResult,
+  NoResultsError,
 } from '@integritymarketing/clients-ui-kit';
+import NoResults from 'components/icons/errorImages/noResults';
 import {
   Grid,
   Typography,
@@ -295,8 +296,13 @@ const IulProtectionQuote = () => {
                   })}
                 </>
               ) : (
-                <NoQuoteResult
-                  navigateLearningCenter={handleNavigateToLearningCenter}
+                <NoResultsError
+                  title='No Results Found'
+                  subtitle='There are no products available based on your current search settings. Please change your search or reset the filter setting.'
+                  helpText='Need help? Check out our '
+                  helpLinkText='LearningCENTER.'
+                  onHelpLinkClick={handleNavigateToLearningCenter}
+                  image={<NoResults />}
                 />
               )}
             </Grid>
