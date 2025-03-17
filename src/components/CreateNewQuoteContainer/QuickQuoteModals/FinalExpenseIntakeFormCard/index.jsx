@@ -131,9 +131,6 @@ const FinalExpenseIntakeFormCard = () => {
                 <Typography variant="h3" className={styles.header}>
                     Let’s confirm a few details.
                 </Typography>
-                <Typography variant="h3" className={styles.subHeader}>
-                    Please add Zip Code to get a quote.
-                </Typography>
                 <Box className={styles.formContent}>
                     <Grid container className={styles.gridContainer}>
                         <Grid item md={6} xs={6}>
