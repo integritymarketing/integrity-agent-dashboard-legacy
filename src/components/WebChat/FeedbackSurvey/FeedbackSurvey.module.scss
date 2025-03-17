@@ -1,0 +1,134 @@
+.feedbackSurveyCard {
+  position: fixed;
+  z-index: 999;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+  transform: translateY(100%);
+  box-sizing: border-box;
+  background-color: #052a63;
+  bottom: 0;
+  scrollbar-width: none;
+  width: 28rem;
+  color: white;
+  height: 635px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &.visible {
+    transform: translateY(0);
+  }
+
+  .headerSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    height: 60px;
+  }
+
+  .logo {
+    width: 56px;
+    height: 56px;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .closeButtonContainer {
+    position: absolute;
+    top: 14px;
+    right: 15px;
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+    height: 24px;
+    width: 24px;
+    border-radius: 100%;
+    display: flex;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    background: #49648b;
+  }
+
+  .surveyParagraph {
+    text-align: center;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .optionsGroup {
+    margin-bottom: 4px;
+  }
+}
+
+.surveyIntroContainer {
+  width: calc(100% - 24px);
+  text-align: left;
+  border-radius: 0 8px 8px 0;
+  background: #375582;
+  margin: 0 24px 38px 0;
+  padding: 0%;
+}
+
+.surveyTitle {
+  color: #fff;
+  font-weight: 500;
+  padding: 16px 16px 8px 16px;
+}
+
+.surveyInstruction {
+  color: #fff;
+  padding: 8px 32px 16px 16px;
+}
+
+.optionsContainer {
+  background: #375582;
+  padding: 10px;
+  border-radius: 5px;
+  width: calc(100% - 48px);
+  margin: 0 24px;
+}
+
+.options {
+  background-color: #49648b;
+  padding: 0px;
+  border-radius: 5px;
+}
+
+.checkDivider {
+  margin: 0px 0px 0px 20px;
+  padding: 8px 0px;
+}
+
+.additionalFeedback {
+  margin: 0%;
+  color: #fff;
+
+  h4 {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+}
+
+.optionDivider {
+  border-bottom: #889bb5 solid 1px;
+  width: 100%;
+}
+
+.buttonContainer {
+  width: 100%;
+  padding: 0 24px;
+  margin: 24px 0px;
+  box-sizing: border-box;
+
+  .buttonGroup {
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+  }
+}
