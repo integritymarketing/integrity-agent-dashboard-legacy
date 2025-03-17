@@ -25,7 +25,19 @@ function HealthConditionSearchByPrescription({
   const debouncedSearch = useCallback(
     debounce(async query => {
       let data = await fetchSearchHealthConditions(query);
-      setHealthConditionsData(data);
+      setHealthConditionsData(
+        data.sort((a, b) => {
+          const aStartsWithQuery = a.name
+            .toLowerCase()
+            .startsWith(query.toLowerCase());
+          const bStartsWithQuery = b.name
+            .toLowerCase()
+            .startsWith(query.toLowerCase());
+
+          if (aStartsWithQuery && !bStartsWithQuery) return -1;
+          if (!aStartsWithQuery && bStartsWithQuery) return 1;
+        })
+      );
     }, 500),
     [fetchSearchHealthConditions]
   );
