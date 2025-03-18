@@ -47,11 +47,6 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
     );
   }, [carriersData]);
 
-  console.log('isExistIulCarriers', carriersData);
-  console.log('isExistTermCarriers', isExistTermCarriers);
-  console.log('isExistGulCarriers', isExistGulCarriers);
-  console.log('isExistSiulCarriers', isExistSiulCarriers);
-
   const updatedLifeQuestionCardList = useMemo(() => {
     const lifeQuestionCardList = { ...LIFE_CARRIER_BASED_LIST };
     if (!isExistIulCarriers) {

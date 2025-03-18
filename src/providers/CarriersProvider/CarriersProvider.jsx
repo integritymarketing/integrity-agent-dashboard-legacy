@@ -13,7 +13,6 @@ export const CarriersProvider = ({ children }) => {
 
   const getCarriersData = useCallback(
     async type => {
-      debugger;
       try {
         const path = `AdPolicyDetails?${type}`;
         const response = await fetchCarriers(null, false, path);
