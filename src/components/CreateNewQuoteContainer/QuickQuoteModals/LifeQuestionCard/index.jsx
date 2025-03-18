@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import SelectionList from '../../Common/SelectionList';
 import { LIFE_QUESTION_CARD_LIST, LIFE_CARRIER_BASED_LIST } from './constants';
 import { useCarriers } from 'providers/CarriersProvider';
@@ -11,38 +11,45 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
   const { getCarriersData, isLoadingGetCarriers } = useCarriers();
   const [carriersData, setCarriersData] = useState([]);
 
-  useEffect(() => {
-    const fetchCarriers = async () => {
-      const response = await getCarriersData(
-        'productType=gul&productType=term'
-      );
-      if (response) {
+  const fetchCarriers = useCallback(async () => {
+    try {
+      const response = await getCarriersData('productType=gul&productType=term');
+      if (Array.isArray(response)) {
         setCarriersData(response);
+      } else {
+        console.error('Unexpected response format:', response);
+        setCarriersData([]);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching carriers:', error);
+      setCarriersData([]);
+    }
+  }, [getCarriersData]);
+
+  useEffect(() => {
     fetchCarriers();
-  }, []);
+  }, [fetchCarriers]);
 
   const isExistIulCarriers = useMemo(() => {
-    return carriersData?.some(carrier =>
+    return carriersData.some(carrier =>
       carrier?.productCategory?.includes('IUL')
     );
   }, [carriersData]);
 
   const isExistTermCarriers = useMemo(() => {
-    return carriersData?.some(carrier =>
+    return carriersData.some(carrier =>
       carrier?.productCategory?.includes('Term')
     );
   }, [carriersData]);
 
   const isExistGulCarriers = useMemo(() => {
-    return carriersData?.some(carrier =>
+    return carriersData.some(carrier =>
       carrier?.productCategory?.includes('GUL')
     );
   }, [carriersData]);
 
   const isExistSiulCarriers = useMemo(() => {
-    return carriersData?.some(carrier =>
+    return carriersData.some(carrier =>
       carrier?.productCategory?.includes('SIUL')
     );
   }, [carriersData]);
@@ -76,10 +83,10 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
   return (
     <WithLoader isLoading={isLoadingGetCarriers}>
       <SelectionList
-        title='What type of Life Product?'
+        title="What type of Life Product?"
         selectionList={cardsList}
         handleSelectItem={handleSelectLifeProductType}
-        gridSize={CARRIERS_PRODUCTS_FLAG && cardsList?.length !== 1 ? 6 : 12}
+        gridSize={CARRIERS_PRODUCTS_FLAG && cardsList.length !== 1 ? 6 : 12}
       />
     </WithLoader>
   );
