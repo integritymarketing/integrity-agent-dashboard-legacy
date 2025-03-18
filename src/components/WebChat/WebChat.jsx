@@ -632,7 +632,7 @@ const WebChatComponent = () => {
       payload: {
         name: 'mc_Feedback_Dislike_Submit',
         value: {
-          activityValue: feedbackActivityData,
+          data: feedbackActivityData,
           appId: 'mcweb',
         },
       },
