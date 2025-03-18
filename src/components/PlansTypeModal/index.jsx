@@ -163,16 +163,16 @@ const PlansTypeModal = ({
     item => {
       switch (item) {
         case LIFE_QUESTION_CARD_LIST.FINAL_EXPENSE:
-        case LIFE_QUESTION_CARD_LIST.SIMPLIFIED_IUL:
           navigate(`/finalexpenses/create/${leadId}`);
           break;
-
+        case LIFE_QUESTION_CARD_LIST.SIMPLIFIED_IUL:
+          navigate(`/simplified-iul/create/${leadId}`);
+          break;
         case LIFE_QUESTION_CARD_LIST.INDEXED_UNIVERSAL_LIFE:
         case LIFE_CARRIER_BASED_LIST.FULLY_IUL:
           setShowLifeQuestionCard(false);
           setShowIulGoalQuestionCard(true);
           break;
-
         case LIFE_QUESTION_CARD_LIST.TERM:
         case LIFE_CARRIER_BASED_LIST.TERM_LIFE:
           navigate(`/life/term/${leadId}/confirm-details`);
