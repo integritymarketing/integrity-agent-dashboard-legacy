@@ -25,7 +25,7 @@ import dateFnsFormat from "date-fns/format";
 import {formatPhoneNumber} from "utils/phones";
 
 const SubmitButton = styled(Button)(() => ({
-    color: "#4178ff",
+    color: "#fff",
     borderRadius: "20px",
     background: "#4178ff",
     textTransform: "none",
