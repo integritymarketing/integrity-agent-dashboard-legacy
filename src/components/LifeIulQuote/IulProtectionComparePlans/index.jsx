@@ -197,7 +197,7 @@ const IulProtectionComparePlans = () => {
         </Grid>
         {features?.length > 0 && (
           <Grid item md={12} className={styles.productFeature}>
-            <ProductFeature title='Product Features' features={features} />
+            <ProductFeature title='Features' features={features} />
           </Grid>
         )}
 
