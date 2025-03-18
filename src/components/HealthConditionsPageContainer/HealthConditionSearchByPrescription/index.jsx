@@ -25,17 +25,41 @@ function HealthConditionSearchByPrescription({
   const debouncedSearch = useCallback(
     debounce(async query => {
       let data = await fetchSearchHealthConditions(query);
+
+      if (!data || !Array.isArray(data)) {
+        setHealthConditionsData([]);
+        return;
+      }
+
       setHealthConditionsData(
         data.sort((a, b) => {
-          const aStartsWithQuery = a.name
-            .toLowerCase()
-            .startsWith(query.toLowerCase());
-          const bStartsWithQuery = b.name
-            .toLowerCase()
-            .startsWith(query.toLowerCase());
+          const aName = a?.name?.toLowerCase() || '';
+          const bName = b?.name?.toLowerCase() || '';
+          const queryLower = query?.toLowerCase() || '';
+
+          const aStartsWithQuery = aName.startsWith(queryLower);
+          const bStartsWithQuery = bName.startsWith(queryLower);
 
           if (aStartsWithQuery && !bStartsWithQuery) return -1;
           if (!aStartsWithQuery && bStartsWithQuery) return 1;
+
+          // Sort alphabetically
+          if (aName < bName) return -1;
+          if (aName > bName) return 1;
+
+          // Sort by spaces
+          const aHasSpace = aName.includes(' ');
+          const bHasSpace = bName.includes(' ');
+          if (aHasSpace && !bHasSpace) return 1;
+          if (!aHasSpace && bHasSpace) return -1;
+
+          // Sort by special characters
+          const aHasSpecialChar = /[^a-zA-Z0-9 ]/.test(aName);
+          const bHasSpecialChar = /[^a-zA-Z0-9 ]/.test(bName);
+          if (aHasSpecialChar && !bHasSpecialChar) return 1;
+          if (!aHasSpecialChar && bHasSpecialChar) return -1;
+
+          return 0;
         })
       );
     }, 500),
