@@ -1,2 +1,1 @@
-export * from './TermConfirmationDetail';
 export * from './TermProductCarriersContainer';
