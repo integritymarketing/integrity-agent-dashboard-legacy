@@ -30,11 +30,11 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
     fetchCarriers();
   }, [fetchCarriers]);
 
-  const isExistIulCarriers = useMemo(() => {
-    return carriersData.some(carrier =>
-      carrier?.productCategory?.includes('IUL')
-    );
-  }, [carriersData]);
+  // const isExistIulCarriers = useMemo(() => {
+  //   return carriersData.some(carrier =>
+  //     carrier?.productCategory?.includes('IUL')
+  //   );
+  // }, [carriersData]);
 
   const isExistTermCarriers = useMemo(() => {
     return carriersData.some(carrier =>
@@ -48,32 +48,30 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
     );
   }, [carriersData]);
 
-  const isExistSiulCarriers = useMemo(() => {
-    return carriersData.some(carrier =>
-      carrier?.productCategory?.includes('SIUL')
-    );
-  }, [carriersData]);
+  // const isExistSiulCarriers = useMemo(() => {
+  //   return carriersData.some(carrier =>
+  //     carrier?.productCategory?.includes('SIUL')
+  //   );
+  // }, [carriersData]);
 
   const updatedLifeQuestionCardList = useMemo(() => {
     const lifeQuestionCardList = { ...LIFE_CARRIER_BASED_LIST };
-    if (!isExistIulCarriers) {
-      delete lifeQuestionCardList.FULLY_IUL;
-    }
+    // if (!isExistIulCarriers) {
+    //   delete lifeQuestionCardList.FULLY_IUL;
+    // }
     if (!isExistTermCarriers) {
       delete lifeQuestionCardList.TERM_LIFE;
     }
     if (!isExistGulCarriers) {
       delete lifeQuestionCardList.GUARANTEED_UL;
     }
-    if (!isExistSiulCarriers) {
-      delete lifeQuestionCardList.SIMPLIFIED_IUL;
-    }
+    // if (!isExistSiulCarriers) {
+    //   delete lifeQuestionCardList.SIMPLIFIED_IUL;
+    // }
     return lifeQuestionCardList;
   }, [
-    isExistIulCarriers,
     isExistTermCarriers,
     isExistGulCarriers,
-    isExistSiulCarriers,
   ]);
 
   const cardsList = CARRIERS_PRODUCTS_FLAG
