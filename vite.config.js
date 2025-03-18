@@ -12,7 +12,7 @@ export default defineConfig(({mode}) => {
         // Build configuration
         build: {
             outDir: "build", // Separate output folders
-            sourcemap: true, // Enable sourcemaps
+            /*sourcemap: true, // Enable sourcemaps*/
             rollupOptions: {
                 input: path.resolve(__dirname, "index.html"),
             },
