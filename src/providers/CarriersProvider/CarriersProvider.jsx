@@ -45,5 +45,5 @@ export const CarriersProvider = ({ children }) => {
 };
 
 CarriersProvider.propTypes = {
-  children: PropTypes.node.isRequired, // Child components that this provider will wrap
+  children: PropTypes.node.isRequired,
 };
