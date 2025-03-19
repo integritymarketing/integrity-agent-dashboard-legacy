@@ -58,6 +58,7 @@ const WebChatComponent = () => {
     useState(false);
   const [showFeedbackSurvey, setShowFeedbackSurvey] = useState(false);
   const [feedbackActivityData, setFeedbackActivityData] = useState(null);
+  const [isFeedbackSubmitLoading, setIsFeedbackSubmitLoading] = useState(false);
 
   const { Get: getSuggestedContacts } = useFetch(
     `${
@@ -477,6 +478,7 @@ const WebChatComponent = () => {
   );
 
   const handleIncomingEventActivity = (name, value) => {
+    const actionValue = value?.actionValue?.data;
     switch (name) {
       case 'mc_Call_List_Header':
         setHeaderContent(value.text);
@@ -499,11 +501,11 @@ const WebChatComponent = () => {
             .setAttribute('disabled', 'disabled');
           likeIconImg.src = LIKE_IMAGE;
           fireEvent('Ask Integrity In-Line Feedback Selected', {
-            callId: value.callId || '',
-            id: value.id || '',
+            callId: actionValue.callId || '',
+            id: actionValue.callId || '',
             documentType: 'Call Summary Feedback',
             npn: npn,
-            leadId: value.leadId || '',
+            leadId: actionValue.leadId || '',
             rating: 'Like',
             writtenFeedbackProvided: 'No',
             submissionDate: new Date().toISOString(),
@@ -520,13 +522,12 @@ const WebChatComponent = () => {
           );
           const dislikeIconImg = dislikeButton.querySelector('img');
           dislikeIconImg.src = DISLIKE_IMAGE;
-
           fireEvent('Ask Integrity In-Line Feedback Selected', {
-            callId: value.callId || '',
-            id: value.id || '',
+            callId: actionValue.callId || '',
+            id: actionValue.id || '',
             documentType: 'Call Summary Feedback',
             npn: npn,
-            leadId: value.leadId || '',
+            leadId: actionValue.leadId || '',
             rating: 'Dislike',
             writtenFeedbackProvided: 'No',
             submissionDate: new Date().toISOString(),
@@ -625,6 +626,7 @@ const WebChatComponent = () => {
   };
 
   const handleFeedbackSubmit = feedbackData => {
+    setIsFeedbackSubmitLoading(true);
     feedbackActivityData.selectedFeedback = feedbackData.selectedFeedback;
     feedbackActivityData.additionalComment = feedbackData.additionalComment;
     store.dispatch({
@@ -650,7 +652,10 @@ const WebChatComponent = () => {
       feedback: feedbackData,
     });
 
-    setShowFeedbackSurvey(false);
+    setTimeout(() => {
+      setIsFeedbackSubmitLoading(false);
+      setShowFeedbackSurvey(false);
+    }, 2000);
   };
 
   if (showAskIntegrityFeedback) {
@@ -721,6 +726,7 @@ const WebChatComponent = () => {
                           onClose={() => setShowFeedbackSurvey(false)}
                           showFeedbackSurvey={showFeedbackSurvey}
                           onFeedbackSubmit={handleFeedbackSubmit}
+                          isFeedbackSubmitLoading={isFeedbackSubmitLoading}
                         />
                       )}
                     </div>

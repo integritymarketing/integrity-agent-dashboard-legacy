@@ -21,11 +21,11 @@
 
   .headerSection {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
     position: relative;
-    height: 60px;
+    padding: 16px 24px;
   }
 
   .logo {
@@ -38,15 +38,12 @@
   }
 
   .closeButtonContainer {
-    position: absolute;
-    top: 14px;
-    right: 15px;
     &:hover {
       opacity: 0.8;
       cursor: pointer;
     }
-    height: 24px;
-    width: 24px;
+    height: 28px;
+    width: 28px;
     border-radius: 100%;
     display: flex;
     padding: 5px;
