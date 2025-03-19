@@ -66,9 +66,17 @@ function HealthConditionQuestionModal({
             conditionName: selectedCondition[index].conditionName,
           }))
         );
+
+      // Remove duplicate options
+      const allOptions = response.flatMap(res => res.options);
+      const uniqueOptions = [
+        ...new Map(allOptions.map(item => [item.id, item])).values(),
+      ];
+
       setAnswer(response.flatMap(res => res.answers || []));
-      setOptions(response.flatMap(res => res.options));
+      setOptions(uniqueOptions);
       setLoading(false);
+
       if (questions.length === 0) {
         handleCancelClick();
       } else {
@@ -352,7 +360,7 @@ function HealthConditionQuestionModal({
 HealthConditionQuestionModal.propTypes = {
   modelHeader: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
-  selectedCondition: PropTypes.string.isRequired,
+  selectedCondition: PropTypes.array.isRequired,
   contactId: PropTypes.string.isRequired,
   onSuccessOfHealthConditionQuestionModal: PropTypes.func.isRequired,
 };
