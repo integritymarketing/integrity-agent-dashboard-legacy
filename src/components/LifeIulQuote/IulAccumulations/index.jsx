@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {ApplyErrorModal, IulAccumulationQuoteFilter, IulQuoteContainer,} from '../CommonComponents';
-import {IulQuoteCard, NoResultsError,} from '@integritymarketing/clients-ui-kit';
+import {IulQuoteCard, NoResultsError, CarrierResourceAds} from '@integritymarketing/clients-ui-kit';
 import NoResults from 'components/icons/errorImages/noResults';
 import {Box, Grid, Typography, useMediaQuery, useTheme} from '@mui/material';
 import {useLifeIulQuote} from 'providers/Life';
@@ -9,8 +9,6 @@ import WithLoader from 'components/ui/WithLoader';
 import {useNavigate, useParams} from 'react-router-dom';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
 import {useLeadDetails} from 'providers/ContactDetails';
-import CarrierResourceAds
-  from "@integritymarketing/clients-ui-kit/dist/components/CarrierResourceAds/CarrierResourceAds";
 import {useCarriers} from "providers/CarriersProvider";
 
 const IulAccumulationQuote = () => {
