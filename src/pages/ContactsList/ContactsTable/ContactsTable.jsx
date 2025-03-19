@@ -468,7 +468,7 @@ function ContactsTable() {
             columns={columns}
             isLoading={isFetchingTableData || isStartedSearching}
           />
-          <LoadMoreButton />
+          {tableData.length > 0 && <LoadMoreButton />}
         </Box>
       )}
       <ReminderModals
