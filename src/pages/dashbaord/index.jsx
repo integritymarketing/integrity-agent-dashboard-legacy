@@ -147,7 +147,7 @@ export default function Dashbaord() {
                 <title>Integrity - Dashboard</title>
             </Helmet>
             <GlobalNav page="dashboard" />
-            <WithLoader isLoading={isLoading}>
+
                 <div className="dashbaord-page">
                     <section className="details-section">
                         <div className="greeting">
@@ -256,7 +256,6 @@ export default function Dashbaord() {
                         )}
                     </section>
                 </div>
-            </WithLoader>
             <GlobalFooter />
         </>
     );
