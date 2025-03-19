@@ -1,21 +1,17 @@
-import { useCallback, useEffect, useState } from 'react';
-import {
-  IulQuoteContainer,
-  IulAccumulationQuoteFilter,
-  ApplyErrorModal,
-} from '../CommonComponents';
-import {
-  IulQuoteCard,
-  NoResultsError,
-} from '@integritymarketing/clients-ui-kit';
+import React, {useCallback, useEffect, useState} from 'react';
+import {ApplyErrorModal, IulAccumulationQuoteFilter, IulQuoteContainer,} from '../CommonComponents';
+import {IulQuoteCard, NoResultsError,} from '@integritymarketing/clients-ui-kit';
 import NoResults from 'components/icons/errorImages/noResults';
-import { Grid, Typography, Box, useTheme, useMediaQuery } from '@mui/material';
-import { useLifeIulQuote } from 'providers/Life';
+import {Box, Grid, Typography, useMediaQuery, useTheme} from '@mui/material';
+import {useLifeIulQuote} from 'providers/Life';
 import styles from './styles.module.scss';
 import WithLoader from 'components/ui/WithLoader';
-import { useParams, useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
-import { useLeadDetails } from 'providers/ContactDetails';
+import {useLeadDetails} from 'providers/ContactDetails';
+import CarrierResourceAds
+  from "@integritymarketing/clients-ui-kit/dist/components/CarrierResourceAds/CarrierResourceAds";
+import {useCarriers} from "providers/CarriersProvider";
 
 const IulAccumulationQuote = () => {
   const {
@@ -29,16 +25,58 @@ const IulAccumulationQuote = () => {
     isLoadingApplyLifeIulQuote,
   } = useLifeIulQuote();
 
-  const { leadDetails } = useLeadDetails();
+  const {getCarriersData} = useCarriers();
+  const {leadDetails} = useLeadDetails();
   const [isTobaccoUser, setIsTobaccoUser] = useState(false);
-  const { agentInformation } = useAgentInformationByID();
 
+  const {agentInformation} = useAgentInformationByID();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const { contactId } = useParams();
+  const {contactId} = useParams();
   const navigate = useNavigate();
   const [selectedPlan, setSelectedPlan] = useState({});
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
+  const [carriersAdsPolicyDetails, setCarriersAdsPolicyDetails] = useState([]);
+
+  useEffect(() => {
+    const fetchCarriersAdsPolicyDetails = async () => {
+      const response = await getCarriersData(
+        'productType=iul'
+      );
+      if (response) {
+        addActionMenuItemsToCarriersAdsPolicies(response);
+      }
+    };
+    fetchCarriersAdsPolicyDetails();
+  }, []);
+
+  const addActionMenuItemsToCarriersAdsPolicies = (carriersAdsPolicyDetails) => {
+    const carriersAdsPolicyDetailsWithActionMenuItems = carriersAdsPolicyDetails.map(carrier => {
+      const actionMenuItems = [
+        carrier.quote && {
+          label: 'Run Quote',
+          onClick: () => window.open(carrier.quote, "_blank"),
+        },
+        carrier.illustration && {
+          label: 'Run Illustration',
+          onClick: () => window.open(carrier.illustration, "_blank"),
+        },
+        carrier.eApp && {
+          label: 'Start eApp',
+          onClick: () => window.open(carrier.eApp, "_blank"),
+        },
+        carrier.website && {
+          label: 'Visit Carrier',
+          onClick: () => window.open(carrier.website, "_blank"),
+        },
+      ].filter(Boolean);
+      return {
+        ...carrier,
+        actionMenuItems,
+      };
+    });
+    setCarriersAdsPolicyDetails(carriersAdsPolicyDetailsWithActionMenuItems);
+  }
 
   const getQuoteResults = useCallback(async () => {
     const lifeQuoteAccumulationDetails = sessionStorage.getItem(
@@ -93,7 +131,7 @@ const IulAccumulationQuote = () => {
     if (filteredPlan.length > 0) {
       sessionStorage.setItem(
         'iul-plan-details',
-        JSON.stringify({ ...filteredPlan[0], isTobaccoUser })
+        JSON.stringify({...filteredPlan[0], isTobaccoUser})
       );
       const tempId = 'IUL-United of Omaha-Income Advantage IUL';
       navigate(`/life/iul-accumulation/${contactId}/${tempId}/quote-details`);
@@ -108,7 +146,7 @@ const IulAccumulationQuote = () => {
     setSelectedPlan(plan);
     try {
       const response = await handleIULQuoteApplyClick(
-        { ...plan, ...agentInformation, ...leadDetails },
+        {...plan, ...agentInformation, ...leadDetails},
         contactId
       );
       if (response.success) {
@@ -137,7 +175,7 @@ const IulAccumulationQuote = () => {
             </Typography>
           </Box>
         )}
-        <IulAccumulationQuoteFilter isTobaccoUser={isTobaccoUser} />
+        <IulAccumulationQuoteFilter isTobaccoUser={isTobaccoUser}/>
       </Grid>
       {!showFilters && (
         <Grid item md={8} spacing={2}>
@@ -174,7 +212,7 @@ const IulAccumulationQuote = () => {
                         item
                         md={12}
                         key={`iul-accumulation-${index}`}
-                        sx={{ position: 'relative' }}
+                        sx={{position: 'relative'}}
                       >
                         <IulQuoteCard
                           applyButtonDisabled={isLoadingApplyLifeIulQuote}
@@ -211,7 +249,7 @@ const IulAccumulationQuote = () => {
                         />
                         {selectedPlan.rowId === rowId && (
                           <Box
-                            sx={{ position: 'absolute', top: 0, left: '50%' }}
+                            sx={{position: 'absolute', top: 0, left: '50%'}}
                           >
                             <WithLoader
                               isLoading={isLoadingApplyLifeIulQuote}
@@ -229,7 +267,7 @@ const IulAccumulationQuote = () => {
                   helpText='Need help? Check out our '
                   helpLinkText='LearningCENTER.'
                   onHelpLinkClick={handleNavigateToLearningCenter}
-                  image={<NoResults />}
+                  image={<NoResults/>}
                 />
               )}
             </Grid>
@@ -240,6 +278,12 @@ const IulAccumulationQuote = () => {
           </WithLoader>
         </Grid>
       )}
+      {carriersAdsPolicyDetails.length > 0 && <Box className={styles.carrierResourceContainer}>
+        <Box className={styles.carrierResourceHeader}><Typography variant="h4" color="#052A63">
+          Carrier Resources <span className={styles.carrierResourceCount}>({carriersAdsPolicyDetails.length})</span>
+        </Typography></Box>
+        <CarrierResourceAds carriers={carriersAdsPolicyDetails}></CarrierResourceAds>
+      </Box>}
     </IulQuoteContainer>
   );
 };
