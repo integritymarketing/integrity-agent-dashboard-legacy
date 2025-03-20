@@ -1,7 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Checkbox, Divider, FormControlLabel } from '@mui/material';
+import {
+  Button,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  Typography,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 
@@ -30,6 +36,7 @@ import {
   LIFE_CARRIER_BASED_LIST,
 } from 'components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants';
 import IulGoalQuestionCard from 'components/CreateNewQuoteContainer/QuickQuoteModals/IulGoalQuestionCard';
+import ButtonCircleArrow from 'components/icons/button-circle-arrow';
 
 const LIFE = 'hideLifeQuote';
 const HEALTH = 'hideHealthQuote';
@@ -281,6 +288,18 @@ const PlansTypeModal = ({
                 IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
                 handleSelectLifeProductType={handleSelectLifeProductType}
               />
+              <Box textAlign='center'>
+                <Typography my={1} color='#052A63' variant='h3'>
+                  or
+                </Typography>
+                <Button
+                  variant='contained'
+                  size='medium'
+                  endIcon={<ButtonCircleArrow />}
+                >
+                  Calculate Coverage Needs
+                </Button>
+              </Box>
             </QuoteModalCard>
           )}
           {!showLifeQuestionCard && showIulGoalQuestionCard && (
