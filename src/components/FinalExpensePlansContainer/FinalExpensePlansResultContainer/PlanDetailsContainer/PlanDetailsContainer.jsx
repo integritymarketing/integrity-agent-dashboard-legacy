@@ -33,7 +33,6 @@ import {
 } from '../FinalExpensePlansResultContainer.constants';
 import { AlertIcon } from 'components/icons/alertIcon';
 import { BackToTop } from 'components/ui/BackToTop';
-import Pagination from 'components/ui/Pagination/pagination';
 import PlanCardLoader from 'components/ui/PlanCard/loader';
 
 import { useLeadDetails } from 'providers/ContactDetails';
@@ -54,6 +53,7 @@ import {
 
 import ArrowRightIcon from 'components/icons/arrowRightLight';
 import { useCreateNewQuote } from '../../../../providers/CreateNewQuote';
+import { PaginationBar } from '@integritymarketing/clients-ui-kit';
 
 export const PlanDetailsContainer = ({
   selectedTab,
@@ -693,13 +693,11 @@ export const PlanDetailsContainer = ({
               })}
               <BackToTop />
 
-              <Pagination
+              <PaginationBar
+                totalCount={finalExpensePlans?.length}
                 currentPage={currentPage}
-                resultName='products'
-                totalPages={Math.ceil(finalExpensePlans?.length / 10)}
-                totalResults={finalExpensePlans?.length}
-                pageSize={pageSize}
-                onPageChange={page => setCurrentPage(page)}
+                itemsPerPage={pageSize}
+                onChange={page => setCurrentPage(page)}
               />
             </>
           )}
@@ -719,4 +717,9 @@ PlanDetailsContainer.propTypes = {
   setIsRTS: PropTypes.func.isRequired,
   handleMyAppointedProductsCheck: PropTypes.func.isRequired,
   handleIsShowExcludedProductsCheck: PropTypes.func.isRequired,
+  isShowAlternativeProducts: PropTypes.bool.isRequired,
+  handleIsShowAlternativeProductsCheck: PropTypes.func.isRequired,
+  rateClasses: PropTypes.shape({
+    map: PropTypes.func,
+  }),
 };
