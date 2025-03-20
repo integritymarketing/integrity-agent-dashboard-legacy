@@ -58,6 +58,7 @@ export default function Dashbaord() {
     const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(true);
 
     const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
+    const [stageSummaryLoading, setStageSummaryLoading] = useState(true);
     const { trackAgentPreferencesEvents } = useAgentPreferences();
     const { clientsService } = useClientServiceContext();
 
@@ -93,6 +94,7 @@ export default function Dashbaord() {
     useEffect(() => {
         const loadAsyncData = async () => {
             await loadStageSummary();
+          setStageSummaryLoading(false)
         };
         loadAsyncData();
         // ensure this only runs once.. adding a dependency w/ the stage summary data causes
@@ -192,7 +194,8 @@ export default function Dashbaord() {
                                     </div>
                                     {isClientSnapshotOpen && (
                                         <div className="snapshot-data">
-                                            {stageSummary &&
+                                          {stageSummaryLoading ? (<WithLoader isLoading={stageSummaryLoading}/>) : (
+                                            stageSummary &&
                                                 stageSummary.map((d, index) => (
                                                     <div
                                                         className={`snapshot-item ${index > 0 ? "brTop" : ""}`}
@@ -210,7 +213,8 @@ export default function Dashbaord() {
                                                             {numberWithCommas(d.totalCount)}
                                                         </div>
                                                     </div>
-                                                ))}
+                                                ))
+                                            )}
                                         </div>
                                     )}
                                 </div>

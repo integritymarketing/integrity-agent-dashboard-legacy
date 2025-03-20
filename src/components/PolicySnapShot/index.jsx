@@ -29,7 +29,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
     const [index] = usePreferences(0, "policySnapShot_widget");
     const [dRange] = usePreferences(0, "policySnapShot_sort");
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [policyList, setPolicyList] = useState([]);
     const [fullList, setFullList] = useState([]);
     const [leadIds, setLeadIds] = useState([]);
@@ -110,6 +110,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
     useEffect(() => {
         fetchPolicySnapshotList(status);
+        setIsLoading(false);
     }, [fetchPolicySnapshotList, status]);
 
     const handleWidgetSelection = useCallback(
