@@ -40,7 +40,7 @@ import { APIProvider } from '@vis.gl/react-google-maps';
 import { ContactMapMarkersDataProvider } from 'providers/ContactMapMarkersDataProvider';
 import { ConditionsProvider } from 'providers/Life/Conditions/ConditionsProvider';
 import { AmplitudeProvider } from 'providers/AmplitudeProvider';
-import { CarriersProvider } from 'providers/CarriersProvider';
+import { ContactListAPIProvider } from 'providers/ContactListAPIProviders';
 
 // error logging disabled for netlify deploy-preview and branch-deploy builds
 // DSN only defined in production apps.  see netlify.toml
@@ -68,7 +68,7 @@ root.render(
                     apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
                   >
                     <ToastContextProvider>
-                      <CarriersProvider>
+                      <ContactListAPIProvider>
                         <StageStatusProvider>
                           <AgentPreferencesProvider>
                             <AgentAccountProvider>
@@ -126,7 +126,7 @@ root.render(
                             </AgentAccountProvider>
                           </AgentPreferencesProvider>
                         </StageStatusProvider>
-                      </CarriersProvider>
+                      </ContactListAPIProvider>
                     </ToastContextProvider>
                   </APIProvider>
                 </RecoilRoot>

@@ -2,9 +2,8 @@ import * as Sentry from '@sentry/react';
 import { useCallback, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import useToast from 'hooks/useToast';
-import { useClientServiceContext } from 'services/clientServiceProvider';
 import { getAndResetItemFromLocalStorage } from 'utils/shared-utils/sharedUtility';
-
+import { useContactListAPI } from 'providers/ContactListAPIProviders';
 function useFetchTableData() {
   const [isLoading, setIsLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
@@ -12,7 +11,7 @@ function useFetchTableData() {
   const [pageResult, setPageResult] = useState(null);
   const showToast = useToast();
   const location = useLocation();
-  const { clientsService } = useClientServiceContext();
+  const { getContactListPost, getLeadsList } = useContactListAPI();
   const queryParams = useMemo(
     () => new URLSearchParams(location.search),
     [location.search]
@@ -37,7 +36,7 @@ function useFetchTableData() {
         const filterLeadIds = getAndResetItemFromLocalStorage('filterLeadIds');
         const leadIds = filterLeadIds || duplicateIds || null;
 
-        const response = await clientsService.getList(
+        const response = await getLeadsList(
           pageIndex,
           pageSize,
           sort,
@@ -66,7 +65,7 @@ function useFetchTableData() {
         return { total: 0, leadsList: [], leadIdsList: [] };
       }
     },
-    [applyFilters, clientsService, showToast]
+    [applyFilters, showToast, getLeadsList]
   );
 
   /**
@@ -100,7 +99,7 @@ function useFetchTableData() {
         let response;
 
         if (selectedFilterSections.length === 0) {
-          response = await clientsService.getList(
+          response = await getLeadsList(
             pageIndex,
             pageSize,
             sort,
@@ -114,7 +113,7 @@ function useFetchTableData() {
             returnAll
           );
         } else {
-          response = await clientsService.getContactListPost(
+          response = await getContactListPost(
             pageIndex,
             pageSize,
             sort,
@@ -125,36 +124,37 @@ function useFetchTableData() {
             applyFilters?.hasReminder,
             applyFilters?.hasOverdueReminder,
             applyFilters?.tags,
-            returnAll,
-            selectedFilterSections,
-            filterSectionsConfig
+            returnAll
           );
         }
 
-        const listData = response?.result.map(res => ({
-          ...res,
-          contactRecordType:
-            (res.contactRecordType === 'Client' ||
-              res.contactRecordType === 'client') &&
-            !res.statusName
-              ? 'Enrolled'
-              : res.contactRecordType,
-        }));
+        if (response?.result) {
+          const listData = response?.result.map(res => ({
+            ...res,
+            contactRecordType:
+              (res.contactRecordType === 'Client' ||
+                res.contactRecordType === 'client') &&
+              !res.statusName
+                ? 'Enrolled'
+                : res.contactRecordType,
+          }));
 
-        setPageResult(response?.pageResult);
+          setPageResult(response?.pageResult);
 
-        // Update table immediately
-        if (appendData) {
-          setTableData(prev => [...prev, ...listData]);
-          setAllLeads(prev => [
-            ...prev,
-            ...listData.map(contact => contact.leadsId),
-          ]);
-        } else {
-          setTableData(listData);
-          setAllLeads(listData.map(contact => contact.leadsId));
+          // Update table immediately
+          if (appendData) {
+            setTableData(prev => [...prev, ...listData]);
+            setAllLeads(prev => [
+              ...prev,
+              ...listData.map(contact => contact.leadsId),
+            ]);
+          } else {
+            setTableData(listData);
+            setAllLeads(listData.map(contact => contact.leadsId));
+          }
         }
       } catch (error) {
+        console.log('Failed to fetch table data', error);
         Sentry.captureException(error);
         showToast({
           type: 'error',
@@ -165,7 +165,7 @@ function useFetchTableData() {
         setIsLoading(false);
       }
     },
-    [applyFilters, clientsService, showToast]
+    [applyFilters, showToast, getLeadsList, getContactListPost]
   );
 
   return {

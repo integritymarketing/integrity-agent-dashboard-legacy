@@ -208,7 +208,7 @@ export class ClientsService {
       body
     );
     if (response?.status >= 400) {
-      throw new Error('Leads request failed.');
+      return response;
     }
     const list = await response?.json();
 
@@ -398,13 +398,14 @@ export class ClientsService {
     const response = await this._clientAPIRequest(
       `${
         import.meta.env.VITE_LEADS_URL
-      }/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`
+      }/api/${LEADS_ONLY_API_VERSION}/Leads?${queryStr}`,
+      'POST',
+      {}
     );
     if (response?.status >= 400) {
-      throw new Error('Leads request failed.');
+      return response;
     }
     const list = await response?.json();
-
     return list;
   };
 
