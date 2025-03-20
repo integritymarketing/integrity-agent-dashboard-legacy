@@ -74,7 +74,7 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
   );
 
   const handleSend = async () => {
-    const { policyDetailId, recId, input } = plans[0];
+    const { policyDetailId, input } = plans[0];
     const recIds = plans.map(({ recId }) => recId);
     let updatedRoles;
     if (typeof roles === 'string') {
@@ -95,6 +95,7 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
         agentPurl: agentInformation?.agentPurl,
         caLicense: agentInformation?.caLicense,
         countyFIPS: countyFips,
+        policyDetailId,
         state: stateCode,
         zipCode: postalCode,
         dateOfBirth: birthdate,
