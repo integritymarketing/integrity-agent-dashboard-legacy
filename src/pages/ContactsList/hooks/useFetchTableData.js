@@ -118,16 +118,11 @@ function useFetchTableData() {
             pageSize,
             sort,
             searchString,
-            leadIds,
-            applyFilters?.contactRecordType,
-            applyFilters?.stages,
-            applyFilters?.hasReminder,
-            applyFilters?.hasOverdueReminder,
-            applyFilters?.tags,
-            returnAll
+            returnAll,
+            selectedFilterSections,
+            filterSectionsConfig
           );
         }
-
         if (response?.result) {
           const listData = response?.result.map(res => ({
             ...res,

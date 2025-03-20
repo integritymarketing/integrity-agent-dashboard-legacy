@@ -25,6 +25,33 @@ export const ContactListAPIProvider = ({ children }) => {
   const { Post: getContactListByPostAPI } = useFetch(POST_CONTACT_LIST);
   const { Get: getContactListByGetAPI } = useFetch(GET_CONTACT_LIST);
 
+  function getRemindersKeys(selectedIsOption, selectedFilterOption) {
+    switch (selectedFilterOption) {
+      case 'active_reminder':
+        return selectedIsOption === 'is_not'
+          ? { hasReminder: true, hasOverDueReminder: true }
+          : { hasReminder: true, hasOverDueReminder: null };
+      case 'overdue_reminder':
+        return selectedIsOption === 'is_not'
+          ? { hasReminder: true, hasOverdueReminder: false }
+          : { hasReminder: true, hasOverdueReminder: true };
+      case 'no_reminders_added':
+        return selectedIsOption === 'is_not'
+          ? { hasReminder: true, hasOverdueReminder: null }
+          : { hasReminder: false, hasOverdueReminder: false };
+      case 'ask_integrity_active':
+        return selectedIsOption === 'is_not'
+          ? { hasAskIntegrityReminder: false }
+          : { hasAskIntegrityReminder: true };
+      case 'ask_integrity_overdue':
+        return selectedIsOption === 'is_not'
+          ? { hasOverdueAskIntegrityReminder: false }
+          : { hasOverdueAskIntegrityReminder: true };
+      default:
+        return {};
+    }
+  }
+
   const getContactListPost = useCallback(
     async (
       page,
@@ -40,7 +67,7 @@ export const ContactListAPIProvider = ({ children }) => {
         setErrorCode('offline');
         return;
       }
-      selectedFilterSections = selectedFilterSections.filter(
+      selectedFilterSections = selectedFilterSections?.filter(
         item => item.selectedFilterOption
       );
       let remindersKeys = {};
@@ -57,8 +84,8 @@ export const ContactListAPIProvider = ({ children }) => {
         item => item.sectionId === 'stage'
       );
       let stageArray = [];
-      if (stageSections.length) {
-        stageSections.forEach(stage => {
+      if (stageSections?.length) {
+        stageSections?.forEach(stage => {
           if (stage.selectedIsOption === 'is_not') {
             if (stageArray.length) {
               const restOfStageIds = stageArray.filter(
@@ -83,7 +110,7 @@ export const ContactListAPIProvider = ({ children }) => {
       const tagsSections = selectedFilterSections?.filter(
         item => item.sectionId !== 'stage' && item.sectionId !== 'reminders'
       );
-      if (tagsSections.length) {
+      if (tagsSections?.length) {
         tagsSections.forEach(tagSection => {
           const tagSectionIndex = selectedFilterSections.findIndex(
             item => item.id === tagSection.id

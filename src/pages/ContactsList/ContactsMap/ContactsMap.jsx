@@ -22,7 +22,7 @@ function ContactsMap() {
   return (
     <Grid container className={styles.container} spacing={1}>
       {errorCode ? (
-        <Grid className={styles.clientsColumn} item xs={12} sm={12} md={12}>
+        <Grid item xs={12} sm={12} md={12}>
           <ContactsListErrorMessage errorCode={errorCode} />
         </Grid>
       ) : (
