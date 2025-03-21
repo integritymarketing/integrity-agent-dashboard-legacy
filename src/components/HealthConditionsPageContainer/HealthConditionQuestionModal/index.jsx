@@ -233,7 +233,11 @@ function HealthConditionQuestionModal({
             let prevResponse = null;
             if (answer[currentQuestionIndex + 1]) {
               const ansObj = answer[currentQuestionIndex + 1];
-              if (ansObj?.type === 'CHECKBOX') {
+              const question = questionData[currentQuestionIndex + 1];
+              if (
+                ansObj?.type === 'CHECKBOX' ||
+                question.tag.trim() === 'multiple'
+              ) {
                 prevResponse = ansObj.answers.map(_ => _.answer.toLowerCase());
               } else {
                 prevResponse =
@@ -310,25 +314,31 @@ function HealthConditionQuestionModal({
                 showAddIcon={isLastQuestion}
               />
             )}
-            {currentQuestion.type == 'RADIO' && (
-              <ConditionalPopupYesOrNo
-                header={modelHeader}
-                title={currentQuestion.conditionName}
-                contentHeading={currentQuestion.displayLabel}
-                handleApplyClick={handleApplyClick}
-                handleCancelClick={handleCancelClick}
-                applyButtonDisabled={isButtonDisabled}
-                values={values}
-                onChange={value => setValues(value)}
-                open={!!modelHeader}
-                error={error}
-                onClose={handleCancelClick}
-                applyButtonText={applyButtonText}
-                handleRemoveClick={handleRemoveClick}
-                showAddIcon={isLastQuestion}
-              />
-            )}
-            {currentQuestion.type == 'CHECKBOX' && (
+            {currentQuestion.type == 'RADIO' &&
+              currentQuestion.tag.trim() !== 'multiple' && (
+                <ConditionalPopupYesOrNo
+                  header={modelHeader}
+                  title={currentQuestion.conditionName}
+                  contentHeading={currentQuestion.displayLabel}
+                  handleApplyClick={handleApplyClick}
+                  handleCancelClick={handleCancelClick}
+                  applyButtonDisabled={isButtonDisabled}
+                  values={values}
+                  onChange={value => setValues(value)}
+                  open={!!modelHeader}
+                  error={error}
+                  onClose={handleCancelClick}
+                  applyButtonText={applyButtonText}
+                  handleRemoveClick={handleRemoveClick}
+                  showAddIcon={isLastQuestion}
+                  options={options.filter(
+                    option => option.questionId === currentQuestion.id
+                  )}
+                />
+              )}
+            {(currentQuestion.type == 'CHECKBOX' ||
+              (currentQuestion.type == 'RADIO' &&
+                currentQuestion.tag.trim() === 'multiple')) && (
               <ConditionalPopupMultiSelect
                 header={modelHeader}
                 title={currentQuestion.conditionName}
