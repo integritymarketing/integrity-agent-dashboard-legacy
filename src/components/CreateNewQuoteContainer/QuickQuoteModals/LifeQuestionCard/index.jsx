@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import SelectionList from '../../Common/SelectionList';
-import { LIFE_QUESTION_CARD_LIST, LIFE_CARRIER_BASED_LIST } from './constants';
+import { LIFE_QUESTION_CARD_LIST } from './constants';
 import { useCarriers } from 'providers/CarriersProvider';
 import WithLoader from 'components/ui/WithLoader';
 
@@ -13,7 +13,9 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
 
   const fetchCarriers = useCallback(async () => {
     try {
-      const response = await getCarriersData('productType=gul&productType=term');
+      const response = await getCarriersData(
+        'productType=gul&productType=term'
+      );
       if (Array.isArray(response)) {
         setCarriersData(response);
       } else {
@@ -30,12 +32,6 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
     fetchCarriers();
   }, [fetchCarriers]);
 
-  // const isExistIulCarriers = useMemo(() => {
-  //   return carriersData.some(carrier =>
-  //     carrier?.productCategory?.includes('IUL')
-  //   );
-  // }, [carriersData]);
-
   const isExistTermCarriers = useMemo(() => {
     return carriersData.some(carrier =>
       carrier?.productCategory?.includes('Term')
@@ -48,40 +44,25 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
     );
   }, [carriersData]);
 
-  // const isExistSiulCarriers = useMemo(() => {
-  //   return carriersData.some(carrier =>
-  //     carrier?.productCategory?.includes('SIUL')
-  //   );
-  // }, [carriersData]);
-
   const updatedLifeQuestionCardList = useMemo(() => {
-    const lifeQuestionCardList = { ...LIFE_CARRIER_BASED_LIST };
-    // if (!isExistIulCarriers) {
-    //   delete lifeQuestionCardList.FULLY_IUL;
-    // }
+    const lifeQuestionCardList = { ...LIFE_QUESTION_CARD_LIST };
     if (!isExistTermCarriers) {
       delete lifeQuestionCardList.TERM_LIFE;
     }
     if (!isExistGulCarriers) {
       delete lifeQuestionCardList.GUARANTEED_UL;
     }
-    // if (!isExistSiulCarriers) {
-    //   delete lifeQuestionCardList.SIMPLIFIED_IUL;
-    // }
     return lifeQuestionCardList;
-  }, [
-    isExistTermCarriers,
-    isExistGulCarriers,
-  ]);
+  }, [isExistTermCarriers, isExistGulCarriers]);
 
   const cardsList = CARRIERS_PRODUCTS_FLAG
-    ? Object.values(updatedLifeQuestionCardList).slice(0, 4)
-    : Object.values(LIFE_QUESTION_CARD_LIST);
+    ? Object.values(updatedLifeQuestionCardList)
+    : Object.values(LIFE_QUESTION_CARD_LIST).slice(0, 3);
 
   return (
     <WithLoader isLoading={isLoadingGetCarriers}>
       <SelectionList
-        title="What type of Life Product?"
+        title='What type of Life Product?'
         selectionList={cardsList}
         handleSelectItem={handleSelectLifeProductType}
         gridSize={CARRIERS_PRODUCTS_FLAG && cardsList.length !== 1 ? 6 : 12}

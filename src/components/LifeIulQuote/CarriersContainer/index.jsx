@@ -7,6 +7,7 @@ import { useLeadDetails } from 'providers/ContactDetails';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 import { CarrierResourceCard } from '@integritymarketing/clients-ui-kit';
+import _ from 'lodash';
 
 export const CarriersContainer = ({ title, carriersList }) => {
   const { contactId } = useParams();
@@ -19,6 +20,7 @@ export const CarriersContainer = ({ title, carriersList }) => {
         contactId={contactId}
         showTabs={false}
         backButtonLabel='Back'
+        backButtonRoute={`/contacts/${contactId}`}
       />
       <Box className={styles.carriersContainer}>
         <IulQuoteHeader title={title} />

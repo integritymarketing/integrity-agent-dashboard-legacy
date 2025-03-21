@@ -31,10 +31,7 @@ import LifeQuestionCard from 'components/CreateNewQuoteContainer/QuickQuoteModal
 
 import styles from './styles.module.scss';
 import WithLoader from 'components/ui/WithLoader';
-import {
-  LIFE_QUESTION_CARD_LIST,
-  LIFE_CARRIER_BASED_LIST,
-} from 'components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants';
+import { LIFE_QUESTION_CARD_LIST } from 'components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants';
 import IulGoalQuestionCard from 'components/CreateNewQuoteContainer/QuickQuoteModals/IulGoalQuestionCard';
 import ButtonCircleArrow from 'components/icons/button-circle-arrow';
 
@@ -176,16 +173,14 @@ const PlansTypeModal = ({
           navigate(`/simplified-iul/create/${leadId}`);
           break;
         case LIFE_QUESTION_CARD_LIST.INDEXED_UNIVERSAL_LIFE:
-        case LIFE_CARRIER_BASED_LIST.FULLY_IUL:
           setShowLifeQuestionCard(false);
           setShowIulGoalQuestionCard(true);
           break;
-        case LIFE_QUESTION_CARD_LIST.TERM:
-        case LIFE_CARRIER_BASED_LIST.TERM_LIFE:
+        case LIFE_QUESTION_CARD_LIST.TERM_LIFE:
           navigate(`/life/term/${leadId}/confirm-details`);
           break;
-        case LIFE_CARRIER_BASED_LIST.GUARANTEED_UL:
-          navigate(`/life/guaranteed-ul/${leadId}/confirm-details`);
+        case LIFE_QUESTION_CARD_LIST.GUARANTEED_UL:
+          navigate(`/life/gul/${leadId}/carriers`);
           break;
         default:
           break;
