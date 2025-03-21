@@ -104,6 +104,10 @@ const TermConfirmationDetailsPage = lazy(() =>
 const TermProductCarriersPage = lazy(() =>
   import('pages/TermProductCarriersPage')
 );
+
+const GulProductCarriersPage = lazy(() =>
+  import('pages/GulProductCarriersPage')
+);
 const IulAccumulationQuotePage = lazy(() =>
   import('pages/IulAccumulationQuotePage')
 );
@@ -628,6 +632,19 @@ const appProtectedRoutes = [
         <ContactDetailsProvider>
           <FinalExpensePlansProvider>
             <TermProductCarriersPage />
+          </FinalExpensePlansProvider>
+          <WebChatComponent />
+        </ContactDetailsProvider>
+      </StrictMode>
+    ),
+  },
+  {
+    path: '/life/gul/:contactId/carriers',
+    component: (
+      <StrictMode>
+        <ContactDetailsProvider>
+          <FinalExpensePlansProvider>
+            <GulProductCarriersPage />
           </FinalExpensePlansProvider>
           <WebChatComponent />
         </ContactDetailsProvider>

@@ -13,19 +13,19 @@ const StyledBox = styled(Box)(() => ({
   backgroundColor: '#f1f1f1',
 }));
 
-const TermProductCarriersPage = () => {
+const GulProductCarriersPage = () => {
   return (
     <>
       <Helmet>
-        <title>Integrity - Term Product Carriers</title>
+        <title>Integrity - Gul Product Carriers</title>
       </Helmet>
       <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.LIFE} />
       <StyledBox>
-        <CarriersContainer title='Term' query='term' />
+        <CarriersContainer title='Guaranteed UL' query='gul' />
       </StyledBox>
       <GlobalFooter />
     </>
   );
 };
 
-export default TermProductCarriersPage;
+export default GulProductCarriersPage;
