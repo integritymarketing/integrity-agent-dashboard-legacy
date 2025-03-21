@@ -169,7 +169,7 @@ const PlansTypeModal = ({
         case LIFE_QUESTION_CARD_LIST.FINAL_EXPENSE:
           navigate(`/finalexpenses/create/${leadId}`);
           break;
-        case LIFE_QUESTION_CARD_LIST.SIMPLIFIED_IUL:
+        case LIFE_QUESTION_CARD_LIST.SIMPLIFIED_INDEXED_UNIVERSAL_LIFE:
           navigate(`/simplified-iul/create/${leadId}`);
           break;
         case LIFE_QUESTION_CARD_LIST.INDEXED_UNIVERSAL_LIFE:
