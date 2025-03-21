@@ -177,7 +177,7 @@ const PlansTypeModal = ({
           setShowIulGoalQuestionCard(true);
           break;
         case LIFE_QUESTION_CARD_LIST.TERM_LIFE:
-          navigate(`/life/term/${leadId}/confirm-details`);
+          navigate(`/life/term/${leadId}/carriers`);
           break;
         case LIFE_QUESTION_CARD_LIST.GUARANTEED_UL:
           navigate(`/life/gul/${leadId}/carriers`);

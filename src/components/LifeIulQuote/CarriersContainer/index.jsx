@@ -7,20 +7,37 @@ import { useLeadDetails } from 'providers/ContactDetails';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 import { CarrierResourceCard } from '@integritymarketing/clients-ui-kit';
+import { useEffect, useState } from 'react';
+import { useCarriers } from 'providers/CarriersProvider';
 import _ from 'lodash';
 
-export const CarriersContainer = ({ title, carriersList }) => {
+export const CarriersContainer = ({ title, query }) => {
   const { contactId } = useParams();
 
   const { isLoadingLeadDetails } = useLeadDetails();
 
+  const { getCarriersData, isLoadingGetCarriers } = useCarriers();
+  const [carriersData, setCarriersData] = useState([]);
+
+  useEffect(() => {
+    const fetchCarriers = async () => {
+      const response = await getCarriersData(`productType=${query}`);
+      if (response) {
+        setCarriersData(response);
+      }
+    };
+    if (query) {
+      fetchCarriers();
+    }
+  }, [query]);
+
   return (
-    <WithLoader isLoading={isLoadingLeadDetails}>
+    <WithLoader isLoading={isLoadingLeadDetails || isLoadingGetCarriers}>
       <ContactProfileTabBar
         contactId={contactId}
         showTabs={false}
         backButtonLabel='Back'
-        backButtonRoute={`/contacts/${contactId}`}
+        backButtonRoute={`/contact/${contactId}/overview`}
       />
       <Box className={styles.carriersContainer}>
         <IulQuoteHeader title={title} />
@@ -35,31 +52,33 @@ export const CarriersContainer = ({ title, carriersList }) => {
         </Box>
         <Box className={styles.carriersListGridContainer}>
           <Box className={styles.carriersGrid}>
-            {carriersList.map((carrier, index) => {
-              const key = _.get(carrier, 'id', index);
-              const carrierData = {
-                ...carrier,
-                actionMenuItems: [
-                  carrier.quote && {
-                    label: 'Run Quote',
-                    onClick: () => window.open(carrier.quote, '_blank'),
-                  },
-                  carrier.illustration && {
-                    label: 'Run Illustration',
-                    onClick: () => window.open(carrier.illustration, '_blank'),
-                  },
-                  carrier.eApp && {
-                    label: 'Start eApp',
-                    onClick: () => window.open(carrier.eApp, '_blank'),
-                  },
-                  carrier.website && {
-                    label: 'Visit Carrier',
-                    onClick: () => window.open(carrier.website, '_blank'),
-                  },
-                ].filter(Boolean),
-              };
-              return <CarrierResourceCard key={key} carrier={carrierData} />;
-            })}
+            {Array.isArray(carriersData) &&
+              carriersData?.map((carrier, index) => {
+                const key = _.get(carrier, 'id', index);
+                const carrierData = {
+                  ...carrier,
+                  actionMenuItems: [
+                    carrier.quote && {
+                      label: 'Run Quote',
+                      onClick: () => window.open(carrier.quote, '_blank'),
+                    },
+                    carrier.illustration && {
+                      label: 'Run Illustration',
+                      onClick: () =>
+                        window.open(carrier.illustration, '_blank'),
+                    },
+                    carrier.eApp && {
+                      label: 'Start eApp',
+                      onClick: () => window.open(carrier.eApp, '_blank'),
+                    },
+                    carrier.website && {
+                      label: 'Visit Carrier',
+                      onClick: () => window.open(carrier.website, '_blank'),
+                    },
+                  ].filter(Boolean),
+                };
+                return <CarrierResourceCard key={key} carrier={carrierData} />;
+              })}
           </Box>
         </Box>
       </Box>
@@ -69,7 +88,7 @@ export const CarriersContainer = ({ title, carriersList }) => {
 
 CarriersContainer.propTypes = {
   title: PropTypes.string.isRequired,
-  carriersList: PropTypes.array.isRequired,
+  query: PropTypes.string.isRequired,
 };
 
 export default CarriersContainer;
