@@ -132,10 +132,6 @@ export const ConfirmationDetailsContainer = ({ contactId, quoteType }) => {
         case LIFE_FORM_TYPES.IUL_PROTECTION:
           navigate(`/life/iul-protection/${contactId}/product-preferences`);
           break;
-
-        case LIFE_FORM_TYPES.TERM:
-          navigate(`/life/term/${contactId}/carriers`);
-          break;
       }
     }
   };

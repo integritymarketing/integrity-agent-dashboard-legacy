@@ -98,9 +98,7 @@ const IulProtectionConfirmationDetailsPage = lazy(() =>
 const IulProtectionProductPreferencesPage = lazy(() =>
   import('pages/IulProtectionProductPreferencesPage')
 );
-const TermConfirmationDetailsPage = lazy(() =>
-  import('pages/TermConfirmationDetailsPage')
-);
+
 const TermProductCarriersPage = lazy(() =>
   import('pages/TermProductCarriersPage')
 );
@@ -612,19 +610,7 @@ const appProtectedRoutes = [
       </StrictMode>
     ),
   },
-  {
-    path: '/life/term/:contactId/confirm-details',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <TermConfirmationDetailsPage />
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
+
   {
     path: '/life/term/:contactId/carriers',
     component: (

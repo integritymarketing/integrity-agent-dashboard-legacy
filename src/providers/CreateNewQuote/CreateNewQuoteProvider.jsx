@@ -237,7 +237,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
           setQuoteModalStage('iulGoalCard');
           break;
         case LIFE_QUESTION_CARD_LIST.TERM_LIFE:
-          navigate(`/life/term/${selectedLead.leadsId}/confirm-details`);
+          navigate(`/life/term/${selectedLead.leadsId}/carriers`);
           setShowStartQuoteModal(false);
           break;
         case LIFE_QUESTION_CARD_LIST.GUARANTEED_UL:
