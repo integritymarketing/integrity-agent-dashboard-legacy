@@ -210,6 +210,11 @@
       display: flex !important;
       justify-content: flex-end !important;
     }
+    .ac-columnSet {
+      .ac-container {
+        min-width: auto !important;
+      }
+    }
     .ac-container .ac-textBlock {
       font-weight: 400;
       font-style: italic;
@@ -225,9 +230,6 @@
       padding-right: 5px !important;
     }
 
-    .ac-vertical-separator {
-      margin-right: 18px !important;
-    }
     .ac-container img {
       width: 40px !important;
       height: 40px !important;
