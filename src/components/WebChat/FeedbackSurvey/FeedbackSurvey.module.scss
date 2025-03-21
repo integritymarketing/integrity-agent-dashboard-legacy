@@ -1,3 +1,5 @@
+@use 'scss/globalDefines' as defines_global;
+
 .feedbackSurveyCard {
   position: fixed;
   z-index: 999;
@@ -15,6 +17,9 @@
   flex-direction: column;
   align-items: center;
 
+  @include defines_global.small {
+    right: -9px;
+  }
   .loaderContainer {
     margin-top: -30px;
   }
