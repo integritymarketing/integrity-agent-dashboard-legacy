@@ -59,6 +59,8 @@ const FinalExpenseHealthTableSection = ({ contactId, isHealthPage }) => {
     isLoadingRef.current = false;
     if (resp) {
       setHealthConditions([...resp]);
+    } else {
+      setHealthConditions([]);
     }
   }, []);
 
