@@ -1,0 +1,60 @@
+@use "scss/globalDefines" as defines_global;
+
+.container {
+    margin-bottom: 40px;
+    min-height: calc(100vh - 300px);
+    background: #fff;
+    border-radius: 8px;
+    max-height: 100%;
+
+    @include defines_global.small {
+        background: transparent;
+        border-radius: 0;
+    }
+}
+
+.clientsColumn {
+    padding-right: 30px;
+
+    @include defines_global.small {
+        display: none;
+    }
+}
+
+.clientsDivider {
+    width: calc(100% + 30px);
+}
+
+.mapColumn {
+    padding: 0 !important;
+}
+
+.card {
+    background: #fff;
+    border-radius: 8px;
+}
+
+.clientHeader {
+    color: #052a63;
+    padding-top: 25px;
+    padding-left: 25px;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.clientsCardsContainer {
+    background-color: #f1f1f1;
+    border-radius: 6px;
+    margin: 10px;
+    width: 100%;
+    padding: 15px;
+    max-height: 600px;
+    min-height: calc(100% - 100px);
+    overflow-y: auto;
+}
+
+.cardWrapperClassName {
+    display: flex;
+    margin-top: 15px;
+    flex-direction: column;
+}

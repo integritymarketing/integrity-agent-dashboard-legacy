@@ -6,10 +6,7 @@ import useToast from 'hooks/useToast';
 import { useNavigate } from 'react-router-dom';
 import useAnalytics from 'hooks/useAnalytics';
 import useFetch from 'hooks/useFetch';
-import {
-  LIFE_QUESTION_CARD_LIST,
-  LIFE_CARRIER_BASED_LIST,
-} from '../../components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants';
+import { LIFE_QUESTION_CARD_LIST } from '../../components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants';
 
 export const CreateNewQuoteContext = createContext();
 
@@ -233,22 +230,18 @@ export const CreateNewQuoteProvider = ({ children }) => {
 
       switch (productType) {
         case LIFE_QUESTION_CARD_LIST.FINAL_EXPENSE:
-        case LIFE_QUESTION_CARD_LIST.SIMPLIFIED_IUL:
+        case LIFE_QUESTION_CARD_LIST.SIMPLIFIED_INDEXED_UNIVERSAL_LIFE:
           setQuoteModalStage('finalExpenseIntakeFormCard');
           break;
         case LIFE_QUESTION_CARD_LIST.INDEXED_UNIVERSAL_LIFE:
-        case LIFE_CARRIER_BASED_LIST.FULLY_IUL:
           setQuoteModalStage('iulGoalCard');
           break;
-        case LIFE_QUESTION_CARD_LIST.TERM:
-        case LIFE_CARRIER_BASED_LIST.TERM_LIFE:
+        case LIFE_QUESTION_CARD_LIST.TERM_LIFE:
           navigate(`/life/term/${selectedLead.leadsId}/confirm-details`);
           setShowStartQuoteModal(false);
           break;
-        case LIFE_CARRIER_BASED_LIST.GUARANTEED_UL:
-          navigate(
-            `/life/guaranteed-ul/${selectedLead.leadsId}/confirm-details`
-          );
+        case LIFE_QUESTION_CARD_LIST.GUARANTEED_UL:
+          navigate(`/life/gul/${selectedLead.leadsId}/carriers`);
           setShowStartQuoteModal(false);
           break;
         default:
