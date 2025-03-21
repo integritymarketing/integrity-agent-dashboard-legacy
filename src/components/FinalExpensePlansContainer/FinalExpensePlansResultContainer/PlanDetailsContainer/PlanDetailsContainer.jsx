@@ -324,6 +324,9 @@ export const PlanDetailsContainer = ({
         healthConditionsDataRef.current = [...resp];
         setConditionsListState(resp);
         setIsLoadingHealthConditions(false);
+      } else {
+        setConditionsListState([]);
+        setIsLoadingHealthConditions(false);
       }
     };
     if (!healthConditionsDataRef.current) {
