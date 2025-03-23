@@ -106,6 +106,10 @@ const TermProductCarriersPage = lazy(() =>
 const GulProductCarriersPage = lazy(() =>
   import('pages/GulProductCarriersPage')
 );
+
+const AnnuitiesProductCarriersPage = lazy(() =>
+  import('pages/AnnuitiesProductCarriersPage')
+);
 const IulAccumulationQuotePage = lazy(() =>
   import('pages/IulAccumulationQuotePage')
 );
@@ -631,6 +635,19 @@ const appProtectedRoutes = [
         <ContactDetailsProvider>
           <FinalExpensePlansProvider>
             <GulProductCarriersPage />
+          </FinalExpensePlansProvider>
+          <WebChatComponent />
+        </ContactDetailsProvider>
+      </StrictMode>
+    ),
+  },
+  {
+    path: '/life/annuities/:contactId/carriers',
+    component: (
+      <StrictMode>
+        <ContactDetailsProvider>
+          <FinalExpensePlansProvider>
+            <AnnuitiesProductCarriersPage />
           </FinalExpensePlansProvider>
           <WebChatComponent />
         </ContactDetailsProvider>

@@ -14,7 +14,7 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
   const fetchCarriers = useCallback(async () => {
     try {
       const response = await getCarriersData(
-        'productType=gul&productType=term'
+        'productType=gul&productType=term&productType=Annuity'
       );
       if (Array.isArray(response)) {
         setCarriersData(response);
@@ -44,6 +44,12 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
     );
   }, [carriersData]);
 
+  const isExistAnnuitiesCarriers = useMemo(() => {
+    return carriersData.some(carrier =>
+      carrier?.productCategory?.includes('Annuity')
+    );
+  }, [carriersData]);
+
   const updatedLifeQuestionCardList = useMemo(() => {
     const lifeQuestionCardList = { ...LIFE_QUESTION_CARD_LIST };
     if (!isExistTermCarriers) {
@@ -52,8 +58,11 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
     if (!isExistGulCarriers) {
       delete lifeQuestionCardList.GUARANTEED_UL;
     }
+    if (!isExistAnnuitiesCarriers) {
+      delete lifeQuestionCardList.ANNUITIES;
+    }
     return lifeQuestionCardList;
-  }, [isExistTermCarriers, isExistGulCarriers]);
+  }, [isExistTermCarriers, isExistGulCarriers, isExistAnnuitiesCarriers]);
 
   const cardsList = CARRIERS_PRODUCTS_FLAG
     ? Object.values(updatedLifeQuestionCardList)
@@ -65,7 +74,7 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
         title='What type of Life Product?'
         selectionList={cardsList}
         handleSelectItem={handleSelectLifeProductType}
-        gridSize={CARRIERS_PRODUCTS_FLAG && cardsList.length !== 1 ? 6 : 12}
+        gridSize={CARRIERS_PRODUCTS_FLAG ? 6 : 12}
       />
     </WithLoader>
   );

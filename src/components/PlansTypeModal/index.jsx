@@ -182,6 +182,9 @@ const PlansTypeModal = ({
         case LIFE_QUESTION_CARD_LIST.GUARANTEED_UL:
           navigate(`/life/gul/${leadId}/carriers`);
           break;
+        case LIFE_QUESTION_CARD_LIST.ANNUITIES:
+          navigate(`/life/annuities/${leadId}/carriers`);
+          break;
         default:
           break;
       }
