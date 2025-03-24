@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import useFetch from 'hooks/useFetch';
 import EditIcon from 'components/icons/icon-edit';
-import AddNewConditionDialog from '../../FinalExpenseHealthConditionsContainer/AddNewConditionDialog';
 import { CollapsibleSection } from '@integritymarketing/clients-ui-kit';
 import {
   COMPLETED,
@@ -19,6 +18,7 @@ import { Typography, Box, Button } from '@mui/material';
 import { faCircleInfo } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popover from 'components/ui/Popover';
+import HealthConditionQuestionModal from 'components/HealthConditionsPageContainer/HealthConditionQuestionModal';
 
 const QuoteConditions = ({
   contactId,
@@ -119,16 +119,14 @@ const QuoteConditions = ({
           })}
       </Box>
       {isAddNewActivityDialogOpen && (
-        <AddNewConditionDialog
-          open={isAddNewActivityDialogOpen}
-          contactId={contactId}
-          selectedConditionForEdit={selectedConditionForEdit}
+        <HealthConditionQuestionModal
+          modelHeader='Update condition'
           onClose={handleOnClose}
-          healthConditions={healthConditions}
-          setHealthConditions={setHealthConditions}
-          refetchConditionsList={getHealthConditionsListData}
-          disableLastTreatmentDate={isHealthPage}
-          page={isHealthPage ? 'health_profile' : 'final_expense'}
+          contactId={contactId}
+          onSuccessOfHealthConditionQuestionModal={() => {
+            handleOnClose();
+          }}
+          selectedCondition={[selectedConditionForEdit]}
         />
       )}
     </CollapsibleSection>

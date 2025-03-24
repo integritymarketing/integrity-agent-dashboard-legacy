@@ -430,10 +430,12 @@ const appProtectedRoutes = [
     component: (
       <StrictMode>
         <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <FinalExpensePlansPage />
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
+          <ConditionsProvider>
+            <FinalExpensePlansProvider>
+              <FinalExpensePlansPage />
+            </FinalExpensePlansProvider>
+            <WebChatComponent />
+          </ConditionsProvider>
         </ContactDetailsProvider>
       </StrictMode>
     ),

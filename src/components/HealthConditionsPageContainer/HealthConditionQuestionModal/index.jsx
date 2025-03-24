@@ -136,9 +136,9 @@ function HealthConditionQuestionModal({
       answered = values;
     } else {
       if (values === 'true') {
-        answered = 'Y';
+        answered = 'true';
       } else {
-        answered = 'N';
+        answered = 'false';
       }
     }
 
