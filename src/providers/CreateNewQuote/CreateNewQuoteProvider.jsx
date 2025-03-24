@@ -244,6 +244,9 @@ export const CreateNewQuoteProvider = ({ children }) => {
           navigate(`/life/gul/${selectedLead.leadsId}/carriers`);
           setShowStartQuoteModal(false);
           break;
+        case LIFE_QUESTION_CARD_LIST.ANNUITIES:
+          navigate(`/life/annuities/${selectedLead.leadsId}/carriers`);
+          break;
         default:
           break;
       }

@@ -43,11 +43,11 @@ export const CarriersContainer = ({ title, query }) => {
         <IulQuoteHeader title={title} />
 
         <Box className={styles.carriersListTitle}>
-          <Typography variant='h4' color='#052A63'>
-            Carrier Resources
+          <Typography variant='h4' color='#052A63' marginRight='4px'>
+            Carrier Resources{' '}
           </Typography>
           <Typography variant='h4' color='#00000099'>
-            (8)
+            ({carriersData?.length})
           </Typography>
         </Box>
         <Box className={styles.carriersListGridContainer}>
