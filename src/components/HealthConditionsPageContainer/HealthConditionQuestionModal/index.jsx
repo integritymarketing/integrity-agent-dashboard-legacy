@@ -135,7 +135,7 @@ function HealthConditionQuestionModal({
     ) {
       answered = values;
     } else {
-      if (values) {
+      if (values === 'true') {
         answered = 'Y';
       } else {
         answered = 'N';
@@ -178,12 +178,15 @@ function HealthConditionQuestionModal({
       });
     }
 
+    let optionData = options.find(
+      option => option.questionId === currentQuestion.id
+    );
+
     return [
       {
         answerId: searchOption.answerId,
         answer: answered,
-        answerType:
-          mapQuestionType[currentQuestion.type] ?? currentQuestion.type,
+        answerType: optionData?.type ?? currentQuestion.type,
         order: searchOption.order,
         uwAnswerId: uwAnswerId ? uwAnswerId : undefined,
       },
@@ -234,16 +237,17 @@ function HealthConditionQuestionModal({
             if (answer[currentQuestionIndex + 1]) {
               const ansObj = answer[currentQuestionIndex + 1];
               const question = questionData[currentQuestionIndex + 1];
-              if (
-                ansObj?.type === 'CHECKBOX' ||
-                question.tag.trim() === 'multiple'
-              ) {
+              if (ansObj?.type === 'CHECKBOX') {
                 prevResponse = ansObj.answers.map(_ => _.answer.toLowerCase());
               } else {
                 prevResponse =
                   answer[currentQuestionIndex + 1].answers[0].answer;
                 if (ansObj.type === 'RADIO') {
-                  prevResponse = prevResponse === 'N' ? false : true;
+                  if (question.tag.trim() === 'multiple') {
+                    prevResponse = prevResponse;
+                  } else {
+                    prevResponse = prevResponse === 'N' ? false : true;
+                  }
                 }
               }
             }
@@ -336,9 +340,7 @@ function HealthConditionQuestionModal({
                   )}
                 />
               )}
-            {(currentQuestion.type == 'CHECKBOX' ||
-              (currentQuestion.type == 'RADIO' &&
-                currentQuestion.tag.trim() === 'multiple')) && (
+            {currentQuestion.type == 'CHECKBOX' && (
               <ConditionalPopupMultiSelect
                 header={modelHeader}
                 title={currentQuestion.conditionName}
