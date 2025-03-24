@@ -38,6 +38,8 @@ const QuoteConditions = ({ contactId, isHealthPage, isMobile }) => {
     isLoadingRef.current = false;
     if (resp) {
       setHealthConditions([...resp]);
+    } else {
+      setHealthConditions([]);
     }
   }, []);
 
@@ -52,7 +54,9 @@ const QuoteConditions = ({ contactId, isHealthPage, isMobile }) => {
   }, []);
 
   const completedConditions = useMemo(() => {
-    return healthConditions.filter(condition => condition.areUwQuestionsComplete);
+    return healthConditions.filter(
+      condition => condition.areUwQuestionsComplete
+    );
   }, [healthConditions]);
 
   return (
