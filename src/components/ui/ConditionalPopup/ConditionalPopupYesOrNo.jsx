@@ -4,11 +4,6 @@ import ConditionalPopupLayout from './ConditionalPopupLayout';
 import styles from './styles.module.scss';
 import { Typography } from '@mui/material';
 
-const OPTIONS = [
-  { label: 'Yes', value: true },
-  { label: 'No', value: false },
-];
-
 function ConditionalPopupYesOrNo({
   header,
   title,
@@ -25,20 +20,25 @@ function ConditionalPopupYesOrNo({
   showAddIcon = false,
   showDeleteSection = false,
   handleRemoveClick,
+  options,
 }) {
-  const options = useMemo(
+  const formattedOptions = useMemo(
     () =>
-      OPTIONS.map(option => (
-        <div
-          key={option.label}
-          className={`${styles.optionValueBox} ${
-            option.value === values ? styles.selected : ''
-          }`}
-          onClick={() => onChange(option.value)}
-        >
-          {option.label}
-        </div>
-      )),
+      options.map(option => {
+        return (
+          <div
+            key={option.displayText}
+            className={`${styles.optionValueBox} ${
+              option.value.toString() === values?.toString()
+                ? styles.selected
+                : ''
+            }`}
+            onClick={() => onChange(option.value)}
+          >
+            {option.displayText}
+          </div>
+        );
+      }),
     [values]
   );
 
@@ -57,7 +57,7 @@ function ConditionalPopupYesOrNo({
       showDeleteSection={showDeleteSection}
       handleRemoveClick={handleRemoveClick}
     >
-      <div className={styles.optionValueWrapper}>{options}</div>
+      <div className={styles.optionValueWrapper}>{formattedOptions}</div>
       {error && (
         <Typography variant='body2' color='error' mt={0.5}>
           {error}
