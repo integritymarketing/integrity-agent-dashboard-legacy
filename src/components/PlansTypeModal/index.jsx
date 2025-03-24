@@ -226,6 +226,11 @@ const PlansTypeModal = ({
     handleFinalExpensePlanClick,
   ]);
 
+  const handleCalculateCoverageNeeds = () => {
+    sessionStorage.removeItem('currentCalculationStep');
+    navigate(`/coverage-calculations/${leadId}`);
+  };
+
   return (
     <>
       <Modal
@@ -294,6 +299,7 @@ const PlansTypeModal = ({
                   variant='contained'
                   size='medium'
                   endIcon={<ButtonCircleArrow />}
+                  onClick={handleCalculateCoverageNeeds}
                 >
                   Calculate Coverage Needs
                 </Button>

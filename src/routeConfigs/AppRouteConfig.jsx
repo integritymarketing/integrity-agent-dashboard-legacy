@@ -8,6 +8,7 @@ import { PharmacyProvider } from 'providers/PharmacyProvider';
 import { ProductPreferenceDetailsProvider } from 'providers/Life/ProductPreferenceDetailsProvider';
 import { LifeIulQuoteProvider } from 'providers/Life';
 import { ConditionsProvider } from 'providers/Conditions/ConditionsProvider';
+import { CoverageCalculationsProvider } from 'providers/CoverageCalculations';
 
 const TrafficDirector = lazy(() =>
   import('components/functional/traffic-director')
@@ -166,6 +167,9 @@ const ContactSupportInvalidNPN = lazy(() =>
 const UpdateMobileApp = lazy(() => import('pages/auth/UpdateMobileApp'));
 const LoginRedirectSSOPage = lazy(() =>
   import('pages/auth/LoginRedirectSSOPage')
+);
+const CoverageCalculationsPage = lazy(() =>
+  import('pages/CoverageCalculationsPage/CoverageCalculationsPage')
 );
 
 const RedirectAndRestartLoginFlow = () => {
@@ -703,6 +707,19 @@ const appProtectedRoutes = [
           <LifeIulQuoteProvider>
             <IulAccumulationComparePlansPage />
           </LifeIulQuoteProvider>
+        </ContactDetailsProvider>
+      </StrictMode>
+    ),
+  },
+  {
+    path: '/coverage-calculations/:contactId',
+    component: (
+      <StrictMode>
+        <ContactDetailsProvider>
+          <CoverageCalculationsProvider>
+            <CoverageCalculationsPage />
+          </CoverageCalculationsProvider>
+          <WebChatComponent />
         </ContactDetailsProvider>
       </StrictMode>
     ),
