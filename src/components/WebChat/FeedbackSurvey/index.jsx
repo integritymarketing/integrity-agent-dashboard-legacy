@@ -149,6 +149,7 @@ const FeedbackSurveyCard = ({
                       value={feedback.additionalComment}
                       onChange={handleTextChange}
                       InputProps={{ style: { color: 'white' } }}
+                      inputProps={{ maxLength: 1000 }}
                       sx={{
                         '& .MuiOutlinedInput-root': {
                           paddingTop: '0.5rem !important',
