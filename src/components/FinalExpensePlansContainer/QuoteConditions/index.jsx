@@ -20,12 +20,18 @@ import { faCircleInfo } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popover from 'components/ui/Popover';
 
-const QuoteConditions = ({ contactId, isHealthPage, isMobile }) => {
+const QuoteConditions = ({
+  contactId,
+  isHealthPage,
+  isMobile,
+  healthConditions,
+  setHealthConditions,
+  setIsLoadingHealthConditions,
+}) => {
   const [selectedConditionForEdit, setSelectedConditionForEdit] =
     useState(null);
   const [isAddNewActivityDialogOpen, setIsAddNewActivityDialogOpen] =
     useState(false);
-  const [healthConditions, setHealthConditions] = useState([]);
   const isLoadingRef = useRef(false);
 
   const { Get: getHealthConditions } = useFetch(
@@ -33,15 +39,19 @@ const QuoteConditions = ({ contactId, isHealthPage, isMobile }) => {
   );
 
   const getHealthConditionsListData = useCallback(async () => {
+    setIsLoadingHealthConditions(true);
     isLoadingRef.current = true;
     const resp = await getHealthConditions();
     isLoadingRef.current = false;
     if (resp) {
+      setIsLoadingHealthConditions(false);
       setHealthConditions([...resp]);
     } else {
+      setIsLoadingHealthConditions(false);
+      isLoadingRef.current = false;
       setHealthConditions([]);
     }
-  }, []);
+  }, [setIsLoadingHealthConditions, setHealthConditions]);
 
   useEffect(() => {
     if (!isLoadingRef.current) {

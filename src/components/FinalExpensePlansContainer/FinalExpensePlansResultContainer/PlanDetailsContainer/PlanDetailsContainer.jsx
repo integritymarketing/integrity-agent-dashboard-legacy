@@ -12,11 +12,9 @@ import { formatDate, formatServerDate, getAgeFromBirthDate } from 'utils/dates';
 import { scrollTop } from 'utils/shared-utils/sharedUtility';
 
 import useAnalytics from 'hooks/useAnalytics';
-import useFetch from 'hooks/useFetch';
 
 import { Button } from 'components/ui/Button';
 
-import { HEALTH_CONDITION_API } from 'components/FinalExpenseHealthConditionsContainer/FinalExpenseHealthConditionsContainer.constants';
 import {
   COVERAGE_AMOUNT,
   COVERAGE_TYPE_FINALOPTION,
@@ -69,6 +67,8 @@ export const PlanDetailsContainer = ({
   handleIsShowExcludedProductsCheck,
   isShowAlternativeProducts,
   handleIsShowAlternativeProductsCheck,
+  healthConditions,
+  isLoadingHealthConditions,
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [pagedResults, setPagedResults] = useState([]);
@@ -76,17 +76,15 @@ export const PlanDetailsContainer = ({
   const [currentPage, setCurrentPage] = useState(firstPage);
   const { contactId } = useParams();
   const { fireEvent } = useAnalytics();
-  const healthConditionsDataRef = useRef(null);
+
   const [finalExpenseQuoteAPIResponse, setFinalExpenseQuoteAPIResponse] =
     useState([]);
   const [finalExpensePlans, setFinalExpensePlans] = useState([]);
   const { getFinalExpenseQuotePlans } = useFinalExpensePlans();
   const { isSimplifiedIUL } = useCreateNewQuote();
-  const [isLoadingHealthConditions, setIsLoadingHealthConditions] =
-    useState(true);
+
   const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] =
     useState(true);
-  const [conditionsListState, setConditionsListState] = useState([]);
   const { leadDetails } = useLeadDetails();
   const [fetchPlansError, setFetchPlansError] = useState(false);
   const initialRender = useRef(true);
@@ -97,9 +95,7 @@ export const PlanDetailsContainer = ({
     useState(false);
 
   const noPlanResults = pagedResults.length === 0;
-  const { Get: getHealthConditions } = useFetch(
-    `${HEALTH_CONDITION_API}${contactId}`
-  );
+
   const { updateErrorMessage, errorMessage, actionLink } =
     useFinalExpenseErrorMessage(
       handleMyAppointedProductsCheck,
@@ -137,12 +133,12 @@ export const PlanDetailsContainer = ({
     const todayDate = formatDate(new Date(), 'yyyy-MM-dd');
     const conditions = [];
     const questions = [];
-    const healthConditions = healthConditionsDataRef.current;
+    const healthConditionsData = healthConditions || [];
 
-    if (!healthConditions || healthConditions.length === 0) {
+    if (!healthConditionsData || healthConditionsData.length === 0) {
       conditions.length = 0;
     } else {
-      healthConditions.forEach(
+      healthConditionsData.forEach(
         ({ conditionId, lastTreatmentDate, underwritingQuestionsAnswers }) => {
           conditions.push({
             categoryId: conditionId,
@@ -231,6 +227,7 @@ export const PlanDetailsContainer = ({
     updateErrorMessage,
     isSimplifiedIUL,
     rateClasses,
+    healthConditions,
   ]);
 
   const setFinalExpensePlansFromResult = useCallback(
@@ -317,23 +314,6 @@ export const PlanDetailsContainer = ({
     isRTS,
   ]);
 
-  useEffect(() => {
-    const fetchHealthConditionsListData = async () => {
-      const resp = await getHealthConditions();
-      if (resp) {
-        healthConditionsDataRef.current = [...resp];
-        setConditionsListState(resp);
-        setIsLoadingHealthConditions(false);
-      } else {
-        setConditionsListState([]);
-        setIsLoadingHealthConditions(false);
-      }
-    };
-    if (!healthConditionsDataRef.current) {
-      fetchHealthConditionsListData();
-    }
-  }, [contactId]);
-
   const pageSize = 10;
 
   useEffect(() => {
@@ -376,6 +356,7 @@ export const PlanDetailsContainer = ({
     isShowExcludedProducts,
     isMyAppointedProducts,
     isShowAlternativeProducts,
+    healthConditions,
   ]);
 
   const lifeQuoteEvent = eventName => {
@@ -398,9 +379,9 @@ export const PlanDetailsContainer = ({
       quote_monthly_premium:
         selectedTab === MONTHLY_PREMIUM ? monthlyPremium : null,
       quote_coverage_type: coverageType?.toLowerCase(),
-      number_of_conditions: conditionsListState?.length,
+      number_of_conditions: healthConditions?.length,
       number_of_completed_condtions:
-        conditionsListState?.filter(item => item.isComplete)?.length || 0,
+        healthConditions?.filter(item => item.isComplete)?.length || 0,
     });
   };
 
@@ -409,7 +390,7 @@ export const PlanDetailsContainer = ({
       return;
     }
     lifeQuoteEvent('Life Quote Results Viewed');
-  }, [conditionsListState, isLoadingHealthConditions]);
+  }, [healthConditions, isLoadingHealthConditions]);
 
   useEffect(() => {
     if (initialRender.current) {
@@ -433,7 +414,7 @@ export const PlanDetailsContainer = ({
     isShowExcludedProducts,
     isMyAppointedProducts,
     isShowAlternativeProducts,
-    conditionsListState,
+    healthConditions,
   ]);
 
   const loadersCards = useMemo(() => {
@@ -611,7 +592,7 @@ export const PlanDetailsContainer = ({
                 if (reason?.categoryReasons?.length > 0) {
                   conditionList = reason?.categoryReasons?.map(
                     ({ categoryId, lookBackPeriod }) => {
-                      const condition = healthConditionsDataRef.current.find(
+                      const condition = healthConditions?.find(
                         item => item.conditionId == categoryId
                       );
                       if (condition) {
@@ -685,7 +666,7 @@ export const PlanDetailsContainer = ({
                     setIsRTS={setIsRTS}
                     isShowExcludedProducts={isShowExcludedProducts}
                     isMyAppointedProducts={isMyAppointedProducts}
-                    conditionsListState={conditionsListState}
+                    healthConditions={healthConditions}
                     productMonthlyPremium={productMonthlyPremium}
                     policyFee={policyFee}
                     uwType={uwType}

@@ -55,7 +55,9 @@ const FinalExpensePlansResultContainer = () => {
   const [coverageTypeInfoModalOpen, setCoverageTypeInfoModalOpen] =
     useState(false);
   const [rateClasses, setRateClasses] = useState(['Standard']);
-
+  const [healthConditions, setHealthConditions] = useState([]);
+  const [isLoadingHealthConditions, setIsLoadingHealthConditions] =
+    useState(false);
   const { agentInformation } = useAgentInformationByID();
   const { isSimplifiedIUL } = useCreateNewQuote();
 
@@ -525,30 +527,37 @@ const FinalExpensePlansResultContainer = () => {
                           </Typography>
                         </div>
                         <div
-                           className={`${styles.checkbox} ${
-                             rateClasses.includes('Sub Standard')
-                               ? styles.selectedCheckbox
-                               : ''
-                           }`}
-                           onClick={() => {
-                             handleRateClassChange('Sub Standard');
-                           }}
-                         >
-                           {rateClasses.includes('Sub Standard') ? (
-                             <CheckedIcon />
-                           ) : (
-                             <UnCheckedIcon />
-                           )}{' '}
-                           <Typography variant='body2' color='#434A51'>
-                             Sub Standard
-                           </Typography>
-                         </div>
+                          className={`${styles.checkbox} ${
+                            rateClasses.includes('Sub Standard')
+                              ? styles.selectedCheckbox
+                              : ''
+                          }`}
+                          onClick={() => {
+                            handleRateClassChange('Sub Standard');
+                          }}
+                        >
+                          {rateClasses.includes('Sub Standard') ? (
+                            <CheckedIcon />
+                          ) : (
+                            <UnCheckedIcon />
+                          )}{' '}
+                          <Typography variant='body2' color='#434A51'>
+                            Sub Standard
+                          </Typography>
+                        </div>
                       </div>
                     </CollapsibleSection>
                   </Box>
                 )}
                 <Box marginTop={2}>
-                  <QuoteConditions contactId={contactId} isMobile={isMobile} />
+                  <QuoteConditions
+                    contactId={contactId}
+                    isMobile={isMobile}
+                    healthConditions={healthConditions}
+                    setHealthConditions={setHealthConditions}
+                    isLoadingHealthConditions={isLoadingHealthConditions}
+                    setIsLoadingHealthConditions={setIsLoadingHealthConditions}
+                  />
                 </Box>
               </Box>
             </Box>
@@ -582,6 +591,8 @@ const FinalExpensePlansResultContainer = () => {
             handleIsShowAlternativeProductsCheck={
               handleIsShowAlternativeProductsCheck
             }
+            healthConditions={healthConditions}
+            isLoadingHealthConditions={isLoadingHealthConditions}
           />
         )}
         <div className={styles.resultContent}></div>
