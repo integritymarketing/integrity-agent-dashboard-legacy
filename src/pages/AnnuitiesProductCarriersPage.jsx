@@ -21,7 +21,7 @@ const AnnuitiesProductCarriersPage = () => {
       </Helmet>
       <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.LIFE} />
       <StyledBox>
-        <CarriersContainer title='Annuities' query='Annuity' />
+        <CarriersContainer title='Annuities' query='Annuities' />
       </StyledBox>
       <GlobalFooter />
     </>

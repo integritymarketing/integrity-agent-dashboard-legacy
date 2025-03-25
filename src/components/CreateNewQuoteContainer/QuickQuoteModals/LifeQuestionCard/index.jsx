@@ -14,7 +14,7 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
   const fetchCarriers = useCallback(async () => {
     try {
       const response = await getCarriersData(
-        'productType=gul&productType=term&productType=Annuity'
+        'productType=gul&productType=term&productType=Annuities'
       );
       if (Array.isArray(response)) {
         setCarriersData(response);
@@ -48,7 +48,7 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
 
   const isExistAnnuitiesCarriers = useMemo(() => {
     return carriersData.some(carrier =>
-      carrier?.productCategory?.includes('Annuity')
+      carrier?.productCategory?.includes('Annuities')
     );
   }, [carriersData]);
 

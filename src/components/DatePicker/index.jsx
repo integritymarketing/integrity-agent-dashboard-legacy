@@ -4,7 +4,6 @@ import { isValid } from "date-fns";
 import Box from "@mui/material/Box";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import TextField from "@mui/material/TextField";
 import CalendarIcon from "components/icons/version-2/Calendar";
 import ArrowDownIcon from "components/icons/version-2/ArrowDownBig";
 
@@ -36,6 +35,12 @@ function DatePickerMUI({
         }
     }, [value]);
 
+  const restrictNonNumericKeys = (event) => {
+    if (event.key.length !== 1 || /[^0-9]/.test(event.key)) {
+      event.preventDefault();
+    }
+  };
+
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
@@ -49,16 +54,9 @@ function DatePickerMUI({
                 onChange={handleDateChange}
                 format="MM/dd/yyyy"
                 className={className}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        InputProps={{
-                            ...params.InputProps,
-                        }}
-                    />
-                )}
                 slotProps={{
                     textField: {
+                      onKeyDown: restrictNonNumericKeys,
                         InputProps: {
                             endAdornment: (
                                 <Box mx={1} onClick={handleOpen}>
