@@ -153,10 +153,7 @@ export const PlanDetailsContainer = ({
                   questions.push({
                     questionId,
                     categoryId: conditionId,
-                    response:
-                      type === 'DATE'
-                        ? formatServerDate(answer.answer)
-                        : answer.answer,
+                    response:answer.responseAnswerValue,
                   });
                 });
               }
