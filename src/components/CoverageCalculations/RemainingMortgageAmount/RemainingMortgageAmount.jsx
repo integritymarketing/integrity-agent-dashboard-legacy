@@ -36,6 +36,13 @@ const RemainingMortgageAmount = ({
     }
   }, [remainingMortgageAmount, updateFinancialNeedsAnalysis, contactId]);
 
+  const validRemainingMortgageAmount =
+    remainingMortgageAmount != null &&
+    remainingMortgageAmount >= 1 &&
+    remainingMortgageAmount <= 1000000
+      ? remainingMortgageAmount
+      : 200000;
+
   return (
     <CoverageCalculationsCard
       title='And remaining mortgage?'
@@ -48,8 +55,9 @@ const RemainingMortgageAmount = ({
     >
       <Box my={4}>
         <Slider
-          value={remainingMortgageAmount}
+          value={parseInt(validRemainingMortgageAmount)}
           max={1000000}
+          defaultValue={200000}
           min={0}
           handleChange={(_, value) =>
             handleChange('remainingMortgageAmount', value)

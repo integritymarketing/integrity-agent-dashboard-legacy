@@ -5,6 +5,7 @@ import { Slider } from '@integritymarketing/clients-ui-kit';
 import { formatCurrency } from 'utils/shared-utils/sharedUtility';
 import { useCoverageCalculationsContext } from 'providers/CoverageCalculations';
 import { useCallback } from 'react';
+import { onlyNumbers } from 'utils/shared-utils/sharedUtility';
 
 const TotalIncome = ({
   handleNext,
@@ -81,6 +82,7 @@ const TotalIncome = ({
           fullWidth
           name='totalAnnualIncome'
           value={formatCurrency(totalAnnualIncome)}
+          onKeyDown={onlyNumbers}
           InputProps={{
             startAdornment: <InputAdornment position='start'>$</InputAdornment>,
           }}

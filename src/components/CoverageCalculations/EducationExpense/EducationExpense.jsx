@@ -17,10 +17,9 @@ import styles from './EducationExpense.module.scss';
 
 const EducationExpense = ({
   handleBack,
-  handleNext,
   ageYoungestChild,
   shouldCoverCollegeExpenses,
-  childrenUnderEighteen = 1,
+  childrenUnderEighteen,
   contactId,
   handleUpdateStringsWithoutConvertion,
 }) => {
@@ -62,7 +61,7 @@ const EducationExpense = ({
   const isContinueButtonDisabled =
     isFinancialNeedsAnalysisUpdating ||
     !ageYoungestChild ||
-    !shouldCoverCollegeExpenses ||
+    shouldCoverCollegeExpenses === '' ||
     !childrenUnderEighteen;
 
   const handleAgeOfYoungestChildChange = ({ target }) => {

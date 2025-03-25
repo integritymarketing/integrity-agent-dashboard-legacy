@@ -36,15 +36,17 @@ const CoverageCalculationsContainer = () => {
     getFinancialNeedsAnalysis(contactId);
   }, [getFinancialNeedsAnalysis, hasFna]);
 
-  const [formValue, setFormValues] = useState({
-    remainingMortgageAmount: 200000,
-  });
+  const [formValue, setFormValues] = useState({});
 
   useEffect(() => {
     setFormValues({
       ...financialNeedsAnalysis,
-      remainingMortgageAmount:
-        financialNeedsAnalysis?.remainingMortgageAmount || 200000,
+      shouldCoverCollegeExpenses:
+        financialNeedsAnalysis?.shouldCoverCollegeExpenses
+          ? 'Yes'
+          : financialNeedsAnalysis?.shouldCoverCollegeExpenses === false
+          ? 'No'
+          : '',
     });
   }, [financialNeedsAnalysis]);
 
