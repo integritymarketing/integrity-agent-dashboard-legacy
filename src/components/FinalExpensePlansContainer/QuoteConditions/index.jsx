@@ -19,6 +19,7 @@ import { faCircleInfo } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Popover from 'components/ui/Popover';
 import HealthConditionQuestionModal from 'components/HealthConditionsPageContainer/HealthConditionQuestionModal';
+import AddNewConditionDialog from 'components/FinalExpenseHealthConditionsContainer/AddNewConditionDialog';
 
 const QuoteConditions = ({
   contactId,
@@ -32,6 +33,7 @@ const QuoteConditions = ({
     useState(null);
   const [isAddNewActivityDialogOpen, setIsAddNewActivityDialogOpen] =
     useState(false);
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
   const isLoadingRef = useRef(false);
 
   const { Get: getHealthConditions } = useFetch(
@@ -60,7 +62,7 @@ const QuoteConditions = ({
   }, []);
 
   const handleOnClose = useCallback(() => {
-    setIsAddNewActivityDialogOpen(false);
+    setShowQuestionModal(false);
   }, []);
 
   const completedConditions = useMemo(() => {
@@ -106,7 +108,7 @@ const QuoteConditions = ({
                       size='small'
                       onClick={() => {
                         setSelectedConditionForEdit(condition);
-                        setIsAddNewActivityDialogOpen(true);
+                        setShowQuestionModal(true);
                       }}
                       endIcon={<EditIcon />}
                     >
@@ -118,15 +120,30 @@ const QuoteConditions = ({
             );
           })}
       </Box>
-      {isAddNewActivityDialogOpen && (
+      {showQuestionModal && (
         <HealthConditionQuestionModal
-          modelHeader='Update condition'
+          modelHeader='Update Condition'
           onClose={handleOnClose}
           contactId={contactId}
           onSuccessOfHealthConditionQuestionModal={() => {
             handleOnClose();
+            getHealthConditionsListData();
           }}
           selectedCondition={[selectedConditionForEdit]}
+          setIsAddNewActivityDialogOpen={setIsAddNewActivityDialogOpen}
+        />
+      )}
+      {isAddNewActivityDialogOpen && (
+        <AddNewConditionDialog
+          open={isAddNewActivityDialogOpen}
+          contactId={contactId}
+          selectedConditionForEdit={selectedConditionForEdit}
+          onClose={() => setIsAddNewActivityDialogOpen(false)}
+          healthConditions={healthConditions}
+          setHealthConditions={setHealthConditions}
+          refetchConditionsList={getHealthConditionsListData}
+          disableLastTreatmentDate={isHealthPage}
+          page={isHealthPage ? 'health_profile' : 'final_expense'}
         />
       )}
     </CollapsibleSection>

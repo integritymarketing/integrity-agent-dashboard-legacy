@@ -19,6 +19,7 @@ function HealthConditionQuestionModal({
   selectedCondition,
   contactId,
   onSuccessOfHealthConditionQuestionModal,
+  setIsAddNewActivityDialogOpen,
 }) {
   const {
     clearConditionalQuestionData,
@@ -78,6 +79,9 @@ function HealthConditionQuestionModal({
       setLoading(false);
 
       if (questions.length === 0) {
+        if (setIsAddNewActivityDialogOpen) {
+          setIsAddNewActivityDialogOpen(true);
+        }
         handleCancelClick();
       } else {
         setQuestionData(questions);
@@ -174,6 +178,7 @@ function HealthConditionQuestionModal({
           answer: value,
           order: opt.order,
           uwAnswerId: uwAnswerIdCheck,
+          displayText: opt?.displayText,
         };
       });
     }
@@ -189,6 +194,7 @@ function HealthConditionQuestionModal({
         answerType: optionData?.type ?? currentQuestion.type,
         order: searchOption.order,
         uwAnswerId: uwAnswerId ? uwAnswerId : undefined,
+        displayText: optionData?.displayText,
       },
     ];
   };
@@ -287,7 +293,7 @@ function HealthConditionQuestionModal({
     }
 
     return 'Next';
-  }, [currentQuestionIndex, questionData, answer]);
+  }, [isLastQuestion, modelHeader]);
 
   return (
     <Dialog
@@ -375,6 +381,7 @@ HealthConditionQuestionModal.propTypes = {
   selectedCondition: PropTypes.array.isRequired,
   contactId: PropTypes.string.isRequired,
   onSuccessOfHealthConditionQuestionModal: PropTypes.func.isRequired,
+  setIsAddNewActivityDialogOpen: PropTypes.func,
 };
 
 export default HealthConditionQuestionModal;
