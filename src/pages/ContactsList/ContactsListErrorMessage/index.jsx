@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import { NoResultsError } from '@integritymarketing/clients-ui-kit';
+import { useNavigate } from 'react-router-dom';
 import {
   NoResults,
   Error500,
@@ -7,9 +8,13 @@ import {
   GenericError,
   NoContactsAdded,
 } from 'components/icons/errorImages';
+import { useContactsListContext } from 'pages/ContactsList/providers/ContactsListProvider';
 import PropTypes from 'prop-types';
 
 function ContactsListErrorMessage({ errorCode }) {
+  const navigate = useNavigate();
+  const { clearAllFilters } = useContactsListContext();
+
   const handleNavigateToLearningCenter = () => {
     window.open('/learning-center', '_blank');
   };
@@ -25,7 +30,7 @@ function ContactsListErrorMessage({ errorCode }) {
       image: <NoResults />,
       buttonText: 'Clear All Filters',
       onButtonClick: () => {
-        console.log('Clear All Filters button clicked');
+        clearAllFilters();
       },
     },
     500: {
@@ -35,7 +40,7 @@ function ContactsListErrorMessage({ errorCode }) {
       image: <Error500 />,
       buttonText: 'Reload',
       onButtonClick: () => {
-        console.log('Try Again button clicked');
+        window.location.reload();
       },
     },
 
@@ -46,7 +51,7 @@ function ContactsListErrorMessage({ errorCode }) {
       image: <Error500 />,
       buttonText: 'Reload',
       onButtonClick: () => {
-        console.log('Try Again button clicked');
+        window.location.reload();
       },
     },
     offline: {
@@ -55,7 +60,7 @@ function ContactsListErrorMessage({ errorCode }) {
       image: <NoInternet />,
       buttonText: 'Retry',
       onButtonClick: () => {
-        console.log('Retry button clicked');
+        window.location.reload();
       },
     },
     noLeads: {
@@ -68,7 +73,7 @@ function ContactsListErrorMessage({ errorCode }) {
       image: <NoContactsAdded />,
       buttonText: 'Add New',
       onButtonClick: () => {
-        console.log('Add New button clicked');
+        navigate('/contact/add-new');
       },
     },
     generic: {
@@ -78,7 +83,7 @@ function ContactsListErrorMessage({ errorCode }) {
       image: <GenericError />,
       buttonText: 'Reload',
       onButtonClick: () => {
-        console.log('Try Again button clicked');
+        window.location.reload();
       },
     },
   };

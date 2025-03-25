@@ -1,16 +1,12 @@
 import { createContext, useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import useUserProfile from 'hooks/useUserProfile';
 import useToast from 'hooks/useToast';
-import useAnalytics from 'hooks/useAnalytics';
 import useFetch from 'hooks/useFetch';
 import { LEADS_ONLY_API_VERSION } from 'services/clientsService';
 
 export const ContactListAPIContext = createContext();
 
 export const ContactListAPIProvider = ({ children }) => {
-  const { fireEvent } = useAnalytics();
-  const { agentId } = useUserProfile();
   const showToast = useToast();
   const [errorCode, setErrorCode] = useState(null);
 
@@ -250,7 +246,11 @@ export const ContactListAPIProvider = ({ children }) => {
 
         if (response.status === 200) {
           const data = await response.json();
-          if (data?.result?.length === 0 && data?.pageResult?.total > 0) {
+          if (
+            data?.result?.length === 0 &&
+            (data?.pageResult?.total > 0 ||
+              (searchText && data?.pageResult?.total === 0))
+          ) {
             setErrorCode(204);
           } else if (
             data?.result?.length === 0 &&

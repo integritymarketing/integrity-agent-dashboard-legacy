@@ -14,7 +14,7 @@ import { TableHeader } from '../TableHeader';
 import { TableBody } from '../TableBody';
 import styles from './styles.module.scss';
 
-const Table = ({ isLoading = false, columns }) => {
+const Table = ({ isLoading = false, columns, errorCode }) => {
   const { setSelectedContacts, tableData } = useContactsListContext();
   const { isExportSuccess } = useContactsListModalContext();
   const [sorting, setSorting] = useState([]);
@@ -55,6 +55,7 @@ const Table = ({ isLoading = false, columns }) => {
       <TableBody
         rows={tableInstance.getRowModel().rows}
         isLoading={isLoading}
+        errorCode={errorCode}
       />
     </table>
   );
@@ -63,10 +64,7 @@ const Table = ({ isLoading = false, columns }) => {
 Table.propTypes = {
   isLoading: PropTypes.bool,
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
-
-Table.defaultProps = {
-  isLoading: false,
+  errorCode: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default Table;

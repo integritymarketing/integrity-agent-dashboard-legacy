@@ -3,7 +3,7 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 
 import { useWindowSize } from 'hooks/useWindowSize';
 import DeleteLeadContext from 'contexts/deleteLead';
@@ -42,6 +42,7 @@ import CampaignStatus from 'components/icons/version-2/CampaignStatus';
 import AskIntegrity from 'components/icons/version-2/AskIntegrity';
 import { CountyDataProvider } from 'providers/CountyDataProvider';
 import { getShoppersColorScheme } from 'utils/shared-utils/sharedUtility';
+import { useContactListAPI } from 'providers/ContactListAPIProviders';
 
 function ContactsTable() {
   const {
@@ -53,6 +54,7 @@ function ContactsTable() {
   } = useContactsListContext();
   const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } =
     useContext(DeleteLeadContext);
+  const { errorCode } = useContactListAPI();
 
   const { width: windowWidth } = useWindowSize();
   const { fireEvent } = useAnalytics();
@@ -461,12 +463,15 @@ function ContactsTable() {
   return (
     <>
       {isMobile ? (
-        <TableMobile />
+        <TableMobile errorCode={errorCode} />
       ) : (
         <Box className={styles.tableWrapper}>
           <Table
             columns={columns}
-            isLoading={isFetchingTableData || isStartedSearching}
+            isLoading={
+              isFetchingTableData || (isStartedSearching && !tableData.length)
+            }
+            errorCode={errorCode}
           />
           {tableData.length > 0 && <LoadMoreButton />}
         </Box>

@@ -44,6 +44,8 @@ export const ContactsListProvider = ({ children }) => {
   const [isStartedSearching, setIsStartedSearching] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [selectedSearchLead, setSelectedSearchLead] = useState(null);
+  const [searchInputValue, setSearchInputValue] = useState('');
+
   const { removeFilteredLeadIds, filteredInfo } = useFilteredLeadIds();
 
   const setFilterSectionsConfig = useCallback(
@@ -145,6 +147,24 @@ export const ContactsListProvider = ({ children }) => {
     filterSectionsConfig,
   ]);
 
+  const clearAllFilters = useCallback(() => {
+    setSelectedFilterSections([]);
+    setIsStartedSearching(false);
+    setSearchInputValue('');
+    setSearchString('');
+    fetchAllListCount();
+    setSelectedContacts([]);
+    fetchTableData({
+      pageIndex: INITIAL_PAGE_NUMBER,
+      pageSize: layout == 'map' ? MAP_DEFAULT_PAGE_SIZE : DEFAULT_PAGE_SIZE,
+      searchString: '',
+      sort: DEFAULT_SORT,
+      selectedFilterSections: [],
+      filterSectionsConfig,
+      isSilent: true,
+    });
+  }, [fetchAllListCount, fetchTableData, filterSectionsConfig]);
+
   const resetData = useCallback(
     newSelectedFilterSections => {
       if (filteredInfo?.status) {
@@ -219,6 +239,9 @@ export const ContactsListProvider = ({ children }) => {
       setTableData,
       setSelectedSearchLead,
       selectedSearchLead,
+      searchInputValue,
+      setSearchInputValue,
+      clearAllFilters,
     }),
     [
       tableData,
@@ -254,6 +277,9 @@ export const ContactsListProvider = ({ children }) => {
       setTableData,
       setSelectedSearchLead,
       selectedSearchLead,
+      searchInputValue,
+      setSearchInputValue,
+      clearAllFilters,
     ]
   );
 
