@@ -29,8 +29,10 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
   }, [getCarriersData]);
 
   useEffect(() => {
-    fetchCarriers();
-  }, [fetchCarriers]);
+    if (CARRIERS_PRODUCTS_FLAG) {
+      fetchCarriers();
+    }
+  }, [fetchCarriers, CARRIERS_PRODUCTS_FLAG]);
 
   const isExistTermCarriers = useMemo(() => {
     return carriersData.some(carrier =>
