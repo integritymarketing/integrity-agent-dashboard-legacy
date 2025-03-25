@@ -9,12 +9,10 @@
   }
 
   .selectedOption {
-    background-color: #4178ff;
-    color: #fff;
+    background-color: #f1faff;
     padding: 17px;
     text-align: left;
     &:hover {
-      color: #fff;
-      background-color: #4178ff;
+      background-color: #f1faff;
     }
   }
