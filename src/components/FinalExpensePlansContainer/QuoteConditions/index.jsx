@@ -63,6 +63,7 @@ const QuoteConditions = ({
 
   const handleOnClose = useCallback(() => {
     setShowQuestionModal(false);
+    getHealthConditionsListData();
   }, []);
 
   const completedConditions = useMemo(() => {
