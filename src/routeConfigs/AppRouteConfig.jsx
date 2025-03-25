@@ -487,12 +487,14 @@ const appProtectedRoutes = [
     path: '/simplified-iul/plans/:contactId',
     component: (
       <StrictMode>
-        <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <SimplifiedIULPlansPage />
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
+        <ConditionsProvider>
+          <ContactDetailsProvider>
+            <FinalExpensePlansProvider>
+              <SimplifiedIULPlansPage />
+            </FinalExpensePlansProvider>
+            <WebChatComponent />
+          </ContactDetailsProvider>
+        </ConditionsProvider>
       </StrictMode>
     ),
   },
