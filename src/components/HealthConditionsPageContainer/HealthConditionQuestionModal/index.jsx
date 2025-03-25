@@ -38,6 +38,7 @@ function HealthConditionQuestionModal({
   const [error, setError] = useState(null);
   const [options, setOptions] = useState([]);
   const [answer, setAnswer] = useState([]);
+  const [selectedOption, setSelectedOption] = useState([]);
   const hasAPICalled = useRef(false);
 
   const handleCancelClick = () => {
@@ -73,7 +74,6 @@ function HealthConditionQuestionModal({
       const uniqueOptions = [
         ...new Map(allOptions.map(item => [item.id, item])).values(),
       ];
-
       setAnswer(response.flatMap(res => res.answers || []));
       setOptions(uniqueOptions);
       setLoading(false);
@@ -184,7 +184,9 @@ function HealthConditionQuestionModal({
     }
 
     let optionData = options.find(
-      option => option.questionId === currentQuestion.id
+      option =>
+        option.questionId === currentQuestion.id &&
+        option.order === selectedOption.order
     );
 
     return [
@@ -242,18 +244,13 @@ function HealthConditionQuestionModal({
             let prevResponse = null;
             if (answer[currentQuestionIndex + 1]) {
               const ansObj = answer[currentQuestionIndex + 1];
-              const question = questionData[currentQuestionIndex + 1];
               if (ansObj?.type === 'CHECKBOX') {
                 prevResponse = ansObj.answers.map(_ => _.answer.toLowerCase());
               } else {
                 prevResponse =
                   answer[currentQuestionIndex + 1].answers[0].answer;
                 if (ansObj.type === 'RADIO') {
-                  if (question.tag.trim() === 'multiple') {
-                    prevResponse = prevResponse;
-                  } else {
-                    prevResponse = prevResponse === 'N' ? false : true;
-                  }
+                  prevResponse = prevResponse;
                 }
               }
             }
@@ -334,7 +331,10 @@ function HealthConditionQuestionModal({
                   handleCancelClick={handleCancelClick}
                   applyButtonDisabled={isButtonDisabled}
                   values={values}
-                  onChange={value => setValues(value)}
+                  onChange={option => {
+                    setValues(option?.value);
+                    setSelectedOption(option);
+                  }}
                   open={!!modelHeader}
                   error={error}
                   onClose={handleCancelClick}

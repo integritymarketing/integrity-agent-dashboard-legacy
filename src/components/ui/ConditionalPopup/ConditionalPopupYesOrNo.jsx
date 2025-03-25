@@ -33,7 +33,7 @@ function ConditionalPopupYesOrNo({
                 ? styles.selected
                 : ''
             }`}
-            onClick={() => onChange(option.value)}
+            onClick={() => onChange(option)}
           >
             {option.displayText}
           </div>
