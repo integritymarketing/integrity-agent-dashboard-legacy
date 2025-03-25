@@ -473,7 +473,7 @@ function ContactsTable() {
             }
             errorCode={errorCode}
           />
-          {tableData.length > 0 && <LoadMoreButton />}
+          {tableData.length > 0 && !errorCode && <LoadMoreButton />}
         </Box>
       )}
       <ReminderModals

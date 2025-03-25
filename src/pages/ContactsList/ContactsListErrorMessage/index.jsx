@@ -9,6 +9,8 @@ import {
   NoContactsAdded,
 } from 'components/icons/errorImages';
 import { useContactsListContext } from 'pages/ContactsList/providers/ContactsListProvider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 import PropTypes from 'prop-types';
 
 function ContactsListErrorMessage({ errorCode }) {
@@ -71,7 +73,11 @@ function ContactsListErrorMessage({ errorCode }) {
       helpLinkText: 'LearningCENTER.',
       onHelpLinkClick: handleNavigateToLearningCenter,
       image: <NoContactsAdded />,
-      buttonText: 'Add New',
+      buttonText: (
+        <>
+          Add New <FontAwesomeIcon icon={faPlus} style={{ marginLeft: 8 }} />
+        </>
+      ),
       onButtonClick: () => {
         navigate('/contact/add-new');
       },
