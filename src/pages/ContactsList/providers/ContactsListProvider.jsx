@@ -204,6 +204,13 @@ export const ContactsListProvider = ({ children }) => {
     }
   }, [tableDataFromHook, isStartedSearching, selectedSearchLead]);
 
+  const isShowMoreButton = useMemo(() => {
+    if (pageResult?.totalPages > pageIndex) {
+      return true;
+    }
+    return false;
+  }, [pageResult, pageIndex]);
+
   const contextValue = useMemo(
     () => ({
       tableData,
@@ -242,6 +249,7 @@ export const ContactsListProvider = ({ children }) => {
       searchInputValue,
       setSearchInputValue,
       clearAllFilters,
+      isShowMoreButton,
     }),
     [
       tableData,
@@ -280,6 +288,7 @@ export const ContactsListProvider = ({ children }) => {
       searchInputValue,
       setSearchInputValue,
       clearAllFilters,
+      isShowMoreButton,
     ]
   );
 

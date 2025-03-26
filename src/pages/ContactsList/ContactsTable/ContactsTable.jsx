@@ -51,6 +51,7 @@ function ContactsTable() {
     refreshData,
     isFetchingTableData,
     isStartedSearching,
+    isShowMoreButton,
   } = useContactsListContext();
   const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } =
     useContext(DeleteLeadContext);
@@ -473,7 +474,9 @@ function ContactsTable() {
             }
             errorCode={errorCode}
           />
-          {tableData.length > 0 && !errorCode && <LoadMoreButton />}
+          {tableData.length > 0 && !errorCode && isShowMoreButton && (
+            <LoadMoreButton />
+          )}
         </Box>
       )}
       <ReminderModals

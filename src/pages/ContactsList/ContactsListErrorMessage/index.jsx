@@ -75,7 +75,12 @@ function ContactsListErrorMessage({ errorCode }) {
       image: <NoContactsAdded />,
       buttonText: (
         <>
-          Add New <FontAwesomeIcon icon={faPlus} style={{ marginLeft: 8 }} />
+          Add New
+          <FontAwesomeIcon
+            icon={faPlus}
+            size='lg'
+            style={{ paddingLeft: 10 }}
+          />
         </>
       ),
       onButtonClick: () => {
