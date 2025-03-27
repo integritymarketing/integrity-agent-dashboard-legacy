@@ -10,8 +10,6 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ButtonCircleArrow from 'components/icons/button-circle-arrow';
 
 const CoverageCalculationsCard = ({
@@ -23,6 +21,8 @@ const CoverageCalculationsCard = ({
   onSkip,
   showBackButton,
   isContinueButtonDisabled,
+  primaryButtonLabel = 'Continue',
+  showSkipButton = true,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -66,7 +66,7 @@ const CoverageCalculationsCard = ({
                     justifyContent: 'space-between',
                   }}
                 >
-                  Continue
+                  {primaryButtonLabel}
                 </Button>
                 <Box
                   textAlign={!showBackButton ? 'center' : ''}
@@ -79,13 +79,15 @@ const CoverageCalculationsCard = ({
                       Back
                     </Button>
                   )}
-                  <Button
-                    variant='text'
-                    aria-label='Skip this step'
-                    onClick={onSkip}
-                  >
-                    Skip
-                  </Button>
+                  {showSkipButton && (
+                    <Button
+                      variant='text'
+                      aria-label='Skip this step'
+                      onClick={onSkip}
+                    >
+                      Skip
+                    </Button>
+                  )}
                 </Box>
               </Box>
             ) : (
@@ -98,13 +100,15 @@ const CoverageCalculationsCard = ({
                   )}
                 </Box>
                 <Box flex={1} textAlign='right'>
-                  <Button
-                    variant='text'
-                    aria-label='Skip this step'
-                    onClick={onSkip}
-                  >
-                    Skip
-                  </Button>
+                  {showSkipButton && (
+                    <Button
+                      variant='text'
+                      aria-label='Skip this step'
+                      onClick={onSkip}
+                    >
+                      Skip
+                    </Button>
+                  )}
                   <Button
                     variant='contained'
                     size='medium'
@@ -114,7 +118,7 @@ const CoverageCalculationsCard = ({
                     onClick={onContinue}
                     disabled={isContinueButtonDisabled}
                   >
-                    Continue
+                    {primaryButtonLabel}
                   </Button>
                 </Box>
               </>
