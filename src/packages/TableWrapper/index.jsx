@@ -4,7 +4,6 @@ import MUITable from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TableFooter from '@mui/material/TableFooter';
 import TableRow from '@mui/material/TableRow';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import { styled } from '@mui/system';
@@ -46,15 +45,7 @@ const StyledTableBody = styled(TableBody)(() => ({
 }));
 
 const SMUITable = styled(MUITable)(() => ({
-  '.MuiTableBody-root tr:first-of-type': {
-    borderTopLeftRadius: '10px',
-    borderTopRightRadius: '10px',
-  },
-  '.MuiTableBody-root tr:last-child': {
-    borderBottomLeftRadius: '10px',
-    borderBottomRightRadius: '10px',
-  },
-  '.MuiTableCell-root': {
+  '.MuiTableCell-root ': {
     borderBottom: '1px solid #cdd0d5',
   },
 }));
@@ -62,7 +53,6 @@ const SMUITable = styled(MUITable)(() => ({
 function Table({
   columns,
   data,
-  footer,
   initialState,
   fixedRows = [],
   overflowHide = false,
@@ -80,7 +70,6 @@ function Table({
     <TableContainer
       sx={{
         width: '100%',
-        borderRadius: '8px',
         overflowX: overflowHide ? 'hidden' : 'auto',
       }}
     >
@@ -134,15 +123,6 @@ function Table({
             </TableRow>
           ))}
         </StyledTableBody>
-        {footer && (
-          <TableFooter>
-            <TableRow>
-              <TableCell style={{ border: 'none' }} colSpan={columns.length}>
-                <center>{footer}</center>
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        )}
       </SMUITable>
     </TableContainer>
   );
@@ -151,7 +131,6 @@ function Table({
 Table.propTypes = {
   columns: PropTypes.array.isRequired, // Column configuration for the table
   data: PropTypes.array.isRequired, // Table data
-  footer: PropTypes.node, // Footer content
   initialState: PropTypes.object, // Initial table state
   fixedRows: PropTypes.array, // Predefined fixed rows at the top
   overflowHide: PropTypes.bool, // Whether to hide horizontal overflow

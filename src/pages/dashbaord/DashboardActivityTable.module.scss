@@ -1,4 +1,4 @@
-@use "scss/globalDefines" as defines_global;
+@use 'scss/globalDefines' as defines_global;
 
 .activityDataCell {
   display: flex;
@@ -58,4 +58,17 @@
 
 .content {
   padding: 1.5rem;
+}
+
+.showMoreLink {
+  color: #4178ff;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: #fff;
+  padding: 15px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
