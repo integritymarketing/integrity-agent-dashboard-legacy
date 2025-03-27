@@ -67,24 +67,14 @@ function ContactsListErrorMessage({ errorCode }) {
     },
     noLeads: {
       title: 'No Contact Added yet',
-      subtitle:
-        'There are no contacts currently available. Please Import or Add New contact to get started.',
+      subtitle: 'Upload a CSV or Excel file to begin the import process.',
       helpText: 'Need help? Check out our ',
       helpLinkText: 'LearningCENTER.',
       onHelpLinkClick: handleNavigateToLearningCenter,
       image: <NoContactsAdded />,
-      buttonText: (
-        <>
-          Add New
-          <FontAwesomeIcon
-            icon={faPlus}
-            size='lg'
-            style={{ paddingLeft: 10 }}
-          />
-        </>
-      ),
+      buttonText: ' Add New File',
       onButtonClick: () => {
-        navigate('/contact/add-new');
+        navigate('/client-import');
       },
     },
     generic: {
