@@ -119,84 +119,32 @@ export const PlanDetailsContainer = ({
 
     const { addresses, birthdate, gender, weight, height, isTobaccoUser } =
       leadDetails;
-    const code = sessionStorage.getItem(contactId)
-      ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
-      : addresses[0]?.stateCode;
+    const code = getStateCode(contactId, addresses);
+
     if (!code || !birthdate) {
       return;
     }
-    const covType =
-      coverageType === 'Best Available'
-        ? COVERAGE_TYPE_FINALOPTION
-        : [coverageType];
+
+    const covType = getCoverageType(coverageType);
     const age = getAgeFromBirthDate(birthdate);
     const todayDate = formatDate(new Date(), 'yyyy-MM-dd');
-    const conditions = [];
-    const questions = [];
-    const healthConditionsData = healthConditions || [];
+    const { conditions, questions } = getHealthConditionsData(healthConditions);
 
-    if (!healthConditionsData || healthConditionsData.length === 0) {
-      conditions.length = 0;
-    } else {
-      healthConditionsData.forEach(
-        ({ conditionId, lastTreatmentDate, underwritingQuestionsAnswers }) => {
-          conditions.push({
-            categoryId: conditionId,
-            lastTreatmentDate: lastTreatmentDate
-              ? formatServerDate(lastTreatmentDate)
-              : null,
-          });
-          if (underwritingQuestionsAnswers) {
-            underwritingQuestionsAnswers.forEach(
-              ({ questionId, answers, type }) => {
-                answers.forEach(answer => {
-                  questions.push({
-                    questionId,
-                    categoryId: conditionId,
-                    response:answer.responseAnswerValue,
-                  });
-                });
-              }
-            );
-          }
-        }
-      );
-    }
+    const userHeight = weight && height ? height : null;
+    const userWeight = weight && height ? weight : null;
 
-    const userHeight = !weight || !height ? null : height;
-    const userWeight = !weight || !height ? null : weight;
-
-    const quotePlansPostBody = {
-      usState: code,
-      age: Number(age),
-      gender: gender.toLowerCase() === 'male' ? 'M' : 'F',
-      tobacco: Boolean(isTobaccoUser),
-      desiredFaceValue:
-        selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
-      desiredMonthlyRate:
-        selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
-      coverageTypes: isSimplifiedIUL()
-        ? ['SIMPLIFIED_IUL']
-        : covType || [COVERAGE_TYPE[4].value],
-
-      effectiveDate: todayDate,
-      underWriting: {
-        user: { height: userHeight, weight: userWeight },
-        conditions,
-        questions,
-      },
-    };
-
-    if (!isSimplifiedIUL()) {
-      quotePlansPostBody.rateClasses = rateClasses?.map(rate =>
-        rate === 'Sub Standard' ? 'Sub-Standard' : rate
-      ) || ['Standard'];
-    }
-
-    if (isSimplifiedIUL()) {
-      quotePlansPostBody.showOnlyExcludedProducts =
-        !isMyAppointedProducts || isShowExcludedProducts;
-    }
+    const quotePlansPostBody = buildQuotePlansPostBody({
+      code,
+      age,
+      gender,
+      isTobaccoUser,
+      covType,
+      todayDate,
+      userHeight,
+      userWeight,
+      conditions,
+      questions,
+    });
 
     try {
       const result = await getFinalExpenseQuotePlans(
@@ -227,40 +175,108 @@ export const PlanDetailsContainer = ({
     healthConditions,
   ]);
 
+  const getStateCode = (contactId, addresses) => {
+    return sessionStorage.getItem(contactId)
+      ? JSON.parse(sessionStorage.getItem(contactId)).stateCode
+      : addresses[0]?.stateCode;
+  };
+
+  const getCoverageType = coverageType => {
+    return coverageType === 'Best Available'
+      ? COVERAGE_TYPE_FINALOPTION
+      : [coverageType];
+  };
+
+  const getHealthConditionsData = healthConditionsData => {
+    const conditions = [];
+    const questions = [];
+
+    if (!healthConditionsData || healthConditionsData.length === 0) {
+      return { conditions, questions };
+    }
+
+    healthConditionsData.forEach(
+      ({ conditionId, lastTreatmentDate, underwritingQuestionsAnswers }) => {
+        conditions.push({
+          categoryId: conditionId,
+          lastTreatmentDate: lastTreatmentDate
+            ? formatServerDate(lastTreatmentDate)
+            : null,
+        });
+
+        if (underwritingQuestionsAnswers) {
+          underwritingQuestionsAnswers.forEach(
+            ({ questionId, answers, type }) => {
+              answers.forEach(answer => {
+                questions.push({
+                  questionId,
+                  categoryId: conditionId,
+                  response: answer.responseAnswerValue,
+                });
+              });
+            }
+          );
+        }
+      }
+    );
+
+    return { conditions, questions };
+  };
+
+  const buildQuotePlansPostBody = ({
+    code,
+    age,
+    gender,
+    isTobaccoUser,
+    covType,
+    todayDate,
+    userHeight,
+    userWeight,
+    conditions,
+    questions,
+  }) => {
+    const quotePlansPostBody = {
+      usState: code,
+      age: Number(age),
+      gender: gender.toLowerCase() === 'male' ? 'M' : 'F',
+      tobacco: Boolean(isTobaccoUser),
+      desiredFaceValue:
+        selectedTab === COVERAGE_AMOUNT ? Number(coverageAmount) : null,
+      desiredMonthlyRate:
+        selectedTab === COVERAGE_AMOUNT ? null : Number(monthlyPremium),
+      coverageTypes: isSimplifiedIUL()
+        ? ['SIMPLIFIED_IUL']
+        : covType || [COVERAGE_TYPE[4].value],
+      effectiveDate: todayDate,
+      underWriting: {
+        user: { height: userHeight, weight: userWeight },
+        conditions,
+        questions,
+      },
+    };
+
+    if (!isSimplifiedIUL()) {
+      quotePlansPostBody.rateClasses = rateClasses?.map(rate =>
+        rate === 'Sub Standard' ? 'Sub-Standard' : rate
+      ) || ['Standard'];
+    }
+
+    if (isSimplifiedIUL()) {
+      quotePlansPostBody.showOnlyExcludedProducts =
+        !isMyAppointedProducts || isShowExcludedProducts;
+    }
+
+    return quotePlansPostBody;
+  };
+
   const setFinalExpensePlansFromResult = useCallback(
     result => {
       if (isSimplifiedIUL()) {
-        if (result?.hasNoIULPlansAvailable) {
-          setHasNoIULPlansAvailable(true);
-        } else {
-          setHasNoIULPlansAvailable(false);
-        }
-        if (isMyAppointedProducts && !isShowExcludedProducts) {
-          setRtsPlans(result?.rtsPlans || []);
-        } else if (
-          isMyAppointedProducts &&
-          !isShowExcludedProducts &&
-          result?.alternativePlans
-        ) {
-          setRtsPlans(result?.alternativePlans || []);
-        } else {
-          setRtsPlans([]);
-        }
-        setRtsPlansWithExclusions(result?.rtsPlansWithExclusions || []);
+        handleIULPlans(result);
       }
 
-      if (
-        isMyAppointedProducts &&
-        !isShowExcludedProducts &&
-        result?.rtsPlans?.length === 0 &&
-        result?.alternativePlans?.length > 0
-      ) {
-        setShowAlternativeProductsMessage(true);
-      } else {
-        setShowAlternativeProductsMessage(false);
-      }
+      handleRTSMessage(result);
 
-      // Update error message based on business logic
       updateErrorMessage(
         result,
         isMyAppointedProducts,
@@ -269,26 +285,9 @@ export const PlanDetailsContainer = ({
       );
 
       if (!isRTS) {
-        if (isShowExcludedProducts) {
-          setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
-        } else {
-          setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts false
-        }
-      }
-
-      // Life RTS Experience (My Appointed Products checked by default)
-      if (isRTS) {
-        if (isShowAlternativeProducts) {
-          setFinalExpensePlans(result?.alternativePlans); // Show Alternative Products
-        } else if (isMyAppointedProducts && isShowExcludedProducts) {
-          setFinalExpensePlans(result?.rtsPlansWithExclusions); // Condition 1
-        } else if (!isMyAppointedProducts && !isShowExcludedProducts) {
-          setFinalExpensePlans(result?.nonRTSPlans); // Condition 2
-        } else if (isMyAppointedProducts && !isShowExcludedProducts) {
-          setFinalExpensePlans(result?.rtsPlans); // Condition 3
-        } else if (!isMyAppointedProducts && isShowExcludedProducts) {
-          setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // Condition 4
-        }
+        setNonRTSPlans(result);
+      } else {
+        setRTSPlans(result);
       }
     },
     [
@@ -299,6 +298,67 @@ export const PlanDetailsContainer = ({
       isShowAlternativeProducts,
     ]
   );
+
+  // Helper function for IUL plans handling
+  const handleIULPlans = result => {
+    if (result?.hasNoIULPlansAvailable) {
+      setHasNoIULPlansAvailable(true);
+    } else {
+      setHasNoIULPlansAvailable(false);
+    }
+
+    if (isMyAppointedProducts && !isShowExcludedProducts) {
+      setRtsPlans(result?.rtsPlans || []);
+    } else if (
+      isMyAppointedProducts &&
+      !isShowExcludedProducts &&
+      result?.alternativePlans
+    ) {
+      setRtsPlans(result?.alternativePlans || []);
+    } else {
+      setRtsPlans([]);
+    }
+
+    setRtsPlansWithExclusions(result?.rtsPlansWithExclusions || []);
+  };
+
+  // Helper function to handle RTS message visibility
+  const handleRTSMessage = result => {
+    if (
+      isMyAppointedProducts &&
+      !isShowExcludedProducts &&
+      result?.rtsPlans?.length === 0 &&
+      result?.alternativePlans?.length > 0
+    ) {
+      setShowAlternativeProductsMessage(true);
+    } else {
+      setShowAlternativeProductsMessage(false);
+    }
+  };
+
+  // Helper function to set non-RTS plans
+  const setNonRTSPlans = result => {
+    if (isShowExcludedProducts) {
+      setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // ShowExcludedProducts true
+    } else {
+      setFinalExpensePlans(result?.nonRTSPlans); // ShowExcludedProducts false
+    }
+  };
+
+  // Helper function to set RTS plans based on various conditions
+  const setRTSPlans = result => {
+    if (isShowAlternativeProducts) {
+      setFinalExpensePlans(result?.alternativePlans); // Show Alternative Products
+    } else if (isMyAppointedProducts && isShowExcludedProducts) {
+      setFinalExpensePlans(result?.rtsPlansWithExclusions); // Condition 1
+    } else if (!isMyAppointedProducts && !isShowExcludedProducts) {
+      setFinalExpensePlans(result?.nonRTSPlans); // Condition 2
+    } else if (isMyAppointedProducts && !isShowExcludedProducts) {
+      setFinalExpensePlans(result?.rtsPlans); // Condition 3
+    } else if (!isMyAppointedProducts && isShowExcludedProducts) {
+      setFinalExpensePlans(result?.nonRTSPlansWithExclusions); // Condition 4
+    }
+  };
 
   useEffect(() => {
     setCurrentPage(firstPage);
