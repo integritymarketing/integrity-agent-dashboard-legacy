@@ -1,28 +1,28 @@
-@use "scss/globalDefines" as defines_global;
+@use 'scss/globalDefines' as defines_global;
 
 .layout {
   @include defines_global.small {
     grid-template-areas:
-      "activities             activities             activities             activities            "
-      "footerBanners             footerBanners             footerBanners             footerBanners            ";
+      'activities             activities             activities             activities            '
+      'footerBanners             footerBanners             footerBanners             footerBanners            ';
   }
 
   @include defines_global.medium {
     grid-template-areas:
-      "activities       activities       activities       activities       activities           activities             .                   .                   .                   .  . . "
-      ".       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ";
+      'activities       activities       activities       activities       activities           activities             .                   .                   .                   .  . . '
+      '.       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ';
   }
 
   @include defines_global.large {
     grid-template-areas:
-      "activities       activities       activities       activities       activities             activities             .                   .                   .                   . "
-      ".       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ";
+      'activities       activities       activities       activities       activities             activities             .                   .                   .                   . '
+      '.       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ';
   }
 
   @include defines_global.xLarge {
     grid-template-areas:
-      "activities       activities       activities       activities       activities            activities             .                   .                   .                   . . ."
-      ".       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ";
+      'activities       activities       activities       activities       activities            activities             .                   .                   .                   . . .'
+      '.       .       .       footerBanners       footerBanners           footerBanners             footerBanners                  footerBanners                  footerBanners    . . .  ';
   }
 }
 
@@ -50,7 +50,7 @@
 }
 
 .deleteTextAreaText {
-  color: #F44336;
+  color: #f44336;
 }
 
 .ediTextAreaText {
@@ -68,13 +68,12 @@
   }
 
   &:hover {
-    background: #FFF 0 0 no-repeat padding-box;
+    background: #fff 0 0 no-repeat padding-box;
     border-radius: 20px;
     box-shadow: 0 0 10px 1px rgb(0 0 0 / 20%);
-    color: #1357FF !important
+    color: #1357ff !important;
   }
 }
-
 
 .css-126gqmu-MuiTableCell-root {
   @media (width <= 480px) {
@@ -82,12 +81,10 @@
   }
 }
 
-
 .activitiesContainer {
   margin-bottom: 3rem;
   border-radius: 8px;
 }
-
 
 .no-items {
   border: 1.5px solid #e6ecf2;
@@ -99,7 +96,6 @@
   color: #64748b;
 }
 
-
 .activitiesContainer_content {
   border-radius: 8px;
 
@@ -108,18 +104,16 @@
   }
 }
 
-
 .activityDate {
   color: #717171;
   font-size: 14px;
 }
 
 .activitySubject {
-  color: #052A63;
+  color: #052a63;
   font-size: 16px;
   cursor: pointer;
 }
-
 
 .activityBody {
   color: #717171;
@@ -130,4 +124,16 @@
 .segregator {
   padding: unset;
   max-width: none;
+}
+.showMoreLink {
+  color: #4178ff;
+  cursor: pointer;
+  font-weight: 600;
+  background-color: #fff;
+  padding: 15px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -12,6 +12,7 @@ import { SelectableButtonGroup } from '@integritymarketing/clients-ui-kit';
 import { useCoverageCalculationsContext } from 'providers/CoverageCalculations';
 import { useCallback } from 'react';
 import { onlyNumbers } from 'utils/shared-utils/sharedUtility';
+import * as Sentry from '@sentry/react';
 
 import styles from './EducationExpense.module.scss';
 
@@ -22,6 +23,7 @@ const EducationExpense = ({
   childrenUnderEighteen,
   contactId,
   handleUpdateStringsWithoutConvertion,
+  handleNext,
 }) => {
   const {
     updateFinancialNeedsAnalysis,
@@ -33,22 +35,33 @@ const EducationExpense = ({
     if (
       financialNeedsAnalysis?.ageYoungestChild === ageYoungestChild &&
       financialNeedsAnalysis?.shouldCoverCollegeExpenses ===
-        shouldCoverCollegeExpenses &&
+        (shouldCoverCollegeExpenses === 'Yes') &&
       financialNeedsAnalysis?.childrenUnderEighteen === childrenUnderEighteen
     ) {
       sessionStorage.removeItem('currentCalculationStep');
+      handleNext();
       return;
     }
 
-    const response = await updateFinancialNeedsAnalysis(contactId, {
-      ageYoungestChild,
-      shouldCoverCollegeExpenses:
-        shouldCoverCollegeExpenses === 'Yes' ? true : false,
-      childrenUnderEighteen,
-    });
+    try {
+      const response = await updateFinancialNeedsAnalysis(contactId, {
+        ageYoungestChild,
+        shouldCoverCollegeExpenses: shouldCoverCollegeExpenses === 'Yes',
+        childrenUnderEighteen,
+      });
 
-    if (response) {
-      sessionStorage.removeItem('currentCalculationStep');
+      if (response) {
+        sessionStorage.removeItem('currentCalculationStep');
+        handleNext();
+      } else {
+        console.error('Failed to update financial needs analysis');
+        Sentry.captureException(
+          new Error('Failed to update financial needs analysis')
+        );
+      }
+    } catch (error) {
+      console.error('Error during PATCH call:', error);
+      Sentry.captureException(error);
     }
   }, [
     ageYoungestChild,
@@ -56,6 +69,8 @@ const EducationExpense = ({
     childrenUnderEighteen,
     updateFinancialNeedsAnalysis,
     contactId,
+    financialNeedsAnalysis,
+    handleNext,
   ]);
 
   const isContinueButtonDisabled =
@@ -77,6 +92,7 @@ const EducationExpense = ({
       title='What do they expect to spend on education?'
       subTitle='We’ll add the amount per child based on the average cost of a four-year degree.'
       onContinue={onContinue}
+      onSkip={handleNext}
       showBackButton
       onBack={handleBack}
       isContinueButtonDisabled={isContinueButtonDisabled}

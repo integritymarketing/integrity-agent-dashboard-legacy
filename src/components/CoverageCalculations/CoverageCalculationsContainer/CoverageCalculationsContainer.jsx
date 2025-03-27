@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ContactProfileTabBar } from 'components/ContactDetailsContainer';
 import { useCallback, useState } from 'react';
 import HouseholdDebt from '../HouseholdDebt';
@@ -9,6 +9,7 @@ import { useCoverageCalculationsContext } from 'providers/CoverageCalculations';
 import { useEffect } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { useLeadDetails } from 'providers/ContactDetails';
+import ReviewCurrentAssets from '../ReviewCurrentAssets';
 
 const CoverageCalculationsContainer = () => {
   const { contactId } = useParams();
@@ -143,6 +144,15 @@ const CoverageCalculationsContainer = () => {
           shouldCoverCollegeExpenses={formValue?.shouldCoverCollegeExpenses}
           ageYoungestChild={formValue?.ageYoungestChild}
           contactId={contactId}
+        />
+      )}
+      {currentStep === 5 && (
+        <ReviewCurrentAssets
+          handleBack={handleBack}
+          handleNext={handleNext}
+          totalAvailableSavings={formValue?.totalAvailableSavings}
+          contactId={contactId}
+          handleChange={handleChange}
         />
       )}
     </>

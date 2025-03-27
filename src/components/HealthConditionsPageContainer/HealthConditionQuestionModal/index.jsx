@@ -12,6 +12,7 @@ import { useConditions } from 'providers/Conditions';
 import { Dialog, DialogContent } from '@mui/material';
 import ConditionalPopupMultiSelect from 'components/ui/ConditionalPopup/ConditionPopupMultiSelect';
 import { UPDATE_CONDITION } from '../HealthConditionContainer.constants';
+import { useLeadDetails } from 'providers/ContactDetails';
 
 function HealthConditionQuestionModal({
   modelHeader,
@@ -29,6 +30,7 @@ function HealthConditionQuestionModal({
     fetchHealthConditionsQuestionsByCondtionId,
     deleteHealthCondition,
   } = useConditions();
+  const { leadDetails } = useLeadDetails();
 
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
@@ -273,10 +275,21 @@ function HealthConditionQuestionModal({
     handleCancelClick();
   };
 
-  const isButtonDisabled = useMemo(
-    () => loading || values === null || values?.length === 0,
-    [values, loading]
-  );
+  const isButtonDisabled = useMemo(() => {
+    if (loading || !values || values?.length === 0) {
+      return true;
+    }
+
+    if (currentQuestion.type === 'DATE') {
+      const minDate = new Date(leadDetails?.birthdate);
+      const selectedDate = new Date(values);
+      const maxDate = new Date();
+
+      return selectedDate < minDate || selectedDate > maxDate;
+    }
+
+    return false;
+  }, [values, loading, currentQuestion, leadDetails]);
 
   const isLastQuestion = useMemo(() => {
     return currentQuestionIndex === questionData.length - 1;
@@ -319,6 +332,11 @@ function HealthConditionQuestionModal({
                 applyButtonText={applyButtonText}
                 handleRemoveClick={handleRemoveClick}
                 showAddIcon={isLastQuestion}
+                minDate={
+                  leadDetails?.birthdate
+                    ? new Date(leadDetails.birthdate)
+                    : undefined
+                }
               />
             )}
             {currentQuestion.type == 'RADIO' &&

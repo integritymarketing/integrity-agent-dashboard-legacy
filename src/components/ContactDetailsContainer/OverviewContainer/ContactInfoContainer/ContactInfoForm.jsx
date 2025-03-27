@@ -80,29 +80,31 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
   const showToast = useToast();
   const { clientsService } = useClientServiceContext();
 
-  const email = emails.length > 0 ? emails[0].leadEmail : null;
-  const phoneData = phones.length > 0 ? phones[0] : null;
-  const addressData = addresses.length > 0 ? addresses?.[0] : null;
-  const emailID = emails.length > 0 ? emails[0].emailID : 0;
-  const leadAddressId =
-    addressData && addressData.leadAddressId ? addressData.leadAddressId : 0;
-  const phoneId = phoneData && phoneData.phoneId ? phoneData.phoneId : 0;
+  // Helper function to extract the first value from an array or return a default value
+  const getFirstValue = (array, defaultValue = null) =>
+    array.length > 0 ? array[0] : defaultValue;
 
-  const city = addressData && addressData.city ? addressData.city : '';
-  const stateCode =
-    addressData && addressData.stateCode ? addressData.stateCode : '';
-  const address1 =
-    addressData && addressData.address1 ? addressData.address1 : '';
-  const address2 =
-    addressData && addressData.address2 ? addressData.address2 : '';
-  const county = addressData && addressData.county ? addressData.county : '';
-  const countyFips =
-    addressData && addressData.countyFips ? addressData.countyFips : '';
-  const postalCode =
-    addressData && addressData.postalCode ? addressData.postalCode : '';
-  const phone = phoneData && phoneData.leadPhone ? phoneData.leadPhone : '';
-  const phoneLabel =
-    phoneData && phoneData.phoneLabel ? phoneData.phoneLabel : 'mobile';
+  // Helper function to extract properties from an object with default values
+  const getAddressField = (address, field, defaultValue = '') =>
+    address && address[field] ? address[field] : defaultValue;
+
+  const email = getFirstValue(emails, { leadEmail: null }).leadEmail;
+  const phoneData = getFirstValue(phones);
+  const addressData = getFirstValue(addresses);
+  const emailID = getFirstValue(emails, { emailID: 0 }).emailID;
+
+  // Extracting address fields with a helper function
+  const city = getAddressField(addressData, 'city');
+  const stateCode = getAddressField(addressData, 'stateCode');
+  const address1 = getAddressField(addressData, 'address1');
+  const address2 = getAddressField(addressData, 'address2');
+  const county = getAddressField(addressData, 'county');
+  const countyFips = getAddressField(addressData, 'countyFips');
+  const postalCode = getAddressField(addressData, 'postalCode');
+  const leadAddressId = getAddressField(addressData, 'leadAddressId');
+  const phoneId = getAddressField(phoneData, 'phoneId');
+  const phone = getAddressField(phoneData, 'leadPhone');
+  const phoneLabel = getAddressField(phoneData, 'phoneLabel');
 
   const isPrimary = contactPreferences?.primary
     ? contactPreferences?.primary
@@ -168,6 +170,34 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
     },
     [showToast]
   );
+
+  const isZipCodeInvalid = (postalCode, loadingCountyAndState, allStates) => {
+    return (
+      (postalCode.length === 5 &&
+        !loadingCountyAndState &&
+        allStates?.length === 0) ||
+      (postalCode > 0 && postalCode.length < 5)
+    );
+  };
+
+  const setCountyAndState = (values, allCounties, allStates, setFieldValue) => {
+    const countyName = allCounties[0]?.value;
+    const countyFipsName = allCounties[0]?.key;
+    const stateCodeName = allStates[0]?.value;
+
+    if (
+      allCounties.length === 1 &&
+      countyName !== values.address.county &&
+      countyFipsName !== values.address.countyFips
+    ) {
+      setFieldValue('address.county', countyName);
+      setFieldValue('address.countyFips', countyFipsName);
+    }
+
+    if (allStates.length === 1 && stateCodeName !== values.address.stateCode) {
+      setFieldValue('address.stateCode', stateCodeName);
+    }
+  };
 
   return (
     <Formik
@@ -320,30 +350,14 @@ function ContactInfoForm({ editLeadDetails, setIsEditMode }) {
         handleSubmit,
         setFieldValue,
       }) => {
-        const isInvalidZip =
-          (values.address.postalCode.length === 5 &&
-            !loadingCountyAndState &&
-            allStates?.length === 0) ||
-          (values.address.postalCode > 0 &&
-            values.address.postalCode.length < 5);
-        const countyName = allCounties[0]?.value;
-        const countyFipsName = allCounties[0]?.key;
-        const stateCodeName = allStates[0]?.value;
+        const isInvalidZip = isZipCodeInvalid(
+          values.address.postalCode,
+          loadingCountyAndState,
+          allStates
+        );
 
-        if (
-          allCounties.length === 1 &&
-          countyName !== values.address.county &&
-          countyFipsName !== values.address.countyFips
-        ) {
-          setFieldValue('address.county', allCounties[0].value);
-          setFieldValue('address.countyFips', allCounties[0].key);
-        }
-        if (
-          allStates.length === 1 &&
-          stateCodeName !== values.address.stateCode
-        ) {
-          setFieldValue('address.stateCode', allStates[0].value);
-        }
+        // Simplified logic for county and state setting
+        setCountyAndState(values, allCounties, allStates, setFieldValue);
 
         const formik = {
           values,
