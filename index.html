@@ -40,24 +40,12 @@
     <link rel="manifest" href="/manifest.json" />
 
     <title>Integrity</title>
-
-</head>
+  </head>
 
   <body>
     <noscript>
-      <script type="text/javascript">
-        const iframe = document.createElement("iframe");
-        iframe.src =
-            `https://www.googletagmanager.com/ns.html?id=${import.meta.env.VITE_GTM_ID}&${import.meta.env.VITE_GTM_PARAMS}`;
-        iframe.height = "0";
-        iframe.width = "0";
-        iframe.style.display = "none";
-        iframe.style.visibility = "hidden";
-        document.body.appendChild(iframe);
-      </script>
+      <p>You need to enable JavaScript to run this app.</p>
     </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
 
     <script>
@@ -68,20 +56,22 @@
     <!-- Google Tag Manager -->
     <script>
       (function (w, d, s, l, i) {
-          w[l] = w[l] || [];
-          w[l].push({
-              "gtm.start": new Date().getTime(),
-              event: "gtm.js",
-          });
-          var f = d.getElementsByTagName(s)[0],
-              j = d.createElement(s),
-              dl = l != "dataLayer" ? "&l=" + l : "";
-          j.async = true;
-          j.src =
-              "https://www.googletagmanager.com/gtm.js?id=" +
-              i + dl + import.meta.env.VITE_GTM_PARAMS;
-          f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", import.meta.env.VITE_GTM_ID);
+        w[l] = w[l] || [];
+        w[l].push({
+          "gtm.start": new Date().getTime(),
+          event: "gtm.js",
+        });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src =
+          "https://www.googletagmanager.com/gtm.js?id=" +
+          i +
+          dl +
+          "&gtm_auth=TG4GJ9WeCRbBpkvpmPJBQw&gtm_preview=env-1&gtm_cookies_win=x";
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-PL9G2BS");
     </script>
     <!-- End Google Tag Manager -->
 
