@@ -9,7 +9,7 @@ export const AmplitudeProvider = ({ children }) => {
 
   useEffect(() => {
     // Dynamically load Amplitude script only if not in production
-    if (import.meta.env.VITE_BUILD_ENV !== 'prod' && !isAmplitudeInitialized) {
+    if (import.meta.env.VITE_BUILD_ENV !== 'Production' && !isAmplitudeInitialized) {
       const script = document.createElement('script');
       script.src = 'https://cdn.amplitude.com/script/bdb9ff9f9b4050ae0f8a387d65052a72.js';
       script.async = true;
