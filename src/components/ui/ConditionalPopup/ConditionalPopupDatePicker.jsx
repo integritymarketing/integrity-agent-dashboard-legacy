@@ -20,6 +20,7 @@ function ConditionalPopupDatePicker({
   showAddIcon = false,
   showDeleteSection = false,
   handleRemoveClick,
+  minDate,
 }) {
   return (
     <ConditionalPopupLayout
@@ -42,6 +43,7 @@ function ConditionalPopupDatePicker({
         onChange={value => onChange(value)}
         className={styles.datepicker}
         iconPosition='left'
+        minDate={minDate}
       />
       {error && (
         <Typography variant='body2' color='error' mt={0.5}>
@@ -68,5 +70,6 @@ ConditionalPopupDatePicker.propTypes = {
   showAddIcon: PropTypes.bool,
   showDeleteSection: PropTypes.bool,
   handleRemoveClick: PropTypes.func,
+  minDate: PropTypes.string,
 };
 export default ConditionalPopupDatePicker;
