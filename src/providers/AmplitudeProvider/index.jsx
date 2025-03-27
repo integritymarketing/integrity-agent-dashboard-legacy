@@ -8,20 +8,27 @@ export const AmplitudeProvider = ({ children }) => {
   const [isAmplitudeInitialized, setIsAmplitudeInitialized] = useState(false);
 
   useEffect(() => {
-    if (auth.user && !isAmplitudeInitialized) {
-      const { npn } = auth.user;
-
-      window.amplitude?.init('bdb9ff9f9b4050ae0f8a387d65052a72', npn, {
-        fetchRemoteConfig: true,
-        autocapture: true,
-      });
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'Amp User ID Ready',
-        ampUserId: npn,
-      });
-
-      setIsAmplitudeInitialized(true);
+    // Dynamically load Amplitude script only if not in production
+    if (import.meta.env.VITE_BUILD_ENV !== 'prod' && !isAmplitudeInitialized) {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.amplitude.com/script/bdb9ff9f9b4050ae0f8a387d65052a72.js';
+      script.async = true;
+      script.onload = () => {
+        if (auth.user) {
+          const { npn } = auth.user;
+          window.amplitude?.init('bdb9ff9f9b4050ae0f8a387d65052a72', npn, {
+            fetchRemoteConfig: true,
+            autocapture: true,
+          });
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: 'Amp User ID Ready',
+            ampUserId: npn,
+          });
+          setIsAmplitudeInitialized(true);
+        }
+      };
+      document.body.appendChild(script);
     }
   }, [auth.user, isAmplitudeInitialized]);
 
