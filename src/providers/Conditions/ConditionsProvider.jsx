@@ -159,9 +159,8 @@ export const ConditionsProvider = ({ children }) => {
       if (!leadId) {
         return;
       }
-      const path = `${leadId}`;
       await performAsyncOperation(
-        () => postHealthConditions(healthConditions, false, path),
+        () => postHealthConditions(healthConditions, false, leadId),
         () => {},
         async () => {
           showToast({ message: 'Health Conditions Applied' });
@@ -169,7 +168,7 @@ export const ConditionsProvider = ({ children }) => {
         }
       );
     },
-    [postHealthConditions]
+    [postHealthConditions, showToast]
   );
 
   const fetchHealthConditionsQuestions = useCallback(
@@ -294,7 +293,6 @@ export const ConditionsProvider = ({ children }) => {
         console.log('error', error);
         setSelectedConditionForEdit(condition);
         setIsAddNewActivityDialogOpen(true);
-        //showToast({ type: "error", message: "Failed to edit the health condition" });
       }
     },
     [fetchQuestionsByConditionIdAndLeadId, showToast]

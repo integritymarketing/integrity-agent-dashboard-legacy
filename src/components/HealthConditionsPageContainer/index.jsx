@@ -24,6 +24,8 @@ import ButtonCircleArrow from 'components/icons/button-circle-arrow';
 import { FullWidthButton } from '@integritymarketing/clients-ui-kit';
 import HealthConditionQuestionModal from './HealthConditionQuestionModal';
 import { useConditions } from 'providers/Conditions';
+import WithLoader from 'components/ui/WithLoader';
+import { useLeadDetails } from 'providers/ContactDetails';
 
 const HealthConditionsPageContainer = () => {
   const { contactId } = useParams();
@@ -32,6 +34,9 @@ const HealthConditionsPageContainer = () => {
   const { isSimplifiedIUL } = useCreateNewQuote();
   const { fetchHealthConditions } = useConditions();
   const { prescriptions, fetchPrescriptions } = useHealth();
+  const { leadDetails, isLoadingLeadDetails } = useLeadDetails();
+  const { consumerId } = leadDetails || {};
+
   const {
     selectedPrescription,
     openAddPrescriptionModal,
@@ -55,7 +60,7 @@ const HealthConditionsPageContainer = () => {
   }, [contactId, fetchPrescriptions]);
 
   return (
-    <>
+    <WithLoader loading={isLoadingLeadDetails}>
       <ContactProfileTabBar
         contactId={contactId}
         showTabs={false}
@@ -102,6 +107,7 @@ const HealthConditionsPageContainer = () => {
             <HealthConditionSearchInput
               contactId={contactId}
               setOpenAddPrescriptionModal={setOpenAddPrescriptionModal}
+              consumerId={consumerId}
             />
           </Box>
           <Box className={styles.conditionsContainer}>
@@ -162,6 +168,7 @@ const HealthConditionsPageContainer = () => {
       </Box>
       {openAddPrescriptionModal && (
         <AddPrescriptionModal
+          consumerId={consumerId}
           open={openAddPrescriptionModal}
           onClose={() => {
             setOpenAddPrescriptionModal(false);
@@ -193,7 +200,7 @@ const HealthConditionsPageContainer = () => {
           selectedCondition={selectedCondition}
         />
       )}
-    </>
+    </WithLoader>
   );
 };
 

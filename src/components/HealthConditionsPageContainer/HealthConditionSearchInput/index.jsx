@@ -6,7 +6,7 @@ import useUserProfile from 'hooks/useUserProfile';
 import { useConditions as useConditionsHook } from 'providers/Conditions';
 import { SEARCH_BY_CONDITION } from '../HealthConditionContainer.constants';
 
-function HealthConditionSearchInput({ contactId }) {
+function HealthConditionSearchInput({ contactId, consumerId }) {
   const [searchValue, setSearchValue] = useState('');
   const [conditions, setConditions] = useState([]);
 
@@ -58,7 +58,7 @@ function HealthConditionSearchInput({ contactId }) {
       leadId: contactId,
       lastTreatmentDate: null,
       hasLookBackPeriod: condition.hasLookBackPeriod,
-      consumerId: 0,
+      consumerId: consumerId,
     };
     try {
       const response = await saveHealthConditionDetails(payload);

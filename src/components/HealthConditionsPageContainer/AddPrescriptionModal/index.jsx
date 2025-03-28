@@ -11,6 +11,7 @@ function AddPrescriptionModal({
   prescriptionDetails,
   contactId,
   onHandleApplyClickOfAddPrescriptionModal,
+  consumerId,
 }) {
   const {
     prescriptionConditions,
@@ -66,7 +67,7 @@ function AddPrescriptionModal({
       stateCode: condition.stateCode,
       leadId: contactId,
       lastTreatmentDate: null,
-      consumerId: 0,
+      consumerId: consumerId,
       agentNPN: agentInformation?.agentNPN,
     }));
     setSelectedPrescription(null);
@@ -125,12 +126,14 @@ AddPrescriptionModal.propTypes = {
   prescriptionDetails: PropTypes.object.isRequired,
   contactId: PropTypes.string.isRequired,
   onHandleApplyClickOfAddPrescriptionModal: PropTypes.func.isRequired,
+  consumerId: PropTypes.string.isRequired,
 };
 
 AddPrescriptionModal.defaultProps = {
   open: false,
   onClose: () => {},
   prescriptionDetails: null,
+  consumerId: null,
 };
 
 export default AddPrescriptionModal;
