@@ -435,7 +435,9 @@ const FinalExpensePlansResultContainer = () => {
                       </div>
                       <div
                         className={`${styles.checkbox} ${
-                          isShowExcludedProducts ? styles.selectedCheckbox : ''
+                          isShowAlternativeProducts
+                            ? styles.selectedCheckbox
+                            : ''
                         }`}
                         onClick={() =>
                           handleIsShowAlternativeProductsCheck(
