@@ -14,6 +14,7 @@ import {
 import { formatCurrency } from 'utils/shared-utils/sharedUtility';
 import NoCoverageModal from './NoCoverageModal';
 import PropTypes from 'prop-types';
+import IconBackGround from 'components/ui/IconBackGround';
 
 const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
   const { financialNeedsAnalysis } = useCoverageCalculationsContext();
@@ -38,25 +39,42 @@ const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
         assetType: 'Debt',
         value: formatValue(financialNeedsAnalysis?.totalHouseholdDebt),
         assetTypeSubTitle: 'Total Household Debt',
-        assetTypeIcon: <FontAwesomeIcon icon={faWallet} size={35} />,
+        assetTypeIcon: (
+          <IconBackGround backgroundColor='#052A63'>
+            {' '}
+            <FontAwesomeIcon icon={faWallet} size='lg' color='#FFF' />
+          </IconBackGround>
+        ),
       },
       {
         assetType: 'Income',
         value: formatValue(financialNeedsAnalysis?.totalAnnualIncome),
         assetTypeSubTitle: '10x Income',
-        assetTypeIcon: <FontAwesomeIcon icon={faCircleDollar} size={35} />,
+        assetTypeIcon: (
+          <IconBackGround backgroundColor='#052A63'>
+            <FontAwesomeIcon icon={faCircleDollar} size='lg' color='#FFF' />
+          </IconBackGround>
+        ),
       },
       {
         assetType: 'Mortgage',
         value: formatValue(financialNeedsAnalysis?.remainingMortgageAmount),
         assetTypeSubTitle: 'Home Loan',
-        assetTypeIcon: <FontAwesomeIcon icon={faHouse} size={35} />,
+        assetTypeIcon: (
+          <IconBackGround backgroundColor='#052A63'>
+            <FontAwesomeIcon icon={faHouse} size='lg' color='#FFF' />
+          </IconBackGround>
+        ),
       },
       {
         assetType: 'Education',
         value: formatValue(financialNeedsAnalysis?.educationNeedPerChild),
         assetTypeSubTitle: '$150,000 Per Child',
-        assetTypeIcon: <FontAwesomeIcon icon={faSchool} size={35} />,
+        assetTypeIcon: (
+          <IconBackGround backgroundColor='#052A63'>
+            <FontAwesomeIcon icon={faSchool} size='lg' color='#FFF' />
+          </IconBackGround>
+        ),
       },
     ];
   }, [financialNeedsAnalysis]);
