@@ -181,7 +181,6 @@ const GlobalNavV2 = ({
       unit => unit?.buCode?.toUpperCase() === 'PHP'
     );
   }, [agentData]);
-  console.log('hasPHPBuName', hasPHPBuName, agentData);
   let showPhoneNotification = false;
 
   if (auth.isAuthenticated && user && !user.phone) {
