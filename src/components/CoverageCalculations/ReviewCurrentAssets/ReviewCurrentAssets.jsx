@@ -51,6 +51,8 @@ const ReviewCurrentAssets = ({
       onContinue={onContinue}
       showBackButton
       onBack={handleBack}
+      showSkipButton
+      onSkip={handleNext}
       isContinueButtonDisabled={isContinueButtonDisabled}
     >
       <Box my={4}>
@@ -78,6 +80,7 @@ ReviewCurrentAssets.propTypes = {
   handleNext: PropTypes.func.isRequired,
   totalAvailableSavings: PropTypes.number,
   contactId: PropTypes.number.isRequired,
+  handleBack: PropTypes.func.isRequired,
 };
 
 export default ReviewCurrentAssets;

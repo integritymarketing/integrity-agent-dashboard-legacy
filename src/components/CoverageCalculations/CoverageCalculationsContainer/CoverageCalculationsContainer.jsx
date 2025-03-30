@@ -1,18 +1,19 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { ContactProfileTabBar } from 'components/ContactDetailsContainer';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import HouseholdDebt from '../HouseholdDebt';
 import TotalIncome from '../TotalIncome';
 import RemainingMortgageAmount from '../RemainingMortgageAmount';
 import EducationExpense from '../EducationExpense';
 import { useCoverageCalculationsContext } from 'providers/CoverageCalculations';
-import { useEffect } from 'react';
 import { Box, CircularProgress } from '@mui/material';
 import { useLeadDetails } from 'providers/ContactDetails';
 import ReviewCurrentAssets from '../ReviewCurrentAssets';
+import CoverageReview from '../CoverageReview';
 
 const CoverageCalculationsContainer = () => {
   const { contactId } = useParams();
+  const navigate = useNavigate();
 
   const {
     getFinancialNeedsAnalysis,
@@ -52,10 +53,19 @@ const CoverageCalculationsContainer = () => {
   }, [financialNeedsAnalysis]);
 
   const handleNext = useCallback(() => {
-    const next = currentStep + 1;
-    setCurrentStep(next);
-    sessionStorage.setItem('currentCalculationStep', next);
-  }, [currentStep]);
+    if (currentStep === 5) {
+      getFinancialNeedsAnalysis(contactId);
+    }
+    if (currentStep === 6) {
+      navigate(`/contact/${contactId}/overview`, {
+        state: { showProductCategoryModal: true },
+      });
+    } else {
+      const next = currentStep + 1;
+      setCurrentStep(next);
+      sessionStorage.setItem('currentCalculationStep', next);
+    }
+  }, [currentStep, navigate, getFinancialNeedsAnalysis]);
 
   const handleBack = useCallback(() => {
     const prev = currentStep - 1;
@@ -84,6 +94,10 @@ const CoverageCalculationsContainer = () => {
     },
     [setFormValues]
   );
+
+  const resetCurrentStep = () => {
+    setCurrentStep(1);
+  };
 
   if (isLoadingFinancialNeedsAnalysis || isLoadingLeadDetails) {
     return (
@@ -153,6 +167,15 @@ const CoverageCalculationsContainer = () => {
           totalAvailableSavings={formValue?.totalAvailableSavings}
           contactId={contactId}
           handleChange={handleChange}
+        />
+      )}
+      {currentStep === 6 && (
+        <CoverageReview
+          handleBack={handleBack}
+          handleNext={handleNext}
+          contactId={contactId}
+          handleChange={handleChange}
+          resetCurrentStep={resetCurrentStep}
         />
       )}
     </>

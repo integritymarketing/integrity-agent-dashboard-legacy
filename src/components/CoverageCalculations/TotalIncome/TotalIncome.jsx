@@ -51,7 +51,7 @@ const TotalIncome = ({
   const validYearsIncomeReplacement =
     yearsIncomeReplacement != null &&
     yearsIncomeReplacement >= 1 &&
-    yearsIncomeReplacement <= 30
+    yearsIncomeReplacement <= 20
       ? yearsIncomeReplacement
       : 10;
 
@@ -96,7 +96,7 @@ const TotalIncome = ({
         handleChange={(_, value) =>
           handleChange('yearsIncomeReplacement', value)
         }
-        max={30}
+        max={20}
         leftLabel='year'
         rightLabel='years'
         min={1}

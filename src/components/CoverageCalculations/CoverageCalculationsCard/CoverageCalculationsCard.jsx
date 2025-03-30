@@ -11,6 +11,9 @@ import {
   useTheme,
 } from '@mui/material';
 import ButtonCircleArrow from 'components/icons/button-circle-arrow';
+import { faArrowShare } from '@awesome.me/kit-7ab3488df1/icons/kit/custom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import NoCoverageModal from '../CoverageReview/NoCoverageModal';
 
 const CoverageCalculationsCard = ({
   title,
@@ -23,6 +26,7 @@ const CoverageCalculationsCard = ({
   isContinueButtonDisabled,
   primaryButtonLabel = 'Continue',
   showSkipButton = true,
+  showShareButton = false,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -43,9 +47,24 @@ const CoverageCalculationsCard = ({
             <Typography variant='h3' gutterBottom color='#052A63'>
               {title}
             </Typography>
-            <Typography variant='body1' color='#434A51' gutterBottom>
-              {subTitle}
-            </Typography>
+            <Box
+              display='flex'
+              alignItems='center'
+              justifyContent='space-between'
+              pb={1}
+              gap={5}
+            >
+              <Typography variant='body1' color='#434A51'>
+                {subTitle}
+              </Typography>
+              {showShareButton && (
+                <Button
+                  endIcon={<FontAwesomeIcon icon={faArrowShare} size='lg' />}
+                >
+                  Share
+                </Button>
+              )}
+            </Box>
             {children}
           </CardContent>
 
