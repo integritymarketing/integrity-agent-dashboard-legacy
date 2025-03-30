@@ -10,8 +10,6 @@ export const ERROR_3 =
 export const ERROR_4 = 'No products were excluded from your results.';
 export const ERROR_5 =
   'No eligible policies match your quote details, but other products may be available.';
-export const ERROR_6 =
-  'No Final Expense Policies available. Review the selected filters and retry.';
 
 function useFinalExpenseErrorMessage(
   handleMyAppointedProductsCheck,
@@ -21,6 +19,10 @@ function useFinalExpenseErrorMessage(
   const [actionLink, setActionLink] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const { isSimplifiedIUL } = useCreateNewQuote();
+
+  const ERROR_6 = `No ${
+    isSimplifiedIUL() ? 'Simplified IUL' : 'Final Expense'
+  } Policies available. Review the selected filters and retry.`;
 
   /**
    * Derives the boolean flags for different quote result conditions.
