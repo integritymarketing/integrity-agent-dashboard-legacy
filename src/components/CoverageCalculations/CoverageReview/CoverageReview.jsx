@@ -1,4 +1,11 @@
-import { Box, Card, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  Grid,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import CoverageCalculationsCard from '../CoverageCalculationsCard';
 import { GridListItem } from '@integritymarketing/clients-ui-kit';
 import { useCoverageCalculationsContext } from 'providers/CoverageCalculations';
@@ -20,6 +27,7 @@ const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
   const { financialNeedsAnalysis } = useCoverageCalculationsContext();
   const navigate = useNavigate();
   const { contactId } = useParams();
+  const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 
   const formatValue = value => {
     if (value === undefined || value === null) {
@@ -41,7 +49,6 @@ const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
         assetTypeSubTitle: 'Total Household Debt',
         assetTypeIcon: (
           <IconBackGround backgroundColor='#052A63'>
-            {' '}
             <FontAwesomeIcon icon={faWallet} size='lg' color='#FFF' />
           </IconBackGround>
         ),
@@ -129,9 +136,10 @@ const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
                 bgcolor='#F0F2F7'
                 p={2}
                 borderRadius={1}
-                display='flex'
+                display={isMobile ? 'grid' : 'flex'}
                 mx={2}
                 mt={2}
+                textAlign={isMobile ? 'center' : 'left'}
               >
                 <Typography fontWeight='bold' flex={1}>
                   Recommended Coverage
@@ -144,39 +152,52 @@ const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
                 </Typography>
               </Box>
 
-              {financialNeedsAnalysis?.financialNeedsAnalysis
+              {!financialNeedsAnalysis?.financialNeedsAnalysis
                 ?.currentCoverage && (
-                <Grid container alignItems='center'>
-                  <Typography fontWeight='bold' flex={1} ml={3}>
+                <Box
+                  p={2}
+                  borderRadius={1}
+                  display={isMobile ? 'grid' : 'flex'}
+                  mx={2}
+                  textAlign={isMobile ? 'center' : 'left'}
+                >
+                  <Typography fontWeight='bold' flex={1}>
                     Current Coverage
                   </Typography>
-                  <Typography fontWeight='bold' flex={1} ml={-3}>
+                  <Typography fontWeight='bold' flex={1}>
                     {formatValue(
                       financialNeedsAnalysis?.financialNeedsAnalysis
                         ?.currentCoverage
                     )}
                   </Typography>
-                </Grid>
+                </Box>
               )}
-              {financialNeedsAnalysis?.financialNeedsAnalysis?.assets529 && (
-                <Grid container alignItems='center'>
-                  <Typography fontWeight='bold' flex={1} ml={3}>
+              {!financialNeedsAnalysis?.financialNeedsAnalysis?.assets529 && (
+                <Box
+                  p={2}
+                  borderRadius={1}
+                  display={isMobile ? 'grid' : 'flex'}
+                  mx={2}
+                  textAlign={isMobile ? 'center' : 'left'}
+                >
+                  <Typography fontWeight='bold' flex={1}>
                     Additional Assets
                   </Typography>
-                  <Typography fontWeight='bold' flex={1} ml={-3}>
+                  <Typography fontWeight='bold' flex={1}>
                     {formatValue(
                       financialNeedsAnalysis?.financialNeedsAnalysis?.assets529
                     )}
                   </Typography>
-                </Grid>
+                </Box>
               )}
               <Box
                 bgcolor='#E7F0FF'
                 p={2}
                 borderRadius={1}
-                display='flex'
-                justifyContent='space-between'
-                m={2}
+                display={isMobile ? 'grid' : 'flex'}
+                mx={2}
+                mb={2}
+                textAlign={isMobile ? 'center' : 'left'}
               >
                 <Typography fontWeight='bold' flex={1}>
                   Additional Insurance Needed
