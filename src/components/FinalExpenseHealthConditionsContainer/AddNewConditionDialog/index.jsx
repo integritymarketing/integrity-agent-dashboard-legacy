@@ -164,7 +164,7 @@ const AddNewConditionDialog = ({
         stateCode: selectedCondition.StateCode,
         hasLookBackPeriod: selectedCondition.hasLookBackPeriod,
         lastTreatmentDate: lastTreatmentDateServer,
-        consumerId: 0,
+        consumerId: leadDetails.consumerId || null,
       });
       if (response && response.length > 0) {
         setHealthConditions([...response]);

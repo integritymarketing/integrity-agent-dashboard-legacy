@@ -38,7 +38,7 @@ const RemainingMortgageAmount = ({
 
   const validRemainingMortgageAmount =
     remainingMortgageAmount != null &&
-    remainingMortgageAmount >= 1 &&
+    remainingMortgageAmount >= 0 &&
     remainingMortgageAmount <= 1000000
       ? remainingMortgageAmount
       : 200000;
@@ -51,13 +51,12 @@ const RemainingMortgageAmount = ({
       onSkip={handleNext}
       showBackButton
       onBack={handleBack}
-      isContinueButtonDisabled={isFinancialNeedsAnalysisUpdating}
+      isContinueButtonDisabled={isFinancialNeedsAnalysisUpdating || remainingMortgageAmount == 0}
     >
       <Box my={4}>
         <Slider
           value={parseInt(validRemainingMortgageAmount)}
           max={1000000}
-          defaultValue={200000}
           min={0}
           handleChange={(_, value) =>
             handleChange('remainingMortgageAmount', value)
