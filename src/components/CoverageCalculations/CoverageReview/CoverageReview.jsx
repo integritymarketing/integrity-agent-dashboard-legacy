@@ -152,7 +152,7 @@ const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
                 </Typography>
               </Box>
 
-              {!financialNeedsAnalysis?.financialNeedsAnalysis
+              {financialNeedsAnalysis?.financialNeedsAnalysis
                 ?.currentCoverage && (
                 <Box
                   p={2}
@@ -172,7 +172,8 @@ const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
                   </Typography>
                 </Box>
               )}
-              {!financialNeedsAnalysis?.financialNeedsAnalysis?.assets529 && (
+
+              {financialNeedsAnalysis?.financialNeedsAnalysis?.assets529 && (
                 <Box
                   p={2}
                   borderRadius={1}
