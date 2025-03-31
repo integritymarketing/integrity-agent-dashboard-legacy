@@ -305,6 +305,12 @@ function HealthConditionQuestionModal({
     return 'Next';
   }, [isLastQuestion, modelHeader]);
 
+  const currentOptions = useMemo(() => {
+    return options
+      ?.filter(option => option.questionId === currentQuestion?.id)
+      ?.sort((a, b) => a.order - b.order);
+  }, [options, currentQuestion]);
+
   return (
     <Dialog
       open={!!modelHeader}
@@ -359,9 +365,7 @@ function HealthConditionQuestionModal({
                   applyButtonText={applyButtonText}
                   handleRemoveClick={handleRemoveClick}
                   showAddIcon={isLastQuestion}
-                  options={options.filter(
-                    option => option.questionId === currentQuestion.id
-                  )}
+                  options={currentOptions}
                 />
               )}
             {currentQuestion.type == 'CHECKBOX' && (
@@ -378,9 +382,7 @@ function HealthConditionQuestionModal({
                 error={error}
                 onClose={handleCancelClick}
                 applyButtonText={applyButtonText}
-                options={options.filter(
-                  option => option.questionId === currentQuestion.id
-                )}
+                options={currentOptions}
                 setValues={setValues}
                 handleRemoveClick={handleRemoveClick}
                 showAddIcon={isLastQuestion}

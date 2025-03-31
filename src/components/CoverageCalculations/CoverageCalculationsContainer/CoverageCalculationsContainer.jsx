@@ -176,6 +176,8 @@ const CoverageCalculationsContainer = () => {
           contactId={contactId}
           handleChange={handleChange}
           resetCurrentStep={resetCurrentStep}
+          yearsIncomeReplacement={formValue?.yearsIncomeReplacement || 10}
+          educationNeedPerChild={formValue?.educationNeedPerChild || 150000}
         />
       )}
     </>

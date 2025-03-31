@@ -39,7 +39,22 @@ const HouseholdDebt = ({ handleChange, handleNext, value, contactId }) => {
     handleNext,
   ]);
 
-  const isContinueButtonDisabled = isFinancialNeedsAnalysisUpdating || !value;
+  const handleNoDebtClick = useCallback(async () => {
+    const response = await updateFinancialNeedsAnalysis(contactId, {
+      totalHouseholdDebt: 0, // Send 0 when "I currently don't have any debts" is clicked
+    });
+
+    if (response) {
+      handleNext();
+    }
+  }, [updateFinancialNeedsAnalysis, contactId, handleNext]);
+
+  // Update the logic to disable the "Continue" button when the input is empty
+  const isContinueButtonDisabled =
+    isFinancialNeedsAnalysisUpdating ||
+    value === null ||
+    value === undefined ||
+    value === '';
 
   return (
     <CoverageCalculationsCard
@@ -64,23 +79,28 @@ const HouseholdDebt = ({ handleChange, handleNext, value, contactId }) => {
           InputProps={{
             startAdornment: <InputAdornment position='start'>$</InputAdornment>,
           }}
-          value={formatCurrency(value)}
+          value={
+            value !== null && value !== undefined ? formatCurrency(value) : ''
+          }
           name='totalHouseholdDebt'
           onChange={({ target }) => handleChange(target.name, target.value)}
         />
       </Box>
-      <Box textAlign='center'>
-        <Link
-          href='#'
-          underline='none'
-          onClick={e => {
-            e.preventDefault();
-            handleNext();
-          }}
-        >
-          I currently don't have any debts.
-        </Link>
-      </Box>
+
+      {value === null || value === undefined || value === '' ? (
+        <Box textAlign='center'>
+          <Link
+            href='#'
+            underline='none'
+            onClick={e => {
+              e.preventDefault();
+              handleNoDebtClick();
+            }}
+          >
+            I currently don't have any debts.
+          </Link>
+        </Box>
+      ) : null}
     </CoverageCalculationsCard>
   );
 };
@@ -88,7 +108,7 @@ const HouseholdDebt = ({ handleChange, handleNext, value, contactId }) => {
 HouseholdDebt.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleNext: PropTypes.func.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   contactId: PropTypes.number.isRequired,
 };
 

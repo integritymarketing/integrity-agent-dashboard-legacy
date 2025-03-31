@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  Grid,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Box, Card, Typography, useMediaQuery, useTheme } from '@mui/material';
 import CoverageCalculationsCard from '../CoverageCalculationsCard';
 import { GridListItem } from '@integritymarketing/clients-ui-kit';
 import { useCoverageCalculationsContext } from 'providers/CoverageCalculations';
@@ -23,7 +16,12 @@ import NoCoverageModal from './NoCoverageModal';
 import PropTypes from 'prop-types';
 import IconBackGround from 'components/ui/IconBackGround';
 
-const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
+const CoverageReview = ({
+  handleNext,
+  handleBack,
+  resetCurrentStep,
+  yearsIncomeReplacement,
+}) => {
   const { financialNeedsAnalysis } = useCoverageCalculationsContext();
   const navigate = useNavigate();
   const { contactId } = useParams();
@@ -56,7 +54,7 @@ const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
       {
         assetType: 'Income',
         value: formatValue(financialNeedsAnalysis?.totalAnnualIncome),
-        assetTypeSubTitle: '10x Income',
+        assetTypeSubTitle: `${yearsIncomeReplacement}x Income`, // Dynamically display the slider value
         assetTypeIcon: (
           <IconBackGround backgroundColor='#052A63'>
             <FontAwesomeIcon icon={faCircleDollar} size='lg' color='#FFF' />
@@ -76,7 +74,9 @@ const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
       {
         assetType: 'Education',
         value: formatValue(financialNeedsAnalysis?.educationNeedPerChild),
-        assetTypeSubTitle: '$150,000 Per Child',
+        assetTypeSubTitle: `$${formatCurrency(
+          financialNeedsAnalysis?.educationNeedPerChild || 150000
+        )} Per Child`,
         assetTypeIcon: (
           <IconBackGround backgroundColor='#052A63'>
             <FontAwesomeIcon icon={faSchool} size='lg' color='#FFF' />
@@ -84,7 +84,7 @@ const CoverageReview = ({ handleNext, handleBack, resetCurrentStep }) => {
         ),
       },
     ];
-  }, [financialNeedsAnalysis]);
+  }, [financialNeedsAnalysis, yearsIncomeReplacement]);
 
   const shouldNoCoverageModalOpen = useMemo(() => {
     const {
@@ -241,6 +241,7 @@ CoverageReview.propTypes = {
   handleNext: PropTypes.func.isRequired,
   handleBack: PropTypes.func.isRequired,
   resetCurrentStep: PropTypes.func.isRequired,
+  yearsIncomeReplacement: PropTypes.number,
 };
 
 export default CoverageReview;

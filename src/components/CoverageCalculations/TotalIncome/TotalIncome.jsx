@@ -56,7 +56,16 @@ const TotalIncome = ({
       : 10;
 
   const isContinueButtonDisabled =
-    isFinancialNeedsAnalysisUpdating || !totalAnnualIncome;
+    isFinancialNeedsAnalysisUpdating ||
+    totalAnnualIncome === null ||
+    totalAnnualIncome === undefined ||
+    totalAnnualIncome === '';
+
+  const handleInputChange = ({ target }) => {
+    const rawValue = target.value.replace(/[^0-9]/g, '');
+    const formattedValue = rawValue ? formatCurrency(rawValue) : '';
+    handleChange(target.name, rawValue);
+  };
 
   return (
     <CoverageCalculationsCard
@@ -81,12 +90,16 @@ const TotalIncome = ({
           variant='outlined'
           fullWidth
           name='totalAnnualIncome'
-          value={formatCurrency(totalAnnualIncome)}
+          value={
+            totalAnnualIncome !== null && totalAnnualIncome !== undefined
+              ? formatCurrency(totalAnnualIncome)
+              : ''
+          }
           onKeyDown={onlyNumbers}
           InputProps={{
             startAdornment: <InputAdornment position='start'>$</InputAdornment>,
           }}
-          onChange={({ target }) => handleChange(target.name, target.value)}
+          onChange={handleInputChange}
           onBlur={() =>
             handleChange('totalAnnualIncome', formatCurrency(totalAnnualIncome))
           }
@@ -112,7 +125,7 @@ const TotalIncome = ({
 TotalIncome.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleNext: PropTypes.func.isRequired,
-  totalAnnualIncome: PropTypes.number,
+  totalAnnualIncome: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   yearsIncomeReplacement: PropTypes.number.isRequired,
   contactId: PropTypes.string.isRequired,
 };

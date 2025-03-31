@@ -42,7 +42,16 @@ const ReviewCurrentAssets = ({
   ]);
 
   const isContinueButtonDisabled =
-    isFinancialNeedsAnalysisUpdating || !totalAvailableSavings;
+    isFinancialNeedsAnalysisUpdating ||
+    totalAvailableSavings === null ||
+    totalAvailableSavings === undefined ||
+    totalAvailableSavings === '';
+
+  const handleInputChange = ({ target }) => {
+    const value =
+      target.value.trim() === '' ? null : target.value.replace(/[^0-9]/g, '');
+    handleChange(target.name, value);
+  };
 
   return (
     <CoverageCalculationsCard
@@ -67,8 +76,13 @@ const ReviewCurrentAssets = ({
             startAdornment: <InputAdornment position='start'>$</InputAdornment>,
           }}
           name='totalAvailableSavings'
-          value={formatCurrency(totalAvailableSavings)}
-          onChange={({ target }) => handleChange(target.name, target.value)}
+          value={
+            totalAvailableSavings !== null &&
+            totalAvailableSavings !== undefined
+              ? formatCurrency(totalAvailableSavings)
+              : ''
+          }
+          onChange={handleInputChange}
         />
       </Box>
     </CoverageCalculationsCard>
@@ -78,7 +92,10 @@ const ReviewCurrentAssets = ({
 ReviewCurrentAssets.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleNext: PropTypes.func.isRequired,
-  totalAvailableSavings: PropTypes.number,
+  totalAvailableSavings: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   contactId: PropTypes.number.isRequired,
   handleBack: PropTypes.func.isRequired,
 };
