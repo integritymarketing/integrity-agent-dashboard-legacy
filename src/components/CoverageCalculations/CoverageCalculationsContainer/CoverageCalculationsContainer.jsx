@@ -43,6 +43,10 @@ const CoverageCalculationsContainer = () => {
   useEffect(() => {
     setFormValues({
       ...financialNeedsAnalysis,
+      yearsIncomeReplacement:
+        financialNeedsAnalysis?.yearsIncomeReplacement || 10,
+      remainingMortgageAmount:
+        financialNeedsAnalysis?.remainingMortgageAmount || 200000,
       shouldCoverCollegeExpenses:
         financialNeedsAnalysis?.shouldCoverCollegeExpenses
           ? 'Yes'

@@ -22,32 +22,57 @@ const TotalIncome = ({
   } = useCoverageCalculationsContext();
 
   const onContinue = useCallback(async () => {
-    if (
-      financialNeedsAnalysis?.totalAnnualIncome === totalAnnualIncome &&
-      financialNeedsAnalysis?.yearsIncomeReplacement === yearsIncomeReplacement
-    ) {
-      handleNext();
-      return;
-    }
+    const payload = {
+      totalAnnualIncome:
+        totalAnnualIncome === null ||
+        totalAnnualIncome === undefined ||
+        totalAnnualIncome === ''
+          ? null
+          : totalAnnualIncome,
+      yearsIncomeReplacement:
+        totalAnnualIncome === null ||
+        totalAnnualIncome === undefined ||
+        totalAnnualIncome === ''
+          ? null
+          : yearsIncomeReplacement,
+    };
 
-    const response = await updateFinancialNeedsAnalysis(contactId, {
-      totalAnnualIncome,
-      yearsIncomeReplacement,
-    });
+    const response = await updateFinancialNeedsAnalysis(contactId, payload);
 
     if (response) {
       handleNext();
     }
   }, [
     totalAnnualIncome,
-    updateFinancialNeedsAnalysis,
     yearsIncomeReplacement,
+    updateFinancialNeedsAnalysis,
     contactId,
     handleNext,
-    financialNeedsAnalysis,
   ]);
 
-  // Use API response if available, else default to 10
+  const handleSkip = useCallback(async () => {
+    if (
+      totalAnnualIncome !== null &&
+      totalAnnualIncome !== undefined &&
+      totalAnnualIncome !== ''
+    ) {
+      handleNext();
+      return;
+    }
+
+    // If no value exists, send null values in the API call
+    const payload = {
+      totalAnnualIncome: null,
+      yearsIncomeReplacement: null,
+    };
+
+    const response = await updateFinancialNeedsAnalysis(contactId, payload);
+
+    if (response) {
+      handleNext();
+    }
+  }, [totalAnnualIncome, updateFinancialNeedsAnalysis, contactId, handleNext]);
+
   const validYearsIncomeReplacement =
     yearsIncomeReplacement != null &&
     yearsIncomeReplacement >= 1 &&
@@ -76,7 +101,7 @@ const TotalIncome = ({
       }
       subTitle='Please enter their annual income sources may receive from any source.'
       onContinue={onContinue}
-      onSkip={handleNext}
+      onSkip={handleSkip}
       showBackButton
       onBack={handleBack}
       isContinueButtonDisabled={isContinueButtonDisabled}
@@ -126,7 +151,7 @@ TotalIncome.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleNext: PropTypes.func.isRequired,
   totalAnnualIncome: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  yearsIncomeReplacement: PropTypes.number.isRequired,
+  yearsIncomeReplacement: PropTypes.number,
   contactId: PropTypes.string.isRequired,
 };
 

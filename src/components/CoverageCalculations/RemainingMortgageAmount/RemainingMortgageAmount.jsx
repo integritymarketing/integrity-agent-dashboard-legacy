@@ -26,7 +26,6 @@ const RemainingMortgageAmount = ({
       handleNext();
       return;
     }
-
     const response = await updateFinancialNeedsAnalysis(contactId, {
       remainingMortgageAmount,
     });
@@ -51,7 +50,7 @@ const RemainingMortgageAmount = ({
       onSkip={handleNext}
       showBackButton
       onBack={handleBack}
-      isContinueButtonDisabled={isFinancialNeedsAnalysisUpdating || remainingMortgageAmount == 0}
+      isContinueButtonDisabled={isFinancialNeedsAnalysisUpdating}
     >
       <Box my={4}>
         <Slider

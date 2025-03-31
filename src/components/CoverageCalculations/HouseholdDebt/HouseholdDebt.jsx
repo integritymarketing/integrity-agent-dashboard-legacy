@@ -41,7 +41,7 @@ const HouseholdDebt = ({ handleChange, handleNext, value, contactId }) => {
 
   const handleNoDebtClick = useCallback(async () => {
     const response = await updateFinancialNeedsAnalysis(contactId, {
-      totalHouseholdDebt: 0, // Send 0 when "I currently don't have any debts" is clicked
+      totalHouseholdDebt: 0,
     });
 
     if (response) {
@@ -49,7 +49,20 @@ const HouseholdDebt = ({ handleChange, handleNext, value, contactId }) => {
     }
   }, [updateFinancialNeedsAnalysis, contactId, handleNext]);
 
-  // Update the logic to disable the "Continue" button when the input is empty
+  const handleSkip = useCallback(async () => {
+    if (value === null || value === undefined || value === '') {
+      const response = await updateFinancialNeedsAnalysis(contactId, {
+        totalHouseholdDebt: null,
+      });
+
+      if (response) {
+        handleNext();
+      }
+    } else {
+      handleNext();
+    }
+  }, [updateFinancialNeedsAnalysis, contactId, handleNext, value]);
+
   const isContinueButtonDisabled =
     isFinancialNeedsAnalysisUpdating ||
     value === null ||
@@ -65,7 +78,7 @@ const HouseholdDebt = ({ handleChange, handleNext, value, contactId }) => {
       }
       subTitle='Include all debts, such as mortgages, student loans, car loans, credit cards, etc.'
       onContinue={onContinue}
-      onSkip={handleNext}
+      onSkip={handleSkip}
       isContinueButtonDisabled={isContinueButtonDisabled}
     >
       <Box my={4}>
