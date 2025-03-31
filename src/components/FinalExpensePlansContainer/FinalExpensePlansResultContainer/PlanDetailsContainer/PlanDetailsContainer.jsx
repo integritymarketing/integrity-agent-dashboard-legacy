@@ -196,7 +196,8 @@ export const PlanDetailsContainer = ({
     }
 
     healthConditionsData.forEach(
-      ({ conditionId, lastTreatmentDate, underwritingQuestionsAnswers }) => {
+      ({ conditionId, lastTreatmentDate, underwritingQuestionsAnswers, isComplete }) => {
+        if(isComplete) {
         conditions.push({
           categoryId: conditionId,
           lastTreatmentDate: lastTreatmentDate
@@ -206,7 +207,7 @@ export const PlanDetailsContainer = ({
 
         if (underwritingQuestionsAnswers) {
           underwritingQuestionsAnswers.forEach(
-            ({ questionId, answers, type }) => {
+            ({ questionId, answers }) => {
               answers.forEach(answer => {
                 questions.push({
                   questionId,
@@ -217,6 +218,7 @@ export const PlanDetailsContainer = ({
             }
           );
         }
+      }
       }
     );
 
