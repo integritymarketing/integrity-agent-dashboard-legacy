@@ -78,14 +78,19 @@ const CoverageCalculationsContainer = () => {
   }, [currentStep]);
 
   const handleChange = useCallback((name, value) => {
+    let sanitizedValue = parseFloat(value.toString().replace(/[^0-9.-]+/g, ''));
+
+    if (isNaN(sanitizedValue)) {
+      sanitizedValue = undefined;
+    }
+
+    if (sanitizedValue < 0 || sanitizedValue > 999999999) {
+      return;
+    }
+
     setFormValues(prevFormValues => ({
       ...prevFormValues,
-      [name]:
-        typeof value === 'string'
-          ? value.length > 0
-            ? parseFloat(value.toString().replace(/[^0-9.-]+/g, ''))
-            : ''
-          : value,
+      [name]: sanitizedValue,
     }));
   }, []);
 

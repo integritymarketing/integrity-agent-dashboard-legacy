@@ -48,9 +48,7 @@ const ReviewCurrentAssets = ({
     totalAvailableSavings === '';
 
   const handleInputChange = ({ target }) => {
-    const value =
-      target.value.trim() === '' ? null : target.value.replace(/[^0-9]/g, '');
-    handleChange(target.name, value);
+    handleChange(target.name, target.value);
   };
 
   return (

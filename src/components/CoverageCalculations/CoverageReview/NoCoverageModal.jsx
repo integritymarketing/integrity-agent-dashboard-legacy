@@ -19,6 +19,7 @@ const NoCoverageModal = ({ open, onBack, onContinue, onClose }) => {
           bgcolor='#F1F1F1'
           px={2}
           pb={3}
+          borderRadius={2}
         >
           <Button aria-label='Go back' onClick={onBack}>
             Back
