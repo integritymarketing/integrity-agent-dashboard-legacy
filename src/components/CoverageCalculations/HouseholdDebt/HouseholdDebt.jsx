@@ -45,9 +45,10 @@ const HouseholdDebt = ({ handleChange, handleNext, value, contactId }) => {
     });
 
     if (response) {
+      handleChange('totalHouseholdDebt', 0);
       handleNext();
     }
-  }, [updateFinancialNeedsAnalysis, contactId, handleNext]);
+  }, [updateFinancialNeedsAnalysis, contactId, handleNext, handleChange]);
 
   const handleSkip = useCallback(async () => {
     if (value === null || value === undefined || value === '') {
