@@ -1,29 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  IulQuoteContainer,
-  IulProtectionQuoteFilter,
-  ApplyErrorModal,
-} from '../CommonComponents';
-import {
-  IulQuoteCard,
-  NoResultsError,
-} from '@integritymarketing/clients-ui-kit';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {ApplyErrorModal, IulProtectionQuoteFilter, IulQuoteContainer,} from '../CommonComponents';
+import {CarrierResourceAds, IulQuoteCard, NoResultsError,} from '@integritymarketing/clients-ui-kit';
 import NoResults from 'components/icons/errorImages/noResults';
-import {
-  Grid,
-  Typography,
-  Box,
-  Tab,
-  Tabs,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material';
-import { useLifeIulQuote } from 'providers/Life';
+import {Box, Grid, Tab, Tabs, Typography, useMediaQuery, useTheme,} from '@mui/material';
+import {useLifeIulQuote} from 'providers/Life';
 import WithLoader from 'components/ui/WithLoader';
 import styles from './styles.module.scss';
-import { useParams, useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
-import { useLeadDetails } from 'providers/ContactDetails';
+import {useLeadDetails} from 'providers/ContactDetails';
+import {useCarriers} from "providers/CarriersProvider";
 
 const IulProtectionQuote = () => {
   const {
@@ -41,6 +27,7 @@ const IulProtectionQuote = () => {
   } = useLifeIulQuote();
 
   const { leadDetails } = useLeadDetails();
+  const {getCarriersData} = useCarriers();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -50,6 +37,47 @@ const IulProtectionQuote = () => {
   const { agentInformation } = useAgentInformationByID();
   const [selectedPlan, setSelectedPlan] = useState({});
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
+  const [carriersAdsPolicyDetails, setCarriersAdsPolicyDetails] = useState([]);
+
+  useEffect(() => {
+    const fetchCarriersAdsPolicyDetails = async () => {
+      const response = await getCarriersData(
+        'productType=iul'
+      );
+      if (response) {
+        addActionMenuItemsToCarriersAdsPolicies(response);
+      }
+    };
+    fetchCarriersAdsPolicyDetails();
+  }, []);
+
+  const addActionMenuItemsToCarriersAdsPolicies = (carriersAdsPolicyDetails) => {
+    const carriersAdsPolicyDetailsWithActionMenuItems = carriersAdsPolicyDetails.map(carrier => {
+      const actionMenuItems = [
+        carrier.quote && {
+          label: 'Run Quote',
+          onClick: () => window.open(carrier.quote, "_blank"),
+        },
+        carrier.illustration && {
+          label: 'Run Illustration',
+          onClick: () => window.open(carrier.illustration, "_blank"),
+        },
+        carrier.eApp && {
+          label: 'Start eApp',
+          onClick: () => window.open(carrier.eApp, "_blank"),
+        },
+        carrier.website && {
+          label: 'Visit Carrier',
+          onClick: () => window.open(carrier.website, "_blank"),
+        },
+      ].filter(Boolean);
+      return {
+        ...carrier,
+        actionMenuItems,
+      };
+    });
+    setCarriersAdsPolicyDetails(carriersAdsPolicyDetailsWithActionMenuItems);
+  }
 
   const getQuoteResults = useCallback(async () => {
     const lifeQuoteProtectionDetails = sessionStorage.getItem(
@@ -313,6 +341,12 @@ const IulProtectionQuote = () => {
           </WithLoader>
         </Grid>
       )}
+      {carriersAdsPolicyDetails.length > 0 && <Box className={styles.carrierResourceContainer}>
+        <Box className={styles.carrierResourceHeader}><Typography variant="h4" color="#052A63">
+          Carrier Resources <span className={styles.carrierResourceCount}>({carriersAdsPolicyDetails.length})</span>
+        </Typography></Box>
+        <CarrierResourceAds carriers={carriersAdsPolicyDetails}></CarrierResourceAds>
+      </Box>}
     </IulQuoteContainer>
   );
 };

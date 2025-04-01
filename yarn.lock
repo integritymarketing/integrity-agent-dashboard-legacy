@@ -1384,10 +1384,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.3.tgz#4a2868d75d6d6963e423bcf90b7fd1be343409d3"
   integrity sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==
 
-"@integritymarketing/clients-ui-kit@^1.8.1":
-  version "1.8.1"
-  resolved "https://npm.pkg.github.com/download/@integritymarketing/clients-ui-kit/1.8.1/bb7d9e9c9c3d622012eaed5ee4193e671ee87ed9#bb7d9e9c9c3d622012eaed5ee4193e671ee87ed9"
-  integrity sha512-PjQ/C0QeHt+D+ero+jlf+pLY3n0L7k6Tk+sNpiUZh9DQmn9HvH6IMq2vsPVV972HBjtYpXE5ASVEwQM71Xf+Mg==
+"@integritymarketing/clients-ui-kit@^1.8.2":
+  version "1.8.2"
+  resolved "https://npm.pkg.github.com/download/@integritymarketing/clients-ui-kit/1.8.2/35a5ed3149a2bea00926b495f6a0435601324267#35a5ed3149a2bea00926b495f6a0435601324267"
+  integrity sha512-jkR8BG+PqBfqZZHbdrItufk1KqBUDZ0oXXhTRQtGfrWXPCN5CVxw/tEjbj/Imgf+b9+jYlOAF6UVN8Lu59o2yg==
   dependencies:
     "@awesome.me/kit-7ab3488df1" "^1.0.442"
     "@fortawesome/fontawesome-svg-core" "^6.7.1"
