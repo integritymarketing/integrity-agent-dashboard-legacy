@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { LIFE_QUESTION_CARD_LIST } from 'components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants';
 import { QUOTE_TYPE_LABEL } from 'components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants';
 import CoverageCalculationsContainer from 'components/CoverageCalculations/CoverageCalculationsContainer';
+import { Box } from '@mui/material';
 
 const CoverageCalculationsPage = () => {
   const { setSelectedLifeProductType } = useCreateNewQuote();
@@ -21,7 +22,9 @@ const CoverageCalculationsPage = () => {
         <title>Integrity - Coverage calculations</title>
       </Helmet>
       <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.LIFE} />
-      <CoverageCalculationsContainer />
+      <Box bgcolor='#F1F1F1'>
+        <CoverageCalculationsContainer />
+      </Box>
       <GlobalFooter />
     </>
   );

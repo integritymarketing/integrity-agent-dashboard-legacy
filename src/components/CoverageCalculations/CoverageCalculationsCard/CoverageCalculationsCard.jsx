@@ -9,11 +9,11 @@ import {
   Box,
   useMediaQuery,
   useTheme,
+  Paper,
 } from '@mui/material';
 import ButtonCircleArrow from 'components/icons/button-circle-arrow';
 import { faArrowShare } from '@awesome.me/kit-7ab3488df1/icons/kit/custom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import NoCoverageModal from '../CoverageReview/NoCoverageModal';
 
 const CoverageCalculationsCard = ({
   title,
@@ -42,6 +42,7 @@ const CoverageCalculationsCard = ({
             maxWidth: '1000px',
             mx: 'auto',
           }}
+          elevation={0}
         >
           <CardContent>
             <Typography variant='h3' gutterBottom color='#052A63'>

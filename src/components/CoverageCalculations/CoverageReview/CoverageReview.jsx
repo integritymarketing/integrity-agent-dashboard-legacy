@@ -73,7 +73,9 @@ const CoverageReview = ({
       },
       {
         assetType: 'Education',
-        value: formatValue(financialNeedsAnalysis?.educationNeedPerChild),
+        value: formatValue(
+          financialNeedsAnalysis?.financialNeedsAnalysis?.educationNeeds
+        ),
         assetTypeSubTitle: `$${formatCurrency(
           financialNeedsAnalysis?.educationNeedPerChild || 150000
         )} Per Child`,
@@ -140,11 +142,16 @@ const CoverageReview = ({
                 mx={2}
                 mt={2}
                 textAlign={isMobile ? 'center' : 'left'}
+                color='#052A63'
               >
                 <Typography fontWeight='bold' flex={1}>
                   Recommended Coverage
                 </Typography>
-                <Typography fontWeight='bold' flex={1}>
+                <Typography
+                  fontWeight='bold'
+                  flex={1}
+                  color={isMobile ? '#434A51' : 'inherit'}
+                >
                   {formatValue(
                     financialNeedsAnalysis?.financialNeedsAnalysis
                       ?.recommendedCoverage
@@ -160,11 +167,16 @@ const CoverageReview = ({
                   display={isMobile ? 'grid' : 'flex'}
                   mx={2}
                   textAlign={isMobile ? 'center' : 'left'}
+                  color='#052A63'
                 >
                   <Typography fontWeight='bold' flex={1}>
                     Current Coverage
                   </Typography>
-                  <Typography fontWeight='bold' flex={1}>
+                  <Typography
+                    fontWeight='bold'
+                    flex={1}
+                    color={isMobile ? '#434A51' : 'inherit'}
+                  >
                     {formatValue(
                       financialNeedsAnalysis?.financialNeedsAnalysis
                         ?.currentCoverage
@@ -173,21 +185,25 @@ const CoverageReview = ({
                 </Box>
               )}
 
-              {financialNeedsAnalysis?.financialNeedsAnalysis?.assets529 && (
+              {(financialNeedsAnalysis?.totalAvailableSavings ||
+                financialNeedsAnalysis?.totalAvailableSavings !== 0) && (
                 <Box
                   p={2}
                   borderRadius={1}
                   display={isMobile ? 'grid' : 'flex'}
                   mx={2}
                   textAlign={isMobile ? 'center' : 'left'}
+                  color='#052A63'
                 >
                   <Typography fontWeight='bold' flex={1}>
                     Additional Assets
                   </Typography>
-                  <Typography fontWeight='bold' flex={1}>
-                    {formatValue(
-                      financialNeedsAnalysis?.financialNeedsAnalysis?.assets529
-                    )}
+                  <Typography
+                    fontWeight='bold'
+                    flex={1}
+                    color={isMobile ? '#434A51' : 'inherit'}
+                  >
+                    {formatValue(financialNeedsAnalysis?.totalAvailableSavings)}
                   </Typography>
                 </Box>
               )}
@@ -199,11 +215,16 @@ const CoverageReview = ({
                 mx={2}
                 mb={2}
                 textAlign={isMobile ? 'center' : 'left'}
+                color='#052A63'
               >
                 <Typography fontWeight='bold' flex={1}>
                   Additional Insurance Needed
                 </Typography>
-                <Typography fontWeight='bold' flex={1}>
+                <Typography
+                  fontWeight='bold'
+                  flex={1}
+                  color={isMobile ? '#434A51' : 'inherit'}
+                >
                   {formatValue(
                     financialNeedsAnalysis?.financialNeedsAnalysis
                       ?.additionalInsuranceNeeded
