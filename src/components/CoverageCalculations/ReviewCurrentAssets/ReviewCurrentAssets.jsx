@@ -40,6 +40,26 @@ const ReviewCurrentAssets = ({
     financialNeedsAnalysis,
     handleNext,
   ]);
+  const handleSkip = useCallback(async () => {
+    if (
+      totalAvailableSavings !== null &&
+      totalAvailableSavings !== undefined &&
+      totalAvailableSavings !== ''
+    ) {
+      handleNext();
+      return;
+    }
+
+    const payload = {
+      totalAvailableSavings: null,
+    };
+
+    const response = await updateFinancialNeedsAnalysis(contactId, payload);
+
+    if (response) {
+      handleNext();
+    }
+  }, [totalAvailableSavings, updateFinancialNeedsAnalysis, contactId, handleNext]);
 
   const isContinueButtonDisabled =
     isFinancialNeedsAnalysisUpdating ||
@@ -59,7 +79,7 @@ const ReviewCurrentAssets = ({
       showBackButton
       onBack={handleBack}
       showSkipButton
-      onSkip={handleNext}
+      onSkip={handleSkip}
       isContinueButtonDisabled={isContinueButtonDisabled}
     >
       <Box my={4}>

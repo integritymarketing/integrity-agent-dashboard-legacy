@@ -35,6 +35,28 @@ const RemainingMortgageAmount = ({
     }
   }, [remainingMortgageAmount, updateFinancialNeedsAnalysis, contactId]);
 
+  const handleSkip = useCallback(async () => {
+    if (
+      remainingMortgageAmount === null ||
+      remainingMortgageAmount === undefined
+    ) {
+      const response = await updateFinancialNeedsAnalysis(contactId, {
+        remainingMortgageAmount: null,
+      });
+
+      if (response) {
+        handleNext();
+      }
+    } else {
+      handleNext();
+    }
+  }, [
+    remainingMortgageAmount,
+    updateFinancialNeedsAnalysis,
+    contactId,
+    handleNext,
+  ]);
+
   const validRemainingMortgageAmount =
     remainingMortgageAmount != null &&
     remainingMortgageAmount >= 0 &&
@@ -47,7 +69,7 @@ const RemainingMortgageAmount = ({
       title='And remaining mortgage?'
       subTitle='Use the slider to confirm amount remaining on mortgage.'
       onContinue={onContinue}
-      onSkip={handleNext}
+      onSkip={handleSkip}
       showBackButton
       onBack={handleBack}
       isContinueButtonDisabled={isFinancialNeedsAnalysisUpdating}
