@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useMemo } from 'react';
+import React, { createContext, useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import useFetch from 'hooks/useFetch';
 import { LEADS_API_VERSION } from 'services/clientsService';
@@ -9,6 +9,7 @@ export const CoverageCalculationsContext = createContext();
 
 export const CoverageCalculationsProvider = ({ children }) => {
   const showToast = useToast();
+  const [financialNeedsAnalysis, setFinancialNeedsAnalysis] = useState(null);
 
   const BASE_URL = `${
     import.meta.env.VITE_LEADS_URL
@@ -17,7 +18,6 @@ export const CoverageCalculationsProvider = ({ children }) => {
   const {
     Get: fetchFinancialNeedsAnalysis,
     loading: isLoadingFinancialNeedsAnalysis,
-    data: financialNeedsAnalysis,
   } = useFetch(BASE_URL);
 
   const {
@@ -28,7 +28,8 @@ export const CoverageCalculationsProvider = ({ children }) => {
   const getFinancialNeedsAnalysis = useCallback(
     async leadId => {
       try {
-        await fetchFinancialNeedsAnalysis(null, false, leadId);
+        const response = await fetchFinancialNeedsAnalysis(null, false, leadId);
+        setFinancialNeedsAnalysis(response);
       } catch (error) {
         Sentry.captureException(error);
         showToast({
@@ -54,6 +55,8 @@ export const CoverageCalculationsProvider = ({ children }) => {
         });
         return false;
       }
+
+      setFinancialNeedsAnalysis(response);
 
       showToast({
         type: 'success',

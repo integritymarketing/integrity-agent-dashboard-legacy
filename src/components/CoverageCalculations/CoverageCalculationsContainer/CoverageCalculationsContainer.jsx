@@ -57,9 +57,6 @@ const CoverageCalculationsContainer = () => {
   }, [financialNeedsAnalysis]);
 
   const handleNext = useCallback(() => {
-    if (currentStep === 5) {
-      getFinancialNeedsAnalysis(contactId);
-    }
     if (currentStep === 6) {
       navigate(`/contact/${contactId}/overview`, {
         state: { showProductCategoryModal: true },
