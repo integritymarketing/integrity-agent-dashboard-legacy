@@ -16,7 +16,7 @@ import ContactInfo from 'partials/contact-info';
 import analyticsService from 'services/analyticsService';
 import { useClientServiceContext } from 'services/clientServiceProvider';
 
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ProfileMenu from './ProfileMenu/ProfileMenu';
 import { useCreateNewQuote } from 'providers/CreateNewQuote';
 
@@ -28,9 +28,9 @@ import SmallFormatMenu from './small-format';
 import IntegrityMobileLogo from 'components/HeaderWithLogin/integrity-mobile-logo';
 import NewBackBtn from 'images/new-back-btn.svg';
 import PlusMenu from './plusMenu';
-import AbcBanner from 'components/AbcBanner';
 import { QUOTE_TYPE } from 'components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants';
 import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
+import { WelcomeModal } from 'components/WelcomeModal';
 
 const SiteNotification = ({
   showPhoneNotification,
@@ -198,10 +198,10 @@ const GlobalNavV2 = ({
     .join('-');
 
   const showBanner = useMemo(() => {
-    const sessionValue = sessionStorage.getItem('isAgentMobileBannerDismissed');
+    const sessionValue = sessionStorage.getItem('isAgentMobilePopUpDismissed');
     return (
       agentInformation?.leadPreference &&
-      !agentInformation?.leadPreference?.isAgentMobileBannerDismissed &&
+      !agentInformation?.leadPreference?.isAgentMobilePopUpDismissed &&
       !sessionValue
     );
   }, [agentInformation, sessionStorage]);
@@ -219,10 +219,10 @@ const GlobalNavV2 = ({
         showMaintenaceNotification={showMaintenaceNotification}
       />
 
-      <AbcBanner
-        show={showBanner}
+      <WelcomeModal
+        user={user}
+        open={showBanner}
         leadPreference={leadPreference}
-        agentId={user?.agentId}
       />
 
       <header
