@@ -73,6 +73,27 @@ const EducationExpense = ({
     handleNext,
   ]);
 
+  const handleSkip = useCallback(async () => {
+    if(
+      ageYoungestChild !== null &&
+      ageYoungestChild !== undefined &&
+      ageYoungestChild !== ''
+    ) {
+      handleNext();
+      return;
+    }
+    const payload = {
+      ageYoungestChild: null,
+      shouldCoverCollegeExpenses: null,
+      childrenUnderEighteen: null,
+    };
+    const response = await updateFinancialNeedsAnalysis(contactId, payload);
+    if (response) {
+      handleNext();
+    }
+  }, [ageYoungestChild, updateFinancialNeedsAnalysis, contactId, handleNext]);
+;
+
   const isContinueButtonDisabled =
     isFinancialNeedsAnalysisUpdating ||
     !ageYoungestChild ||
@@ -92,7 +113,7 @@ const EducationExpense = ({
       title='What do they expect to spend on education?'
       subTitle='We’ll add the amount per child based on the average cost of a four-year degree.'
       onContinue={onContinue}
-      onSkip={handleNext}
+      onSkip={handleSkip}
       showBackButton
       onBack={handleBack}
       isContinueButtonDisabled={isContinueButtonDisabled}

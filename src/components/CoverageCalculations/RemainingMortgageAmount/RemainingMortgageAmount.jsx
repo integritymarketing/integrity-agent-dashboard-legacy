@@ -35,11 +35,7 @@ const RemainingMortgageAmount = ({
     }
   }, [remainingMortgageAmount, updateFinancialNeedsAnalysis, contactId]);
 
-  const handleSkip = useCallback(async () => {
-    if (
-      remainingMortgageAmount === null ||
-      remainingMortgageAmount === undefined
-    ) {
+  const handleSkip = useCallback(async () => { {
       const response = await updateFinancialNeedsAnalysis(contactId, {
         remainingMortgageAmount: null,
       });
@@ -47,8 +43,6 @@ const RemainingMortgageAmount = ({
       if (response) {
         handleNext();
       }
-    } else {
-      handleNext();
     }
   }, [
     remainingMortgageAmount,
