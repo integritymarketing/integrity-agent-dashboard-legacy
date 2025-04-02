@@ -32,27 +32,28 @@ import PlanEnrollBig from 'images/enroll.svg';
 import NoReminder from 'images/no-reminder.svg';
 import NoSOA48Hours from 'images/no-soa-48-hours.svg';
 import NoUnlinkedCalls from 'images/no-unlinked-calls.svg';
+import { useAgentAccountContext } from 'providers/AgentAccountProvider';
 
 const DEFAULT_TABS = [
   {
     policyStatus: 'Reminders',
     name: 'Reminders',
-    value: 1,
+    value: '1',
   },
   {
     policyStatus: 'Unlinked Text/Calls',
     name: 'UnlinkedCommunications',
-    value: 4,
+    value: '4',
   },
   {
     policyStatus: 'Health SOAs',
     name: 'Soa48HoursRule',
-    value: 0,
+    value: '0',
   },
   {
     policyStatus: 'PlanEnroll Leads',
     name: 'PlanEnrollLeads',
-    value: 3,
+    value: '3',
   },
 ];
 
@@ -62,11 +63,16 @@ const getLink = {
 };
 
 export default function TaskListMobileLayout() {
-  const { npn, widget } = useParams();
+  const { npn, widget, date } = useParams();
 
-  const [dRange] = usePreferences(0, 'taskList_sort');
+  const {
+    leadPreference,
+    updateAgentPreferences,
+    isLoading: fetchAgentDataLoading,
+    agentId,
+  } = useAgentAccountContext();
 
-  const [dateRange, setDateRange] = useState(dRange);
+  const [dateRange, setDateRange] = useState(date);
   const [isLoading, setIsLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -90,6 +96,29 @@ export default function TaskListMobileLayout() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateRange, npn, WIDGET_INDEX]);
+
+  const updatePreferences = async () => {
+    try {
+      const selectedTabValue = DEFAULT_TABS.find(
+        tab => tab.name === widget
+      )?.value;
+      const payload = {
+        agentID: agentId,
+        leadPreference: {
+          ...leadPreference,
+          taskListDateRange: dateRange,
+          taskListTileSelection: selectedTabValue ? selectedTabValue : '3',
+        },
+      };
+      await updateAgentPreferences(payload);
+    } catch (error) {
+      showToast({
+        type: 'error',
+        message: 'Failed to update preferences.',
+        time: 10000,
+      });
+    }
+  };
 
   const fetchEnrollPlans = async () => {
     setIsLoading(true);
@@ -126,6 +155,7 @@ export default function TaskListMobileLayout() {
     try {
       const tabsData = await clientsService.getTaskListCount(npn, dateRange);
       if (tabsData?.length > 0) {
+        await updatePreferences();
         const data = tabsData.find(tab => tab.name === widget);
         setWidgetInfo(data);
       }
@@ -240,59 +270,59 @@ export default function TaskListMobileLayout() {
         <title>Integrity - Dashboard</title>
       </Helmet>
       <GlobalNav page='taskListMobileLayout' title='Task Lists' />
-
-      <Box className={styles.mobileWidget}>
-        <Box
-          className={styles.taskListColor}
-          style={{ backgroundColor: widgetInfo?.color }}
-        ></Box>
-        <Box className={styles.taskListHeader}>
-          <div className={styles.taskListTitle}>
-            {WIDGET_NAME === 'PlanEnroll Leads' && (
-              <span className={styles.planEnrollIcon}>
-                <PlanEnroll />
-              </span>
-            )}
-            {WIDGET_NAME === 'PlanEnroll Leads'
-              ? 'Ready to Connect'
-              : WIDGET_NAME}
-          </div>
-          <div className={styles.taskListCount}>{`(${widgetInfo?.count})`}</div>
+      <WithLoader isLoading={isLoading || fetchAgentDataLoading}>
+        <Box className={styles.mobileWidget}>
+          <Box
+            className={styles.taskListColor}
+            style={{ backgroundColor: widgetInfo?.color }}
+          ></Box>
+          <Box className={styles.taskListHeader}>
+            <div className={styles.taskListTitle}>
+              {WIDGET_NAME === 'PlanEnroll Leads' && (
+                <span className={styles.planEnrollIcon}>
+                  <PlanEnroll />
+                </span>
+              )}
+              {WIDGET_NAME === 'PlanEnroll Leads'
+                ? 'Ready to Connect'
+                : WIDGET_NAME}
+            </div>
+            <div
+              className={styles.taskListCount}
+            >{`(${widgetInfo?.count})`}</div>
+          </Box>
         </Box>
-      </Box>
-      <Box className={styles.mobileDateRange}>
-        <DateRangeSort
-          preferencesKey={'taskList_sort'}
-          dateRange={dateRange}
-          setDateRange={setDateRange}
-          page='taskListMobileLayout'
-        />
-      </Box>
-      <TaskListCardContainer>
-        {!isLoading && (isError || widgetInfo?.count === 0) ? (
-          <ErrorState
-            isError={isError}
-            emptyList={widgetInfo?.count === 0}
-            heading={getErrorHeading(WIDGET_NAME)}
-            content={getMoreInfo(WIDGET_NAME)}
-            icon={getIcon(WIDGET_NAME)}
-            link={getLink[WIDGET_NAME]}
-            iconPosition='left'
+        <Box className={styles.mobileDateRange}>
+          <DateRangeSort
+            preferencesKey={'taskList_sort'}
+            dateRange={dateRange}
+            setDateRange={setDateRange}
+            page='taskListMobileLayout'
           />
-        ) : (
-          <>
-            {WIDGET_NAME !== 'PlanEnroll Leads' && (
-              <WithLoader isLoading={isLoading}>{renderList()}</WithLoader>
-            )}
-            {WIDGET_NAME === 'PlanEnroll Leads' && (
-              <StageStatusProvider>
-                <PlanEnrollLeads dateRange={dateRange} />
-              </StageStatusProvider>
-            )}
-          </>
-        )}
-      </TaskListCardContainer>
-
+        </Box>
+        <TaskListCardContainer>
+          {!isLoading && (isError || widgetInfo?.count === 0) ? (
+            <ErrorState
+              isError={isError}
+              emptyList={widgetInfo?.count === 0}
+              heading={getErrorHeading(WIDGET_NAME)}
+              content={getMoreInfo(WIDGET_NAME)}
+              icon={getIcon(WIDGET_NAME)}
+              link={getLink[WIDGET_NAME]}
+              iconPosition='left'
+            />
+          ) : (
+            <>
+              {WIDGET_NAME !== 'PlanEnroll Leads' && <>{renderList()}</>}
+              {WIDGET_NAME === 'PlanEnroll Leads' && (
+                <StageStatusProvider>
+                  <PlanEnrollLeads dateRange={dateRange} />
+                </StageStatusProvider>
+              )}
+            </>
+          )}
+        </TaskListCardContainer>
+      </WithLoader>
       <GlobalFooter />
     </Box>
   );

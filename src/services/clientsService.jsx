@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import {formatServerDate, parseDate} from 'utils/dates';
+import { formatServerDate, parseDate } from 'utils/dates';
 
 export const LEADS_API_VERSION = 'v2.0';
 export const LEADS_ONLY_API_VERSION = 'v3.0';
@@ -14,24 +14,24 @@ function getRemindersKeys(selectedIsOption, selectedFilterOption) {
   switch (selectedFilterOption) {
     case 'active_reminder':
       return selectedIsOption === 'is_not'
-        ? {hasReminder: true, hasOverDueReminder: true}
-        : {hasReminder: true, hasOverDueReminder: null};
+        ? { hasReminder: true, hasOverDueReminder: true }
+        : { hasReminder: true, hasOverDueReminder: null };
     case 'overdue_reminder':
       return selectedIsOption === 'is_not'
-        ? {hasReminder: true, hasOverdueReminder: false}
-        : {hasReminder: true, hasOverdueReminder: true};
+        ? { hasReminder: true, hasOverdueReminder: false }
+        : { hasReminder: true, hasOverdueReminder: true };
     case 'no_reminders_added':
       return selectedIsOption === 'is_not'
-        ? {hasReminder: true, hasOverdueReminder: null}
-        : {hasReminder: false, hasOverdueReminder: false};
+        ? { hasReminder: true, hasOverdueReminder: null }
+        : { hasReminder: false, hasOverdueReminder: false };
     case 'ask_integrity_active':
       return selectedIsOption === 'is_not'
-        ? {hasAskIntegrityReminder: false}
-        : {hasAskIntegrityReminder: true};
+        ? { hasAskIntegrityReminder: false }
+        : { hasAskIntegrityReminder: true };
     case 'ask_integrity_overdue':
       return selectedIsOption === 'is_not'
-        ? {hasOverdueAskIntegrityReminder: false}
-        : {hasOverdueAskIntegrityReminder: true};
+        ? { hasOverdueAskIntegrityReminder: false }
+        : { hasOverdueAskIntegrityReminder: true };
     default:
       return {};
   }
@@ -437,7 +437,7 @@ export class ClientsService {
   _getFormattedPhone = phone => (phone ? `${phone}`.replace(/\D/g, '') : null);
 
   _getFormattedData = (
-    {phone, followUpDate, email, leadStatusId, ...data},
+    { phone, followUpDate, email, leadStatusId, ...data },
     baseValues = {}
   ) => {
     return {
@@ -698,7 +698,7 @@ export class ClientsService {
   };
 
   getDuplicateContact = async contact => {
-    const {firstName, lastName, email, phones, leadId = 0} = contact;
+    const { firstName, lastName, email, phones, leadId = 0 } = contact;
     const reqData = {
       firstName,
       lastName,
@@ -862,7 +862,7 @@ export class ClientsService {
         import.meta.env.VITE_LEADS_URL
       }/api/${LEADS_API_VERSION}/ContactPreferences`,
       'POST',
-      {leadsId, ...payload}
+      { leadsId, ...payload }
     );
 
     if (response?.ok) {
@@ -1217,14 +1217,11 @@ export class ClientsService {
     }
   };
 
-  /*Start Dashboard API */
-
   getDashboardData = async (
     sort,
     currentPage,
     pageSize,
     activitySubjects = [],
-    IncludeContactPreference = false,
     ReturnAll,
     searchText,
     leadIds,
@@ -1232,7 +1229,8 @@ export class ClientsService {
     stages = [],
     hasReminder = false,
     DateRangeFilterType,
-    LeadSource = ''
+    LeadSource = '',
+    IncludeContactPreference = false
   ) => {
     const params = {
       ReturnAll,
@@ -1460,7 +1458,7 @@ export class ClientsService {
         import.meta.env.VITE_LEADS_URL
       }/api/${LEADS_API_VERSION}/LeadTags/Update`,
       'POST',
-      {leadId, tagIds}
+      { leadId, tagIds }
     );
     return response?.json();
   };
@@ -1663,7 +1661,7 @@ export class ClientsService {
     return response?.json();
   };
 
-  saveTag = async ({leadsId, tagCategoryId, tagLabel, tagId}) => {
+  saveTag = async ({ leadsId, tagCategoryId, tagLabel, tagId }) => {
     const response = await this._clientAPIRequest(
       `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Tag/${tagId || ''}`,
       tagId ? 'PUT' : 'POST',
@@ -1677,7 +1675,7 @@ export class ClientsService {
     return response?.json();
   };
 
-  deleteTag = async ({tagId}) => {
+  deleteTag = async ({ tagId }) => {
     const response = await this._clientAPIRequest(
       `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Tag/${tagId || ''}`,
       'DELETE'

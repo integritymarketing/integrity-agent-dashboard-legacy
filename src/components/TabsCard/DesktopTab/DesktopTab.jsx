@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import styles from './styles.module.scss';
 
-const DesktopTab = ({ index, tab, statusIndex, onTabClick, tabCount }) => {
+const DesktopTab = ({ tab, handleWidgetSelection, tabCount, isSelected }) => {
   const { policyCount, policyStatusColor, policyStatus } = tab;
   const tabWidth = 100 / tabCount - 0.5;
 
@@ -19,10 +19,8 @@ const DesktopTab = ({ index, tab, statusIndex, onTabClick, tabCount }) => {
     <Box className={styles.tab} style={{ width: `${tabWidth}%` }}>
       <Box className={styles.tabHeading}>{updatedPolicyStatus}</Box>
       <Box
-        onClick={() => onTabClick(index, policyCount)}
-        className={`${styles.tabContent} ${
-          index === statusIndex && styles.selected
-        }`}
+        onClick={handleWidgetSelection}
+        className={`${styles.tabContent} ${isSelected && styles.selected}`}
       >
         <Box
           style={{ backgroundColor: policyStatusColor }}

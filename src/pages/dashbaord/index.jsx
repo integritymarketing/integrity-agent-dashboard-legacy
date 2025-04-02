@@ -1,44 +1,45 @@
-import * as Sentry from "@sentry/react";
-import React, {useContext, useEffect, useMemo, useState} from "react";
-import {Helmet} from "react-helmet-async";
-import Media from "react-media";
-import {useNavigate} from "react-router-dom";
+import * as Sentry from '@sentry/react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import Media from 'react-media';
+import { useNavigate } from 'react-router-dom';
 
-import {Box} from "@mui/material";
-import showMobileAppDeepLinking from "utilities/mobileDeepLinking";
+import { Box } from '@mui/material';
+import showMobileAppDeepLinking from 'utilities/mobileDeepLinking';
 
-import {greetings} from "utils/greetings";
+import { greetings } from 'utils/greetings';
 
-import useAgentInformationByID from "hooks/useAgentInformationByID";
-import useDeviceInfo, {DEVICES} from "hooks/useDeviceInfo";
-import useToast from "hooks/useToast";
-import useUserProfile from "hooks/useUserProfile";
+import useAgentInformationByID from 'hooks/useAgentInformationByID';
+import useDeviceInfo, { DEVICES } from 'hooks/useDeviceInfo';
+import useToast from 'hooks/useToast';
+import useUserProfile from 'hooks/useUserProfile';
 
-import SupportLinksCard from "components/SupportLinksCard";
+import SupportLinksCard from 'components/SupportLinksCard';
 
-import PlanSnapShot from "components/PolicySnapShot";
-import TaskList from "components/TaskList";
-import Arrow from "components/icons/down";
-import Info from "components/icons/info-blue";
-import Popover from "components/ui/Popover";
-import WithLoader from "components/ui/WithLoader";
+import PlanSnapShot from 'components/PolicySnapShot';
+import TaskList from 'components/TaskList';
+import Arrow from 'components/icons/down';
+import Info from 'components/icons/info-blue';
+import Popover from 'components/ui/Popover';
+import WithLoader from 'components/ui/WithLoader';
 
-import GlobalFooter from "partials/global-footer";
-import GlobalNav from "partials/global-nav-v2";
+import GlobalFooter from 'partials/global-footer';
+import GlobalNav from 'partials/global-nav-v2';
 
-import stageSummaryContext from "contexts/stageSummary";
+import stageSummaryContext from 'contexts/stageSummary';
 
-import {useClientServiceContext} from "services/clientServiceProvider";
-import {useAgentPreferences} from "providers/AgentPreferencesProvider/AgentPreferencesProvider";
-import DashboardActivityTable from "./DashboardActivityTable";
-import Afternoon from "./afternoon.svg";
-import Evening from "./evening.svg";
-import "./index.scss";
-import Morning from "./morning.svg";
-import {ContactsListProvider} from "pages/ContactsList/providers/ContactsListProvider";
+import { useClientServiceContext } from 'services/clientServiceProvider';
+import { useAgentPreferences } from 'providers/AgentPreferencesProvider/AgentPreferencesProvider';
+import DashboardActivityTable from './DashboardActivityTable';
+import Afternoon from './afternoon.svg';
+import Evening from './evening.svg';
+import './index.scss';
+import Morning from './morning.svg';
+import { ContactsListProvider } from 'pages/ContactsList/providers/ContactsListProvider';
+import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
 
 function numberWithCommas(number) {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 const PAGESIZE = 10;
@@ -54,17 +55,20 @@ export default function Dashbaord() {
   const [page, setPage] = useState(1);
   const [totalPageSize, setTotalPageSize] = useState(1);
   const [selectedFilterValues, setSelectedFilterValues] = useState([]);
-  const [sort, setSort] = useState("Activities.CreateDate:desc");
+  const [sort, setSort] = useState('Activities.CreateDate:desc');
   const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(true);
 
-  const {stageSummary, loadStageSummary} = useContext(stageSummaryContext);
+  const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
   const [stageSummaryLoading, setStageSummaryLoading] = useState(true);
-  const {trackAgentPreferencesEvents} = useAgentPreferences();
-  const {clientsService} = useClientServiceContext();
+  const { trackAgentPreferencesEvents } = useAgentPreferences();
+  const { clientsService } = useClientServiceContext();
+  const { getAgentData, fetchAgentDataLoading, agentData } =
+    useProfessionalProfileContext();
 
-  const {agentInformation} = useAgentInformationByID();
+  const { agentInformation } = useAgentInformationByID();
   const leadPreference = agentInformation?.leadPreference;
   const agentID = agentInformation?.agentID;
+  const user = useUserProfile();
 
   useEffect(() => {
     trackAgentPreferencesEvents();
@@ -94,19 +98,81 @@ export default function Dashbaord() {
   useEffect(() => {
     const loadAsyncData = async () => {
       await loadStageSummary();
-      setStageSummaryLoading(false)
+      setStageSummaryLoading(false);
     };
     loadAsyncData();
     // ensure this only runs once.. adding a dependency w/ the stage summary data causes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    if (user?.agentId) {
+      getAgentData(user?.agentId);
+    }
+  }, [user, getAgentData]);
+
+  const hasPHPBuName = useMemo(() => {
+    if (!agentData && !Array.isArray(agentData?.businessUnits)) return false;
+    return agentData?.businessUnits?.some(
+      unit => unit?.buName?.toUpperCase() === 'PHP'
+    );
+  }, [agentData]);
+
+  const policySnapshotDateRange = useMemo(() => {
+    if (
+      agentData &&
+      agentData?.leadPreference &&
+      agentData?.leadPreference?.policySnapshotDateRange
+    ) {
+      return agentData?.leadPreference?.policySnapshotDateRange;
+    }
+    return '4';
+  }, [agentData]);
+
+  const taskListDateRange = useMemo(() => {
+    if (
+      agentData &&
+      agentData?.leadPreference &&
+      agentData?.leadPreference?.taskListDateRange
+    ) {
+      return agentData?.leadPreference?.taskListDateRange;
+    }
+    return '4';
+  }, [agentData]);
+
+  const policySnapshotTileSelection = useMemo(() => {
+    if (
+      agentData &&
+      agentData?.leadPreference &&
+      agentData?.leadPreference?.policySnapshotTileSelection
+    ) {
+      return agentData?.leadPreference?.policySnapshotTileSelection;
+    }
+    return 'Declined';
+  }, [agentData]);
+
+  const taskListTileSelection = useMemo(() => {
+    if (
+      agentData &&
+      agentData?.leadPreference &&
+      agentData?.leadPreference?.taskListTileSelection
+    ) {
+      return agentData?.leadPreference?.taskListTileSelection;
+    }
+    return '3';
+  }, [agentData]);
 
   const loadActivityData = async () => {
     if (activityData?.length === 0) {
       setIsLoading(true);
     }
     try {
-      const response = await clientsService.getDashboardData(sort, page, PAGESIZE, selectedFilterValues, false);
+      const response = await clientsService.getDashboardData(
+        sort,
+        page,
+        PAGESIZE,
+        selectedFilterValues,
+        false
+      );
       if (page > 1) {
         setActivityData([...activityData, ...response.result]);
       } else {
@@ -116,23 +182,26 @@ export default function Dashbaord() {
     } catch (err) {
       Sentry.captureException(err);
       showToast({
-        type: "error",
-        message: "Failed to load data",
+        type: 'error',
+        message: 'Failed to load data',
       });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const navigateToContactListPage = (id) => {
+  const navigateToContactListPage = id => {
     const filters = [
       {
-        sectionId: "stage",
+        sectionId: 'stage',
         selectedFilterOption: id,
         isFilterSelectOpen: false,
       },
     ];
-    localStorage.setItem("contactList_selectedFilterSections", JSON.stringify(filters));
+    localStorage.setItem(
+      'contactList_selectedFilterSections',
+      JSON.stringify(filters)
+    );
 
     navigate(`/contacts/list`);
   };
@@ -140,76 +209,84 @@ export default function Dashbaord() {
   return (
     <>
       <Media
-        query={"(max-width: 500px)"}
-        onChange={(isMobile) => {
+        query={'(max-width: 500px)'}
+        onChange={isMobile => {
           setIsMobile(isMobile);
         }}
       />
       <Helmet>
         <title>Integrity - Dashboard</title>
       </Helmet>
-      <GlobalNav page="dashboard"/>
+      <GlobalNav page='dashboard' />
 
-      <div className="dashbaord-page">
-        <section className="details-section">
-          <div className="greeting">
+      <div className='dashbaord-page'>
+        <section className='details-section'>
+          <div className='greeting'>
             <img
               src={
-                greetings() === "Evening"
+                greetings() === 'Evening'
                   ? Evening
-                  : greetings() === "Morning"
-                    ? Morning
-                    : Afternoon
+                  : greetings() === 'Morning'
+                  ? Morning
+                  : Afternoon
               }
-              alt="Greeting"
+              alt='Greeting'
             />
-            <div className="greet-user">
-              <div className="greet-session">Good {greetings()},</div>
-              <div className="greet-name">{userProfile.firstName}</div>
+            <div className='greet-user'>
+              <div className='greet-session'>Good {greetings()},</div>
+              <div className='greet-name'>{userProfile.firstName}</div>
             </div>
 
-            <div className="confirmed-applications-wrapper">
-              <div className="snapshot-wrapper">
-                <div className="title">
-                  <div className="titleText">
+            <div className='confirmed-applications-wrapper'>
+              <div className='snapshot-wrapper'>
+                <div className='title'>
+                  <div className='titleText'>
                     <div
-                      className={`arrowIcon ${isClientSnapshotOpen ? "iconReverse" : ""}`}
+                      className={`arrowIcon ${
+                        isClientSnapshotOpen ? 'iconReverse' : ''
+                      }`}
                       onClick={() => {
                         setClientSnapshotOpen(!isClientSnapshotOpen);
                       }}
                     >
-                      <Arrow color={"#0052CE"}/>
+                      <Arrow color={'#0052CE'} />
                     </div>
-                    Client Snapshot{" "}
+                    Client Snapshot{' '}
                   </div>
                   <Popover
-                    openOn="hover"
-                    icon={<Info/>}
-                    title={"Client Snapshot"}
-                    description="Client Snapshot shows the number of contacts that are in each stage for Integrity only."
-                    positions={["right", "bottom"]}
+                    openOn='hover'
+                    icon={<Info />}
+                    title={'Client Snapshot'}
+                    description='Client Snapshot shows the number of contacts that are in each stage for Integrity only.'
+                    positions={['right', 'bottom']}
                   >
-                    <Info/>
+                    <Info />
                   </Popover>
                 </div>
                 {isClientSnapshotOpen && (
-                  <div className="snapshot-data">
-                    {stageSummaryLoading ? (<WithLoader isLoading={stageSummaryLoading}/>) : (
+                  <div className='snapshot-data'>
+                    {stageSummaryLoading ? (
+                      <WithLoader isLoading={stageSummaryLoading} />
+                    ) : (
                       stageSummary &&
                       stageSummary.map((d, index) => (
                         <div
-                          className={`snapshot-item ${index > 0 ? "brTop" : ""}`}
-                          onClick={() => navigateToContactListPage(d.leadStatusId)}
+                          className={`snapshot-item ${
+                            index > 0 ? 'brTop' : ''
+                          }`}
+                          onClick={() =>
+                            navigateToContactListPage(d.leadStatusId)
+                          }
                           key={index}
                         >
-                          <Box display="flex" alignItems="center" gap="10px">
-                                                            <span
-                                                              className="dot"
-                                                              style={{backgroundColor: d.hexValue}}
-                                                            ></span>
+                          <Box display='flex' alignItems='center' gap='10px'>
+                            <span
+                              className='dot'
+                              style={{ backgroundColor: d.hexValue }}
+                            ></span>
                             <Box>{d.statusName}</Box>
                           </Box>
-                          <div className="snapshot-count">
+                          <div className='snapshot-count'>
                             {numberWithCommas(d.totalCount)}
                           </div>
                         </div>
@@ -224,20 +301,31 @@ export default function Dashbaord() {
           {!isMobile && (
             <Box
               sx={{
-                marginTop: "304px",
-                width: "85%",
-                marginLeft: "8%",
+                marginTop: '304px',
+                width: '85%',
+                marginLeft: '8%',
               }}
             >
-              <SupportLinksCard position="column"/>
+              <SupportLinksCard position='column' />
             </Box>
           )}
         </section>
 
-        <section className={`recent-activity-section ${isClientSnapshotOpen ? "mt-400" : ""}`}>
-          <TaskList isMobile={isMobile} npn={userProfile?.npn}/>
+        <section
+          className={`recent-activity-section ${
+            isClientSnapshotOpen ? 'mt-400' : ''
+          }`}
+        >
+          <TaskList
+            isMobile={isMobile}
+            npn={userProfile?.npn}
+            fetchAgentDataLoading={fetchAgentDataLoading}
+            taskListDateRange={taskListDateRange}
+            taskListTileSelection={taskListTileSelection}
+            agentId={agentID}
+          />
           <ContactsListProvider>
-            <PlanSnapShot isMobile={isMobile} npn={userProfile?.npn}/>
+            <PlanSnapShot isMobile={isMobile} npn={userProfile?.npn} />
           </ContactsListProvider>
           <DashboardActivityTable
             isActivityDataLoading={isLoading}
@@ -248,7 +336,7 @@ export default function Dashbaord() {
             showMore={showMore}
             setSelectedFilterValues={setSelectedFilterValues}
             selectedFilterValues={selectedFilterValues}
-            setSort={(value) => {
+            setSort={value => {
               setSort(value);
               setPage(1);
             }}
@@ -256,12 +344,12 @@ export default function Dashbaord() {
           />
           {isMobile && (
             <Box>
-              <SupportLinksCard/>
+              <SupportLinksCard />
             </Box>
           )}
         </section>
       </div>
-      <GlobalFooter/>
+      <GlobalFooter />
     </>
   );
 }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import styles from './styles.module.scss';
 
-const MobileTab = ({ index, tab, onTabClick, tabCount }) => {
+const MobileTab = ({ index, tab, handleWidgetSelection, tabCount }) => {
   const { policyCount, policyStatusColor, policyStatus } = tab;
 
   const updatedPolicyStatus =
@@ -20,10 +20,7 @@ const MobileTab = ({ index, tab, onTabClick, tabCount }) => {
       className={`${styles.tab} ${isSpecialFirstTab && styles.specialFirstTab}`}
     >
       <Box className={styles.tabHeading}>{updatedPolicyStatus}</Box>
-      <Box
-        onClick={() => onTabClick(index, policyCount)}
-        className={styles.tabContent}
-      >
+      <Box onClick={handleWidgetSelection} className={styles.tabContent}>
         <Box
           style={{ backgroundColor: policyStatusColor }}
           className={styles.color}

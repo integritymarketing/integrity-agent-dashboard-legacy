@@ -17,8 +17,6 @@ function ContactsMap() {
   const [isMapUILoading, setIsMapUILoading] = useState(true);
   const { errorCode } = useContactListAPI();
 
-  console.log('Failed to fetch more contacts', errorCode);
-
   return (
     <Grid container className={styles.container} spacing={1}>
       {errorCode ? (

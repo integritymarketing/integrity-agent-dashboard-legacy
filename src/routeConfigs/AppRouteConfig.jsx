@@ -507,7 +507,7 @@ const appProtectedRoutes = [
     ),
   },
   {
-    path: 'taskList-results-mobile-layout/:npn/:widget',
+    path: 'taskList-results-mobile-layout/:npn/:widget/:date',
     component: (
       <ContactDetailsProvider>
         <TaskListResultsMobileLayout />
@@ -516,7 +516,7 @@ const appProtectedRoutes = [
     ),
   },
   {
-    path: 'policy-snapshot-mobile-layout/:npn',
+    path: 'policy-snapshot-mobile-layout/:npn/:date',
     component: (
       <ContactDetailsProvider>
         <PolicySnapshotMobileLayout />

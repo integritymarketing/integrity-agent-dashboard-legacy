@@ -1,355 +1,483 @@
 /* eslint-disable max-lines-per-function */
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState, useMemo, use, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import moment from "moment";
-import { useAgentAccountContext } from "providers/AgentAccountProvider";
+import moment from 'moment';
+import { useAgentAccountContext } from 'providers/AgentAccountProvider';
 
-import { sortListByDate } from "utils/dates";
+import { sortListByDate } from 'utils/dates';
 
-import usePreferences from "hooks/usePreferences";
-import useToast from "hooks/useToast";
+import useToast from 'hooks/useToast';
 
-import SectionCard from "packages/SectionCard";
+import SectionCard from 'packages/SectionCard';
 
-import ErrorState from "components/ErrorState";
-import TabsCard from "components/TabsCard";
-import Info from "components/icons/info-blue";
-import { Button } from "components/ui/Button";
-import WithLoader from "components/ui/WithLoader";
+import ErrorState from 'components/ErrorState';
+import TabsCard from 'components/TabsCard';
+import Info from 'components/icons/info-blue';
+import { Button } from 'components/ui/Button';
+import WithLoader from 'components/ui/WithLoader';
 
-import { StageStatusProvider } from "contexts/stageStatus";
-import { useClientServiceContext } from "services/clientServiceProvider";
+import { StageStatusProvider } from 'contexts/stageStatus';
+import { useClientServiceContext } from 'services/clientServiceProvider';
 
-import UnLinkedTextAndCalls from "./UnlinkedTextAndCalls";
+import UnLinkedTextAndCalls from './UnlinkedTextAndCalls';
 
-import { InfoModal } from "./InfoModal/InfoModal";
-import PlanEnrollLeads from "./PlanEnrollLeads";
-import RemindersList from "./Reminders";
-import Soa48HoursRule from "./Soa48HoursRule/Soa48HoursRule";
-import styles from "./styles.module.scss";
+import { InfoModal } from './InfoModal/InfoModal';
+import PlanEnrollLeads from './PlanEnrollLeads';
+import RemindersList from './Reminders';
+import Soa48HoursRule from './Soa48HoursRule/Soa48HoursRule';
+import styles from './styles.module.scss';
 
-import DateRangeSort from "../DateRangeSort";
+import DateRangeSort from '../DateRangeSort';
 
-import NoReminder from "images/no-reminder.svg";
-import NoSOA48Hours from "images/no-soa-48-hours.svg";
-import NoUnlinkedCalls from "images/no-unlinked-calls.svg";
+import NoReminder from 'images/no-reminder.svg';
+import NoSOA48Hours from 'images/no-soa-48-hours.svg';
+import NoUnlinkedCalls from 'images/no-unlinked-calls.svg';
 
 const DEFAULT_TABS = [
-    {
-        policyStatus: "PlanEnroll Leads",
-        policyStatusColor: "#4178FF",
-        name: "PlanEnrollLeads",
-        value: 3,
-    },
-    {
-        policyStatus: "Reminders",
-        policyStatusColor: "#4178FF",
-        name: "Reminders",
-        value: 1,
-    },
-    {
-        policyStatus: "Unlinked",
-        policyStatusColor: "#DEEBFB",
-        name: "UnlinkedCommunications",
-        value: 4,
-    },
-    {
-        policyStatus: "Health SOAs",
-        policyStatusColor: "#4178FF",
-        name: "Soa48HoursRule",
-        value: 0,
-    },
+  {
+    policyStatus: 'PlanEnroll Leads',
+    policyStatusColor: '#4178FF',
+    name: 'PlanEnrollLeads',
+    value: '3',
+  },
+  {
+    policyStatus: 'Reminders',
+    policyStatusColor: '#4178FF',
+    name: 'Reminders',
+    value: '1',
+  },
+  {
+    policyStatus: 'Unlinked',
+    policyStatusColor: '#DEEBFB',
+    name: 'UnlinkedCommunications',
+    value: '4',
+  },
+  {
+    policyStatus: 'Health SOAs',
+    policyStatusColor: '#4178FF',
+    name: 'Soa48HoursRule',
+    value: '0',
+  },
 ];
 
 const getLink = {
-    Reminders: "MedicareCENTER-Reminders-Guide.pdf",
-    Unlinked: "MedicareCENTER-Unlinked-Calls-Guide.pdf",
+  1: 'MedicareCENTER-Reminders-Guide.pdf',
+  4: 'MedicareCENTER-Unlinked-Calls-Guide.pdf',
 };
 
 export default function TaskList({ isMobile, npn }) {
-    const PAGESIZE = isMobile ? 3 : 5;
-    const navigate = useNavigate();
-    const { clientsService } = useClientServiceContext();
+  const PAGESIZE = isMobile ? 3 : 5;
+  const navigate = useNavigate();
+  const { clientsService } = useClientServiceContext();
 
-    const [dRange] = usePreferences(0, "taskList_sort");
-    const [index] = usePreferences(0, "taskList_widget");
+  const {
+    leadPreference,
+    updateAgentPreferences,
+    isLoading: fetchAgentDataLoading,
+    agentId,
+  } = useAgentAccountContext();
 
-    const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [fullList, setFullList] = useState([]);
+  const [taskList, setTaskList] = useState([]);
+  const [tabs, setTabs] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPageSize, setTotalPageSize] = useState(1);
+  const [showTaskListInfoModal, setShowTaskListInfoModal] = useState(false);
+  const showToast = useToast();
+  const [selectedTab, setSelectedTab] = useState(null);
+  const [dateRange, setDateRange] = useState();
 
-    const [dateRange, setDateRange] = useState(dRange);
-    const [statusIndex, setStatusIndex] = useState(index);
-    const [isError, setIsError] = useState(false);
-    const [fullList, setFullList] = useState([]);
-    const [taskList, setTaskList] = useState([]);
-    const [tabs, setTabs] = useState([]);
-    const [page, setPage] = useState(1);
-    const [totalPageSize, setTotalPageSize] = useState(1);
-    const [showTaskListInfoModal, setShowTaskListInfoModal] = useState(false);
-    const showToast = useToast();
-    const { leadPreference } = useAgentAccountContext();
+  const selectedTabValue = useMemo(() => {
+    return selectedTab ? selectedTab?.value : 3;
+  }, [selectedTab]);
 
-    const selectedName = tabs[statusIndex]?.policyStatus || "PlanEnroll Leads";
-    const shouldHide48SOA = leadPreference?.hideHealthQuote;
+  const selectedTabCount = useMemo(() => {
+    return tabs?.find(tab => tab.value === selectedTabValue)?.policyCount;
+  }, [tabs, selectedTabValue]);
 
-    const showMore = page < totalPageSize;
+  const shouldHide48SOA = leadPreference?.hideHealthQuote;
 
-    const widgetNumber = tabs[statusIndex]?.value;
+  const showMore = useMemo(() => {
+    return page < totalPageSize;
+  }, [page, totalPageSize]);
 
-    const fetchEnrollPlans = async () => {
-        setIsLoading(true);
-        setTotalPageSize(1);
-        setPage(1);
+  const updatePreferences = async (date, selectedTabValue) => {
+    try {
+      const payload = {
+        agentID: agentId,
+        leadPreference: {
+          ...leadPreference,
+          taskListDateRange: date,
+          taskListTileSelection: selectedTabValue ? selectedTabValue : '3',
+        },
+      };
+      await updateAgentPreferences(payload);
+    } catch (error) {
+      showToast({
+        type: 'error',
+        message: 'Failed to update preferences.',
+        time: 10000,
+      });
+    }
+  };
 
-        try {
-            const data = await clientsService.getTaskList(npn, dateRange, widgetNumber);
-            if (data?.taskSummmary?.length > 0) {
-                const sortedTasks = data?.taskSummmary?.sort((a, b) =>
-                    moment(b.taskDate, "MM/DD/YYYY HH:mm:ss").diff(moment(a.taskDate, "MM/DD/YYYY HH:mm:ss"))
-                );
-                setTotalPageSize(data.taskSummmary?.length / PAGESIZE);
-                setFullList([...sortedTasks]);
-            } else {
-                setTaskList([]);
-                setTotalPageSize(data?.pageResult?.totalPages);
-            }
-        } catch (error) {
-            setIsError(true);
-            showToast({
-                type: "error",
-                message: "Failed to get Task List.",
-                time: 10000,
-            });
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  const fetchTaskListByWidget = async (date, widgetNumber, isUpdate) => {
+    if (widgetNumber === '3') return; // PlanEnroll Leads is not fetched here
+    setIsLoading(true);
+    setTotalPageSize(1);
+    setPage(1);
 
-    const fetchCounts = async () => {
-        try {
-            const tabsData = await clientsService.getTaskListCount(npn, dateRange);
-            let filteredTabs = [...DEFAULT_TABS];
-            if (shouldHide48SOA) {
-                filteredTabs = filteredTabs.filter((tab) => tab.name !== "Soa48HoursRule");
-            }
-            if (tabsData?.length > 0) {
-                const updatedData = filteredTabs.map((tab, i) => {
-                    const task = tabsData.find((t) => t.name === tab.name);
-                    tab.policyCount = task?.count || 0;
-                    tab.policyStatusColor = task?.color || "#4178FF";
-                    return tab;
-                });
-                setTabs(updatedData);
-            } else {
-                setTabs(filteredTabs);
-            }
-        } catch (error) {
-            showToast({
-                type: "error",
-                message: "Failed to get Task List Count.",
-                time: 10000,
-            });
-        }
-    };
+    try {
+      const response = await clientsService.getTaskList(
+        npn,
+        date,
+        widgetNumber
+      );
+      const taskSummaryList = response?.taskSummmary || [];
+      if (isUpdate) {
+        await updatePreferences(date, widgetNumber);
+      }
+      if (taskSummaryList.length > 0) {
+        const sortedTasks = taskSummaryList.sort((a, b) =>
+          moment(b.taskDate, 'MM/DD/YYYY HH:mm:ss').diff(
+            moment(a.taskDate, 'MM/DD/YYYY HH:mm:ss')
+          )
+        );
 
-    useEffect(() => {
-        if (statusIndex === 0) {
-            const sortedList = sortListByDate(fullList, "signedDate", false);
-            const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
-            setTaskList([...list]);
-        } else if (statusIndex === 3) {
-            const sortedList = fullList?.sort((a, b) =>
-                moment(b.taskList, "MM/DD/YYYY HH:mm:ss").diff(moment(a.taskList, "MM/DD/YYYY HH:mm:ss"))
-            );
-            const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
-            setTaskList([...list]);
-        } else if (statusIndex === 1) {
-            const sortedList = sortListByDate(fullList, "taskDate", true);
-            const list = sortedList?.filter((task, i) => i < page * PAGESIZE);
-            setTaskList([...list]);
+        const pageCount = Math.ceil(sortedTasks.length / PAGESIZE);
+        setTotalPageSize(pageCount);
+        setFullList(sortedTasks);
+
+        handlePaginatedTaskListUpdate(sortedTasks, 1, widgetNumber);
+      } else {
+        setTaskList([]);
+        setTotalPageSize(response?.pageResult?.totalPages || 1);
+      }
+    } catch (error) {
+      setIsError(true);
+      showToast({
+        type: 'error',
+        message: 'Failed to get Task List.',
+        time: 10000,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // 👇 Refactored function for fetching task counts (tab values)
+  const fetchTaskListCounts = async (
+    selectedDate,
+    selectedTabValue,
+    isUpdate
+  ) => {
+    try {
+      const countData = await clientsService.getTaskListCount(
+        npn,
+        selectedDate
+      );
+      let visibleTabs = shouldHide48SOA
+        ? DEFAULT_TABS.filter(tab => tab.name !== 'Soa48HoursRule')
+        : [...DEFAULT_TABS];
+
+      if (countData?.length > 0) {
+        const selectedTabName = DEFAULT_TABS.find(
+          tab => tab.value === selectedTabValue
+        )?.name;
+        const selectedTabCount = countData.find(
+          tab => tab.name === selectedTabName
+        )?.count;
+        if (selectedTabCount > 0) {
+          fetchTaskListByWidget(selectedDate, selectedTabValue, isUpdate);
         } else {
-            const list = fullList?.filter((task, i) => i < page * PAGESIZE);
-            setTaskList([...list]);
+          setTaskList([]);
+          setTotalPageSize(1);
+          setPage(1);
+          if (isUpdate) {
+            await updatePreferences(selectedDate, selectedTabValue);
+          }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page, fullList]);
+        const updatedTabs = visibleTabs.map(tab => {
+          const match = countData.find(t => t.name === tab.name);
+          return {
+            ...tab,
+            policyCount: match?.count || 0,
+            policyStatusColor: match?.color || '#4178FF',
+          };
+        });
+        setTabs(updatedTabs);
+      } else {
+        setTabs(visibleTabs);
+      }
+    } catch (error) {
+      showToast({
+        type: 'error',
+        message: 'Failed to get Task List Count.',
+        time: 10000,
+      });
+    }
+  };
 
-    // const sortedList = sortListByDate(taskList, "taskDate", true);
+  const handlePaginatedTaskListUpdate = (
+    list = [],
+    pageNumber = 1,
+    tabValue = 3
+  ) => {
+    if (!Array.isArray(list)) {
+      setTaskList([]);
+      return;
+    }
 
-    useEffect(() => {
-        if (selectedName !== "PlanEnroll Leads") {
-            fetchEnrollPlans();
+    let sortedList = [];
+
+    switch (tabValue) {
+      case 3:
+        sortedList = sortListByDate(list, 'signedDate', false);
+        break;
+      case 0:
+        sortedList = [...list].sort((a, b) =>
+          moment(b.taskList, 'MM/DD/YYYY HH:mm:ss').diff(
+            moment(a.taskList, 'MM/DD/YYYY HH:mm:ss')
+          )
+        );
+        break;
+      case 1:
+        sortedList = sortListByDate(list, 'taskDate', true);
+        break;
+      default:
+        sortedList = [...list];
+        break;
+    }
+
+    const paginatedList = sortedList.slice(0, pageNumber * PAGESIZE);
+    setTaskList(paginatedList);
+  };
+
+  const handleShowMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    handlePaginatedTaskListUpdate(fullList, nextPage, selectedTabValue);
+  };
+
+  const handleWidgetSelection = async (tab, date, isUpdate) => {
+    const selectedTabValue = tab?.value;
+    setSelectedTab(tab);
+    const selectedDate = date || dateRange;
+    if (selectedTabValue) {
+      fetchTaskListByWidget(selectedDate, selectedTabValue, isUpdate);
+    }
+
+    if (isMobile && tab?.policyCount > 0) {
+      navigate(
+        `/taskList-results-mobile-layout/${npn}/${tab?.name}/${selectedDate}`
+      );
+    }
+  };
+
+  const initialAPICall = useCallback(() => {
+    const taskListDateRange = leadPreference?.taskListDateRange;
+    const taskListTileSelection = leadPreference?.taskListTileSelection;
+
+    if (
+      taskListDateRange &&
+      taskListTileSelection &&
+      !(
+        dateRange === taskListDateRange &&
+        selectedTabValue === taskListTileSelection
+      )
+    ) {
+      let tab = {
+        value: taskListTileSelection,
+        name: DEFAULT_TABS?.filter(
+          tab => tab.value === taskListTileSelection
+        )[0]?.policyStatus,
+        policyStatusColor: '#4178FF',
+      };
+      setSelectedTab(tab);
+      if (taskListDateRange) {
+        setDateRange(taskListDateRange);
+      }
+
+      if (taskListTileSelection) {
+        fetchTaskListCounts(taskListDateRange, taskListTileSelection);
+      }
+    }
+  }, [leadPreference, dateRange, selectedTabValue]);
+
+  const handleDateRangeSelection = date => {
+    setDateRange(date);
+    fetchTaskListCounts(date, selectedTabValue, true);
+  };
+
+  useEffect(() => {
+    if (leadPreference) {
+      initialAPICall();
+    }
+  }, [leadPreference]);
+
+  const refreshData = id => {
+    fetchTaskListCounts(dateRange);
+    if (id) {
+      const list = fullList?.filter(task => task.id !== id);
+      setFullList([...list]);
+    }
+  };
+  const renderList = () => {
+    switch (selectedTabValue) {
+      case '4':
+        return (
+          <UnLinkedTextAndCalls taskList={taskList} refreshData={refreshData} />
+        );
+
+      case '1':
+        return <RemindersList taskList={taskList} refreshData={refreshData} />;
+      case '0':
+        return (
+          <Soa48HoursRule
+            isMobile={isMobile}
+            taskList={taskList || []}
+            refreshData={refreshData}
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  const getErrorHeading = () => {
+    switch (selectedTabValue) {
+      case '1': {
+        return 'There are no reminders to display at this time.';
+      }
+      case '0': {
+        return 'There are no incomplete SOAs being tracked for you at this time.';
+      }
+      case '3': {
+        return 'There are no PlanEnroll leads for you at this time.';
+      }
+      case '4': {
+        return 'There are no unlinked Text and Calls for you at this time.';
+      }
+      default:
+        return `There are no results at this time.`;
+    }
+  };
+
+  const getIcon = () => {
+    switch (selectedTabValue) {
+      case '1':
+        return NoReminder;
+      case '4':
+        return NoUnlinkedCalls;
+      case '3':
+        return NoSOA48Hours;
+      case '0':
+        return NoSOA48Hours;
+      default:
+        return null;
+    }
+  };
+
+  const getMoreInfo = () => {
+    switch (selectedTabValue) {
+      case '1': {
+        return 'about how you can create reminders.';
+      }
+      case '4': {
+        return 'about unlinked Text and Calls .';
+      }
+      case '0': {
+        return 'To track an SOA sent through Contact Management, make sure you check the “Track SOA” box on the Send SOA screen. Tracked SOAs will be displayed here once they’re signed by your Contacts. When you complete tracked SOAs, they’ll be removed from this view but will still be available in the Contact records.';
+      }
+      default:
+    }
+  };
+
+  return (
+    <>
+      <SectionCard
+        title='Task List'
+        className={styles.enrollmentPlanContainer_dashboard}
+        isDashboard={true}
+        infoIcon={
+          <div
+            onClick={() => setShowTaskListInfoModal(true)}
+            className={styles.infoIcon}
+          >
+            <Info />
+          </div>
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [showToast, widgetNumber, dateRange, npn, selectedName]);
-
-    useEffect(() => {
-        fetchCounts();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [showToast, dateRange, npn]);
-
-    const refreshData = (id) => {
-        fetchCounts();
-        if (id) {
-            const list = fullList?.filter((task) => task.id !== id);
-            setFullList([...list]);
+        actions={
+          <DateRangeSort
+            isMobile={isMobile}
+            preferencesKey={'taskList_sort'}
+            dateRange={dateRange}
+            setDateRange={handleDateRangeSelection}
+          />
         }
-    };
+        preferencesKey={'taskList_collapse'}
+      >
+        <TabsCard
+          tabs={tabs}
+          handleWidgetSelection={handleWidgetSelection}
+          isMobile={isMobile}
+          selectedTabValue={selectedTabValue}
+        />
 
-    const handleWidgetSelection = (index) => {
-        setStatusIndex(index);
-        const widgetName = tabs[index]?.name;
-        const selectedWidgetCount = tabs[index]?.policyCount;
-
-        if (isMobile && selectedWidgetCount > 0) {
-            navigate(`/taskList-results-mobile-layout/${npn}/${widgetName}`);
-        }
-    };
-
-    // we can pass card info here and accordingly set the show to true as per card
-
-    const renderList = () => {
-        switch (selectedName) {
-            case "Unlinked":
-                return <UnLinkedTextAndCalls taskList={taskList} refreshData={refreshData} />;
-
-            case "Reminders":
-                return <RemindersList taskList={taskList} refreshData={refreshData} />;
-            case "Health SOAs":
-                return <Soa48HoursRule isMobile={isMobile} taskList={taskList || []} refreshData={refreshData} />;
-
-            case "PlanEnroll Leads":
-                return <PlanEnrollLeads />;
-            default:
-                return <PlanEnrollLeads />;
-        }
-    };
-
-    const getErrorHeading = () => {
-        switch (selectedName) {
-            case "Reminders": {
-                return "There are no reminders to display at this time.";
-            }
-            case "Health SOAs": {
-                return "There are no incomplete SOAs being tracked for you at this time.";
-            }
-            case "PlanEnroll Leads": {
-                return "There are no PlanEnroll leads for you at this time.";
-            }
-            default:
-                return `There are no ${selectedName?.toLowerCase()} at this time.`;
-        }
-    };
-
-    const getIcon = () => {
-        switch (selectedName) {
-            case "Reminders":
-                return NoReminder;
-            case "Unlinked":
-                return NoUnlinkedCalls;
-            case "PlanEnroll Leads":
-                return NoSOA48Hours;
-            case "Health SOAs":
-                return NoSOA48Hours;
-            default:
-                return null;
-        }
-    };
-
-    const getMoreInfo = () => {
-        switch (selectedName) {
-            case "Reminders": {
-                return "about how you can create reminders.";
-            }
-            case "Unlinked": {
-                return "about unlinked Text and Calls .";
-            }
-            case "Health SOAs": {
-                return "To track an SOA sent through Contact Management, make sure you check the “Track SOA” box on the Send SOA screen. Tracked SOAs will be displayed here once they’re signed by your Contacts. When you complete tracked SOAs, they’ll be removed from this view but will still be available in the Contact records.";
-            }
-            default:
-        }
-    };
-
-    const selectedWidgetCount = tabs[statusIndex]?.policyCount;
-
-    return (
-        <>
-            <SectionCard
-                title="Task List"
-                className={styles.enrollmentPlanContainer_dashboard}
-                isDashboard={true}
-                infoIcon={
-                    <div onClick={() => setShowTaskListInfoModal(true)} className={styles.infoIcon}>
-                        <Info />
-                    </div>
-                }
-                actions={
-                    <DateRangeSort
-                        isMobile={isMobile}
-                        preferencesKey={"taskList_sort"}
-                        dateRange={dateRange}
-                        setDateRange={setDateRange}
-                    />
-                }
-                preferencesKey={"taskList_collapse"}
-            >
-                <TabsCard
-                    tabs={tabs}
-                    preferencesKey={"taskList_widget"}
-                    statusIndex={statusIndex}
-                    handleWidgetSelection={handleWidgetSelection}
-                    apiTabs={tabs}
-                    isMobile={isMobile}
-                />
-
-                {isError || selectedWidgetCount === 0 ? (
-                    <ErrorState
-                        isError={isError}
-                        emptyList={selectedWidgetCount === 0}
-                        heading={getErrorHeading(selectedName)}
-                        content={getMoreInfo(selectedName)}
-                        icon={getIcon(selectedName)}
-                        link={getLink[selectedName]}
-                    />
-                ) : (
+        {isError || selectedTabCount === 0 ? (
+          <ErrorState
+            isError={isError}
+            emptyList={selectedTabCount === 0}
+            heading={getErrorHeading()}
+            content={getMoreInfo()}
+            icon={getIcon()}
+            link={getLink[selectedTabValue]}
+          />
+        ) : (
+          <>
+            {selectedTabValue !== '3' && (
+              <WithLoader isLoading={isLoading || fetchAgentDataLoading}>
+                <>
+                  {!isMobile && (
                     <>
-                        {selectedName !== "PlanEnroll Leads" && (
-                            <WithLoader isLoading={isLoading}>
-                                <>
-                                    {!isMobile && (
-                                        <>
-                                            {renderList()}
-                                            {showMore && (
-                                                <div className="jumpList-card">
-                                                    <Button
-                                                        type="tertiary"
-                                                        onClick={() => setPage(page + 1)}
-                                                        label="Show More"
-                                                        className="jumpList-btn"
-                                                    />
-                                                </div>
-                                            )}
-                                        </>
-                                    )}
-                                </>
-                            </WithLoader>
-                        )}
-                        {selectedName === "PlanEnroll Leads" && !isMobile && (
-                            <StageStatusProvider>
-                                <PlanEnrollLeads dateRange={dateRange} />
-                            </StageStatusProvider>
-                        )}
+                      {renderList()}
+                      {showMore && (
+                        <div className='jumpList-card'>
+                          <Button
+                            type='tertiary'
+                            onClick={handleShowMore}
+                            label='Show More'
+                            className='jumpList-btn'
+                          />
+                        </div>
+                      )}
                     </>
-                )}
-            </SectionCard>
-            {showTaskListInfoModal && (
-                <InfoModal
-                    open={showTaskListInfoModal}
-                    onClose={() => setShowTaskListInfoModal(false)}
-                    isMobile={isMobile}
-                />
+                  )}
+                </>
+              </WithLoader>
             )}
-        </>
-    );
+            {selectedTabValue === '3' && !isMobile && (
+              <StageStatusProvider>
+                <PlanEnrollLeads
+                  dateRange={dateRange}
+                  updatePreferences={updatePreferences}
+                />
+              </StageStatusProvider>
+            )}
+          </>
+        )}
+      </SectionCard>
+      {showTaskListInfoModal && (
+        <InfoModal
+          open={showTaskListInfoModal}
+          onClose={() => setShowTaskListInfoModal(false)}
+          isMobile={isMobile}
+        />
+      )}
+    </>
+  );
 }

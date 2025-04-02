@@ -89,8 +89,7 @@ const GlobalNavV2 = ({
   const { clientsService } = useClientServiceContext();
   const navigate = useNavigate();
   const { setContactSearchModalOpen } = useCreateNewQuote();
-  const { getAgentData, fetchAgentDataLoading, agentData } =
-    useProfessionalProfileContext();
+  const { getAgentData, agentData } = useProfessionalProfileContext();
 
   const [navOpen, setNavOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -207,7 +206,7 @@ const GlobalNavV2 = ({
   }, [agentInformation, sessionStorage]);
 
   return (
-    <WithLoader isLoading={auth.isLoading || fetchAgentDataLoading}>
+    <WithLoader isLoading={auth.isLoading}>
       <Media
         query={'(max-width: 1330px)'}
         onChange={isMobile => {
