@@ -1,12 +1,12 @@
-import { createContext, useCallback, useMemo, useState } from 'react';
+import {createContext, useCallback, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import useToast from 'hooks/useToast';
 import useFetch from 'hooks/useFetch';
-import { LEADS_ONLY_API_VERSION } from 'services/clientsService';
+import {LEADS_ONLY_API_VERSION} from 'services/clientsService';
 
 export const ContactListAPIContext = createContext();
 
-export const ContactListAPIProvider = ({ children }) => {
+export const ContactListAPIProvider = ({children}) => {
   const showToast = useToast();
   const [errorCode, setErrorCode] = useState(null);
 
@@ -18,31 +18,31 @@ export const ContactListAPIProvider = ({ children }) => {
     import.meta.env.VITE_LEADS_URL
   }/api/${LEADS_ONLY_API_VERSION}`;
 
-  const { Post: getContactListByPostAPI } = useFetch(POST_CONTACT_LIST);
-  const { Get: getContactListByGetAPI } = useFetch(GET_CONTACT_LIST);
+  const {Post: getContactListByPostAPI} = useFetch(POST_CONTACT_LIST);
+  const {Get: getContactListByGetAPI} = useFetch(GET_CONTACT_LIST);
 
   function getRemindersKeys(selectedIsOption, selectedFilterOption) {
     switch (selectedFilterOption) {
       case 'active_reminder':
         return selectedIsOption === 'is_not'
-          ? { hasReminder: true, hasOverDueReminder: true }
-          : { hasReminder: true, hasOverDueReminder: null };
+          ? {hasReminder: true, hasOverDueReminder: true}
+          : {hasReminder: true, hasOverDueReminder: null};
       case 'overdue_reminder':
         return selectedIsOption === 'is_not'
-          ? { hasReminder: true, hasOverdueReminder: false }
-          : { hasReminder: true, hasOverdueReminder: true };
+          ? {hasReminder: true, hasOverdueReminder: false}
+          : {hasReminder: true, hasOverdueReminder: true};
       case 'no_reminders_added':
         return selectedIsOption === 'is_not'
-          ? { hasReminder: true, hasOverdueReminder: null }
-          : { hasReminder: false, hasOverdueReminder: false };
+          ? {hasReminder: true, hasOverdueReminder: null}
+          : {hasReminder: false, hasOverdueReminder: false};
       case 'ask_integrity_active':
         return selectedIsOption === 'is_not'
-          ? { hasAskIntegrityReminder: false }
-          : { hasAskIntegrityReminder: true };
+          ? {hasAskIntegrityReminder: false}
+          : {hasAskIntegrityReminder: true};
       case 'ask_integrity_overdue':
         return selectedIsOption === 'is_not'
-          ? { hasOverdueAskIntegrityReminder: false }
-          : { hasOverdueAskIntegrityReminder: true };
+          ? {hasOverdueAskIntegrityReminder: false}
+          : {hasOverdueAskIntegrityReminder: true};
       default:
         return {};
     }
@@ -56,7 +56,7 @@ export const ContactListAPIProvider = ({ children }) => {
       searchText,
       returnAll,
       selectedFilterSections,
-      filterSectionsConfig
+      filterSectionsConfig,
     ) => {
       setErrorCode(null);
       if (!navigator.onLine) {
@@ -134,6 +134,7 @@ export const ContactListAPIProvider = ({ children }) => {
         stage: stageArray.length ? stageArray : null,
         tags: null,
         search: searchText,
+        includePolicyCounts: true,
         includeContactPreference: true,
         includeReminder: true,
         includeTags: true,
@@ -281,7 +282,7 @@ export const ContactListAPIProvider = ({ children }) => {
   );
 
   function getContextValue() {
-    return { getContactListPost, getLeadsList, errorCode };
+    return {getContactListPost, getLeadsList, errorCode};
   }
 };
 
