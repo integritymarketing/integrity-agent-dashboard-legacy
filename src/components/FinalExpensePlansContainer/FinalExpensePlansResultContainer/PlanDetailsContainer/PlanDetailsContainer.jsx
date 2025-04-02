@@ -196,18 +196,22 @@ export const PlanDetailsContainer = ({
     }
 
     healthConditionsData.forEach(
-      ({ conditionId, lastTreatmentDate, underwritingQuestionsAnswers, isComplete }) => {
-        if(isComplete) {
-        conditions.push({
-          categoryId: conditionId,
-          lastTreatmentDate: lastTreatmentDate
-            ? formatServerDate(lastTreatmentDate)
-            : null,
-        });
+      ({
+        conditionId,
+        lastTreatmentDate,
+        underwritingQuestionsAnswers,
+        areUwQuestionsComplete,
+      }) => {
+        if (areUwQuestionsComplete) {
+          conditions.push({
+            categoryId: conditionId,
+            lastTreatmentDate: lastTreatmentDate
+              ? formatServerDate(lastTreatmentDate)
+              : null,
+          });
 
-        if (underwritingQuestionsAnswers) {
-          underwritingQuestionsAnswers.forEach(
-            ({ questionId, answers }) => {
+          if (underwritingQuestionsAnswers) {
+            underwritingQuestionsAnswers.forEach(({ questionId, answers }) => {
               answers.forEach(answer => {
                 questions.push({
                   questionId,
@@ -215,10 +219,9 @@ export const PlanDetailsContainer = ({
                   response: answer.responseAnswerValue,
                 });
               });
-            }
-          );
+            });
+          }
         }
-      }
       }
     );
 

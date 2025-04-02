@@ -22,6 +22,14 @@ const TotalIncome = ({
   } = useCoverageCalculationsContext();
 
   const onContinue = useCallback(async () => {
+    if (
+      totalAnnualIncome === financialNeedsAnalysis.totalAnnualIncome &&
+      yearsIncomeReplacement === financialNeedsAnalysis.yearsIncomeReplacement
+    ) {
+      handleNext();
+      return;
+    }
+
     const payload = {
       totalAnnualIncome:
         totalAnnualIncome === null ||
