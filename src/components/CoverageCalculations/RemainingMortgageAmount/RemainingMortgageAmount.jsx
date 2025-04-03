@@ -46,6 +46,9 @@ const RemainingMortgageAmount = ({
         handleNext();
       }
     }
+    else {
+      handleNext();
+    }
   }, [originalValue, updateFinancialNeedsAnalysis, contactId, handleNext]);
 
   const validRemainingMortgageAmount =
