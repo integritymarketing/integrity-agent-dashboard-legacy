@@ -13,6 +13,7 @@ import { Dialog, DialogContent } from '@mui/material';
 import ConditionalPopupMultiSelect from 'components/ui/ConditionalPopup/ConditionPopupMultiSelect';
 import { UPDATE_CONDITION } from '../HealthConditionContainer.constants';
 import { useLeadDetails } from 'providers/ContactDetails';
+import useAnalytics from 'hooks/useAnalytics';
 
 function HealthConditionQuestionModal({
   modelHeader,
@@ -21,6 +22,7 @@ function HealthConditionQuestionModal({
   contactId,
   onSuccessOfHealthConditionQuestionModal,
   setIsAddNewActivityDialogOpen,
+  isSimplifiedIUL = false,
 }) {
   const {
     clearConditionalQuestionData,
@@ -31,6 +33,7 @@ function HealthConditionQuestionModal({
     deleteHealthCondition,
   } = useConditions();
   const { leadDetails } = useLeadDetails();
+  const { fireEvent } = useAnalytics();
 
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
@@ -46,6 +49,15 @@ function HealthConditionQuestionModal({
   const handleCancelClick = () => {
     setValues(null);
     clearConditionalQuestionData();
+
+    if (!isSimplifiedIUL) {
+      fireEvent('Health Condition Added', {
+        leadid: contactId,
+        flow: 'final_expense',
+        fex_questions_required: 'Yes',
+        fex_questions_complete: 'No',
+      });
+    }
     onClose();
     fetchHealthConditions(contactId);
   };
@@ -258,6 +270,15 @@ function HealthConditionQuestionModal({
             }
 
             setValues(prevResponse);
+
+            if (!isSimplifiedIUL) {
+              fireEvent('Health Condition Added', {
+                leadid: contactId,
+                flow: 'final_expense',
+                fex_questions_required: 'Yes',
+                fex_questions_complete: 'Yes',
+              });
+            }
           }
         }
       } else {

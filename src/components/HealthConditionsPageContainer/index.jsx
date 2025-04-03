@@ -108,6 +108,7 @@ const HealthConditionsPageContainer = () => {
               contactId={contactId}
               setOpenAddPrescriptionModal={setOpenAddPrescriptionModal}
               consumerId={consumerId}
+              isSimplifiedIUL={isSimplifiedIUL()}
             />
           </Box>
           <Box className={styles.conditionsContainer}>
@@ -198,6 +199,7 @@ const HealthConditionsPageContainer = () => {
             fetchHealthConditions(contactId);
           }}
           selectedCondition={selectedCondition}
+          isSimplifiedIUL={isSimplifiedIUL()}
         />
       )}
     </WithLoader>

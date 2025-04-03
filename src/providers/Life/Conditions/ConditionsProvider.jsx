@@ -48,9 +48,13 @@ export const ConditionsProvider = ({ children }) => {
   );
 
   const saveHealthConditionDetails = useCallback(
-    async (condition) => {
+    async condition => {
       try {
-        const response = await saveHealthCondition(condition, true, condition?.leadId);
+        const response = await saveHealthCondition(
+          condition,
+          true,
+          condition?.leadId
+        );
         if (response.status === 200) {
           showToast({
             type: 'success',

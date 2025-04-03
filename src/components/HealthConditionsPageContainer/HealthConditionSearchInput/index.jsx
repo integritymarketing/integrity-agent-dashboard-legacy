@@ -3,14 +3,20 @@ import { debounce } from 'lodash';
 import HealthConditionSearchSection from '../HealthConditionSearch';
 import { useConditions } from 'providers/Life/Conditions/ConditionsContext';
 import useUserProfile from 'hooks/useUserProfile';
+import useAnalytics from 'hooks/useAnalytics';
 import { useConditions as useConditionsHook } from 'providers/Conditions';
 import { SEARCH_BY_CONDITION } from '../HealthConditionContainer.constants';
 
-function HealthConditionSearchInput({ contactId, consumerId }) {
+function HealthConditionSearchInput({
+  contactId,
+  consumerId,
+  isSimplifiedIUL = false,
+}) {
   const [searchValue, setSearchValue] = useState('');
   const [conditions, setConditions] = useState([]);
 
   const agentUserProfile = useUserProfile();
+  const { fireEvent } = useAnalytics();
 
   const {
     fetchConditionsList,
@@ -65,6 +71,15 @@ function HealthConditionSearchInput({ contactId, consumerId }) {
       if (response) {
         setConditions([]);
         setSearchValue('');
+
+        if (!isSimplifiedIUL) {
+          fireEvent('Health Condition Added', {
+            leadid: contactId,
+            flow: 'final_expense',
+            fex_questions_required: 'Yes', // TODO-EVENT: This is a guess.  We need to confirm.
+            fex_questions_complete: 'Yes', // TODO-EVENT: This is a guess.  We need to confirm.
+          });
+        }
       }
     } catch (error) {
       console.error('Failed to save health condition details', error);
