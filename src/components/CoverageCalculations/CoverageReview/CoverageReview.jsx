@@ -185,28 +185,25 @@ const CoverageReview = ({
                 </Box>
               )}
 
-              {(financialNeedsAnalysis?.totalAvailableSavings ||
-                financialNeedsAnalysis?.totalAvailableSavings !== 0) && (
-                <Box
-                  p={2}
-                  borderRadius={1}
-                  display={isMobile ? 'grid' : 'flex'}
-                  mx={2}
-                  textAlign={isMobile ? 'center' : 'left'}
-                  color='#052A63'
+              <Box
+                p={2}
+                borderRadius={1}
+                display={isMobile ? 'grid' : 'flex'}
+                mx={2}
+                textAlign={isMobile ? 'center' : 'left'}
+                color='#052A63'
+              >
+                <Typography fontWeight='bold' flex={1}>
+                  Additional Assets
+                </Typography>
+                <Typography
+                  fontWeight='bold'
+                  flex={1}
+                  color={isMobile ? '#434A51' : 'inherit'}
                 >
-                  <Typography fontWeight='bold' flex={1}>
-                    Additional Assets
-                  </Typography>
-                  <Typography
-                    fontWeight='bold'
-                    flex={1}
-                    color={isMobile ? '#434A51' : 'inherit'}
-                  >
-                    {formatValue(financialNeedsAnalysis?.totalAvailableSavings)}
-                  </Typography>
-                </Box>
-              )}
+                  {formatValue(financialNeedsAnalysis?.totalAvailableSavings)}
+                </Typography>
+              </Box>
               <Box
                 bgcolor='#E7F0FF'
                 p={2}

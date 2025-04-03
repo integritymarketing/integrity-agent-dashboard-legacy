@@ -136,6 +136,7 @@ const MobileMenu = ({ onClose, hasPHPBuName }) => {
       label: 'Sign Out',
       action: () => {
         sessionStorage.removeItem('isAgentMobileBannerDismissed');
+        sessionStorage.removeItem('isAgentMobilePopUpDismissed');
         logout({
           logoutParams: {
             returnTo: window.location.origin,

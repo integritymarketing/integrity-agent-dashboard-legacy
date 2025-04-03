@@ -72,6 +72,7 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
           variant='contained'
           endIcon={<FontAwesomeIcon icon={faExternalLink} color='#FFF' />}
           onClick={onViewGuideClick}
+          sx={{ fontWeight: 500 }}
         >
           View Guide
         </Button>
@@ -83,6 +84,9 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
               setMessageCheckbox(event.target.checked);
             }}
             inputProps={{ 'aria-label': 'controlled' }}
+            sx={{
+              color: '#CCCCCC',
+            }}
           />
           <Typography>Don't show this message again.</Typography>
         </Box>
