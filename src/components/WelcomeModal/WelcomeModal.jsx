@@ -1,4 +1,4 @@
-import { faExternalLink } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpRightFromSquare } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Typography, Button, Divider, Checkbox } from '@mui/material';
 import { CustomModal } from 'components/MuiComponents';
@@ -70,7 +70,9 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
         </Typography>
         <Button
           variant='contained'
-          endIcon={<FontAwesomeIcon icon={faExternalLink} color='#FFF' />}
+          endIcon={
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} color='#FFF' />
+          }
           onClick={onViewGuideClick}
           sx={{ fontWeight: 500 }}
         >
