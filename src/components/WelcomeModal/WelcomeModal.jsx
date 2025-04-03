@@ -45,6 +45,7 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
   }, [leadPreference, messageCheckbox, user]);
 
   const onViewGuideClick = useCallback(() => {
+    handleClose();
     window.open(
       'https://learningcenter.tawebhost.com/Integrity-Quick-Start-Guide.pdf',
       '_blank'
