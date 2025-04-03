@@ -62,8 +62,6 @@ const PolicyDetailsModal = ({showPolicyModal, handleModalClose, policyDetails, v
   const policyCards = useMemo(
     () =>
       policies.map((currentPolicy) => {
-        c
-
         const status =
           currentPolicy.policyStatus === "terminated"
             ? "Inactive"
