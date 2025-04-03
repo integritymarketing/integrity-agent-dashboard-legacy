@@ -356,7 +356,9 @@ function ContactsTable() {
         accessorKey: 'lifePolicyCount',
         cell: ({value, row}) => {
           const leadDetails = row?.original;
-          if (leadDetails.lifePolicyCount === 0 || !leadDetails.lifePolicyCount) {
+          const {firstName, lastName, leadsId, lifePolicyCount} = leadDetails;
+
+          if (lifePolicyCount === 0 || !lifePolicyCount) {
             return (
               <Box
                 position='relative'
@@ -367,8 +369,6 @@ function ContactsTable() {
               </Box>
             );
           } else {
-            const leadDetails = row?.original;
-            const {firstName, lastName, leadsId} = leadDetails;
             return (
               <Box
                 position='relative'
@@ -385,7 +385,7 @@ function ContactsTable() {
               >
                 <CardBadge
                   IconComponent={<Heartactive/>}
-                  count={value}
+                  count={lifePolicyCount}
                   classes={styles.badgeContainer}
                 />
               </Box>
@@ -399,7 +399,9 @@ function ContactsTable() {
         accessorKey: 'healthPolicyCount',
         cell: ({value, row}) => {
           const leadDetails = row?.original;
-          if (leadDetails.healthPolicyCount === 0 || !leadDetails.healthPolicyCount) {
+          const {firstName, lastName, leadsId, healthPolicyCount} = leadDetails;
+
+          if (healthPolicyCount === 0 || !healthPolicyCount) {
             return (
               <Box
                 position='relative'
@@ -410,8 +412,6 @@ function ContactsTable() {
               </Box>
             );
           } else {
-            const leadDetails = row?.original;
-            const {firstName, lastName, leadsId} = leadDetails;
             return (
               <Box
                 position='relative'
@@ -428,7 +428,7 @@ function ContactsTable() {
               >
                 <CardBadge
                   IconComponent={<HealthActive/>}
-                  count={value}
+                  count={healthPolicyCount}
                   classes={styles.badgeContainer}
                 />
               </Box>
