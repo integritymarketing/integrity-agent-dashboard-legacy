@@ -52,18 +52,20 @@ const IulAccumulationComparePlans = () => {
     setResults(plansData);
   };
 
-  useEffect(() => {
-    getPlanDetails(planIds);
-  }, [planIds]);
+  // Helper function to get benefit value by name
+  const getBenefitValueByName = (benefits, name) => {
+    const benefit = benefits.find(benefit => benefit.name === name);
+    return benefit ? benefit.value : 'Excluded';
+  };
 
-  const features = useMemo(() => {
-    const benefitNames = getBenefitNames(results);
-    const combinedBenefits = benefitNames.map(name =>
-      createBenefitObj(name, results)
-    );
-
-    return combinedBenefits;
-  }, [results]);
+  // Helper function to create a benefit object based on the benefit name
+  const createBenefitObj = (name, results) => {
+    return {
+      name: name,
+      description: 'Feature Description',
+      plans: results.map(item => getBenefitValueByName(item.benefits, name)),
+    };
+  };
 
   // Helper function to get unique benefit names from results
   const getBenefitNames = results => {
@@ -76,20 +78,18 @@ const IulAccumulationComparePlans = () => {
     return Array.from(benefitNames);
   };
 
-  // Helper function to create a benefit object based on the benefit name
-  const createBenefitObj = (name, results) => {
-    return {
-      name: name,
-      description: 'Feature Description',
-      plans: results.map(item => getBenefitValueByName(item.benefits, name)),
-    };
-  };
+  useEffect(() => {
+    getPlanDetails(planIds);
+  }, [planIds]);
 
-  // Helper function to get benefit value by name
-  const getBenefitValueByName = (benefits, name) => {
-    const benefit = benefits.find(benefit => benefit.name === name);
-    return benefit ? benefit.value : 'Excluded';
-  };
+  const features = useMemo(() => {
+    const benefitNames = getBenefitNames(results);
+    const combinedBenefits = benefitNames.map(name =>
+      createBenefitObj(name, results)
+    );
+
+    return combinedBenefits;
+  }, [results]);
 
   const uwRequirements = useMemo(() => {
     const combinedRequirements = results.flatMap(
