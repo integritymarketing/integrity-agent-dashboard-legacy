@@ -27,8 +27,9 @@ export default function useCallRecordings() {
           isLinkToContact,
           callLogId
         );
-
-      if (recordings.length > 0) {
+      if (isLinkToContact && recordings) {
+        setCallRecordings([recordings]);
+      } else if (recordings && recordings.length > 0) {
         const sortedRecordings = recordings.sort(
           (a, b) => new Date(b.callStartTime) - new Date(a.callStartTime)
         );
