@@ -1,48 +1,48 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable react/prop-types */
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useCallback, useContext, useEffect, useMemo, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
-import { Box } from '@mui/material';
+import {Box} from '@mui/material';
 
-import { useWindowSize } from 'hooks/useWindowSize';
+import {useWindowSize} from 'hooks/useWindowSize';
 import DeleteLeadContext from 'contexts/deleteLead';
 import useAnalytics from 'hooks/useAnalytics';
 import useToast from 'hooks/useToast';
 
-import { useContactsListContext } from 'pages/ContactsList/providers/ContactsListProvider';
+import {useContactsListContext} from 'pages/ContactsList/providers/ContactsListProvider';
 import ReminderModals from '../RemiderModals/ReminderModals';
-import { getOverDue } from 'utils/dates';
+import {getOverDue} from 'utils/dates';
 import AskIntegrityModal from 'pages/ContactsList/AskIntegrityModal/AskIntegrityModal';
 import HealthActive from 'components/icons/version-2/HealthActive';
 import HealthInactive from 'components/icons/version-2/HealthInactive';
 import Heartactive from 'components/icons/version-2/HeartActive';
 import HeartInactive from 'components/icons/version-2/HeartInactive';
-import { Checkbox } from 'components/ui/version-2/Checkbox';
+import {Checkbox} from 'components/ui/version-2/Checkbox';
 import CampaignModal from 'pages/ContactsList/CampaignModal/CampaignModal';
-import { useClientServiceContext } from 'services/clientServiceProvider';
+import {useClientServiceContext} from 'services/clientServiceProvider';
 import AddReminder from 'components/icons/version-2/addReminder';
 
-import { ActionsCell } from './ActionsCell';
-import { NameCell } from './NameCell';
-import { StageCell } from './StageCell';
-import { Table } from './Table';
-import { TableMobile } from './TableMobile';
+import {ActionsCell} from './ActionsCell';
+import {NameCell} from './NameCell';
+import {StageCell} from './StageCell';
+import {Table} from './Table';
+import {TableMobile} from './TableMobile';
 
 import styles from './styles.module.scss';
 
-import { LoadMoreButton } from '../LoadMoreButton';
-import { Reminder } from 'components/icons/version-2/Reminder';
+import {LoadMoreButton} from '../LoadMoreButton';
+import {Reminder} from 'components/icons/version-2/Reminder';
 import CardBadge from '../ContactsCard/CardBadge/CardBadge';
-import { PoliciesProvider } from 'providers/ContactDetails/PoliciesProvider';
+import {PoliciesProvider} from 'providers/ContactDetails/PoliciesProvider';
 import PolicyDetailsModal from 'components/SharedModals/PolicyDetailsModal/PolicyDetailsModal';
 import ConnectCall from '../ConnectCall';
 import ConnectEmail from '../ConnectEmail';
 import CampaignStatus from 'components/icons/version-2/CampaignStatus';
 import AskIntegrity from 'components/icons/version-2/AskIntegrity';
-import { CountyDataProvider } from 'providers/CountyDataProvider';
-import { getShoppersColorScheme } from 'utils/shared-utils/sharedUtility';
-import { useContactListAPI } from 'providers/ContactListAPIProviders';
+import {CountyDataProvider} from 'providers/CountyDataProvider';
+import {getShoppersColorScheme} from 'utils/shared-utils/sharedUtility';
+import {useContactListAPI} from 'providers/ContactListAPIProviders';
 
 function ContactsTable() {
   const {
@@ -53,12 +53,12 @@ function ContactsTable() {
     isStartedSearching,
     isShowMoreButton,
   } = useContactsListContext();
-  const { deleteLeadId, setDeleteLeadId, setLeadName, leadName } =
+  const {deleteLeadId, setDeleteLeadId, setLeadName, leadName} =
     useContext(DeleteLeadContext);
-  const { errorCode } = useContactListAPI();
+  const {errorCode} = useContactListAPI();
 
-  const { width: windowWidth } = useWindowSize();
-  const { fireEvent } = useAnalytics();
+  const {width: windowWidth} = useWindowSize();
+  const {fireEvent} = useAnalytics();
   const navigate = useNavigate();
   const showToast = useToast();
 
@@ -72,7 +72,7 @@ function ContactsTable() {
   const [leadData, setLeadData] = useState({});
   const [showPolicyModal, setShowPolicyModal] = useState(false);
   const [policyDetails, setPolicyDetails] = useState({});
-  const { clientsService } = useClientServiceContext();
+  const {clientsService} = useClientServiceContext();
 
   const openPolicyModal = leadDataOriginal => {
     setPolicyDetails(leadDataOriginal);
@@ -105,7 +105,7 @@ function ContactsTable() {
       return false;
     }
     const overDue = reminders.filter(reminder => {
-      const { reminderDate } = reminder;
+      const {reminderDate} = reminder;
       return getOverDue(reminderDate);
     });
     return overDue?.length > 0 ? true : false;
@@ -190,14 +190,14 @@ function ContactsTable() {
         id: 'selection',
         accessorKey: 'selection',
         enableSorting: false,
-        header: ({ table }) => (
+        header: ({table}) => (
           <Checkbox
             checked={table.getIsAllRowsSelected()}
             indeterminate={table.getIsSomeRowsSelected()}
             onChange={table.getToggleAllRowsSelectedHandler()}
           />
         ),
-        cell: ({ row }) => (
+        cell: ({row}) => (
           <Checkbox
             checked={row.getIsSelected()}
             onChange={row.getToggleSelectedHandler()}
@@ -207,12 +207,12 @@ function ContactsTable() {
       {
         header: 'Name',
         accessorKey: 'firstName',
-        cell: ({ row }) => <NameCell row={row} />,
+        cell: ({row}) => <NameCell row={row}/>,
       },
       {
         header: 'Stage',
         enableSorting: false,
-        cell: ({ row }) => {
+        cell: ({row}) => {
           return (
             <StageCell
               initialValue={row.original.statusName}
@@ -225,7 +225,7 @@ function ContactsTable() {
         header: 'Reminders',
         accessorKey: 'reminders',
         enableSorting: false,
-        cell: ({ row }) => {
+        cell: ({row}) => {
           const leadDataOriginal = row.original;
           const remindersList = row
             .getValue('reminders')
@@ -241,10 +241,10 @@ function ContactsTable() {
                 remindersHandler(remindersLength, leadDataOriginal)
               }
               IconComponent={
-                <Box sx={{ cursor: 'pointer' }}>
+                <Box sx={{cursor: 'pointer'}}>
                   {remindersLength === 0 ? (
-                    <Box sx={{ top: '10px' }}>
-                      <AddReminder />
+                    <Box sx={{top: '10px'}}>
+                      <AddReminder/>
                     </Box>
                   ) : (
                     <Reminder
@@ -262,7 +262,7 @@ function ContactsTable() {
         header: 'Campaign',
         accessorKey: 'campaign',
         enableSorting: false,
-        cell: ({ row }) => {
+        cell: ({row}) => {
           const leadDataOriginal = row.original;
           const campaignTags = leadDataOriginal?.leadTags?.filter(tag =>
             tag?.tag?.tagCategory?.tagCategoryName?.includes('Campaign')
@@ -279,11 +279,11 @@ function ContactsTable() {
               IconComponent={
                 campaignTagDefaultImage ? (
                   <Box className={styles.iconWrapper}>
-                    <img src={campaignTagDefaultImage} alt='Campaign Icon' />
+                    <img src={campaignTagDefaultImage} alt='Campaign Icon'/>
                   </Box>
                 ) : (
                   <Box className={styles.iconWrapper}>
-                    <CampaignStatus />
+                    <CampaignStatus/>
                   </Box>
                 )
               }
@@ -296,14 +296,14 @@ function ContactsTable() {
         header: 'Ask Integrity',
         enableSorting: false,
         accessorKey: 'askIntegrity',
-        cell: ({ value, row }) => {
+        cell: ({value, row}) => {
           const leadDataOriginal = row?.original;
           const askIntegrityTags = row?.original?.leadTags?.filter(
             tag =>
               tag?.tag?.tagCategory?.tagCategoryName ===
-                'Ask Integrity Recommendations' ||
+              'Ask Integrity Recommendations' ||
               tag?.tag?.tagCategory?.tagCategoryName ===
-                'Ask Integrity Suggests'
+              'Ask Integrity Suggests'
           );
 
           const AIS_List = row?.original?.leadTags?.find(
@@ -333,9 +333,9 @@ function ContactsTable() {
                       }}
                     >
                       {AI_tagIcon ? (
-                        <img src={AI_tagIcon} alt='shoppersImage' />
+                        <img src={AI_tagIcon} alt='shoppersImage'/>
                       ) : (
-                        <AskIntegrity />
+                        <AskIntegrity/>
                       )}
                     </Box>
                   }
@@ -354,25 +354,26 @@ function ContactsTable() {
         header: 'Life',
         enableSorting: false,
         accessorKey: 'lifePolicyCount',
-        cell: ({ value, row }) => {
-          if (value === 0 || !value) {
+        cell: ({value, row}) => {
+          const leadDetails = row?.original;
+          if (leadDetails.lifePolicyCount === 0 || !leadDetails.lifePolicyCount) {
             return (
               <Box
                 position='relative'
                 display='inline-block'
-                sx={{ right: '6px' }}
+                sx={{left: '12px'}}
               >
-                <HeartInactive />
+                <HeartInactive/>
               </Box>
             );
           } else {
             const leadDetails = row?.original;
-            const { firstName, lastName, leadsId } = leadDetails;
+            const {firstName, lastName, leadsId} = leadDetails;
             return (
               <Box
                 position='relative'
                 display='inline-block'
-                sx={{ left: '12px', cursor: 'pointer' }}
+                sx={{left: '12px', cursor: 'pointer'}}
                 onClick={() =>
                   openPolicyModal({
                     firstName,
@@ -383,7 +384,7 @@ function ContactsTable() {
                 }
               >
                 <CardBadge
-                  IconComponent={<Heartactive />}
+                  IconComponent={<Heartactive/>}
                   count={value}
                   classes={styles.badgeContainer}
                 />
@@ -396,25 +397,26 @@ function ContactsTable() {
         header: 'Health',
         enableSorting: false,
         accessorKey: 'healthPolicyCount',
-        cell: ({ value, row }) => {
-          if (value === 0 || !value) {
+        cell: ({value, row}) => {
+          const leadDetails = row?.original;
+          if (leadDetails.healthPolicyCount === 0 || !leadDetails.healthPolicyCount) {
             return (
               <Box
                 position='relative'
                 display='inline-block'
-                sx={{ left: '6px' }}
+                sx={{left: '12px'}}
               >
-                <HealthInactive />
+                <HealthInactive/>
               </Box>
             );
           } else {
             const leadDetails = row?.original;
-            const { firstName, lastName, leadsId } = leadDetails;
+            const {firstName, lastName, leadsId} = leadDetails;
             return (
               <Box
                 position='relative'
                 display='inline-block'
-                sx={{ left: '12px', cursor: 'pointer' }}
+                sx={{left: '12px', cursor: 'pointer'}}
                 onClick={() =>
                   openPolicyModal({
                     firstName,
@@ -425,7 +427,7 @@ function ContactsTable() {
                 }
               >
                 <CardBadge
-                  IconComponent={<HealthActive />}
+                  IconComponent={<HealthActive/>}
                   count={value}
                   classes={styles.badgeContainer}
                 />
@@ -438,12 +440,12 @@ function ContactsTable() {
         header: 'Connect',
         accessorKey: 'connect',
         enableSorting: false,
-        cell: ({ row }) => {
-          const { primaryCommunication, emails } = row.original;
+        cell: ({row}) => {
+          const {primaryCommunication, emails} = row.original;
           return primaryCommunication === 'phone' ? (
-            <ConnectCall row={row.original} view='List' />
+            <ConnectCall row={row.original} view='List'/>
           ) : (
-            <ConnectEmail data={row.original} emails={emails} view='List' />
+            <ConnectEmail data={row.original} emails={emails} view='List'/>
           );
         },
       },
@@ -451,9 +453,9 @@ function ContactsTable() {
         header: '',
         accessorKey: 'actions',
         enableSorting: false,
-        cell: ({ row }) => (
+        cell: ({row}) => (
           <CountyDataProvider>
-            <ActionsCell row={row} refreshData={refreshData} />
+            <ActionsCell row={row} refreshData={refreshData}/>
           </CountyDataProvider>
         ),
       },
@@ -464,7 +466,7 @@ function ContactsTable() {
   return (
     <>
       {isMobile ? (
-        <TableMobile errorCode={errorCode} />
+        <TableMobile errorCode={errorCode}/>
       ) : (
         <Box className={styles.tableWrapper}>
           <Table
@@ -475,7 +477,7 @@ function ContactsTable() {
             errorCode={errorCode}
           />
           {tableData.length > 0 && !errorCode && isShowMoreButton && (
-            <LoadMoreButton />
+            <LoadMoreButton/>
           )}
         </Box>
       )}
