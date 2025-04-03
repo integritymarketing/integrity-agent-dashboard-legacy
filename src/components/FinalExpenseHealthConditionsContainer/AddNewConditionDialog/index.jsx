@@ -72,7 +72,16 @@ const AddNewConditionDialog = ({
   const [isLoadingSearchResults, setIsLoadingSearchResults] = useState(false);
   const [isSavingToServer, setIsSavingToServer] = useState(false);
   const [isDeletingFromServer, setIsDeletingFromServer] = useState(false);
-  const [modalStep, setModalStep] = useState(2);
+  const [modalStep, setModalStep] = useState(
+    selectedConditionForEdit?.hasLookBackPeriod === true &&
+      !disableLastTreatmentDate
+      ? 1
+      : selectedConditionForEdit?.hasLookBackPeriod === false ||
+        (selectedConditionForEdit && disableLastTreatmentDate)
+      ? 2
+      : 0
+  );
+
   const { leadDetails } = useLeadDetails();
   const { clientsService } = useClientServiceContext();
   const showToast = useToast();
