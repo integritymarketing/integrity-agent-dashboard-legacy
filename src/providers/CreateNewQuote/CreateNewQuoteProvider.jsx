@@ -115,7 +115,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
         setSelectedProductType(
           leadPreference?.hideLifeQuote ? 'health' : 'life'
         );
-        if (!leadPreference?.hideLifeQuote && leadCounty) {
+        if (!leadPreference?.hideLifeQuote) {
           if (IUL_FEATURE_FLAG) {
             setQuoteModalStage('lifeQuestionCard');
           } else {
