@@ -46,7 +46,10 @@ const CoverageCalculationsContainer = () => {
       yearsIncomeReplacement:
         financialNeedsAnalysis?.yearsIncomeReplacement || 10,
       remainingMortgageAmount:
-        financialNeedsAnalysis?.remainingMortgageAmount || 200000,
+        financialNeedsAnalysis?.remainingMortgageAmount ||
+        financialNeedsAnalysis?.remainingMortgageAmount === 0
+          ? financialNeedsAnalysis?.remainingMortgageAmount
+          : 200000,
       shouldCoverCollegeExpenses:
         financialNeedsAnalysis?.shouldCoverCollegeExpenses
           ? 'Yes'
@@ -151,6 +154,7 @@ const CoverageCalculationsContainer = () => {
           handleChange={handleChange}
           handleNext={handleNext}
           remainingMortgageAmount={formValue?.remainingMortgageAmount}
+          originalValue={financialNeedsAnalysis?.remainingMortgageAmount}
         />
       )}
       {currentStep === 4 && (
