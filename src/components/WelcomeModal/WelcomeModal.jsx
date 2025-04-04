@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import { faArrowUpRightFromSquare } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Typography, Button, Divider, Checkbox } from '@mui/material';
@@ -11,13 +12,17 @@ import useToast from 'hooks/useToast';
 export const WelcomeModal = ({ user, open, leadPreference }) => {
   const { clientsService } = useClientServiceContext();
   const showToast = useToast();
-
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(open);
   const [messageCheckbox, setMessageCheckbox] = useState(false);
 
   useEffect(() => {
-    setIsOpen(open);
-  }, [open]);
+    if (location.pathname === '/dashboard') {
+      setIsOpen(open);
+    } else {
+      setIsOpen(false);
+    }
+  }, [open, location.pathname]);
 
   const handleClose = useCallback(async () => {
     if (messageCheckbox) {
@@ -51,6 +56,10 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
       '_blank'
     );
   }, []);
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <CustomModal
@@ -103,3 +112,5 @@ WelcomeModal.propTypes = {
   open: PropTypes.bool.isRequired,
   leadPreference: PropTypes.object.isRequired,
 };
+
+export default WelcomeModal;
