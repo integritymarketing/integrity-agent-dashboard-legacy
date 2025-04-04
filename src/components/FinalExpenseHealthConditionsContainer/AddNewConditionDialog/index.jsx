@@ -47,6 +47,7 @@ import { HEALTH_CONDITION_API } from '../FinalExpenseHealthConditionsContainer.c
 import { Close } from '../icons/Close';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
+import { useLocation } from 'react-router-dom';
 
 const AddNewConditionDialog = ({
   contactId,
@@ -59,6 +60,7 @@ const AddNewConditionDialog = ({
   disableLastTreatmentDate = false,
   page,
 }) => {
+  const location = useLocation();
   const [searchString, setSearchString] = useState('');
   const [searchResults, setSearchResults] = useState(null);
   const [selectedCondition, setSelectedCondition] = useState(
@@ -73,8 +75,11 @@ const AddNewConditionDialog = ({
   const [isSavingToServer, setIsSavingToServer] = useState(false);
   const [isDeletingFromServer, setIsDeletingFromServer] = useState(false);
   const [modalStep, setModalStep] = useState(
-    selectedConditionForEdit?.hasLookBackPeriod === true &&
-      !disableLastTreatmentDate
+    location.pathname.includes('finalexpenses') ||
+      location.pathname.includes('simplified-iul')
+      ? 2
+      : selectedConditionForEdit?.hasLookBackPeriod === true &&
+        !disableLastTreatmentDate
       ? 1
       : selectedConditionForEdit?.hasLookBackPeriod === false ||
         (selectedConditionForEdit && disableLastTreatmentDate)

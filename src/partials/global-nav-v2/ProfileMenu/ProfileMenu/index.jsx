@@ -68,6 +68,7 @@ const ProfileMenu = ({ hasPHPBuName }) => {
           break;
         case 'sign_out':
           sessionStorage.removeItem('isAgentMobileBannerDismissed');
+          sessionStorage.removeItem('isAgentMobilePopUpDismissed');
           logout({
             logoutParams: {
               returnTo: window.location.origin,
