@@ -127,7 +127,12 @@ const MobileMenu = ({ onClose, hasPHPBuName }) => {
 
     // Filter out "LeadCENTER" if hasPHPBuName is true
     return hasPHPBuName
-      ? items.filter(item => item.label !== 'LeadCENTER')
+      ? items.filter(
+          item =>
+            item.label !== 'LeadCENTER' &&
+            item.label !== 'MedicareLINK' &&
+            item.label !== 'MedicareAPP'
+        )
       : items;
   }, [hasPHPBuName, onClose, getAccessTokenSilently, navigate, npn, email]);
 

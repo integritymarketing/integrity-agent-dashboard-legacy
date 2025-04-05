@@ -54,6 +54,7 @@ export const ProfessionalProfileProvider = ({ children }) => {
 
   // State for storing agent preferences and availability
   const [profileInfo, setProfileInfo] = useState(null);
+  const [agentData, setAgentData] = useState(null);
   const [leadPreference, setLeadPreference] = useRecoilState(agentProfileAtom);
 
   const getAgentProfessionalInfo = useCallback(async () => {
@@ -100,6 +101,7 @@ export const ProfessionalProfileProvider = ({ children }) => {
     try {
       const response = await fetchAgentData();
       if (response) {
+        setAgentData(response || {});
         setLeadPreference(response?.leadPreference);
         return response;
       }
@@ -157,6 +159,7 @@ export const ProfessionalProfileProvider = ({ children }) => {
       getAgentData,
       fetchAgentDataLoading,
       leadPreference,
+      agentData,
       updateAgentPreferencesData,
       updateAgentPreferencesLoading,
     }),
@@ -169,6 +172,7 @@ export const ProfessionalProfileProvider = ({ children }) => {
       getAgentData,
       fetchAgentDataLoading,
       leadPreference,
+      agentData,
       updateAgentPreferencesData,
       updateAgentPreferencesLoading,
     ]

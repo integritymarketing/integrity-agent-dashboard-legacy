@@ -101,7 +101,12 @@ const ProfileMenu = ({ hasPHPBuName }) => {
 
     // Remove 'LeadCENTER' if hasPHPBuName is true
     return hasPHPBuName
-      ? items.filter(item => item.label !== 'LeadCENTER')
+      ? items.filter(
+          item =>
+            item.label !== 'LeadCENTER' &&
+            item.label !== 'MedicareLINK' &&
+            item.label !== 'MedicareAPP'
+        )
       : items;
   }, [hasPHPBuName]);
 
