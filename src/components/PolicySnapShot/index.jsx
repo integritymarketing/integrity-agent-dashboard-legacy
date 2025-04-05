@@ -14,18 +14,21 @@ import NoUnlinkedPolicy from 'images/no-unlinked-policies.svg';
 import UnlinkedPolicyList from 'components/TaskList/UnlinkedPolicies';
 import { useClientServiceContext } from 'services/clientServiceProvider';
 import useFilteredLeadIds from 'pages/ContactsList/hooks/useFilteredLeadIds';
-import { useAgentAccountContext } from 'providers/AgentAccountProvider';
 import WithLoader from 'components/ui/WithLoader';
 import './style.scss';
 import { useContactsListContext } from 'pages/ContactsList/providers/ContactsListProvider';
-import { is } from 'date-fns/locale';
 
 const TitleData =
   'View your policies by status. Policy status is imported directly from carriers and the availability of status and other policy information may vary by carrier. For the most complete and up-to-date policy information, submit your applications through Contact Management Quote & eApp. Please visit our Learning Center to view the list of carriers whose policies are available in Policy Snapshot or find out more about Policy Management.';
 
 const PAGESIZE = 5;
-export default function PlanSnapShot({ isMobile, npn }) {
-  const [isLoading, setIsLoading] = useState(true);
+export default function PlanSnapShot({
+  isMobile,
+  npn,
+  leadPreference,
+  updateAgentPreferencesData,
+}) {
+  const [isLoading, setIsLoading] = useState(false);
   const [policyList, setPolicyList] = useState([]);
   const [fullList, setFullList] = useState([]);
   const [leadIds, setLeadIds] = useState([]);
@@ -40,7 +43,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const [dateRange, setDateRange] = useState();
 
   const status = useMemo(() => {
-    return selectedTab?.policyStatus || 'Declined';
+    return selectedTab ? selectedTab?.policyStatus : 'Declined';
   }, [selectedTab]);
 
   const selectedTabCount = useMemo(() => {
@@ -52,35 +55,27 @@ export default function PlanSnapShot({ isMobile, npn }) {
   const { enrollPlansService } = useClientServiceContext();
   const { setFilteredDataHandle } = useFilteredLeadIds();
 
-  const {
-    leadPreference,
-    updateAgentPreferences,
-    isLoading: fetchAgentDataLoading,
-    agentId,
-  } = useAgentAccountContext();
-
   const { selectedFilterSections, setSelectedFilterSections } =
     useContactsListContext();
 
-  const updatePreferences = async (date, status) => {
-    try {
-      const payload = {
-        agentID: agentId,
-        leadPreference: {
-          ...leadPreference,
-          policySnapshotDateRange: date,
-          policySnapshotTileSelection: status ? status : '3',
-        },
-      };
-      await updateAgentPreferences(payload);
-    } catch (error) {
-      showToast({
-        type: 'error',
-        message: 'Failed to update preferences.',
-        time: 10000,
-      });
-    }
-  };
+  const updatePreferences = useCallback(
+    async (date, tile) => {
+      try {
+        const payload = {
+          policySnapshotDateRange: date ? date : dateRange,
+          policySnapshotTileSelection: tile ? tile : '3',
+        };
+        await updateAgentPreferencesData(payload);
+      } catch (error) {
+        showToast({
+          type: 'error',
+          message: 'Failed to update preferences.',
+          time: 10000,
+        });
+      }
+    },
+    [updateAgentPreferencesData, showToast]
+  );
 
   const fetchPolicySnapshotList = useCallback(
     async (statusToFetch, date, isUpdate) => {
@@ -133,13 +128,13 @@ export default function PlanSnapShot({ isMobile, npn }) {
 
   const jumptoListMobile = useCallback(
     async selectedTab => {
-      const status = selectedTab?.policyStatus || 'Declined';
+      const policyStatus = selectedTab?.policyStatus || 'Declined';
       const policyStatusColor = selectedTab?.policyStatusColor || '#000000';
       const policyCount = selectedTab?.policyCount || 0;
 
-      const filterInfo = { status, policyStatusColor, policyCount };
+      const filterInfo = { policyStatus, policyStatusColor, policyCount };
 
-      await updatePreferences(dateRange, status);
+      await updatePreferences(dateRange, policyStatus);
 
       setFilteredDataHandle('filterLeadIds', 'filterInfo', leadIds, filterInfo);
 
@@ -148,7 +143,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
     [tabs, leadIds, navigate]
   );
 
-  const fetchCounts = async (status, date, isUpdate) => {
+  const fetchCounts = async (policyStatus, date, isUpdate) => {
     try {
       const tabsData = await enrollPlansService.getPolicySnapShotCount(
         npn,
@@ -156,7 +151,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
       );
       if (tabsData?.length > 0) {
         const selectedTabCount = tabsData?.find(
-          tab => tab.policyStatus === status
+          tab => tab.policyStatus === policyStatus
         )?.policyCount;
         const updatedTabs = tabsData?.map(tab => ({
           ...tab,
@@ -164,13 +159,13 @@ export default function PlanSnapShot({ isMobile, npn }) {
         }));
         setTabs([...updatedTabs]);
         if (selectedTabCount > 0) {
-          fetchPolicySnapshotList(status, date, isUpdate);
+          fetchPolicySnapshotList(policyStatus, date, isUpdate);
         } else {
           setPolicyList([]);
           setFullList([]);
           setLeadIds([]);
           if (isUpdate) {
-            await updatePreferences(date, status);
+            await updatePreferences(date, policyStatus);
           }
         }
       }
@@ -205,49 +200,34 @@ export default function PlanSnapShot({ isMobile, npn }) {
       ) {
         jumptoListMobile(tab);
       } else {
-        fetchPolicySnapshotList(newStatus, selectedDate, isUpdate);
+        fetchPolicySnapshotList(tab?.policyStatus, selectedDate, isUpdate);
       }
     },
     [leadIds, isMobile, jumptoListMobile, fetchPolicySnapshotList]
   );
 
-  const initialAPICall = useCallback(() => {
-    const policySnapshotDateRange = leadPreference?.policySnapshotDateRange;
-    const policySnapshotTileSelection =
-      leadPreference?.policySnapshotTileSelection;
+  useEffect(() => {
+    if (leadPreference) {
+      const policySnapshotDateRange = leadPreference?.policySnapshotDateRange;
+      const policySnapshotTileSelection =
+        leadPreference?.policySnapshotTileSelection;
 
-    if (
-      policySnapshotDateRange &&
-      policySnapshotTileSelection &&
-      !(
-        dateRange === policySnapshotDateRange &&
-        status === policySnapshotTileSelection
-      )
-    ) {
-      let tab = {
-        policyStatus: policySnapshotTileSelection,
-      };
-      setSelectedTab(tab);
-      if (policySnapshotDateRange) {
+      if (
+        policySnapshotDateRange &&
+        policySnapshotTileSelection &&
+        policySnapshotDateRange !== dateRange
+      ) {
+        setSelectedTab({ policyStatus: policySnapshotTileSelection });
         setDateRange(policySnapshotDateRange);
-      }
-
-      if (policySnapshotTileSelection) {
         fetchCounts(policySnapshotTileSelection, policySnapshotDateRange);
       }
     }
-  }, [leadPreference, dateRange, status]);
+  }, [leadPreference]);
 
   const handleDateRangeSelection = date => {
     setDateRange(date);
     fetchCounts(status, date, true);
   };
-
-  useEffect(() => {
-    if (leadPreference) {
-      initialAPICall();
-    }
-  }, [leadPreference]);
 
   const jumptoList = selectedTab => {
     if (selectedFilterSections.length > 0) {
@@ -330,7 +310,7 @@ export default function PlanSnapShot({ isMobile, npn }) {
           isMobile={isMobile}
         />
 
-        <WithLoader isLoading={isLoading || fetchAgentDataLoading}>
+        <WithLoader isLoading={isLoading}>
           {(isError || policyList?.length === 0) && (
             <ErrorState
               isError={isError}

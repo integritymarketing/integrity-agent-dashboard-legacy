@@ -14,6 +14,7 @@ export const AgentAccountProvider = ({ children }) => {
     updateAgentPreferences,
     leadPreference,
     agentAvailability,
+    getAgentAccountData,
     agentId,
   } = useAgentPreferencesData();
 
@@ -23,6 +24,8 @@ export const AgentAccountProvider = ({ children }) => {
       leadPreference,
       agentAvailability,
       agentId,
+      isLoading,
+      getAgentAccountData,
     }),
     [
       leadPreference,
@@ -30,6 +33,7 @@ export const AgentAccountProvider = ({ children }) => {
       agentAvailability,
       agentId,
       isLoading,
+      getAgentAccountData,
     ]
   );
 

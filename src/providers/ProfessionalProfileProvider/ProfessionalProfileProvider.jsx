@@ -5,6 +5,8 @@ import useToast from 'hooks/useToast';
 import useUserProfile from 'hooks/useUserProfile';
 import PropTypes from 'prop-types';
 import useFetch from 'hooks/useFetch';
+import { useRecoilState } from 'recoil';
+import { agentProfileAtom } from 'src/recoil/agent/atoms';
 
 // Create a context for Agent Profile
 export const ProfessionalProfileContext = createContext();
@@ -32,6 +34,10 @@ export const ProfessionalProfileProvider = ({ children }) => {
     import.meta.env.VITE_AGENTS_URL
   }/api/v1.0/AgentMobile/Available/${agentId}`;
 
+  const AGENT_PREFERENCES_URL = `${
+    import.meta.env.VITE_AGENTS_URL
+  }/api/v1.0/AgentMobile/Preference`;
+
   const { Get: fetchAgentProfileData, loading: fetchAgentProfileDataLoading } =
     useFetch(AGENTS_URL);
 
@@ -43,9 +49,12 @@ export const ProfessionalProfileProvider = ({ children }) => {
   const { Get: fetchAgentData, loading: fetchAgentDataLoading } =
     useFetch(AGENTS_AVAILABLE_URL);
 
+  const { Post: editAgentPreferences, loading: updateAgentPreferencesLoading } =
+    useFetch(AGENT_PREFERENCES_URL);
+
   // State for storing agent preferences and availability
   const [profileInfo, setProfileInfo] = useState(null);
-  const [agentData, setAgentData] = useState(null);
+  const [leadPreference, setLeadPreference] = useRecoilState(agentProfileAtom);
 
   const getAgentProfessionalInfo = useCallback(async () => {
     if (!npn) {
@@ -91,7 +100,8 @@ export const ProfessionalProfileProvider = ({ children }) => {
     try {
       const response = await fetchAgentData();
       if (response) {
-        setAgentData(response || {});
+        setLeadPreference(response?.leadPreference);
+        return response;
       }
     } catch (error) {
       Sentry.captureException(error);
@@ -103,6 +113,39 @@ export const ProfessionalProfileProvider = ({ children }) => {
     }
   }, [agentId, fetchAgentData, showToast]);
 
+  const updateAgentPreferencesData = useCallback(
+    async payload => {
+      let _leadPreference = leadPreference;
+      if (leadPreference === null) {
+        const agentData = await getAgentData();
+        if (agentData) {
+          _leadPreference = agentData.leadPreference;
+        }
+      }
+      const updatedPayload = {
+        agentID: agentId,
+        leadPreference: {
+          ..._leadPreference,
+          ...payload,
+        },
+      };
+      try {
+        const response = await editAgentPreferences(updatedPayload);
+        if (response) {
+          setLeadPreference(response?.leadPreference);
+        }
+      } catch (error) {
+        showToast({
+          type: 'error',
+          message: 'Failed to Save the Preferences.',
+          time: 10000,
+        });
+        Sentry.captureException(error);
+      }
+    },
+    [editAgentPreferences, showToast, agentId, leadPreference]
+  );
+
   // Memoize context value to optimize re-renders
   const contextValue = useMemo(
     () => ({
@@ -113,7 +156,9 @@ export const ProfessionalProfileProvider = ({ children }) => {
       fetchAgentProfessionalInfoLoading,
       getAgentData,
       fetchAgentDataLoading,
-      agentData,
+      leadPreference,
+      updateAgentPreferencesData,
+      updateAgentPreferencesLoading,
     }),
     [
       profileInfo,
@@ -123,7 +168,9 @@ export const ProfessionalProfileProvider = ({ children }) => {
       fetchAgentProfessionalInfoLoading,
       getAgentData,
       fetchAgentDataLoading,
-      agentData,
+      leadPreference,
+      updateAgentPreferencesData,
+      updateAgentPreferencesLoading,
     ]
   );
 

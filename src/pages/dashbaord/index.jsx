@@ -27,6 +27,7 @@ import GlobalFooter from 'partials/global-footer';
 import GlobalNav from 'partials/global-nav-v2';
 
 import stageSummaryContext from 'contexts/stageSummary';
+import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
 
 import { useClientServiceContext } from 'services/clientServiceProvider';
 import { useAgentPreferences } from 'providers/AgentPreferencesProvider/AgentPreferencesProvider';
@@ -36,8 +37,6 @@ import Evening from './evening.svg';
 import './index.scss';
 import Morning from './morning.svg';
 import { ContactsListProvider } from 'pages/ContactsList/providers/ContactsListProvider';
-import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
-
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
@@ -57,18 +56,16 @@ export default function Dashbaord() {
   const [selectedFilterValues, setSelectedFilterValues] = useState([]);
   const [sort, setSort] = useState('Activities.CreateDate:desc');
   const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(true);
+  const { leadPreference, updateAgentPreferencesData } =
+    useProfessionalProfileContext();
 
   const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
   const [stageSummaryLoading, setStageSummaryLoading] = useState(true);
   const { trackAgentPreferencesEvents } = useAgentPreferences();
   const { clientsService } = useClientServiceContext();
-  const { getAgentData, fetchAgentDataLoading, agentData } =
-    useProfessionalProfileContext();
 
   const { agentInformation } = useAgentInformationByID();
-  const leadPreference = agentInformation?.leadPreference;
   const agentID = agentInformation?.agentID;
-  const user = useUserProfile();
 
   useEffect(() => {
     trackAgentPreferencesEvents();
@@ -104,62 +101,6 @@ export default function Dashbaord() {
     // ensure this only runs once.. adding a dependency w/ the stage summary data causes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => {
-    if (user?.agentId) {
-      getAgentData(user?.agentId);
-    }
-  }, [user, getAgentData]);
-
-  const hasPHPBuName = useMemo(() => {
-    if (!agentData && !Array.isArray(agentData?.businessUnits)) return false;
-    return agentData?.businessUnits?.some(
-      unit => unit?.buName?.toUpperCase() === 'PHP'
-    );
-  }, [agentData]);
-
-  const policySnapshotDateRange = useMemo(() => {
-    if (
-      agentData &&
-      agentData?.leadPreference &&
-      agentData?.leadPreference?.policySnapshotDateRange
-    ) {
-      return agentData?.leadPreference?.policySnapshotDateRange;
-    }
-    return '4';
-  }, [agentData]);
-
-  const taskListDateRange = useMemo(() => {
-    if (
-      agentData &&
-      agentData?.leadPreference &&
-      agentData?.leadPreference?.taskListDateRange
-    ) {
-      return agentData?.leadPreference?.taskListDateRange;
-    }
-    return '4';
-  }, [agentData]);
-
-  const policySnapshotTileSelection = useMemo(() => {
-    if (
-      agentData &&
-      agentData?.leadPreference &&
-      agentData?.leadPreference?.policySnapshotTileSelection
-    ) {
-      return agentData?.leadPreference?.policySnapshotTileSelection;
-    }
-    return 'Declined';
-  }, [agentData]);
-
-  const taskListTileSelection = useMemo(() => {
-    if (
-      agentData &&
-      agentData?.leadPreference &&
-      agentData?.leadPreference?.taskListTileSelection
-    ) {
-      return agentData?.leadPreference?.taskListTileSelection;
-    }
-    return '3';
-  }, [agentData]);
 
   const loadActivityData = async () => {
     if (activityData?.length === 0) {
@@ -319,13 +260,18 @@ export default function Dashbaord() {
           <TaskList
             isMobile={isMobile}
             npn={userProfile?.npn}
-            fetchAgentDataLoading={fetchAgentDataLoading}
-            taskListDateRange={taskListDateRange}
-            taskListTileSelection={taskListTileSelection}
             agentId={agentID}
+            leadPreference={leadPreference}
+            updateAgentPreferencesData={updateAgentPreferencesData}
           />
           <ContactsListProvider>
-            <PlanSnapShot isMobile={isMobile} npn={userProfile?.npn} />
+            <PlanSnapShot
+              isMobile={isMobile}
+              npn={userProfile?.npn}
+              agentId={agentID}
+              leadPreference={leadPreference}
+              updateAgentPreferencesData={updateAgentPreferencesData}
+            />
           </ContactsListProvider>
           <DashboardActivityTable
             isActivityDataLoading={isLoading}

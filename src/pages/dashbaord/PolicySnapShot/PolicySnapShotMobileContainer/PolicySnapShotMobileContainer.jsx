@@ -4,13 +4,11 @@ import { useParams } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 
-import usePreferences from 'hooks/usePreferences';
 import useToast from 'hooks/useToast';
 
 import DateRangeSort from 'components/DateRangeSort';
 import ErrorState from 'components/ErrorState';
 import WithLoader from 'components/ui/WithLoader';
-
 import GlobalFooter from 'partials/global-footer';
 import GlobalNav from 'partials/global-nav-v2';
 
@@ -18,20 +16,24 @@ import { useClientServiceContext } from 'services/clientServiceProvider';
 
 import { TaskListCardContainer } from '../../Tasklist/TaskListCardContainer';
 import UnlinkedPolicyMobileList from '../UnlinkedPoliciesMobileList/UnlinkedPoliciesMobileList';
-import { useAgentAccountContext } from 'providers/AgentAccountProvider';
-
+import useAgentInformationByID from 'hooks/useAgentInformationByID';
+import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
 import NoUnlinkedPolicy from 'images/no-unlinked-policies.svg';
 import styles from './PolicySnapShotMobileContainer.module.scss';
 
 export default function PolicySnapshotMobileLayout() {
   const { npn, date } = useParams();
 
-  const {
-    leadPreference,
-    updateAgentPreferences,
-    isLoading: fetchAgentDataLoading,
-    agentId,
-  } = useAgentAccountContext();
+  const { agentInformation } = useAgentInformationByID();
+  const agentID = agentInformation?.agentID;
+  const { updateAgentPreferencesData, fetchAgentDataLoading, getAgentData } =
+    useProfessionalProfileContext();
+
+  useEffect(() => {
+    if (agentID) {
+      getAgentData();
+    }
+  }, [agentID, getAgentData]);
 
   const [dateRange, setDateRange] = useState(date);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,14 +55,10 @@ export default function PolicySnapshotMobileLayout() {
   const updatePreferences = async () => {
     try {
       const payload = {
-        agentID: agentId,
-        leadPreference: {
-          ...leadPreference,
-          policySnapshotDateRange: dateRange,
-          policySnapshotTileSelection: WIDGET_NAME,
-        },
+        policySnapshotDateRange: dateRange,
+        policySnapshotTileSelection: WIDGET_NAME,
       };
-      await updateAgentPreferences(payload);
+      await updateAgentPreferencesData(payload);
     } catch (error) {
       showToast({
         type: 'error',

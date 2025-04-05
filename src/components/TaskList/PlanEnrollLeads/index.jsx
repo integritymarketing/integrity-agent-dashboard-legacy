@@ -97,7 +97,7 @@ const PlanEnrollCard = ({ callData, refreshData }) => {
   );
 };
 
-const PlanEnrollLeads = ({ dateRange, updatePreferences }) => {
+const PlanEnrollLeads = ({ dateRange }) => {
   const [page, setPage] = useState(1);
   const { clientsService } = useClientServiceContext();
   const [totalPageSize, setTotalPageSize] = useState(1);
@@ -134,9 +134,7 @@ const PlanEnrollLeads = ({ dateRange, updatePreferences }) => {
         dateRange,
         'planenroll'
       );
-      if (response?.result?.length > 0) {
-        await updatePreferences();
-      }
+
       if (page > 1) {
         setPlanEnrollData([...planEnrollData, ...response.result]);
       } else {

@@ -66,17 +66,15 @@ const getLink = {
   4: 'MedicareCENTER-Unlinked-Calls-Guide.pdf',
 };
 
-export default function TaskList({ isMobile, npn }) {
+export default function TaskList({
+  isMobile,
+  npn,
+  leadPreference,
+  updateAgentPreferencesData,
+}) {
   const PAGESIZE = isMobile ? 3 : 5;
   const navigate = useNavigate();
   const { clientsService } = useClientServiceContext();
-
-  const {
-    leadPreference,
-    updateAgentPreferences,
-    isLoading: fetchAgentDataLoading,
-    agentId,
-  } = useAgentAccountContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -98,34 +96,40 @@ export default function TaskList({ isMobile, npn }) {
     return tabs?.find(tab => tab.value === selectedTabValue)?.policyCount;
   }, [tabs, selectedTabValue]);
 
-  const shouldHide48SOA = leadPreference?.hideHealthQuote;
+  const shouldHide48SOA = useMemo(() => {
+    return leadPreference?.hideHealthQuote;
+  }, [leadPreference]);
 
   const showMore = useMemo(() => {
     return page < totalPageSize;
   }, [page, totalPageSize]);
 
-  const updatePreferences = async (date, selectedTabValue) => {
-    try {
-      const payload = {
-        agentID: agentId,
-        leadPreference: {
-          ...leadPreference,
-          taskListDateRange: date,
-          taskListTileSelection: selectedTabValue ? selectedTabValue : '3',
-        },
-      };
-      await updateAgentPreferences(payload);
-    } catch (error) {
-      showToast({
-        type: 'error',
-        message: 'Failed to update preferences.',
-        time: 10000,
-      });
-    }
-  };
+  const updatePreferences = useCallback(
+    async (date, tile) => {
+      try {
+        const payload = {
+          taskListDateRange: date ? date : dateRange,
+          taskListTileSelection: tile ? tile : '3',
+        };
+        await updateAgentPreferencesData(payload);
+      } catch (error) {
+        showToast({
+          type: 'error',
+          message: 'Failed to update preferences.',
+          time: 10000,
+        });
+      }
+    },
+    [updateAgentPreferencesData, showToast]
+  );
 
   const fetchTaskListByWidget = async (date, widgetNumber, isUpdate) => {
-    if (widgetNumber === '3') return; // PlanEnroll Leads is not fetched here
+    if (widgetNumber === '3') {
+      if (isUpdate) {
+        await updatePreferences(date, widgetNumber);
+      }
+      return;
+    }
     setIsLoading(true);
     setTotalPageSize(1);
     setPage(1);
@@ -263,16 +267,15 @@ export default function TaskList({ isMobile, npn }) {
   };
 
   const handleWidgetSelection = async (tab, date, isUpdate) => {
-    const selectedTabValue = tab?.value;
     setSelectedTab(tab);
-    const selectedDate = date || dateRange;
-    if (selectedTabValue) {
-      fetchTaskListByWidget(selectedDate, selectedTabValue, isUpdate);
+    const dateValue = date ? date : dateRange;
+    if (tab?.value) {
+      fetchTaskListByWidget(dateValue, tab?.value, isUpdate);
     }
 
     if (isMobile && tab?.policyCount > 0) {
       navigate(
-        `/taskList-results-mobile-layout/${npn}/${tab?.name}/${selectedDate}`
+        `/taskList-results-mobile-layout/${npn}/${tab?.name}/${dateValue}`
       );
     }
   };
@@ -440,7 +443,7 @@ export default function TaskList({ isMobile, npn }) {
         ) : (
           <>
             {selectedTabValue !== '3' && (
-              <WithLoader isLoading={isLoading || fetchAgentDataLoading}>
+              <WithLoader isLoading={isLoading}>
                 <>
                   {!isMobile && (
                     <>
@@ -462,10 +465,7 @@ export default function TaskList({ isMobile, npn }) {
             )}
             {selectedTabValue === '3' && !isMobile && (
               <StageStatusProvider>
-                <PlanEnrollLeads
-                  dateRange={dateRange}
-                  updatePreferences={updatePreferences}
-                />
+                <PlanEnrollLeads dateRange={dateRange} />
               </StageStatusProvider>
             )}
           </>

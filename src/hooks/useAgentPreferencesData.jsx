@@ -24,6 +24,7 @@ function useAgentPreferencesData() {
       setLeadPreference(response?.leadPreference);
       setAgentAvailability(response);
       setIsLoading(false);
+      return response?.leadPreference;
     } catch (error) {
       setIsLoading(false);
       Sentry.captureException(error);
@@ -39,7 +40,11 @@ function useAgentPreferencesData() {
     async payload => {
       try {
         const response = await clientsService.updateAgentPreferences(payload);
-        setLeadPreference(response?.leadPreference);
+        if (response) {
+          setLeadPreference(response?.leadPreference);
+          setAgentAvailability(response);
+          return response?.leadPreference;
+        }
       } catch (error) {
         showToast({
           type: 'error',
@@ -49,7 +54,7 @@ function useAgentPreferencesData() {
         Sentry.captureException(error);
       }
     },
-    [clientsService, showToast]
+    [clientsService, showToast, getAgentAccountData]
   );
 
   useEffect(() => {

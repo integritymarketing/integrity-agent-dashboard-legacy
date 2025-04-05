@@ -32,7 +32,8 @@ import PlanEnrollBig from 'images/enroll.svg';
 import NoReminder from 'images/no-reminder.svg';
 import NoSOA48Hours from 'images/no-soa-48-hours.svg';
 import NoUnlinkedCalls from 'images/no-unlinked-calls.svg';
-import { useAgentAccountContext } from 'providers/AgentAccountProvider';
+import useAgentInformationByID from 'hooks/useAgentInformationByID';
+import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
 
 const DEFAULT_TABS = [
   {
@@ -64,13 +65,16 @@ const getLink = {
 
 export default function TaskListMobileLayout() {
   const { npn, widget, date } = useParams();
+  const { agentInformation } = useAgentInformationByID();
+  const agentID = agentInformation?.agentID;
+  const { updateAgentPreferencesData, fetchAgentDataLoading, getAgentData } =
+    useProfessionalProfileContext();
 
-  const {
-    leadPreference,
-    updateAgentPreferences,
-    isLoading: fetchAgentDataLoading,
-    agentId,
-  } = useAgentAccountContext();
+  useEffect(() => {
+    if (agentID) {
+      getAgentData();
+    }
+  }, [agentID, getAgentData]);
 
   const [dateRange, setDateRange] = useState(date);
   const [isLoading, setIsLoading] = useState(false);
@@ -103,14 +107,10 @@ export default function TaskListMobileLayout() {
         tab => tab.name === widget
       )?.value;
       const payload = {
-        agentID: agentId,
-        leadPreference: {
-          ...leadPreference,
-          taskListDateRange: dateRange,
-          taskListTileSelection: selectedTabValue ? selectedTabValue : '3',
-        },
+        taskListDateRange: dateRange,
+        taskListTileSelection: selectedTabValue ? selectedTabValue : '3',
       };
-      await updateAgentPreferences(payload);
+      await updateAgentPreferencesData(payload);
     } catch (error) {
       showToast({
         type: 'error',
