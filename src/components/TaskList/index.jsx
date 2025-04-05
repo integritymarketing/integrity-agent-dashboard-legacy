@@ -360,7 +360,7 @@ export default function TaskList({
         return 'There are no incomplete SOAs being tracked for you at this time.';
       }
       case '3': {
-        return 'There are no PlanEnroll leads for you at this time.';
+        return 'You have no connection requests at this time.';
       }
       case '4': {
         return 'There are no unlinked Text and Calls for you at this time.';
