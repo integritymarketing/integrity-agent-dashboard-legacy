@@ -13,11 +13,14 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
   const { clientsService } = useClientServiceContext();
   const showToast = useToast();
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(open);
+  const [isOpen, setIsOpen] = useState(false);
   const [messageCheckbox, setMessageCheckbox] = useState(false);
 
   useEffect(() => {
-    if (location.pathname === '/dashboard') {
+    const isDismissedForSession = sessionStorage.getItem(
+      'isAgentMobilePopUpDismissed'
+    );
+    if (!isDismissedForSession && location.pathname === '/dashboard') {
       setIsOpen(open);
     } else {
       setIsOpen(false);
@@ -35,6 +38,10 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
           },
         };
         await clientsService.updateAgentPreferences(payload);
+        showToast({
+          type: 'success',
+          message: 'Preferences updated successfully.',
+        });
       } catch (error) {
         showToast({
           type: 'error',
@@ -46,16 +53,42 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
     }
 
     setIsOpen(false);
-    sessionStorage.setItem('isAgentMobilePopUpDismissed', true);
-  }, [leadPreference, messageCheckbox, user]);
+    sessionStorage.setItem('isAgentMobilePopUpDismissed', 'true');
+  }, [leadPreference, messageCheckbox, user, clientsService, showToast]);
 
-  const onViewGuideClick = useCallback(() => {
-    handleClose();
+  const onViewGuideClick = useCallback(async () => {
+    if (messageCheckbox) {
+      try {
+        const payload = {
+          agentId: user?.agentId,
+          leadPreference: {
+            ...leadPreference,
+            isAgentMobilePopUpDismissed: true,
+          },
+        };
+        await clientsService.updateAgentPreferences(payload);
+        showToast({
+          type: 'success',
+          message: 'Preferences updated successfully.',
+        });
+      } catch (error) {
+        showToast({
+          type: 'error',
+          message: 'Failed to Save the Preferences.',
+          time: 10000,
+        });
+        Sentry.captureException(error);
+      }
+    }
+
+    setIsOpen(false);
+    sessionStorage.setItem('isAgentMobilePopUpDismissed', 'true');
+
     window.open(
       'https://learningcenter.tawebhost.com/Integrity-Quick-Start-Guide.pdf',
       '_blank'
     );
-  }, []);
+  }, [leadPreference, messageCheckbox, user, clientsService, showToast]);
 
   if (!isOpen) {
     return null;
