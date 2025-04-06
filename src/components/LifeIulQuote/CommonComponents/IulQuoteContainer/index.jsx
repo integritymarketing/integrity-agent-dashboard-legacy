@@ -1,10 +1,8 @@
 import { Grid, Box } from '@mui/material';
-import { ContactProfileTabBar } from 'components/ContactDetailsContainer';
 import { IulQuoteHeader } from '../IulQuoteHeader';
 import { IulFilterHeader } from '../QuoteFilterHeader';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import WithLoader from 'components/ui/WithLoader';
-import { useLeadDetails } from 'providers/ContactDetails';
+import ConditionalProfileBar from 'components/QuickerQuote/Common/ConditionalProfileBar';
 import { useLifeIulQuote } from 'providers/Life';
 import { ComparePlanFooter } from '@integritymarketing/clients-ui-kit';
 import styles from './styles.module.scss';
@@ -22,7 +20,6 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
   const query = useQuery();
   const sessionPlansStatus = query && query.get('preserveSelected');
   const navigate = useNavigate();
-  const { isLoadingLeadDetails } = useLeadDetails();
   const {
     showFilters,
     setShowFilters,
@@ -40,7 +37,6 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
       'IUL-United of Omaha-Income Advantage IUL',
     ];
     sessionStorage.setItem('iul-compare-plans', JSON.stringify(selectedPlans));
-    console.log('selectedPlans', selectedPlans);
     sessionStorage.setItem('iul-protection-tab', JSON.stringify(tabSelected));
     const url = `/life/iul-${quoteType}/${contactId}/${planIds
       ?.map(id => id)
@@ -64,15 +60,13 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
       ? `/life/iul-${quoteType}/${contactId}/quote`
       : `/life/iul-${quoteType}/${contactId}/product-preferences`;
   }, [contactId, page, quoteType]);
-  console.log('selectedPlans', selectedPlans);
   return (
-    <WithLoader isLoading={isLoadingLeadDetails}>
+    <>
       {!showFilters && (
-        <ContactProfileTabBar
-          contactId={contactId}
-          showTabs={false}
-          backButtonRoute={backRoute}
-          backButtonLabel='Back'
+        <ConditionalProfileBar
+          leadId={contactId}
+          backRoute={backRoute}
+          page={quoteType}
         />
       )}
       {showFilters && (
@@ -100,7 +94,7 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
             onCompare={handleOnCompare}
           />
         )}
-    </WithLoader>
+    </>
   );
 };
 

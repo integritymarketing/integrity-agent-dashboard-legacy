@@ -31,6 +31,8 @@ import {
 import { convertToTitleCase } from 'utils/toTitleCase';
 import Spinner from 'components/ui/Spinner';
 import { FinalExpenseErrorModal } from '../../FinalExpenseErrorModal';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
+import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
 
 export const PlanCard = ({
   isMobile,
@@ -66,6 +68,7 @@ export const PlanCard = ({
   const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
   const [isSingleSignOnInitialModalOpen, setIsSingleSignOnInitialModalOpen] =
     useState(false);
+
   const { leadDetails } = useLeadDetails();
   const { fireEvent } = useAnalytics();
   const { agentInformation } = useAgentInformationByID();
@@ -80,6 +83,10 @@ export const PlanCard = ({
     useState(false);
   const [latestWritingAgentNumber, setLatestWritingAgentNumber] =
     useState(null);
+
+  const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
+
+  const { isQuickQuotePage } = useCreateNewQuote();
 
   useEffect(() => {
     if (isPrescreenModalOpen) {
@@ -384,7 +391,13 @@ export const PlanCard = ({
           <Button
             label={APPLY}
             disabled={!isRTSPlan || isPlanExcluded}
-            onClick={onPreApply}
+            onClick={() => {
+              if (isQuickQuotePage) {
+                setContactSearchModalOpen(true);
+              } else {
+                onPreApply();
+              }
+            }}
             type='primary'
             icon={<ButtonCircleArrow />}
             iconPosition='right'
@@ -393,6 +406,11 @@ export const PlanCard = ({
             }`}
           />
         </div>
+        <SaveToContact
+          contactSearchModalOpen={contactSearchModalOpen}
+          handleClose={() => setContactSearchModalOpen(false)}
+          handleCallBack={onPreApply}
+        />
       </div>
     </div>
   );

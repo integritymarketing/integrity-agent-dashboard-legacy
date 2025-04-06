@@ -44,6 +44,7 @@ import { useCreateNewQuote } from '../../../providers/CreateNewQuote';
 import QuoteConditions from '../QuoteConditions';
 import QuoteOptionsInfoModal from './InfoModals/QuoteOptionsInfoModal';
 import CoverageTypeInfoModal from './InfoModals/CoverageTypeInfoModal';
+import ConditionalProfileBar from 'components/QuickerQuote/Common/ConditionalProfileBar';
 
 const FinalExpensePlansResultContainer = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -292,11 +293,9 @@ const FinalExpensePlansResultContainer = () => {
           setIsMobile(val);
         }}
       />
-      <ContactProfileTabBar
-        contactId={contactId}
-        showTabs={false}
-        backButtonLabel={'Back'}
-        backButtonRoute={location.state?.from}
+      <ConditionalProfileBar
+        leadId={contactId}
+        page={isSimplifiedIUL() ? 'simplifiedIUL' : 'finalExpense'}
       />
       <div className={styles.pageHeading}>
         <Typography variant='h2' color='#052A63'>

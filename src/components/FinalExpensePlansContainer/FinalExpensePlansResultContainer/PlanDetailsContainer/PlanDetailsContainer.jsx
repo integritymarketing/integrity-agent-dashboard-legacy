@@ -84,7 +84,7 @@ export const PlanDetailsContainer = ({
   const { isSimplifiedIUL } = useCreateNewQuote();
 
   const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] =
-    useState(true);
+    useState(false);
   const { leadDetails } = useLeadDetails();
   const [fetchPlansError, setFetchPlansError] = useState(false);
   const initialRender = useRef(true);
@@ -116,17 +116,16 @@ export const PlanDetailsContainer = ({
   const fetchPlans = useCallback(async () => {
     setFetchPlansError(false);
     setIsLoadingFinalExpensePlans(true);
-
-    const { addresses, birthdate, gender, weight, height, isTobaccoUser } =
+    const { addresses, birthdate, gender, weight, height, isTobaccoUser, age } =
       leadDetails;
     const code = getStateCode(contactId, addresses);
 
-    if (!code || !birthdate) {
+    if (!code || (!birthdate && !age)) {
       return;
     }
 
     const covType = getCoverageType(coverageType);
-    const age = getAgeFromBirthDate(birthdate);
+    const ageValue = age ? age : getAgeFromBirthDate(birthdate);
     const todayDate = formatDate(new Date(), 'yyyy-MM-dd');
     const { conditions, questions } = getHealthConditionsData(healthConditions);
 
@@ -135,7 +134,7 @@ export const PlanDetailsContainer = ({
 
     const quotePlansPostBody = buildQuotePlansPostBody({
       code,
-      age,
+      age: ageValue,
       gender,
       isTobaccoUser,
       covType,

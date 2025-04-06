@@ -16,7 +16,7 @@ import ContactInfo from 'partials/contact-info';
 import analyticsService from 'services/analyticsService';
 import { useClientServiceContext } from 'services/clientServiceProvider';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import ProfileMenu from './ProfileMenu/ProfileMenu';
 import { useCreateNewQuote } from 'providers/CreateNewQuote';
 
@@ -28,9 +28,9 @@ import SmallFormatMenu from './small-format';
 import IntegrityMobileLogo from 'components/HeaderWithLogin/integrity-mobile-logo';
 import NewBackBtn from 'images/new-back-btn.svg';
 import PlusMenu from './plusMenu';
+import AbcBanner from 'components/AbcBanner';
 import { QUOTE_TYPE } from 'components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants';
 import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
-import { WelcomeModal } from 'components/WelcomeModal';
 
 const SiteNotification = ({
   showPhoneNotification,
@@ -88,8 +88,9 @@ const GlobalNavV2 = ({
   const auth = useAuth0();
   const { clientsService } = useClientServiceContext();
   const navigate = useNavigate();
-  const { setContactSearchModalOpen } = useCreateNewQuote();
-  const { getAgentData, agentData } = useProfessionalProfileContext();
+  const { getAgentData, fetchAgentDataLoading, agentData } =
+    useProfessionalProfileContext();
+  const { getQuickQuoteLeadId } = useCreateNewQuote();
 
   const [navOpen, setNavOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -141,7 +142,7 @@ const GlobalNavV2 = ({
                 to: '#',
                 onClick: e => {
                   e.preventDefault();
-                  setContactSearchModalOpen(true);
+                  getQuickQuoteLeadId();
                 },
                 className: analyticsService.clickClass('quick-quote-header'),
               },
@@ -197,10 +198,10 @@ const GlobalNavV2 = ({
     .join('-');
 
   const showBanner = useMemo(() => {
-    const sessionValue = sessionStorage.getItem('isAgentMobilePopUpDismissed');
+    const sessionValue = sessionStorage.getItem('isAgentMobileBannerDismissed');
     return (
       agentInformation?.leadPreference &&
-      !agentInformation?.leadPreference?.isAgentMobilePopUpDismissed &&
+      !agentInformation?.leadPreference?.isAgentMobileBannerDismissed &&
       !sessionValue
     );
   }, [agentInformation, sessionStorage]);
@@ -218,10 +219,10 @@ const GlobalNavV2 = ({
         showMaintenaceNotification={showMaintenaceNotification}
       />
 
-      <WelcomeModal
-        user={user}
-        open={showBanner}
+      <AbcBanner
+        show={showBanner}
         leadPreference={leadPreference}
+        agentId={user?.agentId}
       />
 
       <header

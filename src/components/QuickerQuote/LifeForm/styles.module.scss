@@ -1,0 +1,93 @@
+@use 'scss/globalDefines' as defines_global;
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.header {
+  font-size: 24px;
+  color: #052a63;
+}
+
+.subHeader {
+  font-size: 16px;
+  color: #434a51;
+  margin-top: 4px;
+}
+
+.formContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.gridContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.lastRowContainer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputLabel {
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.heightContainer {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.requiredFieldsNote {
+  color: #717171;
+  font-size: 14px;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+.submitButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.selectInputBox,
+.inputBoxClassName,
+.stateSelect,
+.datepicker {
+  width: 100%;
+  height: 56px;
+
+  @include defines_global.small {
+    height: 56px;
+  }
+}
+
+.selectInputBox {
+  height: 56px;
+
+  @include defines_global.small {
+    height: 56px;
+  }
+}
+
+.inputBoxClassName {
+  height: 56px !important;
+
+  @include defines_global.small {
+    height: 56px !important;
+  }
+}

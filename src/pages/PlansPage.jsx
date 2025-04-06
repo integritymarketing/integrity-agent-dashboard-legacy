@@ -24,7 +24,6 @@ import useRoles from 'hooks/useRoles';
 import closeAudio from '../components/WebChat/close.mp3';
 import CMSCompliance from 'components/CMSCompliance';
 import CurrentCarrierSummaryBanner from 'components/CurrentCarrierSummaryBanner';
-import { ContactProfileTabBar } from 'components/ContactDetailsContainer/ContactProfileTabBar';
 import NonRTSBanner from 'components/Non-RTS-Banner';
 import ProviderModal from 'components/SharedModals/ProviderModal';
 import WebChatComponent from 'components/WebChat/WebChat';
@@ -43,12 +42,13 @@ import Container from 'components/ui/container';
 import PlanResults, {
   convertPlanTypeToValue,
 } from 'components/ui/plan-results';
-
+import ConditionalProfileBar from 'components/QuickerQuote/Common/ConditionalProfileBar';
 import GlobalFooter from 'partials/global-footer';
 import GlobalNav from 'partials/global-nav-v2';
 
 import analyticsService from 'services/analyticsService';
 import { useClientServiceContext } from 'services/clientServiceProvider';
+import { useLeadDetails } from 'providers/ContactDetails';
 
 import ViewAvailablePlans from '../pages/contacts/contactRecordInfo/viewAvailablePlans';
 
@@ -154,7 +154,6 @@ const PlansPage = () => {
   const { clientsService, plansService } = useClientServiceContext();
   const navigate = useNavigate();
   const location = useLocation();
-  const [contact, setContact] = useState();
   const [plansAvailableCount, setPlansAvailableCount] = useState(0);
   const [filteredPlansCount, setFilteredPlansCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -190,11 +189,20 @@ const PlansPage = () => {
   const { pharmacies, fetchPharmacies, fetchPrescriptions, fetchProviders } =
     useHealth() || {};
 
+  const { leadDetails, getLeadDetails, isLoadingLeadDetails } =
+    useLeadDetails();
+
   useEffect(() => {
     if (id) {
       fetchHealthDetails();
     }
   }, [id]);
+
+  useEffect(() => {
+    if (!leadDetails && id) {
+      getLeadDetails(id);
+    }
+  }, [id, getLeadDetails, leadDetails]);
 
   const fetchHealthDetails = useCallback(async () => {
     await Promise.all([
@@ -226,15 +234,11 @@ const PlansPage = () => {
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
     try {
-      const [contactData, prescriptionData, providerData, pharmacyData] =
-        await Promise.all([
-          clientsService.getContactInfo(id),
-          clientsService.getLeadPrescriptions(id),
-          clientsService.getLeadProviders(id),
-          clientsService.getLeadPharmacies(id),
-        ]);
-
-      setContact(contactData);
+      const [prescriptionData, providerData, pharmacyData] = await Promise.all([
+        clientsService.getLeadPrescriptions(id),
+        clientsService.getLeadProviders(id),
+        clientsService.getLeadPharmacies(id),
+      ]);
 
       checkForCurrentCarrierSummary(contactData);
 
@@ -460,14 +464,18 @@ const PlansPage = () => {
       setPlanType_mobile(value);
     } else {
       setPlanType(value);
-      navigate({ state: { planType: parseInt(value) } });
+      navigate({
+        pathname: location.pathname, // Keep the current path
+        search: location.search, // Retain the current query string (e.g., ?quick-quote=true)
+        state: { planType: parseInt(value) },
+      });
     }
     setSelectedPlans({});
     healthQuoteResultsUpdatedEvent('planType', value);
   };
 
   const refreshPlans = useCallback(async () => {
-    if (contact) {
+    if (leadDetails) {
       setPlansAvailableCount(0);
       setFilteredPlansCount(0);
       setPlansLoading(true);
@@ -476,8 +484,8 @@ const PlansPage = () => {
         setSubTypeList([]);
         setCarrierList([]);
         const params = {
-          fips: contact.addresses?.[0].countyFips.toString(),
-          zip: contact.addresses?.[0].postalCode.toString(),
+          fips: leadDetails.addresses?.[0].countyFips.toString(),
+          zip: leadDetails.addresses?.[0].postalCode.toString(),
           year: effectiveDate.getFullYear(),
           ReturnAllMedicarePlans: !myAppointedPlans,
           ShowFormulary: true,
@@ -487,7 +495,10 @@ const PlansPage = () => {
             effectiveDate.getMonth() + 1
           }-01`,
         };
-        const plansData = await plansService.getPlans(contact.leadsId, params);
+        const plansData = await plansService.getPlans(
+          leadDetails.leadsId,
+          params
+        );
         setPlansAvailableCount(plansData?.medicarePlans?.length);
         setCurrentPage(1);
         setResults(plansData?.medicarePlans);
@@ -507,7 +518,7 @@ const PlansPage = () => {
         setPlansLoading(false);
       }
     }
-  }, [contact, effectiveDate, planType, myAppointedPlans, pharmacies]);
+  }, [leadDetails, effectiveDate, planType, myAppointedPlans, pharmacies]);
 
   useEffect(() => {
     if (
@@ -526,14 +537,14 @@ const PlansPage = () => {
   }, [myAppointedPlans]);
 
   useEffect(() => {
-    if (contact && contact?.hasMedicAid) {
+    if (leadDetails && leadDetails?.hasMedicAid) {
       setSpecialNeedsFilter(true);
       setSpecialNeedsFilter_mobile(true);
     }
-  }, [contact]);
+  }, [leadDetails]);
 
   const getAllPlans = useCallback(async () => {
-    if (contact) {
+    if (leadDetails) {
       setPlansAvailableCount(0);
       setFilteredPlansCount(0);
       setPlansLoading(true);
@@ -542,8 +553,8 @@ const PlansPage = () => {
         setSubTypeList([]);
         setCarrierList([]);
         const params = {
-          fips: contact.addresses?.[0].countyFips.toString(),
-          zip: contact.addresses?.[0].postalCode.toString(),
+          fips: leadDetails.addresses?.[0].countyFips.toString(),
+          zip: leadDetails.addresses?.[0].postalCode.toString(),
           year: effectiveDate.getFullYear(),
           ReturnAllMedicarePlans: !myAppointedPlans,
           ShowFormulary: true,
@@ -553,7 +564,10 @@ const PlansPage = () => {
             effectiveDate.getMonth() + 1
           }-01`,
         };
-        const plansData = await plansService.getPlans(contact.leadsId, params);
+        const plansData = await plansService.getPlans(
+          leadDetails.leadsId,
+          params
+        );
         setPlansAvailableCount(plansData?.medicarePlans?.length);
         setCurrentPage(1);
         setResults(plansData?.medicarePlans);
@@ -574,7 +588,7 @@ const PlansPage = () => {
         setPlansLoading(false);
       }
     }
-  }, [contact, effectiveDate, planType, myAppointedPlans]);
+  }, [leadDetails, effectiveDate, planType, myAppointedPlans]);
 
   const pageSize = 10;
 
@@ -701,11 +715,12 @@ const PlansPage = () => {
     lastName = '',
     birthdate = '',
     leadsId = '',
-  } = contact || {};
+  } = leadDetails || {};
   const toSentenceCase = name =>
     name?.charAt(0).toUpperCase() + name?.slice(1).toLowerCase();
   const fullName = `${toSentenceCase(firstName)} ${toSentenceCase(lastName)}`;
-  const userZipCode = contact?.addresses?.[0]?.postalCode;
+  const userZipCode = leadDetails?.addresses?.[0]?.postalCode;
+
   return (
     <>
       <audio ref={audioRefClose} src={closeAudio} />
@@ -720,7 +735,7 @@ const PlansPage = () => {
             leadsId={leadsId}
             showViewAvailablePlansRef={showViewAvailablePlansRef}
             showViewAvailablePlans={showViewAvailablePlans}
-            personalInfo={contact}
+            personalInfo={leadDetails}
             rXToSpecialists={rXToSpecialists}
             setShowViewAvailablePlans={setShowViewAvailablePlans}
           />
@@ -743,20 +758,18 @@ const PlansPage = () => {
             setIsMobile(isMobileDevice);
           }}
         />
-        <WithLoader isLoading={isLoading}>
+        <WithLoader
+          isLoading={isLoading}
+          isLoadingLeadDetails={isLoadingLeadDetails}
+        >
           {!shouldShowAskIntegrity && <WebChatComponent />}
           <Helmet>
             <title>Integrity - Plans</title>
           </Helmet>
           <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE} />
 
-          {((contact && !isMobile) || (isMobile && !filtersOpen)) && (
-            <ContactProfileTabBar
-              contactId={id}
-              showTabs={false}
-              backButtonLabel='Back'
-              backButtonRoute={`/contact/${id}/overview`}
-            />
+          {((leadDetails && !isMobile) || (isMobile && !filtersOpen)) && (
+            <ConditionalProfileBar leadId={id} page='healthPlans' />
           )}
 
           {isMobile && !filtersOpen && (
@@ -786,9 +799,9 @@ const PlansPage = () => {
                 <div className={`${styles['filters']}`}>
                   {!isNonRTS_User && !isMobile && showCurrentCarrierSummary && (
                     <CMSCompliance
-                      leadId={contact?.leadsId}
-                      countyFips={contact?.addresses?.[0]?.countyFips}
-                      postalCode={contact?.addresses?.[0]?.postalCode}
+                      leadId={leadDetails?.leadsId}
+                      countyFips={leadDetails?.addresses?.[0]?.countyFips}
+                      postalCode={leadDetails?.addresses?.[0]?.postalCode}
                     />
                   )}
                   {isMobile && (
@@ -907,9 +920,9 @@ const PlansPage = () => {
                     ((isMobile && showCurrentCarrierSummary) ||
                       !showCurrentCarrierSummary) && (
                       <CMSCompliance
-                        leadId={contact?.leadsId}
-                        countyFips={contact?.addresses?.[0]?.countyFips}
-                        postalCode={contact?.addresses?.[0]?.postalCode}
+                        leadId={leadDetails?.leadsId}
+                        countyFips={leadDetails?.addresses?.[0]?.countyFips}
+                        postalCode={leadDetails?.addresses?.[0]?.postalCode}
                       />
                     )}
                   {results.length > 0 && showCurrentCarrierSummary && (
@@ -947,7 +960,7 @@ const PlansPage = () => {
                       isMobile={isMobile}
                       loading={plansLoading}
                       effectiveDate={effectiveDate}
-                      contact={contact}
+                      leadDetails={leadDetails}
                       leadId={id}
                       pharmacies={pharmacies}
                       planType={planType}

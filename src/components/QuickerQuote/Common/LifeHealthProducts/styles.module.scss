@@ -1,0 +1,42 @@
+@use "scss/globalDefines" as defines_global;
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25%;
+    margin: auto;
+    height: 300px;
+
+    @include defines_global.small {
+        flex-direction: column;
+        height: auto;
+        gap: 8px;
+    }
+}
+
+.plan {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 16px;
+}
+
+.icon {
+    background-color: white;
+    width: 96px;
+    height: 96px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    cursor: pointer;
+}
+
+.title {
+    font-size: 20px;
+    color: #052a63;
+    margin-top: 10px;
+}

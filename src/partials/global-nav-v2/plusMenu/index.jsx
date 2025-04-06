@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { Menu, MenuItem, MenuList, Typography } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCreateNewQuote } from 'providers/CreateNewQuote';
-import { QuickQuoteModals } from 'components/CreateNewQuoteContainer';
+import { QuickQuoteModals } from 'components/QuickerQuote/QuickerQuoteContainerModal';
 
 import styles from './styles.module.scss';
 
@@ -12,7 +12,7 @@ import QuoteIcon from '../assets/Icon-Quote.svg';
 import PlusIcon from '../assets/icons-Plus.svg';
 
 export default function PlusMenu() {
-  const { setContactSearchModalOpen } = useCreateNewQuote();
+  const { setShowStartQuoteModal, getQuickQuoteLeadId } = useCreateNewQuote();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -24,18 +24,18 @@ export default function PlusMenu() {
 
   useEffect(() => {
     if (createQuote) {
-      setContactSearchModalOpen(true);
+      setShowStartQuoteModal(true);
     }
-  }, [createQuote, setContactSearchModalOpen]);
+  }, [createQuote, setShowStartQuoteModal]);
 
   const handleClick = useCallback(event => {
     setAnchorEl(event.currentTarget);
   }, []);
 
-  const handleCreateQuote = useCallback(() => {
-    setContactSearchModalOpen(true);
+  const handleCreateQuote = useCallback(async () => {
+    await getQuickQuoteLeadId();
     setAnchorEl(null);
-  }, [setContactSearchModalOpen]);
+  }, [getQuickQuoteLeadId]);
 
   const handleNavigateToContact = useCallback(() => {
     setAnchorEl(null);

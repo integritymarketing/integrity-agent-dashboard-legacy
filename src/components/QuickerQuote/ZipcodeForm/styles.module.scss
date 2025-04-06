@@ -1,0 +1,64 @@
+@use 'scss/globalDefines' as defines_global;
+
+.addZipContainer {
+  padding: 56px 24px;
+  color: #052a63;
+}
+
+.detailsMContainer {
+  margin: 0 24px;
+}
+
+.quickQuote {
+  background: #fff;
+  padding: 20px 18px;
+  border-radius: 8px;
+
+  @include defines_global.small {
+    padding: 24px;
+    margin: 0;
+    width: 100%;
+  }
+}
+
+.detailsDContainer {
+  width: 520px;
+  background: #fff;
+  margin: auto;
+  padding: 56px 96px;
+  border-radius: 8px;
+}
+
+.detailsTitle {
+  color: #052a63;
+  font-size: 32px;
+  line-height: 32px;
+  padding-bottom: 8px;
+
+  @include defines_global.small {
+    font-size: 24px;
+    padding: 0;
+    margin-bottom: 24px;
+    line-height: 28px;
+    letter-spacing: 0;
+  }
+}
+
+.detailsSubTitle {
+  color: #434a51;
+  font-size: 16px;
+  padding-bottom: 8px;
+}
+
+.title {
+  color: #052a63;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.submitButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+}

@@ -1,0 +1,43 @@
+.fieldHeaderLabel {
+  color: #052a63;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.17px;
+}
+
+.nextButton {
+  width: 100%;
+  justify-content: space-between;
+  background-color: #4178ff;
+  border-radius: 100px;
+
+  svg {
+    margin-left: 100px;
+  }
+}
+
+.payPeriodLabel {
+  margin-top: 8px;
+  display: inline-block;
+}
+
+.iulProtectionForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+  padding: 32px 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+}

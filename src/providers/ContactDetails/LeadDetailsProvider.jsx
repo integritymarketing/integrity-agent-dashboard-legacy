@@ -6,7 +6,7 @@ import {
   useEffect,
 } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { getFormattedData } from 'utilities/formatData';
@@ -28,10 +28,59 @@ const flattenMBI = mbi => {
 const getFormattedPhone = phone =>
   phone ? `${phone}`.replace(/\D/g, '') : null;
 
+function useQuery() {
+  const { search } = useLocation();
+  return useMemo(() => new URLSearchParams(search), [search]);
+}
+
+const formartQuickQuoteDataToLeadData = response => {
+  const data = {
+    leadsId: response?.leadId,
+    prefix: null,
+    firstName: '',
+    lastName: '',
+    middleName: null,
+    suffix: null,
+    addresses: [
+      {
+        leadAddressId: null,
+        address1: null,
+        address2: null,
+        city: null,
+        stateCode: response?.stateCode,
+        postalCode: response?.zipCode,
+        county: response?.county,
+        countyFips: response?.countyFips,
+        latitude: null,
+        longitude: null,
+      },
+    ],
+
+    birthdate: response?.birthdate,
+    isTobaccoUser: response?.isTobaccoUser,
+    height: response?.height,
+    weight: response?.weight,
+    gender: response?.gender,
+    age: response?.age,
+    consumerId: null,
+    hasMedicAid: null,
+    hasFna: false,
+  };
+  return data;
+};
+
 export const LeadDetailsContext = createContext();
 
 export const LeadDetailsProvider = ({ children }) => {
+  const query = useQuery();
+  const isQuickQuotePage = query && query.get('quick-quote');
+
   const leadsApiUrl = `${import.meta.env.VITE_LEADS_URL}/api/v2.0/Leads`;
+  const getLeadIdApiUrl = `${
+    import.meta.env.VITE_LEADS_URL
+  }/api/v2.0/QuickQuote`;
+
+  const LEADS_URL = isQuickQuotePage ? getLeadIdApiUrl : leadsApiUrl;
   const validatePhoneUrl = `${
     import.meta.env.VITE_LEADS_URL
   }/api/v2.0/Leads/Validate/MobilePhoneNumber`;
@@ -66,7 +115,7 @@ export const LeadDetailsProvider = ({ children }) => {
     error: leadDetailsError,
     Put: editLeadDetails,
     Delete: deleteContact,
-  } = useFetch(leadsApiUrl);
+  } = useFetch(LEADS_URL);
 
   const showToast = useToast();
 
@@ -77,12 +126,20 @@ export const LeadDetailsProvider = ({ children }) => {
   const leadID = leadIdParam || contactId;
 
   const getLeadDetails = useCallback(
-    async leadId => {
+    async (leadId, isQuickQuote) => {
+      if (!leadId) {
+        return;
+      }
       try {
         const response = await fetchLeadDetails(null, false, leadId);
         const plan_enroll_profile_created =
           response?.consumerId === null ? 'No' : 'Yes';
-        setLeadDetails({ ...response, plan_enroll_profile_created });
+        if (isQuickQuotePage || isQuickQuote) {
+          const leadData = formartQuickQuoteDataToLeadData(response);
+          setLeadDetails(leadData);
+        } else {
+          setLeadDetails({ ...response, plan_enroll_profile_created });
+        }
         return response;
       } catch (error) {
         showToast({
@@ -92,7 +149,7 @@ export const LeadDetailsProvider = ({ children }) => {
         });
       }
     },
-    [fetchLeadDetails, showToast]
+    [fetchLeadDetails, showToast, isQuickQuotePage]
   );
 
   const updateLeadDetailsWithZipCode = useCallback(

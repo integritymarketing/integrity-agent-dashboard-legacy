@@ -3,12 +3,18 @@ import PropTypes from 'prop-types';
 import { useAgentAccountContext } from 'providers/AgentAccountProvider';
 import useUserProfile from 'hooks/useUserProfile';
 import useToast from 'hooks/useToast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useAnalytics from 'hooks/useAnalytics';
 import useFetch from 'hooks/useFetch';
 import { LIFE_QUESTION_CARD_LIST } from '../../components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants';
+import * as Sentry from '@sentry/react';
 
 export const CreateNewQuoteContext = createContext();
+
+function useQuery() {
+  const { search } = useLocation();
+  return useMemo(() => new URLSearchParams(search), [search]);
+}
 
 export const CreateNewQuoteProvider = ({ children }) => {
   const { updateAgentPreferences, leadPreference } = useAgentAccountContext();
@@ -16,6 +22,9 @@ export const CreateNewQuoteProvider = ({ children }) => {
   const { agentId } = useUserProfile();
   const showToast = useToast();
   const navigate = useNavigate();
+
+  const query = useQuery();
+  const isQuickQuotePage = query && query.get('quick-quote');
 
   const LIFE = 'hideLifeQuote';
   const HEALTH = 'hideHealthQuote';
@@ -51,21 +60,27 @@ export const CreateNewQuoteProvider = ({ children }) => {
   });
   const [showZipCodeInput, setShowZipCodeInput] = useState(false);
   const [doNotShowAgain, setDoNotShowAgain] = useState(false);
-  const [isMultipleCounties, setIsMultipleCounties] = useState(false);
-  const [countiesData, setCountiesData] = useState([]);
+  const [quickQuoteLeadId, setQuickQuoteLeadId] = useState(null);
+  const [quickQuoteLeadDetails, setQuickQuoteLeadDetails] = useState(null);
 
-  const zipCode = selectedLead?.addresses?.[0]?.postalCode;
-  const URL = `${
-    import.meta.env.VITE_QUOTE_URL
-  }/api/v1.0/Search/GetCounties?zipcode=${zipCode}`;
-  const { Get: getCounties } = useFetch(URL);
-  const county = selectedLead?.addresses?.[0]?.county;
+  const getLeadIdApiUrl = `${
+    import.meta.env.VITE_LEADS_URL
+  }/api/v2.0/QuickQuote`;
 
-  const fetchCountiesData = useCallback(async () => {
-    const counties = await getCounties();
-    setCountiesData(counties);
-    setIsMultipleCounties(counties?.length > 1 && !county);
-  }, [county, getCounties]);
+  const { Get: fetchQuickQuoteLeadId, loading: isLoadingGetQuickQuoteLeadId } =
+    useFetch(getLeadIdApiUrl);
+
+  const {
+    Get: fetchQuickQuoteLeadById,
+    Put: updateQuickQuoteLeadDetailsAPICall,
+    Post: saveQuickQuoteLeadDetailsAPICall,
+    loading: isLoadingQuickQuoteLeadDetails,
+  } = useFetch(getLeadIdApiUrl);
+
+  const {
+    Post: existingLinkLeadToQuickQuoteAPICall,
+    loading: isLoadingExistingLinkLeadToQuickQuote,
+  } = useFetch(getLeadIdApiUrl);
 
   // Define handleClose before any function that references it
   const handleClose = useCallback(() => {
@@ -101,73 +116,18 @@ export const CreateNewQuoteProvider = ({ children }) => {
     [agentId, leadPreference, showToast, updateAgentPreferences]
   );
 
-  const handleAgentProductPreferenceType = useCallback(
-    lead => {
-      setShowStartQuoteModal(true);
-      const postalCode =
-        lead?.addresses?.length > 0 ? lead?.addresses[0]?.postalCode : null;
-      const leadCounty =
-        lead?.addresses?.length > 0 ? lead?.addresses[0]?.county : null;
-
-      if (!leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote) {
-        setQuoteModalStage('selectProductTypeCard');
+  const handleInitiateQuickQuoteLead = useCallback(() => {
+    if (!leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote) {
+      setQuoteModalStage('selectProductTypeCard');
+    } else {
+      setSelectedProductType(leadPreference?.hideLifeQuote ? 'health' : 'life');
+      if (!leadPreference?.hideLifeQuote) {
+        setQuoteModalStage('lifeQuestionCard');
       } else {
-        setSelectedProductType(
-          leadPreference?.hideLifeQuote ? 'health' : 'life'
-        );
-        if (!leadPreference?.hideLifeQuote) {
-          if (IUL_FEATURE_FLAG) {
-            setQuoteModalStage('lifeQuestionCard');
-          } else {
-            setQuoteModalStage('finalExpenseIntakeFormCard');
-          }
-        } else {
-          if (postalCode && leadCounty) {
-            fireEvent('New Quote Created With Instant Quote', {
-              leadId: lead?.leadsId,
-              line_of_business: 'Health',
-              contactType: newLeadDetails?.firstName
-                ? 'New Contact'
-                : 'Existing Contact',
-            });
-            navigate(`/plans/${lead?.leadsId}`);
-            handleClose();
-          } else {
-            setQuoteModalStage('zipCodeInputCard');
-          }
-        }
+        setQuoteModalStage('zipCodeInputCard');
       }
-    },
-    [
-      leadPreference,
-      IUL_FEATURE_FLAG,
-      fireEvent,
-      navigate,
-      newLeadDetails,
-      handleClose,
-    ]
-  );
-
-  const handleSelectedLead = useCallback(
-    (lead, type) => {
-      if (type === 'new') {
-        setNewLeadDetails({
-          ...newLeadDetails,
-          firstName: lead?.split(' ')[0],
-          lastName: lead?.split(' ')[1],
-        });
-        setSelectedLead(null);
-        setContactSearchModalOpen(false);
-        setCreateNewContactModalOpen(true);
-      } else {
-        setSelectedLead(lead);
-        setContactSearchModalOpen(false);
-        setCreateNewContactModalOpen(false);
-        handleAgentProductPreferenceType(lead);
-      }
-    },
-    [newLeadDetails, handleAgentProductPreferenceType]
-  );
+    }
+  }, [leadPreference]);
 
   const showUpArrow = useMemo(() => {
     return !leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote;
@@ -256,23 +216,21 @@ export const CreateNewQuoteProvider = ({ children }) => {
 
   const handleSelectIulGoalType = useCallback(
     productType => {
-      setSelectedLifeProductType(productType);
-      switch (productType) {
-        case 'Accumulation':
-          navigate(
-            `/life/iul-accumulation/${selectedLead.leadsId}/confirm-details`
-          );
-          break;
-        case 'Protection':
-          navigate(
-            `/life/iul-protection/${selectedLead.leadsId}/confirm-details`
-          );
-          break;
-      }
-      setShowStartQuoteModal(false);
+      setSelectedIulGoal(productType);
+      setQuoteModalStage('finalExpenseIntakeFormCard');
     },
-    [navigate, selectedLead]
+    [setSelectedIulGoal, setQuoteModalStage]
   );
+
+  const handleBackFromLifeIntakeForm = useCallback(() => {
+    if (
+      selectedLifeProductType === LIFE_QUESTION_CARD_LIST.INDEXED_UNIVERSAL_LIFE
+    ) {
+      setQuoteModalStage('iulGoalCard');
+    } else {
+      setQuoteModalStage('lifeQuestionCard');
+    }
+  }, [selectedLifeProductType, setQuoteModalStage]);
 
   const handleSelectedHealthProductType = useCallback(
     productType => {
@@ -302,17 +260,121 @@ export const CreateNewQuoteProvider = ({ children }) => {
     [selectedLead, fireEvent, navigate, newLeadDetails, handleClose]
   );
 
-  const handleSelectIulGoal = useCallback(goal => {
-    setSelectedIulGoal(goal);
-    setQuoteModalStage('finalExpenseIntakeFormCard');
-  }, []);
-
   const isSimplifiedIUL = useCallback(() => {
     return (
       selectedLifeProductType ===
       LIFE_QUESTION_CARD_LIST.SIMPLIFIED_INDEXED_UNIVERSAL_LIFE
     );
   }, [selectedLifeProductType]);
+
+  const getQuickQuoteLeadId = useCallback(async () => {
+    try {
+      setShowStartQuoteModal(true);
+      const response = await fetchQuickQuoteLeadId();
+
+      if (response) {
+        setQuickQuoteLeadDetails(response);
+        setQuickQuoteLeadId(response?.leadId);
+        if (response?.leadId) {
+          handleInitiateQuickQuoteLead();
+        }
+      }
+    } catch (error) {
+      Sentry.captureException(error);
+      showToast({
+        type: 'error',
+        message: 'Failed to get Quick Quote Lead ID',
+        time: 10000,
+      });
+    }
+  }, [fetchQuickQuoteLeadId, showToast]);
+
+  const getQuickQuoteLeadById = useCallback(
+    async leadId => {
+      if (!leadId) return;
+      try {
+        const response = await fetchQuickQuoteLeadById(null, false, leadId);
+
+        if (response) {
+          setQuickQuoteLeadDetails(response);
+          return response;
+        }
+      } catch (error) {
+        Sentry.captureException(error);
+        showToast({
+          type: 'error',
+          message: 'Failed to get Quick Quote Lead by ID',
+          time: 10000,
+        });
+      }
+    },
+    [fetchQuickQuoteLeadById, showToast]
+  );
+
+  const saveQuickQuoteLeadDetails = useCallback(
+    async payload => {
+      try {
+        const response = await saveQuickQuoteLeadDetailsAPICall(payload);
+        if (response) {
+          setQuickQuoteLeadDetails(response);
+          return response;
+        }
+      } catch (error) {
+        Sentry.captureException(error);
+        showToast({
+          type: 'error',
+          message: 'Failed to save Quick Quote Lead details',
+          time: 10000,
+        });
+      }
+    },
+    [saveQuickQuoteLeadDetailsAPICall, showToast]
+  );
+
+  const updateQuickQuoteLeadDetails = useCallback(
+    async payload => {
+      try {
+        const response = await updateQuickQuoteLeadDetailsAPICall(payload);
+        if (response) {
+          setQuickQuoteLeadDetails(response);
+          return response;
+        }
+      } catch (error) {
+        Sentry.captureException(error);
+        showToast({
+          type: 'error',
+          message: 'Failed to update Quick Quote Lead details',
+          time: 10000,
+        });
+      }
+    },
+    [updateQuickQuoteLeadDetailsAPICall, showToast]
+  );
+
+  const existingLinkLeadToQuickQuote = useCallback(
+    async (payload, leadId) => {
+      if (!leadId || !payload) return;
+      try {
+        const response = await existingLinkLeadToQuickQuoteAPICall(
+          payload,
+          false,
+          leadId
+        );
+        if (response && response?.leadsId) {
+          setQuickQuoteLeadDetails(response);
+          return response;
+        }
+      } catch (error) {
+        Sentry.captureException(error);
+        showToast({
+          type: 'error',
+          message: 'Failed to save Quick Quote Lead details',
+          time: 10000,
+        });
+      }
+    },
+    [existingLinkLeadToQuickQuoteAPICall, showToast]
+  );
 
   return (
     <CreateNewQuoteContext.Provider value={getContextValue()}>
@@ -323,7 +385,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
   function getContextValue() {
     return {
       selectedLead,
-      handleSelectedLead,
       newLeadDetails,
       setNewLeadDetails,
       createNewContactModalOpen,
@@ -347,21 +408,30 @@ export const CreateNewQuoteProvider = ({ children }) => {
       handleSelectedProductType,
       handleSelectLifeProductType,
       handleSelectedHealthProductType,
-      handleAgentProductPreferenceType,
       editAgentPreferences,
       showStartQuoteModal,
       setShowStartQuoteModal,
       quoteModalStage,
       setQuoteModalStage,
-      handleSelectIulGoal,
       handleClose,
       showUpArrow,
       IUL_FEATURE_FLAG,
-      isMultipleCounties,
-      fetchCountiesData,
-      countiesData,
       handleSelectIulGoalType,
       isSimplifiedIUL,
+      quickQuoteLeadId,
+      getQuickQuoteLeadId,
+      updateQuickQuoteLeadDetails,
+      isLoadingQuickQuoteLeadDetails,
+      getQuickQuoteLeadById,
+      quickQuoteLeadDetails,
+      setQuickQuoteLeadDetails,
+      isLoadingGetQuickQuoteLeadId,
+      handleBackFromLifeIntakeForm,
+      isQuickQuotePage,
+      saveQuickQuoteLeadDetails,
+      updateQuickQuoteLeadDetails,
+      existingLinkLeadToQuickQuote,
+      isLoadingExistingLinkLeadToQuickQuote,
     };
   }
 };

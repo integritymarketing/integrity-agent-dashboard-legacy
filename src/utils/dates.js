@@ -369,6 +369,21 @@ export const getAgeFromBirthDate = birthdate => {
   return differenceInYears(currentDate, birthDate);
 };
 
+export const getBirthDateFromAge = age => {
+  // Get the current year
+  const currentYear = new Date().getFullYear();
+
+  // Calculate the birth year by subtracting the age from the current year
+  const birthYear = currentYear - age;
+
+  // Create the Date object for January 1st of the birth year
+  const birthDate = moment(`${birthYear}-01-01`); // Creating a moment object with the birth year and January 1st
+
+  // Format the date as YYYY-MM-DD (correct format)
+  const formattedDate = birthDate.format('YYYY-MM-DD');
+
+  return formattedDate;
+};
 export const getSoaDatesFromSummary = inputString => {
   // Regular expression to extract dates and times
   const regex = /(\d{2}\/\d{2}\/\d{4}) (\d{2}:\d{2}:\d{2})/g;

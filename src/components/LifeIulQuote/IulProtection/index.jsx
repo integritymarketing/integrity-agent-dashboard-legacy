@@ -1,15 +1,33 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {ApplyErrorModal, IulProtectionQuoteFilter, IulQuoteContainer,} from '../CommonComponents';
-import {CarrierResourceAds, IulQuoteCard, NoResultsError,} from '@integritymarketing/clients-ui-kit';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  ApplyErrorModal,
+  IulProtectionQuoteFilter,
+  IulQuoteContainer,
+} from '../CommonComponents';
+import {
+  CarrierResourceAds,
+  IulQuoteCard,
+  NoResultsError,
+} from '@integritymarketing/clients-ui-kit';
 import NoResults from 'components/icons/errorImages/noResults';
-import {Box, Grid, Tab, Tabs, Typography, useMediaQuery, useTheme,} from '@mui/material';
-import {useLifeIulQuote} from 'providers/Life';
+import {
+  Box,
+  Grid,
+  Tab,
+  Tabs,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import { useLifeIulQuote } from 'providers/Life';
 import WithLoader from 'components/ui/WithLoader';
 import styles from './styles.module.scss';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
-import {useLeadDetails} from 'providers/ContactDetails';
-import {useCarriers} from "providers/CarriersProvider";
+import { useLeadDetails } from 'providers/ContactDetails';
+import { useCarriers } from 'providers/CarriersProvider';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
+import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
 
 const IulProtectionQuote = () => {
   const {
@@ -25,9 +43,9 @@ const IulProtectionQuote = () => {
     isLoadingApplyLifeIulQuote,
     handleIULQuoteApplyClick,
   } = useLifeIulQuote();
-
+  const { isQuickQuotePage } = useCreateNewQuote();
   const { leadDetails } = useLeadDetails();
-  const {getCarriersData} = useCarriers();
+  const { getCarriersData } = useCarriers();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -38,12 +56,11 @@ const IulProtectionQuote = () => {
   const [selectedPlan, setSelectedPlan] = useState({});
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
   const [carriersAdsPolicyDetails, setCarriersAdsPolicyDetails] = useState([]);
+  const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchCarriersAdsPolicyDetails = async () => {
-      const response = await getCarriersData(
-        'productType=iul'
-      );
+      const response = await getCarriersData('productType=iul');
       if (response) {
         addActionMenuItemsToCarriersAdsPolicies(response);
       }
@@ -51,33 +68,34 @@ const IulProtectionQuote = () => {
     fetchCarriersAdsPolicyDetails();
   }, []);
 
-  const addActionMenuItemsToCarriersAdsPolicies = (carriersAdsPolicyDetails) => {
-    const carriersAdsPolicyDetailsWithActionMenuItems = carriersAdsPolicyDetails.map(carrier => {
-      const actionMenuItems = [
-        carrier.quote && {
-          label: 'Run Quote',
-          onClick: () => window.open(carrier.quote, "_blank"),
-        },
-        carrier.illustration && {
-          label: 'Run Illustration',
-          onClick: () => window.open(carrier.illustration, "_blank"),
-        },
-        carrier.eApp && {
-          label: 'Start eApp',
-          onClick: () => window.open(carrier.eApp, "_blank"),
-        },
-        carrier.website && {
-          label: 'Visit Carrier',
-          onClick: () => window.open(carrier.website, "_blank"),
-        },
-      ].filter(Boolean);
-      return {
-        ...carrier,
-        actionMenuItems,
-      };
-    });
+  const addActionMenuItemsToCarriersAdsPolicies = carriersAdsPolicyDetails => {
+    const carriersAdsPolicyDetailsWithActionMenuItems =
+      carriersAdsPolicyDetails.map(carrier => {
+        const actionMenuItems = [
+          carrier.quote && {
+            label: 'Run Quote',
+            onClick: () => window.open(carrier.quote, '_blank'),
+          },
+          carrier.illustration && {
+            label: 'Run Illustration',
+            onClick: () => window.open(carrier.illustration, '_blank'),
+          },
+          carrier.eApp && {
+            label: 'Start eApp',
+            onClick: () => window.open(carrier.eApp, '_blank'),
+          },
+          carrier.website && {
+            label: 'Visit Carrier',
+            onClick: () => window.open(carrier.website, '_blank'),
+          },
+        ].filter(Boolean);
+        return {
+          ...carrier,
+          actionMenuItems,
+        };
+      });
     setCarriersAdsPolicyDetails(carriersAdsPolicyDetailsWithActionMenuItems);
-  }
+  };
 
   const getQuoteResults = useCallback(async () => {
     const lifeQuoteProtectionDetails = sessionStorage.getItem(
@@ -144,9 +162,16 @@ const IulProtectionQuote = () => {
     window.open('/learning-center', '_blank');
   };
 
-  const handleApplyClick = async plan => {
-    setSelectedPlan(plan);
+  const onApply = plan => {
+    if (isQuickQuotePage) {
+      setSelectedPlan(plan);
+      setContactSearchModalOpen(true);
+    } else {
+      handleApplyClick(plan);
+    }
+  };
 
+  const handleApplyClick = async plan => {
     const emailAddress =
       leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
     const phoneNumber =
@@ -294,7 +319,7 @@ const IulProtectionQuote = () => {
                           distribution={distribution}
                           age={plan?.input?.actualAge}
                           healthClass={plan?.input?.healthClass}
-                          handleApplyClick={() => handleApplyClick(plan)}
+                          handleApplyClick={() => onApply(plan)}
                           premium={premium}
                           handleComparePlanSelect={() => {
                             handleComparePlanSelect(plan);
@@ -338,15 +363,29 @@ const IulProtectionQuote = () => {
               open={applyErrorModalOpen}
               onClose={() => setApplyErrorModalOpen(false)}
             />
+            <SaveToContact
+              contactSearchModalOpen={contactSearchModalOpen}
+              handleClose={() => setContactSearchModalOpen(false)}
+              handleCallBack={() => handleApplyClick(selectedPlan)}
+            />
           </WithLoader>
         </Grid>
       )}
-      {carriersAdsPolicyDetails.length > 0 && <Box className={styles.carrierResourceContainer}>
-        <Box className={styles.carrierResourceHeader}><Typography variant="h4" color="#052A63">
-          Carrier Resources <span className={styles.carrierResourceCount}>({carriersAdsPolicyDetails.length})</span>
-        </Typography></Box>
-        <CarrierResourceAds carriers={carriersAdsPolicyDetails}></CarrierResourceAds>
-      </Box>}
+      {carriersAdsPolicyDetails.length > 0 && (
+        <Box className={styles.carrierResourceContainer}>
+          <Box className={styles.carrierResourceHeader}>
+            <Typography variant='h4' color='#052A63'>
+              Carrier Resources{' '}
+              <span className={styles.carrierResourceCount}>
+                ({carriersAdsPolicyDetails.length})
+              </span>
+            </Typography>
+          </Box>
+          <CarrierResourceAds
+            carriers={carriersAdsPolicyDetails}
+          ></CarrierResourceAds>
+        </Box>
+      )}
     </IulQuoteContainer>
   );
 };
