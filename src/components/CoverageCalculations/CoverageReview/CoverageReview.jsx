@@ -2,7 +2,7 @@ import { Box, Card, Typography, useMediaQuery, useTheme } from '@mui/material';
 import CoverageCalculationsCard from '../CoverageCalculationsCard';
 import { GridListItem } from '@integritymarketing/clients-ui-kit';
 import { useCoverageCalculationsContext } from 'providers/CoverageCalculations';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -15,6 +15,7 @@ import { formatCurrency } from 'utils/shared-utils/sharedUtility';
 import NoCoverageModal from './NoCoverageModal';
 import PropTypes from 'prop-types';
 import IconBackGround from 'components/ui/IconBackGround';
+import ShareModal from 'components/FnaShareModal';
 
 const CoverageReview = ({
   handleNext,
@@ -26,6 +27,7 @@ const CoverageReview = ({
   const navigate = useNavigate();
   const { contactId } = useParams();
   const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const formatValue = value => {
     if (value === undefined || value === null) {
@@ -106,6 +108,10 @@ const CoverageReview = ({
     );
   }, [financialNeedsAnalysis]);
 
+  const handleShareModal = useCallback(() => {
+    setShowShareModal(true);
+  }, []);
+
   return (
     <>
       {shouldNoCoverageModalOpen ? (
@@ -130,6 +136,7 @@ const CoverageReview = ({
           primaryButtonLabel='Start a Quote'
           showSkipButton={false}
           showShareButton
+          onShare={handleShareModal}
         >
           <Box p={2} bgcolor='#F1F1F1' borderRadius={1}>
             <GridListItem data={tableData} headers={headers} />
@@ -250,6 +257,13 @@ const CoverageReview = ({
             needs.
           </Typography>
         </CoverageCalculationsCard>
+      )}
+      {showShareModal && (
+        <ShareModal
+          open={showShareModal}
+          onClose={() => setShowShareModal(false)}
+          financialNeedsAnalysis={financialNeedsAnalysis}
+        />
       )}
     </>
   );

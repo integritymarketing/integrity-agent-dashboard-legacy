@@ -9,7 +9,6 @@ import {
   Box,
   useMediaQuery,
   useTheme,
-  Paper,
 } from '@mui/material';
 import ButtonCircleArrow from 'components/icons/button-circle-arrow';
 import { faArrowShare } from '@awesome.me/kit-7ab3488df1/icons/kit/custom';
@@ -27,6 +26,7 @@ const CoverageCalculationsCard = ({
   primaryButtonLabel = 'Continue',
   showSkipButton = true,
   showShareButton = false,
+  onShare,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -61,6 +61,7 @@ const CoverageCalculationsCard = ({
               {showShareButton && (
                 <Button
                   endIcon={<FontAwesomeIcon icon={faArrowShare} size='lg' />}
+                  onClick={onShare}
                 >
                   Share
                 </Button>
@@ -159,6 +160,7 @@ CoverageCalculationsCard.propTypes = {
   onSkip: PropTypes.func,
   showBackButton: PropTypes.bool,
   isContinueButtonDisabled: PropTypes.bool,
+  onShare: PropTypes.func,
 };
 
 CoverageCalculationsCard.defaultProps = {

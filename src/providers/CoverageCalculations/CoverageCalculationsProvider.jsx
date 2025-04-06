@@ -25,6 +25,10 @@ export const CoverageCalculationsProvider = ({ children }) => {
     loading: isFinancialNeedsAnalysisUpdating,
   } = useFetch(BASE_URL);
 
+  const { Post: sendDetails, loading: isSendFNADetailsPosting } = useFetch(
+    `${BASE_URL}/Send`
+  );
+
   const getFinancialNeedsAnalysis = useCallback(
     async leadId => {
       try {
@@ -72,6 +76,22 @@ export const CoverageCalculationsProvider = ({ children }) => {
     }
   }, []);
 
+  const sendFNADetails = useCallback(async body => {
+    try {
+      await sendDetails(body, false, null);
+      showToast({
+        type: 'success',
+        message: 'Shared Successfully',
+      });
+    } catch (error) {
+      Sentry.captureException(error);
+      showToast({
+        type: 'error',
+        message: 'Failed to send the details',
+      });
+    }
+  }, []);
+
   const contextValue = useMemo(
     () => ({
       isLoadingFinancialNeedsAnalysis,
@@ -79,6 +99,8 @@ export const CoverageCalculationsProvider = ({ children }) => {
       getFinancialNeedsAnalysis,
       updateFinancialNeedsAnalysis,
       isFinancialNeedsAnalysisUpdating,
+      sendFNADetails,
+      isSendFNADetailsPosting,
     }),
     [
       isLoadingFinancialNeedsAnalysis,
@@ -86,6 +108,8 @@ export const CoverageCalculationsProvider = ({ children }) => {
       getFinancialNeedsAnalysis,
       updateFinancialNeedsAnalysis,
       isFinancialNeedsAnalysisUpdating,
+      sendFNADetails,
+      isSendFNADetailsPosting,
     ]
   );
 
