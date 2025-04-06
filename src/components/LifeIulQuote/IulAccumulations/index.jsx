@@ -1,25 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-  ApplyErrorModal,
-  IulAccumulationQuoteFilter,
-  IulQuoteContainer,
-} from '../CommonComponents';
-import {
-  IulQuoteCard,
-  NoResultsError,
-  CarrierResourceAds,
-} from '@integritymarketing/clients-ui-kit';
+import React, {useCallback, useEffect, useState} from 'react';
+import {ApplyErrorModal, IulAccumulationQuoteFilter, IulQuoteContainer,} from '../CommonComponents';
+import {CarrierResourceAds, IulQuoteCard, NoResultsError,} from '@integritymarketing/clients-ui-kit';
 import NoResults from 'components/icons/errorImages/noResults';
-import { Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useLifeIulQuote } from 'providers/Life';
+import {Box, Grid, Typography, useMediaQuery, useTheme} from '@mui/material';
+import {useLifeIulQuote} from 'providers/Life';
 import styles from './styles.module.scss';
 import WithLoader from 'components/ui/WithLoader';
-import { useNavigate, useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
-import { useLeadDetails } from 'providers/ContactDetails';
-import { useCarriers } from 'providers/CarriersProvider';
-import { useCreateNewQuote } from 'providers/CreateNewQuote';
+import {useLeadDetails} from 'providers/ContactDetails';
+import {useCarriers} from 'providers/CarriersProvider';
+import {useCreateNewQuote} from 'providers/CreateNewQuote';
 import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
+import useUserProfile from "hooks/useUserProfile";
+import {useProfessionalProfileContext} from "providers/ProfessionalProfileProvider";
 
 const IulAccumulationQuote = () => {
   const {
@@ -33,16 +27,18 @@ const IulAccumulationQuote = () => {
     isLoadingApplyLifeIulQuote,
   } = useLifeIulQuote();
 
-  const { isQuickQuotePage } = useCreateNewQuote();
-  const { getCarriersData } = useCarriers();
-  const { leadDetails } = useLeadDetails();
+  const {isQuickQuotePage} = useCreateNewQuote();
+  const {getCarriersData, getAdPolicyRedirectUrl} = useCarriers();
+  const {leadDetails} = useLeadDetails();
   const [isTobaccoUser, setIsTobaccoUser] = useState(false);
 
-  const { agentInformation } = useAgentInformationByID();
+  const {agentInformation} = useAgentInformationByID();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const { contactId } = useParams();
+  const {contactId} = useParams();
   const navigate = useNavigate();
+  const {firstName, lastName, email, phone, npn} = useUserProfile();
+  const {getAgentData} = useProfessionalProfileContext();
   const [selectedPlan, setSelectedPlan] = useState({});
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
   const [carriersAdsPolicyDetails, setCarriersAdsPolicyDetails] = useState([]);
@@ -58,25 +54,87 @@ const IulAccumulationQuote = () => {
     fetchCarriersAdsPolicyDetails();
   }, []);
 
+  const fetchRedirectUrlAndOpen = async (resource, website) => {
+    const agentData = await getAgentData?.();
+    if (!agentData) return;
+    const {
+      sourceId,
+      assignedBUs = [],
+    } = agentData;
+
+    const agentBUs = assignedBUs.map((item) => item.buName);
+    const agent = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      npn,
+      sourceId,
+      agentBUs,
+    };
+
+    const {
+      firstName: leadFirstName,
+      lastName: leadLastName,
+      birthdate,
+      age,
+      gender,
+    } = leadDetails || {};
+    const stateCode = leadDetails?.addresses?.[0]?.stateCode;
+    const leadId = leadDetails?.leadsId;
+    const leadPhone = leadDetails?.phones?.[0]?.leadPhone || "";
+    const leadEmail = leadDetails?.emails?.[0]?.leadEmail || "";
+
+    const payload = {
+      ctaName: resource,
+      ctaValue: website,
+      agent,
+      lead: {
+        leadId,
+        firstName: leadFirstName,
+        lastName: leadLastName,
+        email: leadEmail,
+        phone: leadPhone,
+        age,
+        gender,
+        dateOfBirth: birthdate,
+        stateCode,
+      },
+    };
+
+    const adPolicyRedirectUrlDetails = await getAdPolicyRedirectUrl(payload);
+    if (adPolicyRedirectUrlDetails?.redirectUrl) {
+      window.open(adPolicyRedirectUrlDetails.redirectUrl, "_blank");
+    }
+  };
+
   const addActionMenuItemsToCarriersAdsPolicies = carriersAdsPolicyDetails => {
     const carriersAdsPolicyDetailsWithActionMenuItems =
       carriersAdsPolicyDetails.map(carrier => {
         const actionMenuItems = [
           carrier.quote && {
             label: 'Run Quote',
-            onClick: () => window.open(carrier.quote, '_blank'),
+            onClick: async () => {
+              await fetchRedirectUrlAndOpen(carrier.resource, carrier.quote);
+            },
           },
           carrier.illustration && {
             label: 'Run Illustration',
-            onClick: () => window.open(carrier.illustration, '_blank'),
+            onClick: async () => {
+              await fetchRedirectUrlAndOpen(carrier.resource, carrier.illustration);
+            },
           },
           carrier.eApp && {
             label: 'Start eApp',
-            onClick: () => window.open(carrier.eApp, '_blank'),
+            onClick: async () => {
+              await fetchRedirectUrlAndOpen(carrier.resource, carrier.eApp);
+            },
           },
           carrier.website && {
             label: 'Visit Carrier',
-            onClick: () => window.open(carrier.website, '_blank'),
+            onClick: async () => {
+              await fetchRedirectUrlAndOpen(carrier.resource, carrier.website);
+            },
           },
         ].filter(Boolean);
         return {
@@ -140,7 +198,7 @@ const IulAccumulationQuote = () => {
     if (filteredPlan.length > 0) {
       sessionStorage.setItem(
         'iul-plan-details',
-        JSON.stringify({ ...filteredPlan[0], isTobaccoUser })
+        JSON.stringify({...filteredPlan[0], isTobaccoUser})
       );
       const tempId = 'IUL-United of Omaha-Income Advantage IUL';
       navigate(`/life/iul-accumulation/${contactId}/${tempId}/quote-details`);
@@ -163,7 +221,7 @@ const IulAccumulationQuote = () => {
   const handleApplyClick = async plan => {
     try {
       const response = await handleIULQuoteApplyClick(
-        { ...plan, ...agentInformation, ...leadDetails },
+        {...plan, ...agentInformation, ...leadDetails},
         contactId
       );
       if (response.success) {
@@ -192,7 +250,7 @@ const IulAccumulationQuote = () => {
             </Typography>
           </Box>
         )}
-        <IulAccumulationQuoteFilter isTobaccoUser={isTobaccoUser} />
+        <IulAccumulationQuoteFilter isTobaccoUser={isTobaccoUser}/>
       </Grid>
       {!showFilters && (
         <Grid item md={8} spacing={2}>
@@ -229,7 +287,7 @@ const IulAccumulationQuote = () => {
                         item
                         md={12}
                         key={`iul-accumulation-${index}`}
-                        sx={{ position: 'relative' }}
+                        sx={{position: 'relative'}}
                       >
                         <IulQuoteCard
                           applyButtonDisabled={isLoadingApplyLifeIulQuote}
@@ -266,7 +324,7 @@ const IulAccumulationQuote = () => {
                         />
                         {selectedPlan.rowId === rowId && (
                           <Box
-                            sx={{ position: 'absolute', top: 0, left: '50%' }}
+                            sx={{position: 'absolute', top: 0, left: '50%'}}
                           >
                             <WithLoader
                               isLoading={isLoadingApplyLifeIulQuote}
@@ -284,7 +342,7 @@ const IulAccumulationQuote = () => {
                   helpText='Need help? Check out our '
                   helpLinkText='LearningCENTER.'
                   onHelpLinkClick={handleNavigateToLearningCenter}
-                  image={<NoResults />}
+                  image={<NoResults/>}
                 />
               )}
             </Grid>
