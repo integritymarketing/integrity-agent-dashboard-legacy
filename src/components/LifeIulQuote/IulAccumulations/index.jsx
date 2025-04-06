@@ -25,6 +25,7 @@ const IulAccumulationQuote = () => {
     selectedPlans,
     handleIULQuoteApplyClick,
     isLoadingApplyLifeIulQuote,
+    getAddPolicyRedirectURL,
   } = useLifeIulQuote();
 
   const {isQuickQuotePage} = useCreateNewQuote();
@@ -145,6 +146,7 @@ const IulAccumulationQuote = () => {
     setCarriersAdsPolicyDetails(carriersAdsPolicyDetailsWithActionMenuItems);
   };
 
+
   const getQuoteResults = useCallback(async () => {
     const lifeQuoteAccumulationDetails = sessionStorage.getItem(
       'lifeQuoteAccumulationDetails'
@@ -202,6 +204,14 @@ const IulAccumulationQuote = () => {
       );
       const tempId = 'IUL-United of Omaha-Income Advantage IUL';
       navigate(`/life/iul-accumulation/${contactId}/${tempId}/quote-details`);
+    }
+  };
+
+  const handleIllustrationClick = async () => {
+    try {
+      await getAddPolicyRedirectURL(agentInformation, leadDetails);
+    } catch (error) {
+      console.error('Error fetching illustration URL:', error);
     }
   };
 
@@ -306,6 +316,7 @@ const IulAccumulationQuote = () => {
                           deathBenefit={deathBenefit}
                           distribution={distribution}
                           handleApplyClick={() => onApply(plan)}
+                          handleIllustrationClick={handleIllustrationClick}
                           age={plan?.input?.actualAge}
                           healthClass={plan?.input?.healthClass}
                           handleComparePlanSelect={() =>

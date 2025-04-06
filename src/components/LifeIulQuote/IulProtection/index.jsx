@@ -28,6 +28,7 @@ const IulProtectionQuote = () => {
     selectedPlans,
     isLoadingApplyLifeIulQuote,
     handleIULQuoteApplyClick,
+    getAddPolicyRedirectURL,
   } = useLifeIulQuote();
   const {isQuickQuotePage} = useCreateNewQuote();
   const {leadDetails} = useLeadDetails();
@@ -212,14 +213,22 @@ const IulProtectionQuote = () => {
     window.open('/learning-center', '_blank');
   };
 
-  const onApply = plan => {
-    if (isQuickQuotePage) {
-      setSelectedPlan(plan);
-      setContactSearchModalOpen(true);
-    } else {
-      handleApplyClick(plan);
+  const handleIllustrationClick = async () => {
+    try {
+      const response = await getAddPolicyRedirectURL(
+        agentInformation,
+        leadDetails
+      );
+      if (response?.url) {
+        window.open(response.url, '_blank');
+      }
+    } catch (error) {
+      console.error('Error fetching illustration URL:', error);
     }
   };
+
+  const handleApplyClick = async plan => {
+    setSelectedPlan(plan);
 
   const handleApplyClick = async plan => {
     const emailAddress =
@@ -369,7 +378,8 @@ const IulProtectionQuote = () => {
                           distribution={distribution}
                           age={plan?.input?.actualAge}
                           healthClass={plan?.input?.healthClass}
-                          handleApplyClick={() => onApply(plan)}
+                          handleApplyClick={() => handleApplyClick(plan)}
+                          handleIllustrationClick={handleIllustrationClick}
                           premium={premium}
                           handleComparePlanSelect={() => {
                             handleComparePlanSelect(plan);
@@ -439,5 +449,5 @@ const IulProtectionQuote = () => {
     </IulQuoteContainer>
   );
 };
-
+};
 export default IulProtectionQuote;
