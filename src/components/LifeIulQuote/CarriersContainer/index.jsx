@@ -43,7 +43,7 @@ export const CarriersContainer = ({ title, query }) => {
       assignedBUs = [],
     } = agentData;
 
-    const agentBUs = assignedBUs.map((item) => item.buName);
+    const agentBUs = assignedBUs?.map((item) => item.buCode);
     const agent = {
       firstName,
       lastName,

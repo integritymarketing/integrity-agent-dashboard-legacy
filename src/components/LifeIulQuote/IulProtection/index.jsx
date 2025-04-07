@@ -78,7 +78,7 @@ const IulProtectionQuote = () => {
     if (!agentData) return;
     const { sourceId, assignedBUs = [] } = agentData;
 
-    const agentBUs = assignedBUs.map(item => item.buName);
+    const agentBUs = assignedBUs?.map(item => item.buCode);
     const agent = {
       firstName,
       lastName,
