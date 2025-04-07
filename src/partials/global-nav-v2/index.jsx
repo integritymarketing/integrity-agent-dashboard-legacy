@@ -31,6 +31,8 @@ import PlusMenu from './plusMenu';
 import AbcBanner from 'components/AbcBanner';
 import { QUOTE_TYPE } from 'components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants';
 import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
+import Welcome from 'pages/welcome';
+import { WelcomeModal } from 'components/WelcomeModal';
 
 const SiteNotification = ({
   showPhoneNotification,
@@ -219,10 +221,10 @@ const GlobalNavV2 = ({
         showMaintenaceNotification={showMaintenaceNotification}
       />
 
-      <AbcBanner
-        show={showBanner}
+      <WelcomeModal
+        user={user}
+        open={showBanner}
         leadPreference={leadPreference}
-        agentId={user?.agentId}
       />
 
       <header
