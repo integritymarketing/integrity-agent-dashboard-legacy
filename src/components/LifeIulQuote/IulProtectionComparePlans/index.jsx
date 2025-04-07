@@ -200,15 +200,16 @@ const IulProtectionComparePlans = () => {
             <ProductFeature title='Features' features={features} />
           </Grid>
         )}
-
-        <Grid item md={12} className={styles.underwritingRequirements}>
-          <Box>
-            <UnderwritingRequirements
-              requirements={uwRequirements}
-              title='Underwriting Requirements'
-            />
-          </Box>
-        </Grid>
+        {uwRequirements?.length > 0 && (
+          <Grid item md={12} className={styles.underwritingRequirements}>
+            <Box>
+              <UnderwritingRequirements
+                requirements={uwRequirements}
+                title='Underwriting Requirements'
+              />
+            </Box>
+          </Grid>
+        )}
       </Grid>
       <ApplyErrorModal
         open={applyErrorModalOpen}

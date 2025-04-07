@@ -1,19 +1,27 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {ApplyErrorModal, IulAccumulationQuoteFilter, IulQuoteContainer,} from '../CommonComponents';
-import {CarrierResourceAds, IulQuoteCard, NoResultsError,} from '@integritymarketing/clients-ui-kit';
+import React, { useCallback, useEffect, useState } from 'react';
+import {
+  ApplyErrorModal,
+  IulAccumulationQuoteFilter,
+  IulQuoteContainer,
+} from '../CommonComponents';
+import {
+  CarrierResourceAds,
+  IulQuoteCard,
+  NoResultsError,
+} from '@integritymarketing/clients-ui-kit';
 import NoResults from 'components/icons/errorImages/noResults';
-import {Box, Grid, Typography, useMediaQuery, useTheme} from '@mui/material';
-import {useLifeIulQuote} from 'providers/Life';
+import { Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { useLifeIulQuote } from 'providers/Life';
 import styles from './styles.module.scss';
 import WithLoader from 'components/ui/WithLoader';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
-import {useLeadDetails} from 'providers/ContactDetails';
-import {useCarriers} from 'providers/CarriersProvider';
-import {useCreateNewQuote} from 'providers/CreateNewQuote';
+import { useLeadDetails } from 'providers/ContactDetails';
+import { useCarriers } from 'providers/CarriersProvider';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
 import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
-import useUserProfile from "hooks/useUserProfile";
-import {useProfessionalProfileContext} from "providers/ProfessionalProfileProvider";
+import useUserProfile from 'hooks/useUserProfile';
+import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
 
 const IulAccumulationQuote = () => {
   const {
@@ -28,18 +36,18 @@ const IulAccumulationQuote = () => {
     getAddPolicyRedirectURL,
   } = useLifeIulQuote();
 
-  const {isQuickQuotePage} = useCreateNewQuote();
-  const {getCarriersData, getAdPolicyRedirectUrl} = useCarriers();
-  const {leadDetails} = useLeadDetails();
+  const { isQuickQuotePage } = useCreateNewQuote();
+  const { getCarriersData, getAdPolicyRedirectUrl } = useCarriers();
+  const { leadDetails } = useLeadDetails();
   const [isTobaccoUser, setIsTobaccoUser] = useState(false);
 
-  const {agentInformation} = useAgentInformationByID();
+  const { agentInformation } = useAgentInformationByID();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const {contactId} = useParams();
+  const { contactId } = useParams();
   const navigate = useNavigate();
-  const {firstName, lastName, email, phone, npn} = useUserProfile();
-  const {getAgentData} = useProfessionalProfileContext();
+  const { firstName, lastName, email, phone, npn } = useUserProfile();
+  const { getAgentData } = useProfessionalProfileContext();
   const [selectedPlan, setSelectedPlan] = useState({});
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
   const [carriersAdsPolicyDetails, setCarriersAdsPolicyDetails] = useState([]);
@@ -58,12 +66,9 @@ const IulAccumulationQuote = () => {
   const fetchRedirectUrlAndOpen = async (resource, website) => {
     const agentData = await getAgentData?.();
     if (!agentData) return;
-    const {
-      sourceId,
-      assignedBUs = [],
-    } = agentData;
+    const { sourceId, assignedBUs = [] } = agentData;
 
-    const agentBUs = assignedBUs.map((item) => item.buName);
+    const agentBUs = assignedBUs.map(item => item.buName);
     const agent = {
       firstName,
       lastName,
@@ -83,8 +88,8 @@ const IulAccumulationQuote = () => {
     } = leadDetails || {};
     const stateCode = leadDetails?.addresses?.[0]?.stateCode;
     const leadId = leadDetails?.leadsId;
-    const leadPhone = leadDetails?.phones?.[0]?.leadPhone || "";
-    const leadEmail = leadDetails?.emails?.[0]?.leadEmail || "";
+    const leadPhone = leadDetails?.phones?.[0]?.leadPhone || '';
+    const leadEmail = leadDetails?.emails?.[0]?.leadEmail || '';
 
     const payload = {
       ctaName: resource,
@@ -105,7 +110,7 @@ const IulAccumulationQuote = () => {
 
     const adPolicyRedirectUrlDetails = await getAdPolicyRedirectUrl(payload);
     if (adPolicyRedirectUrlDetails?.redirectUrl) {
-      window.open(adPolicyRedirectUrlDetails.redirectUrl, "_blank");
+      window.open(adPolicyRedirectUrlDetails.redirectUrl, '_blank');
     }
   };
 
@@ -122,7 +127,10 @@ const IulAccumulationQuote = () => {
           carrier.illustration && {
             label: 'Run Illustration',
             onClick: async () => {
-              await fetchRedirectUrlAndOpen(carrier.resource, carrier.illustration);
+              await fetchRedirectUrlAndOpen(
+                carrier.resource,
+                carrier.illustration
+              );
             },
           },
           carrier.eApp && {
@@ -145,7 +153,6 @@ const IulAccumulationQuote = () => {
       });
     setCarriersAdsPolicyDetails(carriersAdsPolicyDetailsWithActionMenuItems);
   };
-
 
   const getQuoteResults = useCallback(async () => {
     const lifeQuoteAccumulationDetails = sessionStorage.getItem(
@@ -194,17 +201,14 @@ const IulAccumulationQuote = () => {
     getQuoteResults();
   }, []);
 
-  const handlePlanDetailsClick = id => {
-    const filteredPlan = lifeIulQuoteResults.filter(item => id === item.recId);
-
-    if (filteredPlan.length > 0) {
-      sessionStorage.setItem(
-        'iul-plan-details',
-        JSON.stringify({...filteredPlan[0], isTobaccoUser})
-      );
-      const tempId = 'IUL-United of Omaha-Income Advantage IUL';
-      navigate(`/life/iul-accumulation/${contactId}/${tempId}/quote-details`);
-    }
+  const handlePlanDetailsClick = plan => {
+    sessionStorage.setItem(
+      'iul-plan-details',
+      JSON.stringify({ ...plan, isTobaccoUser })
+    );
+    navigate(
+      `/life/iul-accumulation/${contactId}/${plan.policyDetailId}/quote-details`
+    );
   };
 
   const handleIllustrationClick = async () => {
@@ -231,7 +235,7 @@ const IulAccumulationQuote = () => {
   const handleApplyClick = async plan => {
     try {
       const response = await handleIULQuoteApplyClick(
-        {...plan, ...agentInformation, ...leadDetails},
+        { ...plan, ...agentInformation, ...leadDetails },
         contactId
       );
       if (response.success) {
@@ -260,7 +264,7 @@ const IulAccumulationQuote = () => {
             </Typography>
           </Box>
         )}
-        <IulAccumulationQuoteFilter isTobaccoUser={isTobaccoUser}/>
+        <IulAccumulationQuoteFilter isTobaccoUser={isTobaccoUser} />
       </Grid>
       {!showFilters && (
         <Grid item md={8} spacing={2}>
@@ -291,13 +295,15 @@ const IulAccumulationQuote = () => {
                       targetPremium,
                       rowId,
                       recId,
+                      hasPolicyDetails,
+                      policyDetailId,
                     } = plan;
                     return (
                       <Grid
                         item
                         md={12}
                         key={`iul-accumulation-${index}`}
-                        sx={{position: 'relative'}}
+                        sx={{ position: 'relative' }}
                       >
                         <IulQuoteCard
                           applyButtonDisabled={isLoadingApplyLifeIulQuote}
@@ -323,11 +329,13 @@ const IulAccumulationQuote = () => {
                             handleComparePlanSelect(plan)
                           }
                           handlePlanDetailsClick={() =>
-                            handlePlanDetailsClick(plan.recId)
+                            handlePlanDetailsClick(plan)
                           }
+                          hasPolicyDetails={hasPolicyDetails}
                           disableCompare={
-                            selectedPlans?.length === 3 &&
-                            !selectedPlans?.find(p => p.recId === recId)
+                            (selectedPlans?.length === 3 &&
+                              !selectedPlans?.find(p => p.recId === recId)) ||
+                            !hasPolicyDetails
                           }
                           isChecked={selectedPlans?.find(
                             p => p.recId === recId
@@ -335,7 +343,7 @@ const IulAccumulationQuote = () => {
                         />
                         {selectedPlan.rowId === rowId && (
                           <Box
-                            sx={{position: 'absolute', top: 0, left: '50%'}}
+                            sx={{ position: 'absolute', top: 0, left: '50%' }}
                           >
                             <WithLoader
                               isLoading={isLoadingApplyLifeIulQuote}
@@ -353,7 +361,7 @@ const IulAccumulationQuote = () => {
                   helpText='Need help? Check out our '
                   helpLinkText='LearningCENTER.'
                   onHelpLinkClick={handleNavigateToLearningCenter}
-                  image={<NoResults/>}
+                  image={<NoResults />}
                 />
               )}
             </Grid>

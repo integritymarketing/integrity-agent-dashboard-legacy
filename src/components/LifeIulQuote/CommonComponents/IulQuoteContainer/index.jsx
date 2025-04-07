@@ -31,16 +31,15 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
   } = useLifeIulQuote();
 
   const handleOnCompare = () => {
-    const planIds = [
-      'IUL-United of Omaha-Income Advantage IUL',
-      'IUL-United of Omaha-Life Protection Advantage IUL',
-      'IUL-United of Omaha-Income Advantage IUL',
-    ];
+    const planIds = selectedPlans.map(plan =>
+      encodeURIComponent(plan.policyDetailId)
+    );
+
     sessionStorage.setItem('iul-compare-plans', JSON.stringify(selectedPlans));
     sessionStorage.setItem('iul-protection-tab', JSON.stringify(tabSelected));
-    const url = `/life/iul-${quoteType}/${contactId}/${planIds
-      ?.map(id => id)
-      .join(',')}/compare-plans`;
+    const url = `/life/iul-${quoteType}/${contactId}/${planIds.join(
+      ','
+    )}/compare-plans`;
     navigate(url);
   };
 
@@ -69,6 +68,7 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
           page={quoteType}
         />
       )}
+
       {showFilters && (
         <IulFilterHeader
           title={'Filters'}
