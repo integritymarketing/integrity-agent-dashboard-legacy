@@ -41,7 +41,7 @@ const StartQuoteModal = () => {
 
   return (
     <CustomModal
-      title='Select a Product Category'
+      title='Quick Quote'
       open={open}
       handleClose={onClose}
       showCloseButton

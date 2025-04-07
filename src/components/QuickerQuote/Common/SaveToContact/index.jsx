@@ -81,6 +81,7 @@ const SaveToContact = ({
         LEAD_ID
       );
       if (response && response?.leadsId) {
+        setLinkToContactModalOpen(false);
         handleCallBack(response?.leadsId);
       }
     } catch (error) {

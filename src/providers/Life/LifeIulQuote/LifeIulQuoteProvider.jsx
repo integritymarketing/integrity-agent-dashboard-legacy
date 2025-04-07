@@ -312,10 +312,13 @@ export const LifeIulQuoteProvider = ({ children }) => {
           phone: agentInformation?.phone || '',
           npn: agentInformation?.agentNPN || '',
           sourceId: agentInformation?.sourceId || '',
-          agentBUs: agentInformation?.assignedBUs || [],
+          agentBUs:
+            (agentInformation?.assignedBUs &&
+              agentInformation?.assignedBUs?.map(bu => bu.buCode)) ||
+            [],
         },
         lead: {
-          leadId: 0,
+          leadId: leadDetails?.leadsId || leadDetails?.leadId || null,
           firstName: leadDetails?.firstName || '',
           lastName: leadDetails?.lastName || '',
           email:
