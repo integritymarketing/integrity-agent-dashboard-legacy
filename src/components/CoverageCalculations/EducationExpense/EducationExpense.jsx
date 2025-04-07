@@ -6,6 +6,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useMemo } from 'react';
 import CoverageCalculationsCard from '../CoverageCalculationsCard';
 import PropTypes from 'prop-types';
 import { SelectableButtonGroup } from '@integritymarketing/clients-ui-kit';
@@ -74,7 +75,7 @@ const EducationExpense = ({
   ]);
 
   const handleSkip = useCallback(async () => {
-    if(
+    if (
       ageYoungestChild !== null &&
       ageYoungestChild !== undefined &&
       ageYoungestChild !== ''
@@ -92,21 +93,29 @@ const EducationExpense = ({
       handleNext();
     }
   }, [ageYoungestChild, updateFinancialNeedsAnalysis, contactId, handleNext]);
-;
+
+  const isAgeYoungestChildUnderEighteen = useMemo(() => {
+    return (
+      ageYoungestChild &&
+      !isNaN(parseInt(ageYoungestChild)) &&
+      parseInt(ageYoungestChild) <= 18
+    );
+  }, [ageYoungestChild]);
+
+  const showErrorMessage = useMemo(() => {
+    return (
+      ageYoungestChild &&
+      !isNaN(parseInt(ageYoungestChild)) &&
+      parseInt(ageYoungestChild) > 18
+    );
+  }, [ageYoungestChild]);
 
   const isContinueButtonDisabled =
     isFinancialNeedsAnalysisUpdating ||
     !ageYoungestChild ||
     shouldCoverCollegeExpenses === '' ||
-    !childrenUnderEighteen;
-
-  const handleAgeOfYoungestChildChange = ({ target }) => {
-    if (target.value > 18) {
-      return;
-    }
-
-    handleUpdateStringsWithoutConvertion(target.name, target.value);
-  };
+    !childrenUnderEighteen ||
+    !isAgeYoungestChildUnderEighteen;
 
   return (
     <CoverageCalculationsCard
@@ -151,8 +160,15 @@ const EducationExpense = ({
               onKeyDown={onlyNumbers}
               name='ageYoungestChild'
               value={ageYoungestChild}
-              onChange={handleAgeOfYoungestChildChange}
+              onChange={({ target }) =>
+                handleUpdateStringsWithoutConvertion(target.name, target.value)
+              }
             />
+            {showErrorMessage && (
+              <Typography variant='body1' color='#C81E27' marginTop='4px'>
+                Supports up to 18
+              </Typography>
+            )}
           </Grid>
           <Grid item md={12}>
             <Typography fontWeight='600' mb={1}>
