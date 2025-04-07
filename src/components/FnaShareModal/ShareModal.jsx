@@ -125,7 +125,7 @@ const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
         } else {
           payloadData = {
             ...payload,
-            messageDestination: nonFormatPhoneNumber,
+            messageDestination: phone,
             messageType: 'SMS',
           };
         }
@@ -166,10 +166,10 @@ const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
             setPhone={setPhone}
             newSelectedType={newSelectedType}
             setNewSelectedType={setNewSelectedType}
-            isEmailCompatible={isEmailCompatible}
-            setIsEmailCompatible={setIsEmailCompatible}
-            isPhoneCompatible={false}
-            setIsPhoneCompatible={setIsPhoneCompatible}
+            isEmailCompatabile={isEmailCompatible}
+            setIsEmailCompatabile={setIsEmailCompatible}
+            isPhoneCompatabile={isPhoneCompatible}
+            setIsPhoneCompatabile={setIsPhoneCompatible}
           />
         </Box>
       </Box>
