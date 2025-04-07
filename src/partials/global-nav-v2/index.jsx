@@ -16,7 +16,7 @@ import ContactInfo from 'partials/contact-info';
 import analyticsService from 'services/analyticsService';
 import { useClientServiceContext } from 'services/clientServiceProvider';
 
-import { Box, Divider, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ProfileMenu from './ProfileMenu/ProfileMenu';
 import { useCreateNewQuote } from 'providers/CreateNewQuote';
 
@@ -258,14 +258,6 @@ const GlobalNavV2 = ({
               'nav-logo'
             )}`}
           >
-            {/* {isMobile && leadPreference && (
-                            <MyButton
-                                leadPreference={leadPreference}
-                                page={page}
-                                hasActiveCampaign={agentInformation?.hasActiveCampaign}
-                            />
-                        )} */}
-
             <Link
               to={auth.isAuthenticated ? '/dashboard' : '/welcome'}
               className={`${showQuoteType ? 'show-medicare-center' : ''}`}

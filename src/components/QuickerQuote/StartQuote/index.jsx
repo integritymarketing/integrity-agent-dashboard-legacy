@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { CustomModal } from 'components/MuiComponents';
 import { useCreateNewQuote } from 'providers/CreateNewQuote';
 import SelectProduct from '../SelectProduct';
@@ -10,6 +9,7 @@ import SelectIulProduct from '../SelectIulProduct';
 import IulAccumulationForm from '../IulAccumulationForm';
 import IulProtectionForm from '../IulProtectionForm';
 import WithLoader from 'components/ui/WithLoader';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const StartQuoteModal = () => {
   const {
@@ -25,7 +25,16 @@ const StartQuoteModal = () => {
     handleBackFromLifeIntakeForm,
   } = useCreateNewQuote();
 
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const createQuote = searchParams.get('create-quote');
+
   const onClose = () => {
+    if (createQuote) {
+      navigate('/contacts/list');
+    }
     setQuoteModalStage('');
     handleClose(false);
   };

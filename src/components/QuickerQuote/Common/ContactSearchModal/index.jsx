@@ -47,11 +47,6 @@ const contactSearchModalOpen = ({ open, handleClose, handleSelectedLead }) => {
   const { getLeadDetails, updateLeadDetailsWithZipCode } = useLeadDetails();
   const { getLeadsList } = useContactListAPI();
 
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const createQuote = searchParams.get('create-quote');
-  const navigate = useNavigate();
-
   const [searchQuery, setSearchQuery] = useState('');
   const [contactList, setContactList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -61,9 +56,6 @@ const contactSearchModalOpen = ({ open, handleClose, handleSelectedLead }) => {
   const { fetchCountiesData, setZipCode } = useCountyDataContext();
 
   const handleCloseModal = () => {
-    if (createQuote) {
-      navigate('/contacts/list');
-    }
     handleClose(false);
   };
 

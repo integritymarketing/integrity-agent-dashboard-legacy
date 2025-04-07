@@ -7,12 +7,11 @@ import { QuickQuoteModals } from 'components/QuickerQuote/QuickerQuoteContainerM
 import styles from './styles.module.scss';
 
 import ContactsIcon from '../assets/Icon-Contacts.svg';
-import LeadIcon from '../assets/Icon-Lead.svg';
 import QuoteIcon from '../assets/Icon-Quote.svg';
 import PlusIcon from '../assets/icons-Plus.svg';
 
 export default function PlusMenu() {
-  const { setShowStartQuoteModal, getQuickQuoteLeadId } = useCreateNewQuote();
+  const { getQuickQuoteLeadId } = useCreateNewQuote();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -22,12 +21,6 @@ export default function PlusMenu() {
   const searchParams = new URLSearchParams(location.search);
   const createQuote = searchParams.get('create-quote');
 
-  useEffect(() => {
-    if (createQuote) {
-      setShowStartQuoteModal(true);
-    }
-  }, [createQuote, setShowStartQuoteModal]);
-
   const handleClick = useCallback(event => {
     setAnchorEl(event.currentTarget);
   }, []);
@@ -36,6 +29,12 @@ export default function PlusMenu() {
     await getQuickQuoteLeadId();
     setAnchorEl(null);
   }, [getQuickQuoteLeadId]);
+
+  useEffect(() => {
+    if (createQuote) {
+      handleCreateQuote();
+    }
+  }, [createQuote, handleCreateQuote]);
 
   const handleNavigateToContact = useCallback(() => {
     setAnchorEl(null);
