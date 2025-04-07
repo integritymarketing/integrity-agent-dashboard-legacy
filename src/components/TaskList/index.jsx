@@ -71,6 +71,7 @@ export default function TaskList({
   npn,
   leadPreference,
   updateAgentPreferencesData,
+  updateAgentPreferencesLoading,
 }) {
   const PAGESIZE = isMobile ? 3 : 5;
   const navigate = useNavigate();
@@ -178,6 +179,7 @@ export default function TaskList({
     selectedTabValue,
     isUpdate
   ) => {
+    setIsLoading(true);
     try {
       const countData = await clientsService.getTaskListCount(
         npn,
@@ -222,6 +224,8 @@ export default function TaskList({
         message: 'Failed to get Task List Count.',
         time: 10000,
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -443,7 +447,9 @@ export default function TaskList({
         ) : (
           <>
             {selectedTabValue !== '3' && (
-              <WithLoader isLoading={isLoading}>
+              <WithLoader
+                isLoading={isLoading || updateAgentPreferencesLoading}
+              >
                 <>
                   {!isMobile && (
                     <>

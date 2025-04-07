@@ -56,8 +56,11 @@ export default function Dashbaord() {
   const [selectedFilterValues, setSelectedFilterValues] = useState([]);
   const [sort, setSort] = useState('Activities.CreateDate:desc');
   const [isClientSnapshotOpen, setClientSnapshotOpen] = useState(true);
-  const { leadPreference, updateAgentPreferencesData } =
-    useProfessionalProfileContext();
+  const {
+    leadPreference,
+    updateAgentPreferencesData,
+    updateAgentPreferencesLoading,
+  } = useProfessionalProfileContext();
 
   const { stageSummary, loadStageSummary } = useContext(stageSummaryContext);
   const [stageSummaryLoading, setStageSummaryLoading] = useState(true);
@@ -263,6 +266,7 @@ export default function Dashbaord() {
             agentId={agentID}
             leadPreference={leadPreference}
             updateAgentPreferencesData={updateAgentPreferencesData}
+            updateAgentPreferencesLoading={updateAgentPreferencesLoading}
           />
           <ContactsListProvider>
             <PlanSnapShot
@@ -271,6 +275,7 @@ export default function Dashbaord() {
               agentId={agentID}
               leadPreference={leadPreference}
               updateAgentPreferencesData={updateAgentPreferencesData}
+              updateAgentPreferencesLoading={updateAgentPreferencesLoading}
             />
           </ContactsListProvider>
           <DashboardActivityTable

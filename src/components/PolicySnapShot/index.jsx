@@ -27,6 +27,7 @@ export default function PlanSnapShot({
   npn,
   leadPreference,
   updateAgentPreferencesData,
+  updateAgentPreferencesLoading,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [policyList, setPolicyList] = useState([]);
@@ -200,10 +201,26 @@ export default function PlanSnapShot({
       ) {
         jumptoListMobile(tab);
       } else {
-        fetchPolicySnapshotList(tab?.policyStatus, selectedDate, isUpdate);
+        if (policyCount > 0) {
+          fetchPolicySnapshotList(tab?.policyStatus, selectedDate, isUpdate);
+        } else {
+          if (isUpdate) {
+            setPolicyList([]);
+            setFullList([]);
+            await updatePreferences(selectedDate, newStatus);
+          }
+        }
       }
     },
-    [leadIds, isMobile, jumptoListMobile, fetchPolicySnapshotList]
+    [
+      leadIds,
+      isMobile,
+      jumptoListMobile,
+      fetchPolicySnapshotList,
+      npn,
+      dateRange,
+      updatePreferences,
+    ]
   );
 
   useEffect(() => {
@@ -310,7 +327,7 @@ export default function PlanSnapShot({
           isMobile={isMobile}
         />
 
-        <WithLoader isLoading={isLoading}>
+        <WithLoader isLoading={isLoading || updateAgentPreferencesLoading}>
           {(isError || policyList?.length === 0) && (
             <ErrorState
               isError={isError}
