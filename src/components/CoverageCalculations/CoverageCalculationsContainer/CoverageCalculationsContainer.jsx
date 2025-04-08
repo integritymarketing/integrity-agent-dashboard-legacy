@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { ContactProfileTabBar } from 'components/ContactDetailsContainer';
 import { useCallback, useState, useEffect } from 'react';
 import HouseholdDebt from '../HouseholdDebt';
 import TotalIncome from '../TotalIncome';
@@ -10,10 +9,13 @@ import { Box, CircularProgress } from '@mui/material';
 import { useLeadDetails } from 'providers/ContactDetails';
 import ReviewCurrentAssets from '../ReviewCurrentAssets';
 import CoverageReview from '../CoverageReview';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
+import ConditionalProfileBar from 'components/QuickerQuote/Common/ConditionalProfileBar';
 
 const CoverageCalculationsContainer = () => {
   const { contactId } = useParams();
   const navigate = useNavigate();
+  const { isQuickQuotePage } = useCreateNewQuote();
 
   const {
     getFinancialNeedsAnalysis,
@@ -61,9 +63,15 @@ const CoverageCalculationsContainer = () => {
 
   const handleNext = useCallback(() => {
     if (currentStep === 6) {
-      navigate(`/contact/${contactId}/overview`, {
-        state: { showProductCategoryModal: true },
-      });
+      if (isQuickQuotePage) {
+        navigate(
+          `/contacts/list/${isQuickQuotePage ? '?create-quote=true' : ''}`
+        );
+      } else {
+        navigate(`/contact/${contactId}/overview`, {
+          state: { showProductCategoryModal: true },
+        });
+      }
     } else {
       const next = currentStep + 1;
       setCurrentStep(next);
@@ -123,11 +131,10 @@ const CoverageCalculationsContainer = () => {
 
   return (
     <>
-      <ContactProfileTabBar
-        contactId={contactId}
-        showTabs={false}
-        backButtonLabel='Back'
-        backButtonRoute={`/contact/${contactId}/overview`}
+      <ConditionalProfileBar
+        leadId={contactId}
+        page='fnaPage'
+        hideButton={true}
       />
       {currentStep === 1 && (
         <HouseholdDebt

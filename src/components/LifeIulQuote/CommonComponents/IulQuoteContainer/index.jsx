@@ -9,6 +9,7 @@ import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { useEffect, useMemo } from 'react';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
 
 function useQuery() {
   const { search } = useLocation();
@@ -20,6 +21,8 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
   const query = useQuery();
   const sessionPlansStatus = query && query.get('preserveSelected');
   const navigate = useNavigate();
+  const { isQuickQuotePage } = useCreateNewQuote();
+
   const {
     showFilters,
     setShowFilters,
@@ -39,7 +42,7 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
     sessionStorage.setItem('iul-protection-tab', JSON.stringify(tabSelected));
     const url = `/life/iul-${quoteType}/${contactId}/${planIds.join(
       ','
-    )}/compare-plans`;
+    )}/compare-plans${isQuickQuotePage ? '?quick-quote=true' : ''}`;
     navigate(url);
   };
 
@@ -54,11 +57,15 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
 
   const backRoute = useMemo(() => {
     return page === 'plan compare page'
-      ? `/life/iul-${quoteType}/${contactId}/quote?preserveSelected=true`
+      ? `/life/iul-${quoteType}/${contactId}/quote?preserveSelected=true${
+          isQuickQuotePage ? '&quick-quote=true' : ''
+        }`
       : page === 'plans details page'
-      ? `/life/iul-${quoteType}/${contactId}/quote`
+      ? `/life/iul-${quoteType}/${contactId}/quote${
+          isQuickQuotePage ? '?quick-quote=true' : ''
+        }`
       : `/life/iul-${quoteType}/${contactId}/product-preferences`;
-  }, [contactId, page, quoteType]);
+  }, [contactId, page, quoteType, isQuickQuotePage]);
   return (
     <>
       {!showFilters && (

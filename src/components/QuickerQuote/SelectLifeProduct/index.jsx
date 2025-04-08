@@ -19,7 +19,7 @@ const SelectLifeProduct = ({
   const handleCalculateCoverageNeeds = () => {
     onClose();
     sessionStorage.removeItem('currentCalculationStep');
-    navigate(`/coverage-calculations/${quickQuoteLeadId}`);
+    navigate(`/coverage-calculations/${quickQuoteLeadId}?quick-quote=true`);
   };
 
   return (

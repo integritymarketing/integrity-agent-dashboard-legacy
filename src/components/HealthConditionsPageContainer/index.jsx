@@ -10,7 +10,7 @@ import {
 } from './HealthConditionContainer.constants';
 import styles from './styles.module.scss';
 import { useCreateNewQuote } from '../../providers/CreateNewQuote';
-import { ContactProfileTabBar } from '../ContactDetailsContainer';
+import ConditionalProfileBar from 'components/QuickerQuote/Common/ConditionalProfileBar';
 import Typography from '@mui/material/Typography';
 import { Box, Stack, Link, Alert, AlertTitle } from '@mui/material';
 import HealthConditionSearchInput from './HealthConditionSearchInput';
@@ -31,7 +31,7 @@ const HealthConditionsPageContainer = () => {
   const { contactId } = useParams();
   const navigate = useNavigate();
   const loc = useLocation();
-  const { isSimplifiedIUL } = useCreateNewQuote();
+  const { isSimplifiedIUL, isQuickQuotePage } = useCreateNewQuote();
   const { fetchHealthConditions } = useConditions();
   const { prescriptions, fetchPrescriptions } = useHealth();
   const { leadDetails, isLoadingLeadDetails } = useLeadDetails();
@@ -61,13 +61,13 @@ const HealthConditionsPageContainer = () => {
 
   return (
     <WithLoader loading={isLoadingLeadDetails}>
-      <ContactProfileTabBar
-        contactId={contactId}
-        showTabs={false}
-        backButtonLabel={'Back'}
-        backButtonRoute={`${
+      <ConditionalProfileBar
+        leadId={contactId}
+        page='healthConditions'
+        backRoute={`${
           isSimplifiedIUL() ? '/simplified-iul' : '/finalexpenses'
         }/create/${contactId}`}
+        hideButton={true}
       />
       <Box className={styles.pageHeading}>
         <Typography variant='h2' color='#052A63'>
@@ -123,7 +123,9 @@ const HealthConditionsPageContainer = () => {
                     navigate(
                       `${
                         isSimplifiedIUL() ? '/simplified-iul' : '/finalexpenses'
-                      }/plans/${contactId}`,
+                      }/plans/${contactId}${
+                        isQuickQuotePage ? '?quick-quote=true' : ''
+                      }`,
                       {
                         state: { from: loc?.pathname },
                       }
@@ -152,7 +154,9 @@ const HealthConditionsPageContainer = () => {
               navigate(
                 `${
                   isSimplifiedIUL() ? '/simplified-iul' : '/finalexpenses'
-                }/plans/${contactId}`,
+                }/plans/${contactId}${
+                  isQuickQuotePage ? '?quick-quote=true' : ''
+                }`,
                 {
                   state: { from: loc?.pathname },
                 }

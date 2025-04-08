@@ -218,7 +218,9 @@ const IulProtectionQuote = () => {
       JSON.stringify({ ...plan, isTobaccoUser })
     );
     navigate(
-      `/life/iul-protection/${contactId}/${plan.policyDetailId}/quote-details`
+      `/life/iul-protection/${contactId}/${plan.policyDetailId}/quote-details${
+        isQuickQuotePage ? '?quick-quote=true' : ''
+      }`
     );
   };
 
@@ -237,6 +239,15 @@ const IulProtectionQuote = () => {
       }
     } catch (error) {
       console.error('Error fetching illustration URL:', error);
+    }
+  };
+
+  const onApply = plan => {
+    if (isQuickQuotePage) {
+      setSelectedPlan(plan);
+      setContactSearchModalOpen(true);
+    } else {
+      handleApplyClick(plan);
     }
   };
 
@@ -441,7 +452,7 @@ const IulProtectionQuote = () => {
             <SaveToContact
               contactSearchModalOpen={contactSearchModalOpen}
               handleClose={() => setContactSearchModalOpen(false)}
-              handleCallBack={() => handleApplyClick(selectedPlan)}
+              handleCallBack={() => onApply(selectedPlan)}
             />
           </WithLoader>
         </Grid>

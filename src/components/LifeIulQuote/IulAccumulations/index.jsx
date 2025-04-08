@@ -206,8 +206,11 @@ const IulAccumulationQuote = () => {
       'iul-plan-details',
       JSON.stringify({ ...plan, isTobaccoUser })
     );
+
     navigate(
-      `/life/iul-accumulation/${contactId}/${plan.policyDetailId}/quote-details`
+      `/life/iul-accumulation/${contactId}/${
+        plan.policyDetailId
+      }/quote-details${isQuickQuotePage ? '?quick-quote=true' : ''}`
     );
   };
 

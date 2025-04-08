@@ -46,17 +46,19 @@ const ComparePlanModal = ({
     agentInformation: { agentVirtualPhoneNumber, agentPurl },
   } = useAgentInformationByID();
   const { plansService } = useClientServiceContext();
-  const {
-    firstName,
-    lastName,
-    emails,
-    phones,
-    leadsId,
-    addresses,
-    agentNpn,
-    middleName,
-    birthdate,
-  } = contactData;
+
+  const firstName = useMemo(() => contactData?.firstName || '', [contactData]);
+  const lastName = useMemo(() => contactData?.lastName || '', [contactData]);
+  const middleName = useMemo(
+    () => contactData?.middleName || '',
+    [contactData]
+  );
+  const birthdate = useMemo(() => contactData?.birthdate || '', [contactData]);
+  const agentNpn = useMemo(() => contactData?.agentNpn || '', [contactData]);
+  const leadsId = useMemo(() => contactData?.leadsId || '', [contactData]);
+  const addresses = useMemo(() => contactData?.addresses || [], [contactData]);
+  const emails = useMemo(() => contactData?.emails || [], [contactData]);
+  const phones = useMemo(() => contactData?.phones || [], [contactData]);
 
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');

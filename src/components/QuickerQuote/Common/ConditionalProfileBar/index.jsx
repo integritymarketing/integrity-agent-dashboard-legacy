@@ -7,7 +7,12 @@ import PropTypes from 'prop-types';
 import SaveToContact from '../SaveToContact';
 import { useNavigate } from 'react-router-dom';
 
-const ConditionalProfileBar = ({ leadId, backRoute, page }) => {
+const ConditionalProfileBar = ({
+  leadId,
+  backRoute,
+  page,
+  hideButton = false,
+}) => {
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const navigate = useNavigate();
   const {
@@ -61,12 +66,13 @@ const ConditionalProfileBar = ({ leadId, backRoute, page }) => {
         <QuickQuoteProfileBanner
           title={'Quick Quote'}
           location={stateCode}
-          age={age}
+          age={age || null}
           gender={gender}
           buttonLabel={'Save to a Contact'}
           onButtonClick={() => {
             setContactSearchModalOpen(true);
           }}
+          hideButton={hideButton}
         />
       ) : (
         <ContactProfileTabBar

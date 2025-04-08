@@ -73,14 +73,14 @@ const LifeForm = () => {
           ) {
             if (isSimplifiedIUL()) {
               navigate(
-                `/simplified-iul/plans/${quickQuoteLeadId}?quick-quote=true`,
+                `/simplified-iul/healthconditions/${quickQuoteLeadId}?quick-quote=true`,
                 {
                   replace: true,
                 }
               );
             } else {
               navigate(
-                `/finalexpenses/plans/${quickQuoteLeadId}?quick-quote=true`,
+                `/finalexpenses/healthconditions/${quickQuoteLeadId}?quick-quote=true`,
                 {
                   replace: true,
                 }
