@@ -19,7 +19,11 @@ function DatePickerMUI({
 }) {
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    if (!disabled) {
+      setOpen(true);
+    }
+  };
   const handleClose = () => setOpen(false);
 
   const handleDateChange = newValue => {
