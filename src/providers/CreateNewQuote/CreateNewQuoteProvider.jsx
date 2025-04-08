@@ -429,7 +429,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
       handleBackFromLifeIntakeForm,
       isQuickQuotePage,
       saveQuickQuoteLeadDetails,
-      updateQuickQuoteLeadDetails,
       existingLinkLeadToQuickQuote,
       isLoadingExistingLinkLeadToQuickQuote,
     };
