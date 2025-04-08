@@ -434,22 +434,19 @@ export default function TaskList({
           isMobile={isMobile}
           selectedTabValue={selectedTabValue}
         />
-
-        {isError || selectedTabCount === 0 ? (
-          <ErrorState
-            isError={isError}
-            emptyList={selectedTabCount === 0}
-            heading={getErrorHeading()}
-            content={getMoreInfo()}
-            icon={getIcon()}
-            link={getLink[selectedTabValue]}
-          />
-        ) : (
-          <>
-            {selectedTabValue !== '3' && (
-              <WithLoader
-                isLoading={isLoading || updateAgentPreferencesLoading}
-              >
+        <WithLoader isLoading={isLoading || updateAgentPreferencesLoading}>
+          {isError || selectedTabCount === 0 ? (
+            <ErrorState
+              isError={isError}
+              emptyList={selectedTabCount === 0}
+              heading={getErrorHeading()}
+              content={getMoreInfo()}
+              icon={getIcon()}
+              link={getLink[selectedTabValue]}
+            />
+          ) : (
+            <>
+              {selectedTabValue !== '3' && (
                 <>
                   {!isMobile && (
                     <>
@@ -467,16 +464,17 @@ export default function TaskList({
                     </>
                   )}
                 </>
-              </WithLoader>
-            )}
-            {selectedTabValue === '3' && !isMobile && (
-              <StageStatusProvider>
-                <PlanEnrollLeads dateRange={dateRange} />
-              </StageStatusProvider>
-            )}
-          </>
-        )}
+              )}
+              {selectedTabValue === '3' && !isMobile && (
+                <StageStatusProvider>
+                  <PlanEnrollLeads dateRange={dateRange} />
+                </StageStatusProvider>
+              )}
+            </>
+          )}
+        </WithLoader>
       </SectionCard>
+
       {showTaskListInfoModal && (
         <InfoModal
           open={showTaskListInfoModal}
