@@ -249,7 +249,7 @@ const contactSearchModalOpen = ({ open, handleClose, handleSelectedLead }) => {
 
   return (
     <CustomModal
-      title={'Start a Quote'}
+      title={'Create or Link a Contact'}
       open={open}
       handleClose={onClose}
       showCloseButton

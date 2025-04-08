@@ -118,7 +118,7 @@ const CreateContactForm = ({
 
   return (
     <CustomModal
-      title={'Start a Quote'}
+      title={'Create or Link a Contact'}
       open={open}
       handleClose={onClose}
       footer
@@ -128,7 +128,7 @@ const CreateContactForm = ({
       isSaveButtonDisabled={!formValid || isLoadingQuickQuoteLeadDetails}
       maxWidth='sm'
       disableContentBackground
-      saveLabel={isLoadingQuickQuoteLeadDetails ? 'Loading...' : 'Continue'}
+      saveLabel={isLoadingQuickQuoteLeadDetails ? 'Loading...' : 'Apply'}
       footerActionIcon={<ContinueIcon />}
     >
       <Box className={styles.modalSection}>
