@@ -55,7 +55,7 @@ const FinalExpensePlansResultContainer = () => {
     useState(false);
   const [coverageTypeInfoModalOpen, setCoverageTypeInfoModalOpen] =
     useState(false);
-  const [rateClasses, setRateClasses] = useState(['Standard']);
+  const [rateClasses, setRateClasses] = useState(['Standard', 'Preferred']);
   const [healthConditions, setHealthConditions] = useState([]);
   const [isLoadingHealthConditions, setIsLoadingHealthConditions] =
     useState(false);
