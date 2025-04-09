@@ -94,6 +94,7 @@ const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
         agentEmail,
         agentNpn: npnNumber,
         caLicense,
+        agentPAW: agentInformation?.agentPurl,
         sendFNAUrl: 'https://qa.planenroll.com/life/fna/review',
         fna: {
           ...financialNeedsAnalysis,
