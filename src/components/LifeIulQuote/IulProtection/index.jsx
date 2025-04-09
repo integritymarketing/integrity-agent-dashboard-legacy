@@ -361,6 +361,7 @@ const IulProtectionQuote = () => {
                   {lifeIulQuoteResults?.map((plan, index) => {
                     const {
                       productName,
+                      isRts,
                       companyName,
                       amBest,
                       companyLogoImageUrl,
@@ -385,7 +386,7 @@ const IulProtectionQuote = () => {
                         sx={{ position: 'relative' }}
                       >
                         <IulQuoteCard
-                          applyButtonDisabled={isLoadingApplyLifeIulQuote}
+                          applyButtonDisabled={isLoadingApplyLifeIulQuote || isRts === false}
                           quoteType='IUL Protection'
                           cardTitle={productName}
                           companyName={companyName}

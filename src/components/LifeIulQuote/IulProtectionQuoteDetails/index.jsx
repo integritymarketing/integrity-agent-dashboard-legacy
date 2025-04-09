@@ -170,7 +170,7 @@ const IulProtectionQuoteDetails = () => {
               <div ref={quoteDetailsRef} id='quoteDetails'>
                 <CollapsibleLayout title='Quote Details'>
                   <IulQuoteCard
-                    applyButtonDisabled={isLoadingApplyLifeIulQuote}
+                    applyButtonDisabled={isLoadingApplyLifeIulQuote || planDetails?.isRts === false}
                     isPlanDetailsPage={true}
                     quoteType='IUL Protection'
                     cardTitle={productName}
