@@ -28,10 +28,8 @@ import SmallFormatMenu from './small-format';
 import IntegrityMobileLogo from 'components/HeaderWithLogin/integrity-mobile-logo';
 import NewBackBtn from 'images/new-back-btn.svg';
 import PlusMenu from './plusMenu';
-import AbcBanner from 'components/AbcBanner';
 import { QUOTE_TYPE } from 'components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants';
 import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
-import Welcome from 'pages/welcome';
 import { WelcomeModal } from 'components/WelcomeModal';
 
 const SiteNotification = ({

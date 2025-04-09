@@ -15,7 +15,8 @@ import ConditionalProfileBar from 'components/QuickerQuote/Common/ConditionalPro
 const CoverageCalculationsContainer = () => {
   const { contactId } = useParams();
   const navigate = useNavigate();
-  const { isQuickQuotePage } = useCreateNewQuote();
+  const { isQuickQuotePage, setQuoteModalStage, setShowStartQuoteModal } =
+    useCreateNewQuote();
 
   const {
     getFinancialNeedsAnalysis,
@@ -64,9 +65,8 @@ const CoverageCalculationsContainer = () => {
   const handleNext = useCallback(() => {
     if (currentStep === 6) {
       if (isQuickQuotePage) {
-        navigate(
-          `/contacts/list/${isQuickQuotePage ? '?create-quote=true' : ''}`
-        );
+        setShowStartQuoteModal(true);
+        setQuoteModalStage('selectProductTypeCard');
       } else {
         navigate(`/contact/${contactId}/overview`, {
           state: { showProductCategoryModal: true },

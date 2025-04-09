@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Grid, InputAdornment, Typography } from '@mui/material';
 import { useCreateNewQuote } from 'providers/CreateNewQuote';
@@ -10,8 +10,7 @@ import DatePickerMUI from 'components/DatePicker';
 import ErrorIcon from '@mui/icons-material/Error';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { FinalExpenseIntakeForm } from 'schemas';
-import WithLoader from 'components/ui/WithLoader';
+import { QuickQuoteLifeSchema } from 'schemas';
 import styles from './styles.module.scss';
 import useAnalytics from 'hooks/useAnalytics';
 import ButtonCircleArrow from 'components/icons/button-circle-arrow';
@@ -139,7 +138,7 @@ const LifeForm = () => {
 
   const formik = useFormik({
     initialValues,
-    validationSchema: FinalExpenseIntakeForm,
+    validationSchema: QuickQuoteLifeSchema,
     enableReinitialize: true,
     onSubmit: onSubmitHandler,
   });
