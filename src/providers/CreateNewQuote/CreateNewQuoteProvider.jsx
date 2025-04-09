@@ -187,7 +187,13 @@ export const CreateNewQuoteProvider = ({ children }) => {
   const handleSelectLifeProductType = useCallback(
     productType => {
       setSelectedLifeProductType(productType);
-
+      fireEvent('New Quote Created With Instant Quote', {
+        leadId: selectedLead?.leadsId,
+        line_of_business: 'Life',
+        contactType: newLeadDetails?.firstName
+          ? 'New Contact'
+          : 'Existing Contact',
+      });
       switch (productType) {
         case LIFE_QUESTION_CARD_LIST.FINAL_EXPENSE:
         case LIFE_QUESTION_CARD_LIST.SIMPLIFIED_INDEXED_UNIVERSAL_LIFE:
@@ -317,6 +323,12 @@ export const CreateNewQuoteProvider = ({ children }) => {
         const response = await saveQuickQuoteLeadDetailsAPICall(payload);
         if (response) {
           setQuickQuoteLeadDetails(response);
+          fireEvent('New Contact Created With Quick Quote');
+            showToast({
+              type: 'success',
+              message: 'Lead Created successfully',
+              time: 10000,
+            });
           return response;
         }
       } catch (error) {
