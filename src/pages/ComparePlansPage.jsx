@@ -234,6 +234,9 @@ const ComparePlansPage = props => {
       id,
       plansLoading,
       leadDetails,
+      modalOpen: comparePlanModalOpen,
+      handleCloseModal: () => setComparePlanModalOpen(false),
+      contactData: leadDetails,
     };
   };
 
@@ -254,12 +257,7 @@ const ComparePlansPage = props => {
   return (
     <>
       {!isComingFromEmail && comparePlanModalOpen && (
-        <ComparePlanModal
-          modalOpen={comparePlanModalOpen}
-          handleCloseModal={() => setComparePlanModalOpen(false)}
-          leadDetails={leadDetails}
-          {...getComparePlansByPlanNamesProps()}
-        />
+        <ComparePlanModal {...getComparePlansByPlanNamesProps()} />
       )}
       <div className={styles.comparePage}>
         <Media query={'(max-width: 500px)'} onChange={isMobile => {}} />
