@@ -262,6 +262,11 @@ export const LifeIulQuoteProvider = ({ children }) => {
           agentFirstName: payload?.agentFirstName,
           agentEmail: payload?.email,
           agentNumber: payload?.agentNPN,
+          sourceId: payload?.sourceId || '',
+          agentBUs:
+            (payload?.assignedBUs &&
+              payload?.assignedBUs?.map(bu => bu.buCode)) ||
+            [],
         },
         enrollee: {
           firstName: payload?.firstName,

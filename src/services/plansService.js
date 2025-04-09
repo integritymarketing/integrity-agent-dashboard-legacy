@@ -22,7 +22,6 @@ export class PlansService {
     effectiveDate,
     primaryPharmacy
   ) => {
-    debugger;
     if (!contactData) return;
     const params = {
       zip: contactData?.addresses?.[0]?.postalCode,
