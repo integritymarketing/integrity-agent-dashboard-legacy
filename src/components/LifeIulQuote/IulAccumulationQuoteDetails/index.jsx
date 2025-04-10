@@ -206,7 +206,7 @@ const IulAccumulationQuoteDetails = () => {
               <div ref={quoteDetailsRef} id='quoteDetails'>
                 <CollapsibleLayout title='Quote Details'>
                   <IulQuoteCard
-                    applyButtonDisabled={isLoadingApplyLifeIulQuote || planDetails?.isRts === false}
+                    applyButtonDisabled={isLoadingApplyLifeIulQuote || !planDetails?.isRts }
                     isPlanDetailsPage={true}
                     quoteType='IUL Accumulation'
                     cardTitle={productName}

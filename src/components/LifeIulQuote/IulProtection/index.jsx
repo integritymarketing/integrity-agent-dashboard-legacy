@@ -218,9 +218,9 @@ const IulProtectionQuote = () => {
       JSON.stringify({ ...plan, isTobaccoUser })
     );
     navigate(
-      `/life/iul-protection/${contactId}/${plan.policyDetailId}/quote-details${
-        isQuickQuotePage ? '?quick-quote=true' : ''
-      }`
+      `/life/iul-protection/${contactId}/${
+        plan?.input?.productId
+      }/quote-details${isQuickQuotePage ? '?quick-quote=true' : ''}`
     );
   };
 
@@ -361,7 +361,6 @@ const IulProtectionQuote = () => {
                   {lifeIulQuoteResults?.map((plan, index) => {
                     const {
                       productName,
-                      isRts,
                       companyName,
                       amBest,
                       companyLogoImageUrl,
@@ -386,7 +385,7 @@ const IulProtectionQuote = () => {
                         sx={{ position: 'relative' }}
                       >
                         <IulQuoteCard
-                          applyButtonDisabled={isLoadingApplyLifeIulQuote || isRts === false}
+                          applyButtonDisabled={isLoadingApplyLifeIulQuote || !isRts }
                           quoteType='IUL Protection'
                           cardTitle={productName}
                           companyName={companyName}
