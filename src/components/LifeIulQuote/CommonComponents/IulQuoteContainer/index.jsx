@@ -35,7 +35,7 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
 
   const handleOnCompare = () => {
     const planIds = selectedPlans.map(plan =>
-      encodeURIComponent(plan.policyDetailId)
+      encodeURIComponent(plan?.input?.productId)
     );
 
     sessionStorage.setItem('iul-compare-plans', JSON.stringify(selectedPlans));

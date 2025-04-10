@@ -209,7 +209,7 @@ const IulAccumulationQuote = () => {
 
     navigate(
       `/life/iul-accumulation/${contactId}/${
-        plan.policyDetailId
+        plan?.input?.productId
       }/quote-details${isQuickQuotePage ? '?quick-quote=true' : ''}`
     );
   };
@@ -263,7 +263,7 @@ const IulAccumulationQuote = () => {
         {isMobile && showFilters && (
           <Box className={styles.countSortContainer}>
             <Typography variant='body1' className={styles.countSortText}>
-              {lifeIulQuoteResults?.length || 0} IUL Accumulation Policies
+              {lifeIulQuoteResults?.length || 0} IUL Accumulation Policie
             </Typography>
           </Box>
         )}
@@ -286,7 +286,6 @@ const IulAccumulationQuote = () => {
                     const {
                       productName,
                       companyName,
-                      isRts,
                       amBest,
                       companyLogoImageUrl,
                       cashValueYear10,
@@ -300,6 +299,7 @@ const IulAccumulationQuote = () => {
                       rowId,
                       recId,
                       hasPolicyDetails,
+                      policyDetailId,
                     } = plan;
                     return (
                       <Grid
@@ -309,7 +309,7 @@ const IulAccumulationQuote = () => {
                         sx={{ position: 'relative' }}
                       >
                         <IulQuoteCard
-                          applyButtonDisabled={isLoadingApplyLifeIulQuote || isRts === false}
+                          applyButtonDisabled={isLoadingApplyLifeIulQuote}
                           quoteType='IUL Accumulation'
                           cardTitle={productName}
                           companyName={companyName}
