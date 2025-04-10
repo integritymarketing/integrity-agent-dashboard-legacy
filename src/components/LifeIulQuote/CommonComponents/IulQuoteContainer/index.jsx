@@ -73,6 +73,7 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
           leadId={contactId}
           backRoute={backRoute}
           page={quoteType}
+          hideBackButton={page === 'plans page'}
         />
       )}
 

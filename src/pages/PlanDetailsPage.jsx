@@ -150,7 +150,11 @@ const PlanDetailsPage = () => {
           </Helmet>
           <GlobalNav showQuoteType={QUOTE_TYPE_LABEL.MEDICARE} />
 
-          <ConditionalProfileBar leadId={contactId} page='healthPlans' />
+          <ConditionalProfileBar
+            leadId={contactId}
+            page='healthPlans'
+            hideBackButton={false}
+          />
           <Box sx={{ padding: '56px 24px', pb: 0 }}>
             <Box sx={{ pb: 3 }} display={'flex'} justifyContent={'center'}>
               <Typography variant='h2' gutterBottom color={'#052a63'}>

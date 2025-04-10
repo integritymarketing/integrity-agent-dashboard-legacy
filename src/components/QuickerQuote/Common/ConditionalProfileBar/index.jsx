@@ -11,6 +11,7 @@ const ConditionalProfileBar = ({
   backRoute,
   page,
   hideButton = false,
+  hideBackButton = true,
 }) => {
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const {
@@ -51,6 +52,10 @@ const ConditionalProfileBar = ({
             setContactSearchModalOpen(true);
           }}
           hideButton={hideButton}
+          hideBackButton={hideBackButton}
+          onBackButtonClick={() => {
+            window.history.back();
+          }}
         />
       ) : (
         <ContactProfileTabBar
@@ -77,6 +82,9 @@ const ConditionalProfileBar = ({
 ConditionalProfileBar.propTypes = {
   children: PropTypes.node.isRequired,
   action: PropTypes.func,
+  hideBackButton: PropTypes.bool,
+  backRoute: PropTypes.string || null,
+  leadId: PropTypes.string,
 };
 
 export default ConditionalProfileBar;

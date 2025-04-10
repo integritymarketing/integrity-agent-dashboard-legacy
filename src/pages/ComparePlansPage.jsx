@@ -281,6 +281,7 @@ const ComparePlansPage = props => {
               leadId={id}
               page='healthPlans'
               backRoute={backRoute}
+              hideBackButton={false}
             />
           )}
           <Box sx={{ padding: '56px 24px', pb: 0 }}>
