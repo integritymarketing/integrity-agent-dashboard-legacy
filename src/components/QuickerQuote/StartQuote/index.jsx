@@ -41,7 +41,7 @@ const StartQuoteModal = () => {
 
   return (
     <CustomModal
-      title='Quick Quote'
+      title={quoteModalStage === "selectProductTypeCard" ? 'Quick Quote' : ''}
       open={open}
       handleClose={onClose}
       showCloseButton
