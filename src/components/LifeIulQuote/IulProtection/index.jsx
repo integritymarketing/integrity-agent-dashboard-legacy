@@ -385,7 +385,7 @@ const IulProtectionQuote = () => {
                         sx={{ position: 'relative' }}
                       >
                         <IulQuoteCard
-                          applyButtonDisabled={isLoadingApplyLifeIulQuote}
+                          applyButtonDisabled={isLoadingApplyLifeIulQuote || !isRts }
                           quoteType='IUL Protection'
                           cardTitle={productName}
                           companyName={companyName}

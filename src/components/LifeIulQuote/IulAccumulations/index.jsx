@@ -309,7 +309,7 @@ const IulAccumulationQuote = () => {
                         sx={{ position: 'relative' }}
                       >
                         <IulQuoteCard
-                          applyButtonDisabled={isLoadingApplyLifeIulQuote}
+                          applyButtonDisabled={isLoadingApplyLifeIulQuote || !isRts }
                           quoteType='IUL Accumulation'
                           cardTitle={productName}
                           companyName={companyName}
