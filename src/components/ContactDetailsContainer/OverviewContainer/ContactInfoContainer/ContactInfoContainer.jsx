@@ -64,6 +64,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
     isTobaccoUser,
     modifyDate,
     consumerId,
+    age,
   } = leadDetails;
 
   const phonesData = phones?.filter(phone => {
@@ -126,7 +127,7 @@ export const ContactInfoContainer = ({ isMobile }) => {
   }, [partB]);
 
   const leadAge = useMemo(() => {
-    return birthdate ? calculateAgeFromBirthdate(birthdate) : NOT_AVAILABLE;
+    return age ?? NOT_AVAILABLE;
   }, [birthdate]);
 
   const leadBirthdate = useMemo(() => {
