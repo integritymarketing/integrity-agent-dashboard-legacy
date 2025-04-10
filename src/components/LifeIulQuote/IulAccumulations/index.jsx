@@ -263,7 +263,7 @@ const IulAccumulationQuote = () => {
         {isMobile && showFilters && (
           <Box className={styles.countSortContainer}>
             <Typography variant='body1' className={styles.countSortText}>
-              {lifeIulQuoteResults?.length || 0} IUL Accumulation Policie
+              {lifeIulQuoteResults?.length || 0} IUL Accumulation Policies
             </Typography>
           </Box>
         )}
