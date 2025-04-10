@@ -111,6 +111,8 @@ const IulProtectionQuoteDetails = () => {
 
   const handleApplyClick = async leadData => {
     const updatedLeadDetails = leadData || leadDetails;
+    const updatedLeadId = updatedLeadDetails?.leadsId || contactId;
+
     const emailAddress =
       updatedLeadDetails?.emails?.length > 0
         ? updatedLeadDetails.emails[0].leadEmail
@@ -128,7 +130,7 @@ const IulProtectionQuoteDetails = () => {
           emailAddress,
           phoneNumber,
         },
-        contactId
+        updatedLeadId
       );
       if (response.success) {
         setSelectedPlan({});
@@ -212,7 +214,9 @@ const IulProtectionQuoteDetails = () => {
               <div ref={quoteDetailsRef} id='quoteDetails'>
                 <CollapsibleLayout title='Quote Details'>
                   <IulQuoteCard
-                    applyButtonDisabled={isLoadingApplyLifeIulQuote || !planDetails?.isRts }
+                    applyButtonDisabled={
+                      isLoadingApplyLifeIulQuote || !planDetails?.isRts
+                    }
                     isPlanDetailsPage={true}
                     quoteType='IUL Protection'
                     cardTitle={productName}

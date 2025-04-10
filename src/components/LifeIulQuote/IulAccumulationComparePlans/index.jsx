@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { Grid, Box } from '@mui/material';
 
 import {
@@ -29,7 +29,7 @@ const IulAccumulationComparePlans = () => {
 
   const { planIds: comparePlanIds, contactId } = useParams();
   const planIds = useMemo(() => comparePlanIds.split(','), [comparePlanIds]);
-  const { leadDetails } = useLeadDetails();
+  const { leadDetails, getLeadDetailsAfterSearch } = useLeadDetails();
   const { agentInformation } = useAgentInformationByID();
   const comparePlansSessionData = sessionStorage.getItem('iul-compare-plans');
   const comparePlans = JSON.parse(comparePlansSessionData);
@@ -133,6 +133,7 @@ const IulAccumulationComparePlans = () => {
         carrierName: plan.companyName,
         planRating: plan.amBest,
         planName: plan.productName,
+        isRts: plan.isRts,
       };
     });
   }, [comparePlans]);
@@ -151,21 +152,18 @@ const IulAccumulationComparePlans = () => {
     navigate(`/life/iul-accumulation/${contactId}/quote?preserveSelected=true`);
   };
 
-  const onApply = plan => {
-    setSelectedPlan(plan);
-    if (isQuickQuotePage) {
-      setContactSearchModalOpen(true);
-    } else {
-      handleApplyClick(plan);
-    }
-  };
-
-  const handleApplyClick = async plan => {
+  const handleApplyClick = async (plan, leadData) => {
+    const updatedLeadDetails = leadData || leadDetails;
+    const updatedLeadId = updatedLeadDetails?.leadsId || contactId;
     const planData = comparePlans.find(p => p.recId === plan.id);
     const emailAddress =
-      leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
+      updatedLeadDetails?.emails?.length > 0
+        ? updatedLeadDetails.emails[0].leadEmail
+        : null;
     const phoneNumber =
-      leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
+      updatedLeadDetails?.phones?.length > 0
+        ? updatedLeadDetails.phones[0].leadPhone
+        : null;
 
     setDisabledPlans(prev => ({ ...prev, [plan.id]: true }));
 
@@ -174,11 +172,11 @@ const IulAccumulationComparePlans = () => {
         {
           ...planData,
           ...agentInformation,
-          ...leadDetails,
+          ...updatedLeadDetails,
           emailAddress,
           phoneNumber,
         },
-        contactId
+        updatedLeadId
       );
       if (response.success) {
         setSelectedPlan({});
@@ -200,6 +198,28 @@ const IulAccumulationComparePlans = () => {
       setDisabledPlans(prev => ({ ...prev, [plan.id]: false }));
     }
   };
+
+  const onApply = useCallback(
+    plan => {
+      setSelectedPlan(plan);
+      if (isQuickQuotePage) {
+        setContactSearchModalOpen(true);
+      } else {
+        handleApplyClick(plan);
+      }
+    },
+    [isQuickQuotePage, handleApplyClick]
+  );
+
+  const preEnroll = useCallback(
+    async id => {
+      const response = await getLeadDetailsAfterSearch(id);
+      if (response) {
+        await handleApplyClick(selectedPlan, response);
+      }
+    },
+    [handleApplyClick, getLeadDetailsAfterSearch, selectedPlan]
+  );
 
   return (
     <IulQuoteContainer
@@ -264,7 +284,7 @@ const IulAccumulationComparePlans = () => {
         handleClose={() => setContactSearchModalOpen(false)}
         handleCallBack={response => {
           setLinkToExistContactId(response?.leadsId);
-          handleApplyClick(selectedPlan);
+          preEnroll(response?.leadsId);
         }}
         page='accumulation'
         isApplyProcess={true}

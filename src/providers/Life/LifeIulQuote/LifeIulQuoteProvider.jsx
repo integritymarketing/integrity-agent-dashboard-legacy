@@ -272,7 +272,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
           firstName: payload?.firstName,
           middleName: payload?.middleName,
           lastName: payload?.lastName,
-          gender: payload?.gender == 'male' ? 'M' : 'F',
+          gender: payload?.gender?.toLowerCase() === 'male' ? 'M' : 'F',
           dateOfBirth: payload?.birthdate,
           emailAddress,
           phoneNumber,

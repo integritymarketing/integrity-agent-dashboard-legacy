@@ -104,6 +104,8 @@ const IulAccumulationQuoteDetails = () => {
 
   const handleApplyClick = async leadData => {
     const updatedLeadDetails = leadData || leadDetails;
+    const updatedLeadId = updatedLeadDetails?.leadsId || contactId;
+
     const emailAddress =
       updatedLeadDetails?.emails?.length > 0
         ? updatedLeadDetails.emails[0].leadEmail
@@ -122,7 +124,7 @@ const IulAccumulationQuoteDetails = () => {
           emailAddress,
           phoneNumber,
         },
-        contactId
+        updatedLeadId
       );
       if (response.success) {
         setSelectedPlan({});
@@ -206,7 +208,9 @@ const IulAccumulationQuoteDetails = () => {
               <div ref={quoteDetailsRef} id='quoteDetails'>
                 <CollapsibleLayout title='Quote Details'>
                   <IulQuoteCard
-                    applyButtonDisabled={isLoadingApplyLifeIulQuote || !planDetails?.isRts }
+                    applyButtonDisabled={
+                      isLoadingApplyLifeIulQuote || !planDetails?.isRts
+                    }
                     isPlanDetailsPage={true}
                     quoteType='IUL Accumulation'
                     cardTitle={productName}
