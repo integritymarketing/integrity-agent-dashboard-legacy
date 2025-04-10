@@ -298,6 +298,7 @@ const IulAccumulationQuote = () => {
                       targetPremium,
                       rowId,
                       recId,
+                      isRts,
                       hasPolicyDetails,
                       policyDetailId,
                     } = plan;

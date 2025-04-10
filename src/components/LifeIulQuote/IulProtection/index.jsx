@@ -375,6 +375,7 @@ const IulProtectionQuote = () => {
                       premium,
                       rowId,
                       recId,
+                      isRts,
                       hasPolicyDetails,
                     } = plan;
                     return (
