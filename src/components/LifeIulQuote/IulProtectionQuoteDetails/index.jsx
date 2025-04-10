@@ -1,4 +1,10 @@
-import React, { useRef, useEffect, useMemo, useState } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useMemo,
+  useState,
+  useCallback,
+} from 'react';
 import { Grid, Typography, Box, useTheme, useMediaQuery } from '@mui/material';
 import PlanDetailsScrollNav from 'components/ui/PlanDetailsScrollNav';
 import {
@@ -14,11 +20,13 @@ import {
   IulShareModal,
 } from '../CommonComponents';
 import { useLifeIulQuote } from 'providers/Life';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { useLeadDetails } from 'providers/ContactDetails';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
 import WithLoader from 'components/ui/WithLoader';
+import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
 
 const IulProtectionQuoteDetails = () => {
   const theme = useTheme();
@@ -33,10 +41,15 @@ const IulProtectionQuoteDetails = () => {
   const productFeaturesRef = useRef(null);
   const underwritingRequirementsRef = useRef(null);
   const { planId, contactId } = useParams();
-  const { leadDetails } = useLeadDetails();
+  const { leadDetails, getLeadDetailsAfterSearch } = useLeadDetails();
   const { agentInformation } = useAgentInformationByID();
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
+  const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
+  const [linkToExistContactId, setLinkToExistContactId] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState({});
 
+  const { isQuickQuotePage } = useCreateNewQuote();
+  const navigate = useNavigate();
   const {
     fetchLifeIulQuoteDetails,
     lifeIulDetails,
@@ -96,18 +109,22 @@ const IulProtectionQuoteDetails = () => {
     return planDetails;
   }, [planDetails]);
 
-  const handleApplyClick = async plan => {
+  const handleApplyClick = async leadData => {
+    const updatedLeadDetails = leadData || leadDetails;
     const emailAddress =
-      leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
+      updatedLeadDetails?.emails?.length > 0
+        ? updatedLeadDetails.emails[0].leadEmail
+        : null;
     const phoneNumber =
-      leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
-
+      updatedLeadDetails?.phones?.length > 0
+        ? updatedLeadDetails.phones[0].leadPhone
+        : null;
     try {
       const response = await handleIULQuoteApplyClick(
         {
-          ...plan,
+          ...planDetails,
           ...agentInformation,
-          ...leadDetails,
+          ...updatedLeadDetails,
           emailAddress,
           phoneNumber,
         },
@@ -115,6 +132,11 @@ const IulProtectionQuoteDetails = () => {
       );
       if (response.success) {
         setSelectedPlan({});
+        if (isQuickQuotePage) {
+          navigate(
+            `/life/iul-protection/${linkToExistContactId}/${planId}/quote-details`
+          );
+        }
       } else {
         setApplyErrorModalOpen(true);
         setSelectedPlan({});
@@ -124,6 +146,26 @@ const IulProtectionQuoteDetails = () => {
       console.error('Error applying for quote:', error);
     }
   };
+
+  const onApply = useCallback(() => {
+    {
+      if (isQuickQuotePage) {
+        setContactSearchModalOpen(true);
+      } else {
+        handleApplyClick();
+      }
+    }
+  }, [isQuickQuotePage, handleApplyClick]);
+
+  const preEnroll = useCallback(
+    async id => {
+      const response = await getLeadDetailsAfterSearch(id);
+      if (response) {
+        await handleApplyClick(response);
+      }
+    },
+    [handleApplyClick, getLeadDetailsAfterSearch]
+  );
 
   return (
     <IulQuoteContainer
@@ -192,7 +234,7 @@ const IulProtectionQuoteDetails = () => {
                     premium={premium}
                     guaranteedYears={guaranteedYears}
                     handlePlanShareClick={() => setShareModalOpen(true)}
-                    handleApplyClick={() => handleApplyClick(planDetails)}
+                    handleApplyClick={onApply}
                   />
                 </CollapsibleLayout>
               </div>
@@ -238,7 +280,24 @@ const IulProtectionQuoteDetails = () => {
       </Grid>
       <ApplyErrorModal
         open={applyErrorModalOpen}
-        onClose={() => setApplyErrorModalOpen(false)}
+        onClose={() => {
+          setApplyErrorModalOpen(false);
+          if (isQuickQuotePage) {
+            navigate(
+              `/life/iul-accumulation/${linkToExistContactId}/${planId}/quote-details`
+            );
+          }
+        }}
+      />
+      <SaveToContact
+        contactSearchModalOpen={contactSearchModalOpen}
+        handleClose={() => setContactSearchModalOpen(false)}
+        handleCallBack={response => {
+          setLinkToExistContactId(response?.leadsId);
+          preEnroll(response?.leadsId);
+        }}
+        page='accumulation'
+        isApplyProcess={true}
       />
       {shareModalOpen && (
         <IulShareModal

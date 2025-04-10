@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router';
 import { formatDate } from 'utils/dates';
 import { useCreateNewQuote } from 'providers/CreateNewQuote';
-import EnrollmentModal from './Enrollment/enrollment-modal';
 import PlanCard from './PlanCard';
 import PlanCardLoader from './PlanCard/loader';
 import { planTypesMap } from './PlanTypesFilter';
@@ -24,12 +23,11 @@ const PlanResults = ({
   selectedPlans,
   setSessionData,
   refresh,
+  onEnrollClick,
 }) => {
   const navigate = useNavigate();
   const { isQuickQuotePage } = useCreateNewQuote();
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [enrollingPlan, setEnrollingPlan] = useState();
   const cards = [];
   const pharmacyMap = pharmacies.reduce((dict, item) => {
     dict[item['pharmacyID']] = item;
@@ -55,10 +53,7 @@ const PlanResults = ({
               )}${isQuickQuotePage ? '?quick-quote=true' : ''}`
             );
           }}
-          onEnrollClick={() => {
-            setEnrollingPlan(plan);
-            setModalOpen(true);
-          }}
+          onEnrollClick={() => onEnrollClick(plan)}
           onChangeCompare={checked => {
             setSelectedPlans(prev => ({ ...prev, [plan.id]: checked }));
           }}
@@ -84,18 +79,7 @@ const PlanResults = ({
       cards.push(<PlanCardLoader key={i}></PlanCardLoader>);
     }
   }
-  return (
-    <>
-      <EnrollmentModal
-        modalOpen={modalOpen}
-        planData={enrollingPlan}
-        contact={contact}
-        handleCloseModal={() => setModalOpen(false)}
-        effectiveDate={formatDate(effectiveDate, 'yyyy-MM-01')}
-      />
-      {cards}
-    </>
-  );
+  return <>{cards}</>;
 };
 
 export default PlanResults;

@@ -57,6 +57,9 @@ const LifeForm = () => {
         age: values.age ? values.age : null,
       };
 
+      const code = JSON.stringify({ stateCode: formData.stateCode });
+      sessionStorage.setItem(quickQuoteLeadId, code);
+
       const payload = {
         ...quickQuoteLeadDetails,
         ...formData,

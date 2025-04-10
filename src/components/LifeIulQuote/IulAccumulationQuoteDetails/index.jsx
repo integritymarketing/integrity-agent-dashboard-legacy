@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import PlanDetailsScrollNav from 'components/ui/PlanDetailsScrollNav';
 import {
@@ -14,15 +14,18 @@ import {
   IulShareModal,
 } from '../CommonComponents';
 import { useLifeIulQuote } from 'providers/Life';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styles from './styles.module.scss';
 import { useLeadDetails } from 'providers/ContactDetails';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
 import WithLoader from 'components/ui/WithLoader';
+import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
 
 const IulAccumulationQuoteDetails = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
 
   const planDetailsSessionData = sessionStorage.getItem('iul-plan-details');
   const planDetails = JSON.parse(planDetailsSessionData);
@@ -33,6 +36,8 @@ const IulAccumulationQuoteDetails = () => {
   const underwritingRequirementsRef = useRef(null);
   const { planId, contactId } = useParams();
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
+  const [linkToExistContactId, setLinkToExistContactId] = useState(null);
 
   const {
     fetchLifeIulQuoteDetails,
@@ -40,10 +45,12 @@ const IulAccumulationQuoteDetails = () => {
     handleIULQuoteApplyClick,
     isLoadingApplyLifeIulQuote,
   } = useLifeIulQuote();
+  const { isQuickQuotePage } = useCreateNewQuote();
 
-  const { leadDetails } = useLeadDetails();
+  const { leadDetails, getLeadDetailsAfterSearch } = useLeadDetails();
   const { agentInformation } = useAgentInformationByID();
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState({});
 
   useEffect(() => {
     fetchLifeIulQuoteDetails(planId);
@@ -95,18 +102,23 @@ const IulAccumulationQuoteDetails = () => {
     return planDetails;
   }, [planDetails]);
 
-  const handleApplyClick = async plan => {
+  const handleApplyClick = async leadData => {
+    const updatedLeadDetails = leadData || leadDetails;
     const emailAddress =
-      leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
+      updatedLeadDetails?.emails?.length > 0
+        ? updatedLeadDetails.emails[0].leadEmail
+        : null;
     const phoneNumber =
-      leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
+      updatedLeadDetails?.phones?.length > 0
+        ? updatedLeadDetails.phones[0].leadPhone
+        : null;
 
     try {
       const response = await handleIULQuoteApplyClick(
         {
-          ...plan,
+          ...planDetails,
           ...agentInformation,
-          ...leadDetails,
+          ...updatedLeadDetails,
           emailAddress,
           phoneNumber,
         },
@@ -114,6 +126,11 @@ const IulAccumulationQuoteDetails = () => {
       );
       if (response.success) {
         setSelectedPlan({});
+        if (isQuickQuotePage) {
+          navigate(
+            `/life/iul-accumulation/${linkToExistContactId}/${planId}/quote-details`
+          );
+        }
       } else {
         setApplyErrorModalOpen(true);
         setSelectedPlan({});
@@ -123,6 +140,26 @@ const IulAccumulationQuoteDetails = () => {
       console.error('Error applying for quote:', error);
     }
   };
+
+  const onApply = useCallback(() => {
+    {
+      if (isQuickQuotePage) {
+        setContactSearchModalOpen(true);
+      } else {
+        handleApplyClick();
+      }
+    }
+  }, [isQuickQuotePage, handleApplyClick]);
+
+  const preEnroll = useCallback(
+    async id => {
+      const response = await getLeadDetailsAfterSearch(id);
+      if (response) {
+        await handleApplyClick(response);
+      }
+    },
+    [handleApplyClick, getLeadDetailsAfterSearch]
+  );
 
   return (
     <IulQuoteContainer
@@ -175,7 +212,7 @@ const IulAccumulationQuoteDetails = () => {
                     cardTitle={productName}
                     companyName={companyName}
                     rating={amBest}
-                    handleApplyClick={() => handleApplyClick(planDetails)}
+                    handleApplyClick={onApply}
                     handlePlanShareClick={() => setShareModalOpen(true)}
                     logo={companyLogoImageUrl}
                     cashValueYear10={cashValueYear10}
@@ -235,7 +272,24 @@ const IulAccumulationQuoteDetails = () => {
       </Grid>
       <ApplyErrorModal
         open={applyErrorModalOpen}
-        onClose={() => setApplyErrorModalOpen(false)}
+        onClose={() => {
+          setApplyErrorModalOpen(false);
+          if (isQuickQuotePage) {
+            navigate(
+              `/life/iul-accumulation/${linkToExistContactId}/${planId}/quote-details`
+            );
+          }
+        }}
+      />
+      <SaveToContact
+        contactSearchModalOpen={contactSearchModalOpen}
+        handleClose={() => setContactSearchModalOpen(false)}
+        handleCallBack={response => {
+          setLinkToExistContactId(response?.leadsId);
+          preEnroll(response?.leadsId);
+        }}
+        page='accumulation'
+        isApplyProcess={true}
       />
       {shareModalOpen && (
         <IulShareModal

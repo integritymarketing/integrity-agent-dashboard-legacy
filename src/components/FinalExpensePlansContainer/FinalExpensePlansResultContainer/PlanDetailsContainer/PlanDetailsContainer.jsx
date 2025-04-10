@@ -81,11 +81,11 @@ export const PlanDetailsContainer = ({
     useState([]);
   const [finalExpensePlans, setFinalExpensePlans] = useState([]);
   const { getFinalExpenseQuotePlans } = useFinalExpensePlans();
-  const { isSimplifiedIUL } = useCreateNewQuote();
+  const { isSimplifiedIUL, isQuickQuotePage } = useCreateNewQuote();
 
   const [isLoadingFinalExpensePlans, setIsLoadingFinalExpensePlans] =
     useState(false);
-  const { leadDetails } = useLeadDetails();
+  const { leadDetails, getLeadDetails } = useLeadDetails();
   const [fetchPlansError, setFetchPlansError] = useState(false);
   const initialRender = useRef(true);
   const [hasNoIULPlansAvailable, setHasNoIULPlansAvailable] = useState(false);
@@ -113,6 +113,10 @@ export const PlanDetailsContainer = ({
   const { min: covMin, max: covMax } = stepperFilter[COVERAGE_AMOUNT];
   const { min, max } = stepperFilter[MONTHLY_PREMIUM];
 
+  useEffect(() => {
+    getLeadDetails(contactId, isQuickQuotePage);
+  }, [contactId]);
+
   const fetchPlans = useCallback(async () => {
     setFetchPlansError(false);
     setIsLoadingFinalExpensePlans(true);
@@ -134,7 +138,7 @@ export const PlanDetailsContainer = ({
 
     const quotePlansPostBody = buildQuotePlansPostBody({
       code,
-      age: ageValue,
+      age: ageValue || 0,
       gender,
       isTobaccoUser,
       covType,

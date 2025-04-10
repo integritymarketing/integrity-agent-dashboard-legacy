@@ -3,11 +3,14 @@ import ContactSearchModal from '../ContactSearchModal';
 import CreateContactForm from '../CreateContactForm';
 import { useCreateNewQuote } from 'providers/CreateNewQuote';
 import LinkToContact from '../LinkToContact';
+import { useNavigate } from 'react-router-dom';
 
 const SaveToContact = ({
   contactSearchModalOpen,
   handleClose,
   handleCallBack,
+  page,
+  isApplyProcess = false,
 }) => {
   const {
     quickQuoteLeadDetails,
@@ -15,6 +18,7 @@ const SaveToContact = ({
     existingLinkLeadToQuickQuote,
     isLoadingExistingLinkLeadToQuickQuote,
   } = useCreateNewQuote();
+  const navigate = useNavigate();
 
   const [createNewContactModalOpen, setCreateNewContactModalOpen] =
     useState(false);
@@ -31,6 +35,46 @@ const SaveToContact = ({
     primaryCommunication: '',
   });
 
+  const navWithCallBack = useCallback(
+    (path, response) => {
+      if (!isApplyProcess) {
+        navigate(path);
+      }
+      handleClose();
+      setTimeout(() => {
+        handleCallBack(response);
+      }, 2000);
+    },
+    [handleCallBack, isApplyProcess]
+  );
+
+  const handlelingNavWithCallBack = useCallback(
+    response => {
+      const code = JSON.stringify({
+        stateCode: response?.addresses[0]?.stateCode,
+      });
+      sessionStorage.setItem(response?.leadsId, code);
+
+      const leadId = response?.leadsId;
+      if (page === 'accumulation') {
+        navWithCallBack(`/life/iul-accumulation/${leadId}/quote`, response);
+      }
+      if (page === 'protection') {
+        navWithCallBack(`/life/iul-protection/${leadId}/quote`, response);
+      }
+      if (page === 'finalExpense') {
+        navWithCallBack(`/finalexpenses/plans/${leadId}`, response);
+      }
+      if (page === 'simplifiedIUL') {
+        navWithCallBack(`/simplified-iul/plans/${leadId}`, response);
+      }
+      if (page === 'healthPlans') {
+        navWithCallBack(`/plans/${leadId}`, response);
+      }
+    },
+    [navWithCallBack, page]
+  );
+
   const handleSelectedLead = useCallback(
     (lead, type) => {
       if (type === 'new') {
@@ -46,7 +90,7 @@ const SaveToContact = ({
         handleClose();
       }
     },
-    [selectedLead, handleCallBack, handleClose]
+    [selectedLead, handleClose]
   );
 
   const handleSaveNewContact = useCallback(
@@ -59,10 +103,12 @@ const SaveToContact = ({
         phone: lead?.phone || '',
         primaryCommunication: lead.primaryCommunication,
       };
+
       try {
         const response = await saveQuickQuoteLeadDetails(payload);
         if (response && response?.leadsId) {
-          handleCallBack(response?.leadsId);
+          setCreateNewContactModalOpen(false);
+          handlelingNavWithCallBack(response);
         } else {
           alert('Failed to save lead.');
         }
@@ -70,7 +116,7 @@ const SaveToContact = ({
         console.error('Error saving lead to contact:', error);
       }
     },
-    [handleCallBack]
+    [handlelingNavWithCallBack]
   );
 
   const handleExistingLeadLink = useCallback(async () => {
@@ -82,12 +128,12 @@ const SaveToContact = ({
       );
       if (response && response?.leadsId) {
         setLinkToContactModalOpen(false);
-        handleCallBack(response?.leadsId);
+        handlelingNavWithCallBack(response);
       }
     } catch (error) {
       console.error('Error saving lead to contact:', error);
     }
-  }, [handleCallBack, selectedLead, quickQuoteLeadDetails]);
+  }, [handlelingNavWithCallBack, selectedLead, quickQuoteLeadDetails]);
 
   return (
     <>

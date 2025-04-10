@@ -24,6 +24,7 @@ import analyticsService from 'services/analyticsService';
 import { useClientServiceContext } from 'services/clientServiceProvider';
 
 import { useLeadDetails } from 'providers/ContactDetails';
+import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
 
 import styles from './PlanDetailsPage.module.scss';
 
@@ -31,7 +32,7 @@ import { PLAN_TYPE_ENUMS, MAPD, MA, PDP } from '../constants';
 
 import { useHealth } from 'providers/ContactDetails/ContactDetailsContext';
 import { usePharmacyContext } from 'providers/PharmacyProvider';
-import { ContactProfileTabBar } from 'components/ContactDetailsContainer';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
 import { Box, Typography } from '@mui/material';
 import { QUOTE_TYPE_LABEL } from 'components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants';
 import ConditionalProfileBar from 'components/QuickerQuote/Common/ConditionalProfileBar';
@@ -39,17 +40,21 @@ import ConditionalProfileBar from 'components/QuickerQuote/Common/ConditionalPro
 const PlanDetailsPage = () => {
   const showToast = useToast();
   const { contactId, planId, effectiveDate } = useParams();
-  const { leadDetails, getLeadDetails, isLoadingLeadDetails } =
-    useLeadDetails();
+  const { leadDetails, getLeadDetails } = useLeadDetails();
+  const { isQuickQuotePage } = useCreateNewQuote();
 
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const [contact, setContact] = useState(leadDetails);
   const [plan, setPlan] = useState();
-  const [modalOpen, setModalOpen] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [filterPharmacyId, setFilterPharmacyId] = useState(null);
+
+  const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
+  const [linkToExistContactId, setLinkToExistContactId] = useState(null);
+  const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
 
   const { isNonRTS_User } = useRoles();
   const { clientsService, plansService } = useClientServiceContext();
@@ -139,7 +144,7 @@ const PlanDetailsPage = () => {
           }}
         />
 
-        <WithLoader isLoading={isLoading || isLoadingLeadDetails}>
+        <WithLoader isLoading={isLoading}>
           <Helmet>
             <title>Integrity - Plans</title>
           </Helmet>
@@ -165,7 +170,13 @@ const PlanDetailsPage = () => {
                 styles={styles}
                 isMobile={isMobile}
                 onShareClick={() => setShareModalOpen(true)}
-                onEnrollClick={() => setModalOpen(true)}
+                onEnrollClick={() => {
+                  if (isQuickQuotePage) {
+                    setContactSearchModalOpen(true);
+                  } else {
+                    setPreCheckListPdfModal(true);
+                  }
+                }}
                 refresh={getContactAndPlanData}
                 leadId={contactId}
               />
@@ -177,7 +188,13 @@ const PlanDetailsPage = () => {
                 styles={styles}
                 isMobile={isMobile}
                 onShareClick={() => setShareModalOpen(true)}
-                onEnrollClick={() => setModalOpen(true)}
+                onEnrollClick={() => {
+                  if (isQuickQuotePage) {
+                    setContactSearchModalOpen(true);
+                  } else {
+                    setPreCheckListPdfModal(true);
+                  }
+                }}
                 refresh={getContactAndPlanData}
                 leadId={contactId}
               />
@@ -188,7 +205,13 @@ const PlanDetailsPage = () => {
                 styles={styles}
                 isMobile={isMobile}
                 onShareClick={() => setShareModalOpen(true)}
-                onEnrollClick={() => setModalOpen(true)}
+                onEnrollClick={() => {
+                  if (isQuickQuotePage) {
+                    setContactSearchModalOpen(true);
+                  } else {
+                    setPreCheckListPdfModal(true);
+                  }
+                }}
                 refresh={getContactAndPlanData}
                 leadId={contactId}
               />
@@ -206,6 +229,18 @@ const PlanDetailsPage = () => {
                   contact={contact}
                   handleCloseModal={() => setModalOpen(false)}
                   effectiveDate={effectiveDate}
+                  isApplyProcess={isQuickQuotePage}
+                  linkToExistContactId={linkToExistContactId}
+                  navPath={`/${linkToExistContactId}/plan/${planId}/${effectiveDate}`}
+                />
+              )}
+              {preCheckListPdfModal && (
+                <PreEnrollPDFModal
+                  open={preCheckListPdfModal}
+                  onClose={() => {
+                    setPreCheckListPdfModal(false);
+                    setModalOpen(true);
+                  }}
                 />
               )}
               {shareModalOpen && (
@@ -220,6 +255,16 @@ const PlanDetailsPage = () => {
             </>
           )}
         </WithLoader>
+        <SaveToContact
+          contactSearchModalOpen={contactSearchModalOpen}
+          handleClose={() => setContactSearchModalOpen(false)}
+          handleCallBack={response => {
+            setLinkToExistContactId(response?.leadsId);
+            setPreCheckListPdfModal(true);
+          }}
+          page='healthPlans'
+          isApplyProcess={true}
+        />
       </div>
     </React.Fragment>
   );

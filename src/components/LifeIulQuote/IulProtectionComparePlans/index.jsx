@@ -18,6 +18,8 @@ import { useLeadDetails } from 'providers/ContactDetails';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
 import WithLoader from 'components/ui/WithLoader';
 import * as Sentry from '@sentry/react';
+import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
 
 const IulProtectionComparePlans = () => {
   const [results, setResults] = useState([]);
@@ -26,6 +28,9 @@ const IulProtectionComparePlans = () => {
   const [disabledPlans, setDisabledPlans] = useState({});
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
   const [compareShareModalOpen, setCompareShareModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState({});
+  const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
+  const [linkToExistContactId, setLinkToExistContactId] = useState(null);
 
   const { leadDetails } = useLeadDetails();
   const { agentInformation } = useAgentInformationByID();
@@ -37,6 +42,7 @@ const IulProtectionComparePlans = () => {
     isLoadingApplyLifeIulQuote,
   } = useLifeIulQuote();
   const navigate = useNavigate();
+  const { isQuickQuotePage } = useCreateNewQuote();
 
   const getPlanDetails = useCallback(async () => {
     const getAllPlanDetails = () => {
@@ -130,6 +136,15 @@ const IulProtectionComparePlans = () => {
     navigate(`/life/iul-protection/${contactId}/quote?preserveSelected=true`);
   };
 
+  const onApply = plan => {
+    setSelectedPlan(plan);
+    if (isQuickQuotePage) {
+      setContactSearchModalOpen(true);
+    } else {
+      handleApplyClick(plan);
+    }
+  };
+
   const handleApplyClick = async plan => {
     const planData = comparePlans.find(p => p.recId === plan.id);
     const emailAddress =
@@ -152,6 +167,13 @@ const IulProtectionComparePlans = () => {
       );
       if (response.success) {
         setSelectedPlan({});
+        if (isQuickQuotePage) {
+          navigate(
+            `/life/iul-protection/${linkToExistContactId}/${planIds.join(
+              ','
+            )}/compare-plans`
+          );
+        }
       } else {
         setApplyErrorModalOpen(true);
         setSelectedPlan({});
@@ -178,7 +200,7 @@ const IulProtectionComparePlans = () => {
           sx={{ position: 'relative' }}
         >
           <CompareHeader
-            handleApplyClick={handleApplyClick}
+            handleApplyClick={onApply}
             applyButtonDisabled={isLoadingApplyLifeIulQuote}
             headerCategory='IUL_PROTECTION'
             IULProtectionPlans={plansData}
@@ -213,7 +235,26 @@ const IulProtectionComparePlans = () => {
       </Grid>
       <ApplyErrorModal
         open={applyErrorModalOpen}
-        onClose={() => setApplyErrorModalOpen(false)}
+        onClose={() => {
+          setApplyErrorModalOpen(false);
+          if (isQuickQuotePage) {
+            navigate(
+              `/life/iul-protection/${linkToExistContactId}/${planIds.join(
+                ','
+              )}/compare-plans`
+            );
+          }
+        }}
+      />
+      <SaveToContact
+        contactSearchModalOpen={contactSearchModalOpen}
+        handleClose={() => setContactSearchModalOpen(false)}
+        handleCallBack={response => {
+          setLinkToExistContactId(response?.leadsId);
+          handleApplyClick(selectedPlan);
+        }}
+        page='accumulation'
+        isApplyProcess={true}
       />
       {compareShareModalOpen && (
         <IulCompareShareModal

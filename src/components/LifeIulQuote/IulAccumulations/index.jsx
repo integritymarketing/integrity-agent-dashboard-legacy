@@ -376,6 +376,7 @@ const IulAccumulationQuote = () => {
               contactSearchModalOpen={contactSearchModalOpen}
               handleClose={() => setContactSearchModalOpen(false)}
               handleCallBack={() => handleApplyClick(selectedPlan)}
+              page='accumulation'
             />
           </WithLoader>
         </Grid>

@@ -117,6 +117,11 @@ export const LeadDetailsProvider = ({ children }) => {
     Delete: deleteContact,
   } = useFetch(LEADS_URL);
 
+  const {
+    Get: fetchLeadDetailsAfterSearch,
+    loading: isLoadingLeadDetailsAfterSearch,
+  } = useFetch(leadsApiUrl);
+
   const showToast = useToast();
 
   // selectedTab  state can be one of ["overview", "scopeOfAppointment", "policies", "health"]
@@ -150,6 +155,27 @@ export const LeadDetailsProvider = ({ children }) => {
       }
     },
     [fetchLeadDetails, showToast, isQuickQuotePage]
+  );
+
+  const getLeadDetailsAfterSearch = useCallback(
+    async leadId => {
+      if (!leadId) {
+        return;
+      }
+      try {
+        const response = await fetchLeadDetailsAfterSearch(null, false, leadId);
+        const plan_enroll_profile_created =
+          response?.consumerId === null ? 'No' : 'Yes';
+        return { ...response, plan_enroll_profile_created };
+      } catch (error) {
+        showToast({
+          type: 'error',
+          message: 'Failed to load lead details',
+          time: 10000,
+        });
+      }
+    },
+    [fetchLeadDetailsAfterSearch, showToast]
   );
 
   const updateLeadDetailsWithZipCode = useCallback(
@@ -380,6 +406,8 @@ export const LeadDetailsProvider = ({ children }) => {
       onValidateEmailLoading,
       validateEmailError,
       updateLeadPhone,
+      setLeadDetails,
+      getLeadDetailsAfterSearch,
     }),
     [
       getLeadDetails,
@@ -399,6 +427,8 @@ export const LeadDetailsProvider = ({ children }) => {
       onValidateEmailLoading,
       validateEmailError,
       updateLeadPhone,
+      setLeadDetails,
+      getLeadDetailsAfterSearch,
     ]
   );
 

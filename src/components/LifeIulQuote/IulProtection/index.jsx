@@ -454,6 +454,7 @@ const IulProtectionQuote = () => {
               contactSearchModalOpen={contactSearchModalOpen}
               handleClose={() => setContactSearchModalOpen(false)}
               handleCallBack={() => onApply(selectedPlan)}
+              page='protection'
             />
           </WithLoader>
         </Grid>

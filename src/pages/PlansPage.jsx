@@ -51,6 +51,10 @@ import { useClientServiceContext } from 'services/clientServiceProvider';
 import { useLeadDetails } from 'providers/ContactDetails';
 
 import ViewAvailablePlans from '../pages/contacts/contactRecordInfo/viewAvailablePlans';
+import PreEnrollPDFModal from 'components/SharedModals/PreEnrollPdf';
+import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
+import EnrollmentModal from 'components/ui/Enrollment/enrollment-modal';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
 
 import { PlanPageFooter } from './PlanPageFooter';
 import styles from './PlansPage.module.scss';
@@ -173,6 +177,7 @@ const PlansPage = () => {
       return acc;
     }, {})
   );
+
   const [showViewAvailablePlans, setShowViewAvailablePlans] = useRecoilState(
     showViewAvailablePlansAtom
   );
@@ -186,11 +191,17 @@ const PlansPage = () => {
   const [rXToSpecialists, setRXToSpecialists] = useState([]);
   const shouldShowAskIntegrity = useRecoilValue(showViewAvailablePlansAtom);
 
+  const [enrollModalOpen, setEnrollModalOpen] = useState(false);
+  const [enrollingPlan, setEnrollingPlan] = useState();
+  const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
+  const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
+  const [linkToExistContactId, setLinkToExistContactId] = useState(null);
+
   const { pharmacies, fetchPharmacies, fetchPrescriptions, fetchProviders } =
     useHealth() || {};
 
-  const { leadDetails, getLeadDetails, isLoadingLeadDetails } =
-    useLeadDetails();
+  const { leadDetails, getLeadDetails } = useLeadDetails();
+  const { isQuickQuotePage } = useCreateNewQuote();
 
   useEffect(() => {
     if (id) {
@@ -199,10 +210,10 @@ const PlansPage = () => {
   }, [id]);
 
   useEffect(() => {
-    if (!leadDetails && id) {
+    if (!leadDetails && id && !isQuickQuotePage) {
       getLeadDetails(id);
     }
-  }, [id, getLeadDetails, leadDetails]);
+  }, [id, getLeadDetails, leadDetails, isQuickQuotePage]);
 
   const fetchHealthDetails = useCallback(async () => {
     await Promise.all([
@@ -537,11 +548,11 @@ const PlansPage = () => {
   }, [myAppointedPlans]);
 
   useEffect(() => {
-    if (leadDetails && leadDetails?.hasMedicAid) {
+    if (leadDetails && leadDetails?.hasMedicAid && !isQuickQuotePage) {
       setSpecialNeedsFilter(true);
       setSpecialNeedsFilter_mobile(true);
     }
-  }, [leadDetails]);
+  }, [leadDetails, isQuickQuotePage]);
 
   const getAllPlans = useCallback(async () => {
     if (leadDetails) {
@@ -758,10 +769,7 @@ const PlansPage = () => {
             setIsMobile(isMobileDevice);
           }}
         />
-        <WithLoader
-          isLoading={isLoading}
-          isLoadingLeadDetails={isLoadingLeadDetails}
-        >
+        <WithLoader isLoading={isLoading}>
           {!shouldShowAskIntegrity && <WebChatComponent />}
           <Helmet>
             <title>Integrity - Plans</title>
@@ -960,7 +968,7 @@ const PlansPage = () => {
                       isMobile={isMobile}
                       loading={plansLoading}
                       effectiveDate={effectiveDate}
-                      leadDetails={leadDetails}
+                      contact={leadDetails}
                       leadId={id}
                       pharmacies={pharmacies}
                       planType={planType}
@@ -968,6 +976,15 @@ const PlansPage = () => {
                       setSelectedPlans={setSelectedPlans}
                       setSessionData={setSessionData}
                       refresh={refreshPlans}
+                      setEnrollingPlan={setEnrollingPlan}
+                      onEnrollClick={plan => {
+                        setEnrollingPlan(plan);
+                        if (isQuickQuotePage) {
+                          setContactSearchModalOpen(true);
+                        } else {
+                          setEnrollModalOpen(true);
+                        }
+                      }}
                     />
                     {!plansLoading && filteredPlansCount > 0 && (
                       <div>
@@ -1000,6 +1017,39 @@ const PlansPage = () => {
             isMobile={isMobile}
           />
         </WithLoader>
+
+        {enrollModalOpen && (
+          <EnrollmentModal
+            modalOpen={enrollModalOpen}
+            planData={enrollingPlan}
+            contact={leadDetails}
+            handleCloseModal={() => setEnrollModalOpen(false)}
+            effectiveDate={formatDate(effectiveDate, 'yyyy-MM-01')}
+            isApplyProcess={isQuickQuotePage}
+            linkToExistContactId={linkToExistContactId}
+            navPath={`/plans/${linkToExistContactId}`}
+          />
+        )}
+        {preCheckListPdfModal && (
+          <PreEnrollPDFModal
+            open={preCheckListPdfModal}
+            onClose={() => {
+              setPreCheckListPdfModal(false);
+              setEnrollModalOpen(true);
+            }}
+          />
+        )}
+
+        <SaveToContact
+          contactSearchModalOpen={contactSearchModalOpen}
+          handleClose={() => setContactSearchModalOpen(false)}
+          handleCallBack={response => {
+            setLinkToExistContactId(response?.leadsId);
+            setPreCheckListPdfModal(true);
+          }}
+          page='healthPlans'
+          isApplyProcess={true}
+        />
       </div>
     </>
   );

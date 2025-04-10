@@ -44,7 +44,8 @@ const AutocompleteWrapper = styled('div')({
 });
 
 const contactSearchModalOpen = ({ open, handleClose, handleSelectedLead }) => {
-  const { getLeadDetails, updateLeadDetailsWithZipCode } = useLeadDetails();
+  const { getLeadDetailsAfterSearch, updateLeadDetailsWithZipCode } =
+    useLeadDetails();
   const { getLeadsList } = useContactListAPI();
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -240,7 +241,7 @@ const contactSearchModalOpen = ({ open, handleClose, handleSelectedLead }) => {
         Sentry.captureException(error);
       }
     }
-    const response = await getLeadDetails(leadId);
+    const response = await getLeadDetailsAfterSearch(leadId);
 
     if (response) {
       handleSelectedLead(response, 'old');

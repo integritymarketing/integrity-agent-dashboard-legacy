@@ -5,7 +5,6 @@ import { ContactProfileTabBar } from 'components/ContactDetailsContainer/Contact
 import WithLoader from 'components/ui/WithLoader';
 import PropTypes from 'prop-types';
 import SaveToContact from '../SaveToContact';
-import { useNavigate } from 'react-router-dom';
 
 const ConditionalProfileBar = ({
   leadId,
@@ -14,7 +13,6 @@ const ConditionalProfileBar = ({
   hideButton = false,
 }) => {
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
-  const navigate = useNavigate();
   const {
     quickQuoteLeadDetails,
     isLoadingQuickQuoteLeadDetails,
@@ -39,26 +37,6 @@ const ConditionalProfileBar = ({
   const age = useMemo(() => {
     return (quickQuoteLeadDetails && quickQuoteLeadDetails?.age) || '';
   }, [quickQuoteLeadDetails]);
-
-  const handleCallBack = leadId => {
-    setContactSearchModalOpen(false);
-
-    if (page === 'accumulation') {
-      navigate(`/life/iul-accumulation/${leadId}/quote`);
-    }
-    if (page === 'protection') {
-      navigate(`/life/iul-protection/${leadId}/quote`);
-    }
-    if (page === 'finalExpense') {
-      navigate(`/finalexpenses/plans/${leadId}`);
-    }
-    if (page === 'simplifiedIUL') {
-      navigate(`/simplified-iul/plans/${leadId}`);
-    }
-    if (page === 'healthPlans') {
-      navigate(`/plans/${leadId}`);
-    }
-  };
 
   return (
     <WithLoader isLoading={isLoadingQuickQuoteLeadDetails}>
@@ -88,8 +66,9 @@ const ConditionalProfileBar = ({
       <SaveToContact
         contactSearchModalOpen={contactSearchModalOpen}
         handleClose={() => setContactSearchModalOpen(false)}
-        handleCallBack={handleCallBack}
+        handleCallBack={() => setContactSearchModalOpen(false)}
         leadId={leadId}
+        page={page}
       />
     </WithLoader>
   );

@@ -59,18 +59,17 @@ const ComparePlansPage = props => {
 
   const { clientsService, comparePlansService, plansService } =
     useClientServiceContext();
-  const { leadDetails, getLeadDetails, isLoadingLeadDetails } =
-    useLeadDetails();
+  const { leadDetails, getLeadDetails } = useLeadDetails();
   const { pharmacies: pharmaciesList, fetchPharmacies } = useHealth() || {};
   const { selectedPharmacy } = usePharmacyContext();
   const { isNonRTS_User } = useRoles();
   const { isQuickQuotePage } = useCreateNewQuote();
 
   useEffect(() => {
-    if (!leadDetails && id) {
+    if (!leadDetails && id && !isQuickQuotePage) {
       getLeadDetails(id);
     }
-  }, [id, getLeadDetails, leadDetails]);
+  }, [id, getLeadDetails, leadDetails, isQuickQuotePage]);
 
   function getAllPlanDetails({
     planIds,
@@ -113,6 +112,7 @@ const ComparePlansPage = props => {
 
   const getContactRecordInfo = useCallback(async () => {
     setLoading(true);
+
     try {
       setResults([]);
 
@@ -224,7 +224,7 @@ const ComparePlansPage = props => {
     });
   };
 
-  const getComparePlansByPlanNamesProps = () => {
+  const getComparePlansByPlanNamesProps = useMemo(() => {
     return {
       agentInfo,
       comparePlans,
@@ -238,7 +238,15 @@ const ComparePlansPage = props => {
       handleCloseModal: () => setComparePlanModalOpen(false),
       contactData: leadDetails,
     };
-  };
+  }, [
+    agentInfo,
+    comparePlans,
+    leadDetails,
+    isComingFromEmail,
+    plansLoading,
+    id,
+    effectiveDate,
+  ]);
 
   const planType = comparePlans?.[0]?.planType || 2;
 
@@ -249,19 +257,19 @@ const ComparePlansPage = props => {
     return `/plans/${id}?preserveSelected=true`;
   }, [isQuickQuotePage, id]);
 
-  const isLoading = loading;
+  const isLoading = loading && !isQuickQuotePage;
 
-  if (loading) {
+  if (loading && !isQuickQuotePage) {
     return <Spinner />;
   }
   return (
     <>
       {!isComingFromEmail && comparePlanModalOpen && (
-        <ComparePlanModal {...getComparePlansByPlanNamesProps()} />
+        <ComparePlanModal {...getComparePlansByPlanNamesProps} />
       )}
       <div className={styles.comparePage}>
         <Media query={'(max-width: 500px)'} onChange={isMobile => {}} />
-        <WithLoader isLoading={isLoading || isLoadingLeadDetails}>
+        <WithLoader isLoading={isLoading}>
           <Helmet>
             <title>Integrity - Plans</title>
           </Helmet>
@@ -297,7 +305,7 @@ const ComparePlansPage = props => {
             </div>
           )}
 
-          <ComparePlansByPlanName {...getComparePlansByPlanNamesProps()} />
+          <ComparePlansByPlanName {...getComparePlansByPlanNamesProps} />
           <Container>
             {plansLoading ? (
               <Spinner />

@@ -68,7 +68,6 @@ export const PlanCard = ({
   const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
   const [isSingleSignOnInitialModalOpen, setIsSingleSignOnInitialModalOpen] =
     useState(false);
-
   const { leadDetails } = useLeadDetails();
   const { fireEvent } = useAnalytics();
   const { agentInformation } = useAgentInformationByID();
@@ -164,17 +163,23 @@ export const PlanCard = ({
     return reason != null;
   }, [reason]);
 
-  const onPreApply = async () => {
+  const onPreApply = async leadData => {
     lifeQuoteEvent('Life Apply CTA Clicked');
     if (!isRTSPlan) {
       setIsSingleSignOnModalOpen(true);
     } else {
-      await onApply();
+      await onApply(null, null, false, leadData);
     }
   };
 
-  const onApply = async (producerId, onSuccess, apiErrorState = false) => {
+  const onApply = async (
+    producerId,
+    onSuccess,
+    apiErrorState = false,
+    leadData
+  ) => {
     try {
+      const updatedLeadDetails = leadData || leadDetails;
       let writingAgentNumberToSend = getWritingAgentNumber(
         producerId,
         apiErrorState
@@ -186,7 +191,7 @@ export const PlanCard = ({
         writingAgentNumberToSend,
         agentFirstName,
         agentLastName,
-        leadDetails,
+        updatedLeadDetails,
         coverageAmount,
         planName,
         resource_url,
@@ -410,6 +415,7 @@ export const PlanCard = ({
           contactSearchModalOpen={contactSearchModalOpen}
           handleClose={() => setContactSearchModalOpen(false)}
           handleCallBack={onPreApply}
+          page='finalExpense'
         />
       </div>
     </div>

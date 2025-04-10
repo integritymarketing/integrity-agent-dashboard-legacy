@@ -8,7 +8,6 @@ import {
 } from 'utils/shared-utils/sharedUtility';
 import shouldDisableEnrollButtonBasedOnEffectiveDate from 'utils/shouldDisableEnrollButtonBasedOnEffectiveDate';
 import useRoles from 'hooks/useRoles';
-import PreEnrollPDFModal from 'components/SharedModals/PreEnrollPdf';
 import Arrow from 'components/icons/down';
 import {
   calculateMonthlyDrugCost,
@@ -22,8 +21,6 @@ import useAnalytics from 'hooks/useAnalytics';
 import { PLAN_TYPE_ENUMS } from '../../../constants';
 import { Button } from '../Button';
 import Rating from '../Rating';
-import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
-import { useCreateNewQuote } from 'providers/CreateNewQuote';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowRight } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 
@@ -73,15 +70,11 @@ export default function PlanCard({
   leadId,
 }) {
   const [breakdownCollapsed, setBreakdownCollapsed] = useState(isMobile);
-  const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
-  const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
 
   const { contactId } = useParams();
   const { fireEvent } = useAnalytics();
 
   const { selectedPharmacy } = usePharmacyContext();
-
-  const { isQuickQuotePage } = useCreateNewQuote();
 
   const {
     logoURL,
@@ -267,15 +260,11 @@ export default function PlanCard({
           {(planData?.planType === 1 || planData?.planType === 2) && (
             <CommissionableInfo status={planData?.commissionable} />
           )}
-          {planData?.nonLicensedPlan && (
+          {!planData?.nonLicensedPlan && (
             <Button
               label={'Apply'}
               onClick={() => {
-                if (isQuickQuotePage) {
-                  setContactSearchModalOpen(true);
-                } else {
-                  setPreCheckListPdfModal(true);
-                }
+                onEnrollClick(true);
                 fireEvent('Health Apply CTA Clicked', {
                   leadid: leadId,
                   line_of_business: 'Health',
@@ -325,11 +314,7 @@ export default function PlanCard({
                 <Button
                   label={'Apply'}
                   onClick={() => {
-                    if (isQuickQuotePage) {
-                      setContactSearchModalOpen(true);
-                    } else {
-                      setPreCheckListPdfModal(true);
-                    }
+                    onEnrollClick(true);
                     fireEvent('Health Apply CTA Clicked', {
                       leadid: leadId,
                       line_of_business: 'Health',
@@ -354,21 +339,6 @@ export default function PlanCard({
           </Box>
         </div>
       )}
-      {preCheckListPdfModal && (
-        <PreEnrollPDFModal
-          open={preCheckListPdfModal}
-          onClose={() => {
-            setPreCheckListPdfModal(false);
-            onEnrollClick(planData?.id);
-          }}
-        />
-      )}
-
-      <SaveToContact
-        contactSearchModalOpen={contactSearchModalOpen}
-        handleClose={() => setContactSearchModalOpen(false)}
-        handleCallBack={() => setPreCheckListPdfModal(true)}
-      />
     </div>
   );
 }
