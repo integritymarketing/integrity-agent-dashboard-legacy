@@ -166,7 +166,7 @@ export const PlanCard = ({
   const onPreApply = async leadData => {
     lifeQuoteEvent('Life Apply CTA Clicked');
     if (!isRTSPlan) {
-      setIsSingleSignOnModalOpen(true);
+      setIsFinalExpenseErrorModalOpen(true);
     } else {
       await onApply(null, null, false, leadData);
     }
@@ -394,8 +394,7 @@ export const PlanCard = ({
 
         <div className={styles.applyCTA}>
           <Button
-            label={APPLY}
-            disabled={!isRTSPlan || isPlanExcluded}
+            label='Apply'
             onClick={() => {
               if (isQuickQuotePage) {
                 setContactSearchModalOpen(true);
@@ -406,9 +405,7 @@ export const PlanCard = ({
             type='primary'
             icon={<ButtonCircleArrow />}
             iconPosition='right'
-            className={`${styles.applyButton} ${
-              isPlanExcluded ? styles.disabled : ''
-            }`}
+            className={styles.applyButton}
           />
         </div>
         <SaveToContact
