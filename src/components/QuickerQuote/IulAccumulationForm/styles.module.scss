@@ -36,3 +36,12 @@
   align-items: center;
   margin-top: 32px;
 }
+.requiredFieldLabel {
+  color: var(--text-primary, #434a51);
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-family: Lato;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 20px;
+}

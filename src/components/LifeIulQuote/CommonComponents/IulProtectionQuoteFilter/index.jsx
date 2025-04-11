@@ -410,7 +410,6 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
                   </Box>
                 </CollapsibleSection>
               </Grid>
-              <div className={styles.requiredFieldLabel}>*Required fields</div>
             </Grid>
           </Box>
         </Box>

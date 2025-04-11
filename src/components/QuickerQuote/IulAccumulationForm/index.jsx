@@ -253,6 +253,8 @@ const IulAccumulationForm = () => {
                 </Grid>
               </Grid>
             </Box>
+            <div className={styles.requiredFieldLabel}>*Required fields</div>
+
             <Box className={styles.buttonContainer}>
               <Button
                 onClick={handleSubmit}

@@ -342,7 +342,6 @@ export const IulAccumulationQuoteFilter = ({ isTobaccoUser }) => {
                   </Box>
                 </CollapsibleSection>
               </Grid>
-              <div className={styles.requiredFieldLabel}>*Required fields</div>
             </Grid>
           </Box>
         </Box>
