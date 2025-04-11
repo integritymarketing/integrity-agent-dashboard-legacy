@@ -198,12 +198,17 @@ const GlobalNavV2 = ({
     .join('-');
 
   const showBanner = useMemo(() => {
-    const sessionValue = sessionStorage.getItem('isAgentMobileBannerDismissed');
-    return (
-      agentInformation?.leadPreference &&
-      !agentInformation?.leadPreference?.isAgentMobileBannerDismissed &&
-      !sessionValue
-    );
+    const sessionValue = sessionStorage.getItem('isAgentMobilePopUpDismissed');
+
+    if (agentInformation?.leadPreference?.isAgentMobilePopUpDismissed) {
+      return false;
+    }
+
+    if (sessionValue) {
+      return false;
+    }
+
+    return true;
   }, [agentInformation, sessionStorage]);
 
   return (
