@@ -4,21 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Typography, Button, Divider, Checkbox } from '@mui/material';
 import { CustomModal } from 'components/MuiComponents';
 import PropTypes from 'prop-types';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import useToast from 'hooks/useToast';
+import { useOnClickOutside } from 'hooks/useOnClickOutside';
 
-export const WelcomeModal = ({
-  user,
-  open,
-  leadPreference,
-  getAgentData,
-  updateAgentPreferencesData,
-}) => {
+export const WelcomeModal = ({ user, open, updateAgentPreferencesData }) => {
   const showToast = useToast();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [messageCheckbox, setMessageCheckbox] = useState(false);
+  const modalRef = useRef(null);
 
   useEffect(() => {
     const isDismissedForSession = sessionStorage.getItem(
@@ -32,71 +28,68 @@ export const WelcomeModal = ({
   }, [open, location.pathname]);
 
   const handleClose = useCallback(async () => {
-    if (messageCheckbox) {
-      try {
-        const payload = {
-          agentId: user?.agentId,
-          leadPreference: {
-            ...leadPreference,
-            isAgentMobilePopUpDismissed: true,
-          },
-        };
-        const response = await updateAgentPreferencesData(payload);
+    try {
+      const payload = {
+        agentId: user?.agentId,
+        isAgentMobilePopUpDismissed: messageCheckbox,
+      };
 
-        if (response) {
-          await getAgentData();
-        }
+      await updateAgentPreferencesData(payload);
+
+      if (messageCheckbox) {
         showToast({
           type: 'success',
           message: 'Preferences updated successfully.',
         });
-      } catch (error) {
-        showToast({
-          type: 'error',
-          message: 'Failed to Save the Preferences.',
-          time: 10000,
-        });
-        Sentry.captureException(error);
+      } else {
+        sessionStorage.setItem('isAgentMobilePopUpDismissed', 'true');
       }
+    } catch (error) {
+      showToast({
+        type: 'error',
+        message: 'Failed to Save the Preferences.',
+        time: 10000,
+      });
+      Sentry.captureException(error);
     }
 
     setIsOpen(false);
-    sessionStorage.setItem('isAgentMobilePopUpDismissed', 'true');
-  }, [leadPreference, messageCheckbox, user, showToast]);
+  }, [messageCheckbox, user, updateAgentPreferencesData, showToast]);
 
   const onViewGuideClick = useCallback(async () => {
-    if (messageCheckbox) {
-      try {
-        const payload = {
-          agentId: user?.agentId,
-          leadPreference: {
-            ...leadPreference,
-            isAgentMobilePopUpDismissed: true,
-          },
-        };
-        await updateAgentPreferencesData(payload);
+    try {
+      const payload = {
+        agentId: user?.agentId,
+        isAgentMobilePopUpDismissed: messageCheckbox,
+      };
+
+      await updateAgentPreferencesData(payload);
+
+      if (messageCheckbox) {
         showToast({
           type: 'success',
           message: 'Preferences updated successfully.',
         });
-      } catch (error) {
-        showToast({
-          type: 'error',
-          message: 'Failed to Save the Preferences.',
-          time: 10000,
-        });
-        Sentry.captureException(error);
+      } else {
+        sessionStorage.setItem('isAgentMobilePopUpDismissed', 'true');
       }
+    } catch (error) {
+      showToast({
+        type: 'error',
+        message: 'Failed to Save the Preferences.',
+        time: 10000,
+      });
+      Sentry.captureException(error);
     }
-
     setIsOpen(false);
-    sessionStorage.setItem('isAgentMobilePopUpDismissed', 'true');
 
     window.open(
       'https://learningcenter.tawebhost.com/Integrity-Quick-Start-Guide.pdf',
       '_blank'
     );
-  }, [leadPreference, messageCheckbox, user, showToast]);
+  }, [messageCheckbox, user, updateAgentPreferencesData, showToast]);
+
+  useOnClickOutside(modalRef, handleClose);
 
   if (!isOpen) {
     return null;
@@ -108,7 +101,7 @@ export const WelcomeModal = ({
       open={isOpen}
       handleClose={handleClose}
     >
-      <Box borderRadius={2} bgcolor='#FFFFFF' p={3}>
+      <Box ref={modalRef} borderRadius={2} bgcolor='#FFFFFF' p={3}>
         <Typography variant='h4' color='#052A63' fontWeight={500} gutterBottom>
           Quick Start Guide
         </Typography>
@@ -151,7 +144,7 @@ export const WelcomeModal = ({
 WelcomeModal.propTypes = {
   user: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
-  leadPreference: PropTypes.object.isRequired,
+  updateAgentPreferencesData: PropTypes.func.isRequired,
 };
 
 export default WelcomeModal;
