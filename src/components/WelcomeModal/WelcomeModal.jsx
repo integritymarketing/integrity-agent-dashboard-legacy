@@ -5,12 +5,16 @@ import { Box, Typography, Button, Divider, Checkbox } from '@mui/material';
 import { CustomModal } from 'components/MuiComponents';
 import PropTypes from 'prop-types';
 import { useCallback, useEffect, useState } from 'react';
-import { useClientServiceContext } from 'services/clientServiceProvider';
 import * as Sentry from '@sentry/react';
 import useToast from 'hooks/useToast';
 
-export const WelcomeModal = ({ user, open, leadPreference }) => {
-  const { clientsService } = useClientServiceContext();
+export const WelcomeModal = ({
+  user,
+  open,
+  leadPreference,
+  getAgentData,
+  updateAgentPreferencesData,
+}) => {
   const showToast = useToast();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +41,11 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
             isAgentMobilePopUpDismissed: true,
           },
         };
-        await clientsService.updateAgentPreferences(payload);
+        const response = await updateAgentPreferencesData(payload);
+
+        if (response) {
+          await getAgentData();
+        }
         showToast({
           type: 'success',
           message: 'Preferences updated successfully.',
@@ -54,7 +62,7 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
 
     setIsOpen(false);
     sessionStorage.setItem('isAgentMobilePopUpDismissed', 'true');
-  }, [leadPreference, messageCheckbox, user, clientsService, showToast]);
+  }, [leadPreference, messageCheckbox, user, showToast]);
 
   const onViewGuideClick = useCallback(async () => {
     if (messageCheckbox) {
@@ -66,7 +74,7 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
             isAgentMobilePopUpDismissed: true,
           },
         };
-        await clientsService.updateAgentPreferences(payload);
+        await updateAgentPreferencesData(payload);
         showToast({
           type: 'success',
           message: 'Preferences updated successfully.',
@@ -88,7 +96,7 @@ export const WelcomeModal = ({ user, open, leadPreference }) => {
       'https://learningcenter.tawebhost.com/Integrity-Quick-Start-Guide.pdf',
       '_blank'
     );
-  }, [leadPreference, messageCheckbox, user, clientsService, showToast]);
+  }, [leadPreference, messageCheckbox, user, showToast]);
 
   if (!isOpen) {
     return null;

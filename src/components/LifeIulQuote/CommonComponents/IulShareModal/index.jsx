@@ -23,9 +23,9 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
     distribution,
     deathBenefit,
     premium,
-    policyDetailId,
     recId,
     input,
+    policyDetailId,
   } = useMemo(() => {
     return planDetails;
   }, [planDetails]);
@@ -91,7 +91,6 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
         agentPurl,
         caLicense,
         policyDetailId,
-        recIds: [recId],
         policyDetailsUrl: 'https://qa.planenroll.com/life/products/details',
         quoteRequest: {
           inputs: [
@@ -109,6 +108,7 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
               },
             },
           ],
+          recIds: [recId],
           quoteType:
             quoteType === 'accumulation' ? 'IULACCU-SOLVE' : 'IULPROT-SOLVE',
         },

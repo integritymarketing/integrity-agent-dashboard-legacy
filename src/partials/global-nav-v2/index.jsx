@@ -88,7 +88,7 @@ const GlobalNavV2 = ({
   const auth = useAuth0();
   const { clientsService } = useClientServiceContext();
   const navigate = useNavigate();
-  const { getAgentData, fetchAgentDataLoading, agentData } =
+  const { getAgentData, agentData, updateAgentPreferencesData } =
     useProfessionalProfileContext();
   const { getQuickQuoteLeadId } = useCreateNewQuote();
 
@@ -99,7 +99,7 @@ const GlobalNavV2 = ({
   const user = useUserProfile();
 
   const { agentInformation } = useAgentInformationByID();
-  const leadPreference = agentInformation?.leadPreference;
+  const leadPreference = agentData?.leadPreference;
 
   const mobileMenuProps = {
     navOpen,
@@ -228,6 +228,8 @@ const GlobalNavV2 = ({
         user={user}
         open={showBanner}
         leadPreference={leadPreference}
+        getAgentData={getAgentData}
+        updateAgentPreferencesData={updateAgentPreferencesData}
       />
 
       <header

@@ -117,23 +117,17 @@ export const ProfessionalProfileProvider = ({ children }) => {
 
   const updateAgentPreferencesData = useCallback(
     async payload => {
-      let _leadPreference = leadPreference;
-      if (leadPreference === null) {
-        const agentData = await getAgentData();
-        if (agentData) {
-          _leadPreference = agentData.leadPreference;
-        }
-      }
       const updatedPayload = {
         agentID: agentId,
         leadPreference: {
-          ..._leadPreference,
+          ...leadPreference,
           ...payload,
         },
       };
       try {
         const response = await editAgentPreferences(updatedPayload);
         if (response) {
+          await getAgentData();
           setLeadPreference(response?.leadPreference);
         }
       } catch (error) {
@@ -145,7 +139,7 @@ export const ProfessionalProfileProvider = ({ children }) => {
         Sentry.captureException(error);
       }
     },
-    [editAgentPreferences, showToast, agentId, leadPreference]
+    [editAgentPreferences, showToast, agentId, leadPreference, getAgentData]
   );
 
   // Memoize context value to optimize re-renders
