@@ -5,6 +5,9 @@ import { useCreateNewQuote } from 'providers/CreateNewQuote';
 import LinkToContact from '../LinkToContact';
 import { useNavigate } from 'react-router-dom';
 
+const getFormattedPhone = phone =>
+  phone ? `${phone}`.replace(/\D/g, '') : null;
+
 const SaveToContact = ({
   contactSearchModalOpen,
   handleClose,
@@ -100,7 +103,7 @@ const SaveToContact = ({
         firstName: lead.firstName,
         lastName: lead.lastName,
         email: lead.email,
-        phone: lead?.phone || '',
+        phone: lead?.phone ? getFormattedPhone(lead?.phone) : null,
         primaryCommunication: lead.primaryCommunication,
       };
 
