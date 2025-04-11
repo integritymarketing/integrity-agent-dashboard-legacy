@@ -169,6 +169,7 @@ const ShareInputsValidator = ({
       setExistingSendType('textMessage');
     } else if (
       (!leadEmail && !leadPhone) ||
+      (leadPhone && isPhoneCompatabile === false) ||
       (isEmailCompatabile === false && isPhoneCompatabile === false)
     ) {
       setExistingSendType('newEmailOrMobile');

@@ -74,7 +74,7 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
   );
 
   const handleSend = async () => {
-    const { policyDetailId, input } = plans[0];
+    const { input } = plans[0];
     const recIds = plans.map(({ recId }) => recId);
     let updatedRoles;
     if (typeof roles === 'string') {
@@ -95,12 +95,10 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
         agentPurl: agentInformation?.agentPurl,
         caLicense: agentInformation?.caLicense,
         countyFIPS: countyFips,
-        policyDetailId,
         state: stateCode,
         zipCode: postalCode,
         dateOfBirth: birthdate,
         roles: updatedRoles,
-        recIds: recIds,
         leadId: `${leadsId}`,
         policyCompareUrl: 'https://qa.planenroll.com/life/products/compare',
         quoteRequest: {
@@ -119,6 +117,7 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
               },
             },
           ],
+          recIds: recIds,
           quoteType:
             quoteType === 'accumulation' ? 'IULACCU-SOLVE' : 'IULPROT-SOLVE',
         },
