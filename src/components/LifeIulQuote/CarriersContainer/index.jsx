@@ -12,11 +12,14 @@ import {useCarriers} from 'providers/CarriersProvider';
 import _ from 'lodash';
 import useUserProfile from "hooks/useUserProfile";
 import {useProfessionalProfileContext} from "providers/ProfessionalProfileProvider";
+import {postSSORequest} from "utils/postSSORequest";
+import useToast from "hooks/useToast";
 
 export const CarriersContainer = ({ title, query }) => {
   const { contactId } = useParams();
 
   const { leadDetails, isLoadingLeadDetails } = useLeadDetails();
+  const showToast = useToast();
 
   const { getCarriersData, isLoadingGetCarriers, getAdPolicyRedirectUrl } = useCarriers();
   const [carriersData, setCarriersData] = useState([]);
@@ -85,7 +88,18 @@ export const CarriersContainer = ({ title, query }) => {
 
     const adPolicyRedirectUrlDetails = await getAdPolicyRedirectUrl(payload);
     if (adPolicyRedirectUrlDetails?.redirectUrl) {
-      window.open(adPolicyRedirectUrlDetails.redirectUrl, "_blank");
+      if(adPolicyRedirectUrlDetails?.isSSo) {
+        await postSSORequest(adPolicyRedirectUrlDetails.redirectUrl, (err)=> {
+          console.error('Error posting sso request submission:', err);
+          showToast({
+            type: 'error',
+            message: 'Error posting sso request',
+            time: 500,
+          });
+        });
+      }else {
+        window.open(adPolicyRedirectUrlDetails.redirectUrl, '_blank');
+      }
     }
   };
 

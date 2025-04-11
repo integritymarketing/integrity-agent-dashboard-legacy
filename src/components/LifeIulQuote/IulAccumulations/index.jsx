@@ -1,27 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-  ApplyErrorModal,
-  IulAccumulationQuoteFilter,
-  IulQuoteContainer,
-} from '../CommonComponents';
-import {
-  CarrierResourceAds,
-  IulQuoteCard,
-  NoResultsError,
-} from '@integritymarketing/clients-ui-kit';
+import React, {useCallback, useEffect, useState} from 'react';
+import {ApplyErrorModal, IulAccumulationQuoteFilter, IulQuoteContainer,} from '../CommonComponents';
+import {CarrierResourceAds, IulQuoteCard, NoResultsError,} from '@integritymarketing/clients-ui-kit';
 import NoResults from 'components/icons/errorImages/noResults';
-import { Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useLifeIulQuote } from 'providers/Life';
+import {Box, Grid, Typography, useMediaQuery, useTheme} from '@mui/material';
+import {useLifeIulQuote} from 'providers/Life';
 import styles from './styles.module.scss';
 import WithLoader from 'components/ui/WithLoader';
-import { useNavigate, useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
-import { useLeadDetails } from 'providers/ContactDetails';
-import { useCarriers } from 'providers/CarriersProvider';
-import { useCreateNewQuote } from 'providers/CreateNewQuote';
+import {useLeadDetails} from 'providers/ContactDetails';
+import {useCarriers} from 'providers/CarriersProvider';
+import {useCreateNewQuote} from 'providers/CreateNewQuote';
 import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
 import useUserProfile from 'hooks/useUserProfile';
-import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
+import {useProfessionalProfileContext} from 'providers/ProfessionalProfileProvider';
+import {postSSORequest} from "utils/postSSORequest";
+import useToast from "hooks/useToast";
 
 const IulAccumulationQuote = () => {
   const {
@@ -46,6 +40,7 @@ const IulAccumulationQuote = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { contactId } = useParams();
   const navigate = useNavigate();
+  const showToast = useToast();
   const { firstName, lastName, email, phone, npn } = useUserProfile();
   const { getAgentData } = useProfessionalProfileContext();
   const [selectedPlan, setSelectedPlan] = useState({});
@@ -110,7 +105,18 @@ const IulAccumulationQuote = () => {
 
     const adPolicyRedirectUrlDetails = await getAdPolicyRedirectUrl(payload);
     if (adPolicyRedirectUrlDetails?.redirectUrl) {
-      window.open(adPolicyRedirectUrlDetails.redirectUrl, '_blank');
+      if(adPolicyRedirectUrlDetails?.isSSo) {
+        await postSSORequest(adPolicyRedirectUrlDetails.redirectUrl, (err)=> {
+          console.error('Error posting sso request submission:', err);
+          showToast({
+            type: 'error',
+            message: 'Error posting sso request',
+            time: 500,
+          });
+        });
+      }else {
+        window.open(adPolicyRedirectUrlDetails.redirectUrl, '_blank');
+      }
     }
   };
 
