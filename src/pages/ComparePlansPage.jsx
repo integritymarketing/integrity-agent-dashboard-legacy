@@ -279,10 +279,9 @@ const ComparePlansPage = props => {
           {!isComingFromEmail && (
             <ConditionalProfileBar
               leadId={id}
+              page='healthPlans'
               backRoute={backRoute}
               hideBackButton={false}
-              page='healthComparePlansPage'
-              navPath={`compare/${planIds.join(',')}/${effectiveDate}`}
             />
           )}
           <Box sx={{ padding: '56px 24px', pb: 0 }}>

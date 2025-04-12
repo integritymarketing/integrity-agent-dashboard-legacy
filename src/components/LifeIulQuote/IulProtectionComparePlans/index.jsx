@@ -211,7 +211,6 @@ const IulProtectionComparePlans = () => {
       title='IUL Protection'
       page='plan compare page'
       quoteType='protection'
-      navPath={`/${planIds.join(',')}/compare-plans`}
     >
       <Grid container gap={3}>
         <Grid

@@ -12,7 +12,6 @@ const ConditionalProfileBar = ({
   page,
   hideButton = false,
   hideBackButton = true,
-  navPath,
 }) => {
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const {
@@ -75,7 +74,6 @@ const ConditionalProfileBar = ({
         handleCallBack={() => setContactSearchModalOpen(false)}
         leadId={leadId}
         page={page}
-        navPath={navPath}
       />
     </WithLoader>
   );
@@ -87,9 +85,6 @@ ConditionalProfileBar.propTypes = {
   hideBackButton: PropTypes.bool,
   backRoute: PropTypes.string || null,
   leadId: PropTypes.string,
-  page: PropTypes.string,
-  hideButton: PropTypes.bool,
-  navPath: PropTypes.string,
 };
 
 export default ConditionalProfileBar;

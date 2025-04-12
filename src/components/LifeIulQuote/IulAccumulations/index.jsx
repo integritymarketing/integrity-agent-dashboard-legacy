@@ -1,29 +1,21 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import {
-  ApplyErrorModal,
-  IulAccumulationQuoteFilter,
-  IulQuoteContainer,
-} from '../CommonComponents';
-import {
-  CarrierResourceAds,
-  IulQuoteCard,
-  NoResultsError,
-} from '@integritymarketing/clients-ui-kit';
+import React, {useCallback, useEffect, useState} from 'react';
+import {ApplyErrorModal, IulAccumulationQuoteFilter, IulQuoteContainer,} from '../CommonComponents';
+import {CarrierResourceAds, IulQuoteCard, NoResultsError,} from '@integritymarketing/clients-ui-kit';
 import NoResults from 'components/icons/errorImages/noResults';
-import { Box, Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useLifeIulQuote } from 'providers/Life';
+import {Box, Grid, Typography, useMediaQuery, useTheme} from '@mui/material';
+import {useLifeIulQuote} from 'providers/Life';
 import styles from './styles.module.scss';
 import WithLoader from 'components/ui/WithLoader';
-import { useNavigate, useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
-import { useLeadDetails } from 'providers/ContactDetails';
-import { useCarriers } from 'providers/CarriersProvider';
-import { useCreateNewQuote } from 'providers/CreateNewQuote';
+import {useLeadDetails} from 'providers/ContactDetails';
+import {useCarriers} from 'providers/CarriersProvider';
+import {useCreateNewQuote} from 'providers/CreateNewQuote';
 import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
 import useUserProfile from 'hooks/useUserProfile';
-import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
-import { postSSORequest } from 'utils/postSSORequest';
-import useToast from 'hooks/useToast';
+import {useProfessionalProfileContext} from 'providers/ProfessionalProfileProvider';
+import {postSSORequest} from "utils/postSSORequest";
+import useToast from "hooks/useToast";
 
 const IulAccumulationQuote = () => {
   const {
@@ -113,8 +105,8 @@ const IulAccumulationQuote = () => {
 
     const adPolicyRedirectUrlDetails = await getAdPolicyRedirectUrl(payload);
     if (adPolicyRedirectUrlDetails?.redirectUrl) {
-      if (adPolicyRedirectUrlDetails?.isSSo) {
-        await postSSORequest(adPolicyRedirectUrlDetails.redirectUrl, err => {
+      if(adPolicyRedirectUrlDetails?.isSSo) {
+        await postSSORequest(adPolicyRedirectUrlDetails.redirectUrl, (err)=> {
           console.error('Error posting sso request submission:', err);
           showToast({
             type: 'error',
@@ -122,7 +114,7 @@ const IulAccumulationQuote = () => {
             time: 500,
           });
         });
-      } else {
+      }else {
         window.open(adPolicyRedirectUrlDetails.redirectUrl, '_blank');
       }
     }
@@ -230,11 +222,7 @@ const IulAccumulationQuote = () => {
 
   const handleIllustrationClick = async () => {
     try {
-      await getAddPolicyRedirectURL(
-        agentInformation,
-        leadDetails,
-        'ACCUMULATION'
-      );
+      await getAddPolicyRedirectURL(agentInformation, leadDetails, 'ACCUMULATION');
     } catch (error) {
       console.error('Error fetching illustration URL:', error);
     }
@@ -301,25 +289,17 @@ const IulAccumulationQuote = () => {
               {lifeIulQuoteResults?.length > 0 && !isLoadingLifeIulQuote ? (
                 <>
                   {lifeIulQuoteResults?.map((plan, index) => {
-                    const lifeQuoteAccumulationDetails = sessionStorage.getItem(
-                      'lifeQuoteAccumulationDetails'
-                    );
+                    const lifeQuoteAccumulationDetails = sessionStorage.getItem('lifeQuoteAccumulationDetails');
                     const parsedLifeQuoteAccumulationDetails = (() => {
                       try {
-                        return lifeQuoteAccumulationDetails
-                          ? JSON.parse(lifeQuoteAccumulationDetails)
-                          : {};
+                        return lifeQuoteAccumulationDetails ? JSON.parse(lifeQuoteAccumulationDetails) : {};
                       } catch (error) {
-                        console.error(
-                          'Error parsing lifeQuoteAccumulationDetails:',
-                          error
-                        );
+                        console.error('Error parsing lifeQuoteAccumulationDetails:', error);
                         return {};
                       }
                     })();
                     const maxIllustratedRate =
-                      parsedLifeQuoteAccumulationDetails?.illustratedRate ===
-                      '0'
+                      parsedLifeQuoteAccumulationDetails?.illustratedRate === '0'
                         ? plan?.maxIllustratedRate
                         : plan?.input?.illustratedRate;
                     const {
@@ -347,9 +327,7 @@ const IulAccumulationQuote = () => {
                         sx={{ position: 'relative' }}
                       >
                         <IulQuoteCard
-                          applyButtonDisabled={
-                            isLoadingApplyLifeIulQuote || !isRts
-                          }
+                          applyButtonDisabled={isLoadingApplyLifeIulQuote || !isRts }
                           quoteType='IUL Accumulation'
                           cardTitle={productName}
                           companyName={companyName}

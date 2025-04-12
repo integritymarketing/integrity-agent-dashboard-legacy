@@ -16,13 +16,7 @@ function useQuery() {
   return useMemo(() => new URLSearchParams(search), [search]);
 }
 
-export const IulQuoteContainer = ({
-  title,
-  children,
-  page,
-  quoteType,
-  navPath,
-}) => {
+export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
   const { contactId } = useParams();
   const query = useQuery();
   const sessionPlansStatus = query && query.get('preserveSelected');
@@ -72,16 +66,14 @@ export const IulQuoteContainer = ({
         }`
       : `/life/iul-${quoteType}/${contactId}/product-preferences`;
   }, [contactId, page, quoteType, isQuickQuotePage]);
-
   return (
     <>
       {!showFilters && (
         <ConditionalProfileBar
           leadId={contactId}
           backRoute={backRoute}
-          page={`${quoteType}-${page}`}
+          page={quoteType}
           hideBackButton={page === 'plans page'}
-          navPath={navPath}
         />
       )}
 

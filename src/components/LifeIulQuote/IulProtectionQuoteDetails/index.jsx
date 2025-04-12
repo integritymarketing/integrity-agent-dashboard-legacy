@@ -204,7 +204,6 @@ const IulProtectionQuoteDetails = () => {
       title='IUL Protection'
       page='plans details page'
       quoteType='protection'
-      navPath={`${planId}/quote-details`}
     >
       <Grid container>
         {!isMobile && (

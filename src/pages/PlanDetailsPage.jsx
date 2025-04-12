@@ -152,9 +152,8 @@ const PlanDetailsPage = () => {
 
           <ConditionalProfileBar
             leadId={contactId}
-            page='healthPlanDetailsPage'
+            page='healthPlans'
             hideBackButton={false}
-            navPath={`plan/${planId}/${effectiveDate}`}
           />
           <Box sx={{ padding: '56px 24px', pb: 0 }}>
             <Box sx={{ pb: 3 }} display={'flex'} justifyContent={'center'}>
