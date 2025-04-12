@@ -60,6 +60,42 @@ const IulProtectionQuote = () => {
     fetchCarriersAdsPolicyDetails();
   }, []);
 
+  const getLeadPayload = useCallback(() => {
+    const lifeQuoteProtectionDetails = sessionStorage.getItem(
+      'lifeQuoteProtectionDetails'
+    );
+    let parsedLifeQuoteProtectionDetails = {};
+    if(lifeQuoteProtectionDetails) {
+      parsedLifeQuoteProtectionDetails = JSON.parse(
+        lifeQuoteProtectionDetails
+      );
+    }
+    const { state: selectedStateCode } = parsedLifeQuoteProtectionDetails;
+    const {
+      firstName: leadFirstName,
+      lastName: leadLastName,
+      birthdate,
+      age,
+      gender,
+    } = leadDetails || {};
+    const stateCode = selectedStateCode || leadDetails?.addresses?.[0]?.stateCode;
+    const leadId = leadDetails?.leadsId;
+    const leadPhone = leadDetails?.phones?.[0]?.leadPhone || '';
+    const leadEmail = leadDetails?.emails?.[0]?.leadEmail || '';
+
+    return {
+      leadId,
+      firstName: leadFirstName,
+      lastName: leadLastName,
+      email: leadEmail,
+      phone: leadPhone,
+      age,
+      gender,
+      dateOfBirth: birthdate,
+      stateCode,
+    };
+  }, [leadDetails]);
+
   const fetchRedirectUrlAndOpen = async (resource, website) => {
     const agentData = await getAgentData?.();
     if (!agentData) return;
@@ -76,33 +112,11 @@ const IulProtectionQuote = () => {
       agentBUs,
     };
 
-    const {
-      firstName: leadFirstName,
-      lastName: leadLastName,
-      birthdate,
-      age,
-      gender,
-    } = leadDetails || {};
-    const stateCode = leadDetails?.addresses?.[0]?.stateCode;
-    const leadId = leadDetails?.leadsId;
-    const leadPhone = leadDetails?.phones?.[0]?.leadPhone || '';
-    const leadEmail = leadDetails?.emails?.[0]?.leadEmail || '';
-
     const payload = {
       ctaName: resource,
       ctaValue: website,
       agent,
-      lead: {
-        leadId,
-        firstName: leadFirstName,
-        lastName: leadLastName,
-        email: leadEmail,
-        phone: leadPhone,
-        age,
-        gender,
-        dateOfBirth: birthdate,
-        stateCode,
-      },
+      lead: getLeadPayload()
     };
 
     const adPolicyRedirectUrlDetails = await getAdPolicyRedirectUrl(payload);
