@@ -195,6 +195,7 @@ const IulAccumulationQuoteDetails = () => {
       title='IUL Accumulation'
       page='plans details page'
       quoteType='accumulation'
+      navPath={`${planId}/quote-details`}
     >
       <Grid container>
         {!isMobile && (
