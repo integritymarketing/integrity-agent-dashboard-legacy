@@ -101,7 +101,7 @@ const IulAccumulationQuote = () => {
       ctaValue: website,
       agent,
       lead: {
-        leadId: leadDetails?.leadsId || leadDetails?.leadId || null,
+        leadId: leadDetails?.leadsId || '',
         firstName: leadDetails?.firstName || '',
         lastName: leadDetails?.lastName || '',
         email:
