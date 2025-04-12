@@ -222,7 +222,7 @@ const IulAccumulationQuote = () => {
 
   const handleIllustrationClick = async () => {
     try {
-      await getAddPolicyRedirectURL(agentInformation, leadDetails);
+      await getAddPolicyRedirectURL(agentInformation, leadDetails, 'ACCUMULATION');
     } catch (error) {
       console.error('Error fetching illustration URL:', error);
     }

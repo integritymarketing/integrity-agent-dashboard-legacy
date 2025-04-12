@@ -230,7 +230,8 @@ const IulProtectionQuote = () => {
     try {
       const response = await getAddPolicyRedirectURL(
         agentInformation,
-        leadDetails
+        leadDetails,
+        "PROTECTION"
       );
       if (response?.url) {
         window.open(response.url, '_blank');

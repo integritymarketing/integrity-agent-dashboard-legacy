@@ -306,7 +306,12 @@ export const LifeIulQuoteProvider = ({ children }) => {
   );
 
   const getAddPolicyRedirectURL = useCallback(
-    async (agentInformation, leadDetails) => {
+    async (agentInformation, leadDetails, planType) => {
+      const sessionDetails =
+      planType === 'ACCUMULATION'
+        ? sessionStorage.getItem('lifeQuoteAccumulationDetails')
+        : sessionStorage.getItem('lifeQuoteProtectionDetails');
+      const sessionSateCode = sessionDetails && JSON.parse(sessionDetails)?.state;
       const payload = {
         ctaName: 'Illustration',
         ctaValue: 'Winflex',
@@ -337,7 +342,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
           age: leadDetails?.age || 0,
           gender: leadDetails?.gender || '',
           dateOfBirth: leadDetails?.birthdate || '',
-          stateCode: leadDetails?.addresses?.[0]?.stateCode || '',
+          stateCode: sessionSateCode || leadDetails?.addresses?.[0]?.stateCode,
         },
       };
       try {
