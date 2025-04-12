@@ -48,6 +48,42 @@ const IulAccumulationQuote = () => {
   const [carriersAdsPolicyDetails, setCarriersAdsPolicyDetails] = useState([]);
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
 
+  const getLeadPayload = useCallback(() => {
+    const lifeQuoteAccumulationDetails = sessionStorage.getItem(
+      'lifeQuoteAccumulationDetails'
+    );
+    let parsedLifeQuoteAccumulationDetails = {};
+    if(lifeQuoteAccumulationDetails) {
+      parsedLifeQuoteAccumulationDetails = JSON.parse(
+        lifeQuoteAccumulationDetails
+      );
+    }
+    const { state: selectedStateCode } = parsedLifeQuoteAccumulationDetails;
+    const {
+      firstName: leadFirstName,
+      lastName: leadLastName,
+      birthdate,
+      age,
+      gender,
+    } = leadDetails || {};
+    const stateCode = selectedStateCode || leadDetails?.addresses?.[0]?.stateCode;
+    const leadId = leadDetails?.leadsId;
+    const leadPhone = leadDetails?.phones?.[0]?.leadPhone || '';
+    const leadEmail = leadDetails?.emails?.[0]?.leadEmail || '';
+
+    return {
+      leadId,
+      firstName: leadFirstName,
+      lastName: leadLastName,
+      email: leadEmail,
+      phone: leadPhone,
+      age,
+      gender,
+      dateOfBirth: birthdate,
+      stateCode,
+    };
+  }, [leadDetails]);
+
   useEffect(() => {
     const fetchCarriersAdsPolicyDetails = async () => {
       const response = await getCarriersData('productType=iul');
@@ -74,33 +110,11 @@ const IulAccumulationQuote = () => {
       agentBUs,
     };
 
-    const {
-      firstName: leadFirstName,
-      lastName: leadLastName,
-      birthdate,
-      age,
-      gender,
-    } = leadDetails || {};
-    const stateCode = leadDetails?.addresses?.[0]?.stateCode;
-    const leadId = leadDetails?.leadsId;
-    const leadPhone = leadDetails?.phones?.[0]?.leadPhone || '';
-    const leadEmail = leadDetails?.emails?.[0]?.leadEmail || '';
-
     const payload = {
       ctaName: resource,
       ctaValue: website,
       agent,
-      lead: {
-        leadId,
-        firstName: leadFirstName,
-        lastName: leadLastName,
-        email: leadEmail,
-        phone: leadPhone,
-        age,
-        gender,
-        dateOfBirth: birthdate,
-        stateCode,
-      },
+      lead: getLeadPayload()
     };
 
     const adPolicyRedirectUrlDetails = await getAdPolicyRedirectUrl(payload);
