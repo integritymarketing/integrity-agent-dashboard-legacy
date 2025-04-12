@@ -54,7 +54,9 @@ const IulAccumulationQuoteDetails = () => {
     lifeIulDetails,
     handleIULQuoteApplyClick,
     isLoadingApplyLifeIulQuote,
+    getAddPolicyRedirectURL,
   } = useLifeIulQuote();
+
   const { isQuickQuotePage } = useCreateNewQuote();
   const { leadDetails, getLeadDetailsAfterSearch } = useLeadDetails();
   const { agentInformation } = useAgentInformationByID();
@@ -113,7 +115,7 @@ const IulAccumulationQuoteDetails = () => {
         : planDetails?.input?.illustratedRate;
     return {
       ...planDetails,
-      maxIllustratedRate: calculatedMaxIllustratedRate
+      maxIllustratedRate: calculatedMaxIllustratedRate,
     };
   }, [planDetails, parsedLifeQuoteAccumulationDetails]);
 
@@ -176,6 +178,18 @@ const IulAccumulationQuoteDetails = () => {
     [handleApplyClick, getLeadDetailsAfterSearch]
   );
 
+  const handleIllustrationClick = async () => {
+    try {
+      await getAddPolicyRedirectURL(
+        agentInformation,
+        leadDetails,
+        'ACCUMULATION'
+      );
+    } catch (error) {
+      console.error('Error fetching illustration URL:', error);
+    }
+  };
+
   return (
     <IulQuoteContainer
       title='IUL Accumulation'
@@ -231,6 +245,7 @@ const IulAccumulationQuoteDetails = () => {
                     rating={amBest}
                     handleApplyClick={onApply}
                     handlePlanShareClick={() => setShareModalOpen(true)}
+                    handleIllustrationClick={handleIllustrationClick}
                     logo={companyLogoImageUrl}
                     cashValueYear10={cashValueYear10}
                     cashValueYear20={cashValueYear20}

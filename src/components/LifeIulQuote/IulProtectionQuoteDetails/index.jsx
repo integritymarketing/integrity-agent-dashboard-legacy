@@ -33,10 +33,14 @@ const IulProtectionQuoteDetails = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const planDetailsSessionData = sessionStorage.getItem('iul-plan-details');
   const planDetails = JSON.parse(planDetailsSessionData);
-  const lifeQuoteProtectionDetails = sessionStorage.getItem('lifeQuoteProtectionDetails');
+  const lifeQuoteProtectionDetails = sessionStorage.getItem(
+    'lifeQuoteProtectionDetails'
+  );
   const parsedLifeQuoteProtectionDetails = (() => {
     try {
-      return lifeQuoteProtectionDetails ? JSON.parse(lifeQuoteProtectionDetails) : {};
+      return lifeQuoteProtectionDetails
+        ? JSON.parse(lifeQuoteProtectionDetails)
+        : {};
     } catch (error) {
       console.error('Error parsing lifeQuoteProtectionDetails:', error);
       return {};
@@ -60,6 +64,7 @@ const IulProtectionQuoteDetails = () => {
     lifeIulDetails,
     handleIULQuoteApplyClick,
     isLoadingApplyLifeIulQuote,
+    getAddPolicyRedirectURL,
   } = useLifeIulQuote();
 
   useEffect(() => {
@@ -112,13 +117,13 @@ const IulProtectionQuoteDetails = () => {
     guaranteedYears,
   } = useMemo(() => {
     const calculatedMaxIllustratedRate =
-    parsedLifeQuoteProtectionDetails?.illustratedRate === '0'
-      ? planDetails?.maxIllustratedRate
-      : planDetails?.input?.illustratedRate;
-  return {
-    ...planDetails,
-    maxIllustratedRate: calculatedMaxIllustratedRate
-  };
+      parsedLifeQuoteProtectionDetails?.illustratedRate === '0'
+        ? planDetails?.maxIllustratedRate
+        : planDetails?.input?.illustratedRate;
+    return {
+      ...planDetails,
+      maxIllustratedRate: calculatedMaxIllustratedRate,
+    };
   }, [planDetails]);
 
   const handleApplyClick = async leadData => {
@@ -178,6 +183,21 @@ const IulProtectionQuoteDetails = () => {
     },
     [handleApplyClick, getLeadDetailsAfterSearch]
   );
+
+  const handleIllustrationClick = async () => {
+    try {
+      const response = await getAddPolicyRedirectURL(
+        agentInformation,
+        leadDetails,
+        'PROTECTION'
+      );
+      if (response?.url) {
+        window.open(response.url, '_blank');
+      }
+    } catch (error) {
+      console.error('Error fetching illustration URL:', error);
+    }
+  };
 
   return (
     <IulQuoteContainer
@@ -249,6 +269,7 @@ const IulProtectionQuoteDetails = () => {
                     guaranteedYears={guaranteedYears}
                     handlePlanShareClick={() => setShareModalOpen(true)}
                     handleApplyClick={onApply}
+                    handleIllustrationClick={handleIllustrationClick}
                   />
                 </CollapsibleLayout>
               </div>
