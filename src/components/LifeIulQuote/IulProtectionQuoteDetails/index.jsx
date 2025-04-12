@@ -146,6 +146,9 @@ const IulProtectionQuoteDetails = () => {
           ...updatedLeadDetails,
           emailAddress,
           phoneNumber,
+          stateCode: parsedLifeQuoteProtectionDetails.state
+            ? parsedLifeQuoteProtectionDetails.state
+            : updatedLeadDetails?.addresses[0]?.stateCode || null,
         },
         updatedLeadId
       );

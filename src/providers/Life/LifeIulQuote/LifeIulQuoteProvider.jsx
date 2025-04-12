@@ -278,7 +278,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
           phoneNumber,
           address1: payload?.addresses[0]?.address1 || '',
           city: payload?.addresses[0]?.city || '',
-          state: payload?.addresses[0]?.stateCode || '',
+          state: reqData?.stateCode || '',
           zipCode: payload?.addresses[0]?.postalCode,
           effectiveDate: new Date(payload?.effectiveDate).toISOString(),
         },
@@ -308,10 +308,11 @@ export const LifeIulQuoteProvider = ({ children }) => {
   const getAddPolicyRedirectURL = useCallback(
     async (agentInformation, leadDetails, planType) => {
       const sessionDetails =
-      planType === 'ACCUMULATION'
-        ? sessionStorage.getItem('lifeQuoteAccumulationDetails')
-        : sessionStorage.getItem('lifeQuoteProtectionDetails');
-      const sessionSateCode = sessionDetails && JSON.parse(sessionDetails)?.state;
+        planType === 'ACCUMULATION'
+          ? sessionStorage.getItem('lifeQuoteAccumulationDetails')
+          : sessionStorage.getItem('lifeQuoteProtectionDetails');
+      const sessionSateCode =
+        sessionDetails && JSON.parse(sessionDetails)?.state;
       const payload = {
         ctaName: 'Illustration',
         ctaValue: 'Winflex',

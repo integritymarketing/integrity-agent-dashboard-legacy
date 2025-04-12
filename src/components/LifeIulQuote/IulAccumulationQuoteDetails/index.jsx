@@ -39,6 +39,7 @@ const IulAccumulationQuoteDetails = () => {
       return {};
     }
   })();
+
   const planDetailsSessionData = sessionStorage.getItem('iul-plan-details');
   const planDetails = JSON.parse(planDetailsSessionData);
   const quoteDetailsRef = useRef(null);
@@ -140,6 +141,9 @@ const IulAccumulationQuoteDetails = () => {
           ...updatedLeadDetails,
           emailAddress,
           phoneNumber,
+          stateCode: parsedLifeQuoteAccumulationDetails.state
+            ? parsedLifeQuoteAccumulationDetails.state
+            : updatedLeadDetails?.addresses[0]?.stateCode || null,
         },
         updatedLeadId
       );

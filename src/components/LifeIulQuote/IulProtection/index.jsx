@@ -1,21 +1,37 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {ApplyErrorModal, IulProtectionQuoteFilter, IulQuoteContainer,} from '../CommonComponents';
-import {CarrierResourceAds, IulQuoteCard, NoResultsError,} from '@integritymarketing/clients-ui-kit';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  ApplyErrorModal,
+  IulProtectionQuoteFilter,
+  IulQuoteContainer,
+} from '../CommonComponents';
+import {
+  CarrierResourceAds,
+  IulQuoteCard,
+  NoResultsError,
+} from '@integritymarketing/clients-ui-kit';
 import NoResults from 'components/icons/errorImages/noResults';
-import {Box, Grid, Tab, Tabs, Typography, useMediaQuery, useTheme,} from '@mui/material';
-import {useLifeIulQuote} from 'providers/Life';
+import {
+  Box,
+  Grid,
+  Tab,
+  Tabs,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import { useLifeIulQuote } from 'providers/Life';
 import WithLoader from 'components/ui/WithLoader';
 import styles from './styles.module.scss';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
-import {useLeadDetails} from 'providers/ContactDetails';
-import {useCarriers} from 'providers/CarriersProvider';
-import {useCreateNewQuote} from 'providers/CreateNewQuote';
+import { useLeadDetails } from 'providers/ContactDetails';
+import { useCarriers } from 'providers/CarriersProvider';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
 import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
 import useUserProfile from 'hooks/useUserProfile';
-import {useProfessionalProfileContext} from 'providers/ProfessionalProfileProvider';
-import {postSSORequest} from "utils/postSSORequest";
-import useToast from "hooks/useToast";
+import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
+import { postSSORequest } from 'utils/postSSORequest';
+import useToast from 'hooks/useToast';
 
 const IulProtectionQuote = () => {
   const {
@@ -33,7 +49,7 @@ const IulProtectionQuote = () => {
     getAddPolicyRedirectURL,
   } = useLifeIulQuote();
   const { isQuickQuotePage } = useCreateNewQuote();
-  const { leadDetails } = useLeadDetails();
+  const { leadDetails, getLeadDetailsAfterSearch } = useLeadDetails();
   const { getCarriersData, getAdPolicyRedirectUrl } = useCarriers();
 
   const theme = useTheme();
@@ -50,6 +66,20 @@ const IulProtectionQuote = () => {
   const [carriersAdsPolicyDetails, setCarriersAdsPolicyDetails] = useState([]);
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
 
+  const lifeQuoteProtectionDetails = sessionStorage.getItem(
+    'lifeQuoteProtectionDetails'
+  );
+  const parsedLifeQuoteProtectionDetails = (() => {
+    try {
+      return lifeQuoteProtectionDetails
+        ? JSON.parse(lifeQuoteProtectionDetails)
+        : {};
+    } catch (error) {
+      console.error('Error parsing lifeQuoteProtectionDetails:', error);
+      return {};
+    }
+  })();
+
   useEffect(() => {
     const fetchCarriersAdsPolicyDetails = async () => {
       const response = await getCarriersData('productType=iul');
@@ -59,42 +89,6 @@ const IulProtectionQuote = () => {
     };
     fetchCarriersAdsPolicyDetails();
   }, []);
-
-  const getLeadPayload = useCallback(() => {
-    const lifeQuoteProtectionDetails = sessionStorage.getItem(
-      'lifeQuoteProtectionDetails'
-    );
-    let parsedLifeQuoteProtectionDetails = {};
-    if(lifeQuoteProtectionDetails) {
-      parsedLifeQuoteProtectionDetails = JSON.parse(
-        lifeQuoteProtectionDetails
-      );
-    }
-    const { state: selectedStateCode } = parsedLifeQuoteProtectionDetails;
-    const {
-      firstName: leadFirstName,
-      lastName: leadLastName,
-      birthdate,
-      age,
-      gender,
-    } = leadDetails || {};
-    const stateCode = selectedStateCode || leadDetails?.addresses?.[0]?.stateCode;
-    const leadId = leadDetails?.leadsId;
-    const leadPhone = leadDetails?.phones?.[0]?.leadPhone || '';
-    const leadEmail = leadDetails?.emails?.[0]?.leadEmail || '';
-
-    return {
-      leadId,
-      firstName: leadFirstName,
-      lastName: leadLastName,
-      email: leadEmail,
-      phone: leadPhone,
-      age,
-      gender,
-      dateOfBirth: birthdate,
-      stateCode,
-    };
-  }, [leadDetails]);
 
   const fetchRedirectUrlAndOpen = async (resource, website) => {
     const agentData = await getAgentData?.();
@@ -116,13 +110,31 @@ const IulProtectionQuote = () => {
       ctaName: resource,
       ctaValue: website,
       agent,
-      lead: getLeadPayload()
+      lead: {
+        leadId: leadDetails?.leadsId || leadDetails?.leadId || null,
+        firstName: leadDetails?.firstName || '',
+        lastName: leadDetails?.lastName || '',
+        email:
+          leadDetails?.emails?.length > 0
+            ? leadDetails.emails[0].leadEmail
+            : null,
+        phone:
+          leadDetails?.phones?.length > 0
+            ? leadDetails.phones[0].leadPhone
+            : null,
+        age: leadDetails?.age || 0,
+        gender: leadDetails?.gender || '',
+        dateOfBirth: leadDetails?.birthdate || '',
+        stateCode: parsedLifeQuoteProtectionDetails.state
+          ? parsedLifeQuoteProtectionDetails.state
+          : leadDetails?.addresses[0]?.stateCode || null,
+      },
     };
 
     const adPolicyRedirectUrlDetails = await getAdPolicyRedirectUrl(payload);
     if (adPolicyRedirectUrlDetails?.redirectUrl) {
-      if(adPolicyRedirectUrlDetails?.isSSo) {
-        await postSSORequest(adPolicyRedirectUrlDetails.redirectUrl, (err)=> {
+      if (adPolicyRedirectUrlDetails?.isSSo) {
+        await postSSORequest(adPolicyRedirectUrlDetails.redirectUrl, err => {
           console.error('Error posting sso request submission:', err);
           showToast({
             type: 'error',
@@ -130,7 +142,7 @@ const IulProtectionQuote = () => {
             time: 500,
           });
         });
-      }else {
+      } else {
         window.open(adPolicyRedirectUrlDetails.redirectUrl, '_blank');
       }
     }
@@ -245,7 +257,7 @@ const IulProtectionQuote = () => {
       const response = await getAddPolicyRedirectURL(
         agentInformation,
         leadDetails,
-        "PROTECTION"
+        'PROTECTION'
       );
       if (response?.url) {
         window.open(response.url, '_blank');
@@ -255,33 +267,31 @@ const IulProtectionQuote = () => {
     }
   };
 
-  const onApply = plan => {
-    if (isQuickQuotePage) {
-      setSelectedPlan(plan);
-      setContactSearchModalOpen(true);
-    } else {
-      handleApplyClick(plan);
-    }
-  };
-
-  const handleApplyClick = async plan => {
-    setSelectedPlan(plan);
+  const handleApplyClick = async (plan, leadData) => {
+    const updatedLeadDetails = leadData || leadDetails;
+    const updatedLeadId = updatedLeadDetails?.leadsId || contactId;
 
     const emailAddress =
-      leadDetails?.emails?.length > 0 ? leadDetails.emails[0].leadEmail : null;
+      updatedLeadDetails?.emails?.length > 0
+        ? updatedLeadDetails.emails[0].leadEmail
+        : null;
     const phoneNumber =
-      leadDetails?.phones?.length > 0 ? leadDetails.phones[0].leadPhone : null;
-
+      updatedLeadDetails?.phones?.length > 0
+        ? updatedLeadDetails.phones[0].leadPhone
+        : null;
     try {
       const response = await handleIULQuoteApplyClick(
         {
           ...plan,
           ...agentInformation,
-          ...leadDetails,
+          ...updatedLeadDetails,
           emailAddress,
           phoneNumber,
+          stateCode: parsedLifeQuoteProtectionDetails.state
+            ? parsedLifeQuoteProtectionDetails.state
+            : updatedLeadDetails?.addresses[0]?.stateCode || null,
         },
-        contactId
+        updatedLeadId
       );
       if (response.success) {
         setSelectedPlan({});
@@ -291,14 +301,27 @@ const IulProtectionQuote = () => {
       }
     } catch (error) {
       setApplyErrorModalOpen(true);
-      console.error('Error applying for quote:', error);
-    } finally {
       setSelectedPlan({});
     }
   };
 
-  const lifeQuoteProtectionDetails = sessionStorage.getItem(
-    'lifeQuoteProtectionDetails'
+  const onApply = plan => {
+    setSelectedPlan(plan);
+    if (isQuickQuotePage) {
+      setContactSearchModalOpen(true);
+    } else {
+      handleApplyClick(plan);
+    }
+  };
+
+  const preEnroll = useCallback(
+    async id => {
+      const response = await getLeadDetailsAfterSearch(id);
+      if (response) {
+        await handleApplyClick(selectedPlan, response);
+      }
+    },
+    [handleApplyClick, getLeadDetailsAfterSearch]
   );
 
   const tabInputs = useMemo(() => {
@@ -372,19 +395,26 @@ const IulProtectionQuote = () => {
               {lifeIulQuoteResults?.length > 0 && !isLoadingLifeIulQuote ? (
                 <>
                   {lifeIulQuoteResults?.map((plan, index) => {
-                    const lifeQuoteProtectionDetails = sessionStorage.getItem('lifeQuoteProtectionDetails');
+                    const lifeQuoteProtectionDetails = sessionStorage.getItem(
+                      'lifeQuoteProtectionDetails'
+                    );
                     const parsedLifeQuoteProtectionDetails = (() => {
                       try {
-                        return lifeQuoteProtectionDetails ? JSON.parse(lifeQuoteProtectionDetails) : {};
+                        return lifeQuoteProtectionDetails
+                          ? JSON.parse(lifeQuoteProtectionDetails)
+                          : {};
                       } catch (error) {
-                        console.error('Error parsing lifeQuoteProtectionDetails:', error);
+                        console.error(
+                          'Error parsing lifeQuoteProtectionDetails:',
+                          error
+                        );
                         return {};
                       }
                     })();
                     const maxIllustratedRate =
                       parsedLifeQuoteProtectionDetails?.illustratedRate === '0'
-                      ? plan?.maxIllustratedRate
-                      : plan?.input?.illustratedRate;
+                        ? plan?.maxIllustratedRate
+                        : plan?.input?.illustratedRate;
                     const {
                       productName,
                       companyName,
@@ -411,7 +441,9 @@ const IulProtectionQuote = () => {
                         sx={{ position: 'relative' }}
                       >
                         <IulQuoteCard
-                          applyButtonDisabled={isLoadingApplyLifeIulQuote || !isRts }
+                          applyButtonDisabled={
+                            isLoadingApplyLifeIulQuote || !isRts
+                          }
                           quoteType='IUL Protection'
                           cardTitle={productName}
                           companyName={companyName}
@@ -428,7 +460,7 @@ const IulProtectionQuote = () => {
                           distribution={distribution}
                           age={plan?.input?.actualAge}
                           healthClass={plan?.input?.healthClass}
-                          handleApplyClick={() => handleApplyClick(plan)}
+                          handleApplyClick={() => onApply(plan)}
                           handleIllustrationClick={handleIllustrationClick}
                           premium={premium}
                           handleComparePlanSelect={() => {
@@ -478,7 +510,7 @@ const IulProtectionQuote = () => {
             <SaveToContact
               contactSearchModalOpen={contactSearchModalOpen}
               handleClose={() => setContactSearchModalOpen(false)}
-              handleCallBack={() => onApply(selectedPlan)}
+              handleCallBack={response => preEnroll(response?.leadsId)}
               page='protection'
             />
           </WithLoader>

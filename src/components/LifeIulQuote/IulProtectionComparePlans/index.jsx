@@ -36,6 +36,21 @@ const IulProtectionComparePlans = () => {
   const { agentInformation } = useAgentInformationByID();
   const comparePlansSessionData = sessionStorage.getItem('iul-compare-plans');
   const comparePlans = JSON.parse(comparePlansSessionData);
+
+  const lifeQuoteProtectionDetails = sessionStorage.getItem(
+    'lifeQuoteProtectionDetails'
+  );
+  const parsedLifeQuoteProtectionDetails = (() => {
+    try {
+      return lifeQuoteProtectionDetails
+        ? JSON.parse(lifeQuoteProtectionDetails)
+        : {};
+    } catch (error) {
+      console.error('Error parsing lifeQuoteProtectionDetails:', error);
+      return {};
+    }
+  })();
+
   const {
     fetchLifeIulQuoteDetails,
     handleIULQuoteApplyClick,
@@ -160,6 +175,9 @@ const IulProtectionComparePlans = () => {
           ...updatedLeadDetails,
           emailAddress,
           phoneNumber,
+          stateCode: parsedLifeQuoteProtectionDetails.state
+            ? parsedLifeQuoteProtectionDetails.state
+            : updatedLeadDetails?.addresses[0]?.stateCode || null,
         },
         updatedLeadId
       );

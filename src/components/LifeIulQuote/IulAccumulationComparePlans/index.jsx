@@ -40,6 +40,20 @@ const IulAccumulationComparePlans = () => {
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const [linkToExistContactId, setLinkToExistContactId] = useState(null);
 
+  const lifeQuoteAccumulationDetails = sessionStorage.getItem(
+    'lifeQuoteAccumulationDetails'
+  );
+  const parsedLifeQuoteAccumulationDetails = (() => {
+    try {
+      return lifeQuoteAccumulationDetails
+        ? JSON.parse(lifeQuoteAccumulationDetails)
+        : {};
+    } catch (error) {
+      console.error('Error parsing lifeQuoteAccumulationDetails:', error);
+      return {};
+    }
+  })();
+
   const {
     fetchLifeIulQuoteDetails,
     handleIULQuoteApplyClick,
@@ -175,6 +189,9 @@ const IulAccumulationComparePlans = () => {
           ...updatedLeadDetails,
           emailAddress,
           phoneNumber,
+          stateCode: parsedLifeQuoteAccumulationDetails.state
+            ? parsedLifeQuoteAccumulationDetails.state
+            : updatedLeadDetails?.addresses[0]?.stateCode || null,
         },
         updatedLeadId
       );
