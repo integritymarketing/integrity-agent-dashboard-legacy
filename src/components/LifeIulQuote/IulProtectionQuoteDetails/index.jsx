@@ -31,11 +31,18 @@ import { useCreateNewQuote } from 'providers/CreateNewQuote';
 const IulProtectionQuoteDetails = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
   const planDetailsSessionData = sessionStorage.getItem('iul-plan-details');
   const planDetails = JSON.parse(planDetailsSessionData);
+  const lifeQuoteProtectionDetails = sessionStorage.getItem('lifeQuoteProtectionDetails');
+  const parsedLifeQuoteProtectionDetails = (() => {
+    try {
+      return lifeQuoteProtectionDetails ? JSON.parse(lifeQuoteProtectionDetails) : {};
+    } catch (error) {
+      console.error('Error parsing lifeQuoteProtectionDetails:', error);
+      return {};
+    }
+  })();
   const [shareModalOpen, setShareModalOpen] = useState(false);
-
   const quoteDetailsRef = useRef(null);
   const productDescriptionRef = useRef(null);
   const productFeaturesRef = useRef(null);
@@ -46,8 +53,6 @@ const IulProtectionQuoteDetails = () => {
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const [linkToExistContactId, setLinkToExistContactId] = useState(null);
-  const [selectedPlan, setSelectedPlan] = useState({});
-
   const { isQuickQuotePage } = useCreateNewQuote();
   const navigate = useNavigate();
   const {
@@ -106,7 +111,14 @@ const IulProtectionQuoteDetails = () => {
     premium,
     guaranteedYears,
   } = useMemo(() => {
-    return planDetails;
+    const calculatedMaxIllustratedRate =
+    parsedLifeQuoteProtectionDetails?.illustratedRate === '0'
+      ? planDetails?.maxIllustratedRate
+      : planDetails?.input?.illustratedRate;
+  return {
+    ...planDetails,
+    maxIllustratedRate: calculatedMaxIllustratedRate
+  };
   }, [planDetails]);
 
   const handleApplyClick = async leadData => {
@@ -133,7 +145,6 @@ const IulProtectionQuoteDetails = () => {
         updatedLeadId
       );
       if (response.success) {
-        setSelectedPlan({});
         if (isQuickQuotePage) {
           navigate(
             `/life/iul-protection/${linkToExistContactId}/${planId}/quote-details`
@@ -141,7 +152,6 @@ const IulProtectionQuoteDetails = () => {
         }
       } else {
         setApplyErrorModalOpen(true);
-        setSelectedPlan({});
       }
     } catch (error) {
       setApplyErrorModalOpen(true);

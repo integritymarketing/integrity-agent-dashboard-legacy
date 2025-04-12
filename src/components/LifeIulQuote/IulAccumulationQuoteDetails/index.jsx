@@ -26,10 +26,21 @@ const IulAccumulationQuoteDetails = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const navigate = useNavigate();
-
+  const lifeQuoteAccumulationDetails = sessionStorage.getItem(
+    'lifeQuoteAccumulationDetails'
+  );
+  const parsedLifeQuoteAccumulationDetails = (() => {
+    try {
+      return lifeQuoteAccumulationDetails
+        ? JSON.parse(lifeQuoteAccumulationDetails)
+        : {};
+    } catch (error) {
+      console.error('Error parsing lifeQuoteAccumulationDetails:', error);
+      return {};
+    }
+  })();
   const planDetailsSessionData = sessionStorage.getItem('iul-plan-details');
   const planDetails = JSON.parse(planDetailsSessionData);
-
   const quoteDetailsRef = useRef(null);
   const productDescriptionRef = useRef(null);
   const productFeaturesRef = useRef(null);
@@ -38,7 +49,6 @@ const IulAccumulationQuoteDetails = () => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const [linkToExistContactId, setLinkToExistContactId] = useState(null);
-
   const {
     fetchLifeIulQuoteDetails,
     lifeIulDetails,
@@ -46,11 +56,9 @@ const IulAccumulationQuoteDetails = () => {
     isLoadingApplyLifeIulQuote,
   } = useLifeIulQuote();
   const { isQuickQuotePage } = useCreateNewQuote();
-
   const { leadDetails, getLeadDetailsAfterSearch } = useLeadDetails();
   const { agentInformation } = useAgentInformationByID();
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState({});
 
   useEffect(() => {
     fetchLifeIulQuoteDetails(planId);
@@ -99,8 +107,15 @@ const IulAccumulationQuoteDetails = () => {
     premium,
     isTobaccoUser,
   } = useMemo(() => {
-    return planDetails;
-  }, [planDetails]);
+    const calculatedMaxIllustratedRate =
+      parsedLifeQuoteAccumulationDetails?.illustratedRate === '0'
+        ? planDetails?.maxIllustratedRate
+        : planDetails?.input?.illustratedRate;
+    return {
+      ...planDetails,
+      maxIllustratedRate: calculatedMaxIllustratedRate
+    };
+  }, [planDetails, parsedLifeQuoteAccumulationDetails]);
 
   const handleApplyClick = async leadData => {
     const updatedLeadDetails = leadData || leadDetails;
@@ -127,7 +142,6 @@ const IulAccumulationQuoteDetails = () => {
         updatedLeadId
       );
       if (response.success) {
-        setSelectedPlan({});
         if (isQuickQuotePage) {
           navigate(
             `/life/iul-accumulation/${linkToExistContactId}/${planId}/quote-details`
@@ -135,7 +149,6 @@ const IulAccumulationQuoteDetails = () => {
         }
       } else {
         setApplyErrorModalOpen(true);
-        setSelectedPlan({});
       }
     } catch (error) {
       setApplyErrorModalOpen(true);

@@ -289,6 +289,19 @@ const IulAccumulationQuote = () => {
               {lifeIulQuoteResults?.length > 0 && !isLoadingLifeIulQuote ? (
                 <>
                   {lifeIulQuoteResults?.map((plan, index) => {
+                    const lifeQuoteAccumulationDetails = sessionStorage.getItem('lifeQuoteAccumulationDetails');
+                    const parsedLifeQuoteAccumulationDetails = (() => {
+                      try {
+                        return lifeQuoteAccumulationDetails ? JSON.parse(lifeQuoteAccumulationDetails) : {};
+                      } catch (error) {
+                        console.error('Error parsing lifeQuoteAccumulationDetails:', error);
+                        return {};
+                      }
+                    })();
+                    const maxIllustratedRate =
+                      parsedLifeQuoteAccumulationDetails?.illustratedRate === '0'
+                        ? plan?.maxIllustratedRate
+                        : plan?.input?.illustratedRate;
                     const {
                       productName,
                       companyName,
@@ -297,7 +310,6 @@ const IulAccumulationQuote = () => {
                       cashValueYear10,
                       cashValueYear20,
                       cashValueAge65,
-                      maxIllustratedRate,
                       indexStrategyType,
                       distribution,
                       deathBenefit,
@@ -306,7 +318,6 @@ const IulAccumulationQuote = () => {
                       recId,
                       isRts,
                       hasPolicyDetails,
-                      policyDetailId,
                     } = plan;
                     return (
                       <Grid

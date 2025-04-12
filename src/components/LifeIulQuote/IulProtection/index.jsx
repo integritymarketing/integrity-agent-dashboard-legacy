@@ -358,6 +358,19 @@ const IulProtectionQuote = () => {
               {lifeIulQuoteResults?.length > 0 && !isLoadingLifeIulQuote ? (
                 <>
                   {lifeIulQuoteResults?.map((plan, index) => {
+                    const lifeQuoteProtectionDetails = sessionStorage.getItem('lifeQuoteProtectionDetails');
+                    const parsedLifeQuoteProtectionDetails = (() => {
+                      try {
+                        return lifeQuoteProtectionDetails ? JSON.parse(lifeQuoteProtectionDetails) : {};
+                      } catch (error) {
+                        console.error('Error parsing lifeQuoteProtectionDetails:', error);
+                        return {};
+                      }
+                    })();
+                    const maxIllustratedRate =
+                      parsedLifeQuoteProtectionDetails?.illustratedRate === '0'
+                      ? plan?.maxIllustratedRate
+                      : plan?.input?.illustratedRate;
                     const {
                       productName,
                       companyName,
@@ -366,7 +379,6 @@ const IulProtectionQuote = () => {
                       guaranteedYears,
                       cashValueYear20,
                       cashValueYear30,
-                      maxIllustratedRate,
                       indexStrategyType,
                       distribution,
                       deathBenefit,
