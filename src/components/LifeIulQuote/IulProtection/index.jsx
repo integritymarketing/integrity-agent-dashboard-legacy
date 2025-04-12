@@ -112,8 +112,8 @@ const IulProtectionQuote = () => {
       agent,
       lead: {
         leadId: leadDetails?.leadsId || '',
-        firstName: leadDetails?.firstName || '',
-        lastName: leadDetails?.lastName || '',
+        // firstName: leadDetails?.firstName || '',
+        // lastName: leadDetails?.lastName || '',
         email:
           leadDetails?.emails?.length > 0
             ? leadDetails.emails[0].leadEmail
@@ -122,9 +122,9 @@ const IulProtectionQuote = () => {
           leadDetails?.phones?.length > 0
             ? leadDetails.phones[0].leadPhone
             : null,
-        age: leadDetails?.age || 0,
-        gender: leadDetails?.gender || '',
-        dateOfBirth: leadDetails?.birthdate || '',
+        // age: leadDetails?.age || 0,
+        // gender: leadDetails?.gender || '',
+        // dateOfBirth: leadDetails?.birthdate || '',
         stateCode: parsedLifeQuoteProtectionDetails.state
           ? parsedLifeQuoteProtectionDetails.state
           : leadDetails?.addresses[0]?.stateCode || null,
