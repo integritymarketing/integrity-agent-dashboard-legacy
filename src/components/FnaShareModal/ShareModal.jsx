@@ -83,6 +83,8 @@ const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
     isPhoneCompatible,
     isEmailCompatible,
   ]);
+  const getFormattedPhone = phone =>
+    phone ? `${phone}`.replace(/\D/g, '') : null;
 
   const handleSend = async () => {
     try {
@@ -114,7 +116,7 @@ const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
       } else if (existingSendType === 'textMessage') {
         payloadData = {
           ...payload,
-          messageDestination: leadPhone,
+          messageDestination: getFormattedPhone(leadPhone),
           messageType: 'SMS',
         };
       } else {
@@ -127,7 +129,7 @@ const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
         } else {
           payloadData = {
             ...payload,
-            messageDestination: phone,
+            messageDestination: getFormattedPhone(phone),
             messageType: 'SMS',
           };
         }
