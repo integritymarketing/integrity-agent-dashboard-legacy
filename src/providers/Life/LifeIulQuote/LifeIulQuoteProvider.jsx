@@ -306,7 +306,7 @@ export const LifeIulQuoteProvider = ({ children }) => {
   );
 
   const getAddPolicyRedirectURL = useCallback(
-    async (agentInformation, leadDetails, planType) => {
+    async (agentInformation, leadDetails, planType, resource, website) => {
       const sessionDetails =
         planType === 'ACCUMULATION'
           ? sessionStorage.getItem('lifeQuoteAccumulationDetails')
@@ -314,8 +314,8 @@ export const LifeIulQuoteProvider = ({ children }) => {
       const sessionSateCode =
         sessionDetails && JSON.parse(sessionDetails)?.state;
       const payload = {
-        ctaName: 'Illustration',
-        ctaValue: 'Winflex',
+        ctaName: resource ? resource : 'Illustration',
+        ctaValue: website ? website : 'Winflex',
         agent: {
           firstName: agentInformation?.agentFirstName || '',
           lastName: agentInformation?.agentLastName || '',

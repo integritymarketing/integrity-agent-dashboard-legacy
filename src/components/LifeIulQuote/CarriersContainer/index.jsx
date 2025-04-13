@@ -1,30 +1,29 @@
-import {Box, Typography} from '@mui/material';
-import {ContactProfileTabBar} from 'components/ContactDetailsContainer';
-import {IulQuoteHeader} from 'components/LifeIulQuote/CommonComponents';
-import {useParams} from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
+import { ContactProfileTabBar } from 'components/ContactDetailsContainer';
+import { IulQuoteHeader } from 'components/LifeIulQuote/CommonComponents';
+import { useParams } from 'react-router-dom';
 import WithLoader from 'components/ui/WithLoader';
-import {useLeadDetails} from 'providers/ContactDetails';
+import { useLeadDetails } from 'providers/ContactDetails';
 import styles from './styles.module.scss';
 import PropTypes from 'prop-types';
-import {CarrierResourceCard} from '@integritymarketing/clients-ui-kit';
-import {useEffect, useState} from 'react';
-import {useCarriers} from 'providers/CarriersProvider';
+import { CarrierResourceCard } from '@integritymarketing/clients-ui-kit';
+import { useEffect, useMemo, useState } from 'react';
+import { useCarriers } from 'providers/CarriersProvider';
 import _ from 'lodash';
-import useUserProfile from "hooks/useUserProfile";
-import {useProfessionalProfileContext} from "providers/ProfessionalProfileProvider";
-import {postSSORequest} from "utils/postSSORequest";
-import useToast from "hooks/useToast";
+import useUserProfile from 'hooks/useUserProfile';
+import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
+import { postSSORequest } from 'utils/postSSORequest';
+import useToast from 'hooks/useToast';
 
 export const CarriersContainer = ({ title, query }) => {
   const { contactId } = useParams();
-
   const { leadDetails, isLoadingLeadDetails } = useLeadDetails();
   const showToast = useToast();
-
-  const { getCarriersData, isLoadingGetCarriers, getAdPolicyRedirectUrl } = useCarriers();
+  const { getCarriersData, isLoadingGetCarriers, getAdPolicyRedirectUrl } =
+    useCarriers();
   const [carriersData, setCarriersData] = useState([]);
-  const {firstName, lastName, email, phone, npn} = useUserProfile();
-  const {getAgentData} = useProfessionalProfileContext();
+  const { firstName, lastName, email, phone, npn } = useUserProfile();
+  const { getAgentData } = useProfessionalProfileContext();
 
   useEffect(() => {
     const fetchCarriers = async () => {
@@ -41,12 +40,9 @@ export const CarriersContainer = ({ title, query }) => {
   const fetchRedirectUrlAndOpen = async (resource, website) => {
     const agentData = await getAgentData?.();
     if (!agentData) return;
-    const {
-      sourceId,
-      assignedBUs = [],
-    } = agentData;
+    const { sourceId, assignedBUs = [] } = agentData;
 
-    const agentBUs = assignedBUs?.map((item) => item.buCode);
+    const agentBUs = assignedBUs?.map(item => item.buCode);
     const agent = {
       firstName,
       lastName,
@@ -56,7 +52,6 @@ export const CarriersContainer = ({ title, query }) => {
       sourceId,
       agentBUs,
     };
-
     const {
       firstName: leadFirstName,
       lastName: leadLastName,
@@ -66,9 +61,8 @@ export const CarriersContainer = ({ title, query }) => {
     } = leadDetails || {};
     const stateCode = leadDetails?.addresses?.[0]?.stateCode;
     const leadId = leadDetails?.leadsId;
-    const leadPhone = leadDetails?.phones?.[0]?.leadPhone || "";
-    const leadEmail = leadDetails?.emails?.[0]?.leadEmail || "";
-
+    const leadPhone = leadDetails?.phones?.[0]?.leadPhone || '';
+    const leadEmail = leadDetails?.emails?.[0]?.leadEmail || '';
     const payload = {
       ctaName: resource,
       ctaValue: website,
@@ -88,8 +82,8 @@ export const CarriersContainer = ({ title, query }) => {
 
     const adPolicyRedirectUrlDetails = await getAdPolicyRedirectUrl(payload);
     if (adPolicyRedirectUrlDetails?.redirectUrl) {
-      if(adPolicyRedirectUrlDetails?.isSSo) {
-        await postSSORequest(adPolicyRedirectUrlDetails.redirectUrl, (err)=> {
+      if (adPolicyRedirectUrlDetails?.isSSo) {
+        await postSSORequest(adPolicyRedirectUrlDetails.redirectUrl, err => {
           console.error('Error posting sso request submission:', err);
           showToast({
             type: 'error',
@@ -97,21 +91,35 @@ export const CarriersContainer = ({ title, query }) => {
             time: 500,
           });
         });
-      }else {
+      } else {
         window.open(adPolicyRedirectUrlDetails.redirectUrl, '_blank');
       }
     }
   };
 
+  const updateLayout = useMemo(() => {
+    return query === 'iul' ? true : false;
+  }, [query]);
+
+  if (!Array.isArray(carriersData) || carriersData.length === 0) {
+    return null;
+  }
+
   return (
     <WithLoader isLoading={isLoadingLeadDetails || isLoadingGetCarriers}>
-      <ContactProfileTabBar
-        contactId={contactId}
-        showTabs={false}
-        backButtonLabel='Back'
-        backButtonRoute={`/contact/${contactId}/overview`}
-      />
-      <Box className={styles.carriersContainer}>
+      {!updateLayout && (
+        <ContactProfileTabBar
+          contactId={contactId}
+          showTabs={false}
+          backButtonLabel='Back'
+          backButtonRoute={`/contact/${contactId}/overview`}
+        />
+      )}
+      <Box
+        className={
+          updateLayout ? styles.iulCarriersContainer : styles.carriersContainer
+        }
+      >
         <IulQuoteHeader title={title} />
 
         <Box className={styles.carriersListTitle}>
@@ -133,25 +141,37 @@ export const CarriersContainer = ({ title, query }) => {
                     carrier.quote && {
                       label: 'Run Quote',
                       onClick: async () => {
-                        await fetchRedirectUrlAndOpen(carrier.resource, carrier.quote);
+                        await fetchRedirectUrlAndOpen(
+                          carrier.resource,
+                          carrier.quote
+                        );
                       },
                     },
                     carrier.illustration && {
                       label: 'Run Illustration',
                       onClick: async () => {
-                        await fetchRedirectUrlAndOpen(carrier.resource, carrier.illustration);
+                        await fetchRedirectUrlAndOpen(
+                          carrier.resource,
+                          carrier.illustration
+                        );
                       },
                     },
                     carrier.eApp && {
                       label: 'Start eApp',
                       onClick: async () => {
-                        await fetchRedirectUrlAndOpen(carrier.resource, carrier.eApp);
+                        await fetchRedirectUrlAndOpen(
+                          carrier.resource,
+                          carrier.eApp
+                        );
                       },
                     },
                     carrier.website && {
                       label: 'Visit Carrier',
                       onClick: async () => {
-                        await fetchRedirectUrlAndOpen(carrier.resource, carrier.website);
+                        await fetchRedirectUrlAndOpen(
+                          carrier.resource,
+                          carrier.website
+                        );
                       },
                     },
                   ].filter(Boolean),

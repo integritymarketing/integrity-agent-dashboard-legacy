@@ -12,6 +12,16 @@
   }
 }
 
+.iulCarriersContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  @include defines_global.small {
+    width: 100%;
+    padding: 56px 24px;
+  }
+}
+
 .carriersListTitle {
   display: flex;
 }

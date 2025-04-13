@@ -5,7 +5,6 @@ import {
   IulQuoteContainer,
 } from '../CommonComponents';
 import {
-  CarrierResourceAds,
   IulQuoteCard,
   NoResultsError,
 } from '@integritymarketing/clients-ui-kit';
@@ -17,13 +16,9 @@ import WithLoader from 'components/ui/WithLoader';
 import { useNavigate, useParams } from 'react-router-dom';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
 import { useLeadDetails } from 'providers/ContactDetails';
-import { useCarriers } from 'providers/CarriersProvider';
 import { useCreateNewQuote } from 'providers/CreateNewQuote';
 import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
-import useUserProfile from 'hooks/useUserProfile';
-import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
-import { postSSORequest } from 'utils/postSSORequest';
-import useToast from 'hooks/useToast';
+import { CarriersContainer } from 'components/LifeIulQuote/CarriersContainer';
 
 const IulAccumulationQuote = () => {
   const {
@@ -39,7 +34,6 @@ const IulAccumulationQuote = () => {
   } = useLifeIulQuote();
 
   const { isQuickQuotePage } = useCreateNewQuote();
-  const { getCarriersData, getAdPolicyRedirectUrl } = useCarriers();
   const { leadDetails, getLeadDetailsAfterSearch } = useLeadDetails();
   const [isTobaccoUser, setIsTobaccoUser] = useState(false);
 
@@ -48,12 +42,8 @@ const IulAccumulationQuote = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { contactId } = useParams();
   const navigate = useNavigate();
-  const showToast = useToast();
-  const { firstName, lastName, email, phone, npn } = useUserProfile();
-  const { getAgentData } = useProfessionalProfileContext();
   const [selectedPlan, setSelectedPlan] = useState({});
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
-  const [carriersAdsPolicyDetails, setCarriersAdsPolicyDetails] = useState([]);
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
 
   const lifeQuoteAccumulationDetails = sessionStorage.getItem(
@@ -69,114 +59,6 @@ const IulAccumulationQuote = () => {
       return {};
     }
   })();
-
-  useEffect(() => {
-    const fetchCarriersAdsPolicyDetails = async () => {
-      const response = await getCarriersData('productType=iul');
-      if (response) {
-        addActionMenuItemsToCarriersAdsPolicies(response);
-      }
-    };
-    fetchCarriersAdsPolicyDetails();
-  }, []);
-
-  const fetchRedirectUrlAndOpen = async (resource, website) => {
-    const agentData = await getAgentData?.();
-    if (!agentData) return;
-    const { sourceId, assignedBUs = [] } = agentData;
-
-    const agentBUs = assignedBUs.map(item => item.buCode);
-    const agent = {
-      firstName,
-      lastName,
-      email,
-      phone,
-      npn,
-      sourceId,
-      agentBUs,
-    };
-
-    const payload = {
-      ctaName: resource,
-      ctaValue: website,
-      agent,
-      lead: {
-        // leadId: leadDetails?.leadsId || '',
-        // firstName: leadDetails?.firstName || '',
-        // lastName: leadDetails?.lastName || '',
-        email:
-          leadDetails?.emails?.length > 0
-            ? leadDetails.emails[0].leadEmail
-            : null,
-        phone:
-          leadDetails?.phones?.length > 0
-            ? leadDetails.phones[0].leadPhone
-            : null,
-        // age: leadDetails?.age || 0,
-        // gender: leadDetails?.gender || '',
-        // dateOfBirth: leadDetails?.birthdate || '',
-        stateCode: parsedLifeQuoteAccumulationDetails.state
-          ? parsedLifeQuoteAccumulationDetails.state
-          : leadDetails?.addresses[0]?.stateCode || null,
-      },
-    };
-
-    const adPolicyRedirectUrlDetails = await getAdPolicyRedirectUrl(payload);
-    if (adPolicyRedirectUrlDetails?.redirectUrl) {
-      if (adPolicyRedirectUrlDetails?.isSSo) {
-        await postSSORequest(adPolicyRedirectUrlDetails.redirectUrl, err => {
-          console.error('Error posting sso request submission:', err);
-          showToast({
-            type: 'error',
-            message: 'Error posting sso request',
-            time: 500,
-          });
-        });
-      } else {
-        window.open(adPolicyRedirectUrlDetails.redirectUrl, '_blank');
-      }
-    }
-  };
-
-  const addActionMenuItemsToCarriersAdsPolicies = carriersAdsPolicyDetails => {
-    const carriersAdsPolicyDetailsWithActionMenuItems =
-      carriersAdsPolicyDetails.map(carrier => {
-        const actionMenuItems = [
-          carrier.quote && {
-            label: 'Run Quote',
-            onClick: async () => {
-              await fetchRedirectUrlAndOpen(carrier.resource, carrier.quote);
-            },
-          },
-          carrier.illustration && {
-            label: 'Run Illustration',
-            onClick: async () => {
-              await fetchRedirectUrlAndOpen(
-                carrier.resource,
-                carrier.illustration
-              );
-            },
-          },
-          carrier.eApp && {
-            label: 'Start eApp',
-            onClick: async () => {
-              await fetchRedirectUrlAndOpen(carrier.resource, carrier.eApp);
-            },
-          },
-          carrier.website && {
-            label: 'Visit Carrier',
-            onClick: async () => {
-              await fetchRedirectUrlAndOpen(carrier.resource, carrier.website);
-            },
-          },
-        ].filter(Boolean);
-        return {
-          ...carrier,
-          actionMenuItems,
-        };
-      });
-    setCarriersAdsPolicyDetails(carriersAdsPolicyDetailsWithActionMenuItems);
-  };
 
   const getQuoteResults = useCallback(async () => {
     const lifeQuoteAccumulationDetails = sessionStorage.getItem(
@@ -239,6 +121,7 @@ const IulAccumulationQuote = () => {
   };
 
   const handleIllustrationClick = async () => {
+    debugger;
     try {
       await getAddPolicyRedirectURL(
         agentInformation,
@@ -394,7 +277,9 @@ const IulAccumulationQuote = () => {
                           deathBenefit={deathBenefit}
                           distribution={distribution}
                           handleApplyClick={() => onApply(plan)}
-                          handleIllustrationClick={handleIllustrationClick}
+                          handleIllustrationClick={() =>
+                            handleIllustrationClick()
+                          }
                           age={plan?.input?.actualAge}
                           healthClass={plan?.input?.healthClass}
                           handleComparePlanSelect={() =>
@@ -450,21 +335,8 @@ const IulAccumulationQuote = () => {
           </WithLoader>
         </Grid>
       )}
-      {carriersAdsPolicyDetails.length > 0 && (
-        <Box className={styles.carrierResourceContainer}>
-          <Box className={styles.carrierResourceHeader}>
-            <Typography variant='h4' color='#052A63'>
-              Carrier Resources{' '}
-              <span className={styles.carrierResourceCount}>
-                ({carriersAdsPolicyDetails.length})
-              </span>
-            </Typography>
-          </Box>
-          <CarrierResourceAds
-            carriers={carriersAdsPolicyDetails}
-          ></CarrierResourceAds>
-        </Box>
-      )}
+
+      <CarriersContainer title='' query='iul' />
     </IulQuoteContainer>
   );
 };
