@@ -142,6 +142,7 @@ export const ProductPreferenceForm = ({}) => {
                     {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
                       if (leadDetails?.isTobaccoUser && values.healthClasses !== option.value) {
                         setFieldValue('healthClasses', option.value);
+                        setFieldTouched('healthClasses', true, true);
                       }
                       return (
                         <Grid

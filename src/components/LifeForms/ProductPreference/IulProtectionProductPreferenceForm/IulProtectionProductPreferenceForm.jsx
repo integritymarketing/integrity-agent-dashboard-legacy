@@ -169,6 +169,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                         values.healthClasses !== option.value
                       ) {
                         setFieldValue('healthClasses', option.value);
+                        setFieldTouched('healthClasses', true, true);
                       }
                       return (
                         <Grid

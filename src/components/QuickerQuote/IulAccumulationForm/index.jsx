@@ -153,6 +153,7 @@ const IulAccumulationForm = () => {
                       {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
                         if(quickQuoteLeadDetails?.isTobaccoUser && values.healthClasses !== option.value) {
                           setFieldValue('healthClasses', option.value);
+                          setFieldTouched('healthClasses', true, true);
                         }
                         return (
                           <Grid

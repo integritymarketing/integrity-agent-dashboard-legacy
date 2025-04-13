@@ -156,6 +156,7 @@ const IulProtectionForm = () => {
                       {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
                         if(quickQuoteLeadDetails?.isTobaccoUser === 'Y' && values.healthClasses !== option.value) {
                           setFieldValue('healthClasses', option.value);
+                          setFieldTouched('healthClasses', true, true);
                         }
                         return (
                           <Grid item md={6} xs={6} display={'flex'} key={index}>
