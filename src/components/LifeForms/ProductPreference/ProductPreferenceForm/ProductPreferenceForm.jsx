@@ -81,7 +81,7 @@ export const ProductPreferenceForm = ({}) => {
     <Formik
       initialValues={{
         ...formData,
-        healthClasses: leadDetails?.isTobaccoUser ? 'TP' : '',
+        healthClasses: leadDetails?.isTobaccoUser ? 'TP' : 'S',
       }}
       validateOnMount={true}
       enableReinitialize={true}

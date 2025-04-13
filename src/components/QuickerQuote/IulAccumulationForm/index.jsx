@@ -85,7 +85,7 @@ const IulAccumulationForm = () => {
     <Formik
       initialValues={{
         ...formData,
-        healthClasses: quickQuoteLeadDetails?.isTobaccoUser ? 'TP' : '',
+        healthClasses: quickQuoteLeadDetails?.isTobaccoUser ? 'TP' : 'S',
       }}
       validateOnMount={true}
       enableReinitialize={true}

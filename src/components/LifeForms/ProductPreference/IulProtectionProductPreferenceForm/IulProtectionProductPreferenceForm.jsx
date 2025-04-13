@@ -82,7 +82,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
     <Formik
       initialValues={{
         ...formData,
-        healthClasses: leadDetails?.isTobaccoUser ? 'TP' : '',
+        healthClasses: leadDetails?.isTobaccoUser ? 'TP' : 'S',
       }}
       validateOnMount={true}
       enableReinitialize={true}
