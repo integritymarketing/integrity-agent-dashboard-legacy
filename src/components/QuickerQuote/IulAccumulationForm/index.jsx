@@ -25,7 +25,7 @@ const IulAccumulationForm = () => {
     payPeriods: '65',
     loanType: 'LoansFixed',
     illustratedRate: '5',
-    healthClasses: 'S',
+    healthClasses: '',
     faceAmounts: '',
   };
 
@@ -83,7 +83,10 @@ const IulAccumulationForm = () => {
 
   return (
     <Formik
-      initialValues={formData}
+      initialValues={{
+        ...formData,
+        healthClasses: quickQuoteLeadDetails?.isTobaccoUser ? 'TP' : '',
+      }}
       validateOnMount={true}
       enableReinitialize={true}
       validationSchema={ProductPreferenceFormSchema}
@@ -151,14 +154,10 @@ const IulAccumulationForm = () => {
                   >
                     <Grid item xs={12} container spacing={1}>
                       {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
-                        if(quickQuoteLeadDetails?.isTobaccoUser && values.healthClasses !== option.value) {
-                          setFieldValue('healthClasses', option.value, true);
-                          setFieldTouched('healthClasses', true, true);
-                        }
                         return (
                           <Grid
                             item
-                            md={6}
+                            md={HEALTH_CLASSIFICATION_OPTS.length > 1 ? 6 : 12}
                             xs={12}
                             display={'flex'}
                             className={styles.radioOptionGrid}
@@ -169,10 +168,7 @@ const IulAccumulationForm = () => {
                               value={option.value}
                               label={option.label}
                               stateValue={values.healthClasses}
-                              onChange={e => {
-                                setFieldTouched('healthClasses', true);
-                                handleChange(e);
-                              }}
+                              onChange={handleChange}
                             />
                           </Grid>
                         );

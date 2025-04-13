@@ -25,7 +25,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
     payPeriods: '0',
     solves: '$1CSVAtAge121',
     illustratedRate: '5',
-    healthClasses: 'S',
+    healthClasses: '',
     faceAmounts: '',
     faceAmounts2: '',
     faceAmounts3: '',
@@ -80,7 +80,10 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
     : HEALTH_CLASSIFICATION_NON_SMOKER_OPTS;
   return (
     <Formik
-      initialValues={formData}
+      initialValues={{
+        ...formData,
+        healthClasses: leadDetails?.isTobaccoUser ? 'TP' : '',
+      }}
       validateOnMount={true}
       enableReinitialize={true}
       validationSchema={IulProtectionProductPreferenceFormSchema}
@@ -164,13 +167,6 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                 >
                   <Grid item xs={12} container spacing={1}>
                     {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
-                      if (
-                        leadDetails?.isTobaccoUser &&
-                        values.healthClasses !== option.value
-                      ) {
-                        setFieldValue('healthClasses', option.value, true);
-                        setFieldTouched('healthClasses', true, true);
-                      }
                       return (
                         <Grid
                           item

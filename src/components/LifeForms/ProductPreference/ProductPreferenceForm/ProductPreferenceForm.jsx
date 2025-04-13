@@ -25,7 +25,7 @@ export const ProductPreferenceForm = ({}) => {
     payPeriods: '65',
     loanType: 'LoansFixed',
     illustratedRate: '5',
-    healthClasses: 'S',
+    healthClasses: '',
     faceAmounts: '',
   });
 
@@ -79,7 +79,10 @@ export const ProductPreferenceForm = ({}) => {
 
   return (
     <Formik
-      initialValues={formData}
+      initialValues={{
+        ...formData,
+        healthClasses: leadDetails?.isTobaccoUser ? 'TP' : '',
+      }}
       validateOnMount={true}
       enableReinitialize={true}
       validationSchema={ProductPreferenceFormSchema}
@@ -140,10 +143,6 @@ export const ProductPreferenceForm = ({}) => {
                 >
                   <Grid item xs={12} container spacing={1}>
                     {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
-                      if (leadDetails?.isTobaccoUser && values.healthClasses !== option.value) {
-                        setFieldValue('healthClasses', option.value, true);
-                        setFieldTouched('healthClasses', true, true);
-                      }
                       return (
                         <Grid
                           item
@@ -158,10 +157,7 @@ export const ProductPreferenceForm = ({}) => {
                             value={option.value}
                             label={option.label}
                             stateValue={values.healthClasses}
-                            onChange={e => {
-                              setFieldTouched('healthClasses', true);
-                              handleChange(e);
-                            }}
+                            onChange={handleChange}
                           />
                         </Grid>
                       );

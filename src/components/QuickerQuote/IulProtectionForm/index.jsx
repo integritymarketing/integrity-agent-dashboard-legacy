@@ -25,7 +25,7 @@ const IulProtectionForm = () => {
     payPeriods: '0',
     solves: '$1CSVAtAge121',
     illustratedRate: '5',
-    healthClasses: 'S',
+    healthClasses: '',
     faceAmounts: '',
     faceAmounts2: '',
     faceAmounts3: '',
@@ -78,14 +78,17 @@ const IulProtectionForm = () => {
   );
 
   const HEALTH_CLASSIFICATION_OPTS = useMemo(() => {
-    return quickQuoteLeadDetails?.isTobaccoUser === 'Y'
+    return quickQuoteLeadDetails?.isTobaccoUser
       ? HEALTH_CLASSIFICATION_SMOKER_OPTS
       : HEALTH_CLASSIFICATION_NON_SMOKER_OPTS;
   }, [quickQuoteLeadDetails]);
 
   return (
     <Formik
-      initialValues={formData}
+      initialValues={{
+        ...formData,
+        healthClasses: quickQuoteLeadDetails?.isTobaccoUser ? 'TP' : '',
+      }}
       validateOnMount={true}
       enableReinitialize={true}
       validationSchema={IulProtectionProductPreferenceFormSchema}
@@ -154,21 +157,20 @@ const IulProtectionForm = () => {
                   >
                     <Grid item xs={12} container spacing={1}>
                       {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
-                        if(quickQuoteLeadDetails?.isTobaccoUser === 'Y' && values.healthClasses !== option.value) {
-                          setFieldValue('healthClasses', option.value, true);
-                          setFieldTouched('healthClasses', true, true);
-                        }
                         return (
-                          <Grid item md={6} xs={6} display={'flex'} key={index}>
+                          <Grid
+                            item
+                            md={HEALTH_CLASSIFICATION_OPTS.length > 1 ? 6 : 12}
+                            xs={6}
+                            display={'flex'}
+                            key={index}
+                          >
                             <CustomRadioGroupOption
                               name='healthClasses'
                               value={option.value}
                               label={option.label}
                               stateValue={values.healthClasses}
-                              onChange={e => {
-                                setFieldTouched('healthClasses', true);
-                                handleChange(e);
-                              }}
+                              onChange={handleChange}
                             />
                           </Grid>
                         );
