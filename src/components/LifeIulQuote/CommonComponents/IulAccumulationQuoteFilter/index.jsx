@@ -298,6 +298,9 @@ export const IulAccumulationQuoteFilter = ({ isTobaccoUser }) => {
                   <Box className={styles.radioOption}>
                     <Grid container spacing={'8px'}>
                       {HEALTH_CLASSIFICATION_OPTS.map((option, index) => {
+                        if (isTobaccoUser && healthClasses !== option.value) {
+                          handleFiltersChange('healthClasses', option.value);
+                        }
                         return (
                           <Grid
                             item
