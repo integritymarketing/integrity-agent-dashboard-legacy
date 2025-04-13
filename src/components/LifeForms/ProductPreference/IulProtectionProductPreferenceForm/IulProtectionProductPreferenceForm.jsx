@@ -168,7 +168,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                         leadDetails?.isTobaccoUser &&
                         values.healthClasses !== option.value
                       ) {
-                        setFieldValue('healthClasses', option.value);
+                        setFieldValue('healthClasses', option.value, true);
                         setFieldTouched('healthClasses', true, true);
                       }
                       return (
