@@ -36,6 +36,7 @@ const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
     caLicense,
     modifyDate,
     createDate,
+    agentPurl,
   } = agentInformation || {};
 
   const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? '';
@@ -94,7 +95,7 @@ const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
         agentEmail,
         agentNpn: npnNumber,
         caLicense,
-        agentPAW: agentInformation?.agentPurl,
+        agentPurl,
         sendFNAUrl: 'https://qa.planenroll.com/life/fna/review',
         fna: {
           ...financialNeedsAnalysis,
