@@ -14,15 +14,12 @@ export const ILLUSTRATED_RATE_OPTS = [
 ];
 
 export const HEALTH_CLASSIFICATION_SMOKER_OPTS = [
-    { label: "Standard", value: "S" },
-    { label: "Preferred", value: "P" },
+  { label: "Preferred", value: ["TP"] },
 ];
 
 export const HEALTH_CLASSIFICATION_NON_SMOKER_OPTS = [
-    { label: "Standard", value: "S" },
-    { label: "Standard +", value: "SP" },
-    { label: "Preferred", value: "P" },
-    { label: "Preferred +", value: "PP" },
+  { label: "Standard", value:  ["S"] },
+  { label: "Preferred", value: ["TP"] },
 ];
 
 export const PROTECTION_PAY_PERIOD_OPTS = [
