@@ -8,7 +8,6 @@ import useAnalytics from 'hooks/useAnalytics';
 import useFetch from 'hooks/useFetch';
 import { LIFE_QUESTION_CARD_LIST } from '../../components/CreateNewQuoteContainer/QuickQuoteModals/LifeQuestionCard/constants';
 import * as Sentry from '@sentry/react';
-import { useLeadDetails } from 'providers/ContactDetails';
 
 export const CreateNewQuoteContext = createContext();
 
@@ -23,7 +22,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
   const { agentId } = useUserProfile();
   const showToast = useToast();
   const navigate = useNavigate();
-  const { getLeadDetails } = useLeadDetails();
 
   const query = useQuery();
   const isQuickQuotePage = query && query.get('quick-quote');
@@ -326,11 +324,11 @@ export const CreateNewQuoteProvider = ({ children }) => {
         if (response) {
           setQuickQuoteLeadDetails(response);
           fireEvent('New Contact Created With Quick Quote');
-            showToast({
-              type: 'success',
-              message: 'Lead Created successfully',
-              time: 10000,
-            });
+          showToast({
+            type: 'success',
+            message: 'Lead Created successfully',
+            time: 10000,
+          });
           return response;
         }
       } catch (error) {
@@ -351,10 +349,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
         const response = await updateQuickQuoteLeadDetailsAPICall(payload);
         if (response) {
           setQuickQuoteLeadDetails(response);
-          const leadResponse = await getLeadDetails(response?.leadId, true);
-          if (leadResponse) {
-            return response;
-          }
+          return response;
         }
       } catch (error) {
         Sentry.captureException(error);
@@ -365,7 +360,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
         });
       }
     },
-    [updateQuickQuoteLeadDetailsAPICall, showToast, getLeadDetails]
+    [updateQuickQuoteLeadDetailsAPICall, showToast]
   );
 
   const existingLinkLeadToQuickQuote = useCallback(
