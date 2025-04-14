@@ -13,6 +13,7 @@ import ShareInputsValidator from 'components/ShareInputsValidator';
 import { useLifeIulQuote } from 'providers/Life';
 import { faArrowShare } from '@awesome.me/kit-7ab3488df1/icons/kit/custom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getPlaneRollURL } from 'utils/getplanenrollURL';
 
 export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
   const { handleIULQuoteShareClick, isLoadingShareIulQuote } =
@@ -100,7 +101,7 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
         dateOfBirth: birthdate,
         roles: updatedRoles,
         leadId: `${leadsId}`,
-        policyCompareUrl: 'https://qa.planenroll.com/life/products/compare',
+        policyCompareUrl: `${getPlaneRollURL()}/life/products/compare`,
         quoteRequest: {
           inputs: [
             {
