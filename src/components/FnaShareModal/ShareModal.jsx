@@ -8,7 +8,6 @@ import { useLeadDetails } from 'providers/ContactDetails';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
 import PropTypes from 'prop-types';
 import { useCoverageCalculationsContext } from 'providers/CoverageCalculations';
-import { getPlaneRollURL } from 'utils/getplanenrollURL';
 
 const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
   const [phone, setPhone] = useState('');
@@ -89,6 +88,8 @@ const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
 
   const handleSend = async () => {
     try {
+      const planEnrollBaseUrl = import.meta.env.VITE_PLANENROLL_BASE_URL;
+
       const payload = {
         leadFirstName: firstName,
         leadLastName: lastName,
@@ -99,7 +100,7 @@ const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
         agentNpn: npnNumber,
         caLicense,
         agentPurl,
-        sendFNAUrl: `${getPlaneRollURL()}/life/fna/review`,
+        sendFNAUrl: `${planEnrollBaseUrl}/life/fna/review`,
         fna: {
           ...financialNeedsAnalysis,
         },
