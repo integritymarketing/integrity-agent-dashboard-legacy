@@ -324,24 +324,26 @@ export const IulAccumulationQuoteFilter = ({ isTobaccoUser }) => {
                   </Box>
                 </CollapsibleSection>
               </Grid>
-              <Grid item md={12} xs={12}>
-                <CollapsibleSection title='Carriers'>
-                  <Box className={styles.radioOption}>
-                    {carriers?.map((option, index) => {
-                      return (
-                        <CustomCheckboxGroupOption
-                          name='carriers'
-                          value={option.value}
-                          label={option.label}
-                          stateValue={selectedCarriers}
-                          onChange={handleCarriersChange}
-                          key={`carriers-${index}`}
-                        />
-                      );
-                    })}
-                  </Box>
-                </CollapsibleSection>
-              </Grid>
+              {carriers?.length > 0 && (
+                <Grid item md={12} xs={12}>
+                  <CollapsibleSection title='Carriers'>
+                    <Box className={styles.radioOption}>
+                      {carriers?.map((option, index) => {
+                        return (
+                          <CustomCheckboxGroupOption
+                            name='carriers'
+                            value={option.value}
+                            label={option.label}
+                            stateValue={selectedCarriers}
+                            onChange={handleCarriersChange}
+                            key={`carriers-${index}`}
+                          />
+                        );
+                      })}
+                    </Box>
+                  </CollapsibleSection>
+                </Grid>
+              )}
             </Grid>
           </Box>
         </Box>
