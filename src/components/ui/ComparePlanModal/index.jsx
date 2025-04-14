@@ -155,7 +155,7 @@ const ComparePlanModal = ({
         state: stateCode,
         countyFIPS,
         middleInitial: middleName === '' ? null : middleName,
-        dateOfBirth: birthdate,
+        dateOfBirth: birthdate === '' ? null : birthdate,
         roles: updatedRoles,
         agentPurl,
       };
