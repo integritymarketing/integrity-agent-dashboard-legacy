@@ -19,25 +19,26 @@ import Relink from '../Icons/relink';
 import LifePolicy from 'components/LifePolicy';
 import HealthPolicy from 'components/HealthPolicy';
 
-function EnrollmentPlanCard({
-  submittedDate,
-  policyEffectiveDate,
-  termedDate,
-  policyHolder,
-  policyId = 'N/A',
-  currentYear = true,
-  leadId,
-  isEnrollPlansPage,
-  onShareClick,
-  policyStatus,
-  confirmationNumber,
-  isEmail = false,
-  planName,
-  carrier = 'N/A',
-  planId = 'N/A',
-  hasPlanDetails,
-  productCategory = 'N/A',
-}) {
+function EnrollmentPlanCard(props) {
+  const {
+    submittedDate,
+    policyEffectiveDate,
+    termedDate,
+    policyHolder,
+    policyId = 'N/A',
+    currentYear = true,
+    leadId,
+    isEnrollPlansPage,
+    onShareClick,
+    policyStatus,
+    confirmationNumber,
+    isEmail = false,
+    planName,
+    carrier = 'N/A',
+    planId = 'N/A',
+    hasPlanDetails,
+    productCategory = 'N/A',
+  } = props;
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
@@ -52,12 +53,16 @@ function EnrollmentPlanCard({
   const navigateEnrollDetails = () => {
     navigate(
       `/enrollmenthistory/${leadId}/${confirmationNumber}/${policyEffectiveDate}`,
-      { state: props }
+      {
+        state: props,
+      }
     );
   };
 
   const navigateToEnrollmentLink = () => {
-    navigate(`/enrollment-link-to-contact`, { state: props });
+    navigate(`/enrollment-link-to-contact`, {
+      state: props,
+    });
   };
 
   const handleShareClick = async () => {
