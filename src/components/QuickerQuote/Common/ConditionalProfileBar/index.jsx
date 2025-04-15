@@ -12,6 +12,7 @@ const ConditionalProfileBar = ({
   page,
   hideButton = false,
   hideBackButton = true,
+  stickyHeader = true
 }) => {
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const {
@@ -65,6 +66,7 @@ const ConditionalProfileBar = ({
           backButtonRoute={
             backRoute ? backRoute : `/contact/${leadId}/overview`
           }
+          stickyHeader = {stickyHeader}
         />
       )}
 
@@ -85,6 +87,7 @@ ConditionalProfileBar.propTypes = {
   hideBackButton: PropTypes.bool,
   backRoute: PropTypes.string || null,
   leadId: PropTypes.string,
+  stickyHeader: PropTypes.bool,
 };
 
 export default ConditionalProfileBar;
