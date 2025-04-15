@@ -16,6 +16,7 @@ export const WelcomeModal = ({ user, open, updateAgentPreferencesData }) => {
   const [messageCheckbox, setMessageCheckbox] = useState(false);
   const modalRef = useRef(null);
 
+  // Ensure the modal respects the session flag and only shows on the dashboard
   useEffect(() => {
     const isDismissedForSession = sessionStorage.getItem(
       'isAgentMobilePopUpDismissed'
@@ -27,23 +28,27 @@ export const WelcomeModal = ({ user, open, updateAgentPreferencesData }) => {
     }
   }, [open, location.pathname]);
 
+  const isUpdatingPreferences = useRef(false);
+
   const handleClose = useCallback(async () => {
+    if (isUpdatingPreferences.current) return;
+    isUpdatingPreferences.current = true;
+
     try {
-      const payload = {
-        agentId: user?.agentId,
-        isAgentMobilePopUpDismissed: messageCheckbox,
-      };
-
-      await updateAgentPreferencesData(payload);
-
       if (messageCheckbox) {
+        const payload = {
+          agentId: user?.agentId,
+          isAgentMobilePopUpDismissed: true,
+        };
+        await updateAgentPreferencesData(payload);
+
         showToast({
           type: 'success',
           message: 'Preferences updated successfully.',
         });
-      } else {
-        sessionStorage.setItem('isAgentMobilePopUpDismissed', 'true');
       }
+
+      sessionStorage.setItem('isAgentMobilePopUpDismissed', 'true');
     } catch (error) {
       showToast({
         type: 'error',
@@ -51,28 +56,31 @@ export const WelcomeModal = ({ user, open, updateAgentPreferencesData }) => {
         time: 10000,
       });
       Sentry.captureException(error);
+    } finally {
+      isUpdatingPreferences.current = false;
+      setIsOpen(false);
     }
-
-    setIsOpen(false);
   }, [messageCheckbox, user, updateAgentPreferencesData, showToast]);
 
   const onViewGuideClick = useCallback(async () => {
+    if (isUpdatingPreferences.current) return;
+    isUpdatingPreferences.current = true;
+
     try {
-      const payload = {
-        agentId: user?.agentId,
-        isAgentMobilePopUpDismissed: messageCheckbox,
-      };
-
-      await updateAgentPreferencesData(payload);
-
       if (messageCheckbox) {
+        const payload = {
+          agentId: user?.agentId,
+          isAgentMobilePopUpDismissed: true,
+        };
+        await updateAgentPreferencesData(payload);
+
         showToast({
           type: 'success',
           message: 'Preferences updated successfully.',
         });
-      } else {
-        sessionStorage.setItem('isAgentMobilePopUpDismissed', 'true');
       }
+
+      sessionStorage.setItem('isAgentMobilePopUpDismissed', 'true');
     } catch (error) {
       showToast({
         type: 'error',
@@ -80,13 +88,15 @@ export const WelcomeModal = ({ user, open, updateAgentPreferencesData }) => {
         time: 10000,
       });
       Sentry.captureException(error);
-    }
-    setIsOpen(false);
+    } finally {
+      isUpdatingPreferences.current = false;
+      setIsOpen(false);
 
-    window.open(
-      'https://learningcenter.tawebhost.com/Integrity-Quick-Start-Guide.pdf',
-      '_blank'
-    );
+      window.open(
+        'https://learningcenter.tawebhost.com/Integrity-Quick-Start-Guide.pdf',
+        '_blank'
+      );
+    }
   }, [messageCheckbox, user, updateAgentPreferencesData, showToast]);
 
   useOnClickOutside(modalRef, handleClose);
