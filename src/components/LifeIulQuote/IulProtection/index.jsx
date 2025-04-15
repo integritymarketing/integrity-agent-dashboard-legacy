@@ -274,130 +274,133 @@ const IulProtectionQuote = () => {
               )}
             </Box>
           </Box>
-          <WithLoader isLoading={isLoadingLifeIulQuote}>
-            <Grid container gap={3}>
-              {lifeIulQuoteResults?.length > 0 && !isLoadingLifeIulQuote ? (
-                <>
-                  {lifeIulQuoteResults?.map((plan, index) => {
-                    const lifeQuoteProtectionDetails = sessionStorage.getItem(
-                      'lifeQuoteProtectionDetails'
-                    );
-                    const parsedLifeQuoteProtectionDetails = (() => {
-                      try {
-                        return lifeQuoteProtectionDetails
-                          ? JSON.parse(lifeQuoteProtectionDetails)
-                          : {};
-                      } catch (error) {
-                        console.error(
-                          'Error parsing lifeQuoteProtectionDetails:',
-                          error
-                        );
-                        return {};
-                      }
-                    })();
-                    const maxIllustratedRate =
-                      parsedLifeQuoteProtectionDetails?.illustratedRate === '0'
-                        ? plan?.maxIllustratedRate
-                        : plan?.input?.illustratedRate;
-                    const {
-                      productName,
-                      companyName,
-                      amBest,
-                      companyLogoImageUrl,
-                      guaranteedYears,
-                      cashValueYear20,
-                      cashValueYear30,
-                      indexStrategyType,
-                      distribution,
-                      deathBenefit,
-                      targetPremium,
-                      premium,
-                      rowId,
-                      recId,
-                      isRts,
-                      hasPolicyDetails,
-                    } = plan;
-                    return (
-                      <Grid
-                        item
-                        md={12}
-                        key={`iul-protection-${index}`}
-                        sx={{ position: 'relative' }}
-                      >
-                        <IulQuoteCard
-                          applyButtonDisabled={
-                            isLoadingApplyLifeIulQuote || !isRts
-                          }
-                          quoteType='IUL Protection'
-                          cardTitle={productName}
-                          companyName={companyName}
-                          rating={amBest}
-                          logo={companyLogoImageUrl}
-                          guaranteedYears={guaranteedYears}
-                          cashValueYear20={cashValueYear20}
-                          cashValueYear30={cashValueYear30}
-                          maxIllustratedRate={maxIllustratedRate}
-                          indexStrategyType={indexStrategyType}
-                          isTobaccoUser={isTobaccoUser}
-                          targetPremium={targetPremium}
-                          deathBenefit={deathBenefit}
-                          distribution={distribution}
-                          age={plan?.input?.actualAge}
-                          healthClass={plan?.input?.healthClass}
-                          handleApplyClick={() => onApply(plan)}
-                          handleIllustrationClick={handleIllustrationClick}
-                          premium={premium}
-                          handleComparePlanSelect={() => {
-                            handleComparePlanSelect(plan);
-                          }}
-                          handlePlanDetailsClick={() =>
-                            handlePlanDetailsClick(plan)
-                          }
-                          hasPolicyDetails={hasPolicyDetails}
-                          disableCompare={
-                            (selectedPlans?.length === 3 &&
-                              !selectedPlans?.find(p => p.recId === recId)) ||
-                            !hasPolicyDetails
-                          }
-                          isChecked={selectedPlans?.find(
-                            p => p.recId === recId
+          <Box top={isLoadingLifeIulQuote ? 0 : undefined}>
+            <WithLoader isLoading={isLoadingLifeIulQuote}>
+              <Grid container gap={3}>
+                {lifeIulQuoteResults?.length > 0 && !isLoadingLifeIulQuote ? (
+                  <>
+                    {lifeIulQuoteResults?.map((plan, index) => {
+                      const lifeQuoteProtectionDetails = sessionStorage.getItem(
+                        'lifeQuoteProtectionDetails'
+                      );
+                      const parsedLifeQuoteProtectionDetails = (() => {
+                        try {
+                          return lifeQuoteProtectionDetails
+                            ? JSON.parse(lifeQuoteProtectionDetails)
+                            : {};
+                        } catch (error) {
+                          console.error(
+                            'Error parsing lifeQuoteProtectionDetails:',
+                            error
+                          );
+                          return {};
+                        }
+                      })();
+                      const maxIllustratedRate =
+                        parsedLifeQuoteProtectionDetails?.illustratedRate ===
+                        '0'
+                          ? plan?.maxIllustratedRate
+                          : plan?.input?.illustratedRate;
+                      const {
+                        productName,
+                        companyName,
+                        amBest,
+                        companyLogoImageUrl,
+                        guaranteedYears,
+                        cashValueYear20,
+                        cashValueYear30,
+                        indexStrategyType,
+                        distribution,
+                        deathBenefit,
+                        targetPremium,
+                        premium,
+                        rowId,
+                        recId,
+                        isRts,
+                        hasPolicyDetails,
+                      } = plan;
+                      return (
+                        <Grid
+                          item
+                          md={12}
+                          key={`iul-protection-${index}`}
+                          sx={{ position: 'relative' }}
+                        >
+                          <IulQuoteCard
+                            applyButtonDisabled={
+                              isLoadingApplyLifeIulQuote || !isRts
+                            }
+                            quoteType='IUL Protection'
+                            cardTitle={productName}
+                            companyName={companyName}
+                            rating={amBest}
+                            logo={companyLogoImageUrl}
+                            guaranteedYears={guaranteedYears}
+                            cashValueYear20={cashValueYear20}
+                            cashValueYear30={cashValueYear30}
+                            maxIllustratedRate={maxIllustratedRate}
+                            indexStrategyType={indexStrategyType}
+                            isTobaccoUser={isTobaccoUser}
+                            targetPremium={targetPremium}
+                            deathBenefit={deathBenefit}
+                            distribution={distribution}
+                            age={plan?.input?.actualAge}
+                            healthClass={plan?.input?.healthClass}
+                            handleApplyClick={() => onApply(plan)}
+                            handleIllustrationClick={handleIllustrationClick}
+                            premium={premium}
+                            handleComparePlanSelect={() => {
+                              handleComparePlanSelect(plan);
+                            }}
+                            handlePlanDetailsClick={() =>
+                              handlePlanDetailsClick(plan)
+                            }
+                            hasPolicyDetails={hasPolicyDetails}
+                            disableCompare={
+                              (selectedPlans?.length === 3 &&
+                                !selectedPlans?.find(p => p.recId === recId)) ||
+                              !hasPolicyDetails
+                            }
+                            isChecked={selectedPlans?.find(
+                              p => p.recId === recId
+                            )}
+                          />
+                          {selectedPlan?.rowId === rowId && (
+                            <Box
+                              sx={{ position: 'absolute', top: 0, left: '50%' }}
+                            >
+                              <WithLoader
+                                isLoading={isLoadingApplyLifeIulQuote}
+                              />
+                            </Box>
                           )}
-                        />
-                        {selectedPlan?.rowId === rowId && (
-                          <Box
-                            sx={{ position: 'absolute', top: 0, left: '50%' }}
-                          >
-                            <WithLoader
-                              isLoading={isLoadingApplyLifeIulQuote}
-                            />
-                          </Box>
-                        )}
-                      </Grid>
-                    );
-                  })}
-                </>
-              ) : (
-                <NoResultsError
-                  title='No Results Found'
-                  subtitle='There are no products available based on your current search settings. Please change your search or reset the filter setting.'
-                  helpText='Need help? Check out our '
-                  helpLinkText='LearningCENTER.'
-                  onHelpLinkClick={handleNavigateToLearningCenter}
-                  image={<NoResults />}
-                />
-              )}
-            </Grid>
-            <ApplyErrorModal
-              open={applyErrorModalOpen}
-              onClose={() => setApplyErrorModalOpen(false)}
-            />
-            <SaveToContact
-              contactSearchModalOpen={contactSearchModalOpen}
-              handleClose={() => setContactSearchModalOpen(false)}
-              handleCallBack={response => preEnroll(response?.leadsId)}
-              page='protection'
-            />
-          </WithLoader>
+                        </Grid>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <NoResultsError
+                    title='No Results Found'
+                    subtitle='There are no products available based on your current search settings. Please change your search or reset the filter setting.'
+                    helpText='Need help? Check out our '
+                    helpLinkText='LearningCENTER.'
+                    onHelpLinkClick={handleNavigateToLearningCenter}
+                    image={<NoResults />}
+                  />
+                )}
+              </Grid>
+              <ApplyErrorModal
+                open={applyErrorModalOpen}
+                onClose={() => setApplyErrorModalOpen(false)}
+              />
+              <SaveToContact
+                contactSearchModalOpen={contactSearchModalOpen}
+                handleClose={() => setContactSearchModalOpen(false)}
+                handleCallBack={response => preEnroll(response?.leadsId)}
+                page='protection'
+              />
+            </WithLoader>
+          </Box>
         </Grid>
       )}
       <CarriersContainer title='' query='iul' />
