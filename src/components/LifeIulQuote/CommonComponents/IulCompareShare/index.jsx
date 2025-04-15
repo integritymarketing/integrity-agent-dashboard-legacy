@@ -43,6 +43,7 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
   const agentLastName = agentInformation?.agentLastName;
   const agentEmail = agentInformation?.email;
   const agentPhoneNumber = agentInformation?.phone;
+  const agentVirtualPhoneNumber = agentInformation?.agentVirtualPhoneNumber;
   const addressData = addresses.length > 0 ? addresses?.[0] : null;
   const stateCode =
     addressData && addressData.stateCode ? addressData.stateCode : '';
@@ -90,7 +91,7 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
         leadLastName: lastName,
         agentFirstName: agentFirstName,
         agentLastName: agentLastName,
-        agentPhoneNumber: agentPhoneNumber,
+        agentPhoneNumber: agentVirtualPhoneNumber,
         agentEmail: agentEmail,
         agentNpn: npnNumber,
         agentPurl: agentInformation?.agentPurl,
