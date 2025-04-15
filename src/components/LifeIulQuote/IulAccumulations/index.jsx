@@ -121,7 +121,6 @@ const IulAccumulationQuote = () => {
   };
 
   const handleIllustrationClick = async () => {
-    debugger;
     try {
       await getAddPolicyRedirectURL(
         agentInformation,
