@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Media from 'react-media';
 import { useParams } from 'react-router-dom';
+import PreEnrollPDFModal from 'components/SharedModals/PreEnrollPdf';
 
 import useRoles from 'hooks/useRoles';
 import useToast from 'hooks/useToast';
@@ -235,7 +236,7 @@ const PlanDetailsPage = () => {
                   effectiveDate={effectiveDate}
                   isApplyProcess={isQuickQuotePage}
                   linkToExistContactId={linkToExistContactId}
-                  navPath={`/${linkToExistContactId}/plan/${planId}/${effectiveDate}`}
+                  defaultNavPath={`/${linkToExistContactId}/plan/${planId}/${effectiveDate}`}
                 />
               )}
               {preCheckListPdfModal && (

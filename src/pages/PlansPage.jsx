@@ -982,7 +982,7 @@ const PlansPage = () => {
                         if (isQuickQuotePage) {
                           setContactSearchModalOpen(true);
                         } else {
-                          setEnrollModalOpen(true);
+                          setPreCheckListPdfModal(true);
                         }
                       }}
                     />
@@ -1027,7 +1027,7 @@ const PlansPage = () => {
             effectiveDate={formatDate(effectiveDate, 'yyyy-MM-01')}
             isApplyProcess={isQuickQuotePage}
             linkToExistContactId={linkToExistContactId}
-            navPath={`/plans/${linkToExistContactId}`}
+            navPath={''}
           />
         )}
         {preCheckListPdfModal && (

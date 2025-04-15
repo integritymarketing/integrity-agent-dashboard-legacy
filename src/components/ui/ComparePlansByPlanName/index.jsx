@@ -78,7 +78,7 @@ export default function ComparePlansByPlanName({
     }
   }, [id, userData]);
 
-  const handleOnClick = plan => {
+  const handleOnClick = () => {
     setModalOpen(true);
   };
 
@@ -206,7 +206,12 @@ export default function ComparePlansByPlanName({
                                 PLAN_TYPE_ENUMS[plan.planType]?.toLowerCase(),
                             });
                             setEnrollingPlan(plan);
-                            setContactSearchModalOpen(true);
+
+                            if (isQuickQuotePage) {
+                              setContactSearchModalOpen(true);
+                            } else {
+                              setPreCheckListPdfModal(true);
+                            }
                           }}
                           icon={
                             <FontAwesomeIcon
@@ -224,7 +229,7 @@ export default function ComparePlansByPlanName({
                             open={preCheckListPdfModal}
                             onClose={() => {
                               setPreCheckListPdfModal(false);
-                              handleOnClick(plan);
+                              handleOnClick();
                             }}
                           />
                         )}
@@ -237,7 +242,7 @@ export default function ComparePlansByPlanName({
                       <>
                         <Button
                           label={'Apply'}
-                          onClick={() => setContactSearchModalOpen(true)}
+                          onClick={() => setPreCheckListPdfModal(true)}
                           icon={
                             <FontAwesomeIcon
                               icon={faCircleArrowRight}
@@ -292,9 +297,7 @@ export default function ComparePlansByPlanName({
           effectiveDate={effectiveDate}
           isApplyProcess={isQuickQuotePage}
           linkToExistContactId={linkToExistContactId}
-          navPath={`/plans/${contactId}/compare/${planIds.join(
-            ','
-          )}/${effectiveDate}`}
+          navPath={`/compare/${planIds.join(',')}/${effectiveDate}`}
         />
 
         <SaveToContact

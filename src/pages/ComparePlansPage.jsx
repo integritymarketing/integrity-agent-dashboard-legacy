@@ -257,9 +257,9 @@ const ComparePlansPage = props => {
     return `/plans/${id}?preserveSelected=true`;
   }, [isQuickQuotePage, id]);
 
-  const isLoading = loading && !isQuickQuotePage;
+  const isLoading = loading;
 
-  if (loading && !isQuickQuotePage) {
+  if (loading) {
     return <Spinner />;
   }
   return (

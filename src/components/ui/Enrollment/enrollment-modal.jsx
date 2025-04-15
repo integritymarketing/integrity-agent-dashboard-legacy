@@ -26,6 +26,7 @@ const EnrollmentModal = ({
   isApplyProcess,
   linkToExistContactId,
   navPath,
+  defaultNavPath,
 }) => {
   const [option, setOption] = useState('');
   const showToast = useToast();
@@ -37,8 +38,8 @@ const EnrollmentModal = ({
 
   const enroll = useCallback(
     async responseContact => {
-      const leadId = responseContact.leadsId;
       const contactData = responseContact || contact;
+      const leadId = responseContact?.leadsId || contact?.leadsId;
 
       fireEvent('Health Submitted CTA Clicked', {
         leadid: leadId,
@@ -85,7 +86,11 @@ const EnrollmentModal = ({
 
         if (enrolled && enrolled.url) {
           if (isApplyProcess) {
-            navigate(navPath);
+            if (defaultNavPath) {
+              navigate(defaultNavPath);
+            } else {
+              navigate(`/plans/${leadId}${navPath ? navPath : ''}`);
+            }
           }
           window.open(enrolled.url, '_blank').focus();
           showToast({
@@ -94,7 +99,11 @@ const EnrollmentModal = ({
           });
         } else {
           if (isApplyProcess) {
-            navigate(navPath);
+            if (defaultNavPath) {
+              navigate(defaultNavPath);
+            } else {
+              navigate(`/plans/${leadId}${navPath ? navPath : ''}`);
+            }
           }
           showToast({
             type: 'error',
