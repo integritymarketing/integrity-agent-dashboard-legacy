@@ -282,6 +282,7 @@ const ComparePlansPage = props => {
               page='healthPlans'
               backRoute={backRoute}
               hideBackButton={false}
+              stickyHeader={true}
             />
           )}
           <Box sx={{ padding: '56px 24px', pb: 0 }}>
