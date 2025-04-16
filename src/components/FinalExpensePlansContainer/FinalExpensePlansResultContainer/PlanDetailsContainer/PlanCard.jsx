@@ -85,7 +85,7 @@ export const PlanCard = ({
 
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
 
-  const { isQuickQuotePage } = useCreateNewQuote();
+  const { isQuickQuotePage, isSimplifiedIUL } = useCreateNewQuote();
 
   useEffect(() => {
     if (isPrescreenModalOpen) {
@@ -412,7 +412,7 @@ export const PlanCard = ({
           contactSearchModalOpen={contactSearchModalOpen}
           handleClose={() => setContactSearchModalOpen(false)}
           handleCallBack={onPreApply}
-          page='finalExpense'
+          page={isSimplifiedIUL() ? 'simplifiedIUL' : 'finalExpense'}
         />
       </div>
     </div>
