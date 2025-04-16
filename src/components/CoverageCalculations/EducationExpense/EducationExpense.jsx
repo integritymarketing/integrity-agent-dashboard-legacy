@@ -94,14 +94,6 @@ const EducationExpense = ({
     }
   }, [ageYoungestChild, updateFinancialNeedsAnalysis, contactId, handleNext]);
 
-  const isAgeYoungestChildUnderEighteen = useMemo(() => {
-    return (
-      ageYoungestChild &&
-      !isNaN(parseInt(ageYoungestChild)) &&
-      parseInt(ageYoungestChild) <= 18
-    );
-  }, [ageYoungestChild]);
-
   const showErrorMessage = useMemo(() => {
     return ageYoungestChild &&
       !isNaN(parseInt(ageYoungestChild)) &&
@@ -110,12 +102,24 @@ const EducationExpense = ({
       : false;
   }, [ageYoungestChild]);
 
-  const isContinueButtonDisabled =
-    isFinancialNeedsAnalysisUpdating ||
-    !ageYoungestChild ||
-    shouldCoverCollegeExpenses === '' ||
-    !childrenUnderEighteen ||
-    !isAgeYoungestChildUnderEighteen;
+  const isContinueButtonDisabled = useMemo(() => {
+    return (
+      isFinancialNeedsAnalysisUpdating ||
+      ageYoungestChild === null ||
+      ageYoungestChild === undefined ||
+      ageYoungestChild === '' ||
+      isNaN(parseInt(ageYoungestChild)) ||
+      shouldCoverCollegeExpenses === '' ||
+      !childrenUnderEighteen ||
+      (showErrorMessage && ageYoungestChild !== '')
+    );
+  }, [
+    isFinancialNeedsAnalysisUpdating,
+    ageYoungestChild,
+    shouldCoverCollegeExpenses,
+    childrenUnderEighteen,
+    showErrorMessage,
+  ]);
 
   return (
     <CoverageCalculationsCard
