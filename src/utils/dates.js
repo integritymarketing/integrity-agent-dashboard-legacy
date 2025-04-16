@@ -360,8 +360,9 @@ export const getLocalDateTime = dateString => {
 };
 
 export const getAgeFromBirthDate = birthdate => {
-  // If the birthdate is in ISO format (YYYY-MM-DD), use parseISO to convert it to a Date object
-  const birthDate = parseISO(birthdate);
+  // If the birthdate is in MM/DD/YYYY format, parse it correctly
+  const birthDate = parse(birthdate, 'MM/dd/yyyy HH:mm:ss', new Date());
+
   // Use the current date as the second parameter
   const currentDate = new Date();
 
