@@ -263,7 +263,6 @@ const IulAccumulationQuoteDetails = () => {
                     age={planDetails?.input?.actualAge}
                     healthClass={planDetails?.input?.healthClass}
                     premium={premium}
-                    hideShareButton={true}
                   />
                 </CollapsibleLayout>
               </div>

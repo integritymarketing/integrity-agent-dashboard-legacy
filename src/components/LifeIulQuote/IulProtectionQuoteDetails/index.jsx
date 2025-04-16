@@ -273,7 +273,6 @@ const IulProtectionQuoteDetails = () => {
                     handlePlanShareClick={() => setShareModalOpen(true)}
                     handleApplyClick={onApply}
                     handleIllustrationClick={handleIllustrationClick}
-                    hideShareButton={true}
                   />
                 </CollapsibleLayout>
               </div>

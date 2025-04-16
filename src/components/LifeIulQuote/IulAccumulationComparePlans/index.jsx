@@ -259,7 +259,6 @@ const IulAccumulationComparePlans = () => {
             onClose={handleComparePlanRemove}
             shareComparePlanModal={handleShareModal}
             returnBackToPlansPage={returnBackToPlansPage}
-            hideShareButton={true}
           />
           {isLoadingApplyLifeIulQuote && (
             <Box sx={{ position: 'absolute', top: 0, left: '50%' }}>
