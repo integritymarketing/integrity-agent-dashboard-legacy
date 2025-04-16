@@ -31,6 +31,7 @@ function HealthConditionQuestionModal({
     fetchHealthConditions,
     fetchHealthConditionsQuestionsByCondtionId,
     deleteHealthCondition,
+    healthConditions,
   } = useConditions();
   const { leadDetails } = useLeadDetails();
   const { fireEvent } = useAnalytics();
@@ -46,7 +47,7 @@ function HealthConditionQuestionModal({
   const [selectedOption, setSelectedOption] = useState([]);
   const hasAPICalled = useRef(false);
 
-  const handleCancelClick = () => {
+  const handleCloseModal = () => {
     setValues(null);
     clearConditionalQuestionData();
 
@@ -60,6 +61,19 @@ function HealthConditionQuestionModal({
     }
     onClose();
     fetchHealthConditions(contactId);
+  };
+
+  const handleCancelClick = async () => {
+    if (modelHeader.toLowerCase() === 'search for a condition') {
+      const condition = healthConditions.find(
+        _ => _.conditionId === selectedCondition[0].conditionId.toString()
+      );
+
+      if (condition) {
+        await deleteHealthCondition(contactId, condition.id);
+      }
+    }
+    handleCloseModal();
   };
 
   const fetchAllConditionsQuestions = useCallback(async () => {
@@ -96,7 +110,7 @@ function HealthConditionQuestionModal({
         if (setIsAddNewActivityDialogOpen) {
           setIsAddNewActivityDialogOpen(true);
         }
-        handleCancelClick();
+        handleCloseModal();
       } else {
         setQuestionData(questions);
       }
@@ -251,7 +265,7 @@ function HealthConditionQuestionModal({
           setValues(() => null);
           if (currentQuestionIndex === questionData.length - 1) {
             onSuccessOfHealthConditionQuestionModal();
-            handleCancelClick();
+            handleCloseModal();
           } else {
             setCurrentQuestion(questionData[currentQuestionIndex + 1]);
             setCurrentQuestionIndex(currentQuestionIndex + 1);
