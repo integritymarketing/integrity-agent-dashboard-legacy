@@ -18,12 +18,16 @@ import {
   LearningCenter,
 } from '../icons';
 import styles from './styles.module.scss';
+import useAgentInformationByID from 'hooks/useAgentInformationByID';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileCertificate } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 
 const ProfileMenu = ({ hasPHPBuName }) => {
   const { logout, getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
-  const { npn, email, firstName, lastName } = useUserProfile();
-
+  const { npn, email } = useUserProfile();
+  const { agentInformation } = useAgentInformationByID();
+  const { enableContracts, enableMyAgents } = agentInformation || {};
   const [anchorElement, setAnchorElement] = useState(null);
   const isMenuOpen = Boolean(anchorElement);
 
@@ -40,6 +44,19 @@ const ProfileMenu = ({ hasPHPBuName }) => {
       switch (path) {
         case 'account':
           window.location.href = import.meta.env.VITE_AUTH_PAW_REDIRECT_URI;
+          break;
+        case 'contracts':
+          if (enableContracts) {
+            window.open(
+              import.meta.env.VITE_CONNECT_APP_CONTRACTS_WEB,
+              '_blank'
+            );
+          } else if (enableMyAgents) {
+            window.open(
+              import.meta.env.VITE_CONNECT_APP_DOWNLINES_WEB,
+              '_blank'
+            );
+          }
           break;
         case 'learning_center':
           navigate('/learning-center');
@@ -86,6 +103,21 @@ const ProfileMenu = ({ hasPHPBuName }) => {
   const menuItems = useMemo(() => {
     const items = [
       { path: 'account', label: 'Account', icon: <Account /> },
+      ...(enableContracts || enableMyAgents
+        ? [
+            {
+              path: 'contracts',
+              label: 'Contracts',
+              icon: (
+                <FontAwesomeIcon
+                  icon={faFileCertificate}
+                  size='lg'
+                  color='#4178FF'
+                />
+              ),
+            },
+          ]
+        : []),
       {
         path: 'learning_center',
         label: 'LearningCENTER',
