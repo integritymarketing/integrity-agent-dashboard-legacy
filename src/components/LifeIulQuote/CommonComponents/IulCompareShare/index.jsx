@@ -84,7 +84,7 @@ export const IulCompareShareModal = ({ open, onClose, plans, quoteType }) => {
       updatedRoles = roles;
     }
     try {
-      const planEnrollBaseUrl = import.meta.env.VITE_PLANENROLL_BASE_URL;
+      const planEnrollBaseUrl = import.meta.env.VITE_MEDICARE_ENROLL;
       const payload = {
         leadFirstName: firstName,
         middleInitial: middleName === '' ? null : middleName,

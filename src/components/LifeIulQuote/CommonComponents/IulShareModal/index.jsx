@@ -80,7 +80,7 @@ export const IulShareModal = ({ open, onClose, planDetails, quoteType }) => {
   );
 
   const handleSend = async () => {
-    const planEnrollBaseUrl = import.meta.env.VITE_PLANENROLL_BASE_URL;
+    const planEnrollBaseUrl = import.meta.env.VITE_MEDICARE_ENROLL;
     try {
       const payload = {
         leadFirstName: firstName,

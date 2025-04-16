@@ -89,7 +89,7 @@ const ShareModal = ({ open, onClose, financialNeedsAnalysis }) => {
 
   const handleSend = async () => {
     try {
-      const planEnrollBaseUrl = import.meta.env.VITE_PLANENROLL_BASE_URL;
+      const planEnrollBaseUrl = import.meta.env.VITE_MEDICARE_ENROLL;
 
       const payload = {
         leadFirstName: firstName,
