@@ -103,11 +103,11 @@ const EducationExpense = ({
   }, [ageYoungestChild]);
 
   const showErrorMessage = useMemo(() => {
-    return (
-      ageYoungestChild &&
+    return ageYoungestChild &&
       !isNaN(parseInt(ageYoungestChild)) &&
       parseInt(ageYoungestChild) > 18
-    );
+      ? true
+      : false;
   }, [ageYoungestChild]);
 
   const isContinueButtonDisabled =
