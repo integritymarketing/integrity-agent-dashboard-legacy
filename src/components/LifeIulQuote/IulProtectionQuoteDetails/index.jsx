@@ -211,7 +211,7 @@ const IulProtectionQuoteDetails = () => {
       <Grid container>
         {!isMobile && (
           <Grid item md={3} sm={5}>
-            <Box marginBottom={'8px'}>
+            <Box className={styles.overviewTitle}>
               <Typography variant='h4' color='#052A63'>
                 Overview
               </Typography>

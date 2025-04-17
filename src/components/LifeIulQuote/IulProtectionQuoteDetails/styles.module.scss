@@ -1,17 +1,19 @@
 .tabsContainer {
-    flex-grow: 1;
-    width: 90%;
-    margin-left: auto;
-    position: sticky;
-    top: 0px;
-    z-index: 1;
+  flex-grow: 1;
+  width: 90%;
+  margin-left: auto;
+  position: sticky;
+  top: 150px;
 }
- 
+.overviewTitle {
+  margin-bottom: 8px;
+  top: 120px;
+  position: sticky;
+}
+
 .underwritingRequirements {
-    ul {
-        list-style-type: disc !important;
-        padding: 0px 24px;
-    }
+  ul {
+    list-style-type: disc !important;
+    padding: 0px 24px;
+  }
 }
- 
- 
