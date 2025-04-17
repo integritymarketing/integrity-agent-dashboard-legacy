@@ -1,8 +1,8 @@
 import * as Sentry from '@sentry/react';
-import {useCallback, useEffect, useMemo, useState} from 'react';
-import {Helmet} from 'react-helmet-async';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Media from 'react-media';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import useRoles from 'hooks/useRoles';
 
@@ -279,9 +279,10 @@ const ComparePlansPage = props => {
           {!isComingFromEmail && (
             <ConditionalProfileBar
               leadId={id}
-              page='healthPlans'
               backRoute={backRoute}
               hideBackButton={false}
+              page='healthComparePlansPage'
+              navPath={`compare/${planIds.join(',')}/${effectiveDate}`}
             />
           )}
           <Box sx={{ padding: '56px 24px', pb: 0 }}>

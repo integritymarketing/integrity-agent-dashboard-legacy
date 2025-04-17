@@ -243,6 +243,7 @@ const IulAccumulationComparePlans = () => {
       title='IUL Accumulation'
       page='plan compare page'
       quoteType='accumulation'
+      navPath={`${planIds.join(',')}/compare-plans`}
     >
       <Grid container gap={3}>
         <Grid

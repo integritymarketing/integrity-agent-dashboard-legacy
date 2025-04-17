@@ -14,6 +14,7 @@ const SaveToContact = ({
   handleCallBack,
   page,
   isApplyProcess = false,
+  navPath,
 }) => {
   const {
     quickQuoteLeadDetails,
@@ -59,12 +60,7 @@ const SaveToContact = ({
       sessionStorage.setItem(response?.leadsId, code);
 
       const leadId = response?.leadsId;
-      if (page === 'accumulation') {
-        navWithCallBack(`/life/iul-accumulation/${leadId}/quote`, response);
-      }
-      if (page === 'protection') {
-        navWithCallBack(`/life/iul-protection/${leadId}/quote`, response);
-      }
+
       if (page === 'finalExpense') {
         navWithCallBack(`/finalexpenses/plans/${leadId}`, response);
       }
@@ -74,8 +70,39 @@ const SaveToContact = ({
       if (page === 'healthPlans') {
         navWithCallBack(`/plans/${leadId}`, response);
       }
+      if (page === 'healthPlanDetailsPage') {
+        navWithCallBack(`/${leadId}/${navPath}`, response);
+      }
+      if (page === 'healthComparePlansPage') {
+        navWithCallBack(`/plans/${leadId}/${navPath}`, response);
+      }
+      if (page === 'accumulation plans page') {
+        navWithCallBack(`/life/iul-accumulation/${leadId}/quote`, response);
+      }
+      if (page === 'protection plans page') {
+        navWithCallBack(`/life/iul-protection/${leadId}/quote`, response);
+      }
+      if (page === 'accumulation plans details page') {
+        navWithCallBack(
+          `/life/iul-accumulation/${leadId}/${navPath}`,
+          response
+        );
+      }
+      if (page === 'protection plans details page') {
+        navWithCallBack(`/life/iul-protection/${leadId}/${navPath}`, response);
+      }
+
+      if (page === 'accumulation plan compare page') {
+        navWithCallBack(
+          `/life/iul-accumulation/${leadId}/${navPath}`,
+          response
+        );
+      }
+      if (page === 'protection plan compare page') {
+        navWithCallBack(`/life/iul-protection/${leadId}/${navPath}`, response);
+      }
     },
-    [navWithCallBack, page]
+    [navWithCallBack, page, navPath]
   );
 
   const handleSelectedLead = useCallback(

@@ -16,7 +16,13 @@ function useQuery() {
   return useMemo(() => new URLSearchParams(search), [search]);
 }
 
-export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
+export const IulQuoteContainer = ({
+  title,
+  children,
+  page,
+  quoteType,
+  navPath,
+}) => {
   const { contactId } = useParams();
   const query = useQuery();
   const sessionPlansStatus = query && query.get('preserveSelected');
@@ -72,8 +78,9 @@ export const IulQuoteContainer = ({ title, children, page, quoteType }) => {
         <ConditionalProfileBar
           leadId={contactId}
           backRoute={backRoute}
-          page={quoteType}
           hideBackButton={page === 'plans page'}
+          page={`${quoteType} ${page}`}
+          navPath={navPath}
         />
       )}
 
