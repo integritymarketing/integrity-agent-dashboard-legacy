@@ -12,15 +12,12 @@ import Textfield from 'components/ui/textfield';
 import Modal from 'components/Modal';
 import Spinner from 'components/ui/Spinner';
 
-import {
-  StyledButton,
-  StyledButton2,
-} from 'pages/FinalExpensesPage/Components/StyledComponents';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowRight } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 
 import styles from './index.module.scss';
+import { Button, useMediaQuery, useTheme } from '@mui/material';
+import ButtonCircleArrow from 'components/icons/button-circle-arrow';
 
 const AGENTS_API_VERSION = 'v1.0';
 
