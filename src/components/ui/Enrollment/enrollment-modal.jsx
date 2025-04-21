@@ -143,6 +143,24 @@ const EnrollmentModal = ({
     }
   }, [linkToExistContactId, enroll, getLeadDetailsAfterSearch]);
 
+  const handleClose = useCallback(() => {
+    if (isApplyProcess) {
+      if (defaultNavPath) {
+        navigate(defaultNavPath);
+      } else {
+        navigate(`/plans/${linkToExistContactId}${navPath ? navPath : ''}`);
+      }
+    }
+    handleCloseModal();
+  }, [
+    isApplyProcess,
+    defaultNavPath,
+    navigate,
+    navPath,
+    handleCloseModal,
+    linkToExistContactId,
+  ]);
+
   return (
     <React.Fragment>
       {modalOpen && (
@@ -150,7 +168,7 @@ const EnrollmentModal = ({
           open={true}
           wide
           cssClassName={'enrollment-modal'}
-          onClose={() => handleCloseModal()}
+          onClose={handleClose}
           labeledById='enroll_label'
           descById='enroll_desc'
         >
@@ -186,11 +204,7 @@ const EnrollmentModal = ({
                 onClick={preEnroll}
                 disabled={!option}
               />
-              <Button
-                label={'Cancel'}
-                onClick={handleCloseModal}
-                type='secondary'
-              />
+              <Button label={'Cancel'} onClick={handleClose} type='secondary' />
             </div>
           </div>
         </Modal>

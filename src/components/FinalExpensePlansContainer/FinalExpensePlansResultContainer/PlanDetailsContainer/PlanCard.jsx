@@ -1,5 +1,5 @@
 /* eslint-disable max-lines-per-function */
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
 import { useLeadDetails } from 'providers/ContactDetails';
@@ -33,6 +33,7 @@ import Spinner from 'components/ui/Spinner';
 import { FinalExpenseErrorModal } from '../../FinalExpenseErrorModal';
 import { useCreateNewQuote } from 'providers/CreateNewQuote';
 import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
+import { useNavigate } from 'react-router-dom';
 
 export const PlanCard = ({
   isMobile,
@@ -64,11 +65,12 @@ export const PlanCard = ({
   selectedCoverageType,
   isFeatured,
 }) => {
+  const navigate = useNavigate();
   const [isPrescreenModalOpen, setIsPrescreenModalOpen] = useState(false);
   const [isSingleSignOnModalOpen, setIsSingleSignOnModalOpen] = useState(false);
   const [isSingleSignOnInitialModalOpen, setIsSingleSignOnInitialModalOpen] =
     useState(false);
-  const { leadDetails } = useLeadDetails();
+  const { leadDetails, getLeadDetailsAfterSearch } = useLeadDetails();
   const { fireEvent } = useAnalytics();
   const { agentInformation } = useAgentInformationByID();
   const { agentFirstName, agentLastName } = agentInformation || {};
@@ -82,6 +84,7 @@ export const PlanCard = ({
     useState(false);
   const [latestWritingAgentNumber, setLatestWritingAgentNumber] =
     useState(null);
+  const [linkToExistContactId, setLinkToExistContactId] = useState(null);
 
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
 
@@ -159,6 +162,7 @@ export const PlanCard = ({
       success,
     });
   };
+
   const isPlanExcluded = useMemo(() => {
     return reason != null;
   }, [reason]);
@@ -176,7 +180,8 @@ export const PlanCard = ({
     producerId,
     onSuccess,
     apiErrorState = false,
-    leadData
+    leadData = null,
+    handleRefreshPageWithNewLead
   ) => {
     try {
       const updatedLeadDetails = leadData || leadDetails;
@@ -203,7 +208,7 @@ export const PlanCard = ({
       const response = await enrollLeadFinalExpensePlan(body);
       setIsLoadingEnroll(false);
 
-      return handleResponse(response, onSuccess);
+      return handleResponse(response, onSuccess, handleRefreshPageWithNewLead);
     } catch (error) {
       setIsLoadingEnroll(false);
       handleError(error);
@@ -214,7 +219,11 @@ export const PlanCard = ({
     return apiErrorState ? producerId : latestWritingAgentNumber ?? producerId;
   };
 
-  const handleResponse = async (response, onSuccess) => {
+  const handleResponse = async (
+    response,
+    onSuccess,
+    handleRefreshPageWithNewLead
+  ) => {
     if (!response?.success) {
       if (response?.status === 400) {
         setIsFinalExpenseErrorModalOpen(true);
@@ -238,6 +247,7 @@ export const PlanCard = ({
 
     if (response.redirectUrl) {
       window.open(response.redirectUrl, '_blank');
+      handleRefreshPageWithNewLead();
       return true;
     } else {
       setEnrollResponse(response);
@@ -257,6 +267,25 @@ export const PlanCard = ({
     }
     console.error('Error applying for quote:', error);
   };
+
+  const preEnroll = useCallback(
+    async id => {
+      if (isQuickQuotePage) {
+        const response = await getLeadDetailsAfterSearch(id);
+        if (response) {
+          await onPreApply(response);
+        }
+      } else {
+        await onPreApply();
+      }
+    },
+    [onPreApply, getLeadDetailsAfterSearch]
+  );
+
+  const handleRefreshPageWithNewLead = useCallback(() => {
+    if (!isQuickQuotePage) return;
+    navigate(`/finalexpenses/plans/${linkToExistContactId}`);
+  }, [navigate, linkToExistContactId, isQuickQuotePage]);
 
   const renderBenefits = () => (
     <table>
@@ -361,7 +390,10 @@ export const PlanCard = ({
         />
         <SingleSignOnInitialModal
           isOpen={isSingleSignOnInitialModalOpen}
-          onClose={() => setIsSingleSignOnInitialModalOpen(false)}
+          onClose={() => {
+            handleRefreshPageWithNewLead();
+            setIsSingleSignOnInitialModalOpen(false);
+          }}
           onRetry={() => {
             setIsSingleSignOnInitialModalOpen(false);
             setIsFinalExpenseErrorModalOpen(true);
@@ -376,16 +408,25 @@ export const PlanCard = ({
           fetchPlans={fetchPlans}
           setIsSingleSignOnInitialModalOpen={setIsSingleSignOnInitialModalOpen}
         />
-        <FinalExpenseErrorModal
-          isOpen={isFinalExpenseErrorModalOpen}
-          onClose={() => setIsFinalExpenseErrorModalOpen(false)}
-          carrierInfo={carrierInfo}
-          resourceUrl={resource_url}
-          onApply={onApply}
-          fetchPlans={fetchPlans}
-          writingAgentNumber={latestWritingAgentNumber}
-          setIsSingleSignOnInitialModalOpen={setIsSingleSignOnInitialModalOpen}
-        />
+        {isFinalExpenseErrorModalOpen && (
+          <FinalExpenseErrorModal
+            isOpen={isFinalExpenseErrorModalOpen}
+            onClose={() => {
+              handleRefreshPageWithNewLead();
+              setIsFinalExpenseErrorModalOpen(false);
+            }}
+            carrierInfo={carrierInfo}
+            resourceUrl={resource_url}
+            onApply={onApply}
+            fetchPlans={fetchPlans}
+            writingAgentNumber={latestWritingAgentNumber}
+            setIsSingleSignOnInitialModalOpen={
+              setIsSingleSignOnInitialModalOpen
+            }
+            handleRefreshPageWithNewLead={handleRefreshPageWithNewLead}
+            isQuickQuotePage={isQuickQuotePage}
+          />
+        )}
         {isLoadingEnroll && (
           <div className={styles.spinner}>
             <Spinner />
@@ -411,8 +452,12 @@ export const PlanCard = ({
         <SaveToContact
           contactSearchModalOpen={contactSearchModalOpen}
           handleClose={() => setContactSearchModalOpen(false)}
-          handleCallBack={onPreApply}
           page={isSimplifiedIUL() ? 'simplifiedIUL' : 'finalExpense'}
+          isApplyProcess={true}
+          handleCallBack={response => {
+            setLinkToExistContactId(response?.leadsId);
+            preEnroll(response?.leadsId);
+          }}
         />
       </div>
     </div>

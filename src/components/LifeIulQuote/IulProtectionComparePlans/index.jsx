@@ -292,7 +292,7 @@ const IulProtectionComparePlans = () => {
           setLinkToExistContactId(response?.leadsId);
           preEnroll(response?.leadsId);
         }}
-        page='accumulation'
+        page='protection plan compare page'
         isApplyProcess={true}
       />
       {compareShareModalOpen && (

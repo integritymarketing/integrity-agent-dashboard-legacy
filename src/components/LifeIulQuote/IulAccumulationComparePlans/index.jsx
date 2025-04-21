@@ -304,7 +304,7 @@ const IulAccumulationComparePlans = () => {
           setLinkToExistContactId(response?.leadsId);
           preEnroll(response?.leadsId);
         }}
-        page='accumulation'
+        page='accumulation plan compare page'
         isApplyProcess={true}
       />
       {compareShareModalOpen && (

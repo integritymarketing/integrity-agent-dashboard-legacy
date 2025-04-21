@@ -329,7 +329,7 @@ const IulAccumulationQuote = () => {
                 contactSearchModalOpen={contactSearchModalOpen}
                 handleClose={() => setContactSearchModalOpen(false)}
                 handleCallBack={response => preEnroll(response?.leadsId)}
-                page='accumulation plans '
+                page='accumulation plans page'
               />
             </WithLoader>
           </Box>

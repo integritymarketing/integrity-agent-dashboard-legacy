@@ -335,7 +335,7 @@ const IulProtectionQuoteDetails = () => {
           setLinkToExistContactId(response?.leadsId);
           preEnroll(response?.leadsId);
         }}
-        page='accumulation'
+        page='protection plans details page'
         isApplyProcess={true}
       />
       {shareModalOpen && (

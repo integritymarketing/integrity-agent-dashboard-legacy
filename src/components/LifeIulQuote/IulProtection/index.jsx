@@ -397,7 +397,7 @@ const IulProtectionQuote = () => {
                 contactSearchModalOpen={contactSearchModalOpen}
                 handleClose={() => setContactSearchModalOpen(false)}
                 handleCallBack={response => preEnroll(response?.leadsId)}
-                page='protection plans'
+                page='protection plans page'
               />
             </WithLoader>
           </Box>

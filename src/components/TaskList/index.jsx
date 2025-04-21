@@ -241,18 +241,18 @@ export default function TaskList({
     let sortedList = [];
 
     switch (tabValue) {
-      case 3:
+      case '3':
         sortedList = sortListByDate(list, 'signedDate', false);
         break;
-      case 0:
+      case '0':
         sortedList = [...list].sort((a, b) =>
           moment(b.taskList, 'MM/DD/YYYY HH:mm:ss').diff(
             moment(a.taskList, 'MM/DD/YYYY HH:mm:ss')
           )
         );
         break;
-      case 1:
-        sortedList = sortListByDate(list, 'taskDate', true);
+      case '1':
+        sortedList = sortListByDate(list, 'taskDate');
         break;
       default:
         sortedList = [...list];
