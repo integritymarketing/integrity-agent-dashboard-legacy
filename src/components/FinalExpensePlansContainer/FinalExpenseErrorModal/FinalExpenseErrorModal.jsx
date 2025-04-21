@@ -17,7 +17,6 @@ import { faCircleArrowRight } from '@awesome.me/kit-7ab3488df1/icons/classic/lig
 
 import styles from './index.module.scss';
 import { Button, useMediaQuery, useTheme } from '@mui/material';
-import ButtonCircleArrow from 'components/icons/button-circle-arrow';
 
 const AGENTS_API_VERSION = 'v1.0';
 
@@ -231,7 +230,7 @@ export const SingleSignOnModal = ({
                     onClick={onContinueWithIdHandle}
                     disabled={shouldDisable}
                     variant='contained'
-                    endIcon={<ButtonCircleArrow />}
+                    endIcon={<FontAwesomeIcon icon={faCircleArrowRight} />}
                     size='large'
                   >
                     Continue
