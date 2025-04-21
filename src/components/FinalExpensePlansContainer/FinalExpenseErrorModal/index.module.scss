@@ -1,6 +1,6 @@
 @use "scss/globalDefines" as defines_global;
 
- .modalContentHeader {
+.modalContentHeader {
     color: #052a63;
     margin-top: 24px;
     font-weight: bold;
@@ -59,11 +59,10 @@
 .label {
     color: #052a63;
     font-weight: bold;
-    
+
 }
 
 .actions {
-    width: 313px;
     margin: auto;
     margin-top: 20px;
 }
@@ -72,8 +71,4 @@
     position: absolute;
     color: #f44336;
     font-size: 14px;
-}
-
-.subsection {
-    padding: 0 1rem;
 }

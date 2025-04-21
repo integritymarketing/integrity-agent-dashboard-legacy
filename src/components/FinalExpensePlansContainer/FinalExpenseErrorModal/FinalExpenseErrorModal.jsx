@@ -12,15 +12,11 @@ import Textfield from 'components/ui/textfield';
 import Modal from 'components/Modal';
 import Spinner from 'components/ui/Spinner';
 
-import {
-  StyledButton,
-  StyledButton2,
-} from 'pages/FinalExpensesPage/Components/StyledComponents';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowRight } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 
 import styles from './index.module.scss';
+import { Button, useMediaQuery, useTheme } from '@mui/material';
 
 const AGENTS_API_VERSION = 'v1.0';
 
@@ -41,6 +37,7 @@ export const SingleSignOnModal = ({
   const [producerId, setProducerId] = useState('');
   const showToast = useToast();
   const { npn } = useUserProfile();
+  const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 
   const URL = `${
     import.meta.env.VITE_AGENTS_URL
@@ -167,7 +164,7 @@ export const SingleSignOnModal = ({
                 Producers ID/ Agent Writing Number (AWN)
               </Box>
               <Box>{writingAgentNumber}</Box>
-              <Box className={styles.subsection}>
+              <Box mt={1}>
                 <Box className={styles.label}>
                   Producers ID/ Writing Number (AWN)
                 </Box>
@@ -179,27 +176,67 @@ export const SingleSignOnModal = ({
                 />
                 {error && <Box className={styles.errorMessage}>{error}</Box>}
               </Box>
-              <StyledButton
-                onClick={onContinueWithIdHandle}
-                disabled={shouldDisable}
-              >
-                <span>Continue with Producers ID</span>
-                <FontAwesomeIcon icon={faCircleArrowRight} size={'xl'} />
-              </StyledButton>
-
-              <StyledButton2 onClick={onContinueWithoutIdHandle} width='60%'>
-                <span>View Carrier Website</span>
-                <FontAwesomeIcon icon={faCircleArrowRight} size={'xl'} />
-              </StyledButton2>
-              <Box
-                className={styles.link}
-                onClick={() => {
-                  handleClose();
-                  refreshOrFetchPlans();
-                }}
-              >
-                Cancel
-              </Box>
+              {isMobile ? (
+                <Box mt={4}>
+                  <Button
+                    onClick={onContinueWithIdHandle}
+                    disabled={shouldDisable}
+                    variant='contained'
+                    endIcon={
+                      <FontAwesomeIcon icon={faCircleArrowRight} size='xl' />
+                    }
+                    fullWidth
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    Continue
+                  </Button>
+                  <Box display='flex' justifyContent='space-between' mt={1}>
+                    <Button
+                      onClick={() => {
+                        handleClose();
+                        fetchPlans();
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button onClick={onContinueWithoutIdHandle}>
+                      Carrier Website
+                    </Button>
+                  </Box>
+                </Box>
+              ) : (
+                <Box
+                  display='flex'
+                  justifyContent='space-between'
+                  alignItems='center'
+                  mt={4}
+                >
+                  <Button
+                    onClick={() => {
+                      handleClose();
+                      refreshOrFetchPlans();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button onClick={onContinueWithoutIdHandle}>
+                    Carrier Website
+                  </Button>
+                  <Button
+                    onClick={onContinueWithIdHandle}
+                    disabled={shouldDisable}
+                    variant='contained'
+                    endIcon={<FontAwesomeIcon icon={faCircleArrowRight} />}
+                    size='large'
+                  >
+                    Continue
+                  </Button>
+                </Box>
+              )}
             </Box>
           </>
         )}
