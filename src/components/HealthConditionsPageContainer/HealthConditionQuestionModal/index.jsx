@@ -64,7 +64,10 @@ function HealthConditionQuestionModal({
   };
 
   const handleCancelClick = async () => {
-    if (modelHeader.toLowerCase() === 'search for a condition') {
+    if (
+      modelHeader.toLowerCase() === 'search for a condition' ||
+      modelHeader.toLowerCase() === 'search for a condition by prescription'
+    ) {
       const condition = healthConditions.find(
         _ => _.conditionId === selectedCondition[0].conditionId.toString()
       );
