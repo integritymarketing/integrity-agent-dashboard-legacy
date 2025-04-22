@@ -1230,7 +1230,7 @@ export class ClientsService {
     hasReminder = false,
     DateRangeFilterType,
     LeadSource = '',
-    IncludeContactPreference = false
+    IncludeContactPreference = true
   ) => {
     const params = {
       ReturnAll,
