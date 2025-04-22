@@ -29,10 +29,11 @@ const CoverageCalculationsContainer = () => {
 
   const [currentStep, setCurrentStep] = useState(1);
 
+  const sessionCurrentPage = sessionStorage.getItem('currentCalculationStep');
+
   useEffect(() => {
-    const sessionCurrentPage = sessionStorage.getItem('currentCalculationStep');
     setCurrentStep(sessionCurrentPage ? parseInt(sessionCurrentPage) : 1);
-  }, [sessionStorage]);
+  }, [sessionCurrentPage]);
 
   useEffect(() => {
     if (!hasFna) {
