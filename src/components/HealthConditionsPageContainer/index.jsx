@@ -64,9 +64,6 @@ const HealthConditionsPageContainer = () => {
       <ConditionalProfileBar
         leadId={contactId}
         page='healthConditions'
-        backRoute={`${
-          isSimplifiedIUL() ? '/simplified-iul' : '/finalexpenses'
-        }/create/${contactId}`}
         hideButton={true}
       />
       <Box className={styles.pageHeading}>
