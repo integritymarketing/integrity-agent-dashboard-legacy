@@ -133,7 +133,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                       max={2000000}
                       initialValue={0}
                       incrementOrDecrementValue={10000}
-                      initialIncrementValue={2000}
+                      initialIncrementValue={100000}
                     />
                     <CounterInput
                       onValueChange={value => {
@@ -144,7 +144,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                       max={2000000}
                       initialValue={0}
                       incrementOrDecrementValue={10000}
-                      initialIncrementValue={2000}
+                      initialIncrementValue={100000}
                     />
                     <CounterInput
                       onValueChange={value => {
@@ -155,7 +155,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                       max={2000000}
                       initialValue={0}
                       incrementOrDecrementValue={10000}
-                      initialIncrementValue={2000}
+                      initialIncrementValue={100000}
                     />
                   </Stack>
                 </CustomFieldContainer>

@@ -127,7 +127,7 @@ export const ProductPreferenceForm = ({}) => {
                         setFieldTouched('faceAmounts', true);
                         handleFaceAmountChange(value, setFieldValue);
                       }}
-                      min={100000}
+                      min={2000}
                       max={2000000}
                       initialValue={0}
                       incrementOrDecrementValue={50}

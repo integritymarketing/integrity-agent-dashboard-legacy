@@ -159,7 +159,7 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
       };
     }
     return {
-      faceAmounts: 2000,
+      faceAmounts: 100000,
       payPeriods: '65',
       loanType: 'LoansFixed',
       illustratedRate: '0',
@@ -262,7 +262,7 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
                     max={2000000}
                     initialValue={faceAmount1}
                     incrementOrDecrementValue={10000}
-                    initialIncrementValue={2000}
+                    initialIncrementValue={100000}
                   />
                 </Box>
                 <Box marginBottom={1}>
@@ -272,7 +272,7 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
                     max={2000000}
                     initialValue={faceAmount2}
                     incrementOrDecrementValue={10000}
-                    initialIncrementValue={2000}
+                    initialIncrementValue={100000}
                   />
                 </Box>
                 <Box marginBottom={1}>
@@ -282,7 +282,7 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
                     max={2000000}
                     initialValue={faceAmount3}
                     incrementOrDecrementValue={10000}
-                    initialIncrementValue={2000}
+                    initialIncrementValue={100000}
                   />
                 </Box>
                 {commonError && (
