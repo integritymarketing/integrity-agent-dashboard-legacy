@@ -68,12 +68,21 @@ function HealthConditionQuestionModal({
       modelHeader.toLowerCase() === 'search for a condition' ||
       modelHeader.toLowerCase() === 'search for a condition by prescription'
     ) {
-      const condition = healthConditions.find(
-        _ => _.conditionId === selectedCondition[0].conditionId.toString()
+      const response = await fetchHealthConditions(contactId);
+      const conditionIds = selectedCondition.map(_ => parseInt(_.conditionId));
+
+      const conditions = response.filter(
+        _ =>
+          conditionIds.includes(parseInt(_.conditionId)) &&
+          !_.areUwQuestionsComplete
       );
 
-      if (condition) {
-        await deleteHealthCondition(contactId, condition.id);
+      if (conditions.length > 0) {
+        await Promise.all(
+          conditions.map(async condition => {
+            await deleteHealthCondition(contactId, condition.id);
+          })
+        );
       }
     }
     handleCloseModal();

@@ -57,6 +57,12 @@
         font-weight: bold;
         padding-right: 3rem;
     }
+
+    @media only screen and (max-width: 600px) {
+        thead th {
+            padding-right: 2.5rem;
+        }
+    }
 }
 
 .loadersContainer {

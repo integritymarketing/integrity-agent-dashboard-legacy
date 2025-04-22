@@ -107,6 +107,7 @@ export const ConditionsProvider = ({ children }) => {
         const data = await getHealthConditions(null, false, path);
 
         setHealthConditions(data);
+        return data;
       } catch (error) {
         showToast({
           type: 'error',
