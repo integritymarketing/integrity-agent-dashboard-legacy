@@ -50,6 +50,7 @@ const HealthInfoContainer = () => {
     medicareBeneficiaryID,
     partA,
     partB,
+    age,
   } = leadDetails;
 
   const smoker = isTobaccoUser ? 'Yes' : 'No';
@@ -148,6 +149,7 @@ const HealthInfoContainer = () => {
       ) : (
         <ViewHealthInfo
           birthdate={birthdate}
+          age={age}
           gender={gender}
           weight={weight ? weight : ''}
           height={height ? `${Math.floor(height / 12)}' ${height % 12}''` : ''}

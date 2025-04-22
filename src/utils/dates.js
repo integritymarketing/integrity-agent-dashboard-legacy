@@ -360,16 +360,15 @@ export const getLocalDateTime = dateString => {
 };
 
 export const getAgeFromBirthDate = birthdate => {
-  // If the birthdate is in MM/DD/YYYY format, parse it correctly
-  const birthDate = parse(birthdate, 'MM/dd/yyyy HH:mm:ss', new Date());
+  // Parse the birthdate using date-fns (directly parsing ISO format is handled well)
+  const birthDate = new Date(birthdate);
 
-  // Use the current date as the second parameter
+  // Get the current date
   const currentDate = new Date();
 
   // Calculate the difference in years
   return differenceInYears(currentDate, birthDate);
 };
-
 export const getBirthDateFromAge = age => {
   // Get the current year
   const currentYear = new Date().getFullYear();
