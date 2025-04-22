@@ -55,14 +55,14 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
     if (new Set(amounts).size !== amounts.length) {
       return 'Death Benefits cannot be duplicate.';
     }
-    if (amount1 && (amount1 < 2000 || amount1 > 2000000)) {
-      return 'Death Benefit 1 must be between 2,000 and 2,000,000.';
+    if (amount1 && (amount1 < 100000 || amount1 > 2000000)) {
+      return 'Death Benefit 1 must be between 100,000 and 2,000,000.';
     }
-    if (amount2 && (amount2 < 2000 || amount2 > 2000000)) {
-      return 'Death Benefit 2 must be between 2,000 and 2,000,000.';
+    if (amount2 && (amount2 < 100000 || amount2 > 2000000)) {
+      return 'Death Benefit 2 must be between 100,000 and 2,000,000.';
     }
-    if (amount3 && (amount3 < 2000 || amount3 > 2000000)) {
-      return 'Death Benefit 3 must be between 2,000 and 2,000,000.';
+    if (amount3 && (amount3 < 100000 || amount3 > 2000000)) {
+      return 'Death Benefit 3 must be between 100,000 and 2,000,000.';
     }
     return '';
   };
@@ -179,9 +179,12 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
         (carrier, index, self) =>
           index === self.findIndex(t => t.value === carrier.value)
       );
+      const sortedCarriers = uniqueCarriers.sort((a, b) =>
+        a.label.localeCompare(b.label)
+      );
       return [
         { value: 'All carriers', label: 'All carriers' },
-        ...uniqueCarriers,
+        ...sortedCarriers,
       ];
     }
   }, [tempUserDetails]);
@@ -255,7 +258,7 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
                 <Box marginBottom={1}>
                   <CounterInput
                     onValueChange={value => handleFaceAmountsChange(value, 0)}
-                    min={2000}
+                    min={100000}
                     max={2000000}
                     initialValue={faceAmount1}
                     incrementOrDecrementValue={10000}
@@ -265,7 +268,7 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
                 <Box marginBottom={1}>
                   <CounterInput
                     onValueChange={value => handleFaceAmountsChange(value, 1)}
-                    min={2000}
+                    min={100000}
                     max={2000000}
                     initialValue={faceAmount2}
                     incrementOrDecrementValue={10000}
@@ -275,7 +278,7 @@ export const IulProtectionQuoteFilter = ({ isTobaccoUser }) => {
                 <Box marginBottom={1}>
                   <CounterInput
                     onValueChange={value => handleFaceAmountsChange(value, 2)}
-                    min={2000}
+                    min={100000}
                     max={2000000}
                     initialValue={faceAmount3}
                     incrementOrDecrementValue={10000}

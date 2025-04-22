@@ -29,9 +29,9 @@ import styles from './styles.module.scss';
 const validationSchema = yup.object().shape({
   faceAmounts: yup
     .number()
-    .required('Please enter a value between 2000 and 2000000.')
+    .required('Please enter a value between 100000 and 2000000.')
     .typeError('Fixed Annual Premium must be a number')
-    .min(2000, 'Minimum value for Fixed Annual Premium is 2000')
+    .min(100000, 'Minimum value for Fixed Annual Premium is 100000')
     .max(2000000, 'Maximum value for Fixed Annual Premium is 2000000'),
 });
 
@@ -146,9 +146,12 @@ export const IulAccumulationQuoteFilter = ({ isTobaccoUser }) => {
         (carrier, index, self) =>
           index === self.findIndex(t => t.value === carrier.value)
       );
+      const sortedCarriers = uniqueCarriers.sort((a, b) =>
+        a.label.localeCompare(b.label)
+      );
       return [
         { value: 'All carriers', label: 'All carriers' },
-        ...uniqueCarriers,
+        ...sortedCarriers,
       ];
     }
   }, [tempUserDetails]);
@@ -209,7 +212,7 @@ export const IulAccumulationQuoteFilter = ({ isTobaccoUser }) => {
 
                 <CounterInput
                   onValueChange={value => handleFaceAmountsChange(value)}
-                  min={2000}
+                  min={100000}
                   max={2000000}
                   initialValue={faceAmountsState}
                   incrementOrDecrementValue={50}

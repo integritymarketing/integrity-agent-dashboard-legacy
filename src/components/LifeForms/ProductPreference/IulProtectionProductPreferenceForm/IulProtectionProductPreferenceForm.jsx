@@ -129,7 +129,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                         setFieldTouched('faceAmounts', true);
                         setFieldValue('faceAmounts', value);
                       }}
-                      min={2000}
+                      min={100000}
                       max={2000000}
                       initialValue={0}
                       incrementOrDecrementValue={10000}
@@ -140,7 +140,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                         setFieldTouched('faceAmounts2', true);
                         setFieldValue('faceAmounts2', value);
                       }}
-                      min={2000}
+                      min={100000}
                       max={2000000}
                       initialValue={0}
                       incrementOrDecrementValue={10000}
@@ -151,7 +151,7 @@ export const IulProtectionProductPreferenceForm = ({ quoteType }) => {
                         setFieldTouched('faceAmount3', true);
                         setFieldValue('faceAmounts3', value);
                       }}
-                      min={2000}
+                      min={100000}
                       max={2000000}
                       initialValue={0}
                       incrementOrDecrementValue={10000}
