@@ -503,11 +503,13 @@ const WebChatComponent = () => {
           fireEvent('Ask Integrity In-Line Feedback Selected', {
             callId: actionValue.callId || '',
             id: actionValue.callId || '',
-            documentType: 'Call Summary Feedback',
+            documentType: feedbackActivityData?.actionValue?.data?.dialogId,
             npn: npn,
             leadId: actionValue.leadId || '',
-            rating: 'Like',
-            writtenFeedbackProvided: 'No',
+            rating: feedbackActivityData?.actionValue?.data?.type,
+            writtenFeedbackProvided: feedbackActivityData?.additionalComment
+              ? 'yes'
+              : 'no',
             submissionDate: new Date().toISOString(),
             feedback: [],
           });
@@ -525,11 +527,13 @@ const WebChatComponent = () => {
           fireEvent('Ask Integrity In-Line Feedback Selected', {
             callId: actionValue.callId || '',
             id: actionValue.id || '',
-            documentType: 'Call Summary Feedback',
+            documentType: feedbackActivityData?.actionValue?.data?.dialogId,
             npn: npn,
             leadId: actionValue.leadId || '',
-            rating: 'Dislike',
-            writtenFeedbackProvided: 'No',
+            rating: feedbackActivityData?.actionValue?.data?.type,
+            writtenFeedbackProvided: feedbackActivityData?.additionalComment
+              ? 'yes'
+              : 'no',
             submissionDate: new Date().toISOString(),
             feedback: [],
           });
@@ -643,11 +647,13 @@ const WebChatComponent = () => {
     fireEvent('Ask Integrity In-Line Feedback Selected', {
       callId: feedbackActivityData?.actionValue?.data?.callId,
       id: feedbackActivityData?.actionValue?.data?.cardId,
-      documentType: 'Call Summary Feedback',
+      documentType: feedbackActivityData?.actionValue?.data?.dialogId,
       npn: npn,
       leadId: feedbackActivityData?.actionValue?.data?.leadId,
-      rating: 'Dislike',
-      writtenFeedbackProvided: 'No',
+      rating: feedbackActivityData?.actionValue?.data?.type,
+      writtenFeedbackProvided: feedbackActivityData?.additionalComment
+        ? 'yes'
+        : 'no',
       submissionDate: new Date().toISOString(),
       feedback: feedbackData,
     });
