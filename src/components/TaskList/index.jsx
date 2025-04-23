@@ -97,7 +97,7 @@ export default function TaskList({
   }, [tabs, selectedTabValue]);
 
   const shouldHide48SOA = useMemo(() => {
-    return leadPreference?.hideHealthQuote;
+    return leadPreference?.hideSoa;
   }, [leadPreference]);
 
   const showMore = useMemo(() => {

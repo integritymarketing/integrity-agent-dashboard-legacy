@@ -102,7 +102,9 @@ export const ProfessionalProfileProvider = ({ children }) => {
       const response = await fetchAgentData();
       if (response) {
         setAgentData(response || {});
-        setLeadPreference(response?.leadPreference);
+        const showSoa =
+          response?.productClassificationNames?.includes('Health');
+        setLeadPreference({ ...response?.leadPreference, hideSoa: !showSoa });
         return response;
       }
     } catch (error) {
