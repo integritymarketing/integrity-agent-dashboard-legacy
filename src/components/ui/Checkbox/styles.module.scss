@@ -1,13 +1,12 @@
 .checkboxLabel {
   display: flex;
-  align-items: center;
   font-size: 16px;
   line-height: 20px;
   letter-spacing: 0.10000000149011612px;
 
   input {
     width: 16px;
-    height: 16px;
+    height: 20px;
     min-width: 16px;
   }
 }
