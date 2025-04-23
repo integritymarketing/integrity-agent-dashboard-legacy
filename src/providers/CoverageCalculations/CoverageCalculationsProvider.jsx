@@ -101,6 +101,7 @@ export const CoverageCalculationsProvider = ({ children }) => {
       isFinancialNeedsAnalysisUpdating,
       sendFNADetails,
       isSendFNADetailsPosting,
+      setFinancialNeedsAnalysis,
     }),
     [
       isLoadingFinancialNeedsAnalysis,
@@ -110,6 +111,7 @@ export const CoverageCalculationsProvider = ({ children }) => {
       isFinancialNeedsAnalysisUpdating,
       sendFNADetails,
       isSendFNADetailsPosting,
+      setFinancialNeedsAnalysis,
     ]
   );
 

@@ -22,6 +22,7 @@ const CoverageCalculationsContainer = () => {
     getFinancialNeedsAnalysis,
     isLoadingFinancialNeedsAnalysis,
     financialNeedsAnalysis,
+    setFinancialNeedsAnalysis,
   } = useCoverageCalculationsContext();
 
   const { isLoadingLeadDetails, leadDetails } = useLeadDetails();
@@ -35,14 +36,16 @@ const CoverageCalculationsContainer = () => {
     setCurrentStep(sessionCurrentPage ? parseInt(sessionCurrentPage) : 1);
   }, [sessionCurrentPage]);
 
+  const [formValue, setFormValues] = useState({});
+
   useEffect(() => {
     if (!hasFna) {
+      setFormValues(null);
+      setFinancialNeedsAnalysis(null);
       return;
     }
     getFinancialNeedsAnalysis(contactId);
-  }, [getFinancialNeedsAnalysis, hasFna]);
-
-  const [formValue, setFormValues] = useState({});
+  }, [getFinancialNeedsAnalysis, hasFna, setFinancialNeedsAnalysis]);
 
   useEffect(() => {
     setFormValues({
