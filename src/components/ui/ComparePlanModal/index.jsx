@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import * as Sentry from '@sentry/react';
 import Media from 'react-media';
 import analyticsService from 'services/analyticsService';
@@ -13,6 +13,7 @@ import './index.scss';
 import { useClientServiceContext } from 'services/clientServiceProvider';
 import SMSNotification from 'components/SMSNotification';
 import { Box, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export const __formatPhoneNumber = phoneNumberString => {
   const originalInput = phoneNumberString;
@@ -39,8 +40,12 @@ const ComparePlanModal = ({
   id,
   plansLoading,
   contactData,
+  isApplyProcess,
+  linkToExistContactId,
+  navPath,
 }) => {
   const showToast = useToast();
+  const navigate = useNavigate();
   const userProfile = useUserProfile();
   const {
     agentInformation: { agentVirtualPhoneNumber, agentPurl },
@@ -99,9 +104,23 @@ const ComparePlanModal = ({
     setNewSelectedType('email');
     setExistingSendType('');
     setEmail('');
+
     setPhone();
-    handleCloseModal();
+    handleClose();
   };
+
+  const handleClose = useCallback(() => {
+    if (isApplyProcess) {
+      navigate(`/plans/${linkToExistContactId}${navPath ? navPath : ''}`);
+    }
+    handleCloseModal();
+  }, [
+    isApplyProcess,
+    navigate,
+    navPath,
+    handleCloseModal,
+    linkToExistContactId,
+  ]);
 
   const handleShareComparePlans = async () => {
     const agentFirstName = userProfile.firstName;
@@ -246,7 +265,7 @@ const ComparePlanModal = ({
               wide={true}
               open={true}
               cssClassName={'shareplan-modal'}
-              onClose={handleCloseModal}
+              onClose={handleClose}
               labeledById='sharePlan_label'
               descById='sharePlan_desc'
             >
@@ -307,7 +326,7 @@ const ComparePlanModal = ({
                     fullWidth={matches.mobile}
                     data-gtm='button-cancel'
                     label={'Cancel'}
-                    onClick={handleCloseModal}
+                    onClick={handleClose}
                     type='secondary'
                   />
                 </div>

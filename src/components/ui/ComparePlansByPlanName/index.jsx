@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
 import shouldDisableEnrollButtonBasedOnEffectiveDate from 'utils/shouldDisableEnrollButtonBasedOnEffectiveDate';
+import ComparePlanModal from 'components/ui/ComparePlanModal';
 
 import useRoles from 'hooks/useRoles';
 import useToast from 'hooks/useToast';
@@ -23,6 +24,7 @@ import { faArrowShare } from '@awesome.me/kit-7ab3488df1/icons/kit/custom';
 import { faCircleArrowRight } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 import { useCreateNewQuote } from 'providers/CreateNewQuote';
 import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
+import { useLeadDetails } from 'providers/ContactDetails';
 
 import { PLAN_TYPE_ENUMS } from 'src/constants';
 
@@ -37,19 +39,20 @@ const LOGO_BASE_URL =
 export default function ComparePlansByPlanName({
   agentInfo = {},
   comparePlans,
-  setComparePlanModalOpen,
   handleRemovePlan,
   id,
   plansLoading,
   isEmail = false,
   isModal = false,
   contactData,
+  isComingFromEmail,
 }) {
   const showToast = useToast();
   const { clientsService, enrollPlansService } = useClientServiceContext();
   const { contactId, planIds: comparePlanIds, effectiveDate } = useParams();
 
   const planIds = useMemo(() => comparePlanIds.split(','), [comparePlanIds]);
+  const { getLeadDetailsAfterSearch } = useLeadDetails();
 
   const [userData, setUserData] = useState(contactData);
   const [modalOpen, setModalOpen] = useState(false);
@@ -57,6 +60,10 @@ export default function ComparePlansByPlanName({
   const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const [linkToExistContactId, setLinkToExistContactId] = useState(null);
+  const [comparePlanModalOpen, setComparePlanModalOpen] = useState(false);
+  const [quickQuoteContinueProcess, setQuickQuoteContinueProcess] =
+    useState('');
+
   const { isNonRTS_User } = useRoles();
   const { fireEvent } = useAnalytics();
   const { isQuickQuotePage } = useCreateNewQuote();
@@ -129,6 +136,14 @@ export default function ComparePlansByPlanName({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleOpenQuickQuoteShareModal = async leadId => {
+    const response = await getLeadDetailsAfterSearch(leadId, true);
+    if (response) {
+      setUserData(response);
+      setComparePlanModalOpen(true);
+    }
+  };
+
   return (
     <Container className={styles.stickyHeader}>
       <div
@@ -153,7 +168,14 @@ export default function ComparePlansByPlanName({
                     <Button
                       label='Share'
                       icon={<FontAwesomeIcon icon={faArrowShare} />}
-                      onClick={() => setComparePlanModalOpen(true)}
+                      onClick={() => {
+                        if (isQuickQuotePage) {
+                          setQuickQuoteContinueProcess('share');
+                          setContactSearchModalOpen(true);
+                        } else {
+                          setComparePlanModalOpen(true);
+                        }
+                      }}
                       type='secondary'
                       className={`${styles['share-btn']} ${styles['mobile']}`}
                       iconPosition={'right'}
@@ -209,6 +231,7 @@ export default function ComparePlansByPlanName({
 
                             if (isQuickQuotePage) {
                               setContactSearchModalOpen(true);
+                              setQuickQuoteContinueProcess('enroll');
                             } else {
                               setPreCheckListPdfModal(true);
                             }
@@ -242,7 +265,16 @@ export default function ComparePlansByPlanName({
                       <>
                         <Button
                           label={'Apply'}
-                          onClick={() => setPreCheckListPdfModal(true)}
+                          onClick={() => {
+                            setEnrollingPlan(plan);
+
+                            if (isQuickQuotePage) {
+                              setContactSearchModalOpen(true);
+                              setQuickQuoteContinueProcess('enroll');
+                            } else {
+                              setPreCheckListPdfModal(true);
+                            }
+                          }}
                           icon={
                             <FontAwesomeIcon
                               icon={faCircleArrowRight}
@@ -305,11 +337,30 @@ export default function ComparePlansByPlanName({
           handleClose={() => setContactSearchModalOpen(false)}
           handleCallBack={response => {
             setLinkToExistContactId(response?.leadsId);
-            setPreCheckListPdfModal(true);
+            if (quickQuoteContinueProcess === 'share') {
+              handleOpenQuickQuoteShareModal(response?.leadsId);
+            }
+            if (quickQuoteContinueProcess === 'enroll') {
+              setPreCheckListPdfModal(true);
+            }
           }}
           page='healthPlans'
           isApplyProcess={true}
         />
+        {!isComingFromEmail && comparePlanModalOpen && (
+          <ComparePlanModal
+            modalOpen={comparePlanModalOpen}
+            handleCloseModal={() => setComparePlanModalOpen(false)}
+            comparePlans={comparePlans}
+            handleRemovePlan={handleRemovePlan}
+            id={id}
+            plansLoading={plansLoading}
+            contactData={userData}
+            isApplyProcess={isQuickQuotePage}
+            linkToExistContactId={linkToExistContactId}
+            navPath={`/compare/${planIds.join(',')}/${effectiveDate}`}
+          />
+        )}
       </div>
     </Container>
   );

@@ -41,7 +41,8 @@ import ConditionalProfileBar from 'components/QuickerQuote/Common/ConditionalPro
 const PlanDetailsPage = () => {
   const showToast = useToast();
   const { contactId, planId, effectiveDate } = useParams();
-  const { leadDetails, getLeadDetails } = useLeadDetails();
+  const { leadDetails, getLeadDetails, getLeadDetailsAfterSearch } =
+    useLeadDetails();
   const { isQuickQuotePage } = useCreateNewQuote();
 
   const [isMobile, setIsMobile] = useState(false);
@@ -56,6 +57,8 @@ const PlanDetailsPage = () => {
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const [linkToExistContactId, setLinkToExistContactId] = useState(null);
   const [preCheckListPdfModal, setPreCheckListPdfModal] = useState(false);
+  const [quickQuoteContinueProcess, setQuickQuoteContinueProcess] =
+    useState('');
 
   const { isNonRTS_User } = useRoles();
   const { clientsService, plansService } = useClientServiceContext();
@@ -132,6 +135,14 @@ const PlanDetailsPage = () => {
     }
   }, [contactId, getLeadDetails, leadDetails]);
 
+  const handleOpenQuickQuoteShareModal = async leadId => {
+    const response = await getLeadDetailsAfterSearch(leadId, true);
+    if (response) {
+      setContact(response);
+      setShareModalOpen(true);
+    }
+  };
+
   return (
     <React.Fragment>
       <div
@@ -175,9 +186,17 @@ const PlanDetailsPage = () => {
                 plan={plan}
                 styles={styles}
                 isMobile={isMobile}
-                onShareClick={() => setShareModalOpen(true)}
+                onShareClick={() => {
+                  if (isQuickQuotePage) {
+                    setQuickQuoteContinueProcess('share');
+                    setContactSearchModalOpen(true);
+                  } else {
+                    setShareModalOpen(true);
+                  }
+                }}
                 onEnrollClick={() => {
                   if (isQuickQuotePage) {
+                    setQuickQuoteContinueProcess('enroll');
                     setContactSearchModalOpen(true);
                   } else {
                     setPreCheckListPdfModal(true);
@@ -193,9 +212,17 @@ const PlanDetailsPage = () => {
                 plan={plan}
                 styles={styles}
                 isMobile={isMobile}
-                onShareClick={() => setShareModalOpen(true)}
+                onShareClick={() => {
+                  if (isQuickQuotePage) {
+                    setQuickQuoteContinueProcess('share');
+                    setContactSearchModalOpen(true);
+                  } else {
+                    setShareModalOpen(true);
+                  }
+                }}
                 onEnrollClick={() => {
                   if (isQuickQuotePage) {
+                    setQuickQuoteContinueProcess('enroll');
                     setContactSearchModalOpen(true);
                   } else {
                     setPreCheckListPdfModal(true);
@@ -210,9 +237,17 @@ const PlanDetailsPage = () => {
                 plan={plan}
                 styles={styles}
                 isMobile={isMobile}
-                onShareClick={() => setShareModalOpen(true)}
+                onShareClick={() => {
+                  if (isQuickQuotePage) {
+                    setQuickQuoteContinueProcess('share');
+                    setContactSearchModalOpen(true);
+                  } else {
+                    setShareModalOpen(true);
+                  }
+                }}
                 onEnrollClick={() => {
                   if (isQuickQuotePage) {
+                    setQuickQuoteContinueProcess('enroll');
                     setContactSearchModalOpen(true);
                   } else {
                     setPreCheckListPdfModal(true);
@@ -256,6 +291,9 @@ const PlanDetailsPage = () => {
                   contact={contact}
                   handleCloseModal={() => setShareModalOpen(false)}
                   effectiveDate={effectiveDate}
+                  isApplyProcess={isQuickQuotePage}
+                  linkToExistContactId={linkToExistContactId}
+                  defaultNavPath={`/${linkToExistContactId}/plan/${planId}/${effectiveDate}`}
                 />
               )}
             </>
@@ -266,7 +304,12 @@ const PlanDetailsPage = () => {
           handleClose={() => setContactSearchModalOpen(false)}
           handleCallBack={response => {
             setLinkToExistContactId(response?.leadsId);
-            setPreCheckListPdfModal(true);
+            if (quickQuoteContinueProcess === 'share') {
+              handleOpenQuickQuoteShareModal(response?.leadsId);
+            }
+            if (quickQuoteContinueProcess === 'enroll') {
+              setPreCheckListPdfModal(true);
+            }
           }}
           page='healthPlans'
           isApplyProcess={true}

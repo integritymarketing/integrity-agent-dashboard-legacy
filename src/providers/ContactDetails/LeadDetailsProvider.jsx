@@ -158,7 +158,7 @@ export const LeadDetailsProvider = ({ children }) => {
   );
 
   const getLeadDetailsAfterSearch = useCallback(
-    async leadId => {
+    async (leadId, isUpdate) => {
       if (!leadId) {
         return;
       }
@@ -166,6 +166,10 @@ export const LeadDetailsProvider = ({ children }) => {
         const response = await fetchLeadDetailsAfterSearch(null, false, leadId);
         const plan_enroll_profile_created =
           response?.consumerId === null ? 'No' : 'Yes';
+        if (isUpdate) {
+          setLeadDetails({ ...response, plan_enroll_profile_created });
+        }
+
         return { ...response, plan_enroll_profile_created };
       } catch (error) {
         showToast({

@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom';
 import useRoles from 'hooks/useRoles';
 
 import NonRTSBanner from 'components/Non-RTS-Banner';
-import ComparePlanModal from 'components/ui/ComparePlanModal';
 import ComparePlansByPlanName from 'components/ui/ComparePlansByPlanName';
 import { CostCompareTable } from 'components/ui/PlanDetailsTable/shared/cost-table';
 import { PharmaciesCompareTable } from 'components/ui/PlanDetailsTable/shared/pharmacies-compare-table';
@@ -52,7 +51,6 @@ const ComparePlansPage = props => {
   const [comparePlans, setComparePlans] = useState([]);
   const [prescriptions, setPrescriptions] = useState([]);
   const [pharmacies, setPharmacies] = useState([]);
-  const [comparePlanModalOpen, setComparePlanModalOpen] = useState(false);
   const [hasErrorPrescriptions, setHasErrorPrescriptions] = useState(false);
   const [hasErrorPharmacies, setHasErrorPharmacies] = useState(false);
   const [mailOrderNotApplicable, setMailOrderNotApplicable] = useState(false);
@@ -74,7 +72,6 @@ const ComparePlansPage = props => {
   function getAllPlanDetails({
     planIds,
     contactId,
-    leadDetails,
     effectiveDate,
     isComingFromEmail,
     agentNPN,
@@ -120,7 +117,6 @@ const ComparePlansPage = props => {
       const plansData = await getAllPlanDetails({
         planIds,
         contactId: id,
-        leadDetails,
         effectiveDate,
         isComingFromEmail,
         agentInfo,
@@ -180,7 +176,7 @@ const ComparePlansPage = props => {
       setLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isComingFromEmail, planIds, id, effectiveDate, leadDetails]);
+  }, [isComingFromEmail, planIds, id, effectiveDate]);
 
   useEffect(() => {
     if (results && results.length) {
@@ -229,13 +225,10 @@ const ComparePlansPage = props => {
       agentInfo,
       comparePlans,
       isEmail: isComingFromEmail,
-      setComparePlanModalOpen,
       handleRemovePlan,
       id,
       plansLoading,
       leadDetails,
-      modalOpen: comparePlanModalOpen,
-      handleCloseModal: () => setComparePlanModalOpen(false),
       contactData: leadDetails,
     };
   }, [
@@ -264,9 +257,6 @@ const ComparePlansPage = props => {
   }
   return (
     <>
-      {!isComingFromEmail && comparePlanModalOpen && (
-        <ComparePlanModal {...getComparePlansByPlanNamesProps} />
-      )}
       <div className={styles.comparePage}>
         <Media query={'(max-width: 500px)'} onChange={isMobile => {}} />
         <WithLoader isLoading={isLoading}>
@@ -307,7 +297,10 @@ const ComparePlansPage = props => {
             </div>
           )}
 
-          <ComparePlansByPlanName {...getComparePlansByPlanNamesProps} />
+          <ComparePlansByPlanName
+            {...getComparePlansByPlanNamesProps}
+            isComingFromEmail={isComingFromEmail}
+          />
           <Container>
             {plansLoading ? (
               <Spinner />

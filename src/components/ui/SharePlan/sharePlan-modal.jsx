@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import * as Sentry from '@sentry/react';
 import Media from 'react-media';
 import analyticsService from 'services/analyticsService';
@@ -8,6 +8,7 @@ import Modal from 'components/ui/modal';
 import CheckboxGroup from 'components/ui/CheckboxGroup';
 import CompactPlanCard from '../PlanCard/compact';
 import { Button } from '../Button';
+import { useNavigate } from 'react-router-dom';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
 import { useClientServiceContext } from 'services/clientServiceProvider';
 import ShareInputsValidator from 'components/ShareInputsValidator';
@@ -38,8 +39,12 @@ const SharePlanModal = ({
   enrollmentId,
   ispolicyShare = false,
   enrollData = {},
+  isApplyProcess,
+  linkToExistContactId,
+  defaultNavPath,
 }) => {
   const showToast = useToast();
+  const navigate = useNavigate();
   const {
     agentInformation: { agentVirtualPhoneNumber, agentPurl },
   } = useAgentInformationByID();
@@ -54,7 +59,8 @@ const SharePlanModal = ({
     agentNpn,
     middleName,
     addresses,
-  } = contact;
+  } = contact || {};
+
   const { planRating = '', id, documents = [] } = planData || {};
   const addressData = addresses?.length > 0 ? addresses?.[0] : null;
   const countyFIPS =
@@ -75,19 +81,9 @@ const SharePlanModal = ({
   const [existingSendType, setExistingSendType] = useState('');
   const leadEmail = emails?.find(({ leadEmail }) => leadEmail)?.leadEmail ?? '';
   const leadPhone = phones?.find(({ leadPhone }) => leadPhone)?.leadPhone ?? '';
-  const isEmailCompatibleStatus = emails?.find(
-    ({ leadEmail }) => leadEmail
-  )?.isValid;
-  const isPhoneCompatibleStatus = phones?.find(
-    ({ leadPhone }) => leadPhone
-  )?.isSmsCompatible;
 
-  const [isEmailCompatabile, setIsEmailCompatabile] = useState(
-    isEmailCompatibleStatus
-  );
-  const [isPhoneCompatabile, setIsPhoneCompatabile] = useState(
-    isPhoneCompatibleStatus
-  );
+  const [isEmailCompatabile, setIsEmailCompatabile] = useState(false);
+  const [isPhoneCompatabile, setIsPhoneCompatabile] = useState(false);
 
   const nonFormatPhoneNumber = useMemo(
     () => (phone ? `${phone}`.replace(/\D/g, '') : ''),
@@ -96,6 +92,28 @@ const SharePlanModal = ({
 
   const userProfile = useUserProfile();
   const { plansService, enrollPlansService } = useClientServiceContext();
+
+  useEffect(() => {
+    const isEmailCompatibleStatus = emails?.find(
+      ({ leadEmail }) => leadEmail
+    )?.isValid;
+    const isPhoneCompatibleStatus = phones?.find(
+      ({ leadPhone }) => leadPhone
+    )?.isSmsCompatible;
+
+    setIsEmailCompatabile(isEmailCompatibleStatus);
+    setIsPhoneCompatabile(isPhoneCompatibleStatus);
+  }, [emails, phones]);
+
+  console.log('isEmailCompatabile', isEmailCompatabile);
+  console.log('isPhoneCompatabile', isPhoneCompatabile);
+
+  const handleClose = useCallback(() => {
+    if (isApplyProcess) {
+      navigate(defaultNavPath);
+    }
+    handleCloseModal();
+  }, [isApplyProcess, defaultNavPath, navigate, handleCloseModal]);
 
   useEffect(() => {
     if (modalOpen) {
@@ -118,7 +136,7 @@ const SharePlanModal = ({
     setExistingSendType('');
     setEmail('');
     setPhone();
-    handleCloseModal();
+    handleClose();
     setIsDocumentsSelected(false);
     setSelectedDocuments([]);
   };
@@ -296,6 +314,7 @@ const SharePlanModal = ({
     e.preventDefault();
     setIsDocumentsSelected(true);
   };
+
   return (
     <Media
       queries={{
@@ -310,7 +329,7 @@ const SharePlanModal = ({
               open={true}
               wide
               cssClassName={'shareplan-modal'}
-              onClose={() => handleCloseModal()}
+              onClose={handleClose}
               labeledById='sharePlan_label'
               descById='sharePlan_desc'
             >
@@ -397,10 +416,7 @@ const SharePlanModal = ({
                     fullWidth={matches.mobile}
                     data-gtm='button-cancel'
                     label={'Cancel'}
-                    onClick={() => {
-                      handleCleanUp();
-                      handleCloseModal();
-                    }}
+                    onClick={handleCleanUp}
                     type='secondary'
                   />
                 </div>
