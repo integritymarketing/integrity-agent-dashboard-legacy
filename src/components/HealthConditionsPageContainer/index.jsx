@@ -65,13 +65,7 @@ const HealthConditionsPageContainer = () => {
     if (isQuickQuotePage) {
       fireEvent("New Quote Created With Instant Quote", {
         leadId: leadDetails?.leadsId,
-        line_of_business: "Life",
-        contactType: "New Contact",
-      });
-
-      fireEvent("New Quote Created With Quick Quote", {
-        leadId: leadDetails?.leadsId,
-        line_of_business: "Life",
+        line_of_business: "Health",
         contactType: "New Contact",
       });
     }
