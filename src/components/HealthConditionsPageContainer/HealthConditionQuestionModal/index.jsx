@@ -51,14 +51,15 @@ function HealthConditionQuestionModal({
     setValues(null);
     clearConditionalQuestionData();
 
-    if (!isSimplifiedIUL) {
-      fireEvent('Health Condition Added', {
-        leadid: contactId,
-        flow: 'final_expense',
-        fex_questions_required: 'Yes',
-        fex_questions_complete: 'No',
-      });
-    }
+    const flow = isSimplifiedIUL ? 'simplified_iul' : 'final_expense';
+
+    fireEvent('Health Condition Added', {
+      leadid: contactId,
+      flow: flow,
+      fex_questions_required: 'Yes',
+      fex_questions_complete: 'No',
+    });
+
     onClose();
     fetchHealthConditions(contactId);
   };

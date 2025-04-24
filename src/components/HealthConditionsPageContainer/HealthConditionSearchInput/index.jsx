@@ -66,20 +66,21 @@ function HealthConditionSearchInput({
       hasLookBackPeriod: condition.hasLookBackPeriod,
       consumerId: consumerId,
     };
+
     try {
       const response = await saveHealthConditionDetails(payload);
       if (response) {
         setConditions([]);
         setSearchValue('');
 
-        if (!isSimplifiedIUL) {
-          fireEvent('Health Condition Added', {
-            leadid: contactId,
-            flow: 'final_expense',
-            fex_questions_required: 'Yes', // TODO-EVENT: This is a guess.  We need to confirm.
-            fex_questions_complete: 'Yes', // TODO-EVENT: This is a guess.  We need to confirm.
-          });
-        }
+        const flow = isSimplifiedIUL ? 'simplified_iul' : 'final_expense';
+
+        fireEvent('Health Condition Added', {
+          leadid: contactId,
+          flow: flow,
+          fex_questions_required: 'Yes',
+          fex_questions_complete: 'Yes',
+        });
       }
     } catch (error) {
       console.error('Failed to save health condition details', error);
