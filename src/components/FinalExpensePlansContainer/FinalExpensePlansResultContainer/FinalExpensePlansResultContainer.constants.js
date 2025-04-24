@@ -28,9 +28,9 @@ export const EXCLUDE_LABEL = "Only Excluded Products";
 export const ALTERNATIVE_PRODUCTS_LABEL = "Only Alternative Products";
 
 export const COVERAGE_AMT_VALIDATION = "Coverage amount must be between $1,000 and $999,999.";
-export const COVERAGE_AMT_VALIDATION_SIMPLIFIED_IUL = "Coverage amount must be between $25,000 and $300,000.";
+export const COVERAGE_AMT_VALIDATION_SIMPLIFIED_IUL = "Coverage amount must be between $25,000 and $450,000.";
 export const MONTHLY_PREMIUM_VALIDATION = "Monthly premium must be between $10 and $999.";
-export const MONTHLY_PREMIUM_VALIDATION_SIMPLIFIED_IUL = "Monthly premium must be between $10 and $300.";
+export const MONTHLY_PREMIUM_VALIDATION_SIMPLIFIED_IUL = "Monthly premium must be between $10 and $4000.";
 export const PRESCREEN_AVAILABLE = "Prescreen Available";
 export const ELIGIBILTY_NOTES = "Eligibility Notes";
 export const PRESCREEN_AVAILABLE_NOTES = "The applicant may be eligible for coverage based on identified conditions.";
