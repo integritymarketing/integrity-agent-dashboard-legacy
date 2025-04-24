@@ -26,16 +26,18 @@ import HealthConditionQuestionModal from './HealthConditionQuestionModal';
 import { useConditions } from 'providers/Conditions';
 import WithLoader from 'components/ui/WithLoader';
 import { useLeadDetails } from 'providers/ContactDetails';
+import useAnalytics from "hooks/useAnalytics";
 
 const HealthConditionsPageContainer = () => {
   const { contactId } = useParams();
   const navigate = useNavigate();
   const loc = useLocation();
-  const { isSimplifiedIUL, isQuickQuotePage } = useCreateNewQuote();
+  const {isSimplifiedIUL, isQuickQuotePage} = useCreateNewQuote();
   const { fetchHealthConditions } = useConditions();
   const { prescriptions, fetchPrescriptions } = useHealth();
   const { leadDetails, isLoadingLeadDetails } = useLeadDetails();
   const { consumerId } = leadDetails || {};
+  const {fireEvent} = useAnalytics();
 
   const {
     selectedPrescription,
@@ -58,6 +60,32 @@ const HealthConditionsPageContainer = () => {
       fetchPrescriptions(contactId);
     }
   }, [contactId, fetchPrescriptions]);
+
+  const amplitudeEventAndNavigate = () => {
+    if (isQuickQuotePage) {
+      fireEvent("New Quote Created With Instant Quote", {
+        leadId: leadDetails?.leadsId,
+        line_of_business: "Life",
+        contactType: "New Contact",
+      });
+
+      fireEvent("New Quote Created With Quick Quote", {
+        leadId: leadDetails?.leadsId,
+        line_of_business: "Life",
+        contactType: "New Contact",
+      });
+    }
+    navigate(
+      `${
+        isSimplifiedIUL() ? '/simplified-iul' : '/finalexpenses'
+      }/plans/${contactId}${
+        isQuickQuotePage ? '?quick-quote=true' : ''
+      }`,
+      {
+        state: {from: loc?.pathname},
+      }
+    )
+  }
 
   return (
     <WithLoader loading={isLoadingLeadDetails}>
@@ -147,18 +175,7 @@ const HealthConditionsPageContainer = () => {
           </Box>
           <FullWidthButton
             label={CONTINUE_TO_QUOTE}
-            onClick={() =>
-              navigate(
-                `${
-                  isSimplifiedIUL() ? '/simplified-iul' : '/finalexpenses'
-                }/plans/${contactId}${
-                  isQuickQuotePage ? '?quick-quote=true' : ''
-                }`,
-                {
-                  state: { from: loc?.pathname },
-                }
-              )
-            }
+            onClick={() => amplitudeEventAndNavigate() }
             type='primary'
             icon={<ButtonCircleArrow />}
             fullWidth={true}

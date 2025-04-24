@@ -5,7 +5,7 @@ import { useLeadDetails } from "providers/ContactDetails";
 import { Box, useMediaQuery, useTheme } from "@mui/material";
 import WithLoader from "components/ui/WithLoader";
 import useAnalytics from "hooks/useAnalytics";
- 
+
 const ZipCodeInputCard = () => {
     const { handleClose, selectedLead, newLeadDetails } = useCreateNewQuote();
     const leadId = selectedLead?.leadsId;
@@ -20,16 +20,16 @@ const ZipCodeInputCard = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [leadId]);
- 
+
     const handleCloseWithEvent = () => {
-        fireEvent("New Quote Created With Instant Quote", {
-            leadId,
-            line_of_business: "Health",
-            contactType: newLeadDetails?.firstName ? "New Contact" : "Existing Contact",
-        });
-        handleClose();
+      fireEvent("New Quote Created With Instant Quote", {
+        leadId,
+        line_of_business: "Health",
+        contactType: "New Contact",
+      });
+      handleClose();
     };
- 
+
     return (
         <Box>
             <WithLoader isLoading={isLoadingLeadDetails}>

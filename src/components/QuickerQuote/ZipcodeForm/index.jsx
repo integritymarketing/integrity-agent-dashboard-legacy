@@ -19,6 +19,8 @@ import { SelectCounty } from 'components/AddZipContainer/SelectCounty/SelectCoun
 import { ZipCodeInput } from 'components/AddZipContainer/ZipCodeInput/ZipCodeInput';
 import { Box, Button } from '@mui/material';
 import ButtonCircleArrow from 'components/icons/button-circle-arrow';
+import useAnalytics from "hooks/useAnalytics";
+import {useLeadDetails} from "providers/ContactDetails";
 
 const ZipCodeInputCard = () => {
   const navigate = useNavigate();
@@ -27,7 +29,9 @@ const ZipCodeInputCard = () => {
     updateQuickQuoteLeadDetails,
     quickQuoteLeadDetails,
     isLoadingQuickQuoteLeadDetails,
+    isQuickQuotePage,
   } = useCreateNewQuote();
+  const {leadDetails} = useLeadDetails();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -40,6 +44,7 @@ const ZipCodeInputCard = () => {
 
   const URL = `${GET_COUNTIES}${zipCode}`;
   const { Get: getCounties } = useFetch(URL);
+  const {fireEvent} = useAnalytics();
 
   const handleContinue = async () => {
     const { countyFIPS, countyName, state } = countyObj;
@@ -53,6 +58,13 @@ const ZipCodeInputCard = () => {
     };
     const res = await updateQuickQuoteLeadDetails(payload);
     if (res && res?.leadId) {
+
+        fireEvent("New Quote Created With Instant Quote", {
+          leadId: leadDetails?.leadsId,
+          line_of_business: "Health",
+          contactType: "New Contact",
+        });
+
       navigate(`/plans/${res.leadId}?quick-quote=true`);
       handleClose();
     }

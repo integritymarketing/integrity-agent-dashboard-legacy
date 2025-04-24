@@ -75,11 +75,11 @@ const FinalExpenseIntakeFormCard = () => {
             try {
                 const response = await updateLeadDetails(payload);
                 if (response) {
-                    fireEvent("New Quote Created With Instant Quote", {
-                        leadId: leadDetails?.leadsId,
-                        line_of_business: "Life",
-                        contactType: isContactType,
-                    });
+                  fireEvent("New Quote Created With Instant Quote", {
+                    leadId: leadDetails?.leadsId,
+                    line_of_business: "Life",
+                    contactType: "New Contact",
+                  });
                     if (isSimplifiedIUL()) {
                         navigate(`/simplified-iul/plans/${leadId}`, { replace: true, state: { from: loc?.pathname } });
                     } else {
