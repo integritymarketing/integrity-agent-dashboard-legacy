@@ -141,11 +141,11 @@ const IulProtectionForm = () => {
                           setFieldTouched('faceAmounts', true);
                           setFieldValue('faceAmounts', value);
                         }}
-                        min={2000}
+                        min={100000}
                         max={2000000}
                         initialValue={0}
                         incrementOrDecrementValue={10000}
-                        initialIncrementValue={2000}
+                        initialIncrementValue={100000}
                       />
                     </Stack>
                   </CustomFieldContainer>
