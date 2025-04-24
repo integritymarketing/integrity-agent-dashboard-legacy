@@ -166,6 +166,7 @@ const PlanDetailsPage = () => {
             leadId={contactId}
             page='healthPlanDetailsPage'
             hideBackButton={false}
+            backRoute={`/plans/${planId}`}
             navPath={`plan/${planId}/${effectiveDate}`}
           />
           <Box sx={{ padding: '56px 24px', pb: 0 }}>
