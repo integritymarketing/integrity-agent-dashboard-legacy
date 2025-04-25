@@ -7,20 +7,22 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { handleCSGSSO } from 'auth/handleCSGSSO';
 import useUserProfile from 'hooks/useUserProfile';
-import {
-  Account,
-  SignOut,
-  LeadCenter,
-  CSG,
-  NeedHelp,
-  MedicareLink,
-  MedicareApp,
-  LearningCenter,
-} from '../icons';
 import styles from './styles.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsersManageAgents } from '@awesome.me/kit-7ab3488df1/icons/kit/custom';
-import { faFileCertificate } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
+import {
+  faUsersManageAgents,
+  faBookLearningCenter,
+  faLeadCenter,
+  faCsg,
+  faMedicareLink,
+} from '@awesome.me/kit-7ab3488df1/icons/kit/custom';
+import {
+  faFileCertificate,
+  faGear,
+  faEdit,
+  faCircleQuestion,
+  faArrowRightFromBracket,
+} from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 
 const ProfileMenu = ({ hasPHPBuName, enableContracts, enableMyAgents }) => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -93,7 +95,11 @@ const ProfileMenu = ({ hasPHPBuName, enableContracts, enableMyAgents }) => {
 
   const menuItems = useMemo(() => {
     const items = [
-      { path: 'account', label: 'Account', icon: <Account /> },
+      {
+        path: 'account',
+        label: 'Account',
+        icon: <FontAwesomeIcon icon={faGear} color='#4178ff' size={'lg'} />,
+      },
       ...(enableContracts
         ? [
             {
@@ -117,7 +123,7 @@ const ProfileMenu = ({ hasPHPBuName, enableContracts, enableMyAgents }) => {
               icon: (
                 <FontAwesomeIcon
                   icon={faUsersManageAgents}
-                  size='lg'
+                  size='md'
                   color='#4178FF'
                 />
               ),
@@ -127,14 +133,60 @@ const ProfileMenu = ({ hasPHPBuName, enableContracts, enableMyAgents }) => {
       {
         path: 'learning_center',
         label: 'LearningCENTER',
-        icon: <LearningCenter />,
+        icon: (
+          <FontAwesomeIcon
+            icon={faBookLearningCenter}
+            color='#4178ff'
+            size={'lg'}
+          />
+        ),
       },
-      { path: 'lead_center', label: 'LeadCENTER', icon: <LeadCenter /> },
-      { path: 'csg_app', label: 'CSG App', icon: <CSG /> },
-      { path: 'medicareApp', label: 'MedicareAPP', icon: <MedicareApp /> },
-      { path: 'medicareLink', label: 'MedicareLINK', icon: <MedicareLink /> },
-      { path: 'need_help', label: 'Need Help?', icon: <NeedHelp /> },
-      { path: 'sign_out', label: 'Sign Out', icon: <SignOut /> },
+      {
+        path: 'lead_center',
+        label: 'LeadCENTER',
+        icon: (
+          <FontAwesomeIcon icon={faLeadCenter} color='#4178ff' size={'lg'} />
+        ),
+      },
+      {
+        path: 'csg_app',
+        label: 'CSG App',
+        icon: <FontAwesomeIcon icon={faCsg} color='#4178ff' size={'lg'} />,
+      },
+      {
+        path: 'medicareApp',
+        label: 'MedicareAPP',
+        icon: <FontAwesomeIcon icon={faEdit} color='#4178ff' size={'lg'} />,
+      },
+      {
+        path: 'medicareLink',
+        label: 'MedicareLINK',
+        icon: (
+          <FontAwesomeIcon icon={faMedicareLink} color='#4178ff' size={'lg'} />
+        ),
+      },
+      {
+        path: 'need_help',
+        label: 'Need Help?',
+        icon: (
+          <FontAwesomeIcon
+            icon={faCircleQuestion}
+            color='#4178ff'
+            size={'lg'}
+          />
+        ),
+      },
+      {
+        path: 'sign_out',
+        label: 'Sign Out',
+        icon: (
+          <FontAwesomeIcon
+            icon={faArrowRightFromBracket}
+            color='#4178ff'
+            size={'lg'}
+          />
+        ),
+      },
     ];
 
     // Remove 'LeadCENTER' if hasPHPBuName is true
