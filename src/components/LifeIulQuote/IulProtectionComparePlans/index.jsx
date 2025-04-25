@@ -31,6 +31,8 @@ const IulProtectionComparePlans = () => {
   const [selectedPlan, setSelectedPlan] = useState({});
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const [linkToExistContactId, setLinkToExistContactId] = useState(null);
+  const [quickQuoteContinueProcess, setQuickQuoteContinueProcess] =
+    useState('');
 
   const { leadDetails, getLeadDetailsAfterSearch } = useLeadDetails();
   const { agentInformation } = useAgentInformationByID();
@@ -144,10 +146,6 @@ const IulProtectionComparePlans = () => {
     window.location.reload();
   };
 
-  const handleShareModal = val => {
-    setCompareShareModalOpen(true);
-  };
-
   const returnBackToPlansPage = () => {
     navigate(`/life/iul-protection/${contactId}/quote?preserveSelected=true`);
   };
@@ -224,6 +222,24 @@ const IulProtectionComparePlans = () => {
     [handleApplyClick, getLeadDetailsAfterSearch, selectedPlan]
   );
 
+  const onShare = useCallback(() => {
+    {
+      if (isQuickQuotePage) {
+        setQuickQuoteContinueProcess('share');
+        setContactSearchModalOpen(true);
+      } else {
+        setCompareShareModalOpen(true);
+      }
+    }
+  }, [isQuickQuotePage, handleApplyClick]);
+
+  const handleOpenQuickQuoteShareModal = async leadId => {
+    const response = await getLeadDetailsAfterSearch(leadId, true);
+    if (response) {
+      setCompareShareModalOpen(true);
+    }
+  };
+
   return (
     <IulQuoteContainer
       title='IUL Protection'
@@ -244,7 +260,7 @@ const IulProtectionComparePlans = () => {
             headerCategory='IUL_PROTECTION'
             IULProtectionPlans={plansData}
             onClose={handleComparePlanRemove}
-            shareComparePlanModal={handleShareModal}
+            shareComparePlanModal={onShare}
             returnBackToPlansPage={returnBackToPlansPage}
           />
           {isLoadingApplyLifeIulQuote && (
@@ -290,7 +306,12 @@ const IulProtectionComparePlans = () => {
         handleClose={() => setContactSearchModalOpen(false)}
         handleCallBack={response => {
           setLinkToExistContactId(response?.leadsId);
-          preEnroll(response?.leadsId);
+          if (quickQuoteContinueProcess === 'share') {
+            handleOpenQuickQuoteShareModal(response?.leadsId);
+          }
+          if (quickQuoteContinueProcess === 'enroll') {
+            preEnroll(response?.leadsId);
+          }
         }}
         page='protection'
         isApplyProcess={true}
@@ -298,7 +319,14 @@ const IulProtectionComparePlans = () => {
       {compareShareModalOpen && (
         <IulCompareShareModal
           open={compareShareModalOpen}
-          onClose={() => setCompareShareModalOpen(false)}
+          onClose={() => {
+            setCompareShareModalOpen(false);
+            if (isQuickQuotePage) {
+              navigate(
+                `/life/iul-accumulation/${linkToExistContactId}/${planId}/quote-details`
+              );
+            }
+          }}
           plans={comparePlans}
           quoteType='protection'
         />

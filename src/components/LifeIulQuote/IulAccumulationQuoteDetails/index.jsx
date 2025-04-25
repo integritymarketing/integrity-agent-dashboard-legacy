@@ -62,6 +62,8 @@ const IulAccumulationQuoteDetails = () => {
   const { leadDetails, getLeadDetailsAfterSearch } = useLeadDetails();
   const { agentInformation } = useAgentInformationByID();
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
+  const [quickQuoteContinueProcess, setQuickQuoteContinueProcess] =
+    useState('');
 
   useEffect(() => {
     fetchLifeIulQuoteDetails(planId);
@@ -165,6 +167,7 @@ const IulAccumulationQuoteDetails = () => {
   const onApply = useCallback(() => {
     {
       if (isQuickQuotePage) {
+        setQuickQuoteContinueProcess('enroll');
         setContactSearchModalOpen(true);
       } else {
         handleApplyClick();
@@ -191,6 +194,24 @@ const IulAccumulationQuoteDetails = () => {
       );
     } catch (error) {
       console.error('Error fetching illustration URL:', error);
+    }
+  };
+
+  const onShare = useCallback(() => {
+    {
+      if (isQuickQuotePage) {
+        setQuickQuoteContinueProcess('share');
+        setContactSearchModalOpen(true);
+      } else {
+        setShareModalOpen(true);
+      }
+    }
+  }, [isQuickQuotePage, handleApplyClick]);
+
+  const handleOpenQuickQuoteShareModal = async leadId => {
+    const response = await getLeadDetailsAfterSearch(leadId, true);
+    if (response) {
+      setShareModalOpen(true);
     }
   };
 
@@ -249,7 +270,7 @@ const IulAccumulationQuoteDetails = () => {
                     companyName={companyName}
                     rating={amBest}
                     handleApplyClick={onApply}
-                    handlePlanShareClick={() => setShareModalOpen(true)}
+                    handlePlanShareClick={onShare}
                     handleIllustrationClick={handleIllustrationClick}
                     logo={companyLogoImageUrl}
                     cashValueYear10={cashValueYear10}
@@ -323,7 +344,12 @@ const IulAccumulationQuoteDetails = () => {
         handleClose={() => setContactSearchModalOpen(false)}
         handleCallBack={response => {
           setLinkToExistContactId(response?.leadsId);
-          preEnroll(response?.leadsId);
+          if (quickQuoteContinueProcess === 'share') {
+            handleOpenQuickQuoteShareModal(response?.leadsId);
+          }
+          if (quickQuoteContinueProcess === 'enroll') {
+            preEnroll(response?.leadsId);
+          }
         }}
         page='accumulation'
         isApplyProcess={true}
@@ -331,7 +357,14 @@ const IulAccumulationQuoteDetails = () => {
       {shareModalOpen && (
         <IulShareModal
           open={shareModalOpen}
-          onClose={() => setShareModalOpen(false)}
+          onClose={() => {
+            setShareModalOpen(false);
+            if (isQuickQuotePage) {
+              navigate(
+                `/life/iul-accumulation/${linkToExistContactId}/${planId}/quote-details`
+              );
+            }
+          }}
           planDetails={planDetails}
           quoteType='accumulation'
         />

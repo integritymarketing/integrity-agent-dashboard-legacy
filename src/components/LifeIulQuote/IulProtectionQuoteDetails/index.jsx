@@ -57,6 +57,8 @@ const IulProtectionQuoteDetails = () => {
   const [applyErrorModalOpen, setApplyErrorModalOpen] = useState(false);
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const [linkToExistContactId, setLinkToExistContactId] = useState(null);
+  const [quickQuoteContinueProcess, setQuickQuoteContinueProcess] =
+    useState('');
   const { isQuickQuotePage } = useCreateNewQuote();
   const navigate = useNavigate();
   const {
@@ -202,6 +204,24 @@ const IulProtectionQuoteDetails = () => {
     }
   };
 
+  const onShare = useCallback(() => {
+    {
+      if (isQuickQuotePage) {
+        setQuickQuoteContinueProcess('share');
+        setContactSearchModalOpen(true);
+      } else {
+        setShareModalOpen(true);
+      }
+    }
+  }, [isQuickQuotePage, handleApplyClick]);
+
+  const handleOpenQuickQuoteShareModal = async leadId => {
+    const response = await getLeadDetailsAfterSearch(leadId, true);
+    if (response) {
+      setShareModalOpen(true);
+    }
+  };
+
   return (
     <IulQuoteContainer
       title='IUL Protection'
@@ -271,7 +291,7 @@ const IulProtectionQuoteDetails = () => {
                     healthClass={planDetails?.input?.healthClass}
                     premium={premium}
                     guaranteedYears={guaranteedYears}
-                    handlePlanShareClick={() => setShareModalOpen(true)}
+                    handlePlanShareClick={onShare}
                     handleApplyClick={onApply}
                     handleIllustrationClick={handleIllustrationClick}
                   />
@@ -333,7 +353,12 @@ const IulProtectionQuoteDetails = () => {
         handleClose={() => setContactSearchModalOpen(false)}
         handleCallBack={response => {
           setLinkToExistContactId(response?.leadsId);
-          preEnroll(response?.leadsId);
+          if (quickQuoteContinueProcess === 'share') {
+            handleOpenQuickQuoteShareModal(response?.leadsId);
+          }
+          if (quickQuoteContinueProcess === 'enroll') {
+            preEnroll(response?.leadsId);
+          }
         }}
         page='protection'
         isApplyProcess={true}
@@ -341,7 +366,14 @@ const IulProtectionQuoteDetails = () => {
       {shareModalOpen && (
         <IulShareModal
           open={shareModalOpen}
-          onClose={() => setShareModalOpen(false)}
+          onClose={() => {
+            setShareModalOpen(false);
+            if (isQuickQuotePage) {
+              navigate(
+                `/life/iul-accumulation/${linkToExistContactId}/${planId}/quote-details`
+              );
+            }
+          }}
           planDetails={planDetails}
           quoteType='protection'
         />
