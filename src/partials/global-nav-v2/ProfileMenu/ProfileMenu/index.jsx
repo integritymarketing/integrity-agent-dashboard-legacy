@@ -101,7 +101,7 @@ const ProfileMenu = ({ hasPHPBuName }) => {
       }
       handleMenuClose();
     },
-    [navigate, npn, email, logout, handleMenuClose]
+    [navigate, npn, email, logout, handleMenuClose, enableContracts, enableMyAgents]
   );
 
   const menuItems = useMemo(() => {
