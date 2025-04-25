@@ -3,8 +3,8 @@ export const STEPPER_FILTER = {
     "Monthly Premium": { step: 20, min: 10, max: 999, value: "premium" },
 };
 export const STEPPER_FILTER_SIMPLIFIED_IUL = {
-    "Coverage Amount": { step: 5000, min: 25000, max: 300000, value: "face" },
-    "Monthly Premium": { step: 20, min: 10, max: 300, value: "premium" },
+    "Coverage Amount": { step: 5000, min: 25000, max: 450000, value: "face" },
+    "Monthly Premium": { step: 20, min: 10, max: 4000, value: "premium" },
 };
 export const DEFAULT_COVERAGE_AMOUNT = 15000;
 export const DEFAULT_COVERAGE_AMOUNT_SIMPLIFIED_IUL = 50000;
