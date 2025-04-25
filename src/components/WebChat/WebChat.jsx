@@ -502,11 +502,11 @@ const WebChatComponent = () => {
           likeIconImg.src = LIKE_IMAGE;
           fireEvent('Ask Integrity In-Line Feedback Selected', {
             callId: actionValue.callId || '',
-            id: actionValue.callId || '',
-            documentType: feedbackActivityData?.actionValue?.data?.dialogId,
+            id: actionValue.cardId || '',
+            documentType: actionValue.dialogId,
             npn: npn,
             leadId: actionValue.leadId || '',
-            rating: feedbackActivityData?.actionValue?.data?.type,
+            rating: actionValue.type,
             writtenFeedbackProvided: feedbackActivityData?.additionalComment
               ? 'yes'
               : 'no',
@@ -526,11 +526,11 @@ const WebChatComponent = () => {
           dislikeIconImg.src = DISLIKE_IMAGE;
           fireEvent('Ask Integrity In-Line Feedback Selected', {
             callId: actionValue.callId || '',
-            id: actionValue.id || '',
-            documentType: feedbackActivityData?.actionValue?.data?.dialogId,
+            id: actionValue.cardId || '',
+            documentType: actionValue.dialogId,
             npn: npn,
             leadId: actionValue.leadId || '',
-            rating: feedbackActivityData?.actionValue?.data?.type,
+            rating: actionValue.type,
             writtenFeedbackProvided: feedbackActivityData?.additionalComment
               ? 'yes'
               : 'no',
