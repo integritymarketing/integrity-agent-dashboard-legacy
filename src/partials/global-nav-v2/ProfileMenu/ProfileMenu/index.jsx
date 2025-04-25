@@ -20,7 +20,7 @@ import {
 import styles from './styles.module.scss';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileCertificate } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
+import { faFileCertificate, faUsers } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 
 const ProfileMenu = ({ hasPHPBuName }) => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -51,7 +51,10 @@ const ProfileMenu = ({ hasPHPBuName }) => {
               import.meta.env.VITE_CONNECT_APP_CONTRACTS_WEB,
               '_blank'
             );
-          } else if (enableMyAgents) {
+          }
+          break;
+          case 'downlines':
+           if (enableMyAgents) {
             window.open(
               import.meta.env.VITE_CONNECT_APP_DOWNLINES_WEB,
               '_blank'
@@ -103,7 +106,7 @@ const ProfileMenu = ({ hasPHPBuName }) => {
   const menuItems = useMemo(() => {
     const items = [
       { path: 'account', label: 'Account', icon: <Account /> },
-      ...(enableContracts || enableMyAgents
+      ...(enableContracts
         ? [
             {
               path: 'contracts',
@@ -111,8 +114,23 @@ const ProfileMenu = ({ hasPHPBuName }) => {
               icon: (
                 <FontAwesomeIcon
                   icon={faFileCertificate}
-                  size='lg'
-                  color='#4178FF'
+                  size="lg"
+                  color="#4178FF"
+                />
+              ),
+            },
+          ]
+        : []),
+      ...(enableMyAgents
+        ? [
+            {
+              path: 'downlines',
+              label: 'Downlines',
+              icon: (
+                <FontAwesomeIcon
+                  icon={faUsers}
+                  size="lg"
+                  color="#4178FF"
                 />
               ),
             },
