@@ -593,13 +593,6 @@ const PlansPage = () => {
         setSubTypeList(subTypes);
         setCarrierList(carriers);
         analyticsService.fireEvent('event-quoting-plans');
-        if (isQuickQuotePage) {
-          analyticsService.fireEvent('New Quote Created With Instant Quote', {
-            leadId: selectedLead?.leadsId,
-            line_of_business: 'Health',
-            contactType: 'New Contact',
-          });
-        }
       } catch (e) {
         Sentry.captureException(e);
       } finally {

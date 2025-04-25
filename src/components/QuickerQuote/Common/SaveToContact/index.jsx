@@ -142,8 +142,6 @@ const SaveToContact = ({
           setCreateNewContactModalOpen(false);
           handlelingNavWithCallBack(response);
 
-          fireEvent('New Contact Created With Quote Quote');
-
         } else {
           alert('Failed to save lead.');
         }

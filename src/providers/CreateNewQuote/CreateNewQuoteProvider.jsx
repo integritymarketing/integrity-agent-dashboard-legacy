@@ -159,9 +159,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
           fireEvent('New Quote Created With Instant Quote', {
             leadId: selectedLead?.leadsId,
             line_of_business: 'Health',
-            contactType: newLeadDetails?.firstName
-              ? 'New Contact'
-              : 'Existing Contact',
+            contactType: 'New Contact',
           });
           navigate(`/plans/${selectedLead?.leadsId}`);
           handleClose();
@@ -190,9 +188,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
       fireEvent('New Quote Created With Instant Quote', {
         leadId: selectedLead?.leadsId,
         line_of_business: 'Life',
-        contactType: newLeadDetails?.firstName
-          ? 'New Contact'
-          : 'Existing Contact',
+        contactType: 'New Contact',
       });
       switch (productType) {
         case LIFE_QUESTION_CARD_LIST.FINAL_EXPENSE:
@@ -253,9 +249,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
         fireEvent('New Quote Created With Instant Quote', {
           leadId: selectedLead?.leadsId,
           line_of_business: 'Health',
-          contactType: newLeadDetails?.firstName
-            ? 'New Contact'
-            : 'Existing Contact',
+          contactType: 'New Contact',
         });
         navigate(`/plans/${selectedLead?.leadsId}`);
         handleClose();
