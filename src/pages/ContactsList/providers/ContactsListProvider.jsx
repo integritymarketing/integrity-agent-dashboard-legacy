@@ -148,6 +148,10 @@ export const ContactsListProvider = ({ children }) => {
   ]);
 
   const clearAllFilters = useCallback(() => {
+    localStorage.removeItem('duplicateLeadIds');
+    localStorage.removeItem('filterLeadIds');
+    localStorage.removeItem('campaignsLeadIds');
+
     setSelectedFilterSections([]);
     setIsStartedSearching(false);
     setSearchInputValue('');
