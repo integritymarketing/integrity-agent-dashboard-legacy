@@ -181,6 +181,17 @@ const GlobalNavV2 = ({
       unit => unit?.buCode?.toUpperCase() === 'PHP'
     );
   }, [agentData]);
+
+  const enableContracts = useMemo(() => {
+    if (!agentData) return false;
+    return agentData?.enableContracts;
+  }, [agentData]);
+
+  const enableMyAgents = useMemo(() => {
+    if (!agentData) return false;
+    return agentData?.enableMyAgents;
+  }, [agentData]);
+
   let showPhoneNotification = false;
 
   if (auth.isAuthenticated && user && !user.phone) {
@@ -320,7 +331,11 @@ const GlobalNavV2 = ({
                 >
                   <PlusMenu />
                 </Box>
-                <ProfileMenu hasPHPBuName={hasPHPBuName} />
+                <ProfileMenu
+                  hasPHPBuName={hasPHPBuName}
+                  enableContracts={enableContracts}
+                  enableMyAgents={enableMyAgents}
+                />
               </>
             )}
           </nav>

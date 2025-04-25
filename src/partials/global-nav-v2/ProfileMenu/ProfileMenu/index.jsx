@@ -18,17 +18,14 @@ import {
   LearningCenter,
 } from '../icons';
 import styles from './styles.module.scss';
-import useAgentInformationByID from 'hooks/useAgentInformationByID';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsersManageAgents } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
+import { faUsersManageAgents } from '@awesome.me/kit-7ab3488df1/icons/kit/custom';
 import { faFileCertificate } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 
-const ProfileMenu = ({ hasPHPBuName }) => {
+const ProfileMenu = ({ hasPHPBuName, enableContracts, enableMyAgents }) => {
   const { logout, getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
   const { npn, email } = useUserProfile();
-  const { agentInformation } = useAgentInformationByID();
-  const { enableContracts, enableMyAgents } = agentInformation || {};
   const [anchorElement, setAnchorElement] = useState(null);
   const isMenuOpen = Boolean(anchorElement);
 
@@ -47,16 +44,10 @@ const ProfileMenu = ({ hasPHPBuName }) => {
           window.location.href = import.meta.env.VITE_AUTH_PAW_REDIRECT_URI;
           break;
         case 'contracts':
-            window.open(
-              import.meta.env.VITE_CONNECT_APP_CONTRACTS_WEB,
-              '_blank'
-            );
+          window.open(import.meta.env.VITE_CONNECT_APP_CONTRACTS_WEB, '_blank');
           break;
-          case 'downlines':
-            window.open(
-              import.meta.env.VITE_CONNECT_APP_DOWNLINES_WEB,
-              '_blank'
-            );
+        case 'downlines':
+          window.open(import.meta.env.VITE_CONNECT_APP_DOWNLINES_WEB, '_blank');
           break;
         case 'learning_center':
           navigate('/learning-center');
@@ -111,8 +102,8 @@ const ProfileMenu = ({ hasPHPBuName }) => {
               icon: (
                 <FontAwesomeIcon
                   icon={faFileCertificate}
-                  size="lg"
-                  color="#4178FF"
+                  size='lg'
+                  color='#4178FF'
                 />
               ),
             },
@@ -126,8 +117,8 @@ const ProfileMenu = ({ hasPHPBuName }) => {
               icon: (
                 <FontAwesomeIcon
                   icon={faUsersManageAgents}
-                  size="lg"
-                  color="#4178FF"
+                  size='lg'
+                  color='#4178FF'
                 />
               ),
             },
@@ -200,18 +191,9 @@ const ProfileMenu = ({ hasPHPBuName }) => {
 };
 
 ProfileMenu.propTypes = {
-  /** Auth0 logout function */
-  logout: PropTypes.func,
-  /** Auth0 get access token function */
-  getAccessTokenSilently: PropTypes.func,
-  /** React Router navigation function */
-  navigate: PropTypes.func,
-  /** User profile data */
-  npn: PropTypes.string,
-  email: PropTypes.string,
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
   hasPHPBuName: PropTypes.bool,
+  enableContracts: PropTypes.bool,
+  enableMyAgents: PropTypes.bool,
 };
 
 export default ProfileMenu;
