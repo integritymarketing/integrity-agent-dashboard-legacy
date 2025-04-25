@@ -117,20 +117,20 @@ export const CreateNewQuoteProvider = ({ children }) => {
   );
 
   const handleInitiateQuickQuoteLead = useCallback(() => {
-    if (!leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote) {
-      setQuoteModalStage('selectProductTypeCard');
-    } else {
-      setSelectedProductType(leadPreference?.hideLifeQuote ? 'health' : 'life');
-      if (!leadPreference?.hideLifeQuote) {
-        setQuoteModalStage('lifeQuestionCard');
-      } else {
-        setQuoteModalStage('zipCodeInputCard');
-      }
+    setQuoteModalStage('selectProductTypeCard');
+
+    if (leadPreference?.productClassificationNames?.includes('Life')) {
+      setQuoteModalStage('lifeQuestionCard');
+    } else if (leadPreference?.productClassificationNames?.includes('Health')) {
+      setQuoteModalStage('zipCodeInputCard');
     }
   }, [leadPreference]);
 
   const showUpArrow = useMemo(() => {
-    return !leadPreference?.hideLifeQuote && !leadPreference?.hideHealthQuote;
+    return (
+      leadPreference?.productClassificationNames?.length > 1 ||
+      leadPreference?.productClassificationNames?.length === 0
+    );
   }, [leadPreference]);
 
   const handleSelectedProductType = useCallback(

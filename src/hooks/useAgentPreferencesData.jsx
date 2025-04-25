@@ -21,10 +21,14 @@ function useAgentPreferencesData() {
     try {
       setIsLoading(true);
       const response = await clientsService.getAgentAvailability(agentId);
-      setLeadPreference(response?.leadPreference);
+      const leadPreference = {
+        ...response?.leadPreference,
+        productClassificationNames: response?.productClassificationNames,
+      };
+      setLeadPreference(leadPreference);
       setAgentAvailability(response);
       setIsLoading(false);
-      return response?.leadPreference;
+      return leadPreference;
     } catch (error) {
       setIsLoading(false);
       Sentry.captureException(error);

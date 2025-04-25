@@ -1,11 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
   Button,
-  Checkbox,
-  Divider,
-  FormControlLabel,
   Typography,
 } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -62,9 +59,6 @@ const PlansTypeModal = ({
   const agentNPN = agentInformation?.agentNPN;
   const { fireEvent } = useAnalytics();
   const { leadPreference, updateAgentPreferences } = useAgentAccountContext();
-
-  const shouldShowPlanTypeModal =
-    !leadPreference?.hideHealthQuote && !leadPreference?.hideLifeQuote;
 
   const { Get: getAgentNonRTS } = useFetch(
     `${AGENT_SERVICE_NON_RTS}${agentNPN}`
@@ -150,6 +144,34 @@ const PlansTypeModal = ({
     setIsLoading(false);
   }, [fireEvent, getAgentNonRTS, leadId, navigate, onSelectHandle]);
 
+  const shouldShowTwoProducts = useMemo(() => {
+    return leadPreference?.productClassificationNames?.length > 1;
+  }, [leadPreference]);
+
+  /**
+   * If the modal is shown and both health and life quotes are not hidden,
+   * it determines the current type from the user's preferences.
+   * If the current type is health, it triggers the health plan click.
+   * If the current type is life, it triggers the final expense plan click.
+   */
+  useEffect(() => {
+    if (showPlanTypeModal && !shouldShowTwoProducts) {
+      setIsLoading(true);
+      if (leadPreference?.productClassificationNames?.includes('Health')) {
+        handleHealthPlanClick();
+      } else if (leadPreference?.productClassificationNames?.includes('Life')) {
+        handleFinalExpensePlanClick();
+      }
+    }
+  }, [
+    leadPreference,
+    showPlanTypeModal,
+    handleHealthPlanClick,
+    handleFinalExpensePlanClick,
+    shouldShowTwoProducts,
+  ]);
+
+
   const handleContinue = () => {
     fireEvent('Quote Type Selected', {
       leadid: leadId,
@@ -210,16 +232,14 @@ const PlansTypeModal = ({
    * If the current type is life, it triggers the final expense plan click.
    */
   useEffect(() => {
-    if (!shouldShowPlanTypeModal && showPlanTypeModal) {
-      const currentType = leadPreference?.hideLifeQuote ? HEALTH : LIFE;
-      if (currentType === HEALTH) {
+    if (showPlanTypeModal) {
+      if (leadPreference?.productClassificationNames?.includes('Health')) {
         handleHealthPlanClick();
-      } else {
+      } else if (leadPreference?.productClassificationNames?.includes('Life')) {
         handleFinalExpensePlanClick();
       }
     }
   }, [
-    shouldShowPlanTypeModal,
     leadPreference,
     showPlanTypeModal,
     handleHealthPlanClick,
@@ -259,34 +279,10 @@ const PlansTypeModal = ({
                   <Box className={styles.title}>MedicareCENTER</Box>
                 </Box>
               </Box>
-              <Divider />
-              <Box
-                display='flex'
-                gap='0px'
-                alignItems='center'
-                justifyContent='center'
-                marginTop='30px'
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checked}
-                      onChange={() => setChecked(!checked)}
-                    />
-                  }
-                  label="Don't show this again"
-                />
-              </Box>
             </>
           )}
           {showLifeQuestionCard && !showIulGoalQuestionCard && (
-            <QuoteModalCard
-              action={
-                shouldShowPlanTypeModal
-                  ? () => setShowLifeQuestionCard(false)
-                  : null
-              }
-            >
+            <QuoteModalCard action={() => setShowLifeQuestionCard(false)}>
               <LifeQuestionCard
                 IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
                 handleSelectLifeProductType={handleSelectLifeProductType}

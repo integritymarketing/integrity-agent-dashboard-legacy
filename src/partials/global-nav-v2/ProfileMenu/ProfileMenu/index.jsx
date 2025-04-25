@@ -20,7 +20,8 @@ import {
 import styles from './styles.module.scss';
 import useAgentInformationByID from 'hooks/useAgentInformationByID';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileCertificate, faUsers } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
+import { faUsersManageAgents } from "@awesome.me/kit-7ab3488df1/icons/kit/custom";
+import { faFileCertificate } from '@awesome.me/kit-7ab3488df1/icons/classic/light';
 
 const ProfileMenu = ({ hasPHPBuName }) => {
   const { logout, getAccessTokenSilently } = useAuth0();
@@ -128,7 +129,7 @@ const ProfileMenu = ({ hasPHPBuName }) => {
               label: 'Downlines',
               icon: (
                 <FontAwesomeIcon
-                  icon={faUsers}
+                  icon={faUsersManageAgents}
                   size="lg"
                   color="#4178FF"
                 />
