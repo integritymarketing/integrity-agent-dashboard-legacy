@@ -325,7 +325,7 @@ const IulAccumulationQuoteDetails = () => {
           setLinkToExistContactId(response?.leadsId);
           preEnroll(response?.leadsId);
         }}
-        page='accumulation plans details page'
+        page='accumulation'
         isApplyProcess={true}
       />
       {shareModalOpen && (

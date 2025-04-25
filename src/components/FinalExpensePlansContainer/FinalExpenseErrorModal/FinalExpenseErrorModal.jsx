@@ -29,8 +29,6 @@ export const SingleSignOnModal = ({
   fetchPlans,
   writingAgentNumber,
   setIsSingleSignOnInitialModalOpen,
-  handleRefreshPageWithNewLead,
-  isQuickQuotePage,
 }) => {
   const [isContinuing, setIsContinuing] = useState(false);
   const [error, setError] = useState(null);
@@ -79,11 +77,7 @@ export const SingleSignOnModal = ({
   };
 
   const refreshOrFetchPlans = () => {
-    if (isQuickQuotePage) {
-      handleRefreshPageWithNewLead();
-    } else {
-      fetchPlans();
-    }
+    fetchPlans();
   };
 
   const onContinueWithIdHandle = async () => {
@@ -125,7 +119,6 @@ export const SingleSignOnModal = ({
       });
       setIsContinuing(false);
       handleClose();
-      handleRefreshPageWithNewLead();
     }
   };
 
