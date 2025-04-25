@@ -159,7 +159,7 @@ const ProfileMenu = ({ hasPHPBuName }) => {
             item.label !== 'MedicareAPP'
         )
       : items;
-  }, [hasPHPBuName]);
+  }, [hasPHPBuName, enableContracts, enableMyAgents]);
 
   return (
     <>
