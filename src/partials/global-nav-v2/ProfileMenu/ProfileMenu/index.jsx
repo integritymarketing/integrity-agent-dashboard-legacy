@@ -47,20 +47,16 @@ const ProfileMenu = ({ hasPHPBuName }) => {
           window.location.href = import.meta.env.VITE_AUTH_PAW_REDIRECT_URI;
           break;
         case 'contracts':
-          if (enableContracts) {
             window.open(
               import.meta.env.VITE_CONNECT_APP_CONTRACTS_WEB,
               '_blank'
             );
-          }
           break;
           case 'downlines':
-           if (enableMyAgents) {
             window.open(
               import.meta.env.VITE_CONNECT_APP_DOWNLINES_WEB,
               '_blank'
             );
-          }
           break;
         case 'learning_center':
           navigate('/learning-center');
@@ -101,7 +97,7 @@ const ProfileMenu = ({ hasPHPBuName }) => {
       }
       handleMenuClose();
     },
-    [navigate, npn, email, logout, handleMenuClose, enableContracts, enableMyAgents]
+    [navigate, npn, email, logout, handleMenuClose]
   );
 
   const menuItems = useMemo(() => {
