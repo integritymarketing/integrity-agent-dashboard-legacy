@@ -16,6 +16,9 @@ import NoCoverageModal from './NoCoverageModal';
 import PropTypes from 'prop-types';
 import IconBackGround from 'components/ui/IconBackGround';
 import ShareModal from 'components/FnaShareModal';
+import { useLeadDetails } from 'providers/ContactDetails';
+import SaveToContact from 'components/QuickerQuote/Common/SaveToContact';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
 
 const CoverageReview = ({
   handleNext,
@@ -26,8 +29,12 @@ const CoverageReview = ({
   const { financialNeedsAnalysis } = useCoverageCalculationsContext();
   const navigate = useNavigate();
   const { contactId } = useParams();
+  const { isQuickQuotePage } = useCreateNewQuote();
+  const { getLeadDetailsAfterSearch } = useLeadDetails();
   const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
   const [showShareModal, setShowShareModal] = useState(false);
+  const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
+  const [linkToExistContactId, setLinkToExistContactId] = useState(null);
 
   const formatValue = value => {
     if (value === undefined || value === null) {
@@ -112,6 +119,19 @@ const CoverageReview = ({
     setShowShareModal(true);
   }, []);
 
+  const handleOpenQuickQuoteShareModal = async leadId => {
+    const response = await getLeadDetailsAfterSearch(leadId, true);
+    if (response) {
+      handleShareModal();
+    }
+  };
+
+  const refreshQuickQuotePage = useCallback(() => {
+    if (isQuickQuotePage) {
+      navigate(`/coverage-calculations/${linkToExistContactId}`);
+    }
+  }, [isQuickQuotePage, linkToExistContactId, navigate]);
+
   return (
     <>
       {shouldNoCoverageModalOpen ? (
@@ -136,7 +156,13 @@ const CoverageReview = ({
           primaryButtonLabel='Start a Quote'
           showSkipButton={false}
           showShareButton
-          onShare={handleShareModal}
+          onShare={() => {
+            if (isQuickQuotePage) {
+              setContactSearchModalOpen(true);
+            } else {
+              handleShareModal();
+            }
+          }}
         >
           <Box p={2} bgcolor='#F1F1F1' borderRadius={1}>
             <GridListItem data={tableData} headers={headers} />
@@ -261,10 +287,24 @@ const CoverageReview = ({
       {showShareModal && (
         <ShareModal
           open={showShareModal}
-          onClose={() => setShowShareModal(false)}
+          onClose={() => {
+            setShowShareModal(false);
+            refreshQuickQuotePage();
+          }}
           financialNeedsAnalysis={financialNeedsAnalysis}
+          refreshQuickQuotePage={refreshQuickQuotePage}
         />
       )}
+
+      <SaveToContact
+        contactSearchModalOpen={contactSearchModalOpen}
+        handleClose={() => setContactSearchModalOpen(false)}
+        handleCallBack={response => {
+          setLinkToExistContactId(response?.leadsId);
+          handleOpenQuickQuoteShareModal(response?.leadsId);
+        }}
+        isApplyProcess={true}
+      />
     </>
   );
 };

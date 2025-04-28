@@ -39,13 +39,23 @@ const CoverageCalculationsContainer = () => {
   const [formValue, setFormValues] = useState({});
 
   useEffect(() => {
-    if (!hasFna) {
+    if (isQuickQuotePage && currentStep === 6) {
+      return;
+    }
+    if (!hasFna || (isQuickQuotePage && currentStep !== 6)) {
       setFormValues(null);
       setFinancialNeedsAnalysis(null);
       return;
     }
     getFinancialNeedsAnalysis(contactId);
-  }, [getFinancialNeedsAnalysis, hasFna, setFinancialNeedsAnalysis]);
+  }, [
+    getFinancialNeedsAnalysis,
+    hasFna,
+    setFinancialNeedsAnalysis,
+    isQuickQuotePage,
+    contactId,
+    currentStep,
+  ]);
 
   useEffect(() => {
     setFormValues({
@@ -120,7 +130,10 @@ const CoverageCalculationsContainer = () => {
     setCurrentStep(1);
   };
 
-  if (isLoadingFinancialNeedsAnalysis || isLoadingLeadDetails) {
+  if (
+    isLoadingFinancialNeedsAnalysis ||
+    (isLoadingLeadDetails && !isQuickQuotePage)
+  ) {
     return (
       <Box
         display='flex'

@@ -1,22 +1,22 @@
-import React, {useState, useCallback, useEffect} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import ContactSearchModal from '../ContactSearchModal';
 import CreateContactForm from '../CreateContactForm';
-import {useCreateNewQuote} from 'providers/CreateNewQuote';
+import { useCreateNewQuote } from 'providers/CreateNewQuote';
 import LinkToContact from '../LinkToContact';
-import {useNavigate} from 'react-router-dom';
-import useAnalytics from "hooks/useAnalytics";
+import { useNavigate } from 'react-router-dom';
+import useAnalytics from 'hooks/useAnalytics';
 
 const getFormattedPhone = phone =>
   phone ? `${phone}`.replace(/\D/g, '') : null;
 
 const SaveToContact = ({
-                         contactSearchModalOpen,
-                         handleClose,
-                         handleCallBack,
-                         page,
-                         isApplyProcess = false,
-                         navPath,
-                       }) => {
+  contactSearchModalOpen,
+  handleClose,
+  handleCallBack,
+  page,
+  isApplyProcess = false,
+  navPath,
+}) => {
   const {
     quickQuoteLeadDetails,
     saveQuickQuoteLeadDetails,
@@ -24,7 +24,7 @@ const SaveToContact = ({
     isLoadingExistingLinkLeadToQuickQuote,
   } = useCreateNewQuote();
   const navigate = useNavigate();
-  const {fireEvent} = useAnalytics();
+  const { fireEvent } = useAnalytics();
 
   const [createNewContactModalOpen, setCreateNewContactModalOpen] =
     useState(false);
@@ -102,6 +102,8 @@ const SaveToContact = ({
       }
       if (page === 'protection plan compare page') {
         navWithCallBack(`/life/iul-protection/${leadId}/${navPath}`, response);
+      } else {
+        navWithCallBack(``, response);
       }
     },
     [navWithCallBack, page, navPath]
@@ -141,7 +143,6 @@ const SaveToContact = ({
         if (response && response?.leadsId) {
           setCreateNewContactModalOpen(false);
           handlelingNavWithCallBack(response);
-
         } else {
           alert('Failed to save lead.');
         }
