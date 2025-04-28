@@ -1,10 +1,7 @@
 import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  Button,
-  Typography,
-} from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 
@@ -171,7 +168,6 @@ const PlansTypeModal = ({
     shouldShowTwoProducts,
   ]);
 
-
   const handleContinue = () => {
     fireEvent('Quote Type Selected', {
       leadid: leadId,
@@ -225,27 +221,6 @@ const PlansTypeModal = ({
     [leadId, navigate]
   );
 
-  /**
-   * If the modal is shown and both health and life quotes are not hidden,
-   * it determines the current type from the user's preferences.
-   * If the current type is health, it triggers the health plan click.
-   * If the current type is life, it triggers the final expense plan click.
-   */
-  useEffect(() => {
-    if (showPlanTypeModal) {
-      if (leadPreference?.productClassificationNames?.includes('Health')) {
-        handleHealthPlanClick();
-      } else if (leadPreference?.productClassificationNames?.includes('Life')) {
-        handleFinalExpensePlanClick();
-      }
-    }
-  }, [
-    leadPreference,
-    showPlanTypeModal,
-    handleHealthPlanClick,
-    handleFinalExpensePlanClick,
-  ]);
-
   const handleCalculateCoverageNeeds = () => {
     sessionStorage.removeItem('currentCalculationStep');
     navigate(`/coverage-calculations/${leadId}`);
@@ -254,7 +229,9 @@ const PlansTypeModal = ({
   return (
     <>
       <Modal
-        open={showPlanTypeModal}
+        open={
+          showPlanTypeModal && (showLifeQuestionCard || shouldShowTwoProducts)
+        }
         onClose={handleModalClose}
         hideFooter
         title='Select a Product Category'
@@ -282,7 +259,15 @@ const PlansTypeModal = ({
             </>
           )}
           {showLifeQuestionCard && !showIulGoalQuestionCard && (
-            <QuoteModalCard action={() => setShowLifeQuestionCard(false)}>
+            <QuoteModalCard
+              action={
+                shouldShowTwoProducts
+                  ? () => {
+                      setShowLifeQuestionCard(false);
+                    }
+                  : null
+              }
+            >
               <LifeQuestionCard
                 IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
                 handleSelectLifeProductType={handleSelectLifeProductType}
