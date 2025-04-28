@@ -44,6 +44,7 @@ function ConditionalPopupDatePicker({
         className={styles.datepicker}
         iconPosition='left'
         minDate={minDate}
+        valueFormat={"yyyy-MM-DD"}
       />
       {error && (
         <Typography variant='body2' color='error' mt={0.5}>

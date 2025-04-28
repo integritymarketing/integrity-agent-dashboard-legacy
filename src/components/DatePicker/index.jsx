@@ -1,22 +1,24 @@
-import { useEffect, useState } from 'react';
+import {useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
-import { isValid } from 'date-fns';
+import {isValid} from 'date-fns';
 import Box from '@mui/material/Box';
-import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import {DesktopDatePicker, LocalizationProvider} from '@mui/x-date-pickers';
+import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns';
 import CalendarIcon from 'components/icons/version-2/Calendar';
 import ArrowDownIcon from 'components/icons/version-2/ArrowDownBig';
+import moment from 'moment';
 
 function DatePickerMUI({
-  disableFuture,
-  value,
-  onChange,
-  className,
-  minDate,
-  startAdornment = <CalendarIcon />,
-  endAdornment = <ArrowDownIcon />,
-  disabled = false,
-}) {
+                         disableFuture,
+                         value,
+                         onChange,
+                         className,
+                         minDate,
+                         startAdornment = <CalendarIcon />,
+                         endAdornment = <ArrowDownIcon />,
+                         disabled = false,
+                         valueFormat = null,
+                       }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -26,21 +28,26 @@ function DatePickerMUI({
   };
   const handleClose = () => setOpen(false);
 
-  const handleDateChange = newValue => {
+  const handleDateChange = (newValue) => {
     if (!newValue || isNaN(newValue.getTime()) || !isValid(newValue)) {
       onChange(null);
     } else {
-      onChange(newValue);
+      if (valueFormat) {
+        const dateValue = moment(newValue).format(valueFormat);
+        onChange(dateValue);
+      } else {
+        onChange(newValue);
+      }
     }
   };
 
-  useEffect(() => {
-    if (value && isValid(new Date(value))) {
-      onChange(value);
-    }
-  }, [value]);
+  const parsedValue = useMemo(() => {
+    const parsedVal = value ? (valueFormat ? moment(value, valueFormat).toDate() : new Date(value)) : null;
+    handleDateChange(parsedVal);
+    return parsedVal;
+  }, [value, valueFormat]);
 
-  const restrictNonNumericKeys = event => {
+  const restrictNonNumericKeys = (event) => {
     if (event.key.length !== 1 || /[^0-9]/.test(event.key)) {
       event.preventDefault();
     }
@@ -56,9 +63,9 @@ function DatePickerMUI({
         views={['year', 'month', 'day']}
         disableFuture={disableFuture}
         minDate={minDate}
-        value={value ? new Date(value) : null}
+        value={parsedValue}
         onChange={handleDateChange}
-        format='MM/dd/yyyy'
+        format="MM/dd/yyyy"
         className={className}
         slotProps={{
           textField: {
@@ -93,7 +100,7 @@ DatePickerMUI.propTypes = {
   /** Disable selecting future dates */
   disableFuture: PropTypes.bool,
   /** The selected date value */
-  value: PropTypes.instanceOf(Date),
+  value: PropTypes.string,
   /** Callback function to handle date change */
   onChange: PropTypes.func.isRequired,
   /** Additional class name for styling */
@@ -102,6 +109,10 @@ DatePickerMUI.propTypes = {
   minDate: PropTypes.instanceOf(Date),
   startAdornment: PropTypes.node,
   endAdornment: PropTypes.node,
+  /** Disable the date picker */
+  disabled: PropTypes.bool,
+  /** Format for the value */
+  valueFormat: PropTypes.string,
 };
 
 export default DatePickerMUI;

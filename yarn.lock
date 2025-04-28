@@ -1322,10 +1322,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.3.tgz#4a2868d75d6d6963e423bcf90b7fd1be343409d3"
   integrity sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==
 
-"@integritymarketing/clients-ui-kit@^2.0.7":
-  version "2.0.7"
-  resolved "https://npm.pkg.github.com/download/@integritymarketing/clients-ui-kit/2.0.7/658dd429863ce594a64d944ebba3726908b8a50d#658dd429863ce594a64d944ebba3726908b8a50d"
-  integrity sha512-EIuwuvhDfer4uhrwlHkhMTf51C9bmJrokxYn7Zx/NbYJFv6J4orSUTPelQn0MA8zOPlUbXrRsFzxwpKnQ4iWDw==
+"@integritymarketing/clients-ui-kit@^2.0.8":
+  version "2.0.8"
+  resolved "https://npm.pkg.github.com/download/@integritymarketing/clients-ui-kit/2.0.8/d367a9bec9fe0fe1850122c58b59465c0356f06c#d367a9bec9fe0fe1850122c58b59465c0356f06c"
+  integrity sha512-DIzoODpVYwRHU6maGq/J6Yod3OkY7ejMT8Mc7xPgK6JBqOUfU0g6HU72FFfbGJZrFrrCUgLqekHwoM011mzpYg==
   dependencies:
     "@awesome.me/kit-7ab3488df1" "^1.0.442"
     "@fortawesome/fontawesome-svg-core" "^6.7.1"
