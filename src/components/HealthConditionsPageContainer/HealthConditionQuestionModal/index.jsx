@@ -50,16 +50,6 @@ function HealthConditionQuestionModal({
   const handleCloseModal = () => {
     setValues(null);
     clearConditionalQuestionData();
-
-    const flow = isSimplifiedIUL ? 'simplified_iul' : 'final_expense';
-
-    fireEvent('Health Condition Added', {
-      leadid: contactId,
-      flow: flow,
-      fex_questions_required: 'Yes',
-      fex_questions_complete: 'No',
-    });
-
     onClose();
     fetchHealthConditions(contactId);
   };
@@ -77,6 +67,24 @@ function HealthConditionQuestionModal({
           conditionIds.includes(parseInt(_.conditionId)) &&
           !_.areUwQuestionsComplete
       );
+
+      const conditionsCompleted = response.filter(
+        _ =>
+          conditionIds.includes(parseInt(_.conditionId)) &&
+          _.areUwQuestionsComplete
+      );
+
+      if (conditionsCompleted.length > 0) {
+        const flow = isSimplifiedIUL ? 'simplified_iul' : 'final_expense';
+        conditionsCompleted.forEach(completed => {
+          fireEvent('Health Condition Added', {
+            leadid: contactId,
+            flow: flow,
+            fex_questions_required: completed.underwritingQuestionsAnswers,
+            fex_questions_complete: completed.areUwQuestionsComplete,
+          });
+        });
+      }
 
       if (conditions.length > 0) {
         await Promise.all(
@@ -123,7 +131,7 @@ function HealthConditionQuestionModal({
         if (setIsAddNewActivityDialogOpen) {
           setIsAddNewActivityDialogOpen(true);
         }
-        handleCloseModal();
+        handleCancelClick();
       } else {
         setQuestionData(questions);
       }
