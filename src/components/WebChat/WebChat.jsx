@@ -86,7 +86,7 @@ const WebChatComponent = () => {
       focusInputBox();
     }
     return showPrompt;
-  }, [lastMessage, searchForContactBtnClick, setSearchForContactBtnClick]);
+  }, [lastMessage, searchForContactBtnClick]);
 
   useEffect(() => {
     const fcFrame = document.getElementById('fc_frame');
@@ -601,9 +601,11 @@ const WebChatComponent = () => {
             handleIncomingActivity(action);
             if (action.payload?.activity?.text) {
               setLastMessage(action.payload.activity.text);
+            } else {
+              setSearchForContactBtnClick(false);
+              setSuggestedContacts([]);
             }
             break;
-
           default:
             break;
         }

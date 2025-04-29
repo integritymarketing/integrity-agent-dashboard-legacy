@@ -201,7 +201,12 @@
       color: rgb(255 255 255);
     }
   }
-
+  .ac-container .ac-textBlock {
+    line-height: 20.6px !important;
+  }
+  button.ac-pushButton[aria-label='View Contact'] {
+    margin-right: -37px;
+  }
   .webchat__stacked-layout__attachment:has(#mc_Inline_FeedBackCard) {
     .webchat__bubble__content {
       border-top-right-radius: 0px;
@@ -209,6 +214,7 @@
       background: none;
       display: flex !important;
       justify-content: flex-end !important;
+      padding-right: 0px;
     }
     .ac-columnSet {
       .ac-container {
@@ -227,7 +233,6 @@
     }
     #mc_Inline_FeedBackCard {
       padding: 0 !important;
-      padding-right: 5px !important;
     }
 
     .ac-container img {
@@ -395,7 +400,7 @@
     flex-direction: row !important;
     justify-content: center !important;
     align-items: stretch;
-    gap: 0.5rem;
+    gap: 1.8rem;
   }
 
   a {
