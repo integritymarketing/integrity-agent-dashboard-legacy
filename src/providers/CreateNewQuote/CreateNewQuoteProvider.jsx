@@ -118,8 +118,12 @@ export const CreateNewQuoteProvider = ({ children }) => {
 
   const handleInitiateQuickQuoteLead = useCallback(() => {
     setQuoteModalStage('selectProductTypeCard');
-
-    if (leadPreference?.productClassificationNames?.includes('Life')) {
+    if (
+      leadPreference?.productClassificationNames?.length === 0 ||
+      leadPreference?.productClassificationNames?.length > 1
+    ) {
+      setSelectedProductType('selectProductTypeCard');
+    } else if (leadPreference?.productClassificationNames?.includes('Life')) {
       setQuoteModalStage('lifeQuestionCard');
     } else if (leadPreference?.productClassificationNames?.includes('Health')) {
       setQuoteModalStage('zipCodeInputCard');

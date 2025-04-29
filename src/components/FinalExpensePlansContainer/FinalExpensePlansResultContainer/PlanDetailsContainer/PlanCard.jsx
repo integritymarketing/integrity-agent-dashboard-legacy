@@ -173,7 +173,7 @@ export const PlanCard = ({
     }
   };
 
-  const onApply = async (producerId, onSuccess, apiErrorState = false, d) => {
+  const onApply = async (producerId, onSuccess, apiErrorState = false, leadData) => {
     try {
       const updatedLeadDetails = leadData || leadDetails;
       let writingAgentNumberToSend = getWritingAgentNumber(
@@ -210,7 +210,7 @@ export const PlanCard = ({
     return apiErrorState ? producerId : latestWritingAgentNumber ?? producerId;
   };
 
-  const handleResponse = async () => {
+  const handleResponse = async (response, onSuccess) => {
     if (!response?.success) {
       if (response?.status === 400) {
         setIsFinalExpenseErrorModalOpen(true);

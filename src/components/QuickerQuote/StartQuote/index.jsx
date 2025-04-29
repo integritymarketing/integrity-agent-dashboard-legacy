@@ -41,7 +41,7 @@ const StartQuoteModal = () => {
 
   return (
     <CustomModal
-      title={quoteModalStage === "selectProductTypeCard" ? 'Quick Quote' : ''}
+      title={quoteModalStage === 'selectProductTypeCard' ? 'Quick Quote' : ''}
       open={open}
       handleClose={onClose}
       showCloseButton
@@ -98,7 +98,11 @@ const StartQuoteModal = () => {
 
       {quoteModalStage === 'zipCodeInputCard' && (
         <QuoteModalCard
-          action={() => setQuoteModalStage('selectProductTypeCard')}
+          action={
+            showUpArrow
+              ? () => setQuoteModalStage('selectProductTypeCard')
+              : null
+          }
         >
           <ZipcodeForm />
         </QuoteModalCard>
