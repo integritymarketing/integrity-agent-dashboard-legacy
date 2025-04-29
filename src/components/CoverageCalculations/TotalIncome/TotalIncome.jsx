@@ -23,8 +23,8 @@ const TotalIncome = ({
 
   const onContinue = useCallback(async () => {
     if (
-      totalAnnualIncome === financialNeedsAnalysis.totalAnnualIncome &&
-      yearsIncomeReplacement === financialNeedsAnalysis.yearsIncomeReplacement
+      totalAnnualIncome === financialNeedsAnalysis?.totalAnnualIncome &&
+      yearsIncomeReplacement === financialNeedsAnalysis?.yearsIncomeReplacement
     ) {
       handleNext();
       return;
