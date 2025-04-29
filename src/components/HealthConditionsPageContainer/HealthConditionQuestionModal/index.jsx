@@ -80,7 +80,8 @@ function HealthConditionQuestionModal({
           fireEvent('Health Condition Added', {
             leadid: contactId,
             flow: flow,
-            fex_questions_required: completed.underwritingQuestionsAnswers,
+            fex_questions_required:
+              completed.underwritingQuestionsAnswers.length > 0,
             fex_questions_complete: completed.areUwQuestionsComplete,
           });
         });
