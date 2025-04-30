@@ -29,8 +29,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
   const LIFE = 'hideLifeQuote';
   const HEALTH = 'hideHealthQuote';
 
-  const IUL_FEATURE_FLAG = import.meta.env.VITE_IUL_FEATURE_FLAG === 'show';
-
   const [contactSearchModalOpen, setContactSearchModalOpen] = useState(false);
   const [createNewContactModalOpen, setCreateNewContactModalOpen] =
     useState(false);
@@ -144,11 +142,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
       }
       setSelectedProductType(productType);
       if (productType === 'life') {
-        if (IUL_FEATURE_FLAG) {
-          setQuoteModalStage('lifeQuestionCard');
-        } else {
-          setQuoteModalStage('finalExpenseIntakeFormCard');
-        }
+        setQuoteModalStage('lifeQuestionCard');
       } else {
         const postalCode =
           selectedLead?.addresses?.length > 0
@@ -181,7 +175,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
       navigate,
       handleClose,
       selectedLead,
-      IUL_FEATURE_FLAG,
       newLeadDetails,
     ]
   );
@@ -425,7 +418,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
       setQuoteModalStage,
       handleClose,
       showUpArrow,
-      IUL_FEATURE_FLAG,
       handleSelectIulGoalType,
       isSimplifiedIUL,
       quickQuoteLeadId,

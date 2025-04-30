@@ -16,7 +16,6 @@ const StartQuoteModal = () => {
     quoteModalStage,
     setQuoteModalStage,
     showUpArrow,
-    IUL_FEATURE_FLAG,
     selectedLead,
     handleSelectLifeProductType,
     fetchCountiesData,
@@ -63,7 +62,6 @@ const StartQuoteModal = () => {
           }
         >
           <LifeQuestionCard
-            IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
             handleSelectLifeProductType={handleSelectLifeProductType}
           />
         </QuoteModalCard>
@@ -75,10 +73,7 @@ const StartQuoteModal = () => {
             showUpArrow ? () => setQuoteModalStage('lifeQuestionCard') : null
           }
         >
-          <IulGoalQuestionCard
-            IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
-            handleSelectIulGoal={handleSelectIulGoalType}
-          />
+          <IulGoalQuestionCard handleSelectIulGoal={handleSelectIulGoalType} />
         </QuoteModalCard>
       )}
 
@@ -86,12 +81,7 @@ const StartQuoteModal = () => {
         <QuoteModalCard
           action={
             showUpArrow && !isLoadingLeadDetails
-              ? () =>
-                  setQuoteModalStage(
-                    IUL_FEATURE_FLAG
-                      ? 'lifeQuestionCard'
-                      : 'selectProductTypeCard'
-                  )
+              ? () => setQuoteModalStage('lifeQuestionCard')
               : null
           }
         >

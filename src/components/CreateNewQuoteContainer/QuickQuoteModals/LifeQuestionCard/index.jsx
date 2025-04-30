@@ -4,9 +4,6 @@ import { LIFE_QUESTION_CARD_LIST } from './constants';
 import { useCarriers } from 'providers/CarriersProvider';
 import WithLoader from 'components/ui/WithLoader';
 
-const CARRIERS_PRODUCTS_FLAG =
-  import.meta.env.VITE_CARRIERS_PRODUCTS_FLAG === 'show';
-
 const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
   const { getCarriersData, isLoadingGetCarriers } = useCarriers();
   const [carriersData, setCarriersData] = useState([]);
@@ -29,10 +26,8 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
   }, [getCarriersData]);
 
   useEffect(() => {
-    if (CARRIERS_PRODUCTS_FLAG) {
-      fetchCarriers();
-    }
-  }, [fetchCarriers, CARRIERS_PRODUCTS_FLAG]);
+    fetchCarriers();
+  }, [fetchCarriers]);
 
   const isExistTermCarriers = useMemo(() => {
     return carriersData.some(carrier =>
@@ -66,17 +61,13 @@ const LifeQuestionCard = ({ handleSelectLifeProductType }) => {
     return lifeQuestionCardList;
   }, [isExistTermCarriers, isExistGulCarriers, isExistAnnuitiesCarriers]);
 
-  const cardsList = CARRIERS_PRODUCTS_FLAG
-    ? Object.values(updatedLifeQuestionCardList)
-    : Object.values(LIFE_QUESTION_CARD_LIST).slice(0, 3);
-
   return (
     <WithLoader isLoading={isLoadingGetCarriers}>
       <SelectionList
         title='What type of Life Product?'
-        selectionList={cardsList}
+        selectionList={Object.values(updatedLifeQuestionCardList)}
         handleSelectItem={handleSelectLifeProductType}
-        gridSize={CARRIERS_PRODUCTS_FLAG ? 6 : 12}
+        gridSize={6}
       />
     </WithLoader>
   );

@@ -31,7 +31,6 @@ import ButtonCircleArrow from 'components/icons/button-circle-arrow';
 
 const LIFE = 'hideLifeQuote';
 const HEALTH = 'hideHealthQuote';
-const IUL_FEATURE_FLAG = import.meta.env.VITE_IUL_FEATURE_FLAG === 'show';
 
 const PlansTypeModal = ({
   showPlanTypeModal,
@@ -132,11 +131,7 @@ const PlansTypeModal = ({
         leadid: leadId,
         line_of_business: 'Life',
       });
-      if (IUL_FEATURE_FLAG) {
-        setShowLifeQuestionCard(true);
-      } else {
-        navigate(`/finalexpenses/create/${leadId}`);
-      }
+      setShowLifeQuestionCard(true);
     }
     setIsLoading(false);
   }, [fireEvent, getAgentNonRTS, leadId, navigate, onSelectHandle]);
@@ -173,12 +168,7 @@ const PlansTypeModal = ({
       leadid: leadId,
       line_of_business: 'Life',
     });
-    if (IUL_FEATURE_FLAG) {
-      setShowLifeQuestionCard(true);
-    } else {
-      handleModalClose();
-      navigate(`/finalexpenses/create/${leadId}`);
-    }
+    setShowLifeQuestionCard(true);
   };
 
   const handleSelectLifeProductType = useCallback(
@@ -269,7 +259,6 @@ const PlansTypeModal = ({
               }
             >
               <LifeQuestionCard
-                IUL_FEATURE_FLAG={IUL_FEATURE_FLAG}
                 handleSelectLifeProductType={handleSelectLifeProductType}
               />
               <Box textAlign='center'>
