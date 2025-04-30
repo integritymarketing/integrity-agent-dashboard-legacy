@@ -306,15 +306,6 @@ function HealthConditionQuestionModal({
             }
 
             setValues(prevResponse);
-
-            if (!isSimplifiedIUL) {
-              fireEvent('Health Condition Added', {
-                leadid: contactId,
-                flow: 'final_expense',
-                fex_questions_required: 'Yes',
-                fex_questions_complete: 'Yes',
-              });
-            }
           }
         }
       } else {

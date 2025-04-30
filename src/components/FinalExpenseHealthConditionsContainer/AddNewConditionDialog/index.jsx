@@ -155,8 +155,8 @@ const AddNewConditionDialog = ({
         fireEvent('Health Condition Updated', {
           leadid: contactId,
           flow: page,
-          fex_questions_required: 'Yes', // TODO-EVENT: This is a guess.  We need to confirm.
-          fex_questions_complete: 'Yes', // TODO-EVENT: This is a guess.  We need to confirm.
+          fex_questions_required: 'Yes',
+          fex_questions_complete: 'Yes',
         });
         setHealthConditions([...response]);
       }
@@ -174,13 +174,6 @@ const AddNewConditionDialog = ({
       });
       if (response && response.length > 0) {
         setHealthConditions([...response]);
-
-        fireEvent('Health Condition Added', {
-          leadid: contactId,
-          flow: page,
-          fex_questions_required: 'Yes', // TODO-EVENT: This is a guess.  We need to confirm.
-          fex_questions_complete: 'Yes', // TODO-EVENT: This is a guess.  We need to confirm.
-        });
       }
     }
     setIsSavingToServer(false);
