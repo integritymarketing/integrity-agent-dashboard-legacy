@@ -62,7 +62,12 @@ export default function InboundCallBanner() {
                 <div className={styles.inboundCallWrapper}>
                     <Heading4 text={title} />
                     <Typography color="#434A51" sx={{ mx: 1 }} variant="subtitle1">
-                        {formatPhoneNumber(activeCallStatus?.from, true)}
+                      {activeCallStatus?.callType === "outbound"
+                        ? formatPhoneNumber(activeCallStatus?.to, false)
+                        : activeCallStatus?.callType === "inbound"
+                          ? formatPhoneNumber(activeCallStatus?.from, true)
+                          : ""
+                      }
                     </Typography>
                 </div>
                 <div onClick={() => setModalOpen(true)}>
