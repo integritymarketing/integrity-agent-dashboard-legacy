@@ -55,7 +55,7 @@ export default function InboundCallBanner() {
     }, [activeCallStatus]);
 
     const renderBannerContent = () => {
-        const tags = activeCallStatus?.callLogTags.map((tag) => tag.tag.tagLabel);
+        const tags = activeCallStatus?.callLogTags?.map((tag) => tag.tag.tagLabel);
 
         return (
             <>
