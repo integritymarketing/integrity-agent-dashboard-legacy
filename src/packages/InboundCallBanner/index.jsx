@@ -37,10 +37,10 @@ export default function InboundCallBanner() {
         const localDate = convertUTCDateToLocalDate(callStartTime);
 
         const queryParams = new URLSearchParams({
-            id: callLogId,
-            phoneNumber: from,
-            duration: duration,
-            date: localDate,
+          id: callLogId,
+          phoneNumber: activeCallStatus?.callType === "outbound" ? activeCallStatus?.to : activeCallStatus?.from,
+          duration: duration,
+          date: localDate,
         }).toString();
 
         navigate(`/link-to-contact?${queryParams}`);
@@ -62,7 +62,8 @@ export default function InboundCallBanner() {
                 <div className={styles.inboundCallWrapper}>
                     <Heading4 text={title} />
                     <Typography color="#434A51" sx={{ mx: 1 }} variant="subtitle1">
-                      {activeCallStatus?.callType === "outbound"
+                      {
+                        activeCallStatus?.callType === "outbound"
                         ? formatPhoneNumber(activeCallStatus?.to, false)
                         : activeCallStatus?.callType === "inbound"
                           ? formatPhoneNumber(activeCallStatus?.from, true)
