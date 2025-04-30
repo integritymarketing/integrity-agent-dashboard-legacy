@@ -323,7 +323,9 @@ const IulProtectionComparePlans = () => {
             setCompareShareModalOpen(false);
             if (isQuickQuotePage) {
               navigate(
-                `/life/iul-accumulation/${linkToExistContactId}/${planId}/quote-details`
+                `/life/iul-protection/${linkToExistContactId}/${planIds.join(
+                  ','
+                )}/compare-plans`
               );
             }
           }}
