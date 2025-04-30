@@ -42,9 +42,8 @@ function DatePickerMUI({
   };
 
   const parsedValue = useMemo(() => {
-    const parsedVal = value ? (valueFormat ? moment(value, valueFormat).toDate() : new Date(value)) : null;
-    handleDateChange(parsedVal);
-    return parsedVal;
+    if (!value) return null;
+    return valueFormat ? moment(value, valueFormat).toDate() : new Date(value);
   }, [value, valueFormat]);
 
   const restrictNonNumericKeys = (event) => {
