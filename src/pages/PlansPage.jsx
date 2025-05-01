@@ -150,11 +150,13 @@ const PlansPage = () => {
 
   const { isNonRTS_User } = useRoles();
 
-  const MY_APPOINTED_PLANS = isNonRTS_User
-    ? false
-    : showSelected
-    ? s_options?.s_myAppointedPlans
-    : true;
+  const MY_APPOINTED_PLANS = useMemo(() => {
+    return isNonRTS_User
+      ? false
+      : showSelected
+      ? s_options?.s_myAppointedPlans
+      : true;
+  }, [isNonRTS_User, showSelected, s_options]);
   const { clientsService, plansService } = useClientServiceContext();
   const navigate = useNavigate();
   const location = useLocation();
@@ -163,7 +165,7 @@ const PlansPage = () => {
   const [loading, setLoading] = useState(true);
   const [plansLoading, setPlansLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [myAppointedPlans, setMyAppointedPlans] = useState(false);
+  const [myAppointedPlans, setMyAppointedPlans] = useState(undefined);
   const [sort, setSort] = useState(
     showSelected ? s_options?.s_sort : 'total-asc'
   );
@@ -225,7 +227,7 @@ const PlansPage = () => {
 
   useEffect(() => {
     setMyAppointedPlans(MY_APPOINTED_PLANS);
-  }, [isNonRTS_User, MY_APPOINTED_PLANS]);
+  }, [MY_APPOINTED_PLANS]);
 
   useOnClickOutside(showViewAvailablePlansRef, () => {
     if (isAddProviderModalOpen === false) {
@@ -486,7 +488,7 @@ const PlansPage = () => {
   };
 
   const refreshPlans = useCallback(async () => {
-    if (leadDetails) {
+    if (leadDetails && myAppointedPlans !== undefined) {
       setPlansAvailableCount(0);
       setFilteredPlansCount(0);
       setPlansLoading(true);
@@ -555,7 +557,7 @@ const PlansPage = () => {
   }, [leadDetails, isQuickQuotePage]);
 
   const getAllPlans = useCallback(async () => {
-    if (leadDetails) {
+    if (leadDetails && myAppointedPlans !== undefined) {
       setPlansAvailableCount(0);
       setFilteredPlansCount(0);
       setPlansLoading(true);
