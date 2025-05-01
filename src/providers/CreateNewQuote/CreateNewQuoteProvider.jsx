@@ -154,11 +154,6 @@ export const CreateNewQuoteProvider = ({ children }) => {
             : null;
 
         if (postalCode && countyDetails) {
-          fireEvent('New Quote Created With Instant Quote', {
-            leadId: selectedLead?.leadsId,
-            line_of_business: 'Health',
-            contactType: 'New Contact',
-          });
           navigate(`/plans/${selectedLead?.leadsId}`);
           handleClose();
         } else {
