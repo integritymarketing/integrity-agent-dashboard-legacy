@@ -244,7 +244,11 @@ export default function ComparePlansByPlanName({
                           }
                           className={styles['enroll-btn']}
                           iconPosition={'right'}
-                          disabled={disableEnroll}
+                          disabled={
+                            disableEnroll ||
+                            (plan?.planType === 2 &&
+                              plan?.commissionable === false)
+                          }
                         />
 
                         {preCheckListPdfModal && (
@@ -283,7 +287,11 @@ export default function ComparePlansByPlanName({
                           }
                           className={styles['enroll-btn']}
                           iconPosition={'right'}
-                          disabled={disableEnroll}
+                          disabled={
+                            disableEnroll ||
+                            (plan?.planType === 2 &&
+                              plan?.commissionable === false)
+                          }
                         />
                         {preCheckListPdfModal && (
                           <PreEnrollPDFModal

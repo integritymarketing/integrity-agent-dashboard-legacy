@@ -38,7 +38,8 @@ const CompactPlanCardNew = ({
   const { fireEvent } = useAnalytics();
 
   const disableEnroll =
-    shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate);
+    shouldDisableEnrollButtonBasedOnEffectiveDate(effectiveDate) ||
+    (planData?.planType === 2 && planData?.commissionable === false);
   const buttons = (
     <div className={`footer ${isMobile ? 'mobile controlButtons' : ''}`}>
       {documents === null || documents?.length === 0 ? (
