@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {isValid} from 'date-fns';
 import Box from '@mui/material/Box';
@@ -20,6 +20,7 @@ function DatePickerMUI({
                          valueFormat = null,
                        }) {
   const [open, setOpen] = useState(false);
+  const isInitialMount = useRef(true);
 
   const handleOpen = () => {
     if (!disabled) {
@@ -45,6 +46,13 @@ function DatePickerMUI({
     if (!value) return null;
     return valueFormat ? moment(value, valueFormat).toDate() : new Date(value);
   }, [value, valueFormat]);
+
+  useEffect(() => {
+    if (isInitialMount.current && parsedValue && isValid(parsedValue)) {
+      handleDateChange(parsedValue);
+      isInitialMount.current = false;
+    }
+  }, [parsedValue]);
 
   const restrictNonNumericKeys = (event) => {
     if (event.key.length !== 1 || /[^0-9]/.test(event.key)) {
