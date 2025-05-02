@@ -286,6 +286,13 @@ function HealthConditionQuestionModal({
         if (resp) {
           setValues(() => null);
           if (currentQuestionIndex === questionData.length - 1) {
+            fireEvent('Health Condition Added', {
+              leadid: contactId,
+              flow: isSimplifiedIUL ? 'simplified_iul' : 'final_expense',
+              fex_questions_required: currentQuestion.required === 'Y',
+              fex_questions_complete: values !== null && values !== undefined,
+            });
+
             onSuccessOfHealthConditionQuestionModal();
             handleCloseModal();
           } else {
