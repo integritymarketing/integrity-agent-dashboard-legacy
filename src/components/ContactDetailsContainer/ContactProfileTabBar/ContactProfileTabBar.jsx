@@ -19,6 +19,8 @@ import { useLeadDetails } from 'providers/ContactDetails';
 import { toTitleCase } from 'utils/toTitleCase';
 import styles from './ContactProfileTabBar.module.scss';
 import { Button } from 'components/ui/Button';
+import { useAgentAccountContext } from 'providers/AgentAccountProvider';
+import NoProductsSelectedModal from 'components/ContactDetailsContainer/NoProductsSelectedModal';
 
 const TABS = [
   { name: 'Overview', section: 'overview', icon: <Overview /> },
@@ -54,6 +56,17 @@ export const ContactProfileTabBar = ({
   const [isPlanTypeModalVisible, setIsPlanTypeModalVisible] = useState(
     location.state?.showProductCategoryModal
   );
+  const [isNoProductsSelectedModalOpen, setIsNoProductsSelectedModalOpen] =
+    useState(false);
+
+  const { leadPreference } = useAgentAccountContext();
+
+  const isNoProductsSelected = useMemo(() => {
+    return (
+      !leadPreference?.productClassificationNames ||
+      leadPreference?.productClassificationNames?.length === 0
+    );
+  }, [leadPreference]);
 
   const isContactDetailsPage = currentPath?.toLowerCase().includes('contact');
   const leadName =
@@ -100,7 +113,11 @@ export const ContactProfileTabBar = ({
   }, []);
 
   const handleStartQuote = useCallback(() => {
-    setIsPlanTypeModalVisible(true);
+    if (isNoProductsSelected) {
+      setIsNoProductsSelectedModalOpen(true);
+    } else {
+      setIsPlanTypeModalVisible(true);
+    }
   }, []);
 
   const renderTab = ({ name, section, icon }) => {
@@ -228,6 +245,13 @@ export const ContactProfileTabBar = ({
             leadDetails={leadDetails}
           />
         )}
+        {isNoProductsSelectedModalOpen && (
+          <NoProductsSelectedModal
+            open={isNoProductsSelectedModalOpen}
+            handleClose={handleClosePlanTypeModal}
+          />
+        )}
+
         {isPlanTypeModalVisible && (
           <PlansTypeModal
             zipcode={zipcode}
