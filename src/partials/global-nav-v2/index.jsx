@@ -31,6 +31,7 @@ import PlusMenu from './plusMenu';
 import { QUOTE_TYPE } from 'components/ContactDetailsContainer/OverviewContainer/overviewContainer.constants';
 import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProvider';
 import { WelcomeModal } from 'components/WelcomeModal';
+import NoProductsSelectedModal from 'components/ContactDetailsContainer/NoProductsSelectedModal';
 
 const SiteNotification = ({
   showPhoneNotification,
@@ -91,15 +92,20 @@ const GlobalNavV2 = ({
   const { getAgentData, agentData, updateAgentPreferencesData } =
     useProfessionalProfileContext();
   const { getQuickQuoteLeadId } = useCreateNewQuote();
-
   const [navOpen, setNavOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
   const [helpModalOpen, setHelpModalOpen] = useState(false);
   const user = useUserProfile();
-
+  const [isNoProductsSelectedModalOpen, setIsNoProductsSelectedModalOpen] =
+    useState(false);
   const { agentInformation } = useAgentInformationByID();
   const leadPreference = agentData?.leadPreference;
+  const isNoProductsSelected = useMemo(() => {
+    return (
+      !leadPreference?.productClassificationNames ||
+      leadPreference?.productClassificationNames?.length === 0
+    );
+  }, [agentInformation]);
 
   const mobileMenuProps = {
     navOpen,
@@ -142,7 +148,12 @@ const GlobalNavV2 = ({
                 to: '#',
                 onClick: e => {
                   e.preventDefault();
-                  getQuickQuoteLeadId();
+                  if (isNoProductsSelected) {
+                    setIsNoProductsSelectedModalOpen(true);
+                  } else {
+                    setIsNoProductsSelectedModalOpen(false);
+                    getQuickQuoteLeadId();
+                  }
                 },
                 className: analyticsService.clickClass('quick-quote-header'),
               },
@@ -214,7 +225,6 @@ const GlobalNavV2 = ({
     if (agentInformation?.leadPreference?.isAgentMobilePopUpDismissed) {
       return false;
     }
-
     if (sessionValue) {
       return false;
     }
@@ -242,7 +252,12 @@ const GlobalNavV2 = ({
         getAgentData={getAgentData}
         updateAgentPreferencesData={updateAgentPreferencesData}
       />
-
+      {isNoProductsSelectedModalOpen && (
+        <NoProductsSelectedModal
+          open={isNoProductsSelectedModalOpen}
+          handleClose={() => setIsNoProductsSelectedModalOpen(false)}
+        />
+      )}
       <header
         className={`global-nav-v2 ${analyticsService.clickClass(
           'nav-wrapper'

@@ -58,7 +58,6 @@ export const ContactProfileTabBar = ({
   );
   const [isNoProductsSelectedModalOpen, setIsNoProductsSelectedModalOpen] =
     useState(false);
-
   const { leadPreference } = useAgentAccountContext();
 
   const isNoProductsSelected = useMemo(() => {
@@ -248,7 +247,7 @@ export const ContactProfileTabBar = ({
         {isNoProductsSelectedModalOpen && (
           <NoProductsSelectedModal
             open={isNoProductsSelectedModalOpen}
-            handleClose={handleClosePlanTypeModal}
+            handleClose={()=> setIsNoProductsSelectedModalOpen(false)}
           />
         )}
 
