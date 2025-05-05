@@ -204,9 +204,7 @@
   .ac-container .ac-textBlock {
     line-height: 20.6px !important;
   }
-  button.ac-pushButton[aria-label='View Contact'] {
-    margin-right: -37px;
-  }
+
   .webchat__stacked-layout__attachment:has(#mc_Inline_FeedBackCard) {
     .webchat__bubble__content {
       border-top-right-radius: 0px;
@@ -400,7 +398,7 @@
     flex-direction: row !important;
     justify-content: center !important;
     align-items: stretch;
-    gap: 1.8rem;
+    gap: 0.7rem;
   }
 
   a {
