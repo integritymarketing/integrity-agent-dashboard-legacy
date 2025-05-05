@@ -507,11 +507,7 @@ const WebChatComponent = () => {
             npn: npn,
             leadId: actionValue.leadId || '',
             rating: actionValue.type,
-            writtenFeedbackProvided: feedbackActivityData?.additionalComment
-              ? 'yes'
-              : 'no',
             submissionDate: new Date().toISOString(),
-            feedback: [],
           });
         } else {
           setShowFeedbackSurvey(true);
@@ -531,11 +527,7 @@ const WebChatComponent = () => {
             npn: npn,
             leadId: actionValue.leadId || '',
             rating: actionValue.type,
-            writtenFeedbackProvided: feedbackActivityData?.additionalComment
-              ? 'yes'
-              : 'no',
             submissionDate: new Date().toISOString(),
-            feedback: [],
           });
         }
         break;
@@ -646,18 +638,15 @@ const WebChatComponent = () => {
       },
     });
 
-    fireEvent('Ask Integrity In-Line Feedback Selected', {
+    fireEvent('Ask Integrity Detailed Feedback Submitted', {
       callId: feedbackActivityData?.actionValue?.data?.callId,
       id: feedbackActivityData?.actionValue?.data?.cardId,
       documentType: feedbackActivityData?.actionValue?.data?.dialogId,
       npn: npn,
       leadId: feedbackActivityData?.actionValue?.data?.leadId,
       rating: feedbackActivityData?.actionValue?.data?.type,
-      writtenFeedbackProvided: feedbackActivityData?.additionalComment
-        ? 'yes'
-        : 'no',
       submissionDate: new Date().toISOString(),
-      feedback: feedbackData,
+      options_selected: feedbackActivityData?.selectedFeedback,
     });
 
     setTimeout(() => {

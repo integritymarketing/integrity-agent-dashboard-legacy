@@ -60,7 +60,10 @@ export const CallScriptModal = ({
     !carrierProductData && !postalCode && !carrierAndProductData;
 
   const currentType = useMemo(() => {
-    if (leadPreference?.productClassificationNames?.includes('Life')) {
+    if (
+      leadPreference?.productClassificationNames?.includes('Life') &&
+      leadPreference?.productClassificationNames?.length === 1
+    ) {
       return LIFE;
     } else if (leadPreference?.productClassificationNames?.includes('Health')) {
       return HEALTH;

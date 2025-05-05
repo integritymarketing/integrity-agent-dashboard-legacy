@@ -44,7 +44,6 @@ const CoverageCalculationsContainer = () => {
     }
     if (!hasFna || (isQuickQuotePage && currentStep !== 6)) {
       setFormValues(null);
-      setFinancialNeedsAnalysis(null);
       return;
     }
     getFinancialNeedsAnalysis(contactId);
