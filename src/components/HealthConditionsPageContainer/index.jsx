@@ -62,13 +62,6 @@ const HealthConditionsPageContainer = () => {
   }, [contactId, fetchPrescriptions]);
 
   const amplitudeEventAndNavigate = () => {
-    if (isQuickQuotePage) {
-      fireEvent("New Quote Created With Instant Quote", {
-        leadId: leadDetails?.leadsId,
-        line_of_business: "Health",
-        contactType: "New Contact",
-      });
-    }
     navigate(
       `${
         isSimplifiedIUL() ? '/simplified-iul' : '/finalexpenses'
