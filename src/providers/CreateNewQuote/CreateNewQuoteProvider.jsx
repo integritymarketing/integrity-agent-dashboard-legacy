@@ -121,6 +121,7 @@ export const CreateNewQuoteProvider = ({ children }) => {
       !leadPreference?.productClassificationNames ||
       leadPreference?.productClassificationNames?.length === 0
     ) {
+      setShowStartQuoteModal(false);
       setIsNoProductsSelectedModalOpen(true);
     } else {
       setQuoteModalStage('selectProductTypeCard');
@@ -169,7 +170,8 @@ export const CreateNewQuoteProvider = ({ children }) => {
             leadId: selectedLead?.leadsId,
             line_of_business: 'Health',
             contactType: 'New Contact',
-          });``
+          });
+          ``;
           navigate(`/plans/${selectedLead?.leadsId}`);
           handleClose();
         } else {
