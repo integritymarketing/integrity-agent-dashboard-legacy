@@ -594,8 +594,10 @@ const WebChatComponent = () => {
             if (action.payload?.activity?.text) {
               setLastMessage(action.payload.activity.text);
             } else {
-              setSearchForContactBtnClick(false);
-              setSuggestedContacts([]);
+              setTimeout(() => {
+                setSearchForContactBtnClick(false);
+                setSuggestedContacts([]);
+              }, 2000);
             }
             break;
           default:
