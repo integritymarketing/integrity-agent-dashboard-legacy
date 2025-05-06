@@ -2,7 +2,6 @@
 
 #webchat {
   div {
-    font-size: 1rem;
     font-weight: normal !important;
     font-family: Lato, sans-serif !important;
     -webkit-font-smoothing: antialiased;
@@ -427,20 +426,6 @@
   .webchat__bubble__content > p {
     font-size: 1rem;
     font-family: Lato, sans-serif !important;
-  }
-
-  #mcContactSummaryCard,
-  #mcCallSummaryCard,
-  #mcTranscriptCard {
-    p {
-      font-size: 16px;
-    }
-
-    div:nth-child(3) {
-      p {
-        font-size: 24px;
-      }
-    }
   }
 
   .webchat__text-content__markdown p:nth-of-type(2) {
