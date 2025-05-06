@@ -60,6 +60,8 @@ export const CreateNewQuoteProvider = ({ children }) => {
   const [doNotShowAgain, setDoNotShowAgain] = useState(false);
   const [quickQuoteLeadId, setQuickQuoteLeadId] = useState(null);
   const [quickQuoteLeadDetails, setQuickQuoteLeadDetails] = useState(null);
+  const [isNoProductsSelectedModalOpen, setIsNoProductsSelectedModalOpen] =
+    useState(false);
 
   const getLeadIdApiUrl = `${
     import.meta.env.VITE_LEADS_URL
@@ -115,16 +117,25 @@ export const CreateNewQuoteProvider = ({ children }) => {
   );
 
   const handleInitiateQuickQuoteLead = useCallback(() => {
-    setQuoteModalStage('selectProductTypeCard');
     if (
-      leadPreference?.productClassificationNames?.length === 0 ||
-      leadPreference?.productClassificationNames?.length > 1
+      !leadPreference?.productClassificationNames ||
+      leadPreference?.productClassificationNames?.length === 0
     ) {
-      setSelectedProductType('selectProductTypeCard');
-    } else if (leadPreference?.productClassificationNames?.includes('Life')) {
-      setQuoteModalStage('lifeQuestionCard');
-    } else if (leadPreference?.productClassificationNames?.includes('Health')) {
-      setQuoteModalStage('zipCodeInputCard');
+      setIsNoProductsSelectedModalOpen(true);
+    } else {
+      setQuoteModalStage('selectProductTypeCard');
+      if (
+        leadPreference?.productClassificationNames?.length === 0 ||
+        leadPreference?.productClassificationNames?.length > 1
+      ) {
+        setSelectedProductType('selectProductTypeCard');
+      } else if (leadPreference?.productClassificationNames?.includes('Life')) {
+        setQuoteModalStage('lifeQuestionCard');
+      } else if (
+        leadPreference?.productClassificationNames?.includes('Health')
+      ) {
+        setQuoteModalStage('zipCodeInputCard');
+      }
     }
   }, [leadPreference]);
 
@@ -428,6 +439,8 @@ export const CreateNewQuoteProvider = ({ children }) => {
       saveQuickQuoteLeadDetails,
       existingLinkLeadToQuickQuote,
       isLoadingExistingLinkLeadToQuickQuote,
+      isNoProductsSelectedModalOpen,
+      setIsNoProductsSelectedModalOpen,
     };
   }
 };
