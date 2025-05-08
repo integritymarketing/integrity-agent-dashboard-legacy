@@ -1,21 +1,47 @@
 import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import federation from "@originjs/vite-plugin-federation";
 
 export default defineConfig(({mode}) => {
 
   return {
     base: "/",
-    plugins: [react()],
+    plugins: [
+      react(),
+      federation({
+        name: 'integrityAgentDashboard',
+        filename: 'integrityAgentDashboard.js',
+        // Modules to expose
+        exposes: {
+          // './Dashboard': './src/pages/dashbaord/index.jsx',
+          './Dashboard': './src/pages/Dashboard/index.jsx',
+          // './Dashboard': './src/mainapp.jsx',
+        },
+        shared: []
+      })
+    ],
     publicDir: "public", // Ensure the public directory is picked up (default is "public")
 
     // Build configuration
     build: {
       outDir: "build", // Separate output folders
       sourcemap: true, // Enable sourcemaps
+      target: "esnext",
+      minify: 'esbuild',
+      cssCodeSplit: false,
       rollupOptions: {
-        input: path.resolve(__dirname, "index.html"),
+        input: {
+          main: path.resolve(__dirname, "index.html"),
+        },
+        output: {
+          format: 'esm',
+          entryFileNames: 'assets/[name].[hash].js',
+          chunkFileNames: 'assets/[name].[hash].js',
+          assetFileNames: 'assets/[name].[hash].[ext]',
+        },
       },
+
     },
 
     // Dev server configuration
