@@ -15,10 +15,10 @@ export default defineConfig(({mode}) => {
         // Modules to expose
         exposes: {
           // './Dashboard': './src/pages/dashbaord/index.jsx',
-          './Dashboard': './src/pages/Dashboard/index.jsx',
-          // './Dashboard': './src/mainapp.jsx',
+          // './Dashboard': './src/pages/Dashboard/index.jsx',
+          './Dashboard': './src/mainapp.jsx',
         },
-        shared: []
+        shared: ['react', 'react-dom']
       })
     ],
     publicDir: "public", // Ensure the public directory is picked up (default is "public")

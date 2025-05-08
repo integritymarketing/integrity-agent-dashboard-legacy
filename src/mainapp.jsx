@@ -37,6 +37,7 @@ import PortalUrl from "components/functional/portal-url";
 
 
 export const MainRouters = () => {
+  return (
   <React.StrictMode>
     <ParallaxProvider>
       <Router>
@@ -121,8 +122,7 @@ export const MainRouters = () => {
       </Router>
     </ParallaxProvider>
   </React.StrictMode>
-
-  return (
-    <MainRouters />
   );
 };
+
+export default MainRouters;
