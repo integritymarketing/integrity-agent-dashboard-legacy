@@ -12,10 +12,7 @@ export default defineConfig(({mode}) => {
       federation({
         name: 'integrityAgentDashboard',
         filename: 'integrityAgentDashboard.js',
-        // Modules to expose
         exposes: {
-          // './Dashboard': './src/pages/dashbaord/index.jsx',
-          // './Dashboard': './src/pages/Dashboard/index.jsx',
           './Dashboard': './src/mainapp.jsx',
         },
         shared: ['react', 'react-dom']
