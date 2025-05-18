@@ -13,7 +13,7 @@ export default defineConfig(({mode}) => {
         name: 'integrityAgentDashboard',
         filename: 'integrityAgentDashboard.js',
         exposes: {
-          './AgentDashboard': './src/mainApp.jsx',
+          './AgentDashboard': './src/test.jsx',
         },
         shared: ['react', 'react-dom']
       })
