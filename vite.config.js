@@ -15,7 +15,8 @@ export default defineConfig(({ mode }) => {
           './AgentDashboard': './src/test.jsx',
         },
         remotes: {
-          agentSharedContext: 'http://localhost:5001/assets/remoteEntry.js', // Make sure this is correct
+          // agentSharedContext: 'http://localhost:5002/assets/integrityAgentDashboard.js',
+          hostContext: 'http://localhost:3000/assets/remoteEntry.js',
         },
         shared: ['react', 'react-dom'],
       }),

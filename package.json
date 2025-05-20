@@ -38,6 +38,7 @@
     "downshift": "^8.3.1",
     "focus-visible": "^5.2.0",
     "formik": "^2.4.5",
+    "jotai": "^2.12.4",
     "lodash": "^4.17.21",
     "markdown-it-attrs-es5": "^2.0.2",
     "moment": "^2.30.1",
