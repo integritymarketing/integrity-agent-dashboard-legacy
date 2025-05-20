@@ -1,17 +1,14 @@
-import WelcomeHero from "partials/welcome-hero";
-import WelcomeFeatures from "partials/welcome-features";
-import SimpleFooter from "partials/simple-footer";
-
-const WelcomePage = () => {
-    return (
-        <>
-            <WelcomeHero />
-            <WelcomeFeatures />
-            <div className="bg-high-contrast">
-                <SimpleFooter className="simple-footer--no-padding simple-footer--blue-bg" />
-            </div>
-        </>
-    );
+const Test = () => {
+  return (
+    <div>
+      <h1>Test</h1>
+      <p>Welcome to the Test!</p>
+    </div>
+  );
 };
 
-export default WelcomePage;
+Test.propTypes = {
+  // No props needed for this component currently
+};
+
+export default Test;

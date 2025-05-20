@@ -172,6 +172,8 @@ const CoverageCalculationsPage = lazy(() =>
   import('pages/CoverageCalculationsPage/CoverageCalculationsPage')
 );
 
+const TestPage = lazy(() => import('../test'));
+
 const RedirectAndRestartLoginFlow = () => {
   const navigate = useNavigate();
 
@@ -269,6 +271,8 @@ const appRoutes = [
     path: '/',
     component: <TrafficDirector />,
   },
+  { path: '/test', component: <TestPage /> },
+
   { path: '/terms', component: <TermsPage /> },
   { path: '/privacy', component: <PrivacyPage /> },
   { path: '/terms-of-usage', component: <TermsOfUsagePage /> },
