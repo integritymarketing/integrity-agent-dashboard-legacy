@@ -19,7 +19,6 @@ import * as Sentry from '@sentry/react';
 const LandingPage = lazy(() => import('mobile/landing/LandingPage'));
 const MaintenancePage = lazy(() => import('pages/MaintenancePage'));
 const Welcome = lazy(() => import('pages/welcome'));
-const TestPage = lazy(() => import('./test'));
 
 const App = () => {
   const [, setIsAvailable] = useAgentAvailability();
@@ -97,7 +96,7 @@ const App = () => {
   return (
     <Routes>
       <Route
-        path='/test'
+        path='/welcome'
         element={
           <UnProtectedRoute redirectPath='/'>
             <Media
@@ -105,7 +104,7 @@ const App = () => {
                 small: '(max-width: 767px)',
               }}
             >
-              {matches => (matches.small ? <LandingPage /> : <TestPage />)}
+              {matches => (matches.small ? <LandingPage /> : <Welcome />)}
             </Media>
           </UnProtectedRoute>
         }

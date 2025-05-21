@@ -3,7 +3,7 @@
   "version": "3.0.1",
   "private": true,
   "engines": {
-    "node": "22.14.0"
+    "node": "22.15.0"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
@@ -38,7 +38,6 @@
     "downshift": "^8.3.1",
     "focus-visible": "^5.2.0",
     "formik": "^2.4.5",
-    "jotai": "^2.12.4",
     "lodash": "^4.17.21",
     "markdown-it-attrs-es5": "^2.0.2",
     "moment": "^2.30.1",
@@ -65,7 +64,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "cross-env NODE_OPTIONS=--max-old-space-size=4096 vite build",
+    "build": "vite build",
     "preview": "vite preview --strictPort --port 5002",
     "clean": "rm -rf dist distAuth node_modules && yarn",
     "test": "jest --watch",
@@ -75,8 +74,7 @@
     "start": "vite",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "postbuild": "node generate-redirects.mjs",
-    "sonar": "sonar-scanner",
-    "build-preview": "npm run build && npm run preview"
+    "sonar": "sonar-scanner"
   },
   "eslintConfig": {
     "extends": [
