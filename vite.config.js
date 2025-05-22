@@ -12,12 +12,12 @@ export default defineConfig(({ mode }) => {
         name: 'integrityAgentDashboard',
         filename: 'integrityAgentDashboard.js',
         exposes: {
-          './AgentDashboard': './src/test.jsx',
+          './AgentDashboard': './src/index.jsx',
         },
         remotes: {
           hostContext: 'http://localhost:3000/assets/remoteEntry.js',
         },
-        shared: ['react', 'react-dom', 'react-router-dom', '@auth0/auth0-react'],
+        shared: [],
       }),
     ],
     publicDir: 'public',
