@@ -33,6 +33,7 @@ import {Helmet, HelmetProvider} from "react-helmet-async";
 import React, {Suspense} from "react";
 import AppRouter from "components/functional/router";
 import AppRoutes from "@/App";
+import NewAppRoutes from "@/NewAppRoutes";
 import PortalUrl from "components/functional/portal-url";
 
 
@@ -86,7 +87,8 @@ export const MainRouters = () => {
                                                                 >
                                                                   <AppRouter>
                                                                     <div className='content-frame'>
-                                                                      <AppRoutes />
+                                                                      {/*<AppRoutes />*/}
+                                                                      <NewAppRoutes />
                                                                     </div>
                                                                   </AppRouter>
                                                                 </Suspense>
