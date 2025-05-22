@@ -303,14 +303,14 @@ const appRoutes = [
 ];
 
 const appProtectedRoutes = [
-  {
-    path: '/redirect-loading',
-    component: <RedirectLoadingPage />,
-  },
-  {
-    path: '/home',
-    component: <Dashboard />,
-  },
+  // {
+  //   path: '/redirect-loading',
+  //   component: <RedirectLoadingPage />,
+  // },
+  // {
+  //   path: '/home',
+  //   component: <Dashboard />,
+  // },
   {
     path: '/dashboard',
     component: (
@@ -320,412 +320,412 @@ const appProtectedRoutes = [
       </ContactDetailsProvider>
     ),
   },
-  {
-    path: '/link-to-contact/*',
-    component: <LinkToContact />,
-  },
-  {
-    path: '/enrollmenthistory/:contactId/:confirmationNumber/:effectiveDate',
-    component: (
-      <ContactDetailsProvider>
-        <EnrollmentHistoryPage />
-      </ContactDetailsProvider>
-    ),
-  },
-  {
-    path: '/enrollment-link-to-contact',
-    component: (
-      <ContactDetailsProvider>
-        <EnrollmentLinkToContact />
-      </ContactDetailsProvider>
-    ),
-  },
-  { path: '/help', component: <HelpPage /> },
-  { path: '/learning-center', component: <ResourcesPage /> },
-  {
-    path: '/contacts/*',
-    component: (
-      <>
-        <ContactsList />
-        <WebChatComponent />
-      </>
-    ),
-  },
-  { path: '/contact/add-new/:callLogId', component: <AddContactPage /> },
-  { path: '/contact/add-new', component: <AddContactPage /> },
-  { path: '/contact/new', component: <AddContactPage /> },
-  {
-    path: '/contact/:leadId/duplicate/:duplicateLeadId',
-    component: (
-      <>
-        <ContactDetailsProvider>
-          <ContactProfile />
-        </ContactDetailsProvider>
-      </>
-    ),
-  },
-  {
-    path: '/contact/:leadId',
-    component: (
-      <>
-        <ContactDetailsProvider>
-          <ContactProfile />
-        </ContactDetailsProvider>
-      </>
-    ),
-  },
-  {
-    path: '/contact/:leadId/:sectionId',
-    component: (
-      <>
-        <ContactDetailsProvider>
-          <ContactProfile />
-        </ContactDetailsProvider>
-      </>
-    ),
-  },
-
-  { path: '/client-import', component: <ClientImportPage /> },
-  {
-    path: '/plans/:contactId/compare/:planIds/:effectiveDate',
-    component: (
-      <ContactDetailsProvider>
-        <PharmacyProvider>
-          <ComparePlansPage />
-        </PharmacyProvider>
-      </ContactDetailsProvider>
-    ),
-  },
-  {
-    path: '/plans/:contactId',
-    component: (
-      <ContactDetailsProvider>
-        <PharmacyProvider>
-          <PlansPage />
-        </PharmacyProvider>
-      </ContactDetailsProvider>
-    ),
-  },
-  {
-    path: '/:contactId/plan/:planId/:effectiveDate',
-    component: (
-      <ContactDetailsProvider>
-        <PharmacyProvider>
-          <PlanDetailsPage />
-        </PharmacyProvider>
-      </ContactDetailsProvider>
-    ),
-  },
-  {
-    path: '/finalexpenses/healthconditions/:contactId',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <ConditionsProvider>
-            <HealthConditionsPage />
-          </ConditionsProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/finalexpenses/plans/:contactId',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <ConditionsProvider>
-            <FinalExpensePlansProvider>
-              <FinalExpensePlansPage />
-            </FinalExpensePlansProvider>
-            <WebChatComponent />
-          </ConditionsProvider>
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/finalexpenses/create/:contactId',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <FinalExpenseCreateQuotePage />
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/simplified-iul/create/:contactId',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <SimplifiedIULCreateQuotePage />
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/simplified-iul/healthconditions/:contactId',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <ConditionsProvider>
-            <SimplifiedIULHealthConditionsPage />
-          </ConditionsProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/simplified-iul/plans/:contactId',
-    component: (
-      <StrictMode>
-        <ConditionsProvider>
-          <ContactDetailsProvider>
-            <FinalExpensePlansProvider>
-              <SimplifiedIULPlansPage />
-            </FinalExpensePlansProvider>
-            <WebChatComponent />
-          </ContactDetailsProvider>
-        </ConditionsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/contact/:contactId/addZip',
-    component: (
-      <ContactDetailsProvider>
-        <AddZipPage />
-      </ContactDetailsProvider>
-    ),
-  },
-  {
-    path: 'taskList-results-mobile-layout/:npn/:widget/:date',
-    component: (
-      <ContactDetailsProvider>
-        <TaskListResultsMobileLayout />
-        <WebChatComponent />
-      </ContactDetailsProvider>
-    ),
-  },
-  {
-    path: 'policy-snapshot-mobile-layout/:npn/:date',
-    component: (
-      <ContactDetailsProvider>
-        <PolicySnapshotMobileLayout />
-        <WebChatComponent />
-      </ContactDetailsProvider>
-    ),
-  },
-  {
-    path: 'marketing/campaign-details/:campaignId',
-    component: (
-      <ContactsListProvider>
-        <CampaignInvitationPage />
-      </ContactsListProvider>
-    ),
-  },
-  {
-    path: 'marketing/campaign-dashboard',
-    component: <CampaignDashboardPage />,
-  },
-  {
-    path: 'marketing/client-connect-marketing',
-    component: <ClientConnectMarketingContainer />,
-  },
-  {
-    path: '/life/iul-accumulation/:contactId/quote',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <LifeIulQuoteProvider>
-            <IulAccumulationQuotePage />
-          </LifeIulQuoteProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/life/iul-protection/:contactId/quote',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <LifeIulQuoteProvider>
-            <IulProtectionQuotePage />
-          </LifeIulQuoteProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/life/iul-accumulation/:contactId/confirm-details',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <IulAccumulationConfirmationDetailsPage />
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/life/iul-accumulation/:contactId/product-preferences',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <ProductPreferenceDetailsProvider>
-              <IulAccumulationProductPreferencesPage />
-            </ProductPreferenceDetailsProvider>
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/life/iul-protection/:contactId/confirm-details',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <IulProtectionConfirmationDetailsPage />
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/life/iul-protection/:contactId/product-preferences',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <ProductPreferenceDetailsProvider>
-              <IulProtectionProductPreferencesPage />
-            </ProductPreferenceDetailsProvider>
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-
-  {
-    path: '/life/term/:contactId/carriers',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <TermProductCarriersPage />
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/life/gul/:contactId/carriers',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <GulProductCarriersPage />
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/life/annuities/:contactId/carriers',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <FinalExpensePlansProvider>
-            <AnnuitiesProductCarriersPage />
-          </FinalExpensePlansProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/life/iul-protection/:contactId/:planIds/compare-plans',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <LifeIulQuoteProvider>
-            <IulProtectionComparePlansPage />
-          </LifeIulQuoteProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/life/iul-accumulation/:contactId/:planId/quote-details',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <LifeIulQuoteProvider>
-            <IulAccumulationQuoteDetailsPage />
-          </LifeIulQuoteProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/life/iul-protection/:contactId/:planId/quote-details',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <LifeIulQuoteProvider>
-            <IulProtectionQuoteDetailsPage />
-          </LifeIulQuoteProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/life/iul-accumulation/:contactId/:planIds/compare-plans',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <LifeIulQuoteProvider>
-            <IulAccumulationComparePlansPage />
-          </LifeIulQuoteProvider>
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
-  {
-    path: '/coverage-calculations/:contactId',
-    component: (
-      <StrictMode>
-        <ContactDetailsProvider>
-          <CoverageCalculationsProvider>
-            <CoverageCalculationsPage />
-          </CoverageCalculationsProvider>
-          <WebChatComponent />
-        </ContactDetailsProvider>
-      </StrictMode>
-    ),
-  },
+  // {
+  //   path: '/link-to-contact/*',
+  //   component: <LinkToContact />,
+  // },
+  // {
+  //   path: '/enrollmenthistory/:contactId/:confirmationNumber/:effectiveDate',
+  //   component: (
+  //     <ContactDetailsProvider>
+  //       <EnrollmentHistoryPage />
+  //     </ContactDetailsProvider>
+  //   ),
+  // },
+  // {
+  //   path: '/enrollment-link-to-contact',
+  //   component: (
+  //     <ContactDetailsProvider>
+  //       <EnrollmentLinkToContact />
+  //     </ContactDetailsProvider>
+  //   ),
+  // },
+  // { path: '/help', component: <HelpPage /> },
+  // { path: '/learning-center', component: <ResourcesPage /> },
+  // {
+  //   path: '/contacts/*',
+  //   component: (
+  //     <>
+  //       <ContactsList />
+  //       <WebChatComponent />
+  //     </>
+  //   ),
+  // },
+  // { path: '/contact/add-new/:callLogId', component: <AddContactPage /> },
+  // { path: '/contact/add-new', component: <AddContactPage /> },
+  // { path: '/contact/new', component: <AddContactPage /> },
+  // {
+  //   path: '/contact/:leadId/duplicate/:duplicateLeadId',
+  //   component: (
+  //     <>
+  //       <ContactDetailsProvider>
+  //         <ContactProfile />
+  //       </ContactDetailsProvider>
+  //     </>
+  //   ),
+  // },
+  // {
+  //   path: '/contact/:leadId',
+  //   component: (
+  //     <>
+  //       <ContactDetailsProvider>
+  //         <ContactProfile />
+  //       </ContactDetailsProvider>
+  //     </>
+  //   ),
+  // },
+  // {
+  //   path: '/contact/:leadId/:sectionId',
+  //   component: (
+  //     <>
+  //       <ContactDetailsProvider>
+  //         <ContactProfile />
+  //       </ContactDetailsProvider>
+  //     </>
+  //   ),
+  // },
+  //
+  // { path: '/client-import', component: <ClientImportPage /> },
+  // {
+  //   path: '/plans/:contactId/compare/:planIds/:effectiveDate',
+  //   component: (
+  //     <ContactDetailsProvider>
+  //       <PharmacyProvider>
+  //         <ComparePlansPage />
+  //       </PharmacyProvider>
+  //     </ContactDetailsProvider>
+  //   ),
+  // },
+  // {
+  //   path: '/plans/:contactId',
+  //   component: (
+  //     <ContactDetailsProvider>
+  //       <PharmacyProvider>
+  //         <PlansPage />
+  //       </PharmacyProvider>
+  //     </ContactDetailsProvider>
+  //   ),
+  // },
+  // {
+  //   path: '/:contactId/plan/:planId/:effectiveDate',
+  //   component: (
+  //     <ContactDetailsProvider>
+  //       <PharmacyProvider>
+  //         <PlanDetailsPage />
+  //       </PharmacyProvider>
+  //     </ContactDetailsProvider>
+  //   ),
+  // },
+  // {
+  //   path: '/finalexpenses/healthconditions/:contactId',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <ConditionsProvider>
+  //           <HealthConditionsPage />
+  //         </ConditionsProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/finalexpenses/plans/:contactId',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <ConditionsProvider>
+  //           <FinalExpensePlansProvider>
+  //             <FinalExpensePlansPage />
+  //           </FinalExpensePlansProvider>
+  //           <WebChatComponent />
+  //         </ConditionsProvider>
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/finalexpenses/create/:contactId',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <FinalExpensePlansProvider>
+  //           <FinalExpenseCreateQuotePage />
+  //         </FinalExpensePlansProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/simplified-iul/create/:contactId',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <FinalExpensePlansProvider>
+  //           <SimplifiedIULCreateQuotePage />
+  //         </FinalExpensePlansProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/simplified-iul/healthconditions/:contactId',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <ConditionsProvider>
+  //           <SimplifiedIULHealthConditionsPage />
+  //         </ConditionsProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/simplified-iul/plans/:contactId',
+  //   component: (
+  //     <StrictMode>
+  //       <ConditionsProvider>
+  //         <ContactDetailsProvider>
+  //           <FinalExpensePlansProvider>
+  //             <SimplifiedIULPlansPage />
+  //           </FinalExpensePlansProvider>
+  //           <WebChatComponent />
+  //         </ContactDetailsProvider>
+  //       </ConditionsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/contact/:contactId/addZip',
+  //   component: (
+  //     <ContactDetailsProvider>
+  //       <AddZipPage />
+  //     </ContactDetailsProvider>
+  //   ),
+  // },
+  // {
+  //   path: 'taskList-results-mobile-layout/:npn/:widget/:date',
+  //   component: (
+  //     <ContactDetailsProvider>
+  //       <TaskListResultsMobileLayout />
+  //       <WebChatComponent />
+  //     </ContactDetailsProvider>
+  //   ),
+  // },
+  // {
+  //   path: 'policy-snapshot-mobile-layout/:npn/:date',
+  //   component: (
+  //     <ContactDetailsProvider>
+  //       <PolicySnapshotMobileLayout />
+  //       <WebChatComponent />
+  //     </ContactDetailsProvider>
+  //   ),
+  // },
+  // {
+  //   path: 'marketing/campaign-details/:campaignId',
+  //   component: (
+  //     <ContactsListProvider>
+  //       <CampaignInvitationPage />
+  //     </ContactsListProvider>
+  //   ),
+  // },
+  // {
+  //   path: 'marketing/campaign-dashboard',
+  //   component: <CampaignDashboardPage />,
+  // },
+  // {
+  //   path: 'marketing/client-connect-marketing',
+  //   component: <ClientConnectMarketingContainer />,
+  // },
+  // {
+  //   path: '/life/iul-accumulation/:contactId/quote',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <LifeIulQuoteProvider>
+  //           <IulAccumulationQuotePage />
+  //         </LifeIulQuoteProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/life/iul-protection/:contactId/quote',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <LifeIulQuoteProvider>
+  //           <IulProtectionQuotePage />
+  //         </LifeIulQuoteProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/life/iul-accumulation/:contactId/confirm-details',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <FinalExpensePlansProvider>
+  //           <IulAccumulationConfirmationDetailsPage />
+  //         </FinalExpensePlansProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/life/iul-accumulation/:contactId/product-preferences',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <FinalExpensePlansProvider>
+  //           <ProductPreferenceDetailsProvider>
+  //             <IulAccumulationProductPreferencesPage />
+  //           </ProductPreferenceDetailsProvider>
+  //         </FinalExpensePlansProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/life/iul-protection/:contactId/confirm-details',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <FinalExpensePlansProvider>
+  //           <IulProtectionConfirmationDetailsPage />
+  //         </FinalExpensePlansProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/life/iul-protection/:contactId/product-preferences',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <FinalExpensePlansProvider>
+  //           <ProductPreferenceDetailsProvider>
+  //             <IulProtectionProductPreferencesPage />
+  //           </ProductPreferenceDetailsProvider>
+  //         </FinalExpensePlansProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  //
+  // {
+  //   path: '/life/term/:contactId/carriers',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <FinalExpensePlansProvider>
+  //           <TermProductCarriersPage />
+  //         </FinalExpensePlansProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/life/gul/:contactId/carriers',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <FinalExpensePlansProvider>
+  //           <GulProductCarriersPage />
+  //         </FinalExpensePlansProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/life/annuities/:contactId/carriers',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <FinalExpensePlansProvider>
+  //           <AnnuitiesProductCarriersPage />
+  //         </FinalExpensePlansProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/life/iul-protection/:contactId/:planIds/compare-plans',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <LifeIulQuoteProvider>
+  //           <IulProtectionComparePlansPage />
+  //         </LifeIulQuoteProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/life/iul-accumulation/:contactId/:planId/quote-details',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <LifeIulQuoteProvider>
+  //           <IulAccumulationQuoteDetailsPage />
+  //         </LifeIulQuoteProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/life/iul-protection/:contactId/:planId/quote-details',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <LifeIulQuoteProvider>
+  //           <IulProtectionQuoteDetailsPage />
+  //         </LifeIulQuoteProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/life/iul-accumulation/:contactId/:planIds/compare-plans',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <LifeIulQuoteProvider>
+  //           <IulAccumulationComparePlansPage />
+  //         </LifeIulQuoteProvider>
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
+  // {
+  //   path: '/coverage-calculations/:contactId',
+  //   component: (
+  //     <StrictMode>
+  //       <ContactDetailsProvider>
+  //         <CoverageCalculationsProvider>
+  //           <CoverageCalculationsPage />
+  //         </CoverageCalculationsProvider>
+  //         <WebChatComponent />
+  //       </ContactDetailsProvider>
+  //     </StrictMode>
+  //   ),
+  // },
 ];
 
 export { appRoutes, appProtectedRoutes, AuthAppRoutes };

@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
           './AgentDashboard': './src/test.jsx',
         },
         remotes: {
-          hostContext: 'http://localhost:3001/assets/remoteEntry.js',
+          hostContext: 'http://localhost:3000/assets/remoteEntry.js',
         },
         shared: ['react', 'react-dom', 'react-router-dom', '@auth0/auth0-react'],
       }),
