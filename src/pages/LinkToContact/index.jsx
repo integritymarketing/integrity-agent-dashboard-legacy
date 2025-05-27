@@ -160,7 +160,7 @@ export default function LinkToContact() {
     link.download = 'call_recording.mp3';
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
+    // document.body.removeChild(link);
   };
 
   const formattedPhoneNumber = phoneNumber?.replace('+1', '');

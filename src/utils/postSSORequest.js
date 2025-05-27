@@ -17,7 +17,7 @@ export const postSSORequest = async (url, errorHandler) => {
 
     document.body.appendChild(form);
     form.submit();
-    document.body.removeChild(form);
+    // document.body.removeChild(form);
   } catch (error) {
     errorHandler(error);
   }

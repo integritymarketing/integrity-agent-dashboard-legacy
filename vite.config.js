@@ -12,17 +12,18 @@ export default defineConfig(({ mode }) => {
         name: 'integrityAgentDashboard',
         filename: 'integrityAgentDashboard.js',
         exposes: {
-          './AgentDashboard': './src/index.jsx',
+          './AgentDashboard': './src/MFE.jsx',
         },
         remotes: {
           hostContext: 'http://localhost:3000/assets/remoteEntry.js',
         },
-        shared: [],
+        shared: []
       }),
     ],
     publicDir: 'public',
 
     build: {
+      modulePreload: false, // Add this line
       outDir: 'build',
       sourcemap: true,
       target: 'esnext',
@@ -34,7 +35,7 @@ export default defineConfig(({ mode }) => {
         },
         output: {
           format: 'esm',
-          entryFileNames: 'assets/[name].[hash].js',
+          entryFileNames: 'assets/[name].js',
           chunkFileNames: 'assets/[name].[hash].js',
           assetFileNames: 'assets/[name].[hash].[ext]',
         },
