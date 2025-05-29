@@ -38,7 +38,7 @@ import Auth0ProviderWithHistory from "auth/Auth0ProviderWithHistory";
 
 const MFEComponent = () => {
   return (
-        <>
+    <React.StrictMode>
           <Auth0ProviderWithHistory>
             <AmplitudeProvider>
               <ClientServiceContextProvider>
@@ -84,7 +84,8 @@ const MFEComponent = () => {
                                                                   >
                                                                     <AppRouter>
                                                                       <div className='content-frame'>
-                                                                        <AppRoutes />
+                                                                        {/*<AppRoutes />*/}
+                                                                        THIS IS THE DASHBOARD PAGE
                                                                       </div>
                                                                     </AppRouter>
                                                                   </Suspense>
@@ -117,7 +118,7 @@ const MFEComponent = () => {
               </ClientServiceContextProvider>
             </AmplitudeProvider>
           </Auth0ProviderWithHistory>
-        </>
+    </React.StrictMode>
   )
 }
 
