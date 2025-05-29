@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react';
 import React, { Suspense } from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM, { createRoot } from 'react-dom/client';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ParallaxProvider } from 'react-scroll-parallax';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -52,12 +52,11 @@ if (import.meta.env.VITE_SENTRY_DSN) {
   });
 }
 
-const container = document.getElementById('mfe');
+const container = document.getElementById('MFERoot');
 const root = createRoot(container);
-
 root.render(
   <React.StrictMode>
-    {/*<ParallaxProvider>*/}
+    <ParallaxProvider>
       <Router>
         <Auth0ProviderWithHistory>
           <AmplitudeProvider>
@@ -138,7 +137,7 @@ root.render(
           </AmplitudeProvider>
         </Auth0ProviderWithHistory>
       </Router>
-    {/*</ParallaxProvider>*/}
+    </ParallaxProvider>
   </React.StrictMode>
 );
 

@@ -12,12 +12,31 @@ export default defineConfig(({ mode }) => {
         name: 'integrityAgentDashboard',
         filename: 'integrityAgentDashboard.js',
         exposes: {
-          './AgentDashboard': './src/MFE.jsx',
+          './AgentDashboard': './src/MFEComponent.jsx',
         },
         remotes: {
           hostContext: 'http://localhost:3000/assets/remoteEntry.js',
         },
-        shared: []
+        shared: [{
+          'react': {
+            requiredVersion: '18.3.1',
+          },
+          'react-dom': {
+            requiredVersion: '18.3.1',
+          },
+          'react-router-dom': {
+            requiredVersion: '6.21.1',
+          },
+          '@auth0/auth0-react': {
+            requiredVersion: '2.2.4',
+          },
+          'react-helmet-async': {
+            requiredVersion: '2.0.4',
+          },
+          'react-media': {
+            requiredVersion: '1.10.0',
+          }
+        }]
       }),
     ],
     publicDir: 'public',
