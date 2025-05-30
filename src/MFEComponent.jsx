@@ -27,10 +27,16 @@ import {MarketingProvider} from "providers/Marketing";
 import {PharmacyProvider} from "providers/PharmacyProvider";
 import {ConditionsProvider} from "providers/Life/Conditions/ConditionsProvider";
 import {Helmet, HelmetProvider} from "react-helmet-async";
-import React, {Suspense} from "react";
+import React, {lazy, Suspense} from "react";
 import AppRouter from "components/functional/router";
 import AppRoutes from "@/App";
 import PortalUrl from "components/functional/portal-url";
+
+const Dashboard = lazy(() => import('pages/dashbaord'));
+const HelpPage = lazy(() => import('pages/Help'));
+const CampaignDashboardPage = lazy(() =>
+  import('pages/Marketing/CampaignDashboard')
+);
 
 import './index.scss';
 import * as serviceWorker from './serviceWorker';
@@ -85,7 +91,15 @@ const MFEComponent = () => {
                                                                     <AppRouter>
                                                                       <div className='content-frame'>
                                                                         {/*<AppRoutes />*/}
-                                                                        THIS IS THE DASHBOARD APP
+                                                                        {/*<ContactDetailsProvider>
+                                                                          <Dashboard />
+                                                                        </ContactDetailsProvider>*/}
+
+
+                                                                        {/*<Dashboard />*/}
+                                                                        {/*<HelpPage />*/}
+                                                                        <CampaignDashboardPage />
+
                                                                       </div>
                                                                     </AppRouter>
                                                                   </Suspense>

@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
           './AgentDashboard': './src/MFEComponent.jsx',
         },
         remotes: {
-          hostContext: 'http://localhost:3000/assets/remoteEntry.js',
+          // hostContext: 'http://localhost:3000/assets/remoteEntry.js',
         },
         shared: [{
           'react': {
@@ -35,7 +35,16 @@ export default defineConfig(({ mode }) => {
           },
           'react-media': {
             requiredVersion: '1.10.0',
-          }
+          },
+          '@mui/icons-material': {
+            requiredVersion: '5.14.1'
+          },
+          '@mui/material': {
+            requiredVersion: '5.14.2'
+          },
+          '@mui/styles': {
+            requiredVersion: '5.14.3'
+          },
         }]
       }),
     ],

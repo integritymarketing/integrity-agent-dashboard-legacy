@@ -10,9 +10,7 @@ export default function CampaignDashboard() {
             <Helmet>
                 <title>Campaign Dashboard</title>
             </Helmet>
-            <GlobalNav />
             <MarketingContainer />
-            <GlobalFooter />
         </>
     );
 }
