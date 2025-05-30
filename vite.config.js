@@ -45,6 +45,9 @@ export default defineConfig(({ mode }) => {
           '@mui/styles': {
             requiredVersion: '5.14.3'
           },
+          'react-tiny-popover': {
+            requiredVersion: '8.0.4'
+          }
         }]
       }),
     ],

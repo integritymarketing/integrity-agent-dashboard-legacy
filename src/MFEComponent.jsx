@@ -91,14 +91,12 @@ const MFEComponent = () => {
                                                                     <AppRouter>
                                                                       <div className='content-frame'>
                                                                         {/*<AppRoutes />*/}
-                                                                        {/*<ContactDetailsProvider>
+                                                                        <ContactDetailsProvider>
                                                                           <Dashboard />
-                                                                        </ContactDetailsProvider>*/}
+                                                                        </ContactDetailsProvider>
 
-
-                                                                        {/*<Dashboard />*/}
                                                                         {/*<HelpPage />*/}
-                                                                        <CampaignDashboardPage />
+                                                                        {/*<CampaignDashboardPage />*/}
 
                                                                       </div>
                                                                     </AppRouter>
