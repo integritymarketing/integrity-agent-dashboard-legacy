@@ -315,6 +315,7 @@ const appProtectedRoutes = [
     path: '/dashboard',
     component: (
       <ContactDetailsProvider>
+        <h1>Test</h1>
         <Dashboard />
         <WebChatComponent />
       </ContactDetailsProvider>

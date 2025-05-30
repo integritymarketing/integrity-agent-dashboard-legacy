@@ -85,7 +85,7 @@ const MFEComponent = () => {
                                                                     <AppRouter>
                                                                       <div className='content-frame'>
                                                                         {/*<AppRoutes />*/}
-                                                                        THIS IS THE DASHBOARD PAGE
+                                                                        THIS IS THE DASHBOARD APP
                                                                       </div>
                                                                     </AppRouter>
                                                                   </Suspense>
