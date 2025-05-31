@@ -32,11 +32,10 @@ import { useProfessionalProfileContext } from 'providers/ProfessionalProfileProv
 import { useClientServiceContext } from 'services/clientServiceProvider';
 import { useAgentPreferences } from 'providers/AgentPreferencesProvider/AgentPreferencesProvider';
 import DashboardActivityTable from './DashboardActivityTable';
-import Afternoon from './afternoon.svg';
-import Evening from './evening.svg';
 import './index.scss';
-import Morning from './morning.svg';
 import { ContactsListProvider } from 'pages/ContactsList/providers/ContactsListProvider';
+import NewGreetingBg from './new_greeting_bg.svg';
+
 function numberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
@@ -164,18 +163,53 @@ export default function Dashbaord() {
       <GlobalNav page='dashboard' />
 
       <div className='dashbaord-page'>
+        <img src={NewGreetingBg} alt='Greeting' className='new-greet-bg' />
+        <section
+          className={`recent-activity-section ${
+            isClientSnapshotOpen ? 'mt-400' : ''
+          }`}
+        >
+          <TaskList
+            isMobile={isMobile}
+            npn={userProfile?.npn}
+            agentId={agentID}
+            leadPreference={leadPreference}
+            updateAgentPreferencesData={updateAgentPreferencesData}
+            updateAgentPreferencesLoading={updateAgentPreferencesLoading}
+          />
+          <ContactsListProvider>
+            <PlanSnapShot
+              isMobile={isMobile}
+              npn={userProfile?.npn}
+              agentId={agentID}
+              leadPreference={leadPreference}
+              updateAgentPreferencesData={updateAgentPreferencesData}
+              updateAgentPreferencesLoading={updateAgentPreferencesLoading}
+            />
+          </ContactsListProvider>
+          <DashboardActivityTable
+            isActivityDataLoading={isLoading}
+            realoadActivityData={loadActivityData}
+            activityData={activityData}
+            setPage={setPage}
+            page={page}
+            showMore={showMore}
+            setSelectedFilterValues={setSelectedFilterValues}
+            selectedFilterValues={selectedFilterValues}
+            setSort={value => {
+              setSort(value);
+              setPage(1);
+            }}
+            sort={sort}
+          />
+          {isMobile && (
+            <Box>
+              <SupportLinksCard />
+            </Box>
+          )}
+        </section>
         <section className='details-section'>
           <div className='greeting'>
-            <img
-              src={
-                greetings() === 'Evening'
-                  ? Evening
-                  : greetings() === 'Morning'
-                  ? Morning
-                  : Afternoon
-              }
-              alt='Greeting'
-            />
             <div className='greet-user'>
               <div className='greet-session'>Good {greetings()},</div>
               <div className='greet-name'>{userProfile.firstName}</div>
@@ -251,51 +285,6 @@ export default function Dashbaord() {
               }}
             >
               <SupportLinksCard position='column' />
-            </Box>
-          )}
-        </section>
-
-        <section
-          className={`recent-activity-section ${
-            isClientSnapshotOpen ? 'mt-400' : ''
-          }`}
-        >
-          <TaskList
-            isMobile={isMobile}
-            npn={userProfile?.npn}
-            agentId={agentID}
-            leadPreference={leadPreference}
-            updateAgentPreferencesData={updateAgentPreferencesData}
-            updateAgentPreferencesLoading={updateAgentPreferencesLoading}
-          />
-          <ContactsListProvider>
-            <PlanSnapShot
-              isMobile={isMobile}
-              npn={userProfile?.npn}
-              agentId={agentID}
-              leadPreference={leadPreference}
-              updateAgentPreferencesData={updateAgentPreferencesData}
-              updateAgentPreferencesLoading={updateAgentPreferencesLoading}
-            />
-          </ContactsListProvider>
-          <DashboardActivityTable
-            isActivityDataLoading={isLoading}
-            realoadActivityData={loadActivityData}
-            activityData={activityData}
-            setPage={setPage}
-            page={page}
-            showMore={showMore}
-            setSelectedFilterValues={setSelectedFilterValues}
-            selectedFilterValues={selectedFilterValues}
-            setSort={value => {
-              setSort(value);
-              setPage(1);
-            }}
-            sort={sort}
-          />
-          {isMobile && (
-            <Box>
-              <SupportLinksCard />
             </Box>
           )}
         </section>
